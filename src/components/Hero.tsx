@@ -1,7 +1,5 @@
 import { Link } from "@tanstack/react-router";
-
-const heroImage =
-  "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1200&q=80";
+import heroImage from "@/assets/hero-man.jpg";
 
 export function Hero() {
   return (
