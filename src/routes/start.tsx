@@ -51,8 +51,11 @@ function StartFlow() {
   const [answers, setAnswers] = useState<(string | null)[]>(Array(questions.length).fill(null));
   const [account, setAccount] = useState({ firstName: "", email: "", whatsapp: "", password: "" });
 
-  const totalSteps = 1 + questions.length + 1; // condition + Qs + account
-  const currentProgress = step >= totalSteps ? 100 : Math.round((step / totalSteps) * 100);
+  const totalSteps = 1 + questions.length + 1; // condition + Qs + account (internal step count)
+  // Display progress as 4 logical phases: condition → intake → eligibility → account
+  const phaseLabels = ["Choose condition", "Intake questions", "Eligibility check", "Create account"];
+  const currentPhase = step === 0 ? 0 : step <= questions.length ? 1 : step === totalSteps - 1 ? 3 : 2;
+  const currentProgress = step >= totalSteps ? 100 : Math.round(((step + 1) / totalSteps) * 100);
 
   const setAnswer = (idx: number, value: string) => {
     setAnswers((prev) => {
@@ -84,7 +87,7 @@ function StartFlow() {
             Meneer<span className="text-gold">.</span>
           </Link>
           <span className="text-xs text-muted-foreground">
-            Step {step + 1} of {totalSteps}
+            Step {currentPhase + 1} of 4 · {phaseLabels[currentPhase]}
           </span>
         </div>
         <div className="h-1 bg-surface">
