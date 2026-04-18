@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StartRouteImport } from './routes/start'
+import { Route as PosterThanksRouteImport } from './routes/poster-thanks'
 import { Route as PosterRouteImport } from './routes/poster'
 import { Route as IndexRouteImport } from './routes/index'
 
 const StartRoute = StartRouteImport.update({
   id: '/start',
   path: '/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PosterThanksRoute = PosterThanksRouteImport.update({
+  id: '/poster-thanks',
+  path: '/poster-thanks',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PosterRoute = PosterRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/poster': typeof PosterRoute
+  '/poster-thanks': typeof PosterThanksRoute
   '/start': typeof StartRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/poster': typeof PosterRoute
+  '/poster-thanks': typeof PosterThanksRoute
   '/start': typeof StartRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/poster': typeof PosterRoute
+  '/poster-thanks': typeof PosterThanksRoute
   '/start': typeof StartRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/poster' | '/start'
+  fullPaths: '/' | '/poster' | '/poster-thanks' | '/start'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/poster' | '/start'
-  id: '__root__' | '/' | '/poster' | '/start'
+  to: '/' | '/poster' | '/poster-thanks' | '/start'
+  id: '__root__' | '/' | '/poster' | '/poster-thanks' | '/start'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PosterRoute: typeof PosterRoute
+  PosterThanksRoute: typeof PosterThanksRoute
   StartRoute: typeof StartRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/start'
       fullPath: '/start'
       preLoaderRoute: typeof StartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/poster-thanks': {
+      id: '/poster-thanks'
+      path: '/poster-thanks'
+      fullPath: '/poster-thanks'
+      preLoaderRoute: typeof PosterThanksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/poster': {
@@ -88,8 +105,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PosterRoute: PosterRoute,
+  PosterThanksRoute: PosterThanksRoute,
   StartRoute: StartRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
