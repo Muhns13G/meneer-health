@@ -2,10 +2,10 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 
 const treatments = [
-  { tag: "Hair loss", title: "Hair today. Still here tomorrow.", price: "From R799/month" },
-  { tag: "Erectile dysfunction", title: "Hard, made easy.", price: "From R89/dose" },
-  { tag: "Weight management", title: "Less of you, more of you.", price: "From R1,299/month" },
-  { tag: "Testosterone / TRT", title: "Energy you forgot you had.", price: "From R1,999/month" },
+  { tag: "Hair loss", title: "Hair today. Still here tomorrow." },
+  { tag: "Erectile dysfunction", title: "Hard, made easy." },
+  { tag: "Weight management", title: "Less of you, more of you." },
+  { tag: "Testosterone / TRT", title: "Energy you forgot you had." },
 ];
 
 export function Treatments() {
@@ -32,8 +32,7 @@ export function Treatments() {
               <h3 className="mt-4 font-serif text-2xl sm:text-3xl text-foreground">
                 {t.title}
               </h3>
-              <div className="mt-8 flex items-center justify-between">
-                <span className="text-sm text-gold">{t.price}</span>
+              <div className="mt-8 flex items-center justify-end">
                 <ArrowUpRight
                   size={20}
                   className="text-muted-foreground group-hover:text-gold group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all"
