@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "sdk_version": "0.22.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "meneer-mcp",
+      "version": "0.1.0",
+      "title": "Meneer"
+    },
+    "tools": [
+      {
+        "name": "about_meneer",
+        "title": "About Meneer",
+        "description": "Return a summary of what Meneer is, who it serves, and its trust markers.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_treatments",
+        "title": "List Meneer treatments",
+        "description": "Return the men's health treatment categories offered by Meneer (hair loss, ED, weight management, TRT).",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "how_it_works",
+        "title": "How Meneer works",
+        "description": "Return the four-step Meneer patient journey: intake, virtual consult, prescription, discreet delivery.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
