@@ -21,58 +21,32 @@ const conditions: { id: Condition; label: string; body: string }[] = [
   { id: "trt", label: "Testosterone / TRT", body: "Full bloodwork and TRT with proper monitoring." },
 ];
 
-const questions: { q: string; options: string[] }[] = [
-  {
-    q: "How would you rate your energy levels on a typical day?",
-    options: ["Firing on all cylinders", "Good, but I crash in the afternoons", "Running on empty most days", "Can barely get through the day"],
-  },
-  {
-    q: "How well are you sleeping?",
-    options: ["Well — I wake up rested", "Okay but still feel tired", "I struggle to fall or stay asleep", "Seriously affecting my life"],
-  },
-  {
-    q: "Have you noticed changes in your body in the last 12 months?",
-    options: ["No real changes", "Gaining weight despite training", "Losing muscle or strength", "Hair thinning or receding", "More than one of these"],
-  },
-  {
-    q: "How would you describe your drive and motivation right now?",
-    options: ["High — motivated and focused", "Not what it used to be", "Low — I struggle to feel motivated", "A real drop in all areas"],
-  },
-  {
-    q: "If you could fix one thing about your health right now, what would it be?",
-    options: ["More energy and less fatigue", "Better performance in the bedroom", "Stop losing my hair", "Lose weight and get in shape", "Sleep better and recover faster", "Just feel like myself again"],
-  },
+const phaseLabels = [
+  "Choose condition",
+  "Consent",
+  "Create account",
+  "Questionnaire",
 ];
 
 function StartFlow() {
-  // step: 0 = condition, 1..5 = questions, 6 = account, 7 = done
+  // step: 0 = condition, 1 = consent, 2 = account, 3 = questionnaire, 4 = confirmation
   const [step, setStep] = useState(0);
   const [condition, setCondition] = useState<Condition | null>(null);
-  const [answers, setAnswers] = useState<(string | null)[]>(Array(questions.length).fill(null));
+  const [consent, setConsent] = useState(false);
   const [account, setAccount] = useState({ firstName: "", email: "", whatsapp: "", password: "" });
 
-  const totalSteps = 1 + questions.length + 1; // condition + Qs + account (internal step count)
-  // Display progress as 4 logical phases: condition → intake → eligibility → account
-  const phaseLabels = ["Choose condition", "Intake questions", "Eligibility check", "Create account"];
-  const currentPhase = step === 0 ? 0 : step <= questions.length ? 1 : step === totalSteps - 1 ? 3 : 2;
-  const currentProgress = step >= totalSteps ? 100 : Math.round(((step + 1) / totalSteps) * 100);
-
-  const setAnswer = (idx: number, value: string) => {
-    setAnswers((prev) => {
-      const next = [...prev];
-      next[idx] = value;
-      return next;
-    });
-  };
+  const totalSteps = 4; // 4 interactive steps; step 5 (index 4) is the confirmation state
+  const currentProgress = step >= totalSteps ? 100 : Math.round(((step + 1) / (totalSteps + 1)) * 100);
 
   const canNext = useMemo(() => {
     if (step === 0) return !!condition;
-    if (step >= 1 && step <= questions.length) return !!answers[step - 1];
-    if (step === totalSteps - 1) {
+    if (step === 1) return consent;
+    if (step === 2) {
       return account.firstName.trim() && account.email.includes("@") && account.whatsapp.length >= 7 && account.password.length >= 6;
     }
+    if (step === 3) return true;
     return false;
-  }, [step, condition, answers, account, totalSteps]);
+  }, [step, condition, consent, account]);
 
   if (step === totalSteps) {
     return <Confirmation />;
@@ -87,7 +61,7 @@ function StartFlow() {
             Meneer<span className="text-gold">.</span>
           </Link>
           <span className="text-xs text-muted-foreground">
-            Step {currentPhase + 1} of 4 · {phaseLabels[currentPhase]}
+            Step {step + 1} of 5 · {phaseLabels[step]}
           </span>
         </div>
         <div className="h-1 bg-surface">
@@ -101,24 +75,18 @@ function StartFlow() {
       <main className="flex-1 flex items-center justify-center py-12 px-5">
         <div className="w-full max-w-2xl">
           {step === 0 && (
-            <ConditionStep
-              condition={condition}
-              onSelect={setCondition}
-            />
+            <ConditionStep condition={condition} onSelect={setCondition} />
           )}
 
-          {step >= 1 && step <= questions.length && (
-            <QuestionStep
-              index={step - 1}
-              q={questions[step - 1]}
-              answer={answers[step - 1]}
-              onSelect={(v) => setAnswer(step - 1, v)}
-            />
+          {step === 1 && (
+            <ConsentStep consent={consent} setConsent={setConsent} />
           )}
 
-          {step === totalSteps - 1 && (
+          {step === 2 && (
             <AccountStep account={account} setAccount={setAccount} />
           )}
+
+          {step === 3 && <QuestionnaireStep />}
 
           <div className="mt-10 flex items-center justify-between">
             <button
@@ -134,7 +102,7 @@ function StartFlow() {
               disabled={!canNext}
               className="inline-flex items-center gap-2 rounded-full bg-gold text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-gold-soft transition-colors disabled:opacity-40 disabled:pointer-events-none"
             >
-              {step === totalSteps - 1 ? "Create account" : "Continue"}
+              {step === 2 ? "Create account" : step === 3 ? "Submit" : "Continue"}
               <ArrowRight size={16} />
             </button>
           </div>
@@ -187,45 +155,42 @@ function ConditionStep({
   );
 }
 
-function QuestionStep({
-  index,
-  q,
-  answer,
-  onSelect,
+function ConsentStep({
+  consent,
+  setConsent,
 }: {
-  index: number;
-  q: { q: string; options: string[] };
-  answer: string | null;
-  onSelect: (v: string) => void;
+  consent: boolean;
+  setConsent: (v: boolean) => void;
 }) {
   return (
     <div>
-      <p className="label-caps">Question 0{index + 1}</p>
-      <h1 className="mt-4 font-serif text-2xl sm:text-3xl leading-tight">{q.q}</h1>
+      <p className="label-caps">Step 02</p>
+      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">POPIA & informed consent.</h1>
+      <p className="mt-3 text-muted-foreground">
+        Before we go further, we need your explicit consent to process your health information and provide care.
+      </p>
 
-      <div className="mt-8 grid gap-3">
-        {q.options.map((opt) => {
-          const selected = answer === opt;
-          return (
-            <button
-              key={opt}
-              onClick={() => onSelect(opt)}
-              className={`text-left px-5 py-4 rounded-xl border transition-colors flex items-center justify-between gap-3 ${
-                selected
-                  ? "border-gold bg-gold/5 text-foreground"
-                  : "border-border bg-surface hover:border-gold/50 text-foreground"
-              }`}
-            >
-              <span>{opt}</span>
-              {selected && (
-                <span className="shrink-0 w-5 h-5 rounded-full bg-gold flex items-center justify-center">
-                  <Check size={12} className="text-primary-foreground" />
-                </span>
-              )}
-            </button>
-          );
-        })}
+      <div className="mt-8 rounded-2xl border border-border bg-surface p-6 text-sm text-muted-foreground leading-relaxed max-h-80 overflow-y-auto">
+        <p className="italic">[POPIA and informed consent language pending legal review]</p>
+        <p className="mt-4">
+          [Placeholder — this section will describe how Meneer collects, stores and processes your personal and health information under POPIA, the nature of the telehealth consultation, the risks and benefits of treatment, your right to withdraw, and how your data is protected.]
+        </p>
+        <p className="mt-4">
+          [Placeholder — informed consent to a virtual doctor consultation, prescription issuance where clinically appropriate, and delivery of medication to your address.]
+        </p>
       </div>
+
+      <label className="mt-6 flex items-start gap-3 cursor-pointer select-none">
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+          className="mt-1 h-5 w-5 rounded border-border bg-surface accent-[color:var(--gold,#c9a961)] cursor-pointer"
+        />
+        <span className="text-sm text-foreground leading-relaxed">
+          I have read and understood the above. I consent to Meneer processing my personal and health information under POPIA, and to a telehealth consultation with a registered doctor.
+        </span>
+      </label>
     </div>
   );
 }
@@ -242,7 +207,7 @@ function AccountStep({
 
   return (
     <div>
-      <p className="label-caps">Almost there</p>
+      <p className="label-caps">Step 03</p>
       <h1 className="mt-4 font-serif text-3xl sm:text-4xl">Create your private account.</h1>
       <p className="mt-3 text-muted-foreground">
         We'll use this to send your consult details and keep your records locked down.
@@ -298,9 +263,31 @@ function AccountStep({
   );
 }
 
+function QuestionnaireStep() {
+  return (
+    <div>
+      <p className="label-caps">Step 04</p>
+      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">A few questions about you.</h1>
+      <p className="mt-3 text-muted-foreground">
+        Your doctor will use your answers to prepare for your consultation.
+      </p>
+
+      <div className="mt-8 rounded-2xl border border-dashed border-border bg-surface p-8 text-center">
+        <p className="text-sm text-muted-foreground italic">
+          [Full clinical questionnaire coming soon]
+        </p>
+        <p className="mt-3 text-xs text-muted-foreground/70">
+          This step will collect condition-specific medical history, current medications, and lifestyle factors — reviewed by your doctor before your consult.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 const confirmationTimeline = [
-  { title: "Doctor reaches out via WhatsApp", when: "Within 48h" },
-  { title: "Virtual consultation (video or phone)", when: "15–20 minutes" },
+  { title: "Blood work, if required", when: "Before review" },
+  { title: "Your doctor reviews your questionnaire and results", when: "Within 48h" },
+  { title: "Video consultation with your doctor", when: "Required, 15–20 minutes" },
   { title: "Prescription and treatment plan", when: "Same day as consult" },
   { title: "Medication delivered to your door", when: "2–3 business days" },
 ];
