@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import logoAsset from "@/assets/meneer-logo.png.asset.json";
 
 const links = [
   { label: "Hair Loss", href: "#treatments" },
@@ -16,8 +17,9 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/50">
       <div className="container-x flex items-center justify-between h-16">
-        <Link to="/" className="font-serif text-2xl tracking-tight text-foreground">
-          Meneer<span className="text-gold">.</span>
+        <Link to="/" className="flex items-center gap-3 font-serif text-2xl tracking-tight text-foreground">
+          <img src={logoAsset.url} alt="Meneer MNR mark" className="h-9 w-auto" />
+          <span>Meneer<span className="text-gold">.</span></span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
