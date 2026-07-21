@@ -9,18 +9,31 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StartRouteImport } from './routes/start'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PosterThanksRouteImport } from './routes/poster-thanks'
 import { Route as PosterRouteImport } from './routes/poster'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StartRoute = StartRouteImport.update({
   id: '/start',
   path: '/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PosterThanksRoute = PosterThanksRouteImport.update({
@@ -36,6 +49,11 @@ const PosterRoute = PosterRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -64,20 +82,26 @@ const Char91DotmcpChar93InvokeToolToolRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/mcp': typeof McpRoute
   '/poster': typeof PosterRoute
   '/poster-thanks': typeof PosterThanksRoute
+  '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
+  '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/mcp': typeof McpRoute
   '/poster': typeof PosterRoute
   '/poster-thanks': typeof PosterThanksRoute
+  '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
+  '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -85,10 +109,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/mcp': typeof McpRoute
   '/poster': typeof PosterRoute
   '/poster-thanks': typeof PosterThanksRoute
+  '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
+  '/terms': typeof TermsRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -97,30 +124,39 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/contact'
     | '/mcp'
     | '/poster'
     | '/poster-thanks'
+    | '/privacy'
     | '/start'
+    | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/contact'
     | '/mcp'
     | '/poster'
     | '/poster-thanks'
+    | '/privacy'
     | '/start'
+    | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
   id:
     | '__root__'
     | '/'
+    | '/contact'
     | '/mcp'
     | '/poster'
     | '/poster-thanks'
+    | '/privacy'
     | '/start'
+    | '/terms'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/.mcp/invoke-tool/$tool'
@@ -128,10 +164,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
   McpRoute: typeof McpRoute
   PosterRoute: typeof PosterRoute
   PosterThanksRoute: typeof PosterThanksRoute
+  PrivacyRoute: typeof PrivacyRoute
   StartRoute: typeof StartRoute
+  TermsRoute: typeof TermsRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -139,11 +178,25 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/start': {
       id: '/start'
       path: '/start'
       fullPath: '/start'
       preLoaderRoute: typeof StartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/poster-thanks': {
@@ -165,6 +218,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -200,10 +260,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
   McpRoute: McpRoute,
   PosterRoute: PosterRoute,
   PosterThanksRoute: PosterThanksRoute,
+  PrivacyRoute: PrivacyRoute,
   StartRoute: StartRoute,
+  TermsRoute: TermsRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
