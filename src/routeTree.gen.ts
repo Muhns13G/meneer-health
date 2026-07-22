@@ -14,6 +14,7 @@ import { Route as StartRouteImport } from './routes/start'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PosterThanksRouteImport } from './routes/poster-thanks'
 import { Route as PosterRouteImport } from './routes/poster'
+import { Route as PeptidesRouteImport } from './routes/peptides'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
@@ -44,6 +45,11 @@ const PosterThanksRoute = PosterThanksRouteImport.update({
 const PosterRoute = PosterRouteImport.update({
   id: '/poster',
   path: '/poster',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PeptidesRoute = PeptidesRouteImport.update({
+  id: '/peptides',
+  path: '/peptides',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/mcp': typeof McpRoute
+  '/peptides': typeof PeptidesRoute
   '/poster': typeof PosterRoute
   '/poster-thanks': typeof PosterThanksRoute
   '/privacy': typeof PrivacyRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/mcp': typeof McpRoute
+  '/peptides': typeof PeptidesRoute
   '/poster': typeof PosterRoute
   '/poster-thanks': typeof PosterThanksRoute
   '/privacy': typeof PrivacyRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/mcp': typeof McpRoute
+  '/peptides': typeof PeptidesRoute
   '/poster': typeof PosterRoute
   '/poster-thanks': typeof PosterThanksRoute
   '/privacy': typeof PrivacyRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/mcp'
+    | '/peptides'
     | '/poster'
     | '/poster-thanks'
     | '/privacy'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/mcp'
+    | '/peptides'
     | '/poster'
     | '/poster-thanks'
     | '/privacy'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/mcp'
+    | '/peptides'
     | '/poster'
     | '/poster-thanks'
     | '/privacy'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
   McpRoute: typeof McpRoute
+  PeptidesRoute: typeof PeptidesRoute
   PosterRoute: typeof PosterRoute
   PosterThanksRoute: typeof PosterThanksRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       path: '/poster'
       fullPath: '/poster'
       preLoaderRoute: typeof PosterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/peptides': {
+      id: '/peptides'
+      path: '/peptides'
+      fullPath: '/peptides'
+      preLoaderRoute: typeof PeptidesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   McpRoute: McpRoute,
+  PeptidesRoute: PeptidesRoute,
   PosterRoute: PosterRoute,
   PosterThanksRoute: PosterThanksRoute,
   PrivacyRoute: PrivacyRoute,
