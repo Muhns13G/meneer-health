@@ -8,6 +8,7 @@ const links = [
   { label: "ED", href: "#treatments" },
   { label: "Weight", href: "#treatments" },
   { label: "Testosterone", href: "#treatments" },
+  { label: "Peptides", href: "/peptides" },
   { label: "How It Works", href: "#how" },
 ];
 
