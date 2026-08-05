@@ -1,0 +1,60 @@
+---
+rag_id: meneer-known-limitations
+title: Meneer Known Limitations and Answer Guardrails
+status: current
+authority: derived-from-audit-and-debt
+last_updated: 2026-08-06
+audience: internal
+sensitivity: internal
+sources:
+  - docs/01-audits/project-codebase-audit-2026-08-05.md
+  - docs/04-technical-debt/technical-debt-registry-v1.md
+---
+
+# Meneer Known Limitations and Answer Guardrails
+
+## Current Capability Limits
+
+Do not state that Meneer currently provides functioning registration, consent capture, medical questionnaires, clinician review, prescribing, payment, pharmacy fulfilment, delivery tracking, support case management, or follow-up. The v1 interface implies several of these capabilities but does not implement their backend or durable records.
+
+Do not state that form submission succeeded. `/start` advances local React state without transmitting data. The peptide profile behaves similarly.
+
+## Clinical and Legal Limits
+
+Provider identity, registrations, partner arrangements, treatment eligibility, contraindications, clinical pathways, consent wording, privacy terms, pricing, refund rules, delivery promises, and peptide positioning are not approved in the repository evidence. Existing marketing and MCP claims require a governed claim register and domain review.
+
+Never generate patient-specific diagnosis, dosing, eligibility, or treatment advice from this corpus. Never treat the blueprint's intended journey as an approved clinical protocol.
+
+## Platform Limits
+
+The repository is not yet ready for its intended Vercel deployment. Lovable's Vite wrapper, MCP SDK, telemetry path, virtual asset, manifest, and metadata remain. Cloudflare plugin and Wrangler configuration remain. The logo is broken outside Lovable's asset service.
+
+Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
+
+## Engineering Limits
+
+- Lint and dependency-audit gates failed at the audit baseline.
+- No automated test framework or CI workflow exists.
+- Build warnings and deployment-adapter drift remain unresolved.
+- No environment contract, deployment guide, monitoring, incident runbook, or rollback procedure exists.
+- Accessibility, navigation, SEO, content consistency, media, and QR defects remain open.
+
+Build and audit counts are dated evidence. Re-run checks before using them in a current-status report.
+
+## Release Limits
+
+The codebase is not approved for public launch or health-information collection. A controlled pilot also requires its own approved scope, operating model, consent/data handling, monitored destination for every enabled submission, support and incident procedures, success measures, and stop criteria.
+
+Technical debt is authoritative for outstanding obligations. An item is not resolved because a recommendation exists or code was edited; it must be marked `Verified` with acceptance evidence.
+
+## Retrieval Response Pattern
+
+When answering a question that touches an unresolved area:
+
+1. State what is observed now.
+2. State the owner-confirmed target separately.
+3. Identify the open decision or debt ID.
+4. Avoid filling gaps with assumptions.
+5. Point to the authoritative source and date.
+
+For example: “The interface currently simulates consent in browser state (observed). Versioned durable consent is required for the intended platform (target). Its wording, owner, storage, and withdrawal workflow remain unresolved under TD-002, TD-009, TD-012, and TD-016.”

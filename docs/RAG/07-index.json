@@ -1,0 +1,359 @@
+{
+  "schema_version": 1,
+  "collection": {
+    "id": "meneer-internal-rag",
+    "title": "Meneer Internal Engineering RAG",
+    "stage": "foundation",
+    "status": "active",
+    "last_updated": "2026-08-06",
+    "audience": "internal",
+    "sensitivity": "internal",
+    "patient_facing_approved": false,
+    "description": "Retrieval routing for the audited v1 repository, confirmed product direction, technical debt, and future migration planning."
+  },
+  "governance": {
+    "path": "docs/RAG/00-governance.md",
+    "required_before_use": true,
+    "rules": [
+      "Separate observed implementation from owner-confirmed direction and proposals.",
+      "Do not treat this collection as clinical, legal, or patient-facing guidance.",
+      "Do not ingest secrets, credentials, patient data, local environment files, or generated build output.",
+      "Use authoritative source documents for material decisions; use RAG documents for routing and synthesis."
+    ]
+  },
+  "documents": [
+    {
+      "id": "meneer-rag-governance",
+      "path": "docs/RAG/00-governance.md",
+      "title": "Meneer RAG Governance",
+      "type": "governance",
+      "status": "active",
+      "authority": "governing",
+      "priority": 1,
+      "topics": ["retrieval", "authority", "safety", "updates", "source-precedence"]
+    },
+    {
+      "id": "meneer-project-context",
+      "path": "docs/RAG/01-project-context.md",
+      "title": "Meneer Project Context",
+      "type": "context",
+      "status": "current",
+      "authority": "derived",
+      "priority": 4,
+      "topics": ["product", "market", "users", "principles", "capability-boundaries"]
+    },
+    {
+      "id": "meneer-current-state",
+      "path": "docs/RAG/02-current-state.md",
+      "title": "Meneer v1 Verified Current State",
+      "type": "current-state-summary",
+      "status": "current",
+      "authority": "observed-summary",
+      "priority": 3,
+      "topics": ["repository", "routes", "validation", "lovable", "cloudflare", "vercel", "gaps"]
+    },
+    {
+      "id": "meneer-platform-evolution",
+      "path": "docs/RAG/03-platform-evolution.md",
+      "title": "Meneer Platform Evolution and Migration Contract",
+      "type": "strategy",
+      "status": "owner-confirmed-direction",
+      "authority": "strategic",
+      "priority": 4,
+      "topics": ["tanstack", "vercel", "nextjs", "laravel", "react", "migration", "portability"]
+    },
+    {
+      "id": "meneer-domain-glossary",
+      "path": "docs/RAG/04-domain-glossary.md",
+      "title": "Meneer Domain and Delivery Glossary",
+      "type": "glossary",
+      "status": "working",
+      "authority": "derived",
+      "priority": 5,
+      "topics": ["terminology", "status", "release", "product", "governance", "technical"]
+    },
+    {
+      "id": "meneer-decision-register",
+      "path": "docs/RAG/05-decision-register.md",
+      "title": "Meneer Decision Register",
+      "type": "decision-routing",
+      "status": "active",
+      "authority": "mixed",
+      "priority": 2,
+      "topics": [
+        "confirmed-direction",
+        "open-decisions",
+        "architecture",
+        "vendors",
+        "operating-model"
+      ]
+    },
+    {
+      "id": "meneer-known-limitations",
+      "path": "docs/RAG/06-known-limitations.md",
+      "title": "Meneer Known Limitations and Answer Guardrails",
+      "type": "guardrails",
+      "status": "current",
+      "authority": "derived-from-audit-and-debt",
+      "priority": 2,
+      "topics": ["limitations", "safety", "clinical", "legal", "release", "answering"]
+    }
+  ],
+  "authoritative_sources": [
+    {
+      "id": "master-blueprint-v1",
+      "path": "docs/00-blueprints/master-blueprint-v1.md",
+      "authority_for": [
+        "target-state",
+        "product-principles",
+        "delivery-programme",
+        "release-gates"
+      ],
+      "status": "initial-planning-baseline",
+      "last_updated": "2026-08-06"
+    },
+    {
+      "id": "project-codebase-audit-2026-08-05",
+      "path": "docs/01-audits/project-codebase-audit-2026-08-05.md",
+      "authority_for": [
+        "audited-current-state",
+        "git-history",
+        "validation-results",
+        "observed-defects"
+      ],
+      "status": "dated-evidence",
+      "source_baseline": "85f4d74765579f5c020b7c40ffa4ab916b313bfe",
+      "context_addendum": "2026-08-06"
+    },
+    {
+      "id": "technical-debt-registry-v1",
+      "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
+      "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],
+      "status": "active",
+      "last_updated": "2026-08-06"
+    },
+    {
+      "id": "repository-guidelines",
+      "path": "AGENTS.md",
+      "authority_for": [
+        "repository-structure",
+        "commands",
+        "style",
+        "contribution-rules",
+        "security-basics"
+      ],
+      "status": "active"
+    }
+  ],
+  "implementation_plans": [
+    {
+      "id": "phase-01-technical-debt-stabilisation",
+      "path": "docs/02-implementation-plans/phase-01/README.md",
+      "status": "planned",
+      "scope": "TD-001 through TD-056",
+      "authority_for": ["phase-mission", "sprint-sequence", "debt-ownership", "phase-gate"]
+    },
+    {
+      "id": "phase-01-sprint-01",
+      "path": "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
+      "status": "planned",
+      "primary_debt": [
+        "TD-001",
+        "TD-002",
+        "TD-003",
+        "TD-004",
+        "TD-005",
+        "TD-006",
+        "TD-007",
+        "TD-008",
+        "TD-032",
+        "TD-033",
+        "TD-034",
+        "TD-056"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02",
+      "path": "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
+      "status": "planned",
+      "primary_debt": ["TD-025", "TD-027", "TD-041", "TD-049", "TD-051", "TD-052", "TD-053"]
+    },
+    {
+      "id": "phase-01-sprint-03",
+      "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
+      "status": "planned",
+      "primary_debt": [
+        "TD-009",
+        "TD-010",
+        "TD-011",
+        "TD-012",
+        "TD-013",
+        "TD-016",
+        "TD-050",
+        "TD-054"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-04",
+      "path": "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
+      "status": "planned",
+      "primary_debt": [
+        "TD-021",
+        "TD-022",
+        "TD-023",
+        "TD-024",
+        "TD-026",
+        "TD-028",
+        "TD-029",
+        "TD-030",
+        "TD-031"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-05",
+      "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
+      "status": "planned",
+      "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"]
+    },
+    {
+      "id": "phase-01-sprint-06",
+      "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
+      "status": "planned",
+      "primary_debt": [
+        "TD-035",
+        "TD-036",
+        "TD-037",
+        "TD-038",
+        "TD-039",
+        "TD-042",
+        "TD-043",
+        "TD-044"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-07",
+      "path": "docs/02-implementation-plans/phase-01/sprint-07-content-measurement-mcp.md",
+      "status": "planned",
+      "primary_debt": ["TD-040", "TD-045", "TD-046", "TD-047", "TD-048"]
+    }
+  ],
+  "future_considerations": [
+    {
+      "id": "FC-001",
+      "path": "docs/05-future-considerations/postgres-auth-email-vendor-strategy.md",
+      "title": "PostgreSQL, Authentication, and Transactional Email Vendor Strategy",
+      "status": "consideration",
+      "decision_due": "phase-01-sprint-03",
+      "topics": [
+        "postgresql",
+        "supabase",
+        "neon",
+        "authentication",
+        "brevo",
+        "email",
+        "data-residency",
+        "popia",
+        "portability"
+      ]
+    }
+  ],
+  "routing": [
+    {
+      "query_topics": ["what-is-meneer", "users", "market", "product-principles"],
+      "read_first": ["docs/RAG/01-project-context.md"],
+      "verify_against": ["docs/00-blueprints/master-blueprint-v1.md"]
+    },
+    {
+      "query_topics": ["what-exists", "routes", "stack", "build", "audit", "current-status"],
+      "read_first": ["docs/RAG/02-current-state.md", "docs/RAG/06-known-limitations.md"],
+      "verify_against": [
+        "docs/01-audits/project-codebase-audit-2026-08-05.md",
+        "current repository"
+      ]
+    },
+    {
+      "query_topics": ["lovable", "cloudflare", "vercel", "mcp", "LOVABLE_API_KEY"],
+      "read_first": ["docs/RAG/02-current-state.md", "docs/RAG/03-platform-evolution.md"],
+      "verify_against": [
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository"
+      ]
+    },
+    {
+      "query_topics": ["roadmap", "tanstack", "nextjs", "laravel", "migration", "portability"],
+      "read_first": ["docs/RAG/03-platform-evolution.md", "docs/RAG/05-decision-register.md"],
+      "verify_against": [
+        "docs/00-blueprints/master-blueprint-v1.md",
+        "approved architecture decisions"
+      ]
+    },
+    {
+      "query_topics": ["debt", "priority", "blocker", "acceptance-criteria", "ready"],
+      "read_first": ["docs/RAG/06-known-limitations.md"],
+      "verify_against": ["docs/04-technical-debt/technical-debt-registry-v1.md"]
+    },
+    {
+      "query_topics": ["phase-01", "sprint", "implementation-plan", "task-sequence"],
+      "read_first": ["docs/02-implementation-plans/phase-01/README.md"],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
+        "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
+        "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
+        "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
+        "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
+        "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
+        "docs/02-implementation-plans/phase-01/sprint-07-content-measurement-mcp.md"
+      ]
+    },
+    {
+      "query_topics": ["decision", "vendor", "provider", "pilot-scope", "open-question"],
+      "read_first": ["docs/RAG/05-decision-register.md"],
+      "verify_against": [
+        "approved decision records",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "database-vendor",
+        "supabase",
+        "neon",
+        "auth-vendor",
+        "brevo",
+        "transactional-email",
+        "data-residency"
+      ],
+      "read_first": [
+        "docs/05-future-considerations/postgres-auth-email-vendor-strategy.md",
+        "docs/RAG/05-decision-register.md"
+      ],
+      "verify_against": [
+        "current vendor documentation",
+        "approved Sprint 03 decision records",
+        "current South African legal and regulatory guidance"
+      ]
+    },
+    {
+      "query_topics": ["clinical", "legal", "privacy", "claims", "patient-facing"],
+      "read_first": ["docs/RAG/00-governance.md", "docs/RAG/06-known-limitations.md"],
+      "verify_against": ["approved domain documents only"],
+      "restriction": "Do not answer as approved guidance when no approved domain source exists."
+    }
+  ],
+  "excluded_content": [
+    "secrets and credentials",
+    "environment files containing values",
+    "patient or test-participant personal information",
+    "health submissions and clinical records",
+    "node_modules and generated build output",
+    "unapproved drafts presented without status metadata"
+  ],
+  "next_expansion": [
+    "approved architecture decision records",
+    "v1 pilot scope and operating-model decision",
+    "verified sprint completion reports",
+    "portable API, event, data, and migration contracts",
+    "security, privacy, deployment, incident, and recovery runbooks",
+    "approved public and clinical content in a separate collection"
+  ]
+}

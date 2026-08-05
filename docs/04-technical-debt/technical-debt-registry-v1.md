@@ -1,0 +1,143 @@
+# Meneer Technical Debt Registry v1
+
+**Last amended:** 2026-08-06
+
+## Registry Purpose
+
+This registry converts the findings in the [project audit](../01-audits/project-codebase-audit-2026-08-05.md) into trackable remediation obligations. It is separate from the audit: the audit records current-state evidence; this document defines what must change and how completion will be proven.
+
+The target state is defined in the [master blueprint](../00-blueprints/master-blueprint-v1.md). No entry should be closed solely because code was changed. Closure requires the stated acceptance evidence.
+
+## Status and Priority Model
+
+- **Open:** confirmed debt with no accepted resolution.
+- **Decision required:** implementation depends on a business, clinical, legal, security, or architecture choice.
+- **In progress:** an approved owner is actively resolving the item.
+- **Blocked:** a named external dependency prevents progress.
+- **Verified:** acceptance criteria have been independently checked.
+
+Priorities:
+
+- **P0 — Stop-ship:** unsafe, misleading, broken, or unsuitable for public use.
+- **P1 — Foundation:** must be resolved or explicitly planned before normal feature development.
+- **P2 — Pre-launch:** may follow foundation work but must close before public launch.
+- **P3 — Improvement:** maintainability or optimisation work that can be scheduled later.
+
+## Formal Development Entry Gate
+
+Before new product features begin, the project should complete a stabilisation milestone that:
+
+1. Prevents public use of false account, consent, clinical, and peptide completion paths.
+2. Assigns product, clinical, legal/privacy, security, and operational decision owners.
+3. Restores passing lint, type, and build gates and introduces CI.
+4. Records approved architecture decisions for identity, data storage, consent, audit, and environments.
+5. Produces a vulnerability remediation plan based on deployed reachability.
+6. Replaces the broken brand asset and removes all accidental Lovable metadata.
+7. Removes Lovable and Cloudflare runtime coupling and verifies the TanStack Start application on Vercel.
+8. Defines the controlled v1 pilot boundary separately from the v2 public-launch boundary.
+
+## A. Patient Safety, Truthfulness, and Compliance Debt
+
+| ID | Pri | Status | Debt and evidence | Required outcome / acceptance evidence |
+|---|---:|---|---|---|
+| TD-001 | P0 | Open | `/start` advances entirely through local React state and displays “You're in” without sending any request. | Either gate the route as a clearly labelled demo/waitlist or implement a durable server transaction. Automated browser evidence must show failed requests cannot produce confirmation and successful submissions have a traceable ID. |
+| TD-002 | P0 | Open | Users can consent to placeholder POPIA and telehealth wording. No approved text, version, timestamp, or withdrawal record exists. | Disable consent collection until approved. Implement versioned consent records, explicit purposes, timestamps, policy references, withdrawal handling, and audit evidence reviewed by the responsible domain owners. |
+| TD-003 | P0 | Open | The “clinical questionnaire” contains no questions, yet Submit is always enabled. | Define approved, versioned condition-specific questionnaires and server validation. Completion must be impossible when required answers are absent; emergency or exclusion answers must route safely. |
+| TD-004 | P0 | Open | Two routes ask for passwords but create no account. Passwords are handled as ordinary client state with six-character validation. | Remove password fields until an approved identity architecture exists. Use a proven authentication flow with contact verification, secure recovery, session controls, rate limiting, and no application access to plaintext credentials. |
+| TD-005 | P0 | Open | Privacy, terms, and contact pages explicitly contain pending placeholder content while the site invites health-data entry. | Publish approved, entity-specific policies and contact/escalation channels before any data collection. Record approvers and effective versions. |
+| TD-006 | P0 | Decision required | Claims include POPIA compliance, encryption, limited sharing, registered doctors, licensed pharmacy, free consults, cancellation, delivery, and timing promises without repository evidence. | Establish a claim register with evidence, owner, approval, channel, and expiry/review date. Remove or qualify every unsupported claim across web, posters, metadata, and MCP. |
+| TD-007 | P0 | Decision required | Peptides are marketed as medically guided performance/longevity treatment but acknowledged as research/analytical use under placeholder terms. | Clinical and legal owners must approve or reject the offering, partner, sourcing, indications, language, and patient journey. Until then, remove or gate the route, navigation card, metadata, and hand-off. |
+| TD-008 | P0 | Open | No minimum age, South African location check, urgent-symptom guidance, contraindication screen, or emergency redirection exists. | Define clinical safety entry rules per condition. Verify urgent or excluded users receive approved guidance and cannot proceed into routine fulfilment. |
+| TD-009 | P1 | Decision required | The responsible provider, contracting entity, controller/operator roles, pharmacy, courier, and support responsibilities are not defined in code or project documentation. | Approve an operating-model decision record and responsibility matrix. All patient-facing entity names and contact channels must match it. |
+| TD-010 | P1 | Decision required | Prices were deliberately removed in history, while cancellation, free-consult, payment, and subscription implications remain. | Approve the commercial model: pricing, consult fees, subscriptions, cancellation, refunds, failed payment, and fulfilment responsibility. Reconcile all copy and terms. |
+
+## B. Platform, Data, and Security Debt
+
+| ID | Pri | Status | Debt and evidence | Required outcome / acceptance evidence |
+|---|---:|---|---|---|
+| TD-011 | P1 | Decision required | No backend boundary, service architecture, or authoritative workflow state exists. | Approve architecture records covering public site, patient application, clinical workspace, operations, integrations, and ownership of state transitions. |
+| TD-012 | P1 | Decision required | No datastore, schema, migration process, data classification, or tenancy model exists. | Select approved storage and define versioned schemas for identity, consent, intake, clinical, commerce, fulfilment, support, and audit data. Add migration and rollback procedures. |
+| TD-013 | P1 | Decision required | Authentication and role-based authorisation are absent. | Define patient, clinician, operations, support, and administrator roles; enforce permissions server-side; require MFA for privileged roles; test horizontal and vertical access boundaries. |
+| TD-014 | P1 | Open | State-changing workflows have no server validation, idempotency, replay protection, or concurrency rules. | Create validated commands with idempotency keys and explicit state machines for registration, consent, booking, payment, prescription, and order operations. Add retry/concurrency tests. |
+| TD-015 | P1 | Open | No immutable audit trail exists for consent, record access, clinical decisions, or administrative changes. | Define append-only audit events with actor, action, subject, timestamp, correlation ID, outcome, and safe metadata. Prove access review and tamper detection. |
+| TD-016 | P1 | Decision required | Data retention, deletion, correction, export, backup, restore, and legal-hold behaviour are undefined. | Approve lifecycle schedules and workflows by data class. Demonstrate backup restore and a complete data-subject request in staging. |
+| TD-017 | P1 | Open | No application/edge rate limiting, anti-automation, or abuse controls are configured. Public MCP endpoints allow wildcard CORS. | Threat-model public forms and MCP. Add proportionate edge/application limits, request-size limits, abuse monitoring, and tests. Keep wildcard CORS only where public read-only access is explicitly approved. |
+| TD-018 | P1 | Open | Generated headers set asset caching only; CSP and other explicit browser-security policies are absent. | Define and test CSP, framing, MIME-sniffing, referrer, permissions, transport, and sensitive-page caching policies across Vercel and the application layer. |
+| TD-019 | P1 | Open | There is no documented environment-variable schema or example file. Runtime/vendor configuration ownership is undefined. | Add a secret-free environment contract, validation at startup/build, rotation responsibilities, and local/staging/production provisioning instructions. |
+| TD-020 | P1 | Open | No monitoring, alerting, privacy-safe structured logging, trace correlation, backup monitoring, or incident process exists. | Approve observability architecture and redaction policy. Demonstrate alerts, correlation through a critical journey, incident escalation, and recovery exercises. |
+
+## C. Dependency, Build, and Code-Quality Debt
+
+| ID | Pri | Status | Debt and evidence | Required outcome / acceptance evidence |
+|---|---:|---|---|---|
+| TD-021 | P0 | Open | `bun audit` reports 40 advisories, including 19 high; `bun audit --prod` reports 33, including 13 high. | Map every advisory to dependency path, deployed reachability, platform, fix availability, and compensating control. Patch safely in bounded groups; record accepted exceptions with expiry. Both audit policy and build must pass. |
+| TD-022 | P1 | Open | `bun run lint` fails with 62 Prettier errors and 7 Fast Refresh warnings. | Format product code, decide how generated files are checked, resolve or explicitly configure warnings, and make lint pass locally and in CI. |
+| TD-023 | P1 | Open | No automated test framework or test script exists. | Select a Bun-compatible test stack. Add unit tests for validation/content, integration tests for server boundaries, and critical browser tests for navigation, intake failure/success, MCP, and accessibility. |
+| TD-024 | P1 | Open | No CI or protected validation workflow exists. | Run frozen install, lint, typecheck, tests, build, dependency policy, and generated-file checks on every proposed change. Block merging on failure. |
+| TD-025 | P1 | Open | Build succeeds but reports unknown Rollup `platform`, ignored directives, and overridden Wrangler `main`; part of the output is shaped by Lovable and Cloudflare-oriented tooling. | Remove obsolete platform tooling, trace remaining warnings to the owning package/configuration, and verify a clean Vercel-targeted build or document any warning as harmless with regression evidence. |
+| TD-026 | P1 | Open | Forty-six shadcn UI files and their dependency graph are present but unused by product routes/components. | Inventory intended primitives, remove unused files/packages, and confirm bundle/build behaviour. Retain only an intentional design-system surface. |
+| TD-027 | P1 | Open | Build tooling and application/runtime packages are mixed under `dependencies`, distorting production audits. | Classify dependencies by deployment need, move build-only packages where supported, and verify the Vercel-targeted output and production audit after the change. |
+| TD-028 | P1 | Open | `package.json` retains the generic name and does not pin the Bun package-manager version. | Rename the package appropriately, add `packageManager`, document the supported Bun version, and enforce frozen installs in CI. |
+| TD-029 | P2 | Open | Unused-variable checks are disabled in ESLint and TypeScript, permitting dead code. | Re-enable appropriate unused-code rules with documented exceptions; remove resulting dead code; keep generated files scoped separately. |
+| TD-030 | P1 | Open | There is no README, architecture decision log, environment guide, deployment guide, or operational runbook. | Add repository orientation and durable decision/runbook structure linked from the blueprint. Verify a new contributor can install, validate, and understand ownership without external chat context. |
+| TD-031 | P1 | Open | Commit history has 28 `Changes` and 7 `Work in progress` subjects; issues and validation evidence are absent. | Adopt scoped imperative commits and PR templates requiring outcome, issue/plan link, risk, migrations, screenshots, and validation. Preserve history; improve future traceability. |
+
+## D. Broken Assets, UX, Accessibility, and Discovery Debt
+
+| ID | Pri | Status | Debt and evidence | Required outcome / acceptance evidence |
+|---|---:|---|---|---|
+| TD-032 | P0 | Open | The logo resolves to a Lovable virtual asset path; no PNG is included in source/build, and browser `naturalWidth` is zero. | Add an owned, optimised asset through the normal bundle/public path. Verify header/footer images in local, preview, and production builds. |
+| TD-033 | P0 | Open | The first peptide video has empty `src`/`poster`, creates runtime warnings, and renders disabled controls; the second is unfinished. | Remove the player until approved media exists or provide valid optimised media, poster, captions/transcript, loading behaviour, and browser tests. |
+| TD-034 | P0 | Open | Both poster routes display a box labelled `QR` rather than a functioning code. | Generate real, tested QR assets pointing to approved campaign URLs with attribution. Print-test at A1 and verify scanning under representative conditions. |
+| TD-035 | P1 | Open | Shared hash navigation points to nonexistent sections from non-home pages. | Use route-aware links such as homepage anchors or dedicated treatment pages. Browser tests must verify every desktop/mobile navigation target. |
+| TD-036 | P1 | Open | Every non-peptide treatment card links to the same generic `/start` route and loses the selected condition. | Preserve campaign/treatment intent through typed route/search parameters or dedicated routes, validate it server-side, and include attribution without leaking health intent into unsafe analytics or URLs. |
+| TD-037 | P1 | Open | Account/profile labels lack `htmlFor`/input IDs; inputs lack intentional autocomplete attributes. | Associate labels, define safe autocomplete behaviour, provide accessible validation/error messages, and pass automated plus manual keyboard/screen-reader checks. |
+| TD-038 | P2 | Open | Step changes do not manage focus or announce progress/errors. | Move focus to the new heading, expose progress semantics, and announce validation/server failures without disrupting keyboard users. |
+| TD-039 | P2 | Open | Mobile menu exposes only a static “Menu” label and lacks `aria-expanded`, `aria-controls`, Escape handling, and deliberate focus behaviour. | Implement disclosure semantics and keyboard behaviour; verify open/close state at mobile breakpoints. |
+| TD-040 | P1 | Open | Journey counts and promises conflict: three homepage steps, four timeline/MCP steps, five confirmation events, and several incompatible delivery/48-hour claims. | Approve one canonical journey model and derived channel-specific presentation. Add content consistency tests or generated content references. |
+| TD-041 | P1 | Open | Root metadata and 404 identify the project as `Lovable App`, author `Lovable`, and Twitter account `@Lovable`. | Replace all fallback metadata with approved Meneer values and verify every route's rendered head and social preview. |
+| TD-042 | P2 | Open | Favicon, robots policy, sitemap, social image, and comprehensive canonicals are absent. | Define indexing policy, add assets and absolute canonical URLs, generate sitemap/robots output, and test preview metadata. Exclude sensitive or campaign-only routes where required. |
+| TD-043 | P1 | Open | Contact details are labelled pending; email is not a link; no clinical, privacy, complaint, or urgent-support routing is defined. | Publish verified, monitored channels with ownership and service expectations. Add accessible links/forms and approved escalation guidance. |
+| TD-044 | P2 | Decision required | Google Fonts are fetched at runtime without an explicit privacy, resilience, or CSP decision. | Decide to self-host or formally permit the provider. Test fallback rendering, CSP, performance, and privacy documentation. |
+| TD-045 | P2 | Open | No analytics or conversion measurement exists, while health-condition interactions require special care. | Define a privacy-reviewed measurement plan with prohibited fields/events, consent requirements, retention, campaign attribution, and validation that health/credential data never enters analytics. |
+
+## E. MCP and Content-Governance Debt
+
+| ID | Pri | Status | Debt and evidence | Required outcome / acceptance evidence |
+|---|---:|---|---|---|
+| TD-046 | P1 | Open | Website treatment data, intake conditions, and MCP treatments are separate constants; peptides already drift between them. | Create an approved public-content source or generation boundary. Verify treatment availability, descriptions, and journey steps match across website, metadata, and MCP. |
+| TD-047 | P1 | Open | MCP tools repeat unverified POPIA, provider, treatment, and delivery claims. | Subject MCP output to the same claim register, approvals, versioning, and release checks as the website. Remove claims that lack evidence. |
+| TD-048 | P2 | Decision required | MCP is unauthenticated with read-only public tools; no boundary is documented for future private capabilities. | Record that v1 is public-information-only. Require separate threat model, OAuth, scopes, consent, audit, rate limiting, and privacy review before any non-public tool is added. |
+| TD-049 | P1 | Open | The Lovable MCP SDK enables its default telemetry path when `LOVABLE_API_KEY` is supplied; local execution self-disables it when the key is absent. | Do not provision `LOVABLE_API_KEY`. Remove the Lovable telemetry path by removing/replacing the SDK, or explicitly disable metrics during a time-bounded transition. Verify no request is sent to Lovable in local, preview, or production environments. |
+| TD-050 | P1 | Decision required | Clinical, legal, privacy, security, operational, content, and release ownership is not recorded. | Name accountable roles and approval paths. Add an ownership matrix and CODEOWNERS/review rules appropriate to sensitive areas. |
+
+## F. Platform Exit and Evolution Debt
+
+| ID | Pri | Status | Debt and evidence | Required outcome / acceptance evidence |
+|---|---:|---|---|---|
+| TD-051 | P0 | Open | `vite.config.ts` imports `@lovable.dev/vite-tanstack-config`, which adds Lovable sandbox behaviour, virtual-asset proxying, hidden defaults, and a Cloudflare-oriented Nitro preset. | Replace it with explicit standard Vite plugins for TanStack Start, Nitro, React, Tailwind, and path aliases. Remove the package and Lovable-only environment behaviour; prove local development and production builds still work. |
+| TD-052 | P0 | Open | The repository includes `@cloudflare/vite-plugin`, `wrangler.jsonc`, `nodejs_compat`, and Cloudflare-targeted Nitro output although v1 will be hosted on Vercel. | Remove Cloudflare-only dependencies and configuration, configure the supported Vercel/TanStack deployment path, and verify SSR, static assets, routes, server endpoints, preview deployment, production deployment, logs, and rollback. |
+| TD-053 | P1 | Open | The public MCP implementation, generated routes, and `.lovable/mcp/manifest.json` depend on `@lovable.dev/mcp-js`; MCP is not required for the pilot. | Record a keep/remove decision for the pilot. Prefer removal; if retained, rebuild with a vendor-neutral MCP SDK, approved scope, explicit telemetry policy, rate limiting, protocol tests, and no Lovable manifest or generated imports. |
+| TD-054 | P1 | Decision required | The planned TanStack-to-Next.js-to-Laravel/React evolution is known, but no portable domain, API, database, or event boundary exists. | Approve architecture decisions that keep clinical rules and authoritative state outside framework-specific UI code. Define versioned contracts for identity, consent, intake, clinical decisions, orders, fulfilment, and audit events. |
+| TD-055 | P1 | Open | No cross-generation migration contract or behavioural-equivalence suite exists. A later rewrite could silently lose validated v1 behaviour or data. | Catalogue retained journeys and create framework-independent fixtures and acceptance tests. Every migration plan must identify intentional changes, schema/data migration, reconciliation, cutover, rollback, and signed evidence that retained behaviour still passes. |
+| TD-056 | P0 | Decision required | The v1 controlled pilot and v2 public launch have different risk and capability expectations, but the repository has no approved release-scope matrix or separate gates. | Define pilot participants, enabled journeys, data handling, operators, support, monitoring, incident response, success measures, and exit criteria. Define a stricter public-launch gate and prevent pilot approval from being treated as public-launch approval. |
+
+## Suggested Resolution Order
+
+1. **Contain public and pilot risk:** TD-001 through TD-008, TD-032 through TD-034, and TD-056.
+2. **Exit obsolete platforms:** TD-051 and TD-052, followed by the TD-053 MCP decision and TD-049 telemetry removal.
+3. **Make foundational decisions:** TD-009 through TD-013, TD-050, TD-054, and the peptide decision.
+4. **Restore repository health:** TD-021 through TD-031.
+5. **Design secure data operations:** TD-014 through TD-020 and establish TD-055 migration evidence.
+6. **Correct journeys and public content:** TD-035 through TD-047.
+7. **Complete public-launch quality:** TD-038, TD-039, TD-042, TD-044, TD-045, and TD-048.
+
+## Registry Maintenance Rules
+
+- Each item receives an accountable owner, target milestone, and link to its implementation plan before work starts.
+- A resolution may be “remove/defer the capability” when that is safer than implementing it prematurely.
+- P0 items cannot be waived informally. Any accepted exception requires named clinical/business/security approval, scope, compensating control, and expiry.
+- Dependency findings must be triaged by reachability and platform; do not apply breaking bulk upgrades without tests and rollback.
+- Mark an item **Verified** only after its acceptance evidence is recorded in a completion report or linked change review.
+- Add newly discovered debt as a new immutable ID; do not silently repurpose existing IDs.
+- Framework migration does not close debt by itself. Closure requires preserved data, verified contracts, behavioural evidence, reconciliation, and a tested rollback path.
