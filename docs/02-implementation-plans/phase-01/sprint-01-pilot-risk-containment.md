@@ -41,6 +41,10 @@ Task-level verification is recorded in the
 It proves the gates at the working-tree boundary based on `f1e45c7`; the resulting repository-owner
 commit becomes the accepted implementation boundary.
 
+The focused
+[Sprint 01.3 account and consent containment evidence](./annexures/sprint-01-3-account-consent-containment-evidence.md)
+records the verified disabled outcomes for TD-002 and TD-004 at committed boundary `3c1ff01`.
+
 ## Confirmed Owner Direction
 
 - The marketing site is public; transactional pilot access is restricted to the enrolled cohort.
@@ -137,13 +141,14 @@ If these inputs are unavailable, the safe resolution is to disable or clearly la
 Use these as review boundaries, combining or splitting only when required to keep an honest,
 buildable intermediate state:
 
-1. `Document pilot route disposition`
-2. `Gate incomplete pilot journeys`
-3. `Disable simulated account and consent flows`
-4. `Prevent false submission success states`
-5. `Correct pilot claims and support surfaces`
-6. `Repair acquisition assets`
-7. `Complete Sprint 1 verification and reporting`
+1. [x] `Document pilot route disposition` — committed in `2ca211d`.
+2. [x] `Gate incomplete pilot journeys` — committed in `3c1ff01`.
+3. [x] `Disable simulated account and consent flows` — satisfied by `3c1ff01`; focused registry
+       evidence recorded in the current boundary.
+4. [ ] `Prevent false submission success states`
+5. [ ] `Correct pilot claims and support surfaces`
+6. [ ] `Repair acquisition assets`
+7. [ ] `Complete Sprint 1 verification and reporting`
 
 Each commit should contain its directly related validation and documentation. Do not mix unrelated
 formatting, dependency, or generated-file changes into these boundaries. The repository owner stages,

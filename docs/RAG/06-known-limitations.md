@@ -22,6 +22,11 @@ Do not state that form submission succeeded. As of the verified Sprint 1.2 worki
 `/start` and `/peptides` render non-transactional gates with no forms or inputs. Their previous
 local-state prototypes remain preserved in source but are not active customer journeys.
 
+TD-002 and TD-004 are verified only through disabled-capability outcomes at commit `3c1ff01`.
+Meneer still has no implemented consent-record or identity system. Before either capability is
+enabled, apply the full replacement requirements in the technical-debt registry; do not interpret
+containment as production readiness.
+
 ## Clinical and Legal Limits
 
 Provider identity, registrations, partner arrangements, treatment eligibility, contraindications, clinical pathways, consent wording, privacy terms, pricing, refund rules, delivery promises, and peptide positioning are not approved in the repository evidence. Existing marketing and MCP claims require a governed claim register and domain review.

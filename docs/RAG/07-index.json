@@ -151,6 +151,19 @@
       "last_updated": "2026-08-06"
     },
     {
+      "id": "phase-01-sprint-01-3-account-consent-evidence",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-3-account-consent-containment-evidence.md",
+      "authority_for": [
+        "td-002-disabled-outcome",
+        "td-004-disabled-outcome",
+        "simulated-consent-containment",
+        "simulated-account-containment"
+      ],
+      "status": "verified-task-evidence",
+      "implementation_commit": "3c1ff01",
+      "last_updated": "2026-08-06"
+    },
+    {
       "id": "technical-debt-registry-v1",
       "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
       "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],
