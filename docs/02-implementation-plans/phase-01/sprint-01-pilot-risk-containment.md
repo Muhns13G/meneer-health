@@ -49,16 +49,23 @@ The focused
 [Sprint 01.4 false submission success containment evidence](./annexures/sprint-01-4-false-success-containment-evidence.md)
 records the verified disabled outcomes for TD-001 and TD-003 at committed boundary `3c1ff01`.
 
+The focused
+[Sprint 01.5 claims and support evidence](./annexures/sprint-01-5-claims-support-evidence.md)
+records the retained-copy boundary, claim register, support correction, and peptide catalogue
+alignment. Sprint 01.5 is closed as a verified engineering boundary; TD-005, TD-006, and TD-007
+remain open for the operational and domain work that was not completed in this task.
+
 ## Confirmed Owner Direction
 
 - The marketing site is public; transactional pilot access is restricted to the enrolled cohort.
 - Pilot users are real customers. Enabled registration, intake, payment, order, and fulfilment
   journeys must be durable and operational; demonstrations and false-success states are not allowed.
-- The intended peptide pathway is Precise Wellness's questionnaire and dispensing mechanism rather
-  than Meneer's ordinary clinician-approval flow. This is owner-supplied operating direction, not
-  verified legal or regulatory evidence. Peptides remain gated or use a minimal approved waitlist
-  notification until the exact products, partner authority, questionnaire controls, data hand-off,
-  dispensing basis, and escalation route are documented and approved.
+- Peptides are the first intended v1 rollout product. Their intended pathway is Precise Wellness's
+  questionnaire and dispensing mechanism rather than Meneer's ordinary clinician-approval flow.
+  This is owner-supplied operating direction, not verified legal or regulatory evidence. The
+  transaction remains gated until the exact products, partner authority, questionnaire controls,
+  data hand-off, dispensing basis, and escalation route are documented and approved. Transactional
+  gating must not be represented as the product being "coming soon."
 - General support uses `support@meneerhealth.co.za`, subject to monitored-channel and escalation
   verification.
 - Payments are intended through a separate standalone Meneer Stripe account inside the parent
@@ -90,7 +97,9 @@ records the verified disabled outcomes for TD-001 and TD-003 at committed bounda
 ### Workstream 3 — Claims, legal surface, and peptides
 
 1. Produce a channel-by-channel inventory of provider, POPIA, encryption, pharmacy, pricing, cancellation, consultation, delivery, and timing claims.
-2. Hide or qualify unsupported claims until a claim register and approvers exist.
+2. Preserve established customer-facing messaging and record evidence gaps in a claim register.
+   Change public wording only when a statement is demonstrably false, unsafe, or inconsistent with
+   the approved operating model; missing repository evidence alone does not authorise a rewrite.
 3. Disable consent/data collection while privacy, terms, and contact routes remain placeholders.
 4. Document the proposed Precise Wellness questionnaire pathway separately from clinician-approved
    testosterone and other prescription pathways.
@@ -151,7 +160,9 @@ buildable intermediate state:
        evidence recorded in the current boundary.
 4. [x] `Prevent false submission success states` — satisfied by `3c1ff01`; focused registry evidence
        recorded in the current boundary.
-5. [ ] `Correct pilot claims and support surfaces`
+5. [x] `Correct pilot claims and support surfaces` — Sprint 01.5 closed with verified evidence;
+       unfinished policy, claim-approval, support-operation, and peptide-activation work remains
+       open under TD-005, TD-006, and TD-007.
 6. [ ] `Repair acquisition assets`
 7. [ ] `Complete Sprint 1 verification and reporting`
 

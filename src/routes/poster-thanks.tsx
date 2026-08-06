@@ -5,8 +5,8 @@ export const Route = createFileRoute("/poster-thanks")({
   component: PosterThanksRoute,
   head: () => ({
     meta: [
-      { title: "Campaign inactive — Meneer" },
-      { name: "description", content: "This Meneer campaign route is currently inactive." },
+      { title: "Meneer — Thanks for being a great dad." },
+      { name: "description", content: "Meneer poster — Sorted, sir." },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
