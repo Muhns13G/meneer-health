@@ -57,8 +57,10 @@ remain open for the operational and domain work that was not completed in this t
 
 The focused
 [Sprint 01.6 acquisition assets evidence](./annexures/sprint-01-6-acquisition-assets-evidence.md)
-records the local placeholder logo replacement, safe media-review boundary, continued poster gate,
-and the visual/approval evidence that remains open under TD-032–TD-034.
+records the verified local placeholder logo replacement, safe media-review boundary, continued
+poster gate, and desktop/mobile browser evidence. Sprint 01.6 is closed as a verified local
+engineering boundary; hosted-platform, final-media, and QR acceptance work remains open under
+TD-032–TD-034.
 
 ## Confirmed Owner Direction
 

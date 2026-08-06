@@ -48,7 +48,8 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 The repository is not yet ready for its intended Vercel deployment. Lovable's Vite wrapper, MCP
 SDK, telemetry path, manifest, and metadata remain. Cloudflare plugin and Wrangler configuration
 remain. Sprint 01.6 replaces the shared logo's virtual-asset dependency with a local approved
-placeholder, but local/preview/production visual evidence and final brand work remain open.
+placeholder. Local desktop/mobile visual evidence is complete; selected-host preview/production
+verification and final brand work remain open.
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
 

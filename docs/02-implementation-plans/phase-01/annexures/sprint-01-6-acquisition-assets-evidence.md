@@ -1,7 +1,7 @@
 ---
 artifact_id: phase-01-sprint-01-6-acquisition-assets-evidence
 title: Sprint 01.6 Acquisition Assets Evidence
-status: implementation-evidence
+status: verified-task-evidence
 authority: repository-observed-and-owner-confirmed
 last_updated: 2026-08-06
 owner: "@Muhns13G"
@@ -71,23 +71,36 @@ into `itws-I`.
 - Full `bun run lint`: existing baseline remains 32 errors and 7 warnings; no new peptide-route
   violation was introduced. The shared Nav/Footer formatting findings predate this task.
 - No empty video source or Lovable virtual logo reference remains in active source.
-- The local development server started successfully. `/` and the default gated `/peptides` route
-  returned HTTP 200 responses.
-- With a temporary local media URL configured, `/peptides` returned HTTP 200, rendered the draft
-  review state, and referenced an MP4 endpoint returning `video/mp4` with the expected 6,703,712-byte
-  content length. The archive binary was not copied into this branch.
-- Interactive visual verification could not run because no browser instance was available to the
-  execution environment. Local visual, Vercel preview, and production checks therefore remain
-  required and are not claimed by this artefact.
+- Before the preview-only binary commit, the local development server returned HTTP 200 for `/`
+  and the permanent branch's default gated `/peptides` route. A temporary media URL also verified
+  the review state without copying the archive binary into permanent history.
+- In-app browser verification passed at 1440 x 900 and 390 x 844. The homepage retained its
+  established title and messaging, including `Back to your best.`; header and footer logos loaded
+  without broken-image or horizontal-overflow findings. The source image reported intrinsic
+  dimensions of 550 x 370 and rendered at 54 x 36 in the header and 42 x 28 in the footer.
+- On `itws-I-preview`, `/peptides` rendered the approved review boundary with `noindex, nofollow`,
+  no form, input, password field, questionnaire link, or horizontal overflow. The MP4 reached
+  `readyState=4`, reported 1280 x 720 dimensions, a 137.009-second duration, and no media error. Its
+  first frame and native controls rendered at both tested widths. Browser-native play/pause could
+  not be toggled through automation and remains a manual/hosted verification item under TD-033.
+- Mobile navigation opened successfully, the footer rendered with the local mark, and return
+  navigation restored the homepage content and metadata. No browser console warning or error was
+  recorded during the checked journeys.
+- `/poster` and `/poster-thanks` both remained non-transactional gates with no form, input, QR
+  image, registration, submission, or success state. Server output showed no runtime error during
+  the verification pass.
 
 ## Open Technical Debt After This Boundary
 
-- TD-032 remains open until header/footer rendering is visually verified in local, Vercel preview,
-  and production. Final brand quality is separately deferred.
-- TD-033 remains open until the explainer is final-approved and has an approved poster, captions,
-  transcript, loading behaviour, and browser evidence.
+- TD-032's local visual requirement is verified. Hosted preview/production rendering and final
+  brand quality remain open for the selected hosting sprint and FC-002.
+- TD-033's local draft-rendering and decode path is verified. Final approval, an approved poster,
+  captions, transcript, manual playback, loading behaviour, and hosted browser evidence remain
+  open.
 - TD-034 remains open until approved campaign URLs, attributed QR assets, representative device
-  scans, and A1 print tests exist.
+  scans, and A1 print tests exist; local browser evidence confirms the inactive gates expose none
+  of those unapproved surfaces.
 
-This task replaces broken dependencies and provides safe containment. It does not represent draft
-media, final branding, or campaign concepts as production-approved assets.
+Sprint 01.6 is closed as a verified local engineering boundary. It replaces broken dependencies
+and provides safe containment, but does not represent draft media, final branding, or campaign
+concepts as production-approved assets.

@@ -80,8 +80,12 @@ The permanent working-tree boundary replaces the Lovable virtual logo metadata w
 company-approved local placeholder imported by the shared navigation and footer. `/peptides` remains
 gated unless an explicit video URL enables a non-transactional draft-review layout; neither mode
 exposes the preserved profile, acknowledgement, or questionnaire prototype. The empty video source
-has been removed. Final logo visual verification, approved video accessibility assets, and campaign
-QR evidence remain open under TD-032–TD-034.
+has been removed. Local desktop/mobile browser verification confirms the shared logo renders in the
+header and footer, the preview-branch MP4 decodes and renders its first frame and native controls
+without a media error, and both campaign routes remain inactive without QR or transactional
+surfaces. Sprint 01.6 is closed as a verified local engineering boundary; hosted logo verification,
+approved video accessibility assets, final-brand work, and campaign QR evidence remain open under
+TD-032–TD-034.
 
 ## Lovable and Cloudflare Coupling
 
