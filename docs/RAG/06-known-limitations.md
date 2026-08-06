@@ -36,6 +36,11 @@ requirements before enabling submission; the preserved prototype is not suitable
 
 Provider identity, registrations, partner arrangements, treatment eligibility, contraindications, clinical pathways, consent wording, privacy terms, pricing, refund rules, delivery promises, and peptide positioning are not approved in the repository evidence. Existing marketing and MCP claims require a governed claim register and domain review.
 
+Peptides are owner-confirmed as the first intended v1 rollout product, not a "coming soon" category.
+The current transaction is nevertheless gated until its product-level, partner, questionnaire,
+data-transfer, dispensing, exclusion, escalation, and operational evidence is approved. Preserve
+established customer-facing messaging while keeping that implementation boundary explicit.
+
 Never generate patient-specific diagnosis, dosing, eligibility, or treatment advice from this corpus. Never treat the blueprint's intended journey as an approved clinical protocol.
 
 ## Platform Limits

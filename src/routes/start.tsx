@@ -6,10 +6,10 @@ import { PilotRouteGate } from "@/components/PilotRouteGate";
 export const Route = createFileRoute("/start")({
   head: () => ({
     meta: [
-      { title: "Private pilot access — Meneer" },
+      { title: "Start your private consult — Meneer" },
       {
         name: "description",
-        content: "Meneer's private transactional pilot is currently access restricted.",
+        content: "A few private questions. A real doctor. Treatment at your door.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],

@@ -13,8 +13,15 @@ export const Route = createFileRoute("/peptides")({
       { title: "Peptides — Meneer" },
       {
         name: "description",
-        content: "Meneer's peptide pathway is currently gated pending partner-pathway approval.",
+        content:
+          "Peptide treatment, medically guided. Doctor-led peptide therapy for recovery, performance, and longevity — delivered across South Africa.",
       },
+      { property: "og:title", content: "Peptides — Meneer" },
+      {
+        property: "og:description",
+        content: "Peptide treatment, medically guided. Doctor-led. Delivered.",
+      },
+      { property: "og:type", content: "website" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
