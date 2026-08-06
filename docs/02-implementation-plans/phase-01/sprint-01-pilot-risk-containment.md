@@ -45,6 +45,10 @@ The focused
 [Sprint 01.3 account and consent containment evidence](./annexures/sprint-01-3-account-consent-containment-evidence.md)
 records the verified disabled outcomes for TD-002 and TD-004 at committed boundary `3c1ff01`.
 
+The focused
+[Sprint 01.4 false submission success containment evidence](./annexures/sprint-01-4-false-success-containment-evidence.md)
+records the verified disabled outcomes for TD-001 and TD-003 at committed boundary `3c1ff01`.
+
 ## Confirmed Owner Direction
 
 - The marketing site is public; transactional pilot access is restricted to the enrolled cohort.
@@ -145,7 +149,8 @@ buildable intermediate state:
 2. [x] `Gate incomplete pilot journeys` — committed in `3c1ff01`.
 3. [x] `Disable simulated account and consent flows` — satisfied by `3c1ff01`; focused registry
        evidence recorded in the current boundary.
-4. [ ] `Prevent false submission success states`
+4. [x] `Prevent false submission success states` — satisfied by `3c1ff01`; focused registry evidence
+       recorded in the current boundary.
 5. [ ] `Correct pilot claims and support surfaces`
 6. [ ] `Repair acquisition assets`
 7. [ ] `Complete Sprint 1 verification and reporting`
