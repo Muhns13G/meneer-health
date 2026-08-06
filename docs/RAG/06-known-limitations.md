@@ -27,6 +27,11 @@ Meneer still has no implemented consent-record or identity system. Before either
 enabled, apply the full replacement requirements in the technical-debt registry; do not interpret
 containment as production readiness.
 
+TD-001 and TD-003 are likewise verified only through disabled-capability outcomes at commit
+`3c1ff01`. Meneer still has no durable intake transaction or approved clinical questionnaire. Apply
+the registry's full transaction, validation, questionnaire, exclusion, and emergency-routing
+requirements before enabling submission; the preserved prototype is not suitable for reactivation.
+
 ## Clinical and Legal Limits
 
 Provider identity, registrations, partner arrangements, treatment eligibility, contraindications, clinical pathways, consent wording, privacy terms, pricing, refund rules, delivery promises, and peptide positioning are not approved in the repository evidence. Existing marketing and MCP claims require a governed claim register and domain review.
