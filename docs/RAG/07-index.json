@@ -145,6 +145,19 @@
       "last_updated": "2026-08-06"
     },
     {
+      "id": "phase-01-sprint-01-route-disposition",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-pilot-route-disposition.md",
+      "authority_for": [
+        "pilot-route-disposition",
+        "cta-and-form-disposition",
+        "operational-handoff-gates",
+        "preserve-disable-replace-cadence"
+      ],
+      "status": "approved-for-implementation",
+      "approved_by": "@Muhns13G",
+      "last_updated": "2026-08-06"
+    },
+    {
       "id": "repository-guidelines",
       "path": "AGENTS.md",
       "authority_for": [
@@ -309,6 +322,7 @@
       "read_first": ["docs/02-implementation-plans/phase-01/README.md"],
       "verify_against": [
         "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
+        "docs/02-implementation-plans/phase-01/annexures/sprint-01-pilot-route-disposition.md",
         "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
         "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
         "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",

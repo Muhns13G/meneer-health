@@ -34,7 +34,7 @@ Plans must be refreshed if these sources materially change. Repository evidence 
 | Sprint | Mission                                                                             | Primary debt                                  | Depends on                                         |
 | ------ | ----------------------------------------------------------------------------------- | --------------------------------------------- | -------------------------------------------------- |
 | 01     | Contain misleading or unsafe pilot surfaces and define the pilot gate.              | TD-001–TD-008, TD-032–TD-034, TD-056          | None                                               |
-| 02     | Remove Lovable/Cloudflare coupling and establish the supported Vercel runtime.      | TD-025, TD-027, TD-041, TD-049, TD-051–TD-053 | Sprint 01 containment decisions                    |
+| 02     | Replace Lovable/Cloudflare coupling and establish the supported Vercel runtime.     | TD-025, TD-027, TD-041, TD-049, TD-051–TD-053 | Sprint 01 containment decisions                    |
 | 03     | Approve the operating model, ownership, portable architecture, and data boundaries. | TD-009–TD-013, TD-016, TD-050, TD-054         | Sprint 01 pilot scope; Sprint 02 runtime direction |
 | 04     | Restore reproducible engineering, dependency, test, CI, and repository controls.    | TD-021–TD-024, TD-026, TD-028–TD-031          | Sprint 02 dependency/runtime changes               |
 | 05     | Implement the approved data, security, audit, and operational foundations.          | TD-014, TD-015, TD-017–TD-020, TD-055         | Sprints 03 and 04                                  |
@@ -83,6 +83,14 @@ Every TD identifier has one primary sprint. A plan may depend on work from anoth
 7. The repository owner performs GitHub pushes and external production actions.
 8. Record decisions before code when options materially change clinical, privacy, data, vendor, or migration outcomes.
 9. Update affected RAG documents and the RAG index in the same change as authoritative new evidence.
+10. Commit by small, reviewable outcome rather than by whole sprint or arbitrary file count. Keep
+    directly related tests and documentation with the change, preserve a buildable intermediate state
+    where practical, and do not split changes when doing so would create misleading or broken behaviour.
+11. Use concise imperative commit messages and include the relevant sprint task or TD identifiers in
+    the commit body when the relationship is not obvious from the change.
+12. Disable unsafe or incomplete behaviour at the user boundary while preserving its implementation
+    until a verified replacement is ready. Delete or permanently retire it only after documented
+    cutover, regression checks, rollback evidence, and repository-owner approval.
 
 ## Required Sprint Artefacts
 
@@ -101,7 +109,7 @@ Completion reports should be stored under `docs/03-completion-reports/phase-01/`
 
 Phase 01 completes only when:
 
-- TD-001 through TD-056 are each `Verified`, including approved remove/defer outcomes where appropriate.
+- TD-001 through TD-056 are each `Verified`, including approved disable/defer outcomes where appropriate.
 - The approved v1 pilot scope and operating model are recorded.
 - Vercel preview and production deployment paths are verified without unintended Lovable or Cloudflare runtime dependencies.
 - Frozen install, lint, typecheck, automated tests, build, dependency policy, and critical browser checks pass.

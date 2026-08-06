@@ -6,14 +6,14 @@ primary_debt:
   [TD-001, TD-002, TD-003, TD-004, TD-005, TD-006, TD-007, TD-008, TD-032, TD-033, TD-034, TD-056]
 depends_on: []
 last_updated: 2026-08-06
-owner: unassigned
+owner: "@Muhns13G"
 ---
 
 # Sprint 01 — Pilot Risk Containment
 
 ## Mission
 
-Make every public and pilot-facing surface truthful and safe before deeper platform work. Define exactly what the controlled v1 pilot will enable, who may use it, what happens operationally, and which incomplete journeys must be removed, gated, or labelled as demonstrations or waitlists.
+Make every public and pilot-facing surface truthful and safe before deeper platform work. Define exactly what the controlled v1 pilot will enable, who may use it, what happens operationally, and which incomplete journeys must be disabled, gated, or converted to approved waitlists while their implementation is preserved pending replacement.
 
 ## Intended Outcome
 
@@ -30,6 +30,11 @@ Use the
 formal before-change browser, network, route, responsive, log, and MCP baseline. It records dated
 evidence rather than acceptance: repeat its affected-route and submission matrix after containment
 changes, and link the resulting evidence from the sprint completion report.
+
+The [pilot route disposition](./annexures/sprint-01-pilot-route-disposition.md) is the
+product/release-owner-approved task-level inventory and implementation boundary. Its approval
+authorises containment implementation, not activation of capabilities still awaiting clinical,
+legal/privacy, partner, or support/operations approval.
 
 ## Confirmed Owner Direction
 
@@ -56,14 +61,14 @@ changes, and link the resulting evidence from the sprint completion report.
 ### Workstream 1 — Pilot scope and route disposition
 
 1. Inventory every CTA, form, route, and implied operational hand-off.
-2. Classify each as `functional`, `manually operated`, `waitlist`, `restricted`, or `removed` for the
+2. Classify each as `functional`, `manually operated`, `waitlist`, `restricted`, or `disabled` for the
    pilot; no customer-facing transaction may remain a demonstration.
 3. Record participant eligibility, invitation/control mechanism, operators, support channel, monitoring, incident escalation, success measures, stop criteria, and pilot exit criteria.
 4. Prevent accidental public access to restricted pilot capabilities.
 
 ### Workstream 2 — Intake truthfulness and safety
 
-1. Remove or gate password fields until approved identity exists.
+1. Disable or gate password fields until approved identity exists; preserve the existing implementation until its replacement is verified.
 2. Prevent placeholder consent and empty clinical-questionnaire submission.
 3. Replace local-only success behaviour with an honest demonstration/waitlist state, or implement an approved durable server transaction with failure handling and a traceable identifier.
 4. Add the approved minimum-age, location, urgent-symptom, exclusion, and emergency-redirection boundary for any enabled condition flow.
@@ -72,20 +77,20 @@ changes, and link the resulting evidence from the sprint completion report.
 ### Workstream 3 — Claims, legal surface, and peptides
 
 1. Produce a channel-by-channel inventory of provider, POPIA, encryption, pharmacy, pricing, cancellation, consultation, delivery, and timing claims.
-2. Remove or qualify unsupported claims until a claim register and approvers exist.
+2. Hide or qualify unsupported claims until a claim register and approvers exist.
 3. Disable consent/data collection while privacy, terms, and contact routes remain placeholders.
 4. Document the proposed Precise Wellness questionnaire pathway separately from clinician-approved
    testosterone and other prescription pathways.
 5. Verify each intended peptide by active ingredient, formulation, route, registration/scheduling
    status, supplier/dispenser authority, questionnaire owner, exclusions, escalation, adverse-event
    handling, and auditable outcome before enabling it.
-6. Remove placeholder destinations and contradictory peptide acknowledgements from any enabled journey.
+6. Disable placeholder destinations and contradictory peptide acknowledgements in every enabled journey while preserving their implementation for traceable replacement.
 
 ### Workstream 4 — Broken acquisition assets
 
-1. Recover and commit an owned optimised logo; remove dependence on the Lovable virtual asset path.
-2. Remove empty video players or supply approved media, posters, captions, transcripts, and loading behaviour.
-3. Replace poster QR placeholders with tested campaign QR assets, or remove the poster routes from pilot scope.
+1. Recover and commit an owned optimised logo; retire dependence on the Lovable virtual asset path only after replacement verification.
+2. Hide empty video players until approved media, posters, captions, transcripts, and loading behaviour are supplied and verified.
+3. Keep poster routes undistributed and disabled until their QR placeholders are replaced with tested campaign assets.
 4. Verify assets in local and production-equivalent builds and print-test any retained poster.
 
 ## Required Decisions and Inputs
@@ -107,20 +112,37 @@ If these inputs are unavailable, the safe resolution is to disable or clearly la
 
 ## Acceptance Evidence
 
-| Debt   | Evidence required                                                                                                   |
-| ------ | ------------------------------------------------------------------------------------------------------------------- |
-| TD-001 | Browser/network evidence that confirmation requires a durable success, or the route is clearly non-transactional.   |
-| TD-002 | Placeholder consent is unavailable; any enabled consent has approved versioned capture and withdrawal evidence.     |
-| TD-003 | Empty or incomplete questionnaires cannot submit; otherwise the questionnaire is removed/gated.                     |
-| TD-004 | Password simulation is removed, or approved identity, recovery, verification, sessions, and rate limits are proven. |
-| TD-005 | Approved policies/channels are published, or data collection is disabled.                                           |
-| TD-006 | Claim inventory links every retained claim to evidence and an approver.                                             |
-| TD-007 | Approved peptide disposition is reflected consistently across routes, navigation, metadata, and destinations.       |
-| TD-008 | Safety entry rules and urgent/excluded-user paths are reviewed and tested for every enabled condition.              |
-| TD-032 | Logo loads from an owned deployable asset in local, preview, and production-equivalent checks.                      |
-| TD-033 | No empty player remains; retained media passes caption/transcript and browser checks.                               |
-| TD-034 | Retained QR codes scan to approved attributed URLs under representative print conditions.                           |
-| TD-056 | Signed pilot scope, release matrix, operating procedure, measures, incident path, and exit criteria exist.          |
+| Debt   | Evidence required                                                                                                        |
+| ------ | ------------------------------------------------------------------------------------------------------------------------ |
+| TD-001 | Browser/network evidence that confirmation requires a durable success, or the route is clearly non-transactional.        |
+| TD-002 | Placeholder consent is unavailable; any enabled consent has approved versioned capture and withdrawal evidence.          |
+| TD-003 | Empty or incomplete questionnaires cannot submit; otherwise the questionnaire is disabled/gated.                         |
+| TD-004 | Password simulation is inaccessible, or approved identity, recovery, verification, sessions, and rate limits are proven. |
+| TD-005 | Approved policies/channels are published, or data collection is disabled.                                                |
+| TD-006 | Claim inventory links every retained claim to evidence and an approver.                                                  |
+| TD-007 | Approved peptide disposition is reflected consistently across routes, navigation, metadata, and destinations.            |
+| TD-008 | Safety entry rules and urgent/excluded-user paths are reviewed and tested for every enabled condition.                   |
+| TD-032 | Logo loads from an owned deployable asset in local, preview, and production-equivalent checks.                           |
+| TD-033 | No empty player remains; retained media passes caption/transcript and browser checks.                                    |
+| TD-034 | Retained QR codes scan to approved attributed URLs under representative print conditions.                                |
+| TD-056 | Signed pilot scope, release matrix, operating procedure, measures, incident path, and exit criteria exist.               |
+
+## Planned Commit Boundaries
+
+Use these as review boundaries, combining or splitting only when required to keep an honest,
+buildable intermediate state:
+
+1. `Document pilot route disposition`
+2. `Gate incomplete pilot journeys`
+3. `Disable simulated account and consent flows`
+4. `Prevent false submission success states`
+5. `Correct pilot claims and support surfaces`
+6. `Repair acquisition assets`
+7. `Complete Sprint 1 verification and reporting`
+
+Each commit should contain its directly related validation and documentation. Do not mix unrelated
+formatting, dependency, or generated-file changes into these boundaries. The repository owner stages,
+commits, and pushes after reviewing each completed outcome.
 
 ## Validation
 
