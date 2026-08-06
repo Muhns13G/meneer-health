@@ -1,15 +1,29 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { PilotRouteGate } from "@/components/PilotRouteGate";
 
 export const Route = createFileRoute("/poster-thanks")({
-  component: PosterThanksPage,
+  component: PosterThanksRoute,
   head: () => ({
     meta: [
-      { title: "Meneer — Thanks for being a great dad." },
-      { name: "description", content: "Meneer poster — Sorted, sir." },
+      { title: "Campaign inactive — Meneer" },
+      { name: "description", content: "This Meneer campaign route is currently inactive." },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });
 
+function PosterThanksRoute() {
+  return (
+    <PilotRouteGate
+      eyebrow="Campaign inactive"
+      title="This campaign is not currently active."
+      description="The campaign will be made available only after its destination, QR asset, claims, and print behaviour are approved and tested."
+      assurance="No scan, attribution, registration, or submission occurs from this page."
+    />
+  );
+}
+
+// Preserved campaign concept: keep inaccessible until approved assets are verified and cut over.
 function PosterThanksPage() {
   return (
     <>

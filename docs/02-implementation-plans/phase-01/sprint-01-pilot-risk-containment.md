@@ -36,6 +36,11 @@ product/release-owner-approved task-level inventory and implementation boundary.
 authorises containment implementation, not activation of capabilities still awaiting clinical,
 legal/privacy, partner, or support/operations approval.
 
+Task-level verification is recorded in the
+[Sprint 01.2 incomplete-journey gate evidence](./annexures/sprint-01-2-incomplete-journey-gate-evidence.md).
+It proves the gates at the working-tree boundary based on `f1e45c7`; the resulting repository-owner
+commit becomes the accepted implementation boundary.
+
 ## Confirmed Owner Direction
 
 - The marketing site is public; transactional pilot access is restricted to the enrolled cohort.
