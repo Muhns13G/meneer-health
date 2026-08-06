@@ -138,6 +138,19 @@
       "source_baseline": "aaab9d1b31bf31f062a0b2d336cbcbde13e46911"
     },
     {
+      "id": "phase-01-sprint-01-2-gate-evidence",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md",
+      "authority_for": [
+        "sprint-01-2-working-tree-verification",
+        "incomplete-journey-gates",
+        "preserved-prototype-boundary",
+        "gate-browser-evidence"
+      ],
+      "status": "verified-task-evidence",
+      "source_parent": "f1e45c7",
+      "last_updated": "2026-08-06"
+    },
+    {
       "id": "technical-debt-registry-v1",
       "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
       "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],

@@ -9,6 +9,7 @@ sensitivity: internal
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -17,7 +18,9 @@ sources:
 
 Do not state that Meneer currently provides functioning registration, consent capture, medical questionnaires, clinician review, prescribing, payment, pharmacy fulfilment, delivery tracking, support case management, or follow-up. The v1 interface implies several of these capabilities but does not implement their backend or durable records.
 
-Do not state that form submission succeeded. `/start` advances local React state without transmitting data. The peptide profile behaves similarly.
+Do not state that form submission succeeded. As of the verified Sprint 1.2 working-tree boundary,
+`/start` and `/peptides` render non-transactional gates with no forms or inputs. Their previous
+local-state prototypes remain preserved in source but are not active customer journeys.
 
 ## Clinical and Legal Limits
 

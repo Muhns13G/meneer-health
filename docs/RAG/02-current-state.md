@@ -11,6 +11,7 @@ runtime_baseline: aaab9d1b31bf31f062a0b2d336cbcbde13e46911
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -62,6 +63,16 @@ hash navigation has no target. Desktop and mobile routes remained visually usabl
 the production build passed, lint retained its known 62 errors and 7 warnings, and the public MCP
 list, invocation, and protocol initialization checks passed. See the runtime investigation for the
 full route, network, accessibility, and endpoint evidence.
+
+## Sprint 1.2 Containment Update
+
+At the verified working-tree boundary after `f1e45c7`, `/start`, `/peptides`, `/poster`, and
+`/poster-thanks` render explicit non-transactional gates. The active routes expose no forms, inputs,
+passwords, consent, questionnaires, videos, QR placeholders, external partner links, or success
+states. Their previous prototype functions remain in source for replacement comparison but are not
+rendered or exported by the active routes. TypeScript and the production build pass; browser checks
+at desktop and mobile sizes found no gate-page error overlay, console warning/error, or horizontal
+overflow. See the Sprint 01.2 evidence artefact for the complete verification matrix.
 
 ## Lovable and Cloudflare Coupling
 
