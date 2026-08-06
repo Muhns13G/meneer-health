@@ -7,8 +7,10 @@ last_updated: 2026-08-06
 audience: internal
 sensitivity: internal
 source_baseline: 85f4d74765579f5c020b7c40ffa4ab916b313bfe
+runtime_baseline: aaab9d1b31bf31f062a0b2d336cbcbde13e46911
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
+  - docs/01-audits/runtime-investigation-2026-08-06.md
 ---
 
 # Meneer v1 Verified Current State
@@ -50,6 +52,16 @@ At the 2026-08-05 audit baseline:
 - MCP tool listing and invocation passed.
 
 These are dated audit results, not permanently current facts. Re-run validation after dependency, platform, or source changes.
+
+## Pre-Phase 1 Runtime Refresh
+
+The 2026-08-06 browser investigation reproduced the registry's key runtime findings at commit
+`aaab9d1`: the intake and peptide profiles send no requests, intake confirmation is local-only, the
+shared logo and poster QR codes are broken/placeholders, legal content is unfinished, and non-home
+hash navigation has no target. Desktop and mobile routes remained visually usable, TypeScript and
+the production build passed, lint retained its known 62 errors and 7 warnings, and the public MCP
+list, invocation, and protocol initialization checks passed. See the runtime investigation for the
+full route, network, accessibility, and endpoint evidence.
 
 ## Lovable and Cloudflare Coupling
 

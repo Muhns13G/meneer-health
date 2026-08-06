@@ -60,9 +60,20 @@ Meneer should make legitimate healthcare easier to start and simpler to complete
 5. **Identity and account:** the patient verifies contact details and creates or accesses a secure account.
 6. **Clinical intake:** a versioned, condition-specific questionnaire captures medical history, medication, symptoms, and relevant measurements.
 7. **Triage:** rules identify emergencies, exclusions, missing information, laboratory requirements, and suitable consultation pathways.
+
+/* +++ OLD STEP 8 and 9 +++
 8. **Consult:** an authorised clinician reviews the record and conducts the required video or telephone consultation.
 9. **Clinical decision:** the clinician records assessment, treatment decision, follow-up plan, and prescription where appropriate.
-10. **Payment and fulfilment:** approved orders move through payment, licensed pharmacy fulfilment, neutral packaging, and tracked delivery.
+*/
+
+8. **Required review:** the workflow routes the patient to the approved decision authority for that
+   condition. The intended peptide route is a Precise Wellness questionnaire and dispensing decision;
+   testosterone and other applicable treatments require authorised clinician review and consultation.
+9. **Treatment decision:** the accountable authority records the assessment or questionnaire outcome,
+   treatment decision, exclusions, escalation, follow-up plan, and prescription where applicable.
+10. **Payment and fulfilment:** approved commercial paths support consultation-only, medication
+    plus delivery, or an approved bundle. Payment, clinical approval, supply, hub receipt, dispatch,
+    delivery, refund, and cancellation remain separate durable states.
 11. **Ongoing care:** the patient receives follow-up prompts, monitoring, repeat-consult requirements, support, and cancellation options.
 
 No later stage may be implied as complete when an earlier durable transaction has failed.
@@ -136,7 +147,9 @@ Before publishing treatment claims or collecting patient data, named clinical an
 - Pricing, refunds, consultation charges, subscriptions, and cancellation rules.
 - Delivery promises and pharmacy responsibilities.
 - Condition education, expected outcomes, adverse effects, and follow-up requirements.
-- All peptide positioning, programme purpose, sourcing, prescribing model, and regulatory wording.
+- All peptide positioning, programme purpose, exact products, sourcing, Precise Wellness questionnaire
+  and dispensing model, product-level registration/scheduling or other legal basis, escalation, and
+  regulatory wording.
 
 Approved copy should be versioned and referenced by website pages, questionnaires, messages, and MCP responses rather than duplicated ad hoc.
 
@@ -179,7 +192,11 @@ Define exactly which journeys the test group will use and whether each is functi
 
 ### Phase 2 — Implement the minimum safe v1 pilot
 
-Implement only the approved pilot scope. Every enabled submission must have server validation, a durable monitored destination, appropriate access control, versioned consent where required, privacy-safe logs, a support/recovery path, and an end-to-end test. Any capability that cannot meet this boundary must be removed, gated, or clearly presented as a waitlist or demonstration.
+Implement only the approved pilot scope, including real registration, intake, approved clinical
+handling, payment, order, supply, hub dispatch, delivery, and support where enabled. Every submission
+must have server validation, a durable monitored destination, appropriate access control, versioned
+consent where required, privacy-safe logs, a support/recovery path, and an end-to-end test. Any
+capability that cannot meet this boundary must be removed, gated, or clearly presented as a waitlist.
 
 ### Phase 3 — Run the controlled v1 pilot
 
@@ -193,9 +210,12 @@ Classify findings as retain, improve, remove, or defer. Freeze the validated jou
 
 Implement identity, verified contact methods, consent records, patient profiles, authorisation, audit logging, secure storage, account rights, versioned questionnaires, triage rules, clinician queues, consultations, decision records, laboratory workflows, and follow-up plans. Prove retained v1 behaviour with cross-generation acceptance tests.
 
-### Phase 6 — Add commerce and fulfilment
+### Phase 6 — Expand commerce and fulfilment
 
-Integrate approved pricing, payments, prescriptions, pharmacy hand-off, delivery, refunds, reconciliation, notifications, and operational exception handling. Rehearse retries, partial failures, manual recovery, and financial/fulfilment reconciliation.
+Absorb the validated v1 pricing, Stripe payment, prescription, Precise Wellness supply, Meneer hub,
+delivery, refund, reconciliation, notification, and exception contracts into v2. Expand automation
+only where pilot evidence justifies it, and rehearse retries, partial failures, manual recovery, and
+financial/fulfilment reconciliation.
 
 ### Phase 7 — Next.js public launch
 

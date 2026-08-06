@@ -21,9 +21,15 @@ The product is intended to reduce embarrassment and practical friction without b
 
 ## Current Product Stage
 
-The repository is v1: a Lovable-generated TanStack Start MVP intended for a controlled one-month pilot after stabilisation and deployment to Vercel. The audited implementation is a marketing and workflow prototype. It does not yet provide a patient backend, secure accounts, durable consent, clinical intake, clinician operations, prescriptions, payments, pharmacy integration, delivery, or follow-up.
+The repository is v1: a Lovable-generated TanStack Start MVP intended for a controlled one-month,
+real-transaction pilot after stabilisation and deployment to Vercel. Marketing is public, while the
+transactional journey is restricted to the enrolled cohort. The intended pilot collects real
+information and supports Stripe payments, approved orders, Precise Wellness supply, Meneer-hub
+dispatch, delivery, and support. The audited implementation remains a workflow prototype and does
+not yet implement any of those durable capabilities.
 
-Pilot approval and public-launch approval are separate. A private test group does not justify exposing the same scope publicly.
+Pilot approval and public-launch approval are separate. Cohort access does not justify removing the
+transactional gate or exposing the same scope as an unrestricted public launch.
 
 ## Intended Users and Operators
 

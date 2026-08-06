@@ -26,16 +26,29 @@ Primary debt: TD-009–TD-013, TD-016, TD-050, and TD-054.
 
 1. Decide whether Meneer is the healthcare provider, intermediary, or technology/marketing layer.
 2. Identify the contracting entity and responsible/operator relationships for every data category and workflow stage.
-3. Define clinician, pharmacy, laboratory, courier, support, and technology responsibilities, including exceptions and escalation.
-4. Produce a responsibility matrix separating clinical authority from product and operations authority.
-5. Name product, clinical, legal/privacy, security, operations, content, data, and release approvers.
+3. Define condition-specific decision authority: Precise Wellness's proposed questionnaire and
+   dispensing mechanism for verified peptide products, and authorised clinician approval for
+   testosterone and any other pathway that requires it.
+4. Document who owns the peptide questionnaire, eligibility outcome, exclusions, escalation,
+   adverse-event response, audit record, and patient communication; verify the product-level legal
+   and regulatory basis rather than treating a questionnaire as evidence by itself.
+5. Define clinician, pharmacy, laboratory, courier, support, and technology responsibilities, including exceptions and escalation.
+6. Define the Precise Wellness supply-to-Meneer-hub hand-off, inventory/custody, dispatch, delivery,
+   failed-delivery, return, and reconciliation responsibilities.
+7. Produce a responsibility matrix separating clinical authority from product and operations authority.
+8. Name product, clinical, legal/privacy, security, operations, content, data, and release approvers.
 
 ### Workstream 2 — Commercial model
 
 1. Approve consultation fees, treatment pricing, subscriptions, payment timing, cancellation, refunds, failed payment, and fulfilment responsibility.
-2. Define what may be displayed before eligibility or clinical approval.
-3. Identify reconciliation, dispute, and manual exception owners.
-4. Record which commercial elements are outside the v1 pilot.
+2. Define consultation-only, medication-plus-delivery, and bundled commercial scenarios with
+   explicit line items and rules for clinical rejection, partial fulfilment, cancellation, and refund.
+3. Confirm the standalone Meneer Stripe account and merchant-of-record model; record activation,
+   restricted-business review, statement descriptor, settlement, tax, dispute, and access ownership.
+4. Define what may be displayed or charged before eligibility or clinical approval.
+5. Identify payment, supply, hub, delivery, reconciliation, dispute, and manual exception owners.
+6. Define the start event and evidence basis for the provisional 3–5-business-day fulfilment target.
+7. Record which commercial elements, including EFT, are outside the v1 pilot.
 
 ### Workstream 3 — Portable system boundaries
 

@@ -1,7 +1,7 @@
 ---
 consideration_id: FC-001
 title: PostgreSQL, Authentication, and Transactional Email Vendor Strategy
-status: consideration
+status: decision-required
 decision_due: phase-01-sprint-03
 last_reviewed: 2026-08-06
 owner: unassigned
@@ -12,14 +12,24 @@ sensitivity: internal
 
 ## Purpose
 
-Record the preliminary Phase 01 assessment of Supabase, Neon, and Brevo without treating a vendor shortlist as an approved architecture decision. No vendor should receive patient or pilot information until the operating model, data map, security requirements, cross-border basis, contracts, and exit procedure are approved.
+Record the Phase 01 assessment of PostgreSQL, identity, and transactional email options without
+treating a shortlist as approval. The owner has confirmed that v1 will collect real information and
+support real payments, orders, and fulfilment, so durable data, identity, and transactional
+notification capabilities are required before the pilot can operate. No vendor should receive
+patient information until the operating model, data map, security requirements, cross-border basis,
+contracts, and exit procedure are approved.
 
 ## Current Recommendation
 
-- Do not provision a production database or email provider during Sprint 01. First classify each pilot journey as functional, manually operated, waitlisted, demonstrative, or removed.
+- Do not provision production services during Sprint 01. First contain the mock journeys and approve
+  the real transactional route and data disposition.
 - Select the database, identity, and email approach in Sprint 03 after the responsible entity, enabled data, roles, retention, residency, and vendor requirements are known.
-- Implement only the approved pilot scope in Sprint 05. A database is required if registration, consent, intake, workflow state, or audit evidence is durably stored.
-- Add transactional email only when the pilot requires verification, magic links, recovery, invitations, or operational notifications. Marketing email is outside the initial need.
+- Implement the approved pilot scope in Sprint 05. A production-grade database and identity service
+  are mandatory because registration, consent, intake, payment/order state, fulfilment, and audit
+  evidence must be durable.
+- Transactional email is required for approved verification, recovery, payment/order receipts,
+  fulfilment updates, and operational notifications. Messages must remain generic and must not become
+  the authoritative clinical or order record. Marketing email remains outside the initial need.
 
 ## Preliminary Vendor Position
 
@@ -78,12 +88,12 @@ This record is not legal approval. The appointed Information Officer/privacy adv
 
 ## Decision Options
 
-| Option                                               | Advantages                                                         | Principal concerns                                                                             |
-| ---------------------------------------------------- | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| Supabase PostgreSQL + Auth + Brevo SMTP              | Fastest integrated pilot path; RLS and Auth share identity context | Supabase-specific Auth/RLS coupling; no South African region; careful Data API policy required |
-| Neon PostgreSQL + separate Auth + Brevo              | Strong database portability and Vercel branching                   | More vendors, contracts, integration, failure modes, and identity work                         |
-| No database/email for initial demonstration          | Lowest immediate data and vendor risk                              | Cannot claim registration, consent, submission, account, or notification success               |
-| South African-hosted PostgreSQL/identity alternative | Potential residency and latency benefits                           | Requires separate capability, security, reliability, portability, and cost assessment          |
+| Option                                               | Advantages                                                         | Principal concerns                                                                               |
+| ---------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ |
+| Supabase PostgreSQL + Auth + Brevo SMTP              | Fastest integrated pilot path; RLS and Auth share identity context | Supabase-specific Auth/RLS coupling; no South African region; careful Data API policy required   |
+| Neon PostgreSQL + separate Auth + Brevo              | Strong database portability and Vercel branching                   | More vendors, contracts, integration, failure modes, and identity work                           |
+| No database/email                                    | Not compatible with the confirmed real-transaction pilot           | Rejected for enabled registration, intake, payment, order, fulfilment, and notification journeys |
+| South African-hosted PostgreSQL/identity alternative | Potential residency and latency benefits                           | Requires separate capability, security, reliability, portability, and cost assessment            |
 
 ## Decision Questions
 
