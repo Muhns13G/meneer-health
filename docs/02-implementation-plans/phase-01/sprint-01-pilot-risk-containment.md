@@ -55,6 +55,11 @@ records the retained-copy boundary, claim register, support correction, and pept
 alignment. Sprint 01.5 is closed as a verified engineering boundary; TD-005, TD-006, and TD-007
 remain open for the operational and domain work that was not completed in this task.
 
+The focused
+[Sprint 01.6 acquisition assets evidence](./annexures/sprint-01-6-acquisition-assets-evidence.md)
+records the local placeholder logo replacement, safe media-review boundary, continued poster gate,
+and the visual/approval evidence that remains open under TD-032–TD-034.
+
 ## Confirmed Owner Direction
 
 - The marketing site is public; transactional pilot access is restricted to the enrolled cohort.
@@ -163,7 +168,9 @@ buildable intermediate state:
 5. [x] `Correct pilot claims and support surfaces` — Sprint 01.5 closed with verified evidence;
        unfinished policy, claim-approval, support-operation, and peptide-activation work remains
        open under TD-005, TD-006, and TD-007.
-6. [ ] `Repair acquisition assets`
+6. [x] `Repair acquisition assets` — permanent implementation boundary recorded in Sprint 01.6
+       evidence; final logo visual verification, approved video accessibility assets, and tested
+       campaign QR codes remain open under TD-032–TD-034.
 7. [ ] `Complete Sprint 1 verification and reporting`
 
 Each commit should contain its directly related validation and documentation. Do not mix unrelated

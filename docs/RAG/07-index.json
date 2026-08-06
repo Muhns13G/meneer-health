@@ -189,6 +189,18 @@
       "last_updated": "2026-08-06"
     },
     {
+      "id": "phase-01-sprint-01-6-acquisition-assets-evidence",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-6-acquisition-assets-evidence.md",
+      "authority_for": [
+        "local-placeholder-logo",
+        "peptide-media-review-boundary",
+        "preview-branch-video-contract",
+        "acquisition-asset-containment"
+      ],
+      "status": "implementation-evidence",
+      "last_updated": "2026-08-06"
+    },
+    {
       "id": "technical-debt-registry-v1",
       "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
       "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],
@@ -331,6 +343,14 @@
         "popia",
         "portability"
       ]
+    },
+    {
+      "id": "FC-002",
+      "path": "docs/05-future-considerations/brand-identity-theme-evolution.md",
+      "title": "Brand Identity and Theme Evolution",
+      "status": "deferred",
+      "decision_due": "post-pilot-brand-review",
+      "topics": ["brand", "logo", "theme", "dark-mode", "accessibility", "visual-identity"]
     }
   ],
   "routing": [
