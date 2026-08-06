@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
+import meneerMark from "@/assets/brand/meneer-mark.png";
+import { CAMPAIGNS, getCanonicalCampaignUrl } from "@/lib/campaigns";
+
+const CAMPAIGN_PRINT_PROOF_ENABLED = import.meta.env.VITE_CAMPAIGN_PRINT_PROOF === "true";
 
 export const Route = createFileRoute("/poster-thanks")({
   component: PosterThanksRoute,
@@ -13,6 +17,10 @@ export const Route = createFileRoute("/poster-thanks")({
 });
 
 function PosterThanksRoute() {
+  if (CAMPAIGN_PRINT_PROOF_ENABLED) {
+    return <PosterThanksPage />;
+  }
+
   return (
     <PilotRouteGate
       eyebrow="Campaign inactive"
@@ -39,6 +47,12 @@ function PosterThanksPage() {
           opacity: 0.08; mix-blend-mode: overlay;
           background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
         }
+        .proof-label {
+          position: absolute; top: 12mm; right: 12mm; z-index: 10;
+          border: 1px solid #C8A96E; color: #C8A96E; background: #0C0F14;
+          padding: 3mm 5mm; font: 600 10pt/1.2 ui-sans-serif, system-ui, sans-serif;
+          letter-spacing: 0.12em; text-transform: uppercase;
+        }
       `}</style>
 
       <div
@@ -51,22 +65,14 @@ function PosterThanksPage() {
           fontFamily: "'DM Sans', ui-sans-serif, system-ui, sans-serif",
         }}
       >
+        <div className="proof-label">Internal print proof · not for distribution</div>
         {/* Top: Logo */}
         <header className="flex items-center gap-3 px-[5vw] pt-[4vh]">
-          <div
-            className="flex items-center justify-center rounded-full"
-            style={{
-              width: "clamp(36px, 3.2vw, 64px)",
-              height: "clamp(36px, 3.2vw, 64px)",
-              border: "2px solid #C8A96E",
-              color: "#C8A96E",
-              fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: "clamp(18px, 1.6vw, 32px)",
-              fontWeight: 600,
-            }}
-          >
-            M
-          </div>
+          <img
+            src={meneerMark}
+            alt="Meneer"
+            style={{ width: "clamp(54px, 4.8vw, 96px)", height: "auto" }}
+          />
           <span
             style={{
               color: "#E8E6E1",
@@ -126,19 +132,17 @@ function PosterThanksPage() {
           {/* QR + URL */}
           <div className="mt-[5vh] flex flex-col items-center">
             <div
-              className="flex items-center justify-center rounded-2xl"
+              className="flex items-center justify-center rounded-2xl bg-white p-3"
               style={{
                 width: "clamp(140px, 14vw, 240px)",
                 height: "clamp(140px, 14vw, 240px)",
-                background: "#FFFFFF",
-                color: "#0C0F14",
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontSize: "clamp(28px, 2.8vw, 56px)",
-                fontWeight: 600,
-                letterSpacing: "0.05em",
               }}
             >
-              QR
+              <img
+                src={CAMPAIGNS.thanksDad.qrPath}
+                alt={`QR code to ${getCanonicalCampaignUrl(CAMPAIGNS.thanksDad.shortPath)}`}
+                className="h-full w-full"
+              />
             </div>
             <p
               style={{
@@ -160,7 +164,7 @@ function PosterThanksPage() {
                 fontWeight: 500,
               }}
             >
-              meneer.co.za
+              meneerhealth.co.za/go/thanks-dad
             </p>
           </div>
         </main>
@@ -178,7 +182,9 @@ function PosterThanksPage() {
             }}
           >
             <div>HPCSA-registered doctors · Discreet delivery · POPIA-compliant</div>
-            <div style={{ marginTop: 4, opacity: 0.7 }}>© 2026 Meneer Health (Pty) Ltd</div>
+            <div style={{ marginTop: 4, opacity: 0.7 }}>
+              © 2026 Meneer · Operated by OCTOTHORP ZA · K2024185008
+            </div>
           </div>
           <div
             style={{

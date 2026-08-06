@@ -3,13 +3,15 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 audience: internal
 sensitivity: internal
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -36,6 +38,12 @@ requirements before enabling submission; the preserved prototype is not suitable
 
 Provider identity, registrations, partner arrangements, treatment eligibility, contraindications, clinical pathways, consent wording, privacy terms, pricing, refund rules, delivery promises, and peptide positioning are not approved in the repository evidence. Existing marketing and MCP claims require a governed claim register and domain review.
 
+The owner-confirmed provisional operator and development fixtures are centralized in the pilot
+compliance profile. `Dr John Doe`, `Jane Doe`, `HPCSA-PLACEHOLDER`, and
+`Y-NUMBER-PLACEHOLDER` are not verified identities or registrations and must never be presented as
+such. Their presence deliberately keeps activation blocked. `/start` provides universal emergency
+containment only; it is not a substitute for condition-specific clinical rules or server enforcement.
+
 Peptides are owner-confirmed as the first intended v1 rollout product, not a "coming soon" category.
 The current transaction is nevertheless gated until its product-level, partner, questionnaire,
 data-transfer, dispensing, exclusion, escalation, and operational evidence is approved. Preserve
@@ -45,17 +53,18 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 
 ## Platform Limits
 
-The repository is not yet ready for its intended Vercel deployment. Lovable's Vite wrapper, MCP
+The repository is not yet ready for hosted pilot use. Lovable's Vite wrapper, MCP
 SDK, telemetry path, manifest, and metadata remain. Cloudflare plugin and Wrangler configuration
 remain. Sprint 01.6 replaces the shared logo's virtual-asset dependency with a local approved
-placeholder. Local desktop/mobile visual evidence is complete; selected-host preview/production
-verification and final brand work remain open.
+placeholder. Local desktop/mobile visual evidence is complete; the Cloudflare-versus-Vercel choice,
+selected-host preview/production verification, and final brand work remain open.
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
 
 ## Engineering Limits
 
-- Lint and dependency-audit gates failed at the audit baseline.
+- TypeScript and the production build passed at Sprint 01 closure. Lint still failed with 32 errors
+  and 7 warnings; dependency-audit findings remain dated audit debt.
 - No automated test framework or CI workflow exists.
 - Build warnings and deployment-adapter drift remain unresolved.
 - No environment contract, deployment guide, monitoring, incident runbook, or rollback procedure exists.
@@ -68,6 +77,11 @@ Build and audit counts are dated evidence. Re-run checks before using them in a 
 The codebase is not approved for public launch or health-information collection. A controlled pilot also requires its own approved scope, operating model, consent/data handling, monitored destination for every enabled submission, support and incident procedures, success measures, and stop criteria.
 
 Technical debt is authoritative for outstanding obligations. An item is not resolved because a recommendation exists or code was edited; it must be marked `Verified` with acceptance evidence.
+
+Sprint 01 is closed as an engineering containment boundary, not as pilot activation approval.
+TD-008 and TD-034 now have verified local implementation progress but remain acceptance-gated;
+TD-005–TD-008, TD-032–TD-034, and TD-056 remain unresolved as recorded in the completion report and
+registry.
 
 ## Retrieval Response Pattern
 
