@@ -43,6 +43,17 @@ binary commit must remain isolated and must never be merged or cherry-picked int
 approved video can later use the same configuration boundary with an approved CDN/object-storage
 URL.
 
+## Preview-Branch Implementation
+
+On `itws-I-preview`, the archived MP4 is stored at
+`public/media/peptides/peptide-explainer-draft.mp4`. The branch supplies that public path as its
+preview-only fallback, while `VITE_PEPTIDE_VIDEO_URL` can still override it. The copied file matches
+the archive source SHA-256:
+`af239fe600e047909999d3ece886a7ed3e6a723a5d0d1fc17a9038b3f268e511`.
+
+This fallback and binary are branch-specific review assets. Neither may be merged or cherry-picked
+into `itws-I`.
+
 ## Verification
 
 - Source and archive logo SHA-256 values match:
@@ -53,6 +64,9 @@ URL.
 - A second production build with
   `VITE_PEPTIDE_VIDEO_URL=/media/peptides/peptide-explainer-draft.mp4` passed and emitted the draft
   review layout and configured URL into the peptide client and SSR chunks without adding an MP4.
+- On `itws-I-preview`, the production build passed, preserved the MP4 checksum in
+  `.output/public/media/peptides/`, and served both `/peptides` and the fallback video with HTTP 200.
+  The media response reported `video/mp4` and the expected 6,703,712-byte content length.
 - Focused ESLint for `src/routes/peptides.tsx`: passed.
 - Full `bun run lint`: existing baseline remains 32 errors and 7 warnings; no new peptide-route
   violation was introduced. The shared Nav/Footer formatting findings predate this task.

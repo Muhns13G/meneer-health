@@ -11,7 +11,10 @@ function configuredUrl(value: string | undefined) {
   return value?.trim() || undefined;
 }
 
-const PEPTIDE_VIDEO_URL = configuredUrl(import.meta.env.VITE_PEPTIDE_VIDEO_URL);
+// Preview-branch fallback: keep this draft-media default out of the permanent branch.
+const PREVIEW_VIDEO_URL = "/media/peptides/peptide-explainer-draft.mp4";
+const PEPTIDE_VIDEO_URL =
+  configuredUrl(import.meta.env.VITE_PEPTIDE_VIDEO_URL) ?? PREVIEW_VIDEO_URL;
 const PEPTIDE_VIDEO_POSTER_URL = configuredUrl(import.meta.env.VITE_PEPTIDE_VIDEO_POSTER_URL);
 
 export const Route = createFileRoute("/peptides")({
