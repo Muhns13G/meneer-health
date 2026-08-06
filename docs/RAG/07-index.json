@@ -126,6 +126,18 @@
       "context_addendum": "2026-08-06"
     },
     {
+      "id": "runtime-investigation-2026-08-06",
+      "path": "docs/01-audits/runtime-investigation-2026-08-06.md",
+      "authority_for": [
+        "pre-phase-01-runtime-state",
+        "browser-journey-evidence",
+        "responsive-evidence",
+        "mcp-runtime-evidence"
+      ],
+      "status": "dated-evidence",
+      "source_baseline": "aaab9d1b31bf31f062a0b2d336cbcbde13e46911"
+    },
+    {
       "id": "technical-debt-registry-v1",
       "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
       "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],
@@ -242,7 +254,7 @@
       "id": "FC-001",
       "path": "docs/05-future-considerations/postgres-auth-email-vendor-strategy.md",
       "title": "PostgreSQL, Authentication, and Transactional Email Vendor Strategy",
-      "status": "consideration",
+      "status": "decision-required",
       "decision_due": "phase-01-sprint-03",
       "topics": [
         "postgresql",

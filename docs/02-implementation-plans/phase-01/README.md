@@ -10,7 +10,11 @@ owner: unassigned
 
 ## Mission
 
-Convert the Lovable-generated TanStack prototype into an honest, governed, testable v1 pilot baseline on Vercel. Phase 01 covers every item in Technical Debt Registry v1. An item may be resolved by implementing, removing, or explicitly deferring a capability when the registry's acceptance evidence permits it; framework migration alone does not close debt.
+Convert the Lovable-generated TanStack prototype into an honest, governed, testable, real-transaction
+v1 pilot baseline on Vercel. Public marketing remains open, while the transactional pilot journey is
+restricted to the enrolled cohort. Phase 01 covers every item in Technical Debt Registry v1. An item
+may be resolved by implementing, removing, or explicitly deferring a capability when the registry's
+acceptance evidence permits it; framework migration alone does not close debt.
 
 “Phase 01” is the delivery phase. Registry priorities `P0`, `P1`, `P2`, and `P3` describe urgency and must not be confused with the phase number.
 
@@ -18,6 +22,7 @@ Convert the Lovable-generated TanStack prototype into an honest, governed, testa
 
 - [Master blueprint](../../00-blueprints/master-blueprint-v1.md)
 - [Project and codebase audit](../../01-audits/project-codebase-audit-2026-08-05.md)
+- [Pre-Phase 1 runtime investigation](../../01-audits/runtime-investigation-2026-08-06.md)
 - [Technical debt registry](../../04-technical-debt/technical-debt-registry-v1.md)
 - [Internal RAG governance](../../RAG/00-governance.md)
 - [RAG index](../../RAG/07-index.json)

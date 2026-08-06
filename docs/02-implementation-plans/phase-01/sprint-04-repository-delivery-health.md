@@ -45,6 +45,9 @@ Primary debt: TD-021–TD-024, TD-026, and TD-028–TD-031.
 3. Establish coverage for validation/content utilities, routes/server boundaries, critical navigation, submission failure/success, accessibility, and any retained MCP endpoints.
 4. Define coverage expectations by risk rather than relying only on a global percentage.
 5. Prohibit real patient data and production credentials in fixtures, snapshots, recordings, and reports.
+6. Run automated browser tests in a controlled, extension-free profile. Treat visible user-browser
+   walkthroughs as supplementary evidence, and classify extension injection, client-side blocking,
+   and other profile-specific effects separately from application failures.
 
 ### Workstream 4 — CI and release evidence
 
@@ -82,6 +85,8 @@ Primary debt: TD-021–TD-024, TD-026, and TD-028–TD-031.
 - Run `bun run lint`, `bun run typecheck`, all test scripts, and `bun run build`.
 - Run `bun audit` and `bun audit --prod`; compare results with the reachability register and policy.
 - Run a clean CI workflow and a controlled failing change to demonstrate enforcement.
+- Prove browser tests are reproducible in the controlled profile; document the browser/version and
+  keep user-profile extension effects out of the acceptance baseline.
 - Exercise critical routes after UI/dependency removal and compare bundle/dependency output.
 - Follow the README from a clean checkout and record onboarding gaps.
 

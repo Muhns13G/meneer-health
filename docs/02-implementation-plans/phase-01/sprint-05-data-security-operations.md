@@ -31,6 +31,8 @@ Primary debt: TD-014, TD-015, TD-017–TD-020, and TD-055.
 3. Add idempotency keys, duplicate/replay handling, concurrency rules, transaction boundaries, and explicit state machines where applicable.
 4. Define stable error codes and safe user recovery paths.
 5. Prove that failed durable writes cannot produce success confirmations.
+6. Implement separate clinical, payment, supply, hub receipt, dispatch, delivery, cancellation, and
+   refund states; a paid state must never imply clinical approval or fulfilment.
 
 For registration, consent, booking, payment, prescription, or order workflows outside v1 scope, retain no misleading route and record the approved deferral plus future contract.
 
@@ -63,8 +65,26 @@ For registration, consent, booking, payment, prescription, or order workflows ou
 3. Exercise an alert and incident workflow, including safe diagnostic evidence.
 4. Test backup/restore or durable destination recovery for enabled data stores.
 5. Define reconciliation and manual recovery for partial external-service failures.
+6. Reconcile Stripe events, internal payments, orders, Precise Wellness supply, hub inventory,
+   dispatch, delivery, cancellations, and refunds without placing health data in payment metadata or
+   operational logs.
 
-### Workstream 6 — Cross-generation migration evidence
+### Workstream 6 — Payment and fulfilment integration
+
+1. Use one-time Stripe Checkout Sessions for approved consultation, medication-plus-delivery, and
+   bundled orders; keep price and line-item definitions governed and environment-specific.
+2. Create Checkout Sessions server-side and store only opaque internal references in Stripe; never
+   send symptoms, diagnoses, questionnaire answers, prescriptions, or other unnecessary health data.
+3. Verify webhook signatures and make webhook processing idempotent, replay-safe, observable, and
+   independent of the browser success redirect.
+4. Handle completed, delayed-success, failed, expired, refunded, disputed, and duplicated payment
+   events with explicit recovery paths.
+5. Prevent supply or dispatch until the approved clinical, payment, stock, and operational conditions
+   are all satisfied.
+6. Test all three charge scenarios and their clinical rejection, cancellation, refund, partial
+   failure, fulfilment exception, and reconciliation paths in Stripe test mode before live enablement.
+
+### Workstream 7 — Cross-generation migration evidence
 
 1. Catalogue every retained v1 capability and observable behaviour.
 2. Create framework-independent fixtures and acceptance tests covering success, validation, rejection, failure, retry, and authorisation.
@@ -87,6 +107,8 @@ For registration, consent, booking, payment, prescription, or order workflows ou
 
 - Run the full Sprint 04 CI suite.
 - Add integration tests for valid, invalid, unauthorised, duplicate, concurrent, oversized, and failed requests.
+- Exercise Stripe webhook signature failure, duplicate delivery, delayed payment, refund, dispute,
+  clinical rejection, and browser-return-without-webhook cases using synthetic test-mode data.
 - Inspect bundles and logs for seeded canary secrets and prohibited health fields.
 - Test security headers and cache behaviour on local and Vercel preview routes.
 - Trigger a controlled error and uptime alert; follow the incident path to closure.

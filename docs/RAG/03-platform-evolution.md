@@ -18,7 +18,11 @@ sources:
 
 ### v1 — TanStack Start on Vercel
 
-Purpose: stabilise the Lovable-generated MVP, detach Lovable and Cloudflare runtime coupling, and support a controlled one-month pilot. The pilot scope must explicitly classify each journey as functional, manually operated, waitlisted, demonstrative, or removed.
+Purpose: stabilise the Lovable-generated MVP, detach Lovable and Cloudflare runtime coupling, and
+support a controlled one-month real-transaction pilot. Public marketing remains open; registration,
+clinical intake, payment, ordering, and fulfilment are restricted to the enrolled cohort. Every
+enabled transaction must be real, durable, monitored, supportable, and portable to v2; peptides
+remain gated or waitlisted until approved.
 
 ### v2 — Next.js public product
 

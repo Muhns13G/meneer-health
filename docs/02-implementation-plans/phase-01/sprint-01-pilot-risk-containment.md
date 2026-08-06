@@ -23,10 +23,41 @@ No visitor can create a false account, accept placeholder consent, submit an emp
 
 Primary debt: TD-001–TD-008, TD-032–TD-034, and TD-056.
 
+## Evidence Baseline
+
+Use the
+[pre-Phase 1 runtime investigation](../../01-audits/runtime-investigation-2026-08-06.md) as the
+formal before-change browser, network, route, responsive, log, and MCP baseline. It records dated
+evidence rather than acceptance: repeat its affected-route and submission matrix after containment
+changes, and link the resulting evidence from the sprint completion report.
+
+## Confirmed Owner Direction
+
+- The marketing site is public; transactional pilot access is restricted to the enrolled cohort.
+- Pilot users are real customers. Enabled registration, intake, payment, order, and fulfilment
+  journeys must be durable and operational; demonstrations and false-success states are not allowed.
+- The intended peptide pathway is Precise Wellness's questionnaire and dispensing mechanism rather
+  than Meneer's ordinary clinician-approval flow. This is owner-supplied operating direction, not
+  verified legal or regulatory evidence. Peptides remain gated or use a minimal approved waitlist
+  notification until the exact products, partner authority, questionnaire controls, data hand-off,
+  dispensing basis, and escalation route are documented and approved.
+- General support uses `support@meneerhealth.co.za`, subject to monitored-channel and escalation
+  verification.
+- Payments are intended through a separate standalone Meneer Stripe account inside the parent
+  company's Stripe Organization, not Stripe Connect. Live use remains subject to account activation
+  and accurate business-model review.
+- Supported commercial scenarios are consultation-only, medication plus delivery, and an approved
+  bundle. Exact prices, payment timing, cancellation, refund, and decline rules remain to be approved.
+- Precise Wellness supplies approved orders to Meneer; Meneer dispatches from its distribution hub
+  to the customer. The provisional fulfilment target is 3–5 business days, with its start event and
+  public wording still requiring operational approval.
+- An owned logo exists and will be supplied separately; remaining campaign assets require work.
+
 ### Workstream 1 — Pilot scope and route disposition
 
 1. Inventory every CTA, form, route, and implied operational hand-off.
-2. Classify each as `functional`, `manually operated`, `waitlist`, `demonstration`, or `removed` for the pilot.
+2. Classify each as `functional`, `manually operated`, `waitlist`, `restricted`, or `removed` for the
+   pilot; no customer-facing transaction may remain a demonstration.
 3. Record participant eligibility, invitation/control mechanism, operators, support channel, monitoring, incident escalation, success measures, stop criteria, and pilot exit criteria.
 4. Prevent accidental public access to restricted pilot capabilities.
 
@@ -43,8 +74,12 @@ Primary debt: TD-001–TD-008, TD-032–TD-034, and TD-056.
 1. Produce a channel-by-channel inventory of provider, POPIA, encryption, pharmacy, pricing, cancellation, consultation, delivery, and timing claims.
 2. Remove or qualify unsupported claims until a claim register and approvers exist.
 3. Disable consent/data collection while privacy, terms, and contact routes remain placeholders.
-4. Obtain an explicit peptide disposition: remove, gate, waitlist, or proceed under approved clinical/legal conditions.
-5. Remove placeholder destinations and contradictory peptide acknowledgements from any enabled journey.
+4. Document the proposed Precise Wellness questionnaire pathway separately from clinician-approved
+   testosterone and other prescription pathways.
+5. Verify each intended peptide by active ingredient, formulation, route, registration/scheduling
+   status, supplier/dispenser authority, questionnaire owner, exclusions, escalation, adverse-event
+   handling, and auditable outcome before enabling it.
+6. Remove placeholder destinations and contradictory peptide acknowledgements from any enabled journey.
 
 ### Workstream 4 — Broken acquisition assets
 
@@ -56,11 +91,17 @@ Primary debt: TD-001–TD-008, TD-032–TD-034, and TD-056.
 ## Required Decisions and Inputs
 
 - Named product, clinical, legal/privacy, support, and release owners.
-- Pilot participant definition and access method.
+- Cohort enrolment and transactional access method.
 - Approved support and urgent-care wording.
 - Decision on whether the pilot captures any health information.
-- Peptide disposition and claims reviewers.
+- Exact proposed peptide products and Precise Wellness evidence covering registration/scheduling or
+  other dispensing basis, licences/authority, questionnaire governance, accountable decision-maker,
+  data transfer, escalation, and claims review.
 - Final owned logo and any approved campaign destinations.
+- Exact treatment scope, prices, consultation rules, refunds/cancellations, payment timing, Stripe
+  account activation evidence, and the event that starts the 3–5-business-day fulfilment target.
+- Confirmed Precise Wellness, distribution-hub, courier, stock/custody, exception, and reconciliation
+  responsibilities.
 
 If these inputs are unavailable, the safe resolution is to disable or clearly label the affected capability; the sprint must not invent clinical or legal content.
 
@@ -87,6 +128,8 @@ If these inputs are unavailable, the safe resolution is to disable or clearly la
 - Run `bun run lint`; record known baseline failures until Sprint 04, but introduce no new violations.
 - Exercise every CTA and affected route on desktop and mobile.
 - Inspect browser network activity for every enabled submission and confirmation.
+- Compare post-change route, network, log, responsive, and MCP results with the dated runtime
+  baseline; explain intentional differences and investigate unexpected ones.
 - Test invalid input, offline/network failure, duplicate actions, refresh, back navigation, and direct URL access.
 - Scan retained printed QR codes using representative devices and print sizes.
 - Confirm no patient or test-participant data appears in logs, screenshots, fixtures, analytics, or committed files.
