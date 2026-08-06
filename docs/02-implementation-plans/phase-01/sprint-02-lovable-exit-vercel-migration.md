@@ -1,14 +1,19 @@
 ---
 plan_id: phase-01-sprint-02
 title: Lovable Exit and Vercel Migration
-status: planned
+status: requires-refresh
 primary_debt: [TD-025, TD-027, TD-041, TD-049, TD-051, TD-052, TD-053]
 depends_on: [phase-01-sprint-01]
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 owner: unassigned
 ---
 
 # Sprint 02 — Lovable Exit and Vercel Migration
+
+> **Planning hold:** The repository owner reopened the v1 hosting decision after this plan was
+> drafted. Select Cloudflare or Vercel under ARC-007/TD-052, then refresh this plan's title,
+> platform-removal scope, validation matrix, and acceptance evidence before implementation. The
+> Vercel-specific instructions below remain historical planning input, not current authority.
 
 ## Mission
 

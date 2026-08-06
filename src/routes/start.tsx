@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { PilotRouteGate } from "@/components/PilotRouteGate";
+import { SafetyEntryGate } from "@/components/SafetyEntryGate";
 
 export const Route = createFileRoute("/start")({
   head: () => ({
@@ -18,14 +18,7 @@ export const Route = createFileRoute("/start")({
 });
 
 function StartRoute() {
-  return (
-    <PilotRouteGate
-      eyebrow="Controlled pilot"
-      title="Private pilot access is currently restricted."
-      description="The account and consultation journey will open only through an approved cohort-access process once secure, durable submission handling is in place."
-      assurance="No account, consent, health questionnaire, payment, or order is created from this page."
-    />
-  );
+  return <SafetyEntryGate />;
 }
 
 type Condition = "hair" | "ed" | "weight" | "trt";

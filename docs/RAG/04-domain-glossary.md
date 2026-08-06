@@ -3,7 +3,7 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 audience: internal
 sensitivity: internal
 ---
@@ -21,7 +21,7 @@ sensitivity: internal
 
 ## Release Terms
 
-- **v1:** current TanStack Start generation intended for Vercel and a controlled pilot.
+- **v1:** current TanStack Start generation intended for a controlled pilot on a host selected before Sprint 02.
 - **Controlled pilot:** restricted, monitored use by an approved test group under a defined scope and support model. It is not public-launch approval.
 - **v2:** planned Next.js generation intended to absorb v1 learning and support public launch.
 - **Public launch:** unrestricted intended-market availability after the complete public release gate passes.
@@ -46,6 +46,10 @@ sensitivity: internal
 - **Audit event:** append-only evidence of an actor, action, subject, time, outcome, correlation identifier, and safe metadata.
 - **Special personal information:** health and related information requiring heightened protection. This glossary is descriptive and not legal advice.
 - **Release gate:** evidence that must exist before a defined pilot or public release may proceed.
+- **Sprint completion report:** the verified closure record for delivered work, decisions,
+  deviations, lessons, debt, file changes, validation, and residual risk.
+- **Closed engineering boundary:** planned work has been implemented or honestly dispositioned and
+  recorded; it does not by itself authorise pilot activation or public release.
 
 ## Technical Terms
 

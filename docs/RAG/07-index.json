@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "foundation",
     "status": "active",
-    "last_updated": "2026-08-06",
+    "last_updated": "2026-08-07",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -18,7 +18,8 @@
       "Separate observed implementation from owner-confirmed direction and proposals.",
       "Do not treat this collection as clinical, legal, or patient-facing guidance.",
       "Do not ingest secrets, credentials, patient data, local environment files, or generated build output.",
-      "Use authoritative source documents for material decisions; use RAG documents for routing and synthesis."
+      "Use authoritative source documents for material decisions; use RAG documents for routing and synthesis.",
+      "Close every sprint with a completion report plus synchronized plan, debt, RAG, and index updates."
     ]
   },
   "documents": [
@@ -110,7 +111,7 @@
         "release-gates"
       ],
       "status": "initial-planning-baseline",
-      "last_updated": "2026-08-06"
+      "last_updated": "2026-08-07"
     },
     {
       "id": "project-codebase-audit-2026-08-05",
@@ -201,11 +202,39 @@
       "last_updated": "2026-08-06"
     },
     {
+      "id": "phase-01-sprint-01-8-safety-campaign-continuation-evidence",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md",
+      "authority_for": [
+        "td-008-local-safety-boundary",
+        "td-034-local-campaign-boundary",
+        "canonical-campaign-routes",
+        "activation-placeholder-guardrails"
+      ],
+      "status": "verified-local-implementation",
+      "last_updated": "2026-08-07"
+    },
+    {
       "id": "technical-debt-registry-v1",
       "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
       "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],
       "status": "active",
-      "last_updated": "2026-08-06"
+      "last_updated": "2026-08-07"
+    },
+    {
+      "id": "phase-01-sprint-01-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md",
+      "authority_for": [
+        "sprint-01-completion",
+        "sprint-01-decisions",
+        "sprint-01-deviations",
+        "sprint-01-validation",
+        "sprint-01-file-inventory",
+        "sprint-01-residual-debt"
+      ],
+      "status": "verified-completion",
+      "implementation_baseline": "c62b16d",
+      "permanent_boundary": "b9997d8b50395fde62524f8777c0aa672acbb9fc",
+      "last_updated": "2026-08-07"
     },
     {
       "id": "phase-01-sprint-01-route-disposition",
@@ -244,7 +273,7 @@
     {
       "id": "phase-01-sprint-01",
       "path": "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
-      "status": "planned",
+      "status": "completed",
       "primary_debt": [
         "TD-001",
         "TD-002",
@@ -263,7 +292,7 @@
     {
       "id": "phase-01-sprint-02",
       "path": "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
-      "status": "planned",
+      "status": "requires-refresh",
       "primary_debt": ["TD-025", "TD-027", "TD-041", "TD-049", "TD-051", "TD-052", "TD-053"]
     },
     {
@@ -368,8 +397,12 @@
       ]
     },
     {
-      "query_topics": ["lovable", "cloudflare", "vercel", "mcp", "LOVABLE_API_KEY"],
-      "read_first": ["docs/RAG/02-current-state.md", "docs/RAG/03-platform-evolution.md"],
+      "query_topics": ["lovable", "cloudflare", "vercel", "hosting", "mcp", "LOVABLE_API_KEY"],
+      "read_first": [
+        "docs/RAG/02-current-state.md",
+        "docs/RAG/03-platform-evolution.md",
+        "docs/RAG/05-decision-register.md"
+      ],
       "verify_against": [
         "docs/04-technical-debt/technical-debt-registry-v1.md",
         "current repository"
@@ -400,6 +433,41 @@
         "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
         "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
         "docs/02-implementation-plans/phase-01/sprint-07-content-measurement-mcp.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "sprint-01-completion",
+        "sprint-01-outcome",
+        "sprint-01-deviations",
+        "sprint-01-lessons",
+        "sprint-01-files"
+      ],
+      "read_first": ["docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md"],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
+        "docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository"
+      ]
+    },
+    {
+      "query_topics": [
+        "campaign",
+        "poster",
+        "qr",
+        "emergency",
+        "pilot-entry",
+        "hpcsa-placeholder",
+        "pharmacy-placeholder"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md"
+      ],
+      "verify_against": [
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "src/lib/compliance/pilot-profile.ts",
+        "src/lib/campaigns.ts"
       ]
     },
     {
@@ -448,7 +516,7 @@
   "next_expansion": [
     "approved architecture decision records",
     "v1 pilot scope and operating-model decision",
-    "verified sprint completion reports",
+    "future verified sprint completion reports",
     "portable API, event, data, and migration contracts",
     "security, privacy, deployment, incident, and recovery runbooks",
     "approved public and clinical content in a separate collection"

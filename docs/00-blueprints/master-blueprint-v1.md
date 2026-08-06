@@ -4,9 +4,9 @@
 
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05
-- **Last amended:** 2026-08-06
+- **Last amended:** 2026-08-07
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
-- **Current implementation:** Lovable-built TanStack Start v1 MVP, targeted for Vercel
+- **Current implementation:** Lovable-built TanStack Start v1 MVP; v1 host decision reopened before Sprint 02
 - **Purpose:** Define the intended destination before further feature development begins
 
 ## Executive Vision
@@ -19,13 +19,13 @@ The current repository proves the acquisition concept and visual direction. It d
 
 Meneer will evolve through deliberate product generations rather than treating each framework change as a clean rewrite:
 
-1. **v1 — TanStack Start pilot:** remove Lovable and Cloudflare platform coupling, deploy to Vercel, stabilise the experience, and operate a controlled one-month pilot with a test client group. v1 must not imply that unimplemented clinical or operational actions occurred.
+1. **v1 — TanStack Start pilot:** remove Lovable and obsolete platform coupling, choose and verify the v1 host, stabilise the experience, and operate a controlled one-month pilot with a test client group. v1 must not imply that unimplemented clinical or operational actions occurred.
 2. **v2 — Next.js public launch:** absorb validated v1 journeys, language, analytics, domain rules, data contracts, and test cases; correct pilot findings; and deliver the first public-launch architecture.
 3. **v3 — Laravel API and React:** introduce a mature service backend when real user volume, client operations, integrations, or organisational scale justify it. Preserve compatible contracts and migrate data through rehearsed, reversible procedures.
 
 Frameworks are replaceable delivery shells. The durable product consists of the domain model, approved content, workflow states, API contracts, database schema, audit events, security rules, migration history, and acceptance tests. Every generation must demonstrate behavioural equivalence for retained capabilities and document intentional improvements or removals.
 
-Vercel is the approved hosting target for v1 and the likely target for v2, but core patient and clinical data must remain portable. Platform-specific services may support deployment, previews, functions, logs, and assets; they must not become the only expression of clinical rules or authoritative workflow state.
+The earlier Vercel preference for v1 was reopened after Sprint 01. Cloudflare and Vercel must be compared and the v1 host selected before Sprint 02 implementation; the v2 hosting choice remains separate. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
 
 ## Product Thesis
 
@@ -155,7 +155,7 @@ Approved copy should be versioned and referenced by website pages, questionnaire
 
 ## MCP Strategy
 
-MCP is optional and is not required for the v1 pilot. The existing implementation depends on the Lovable SDK and should be removed or disabled unless a named pilot use case justifies maintaining it. A future implementation should use a vendor-neutral MCP SDK and run as an ordinary authenticated or public Vercel endpoint.
+MCP is optional and is not required for the v1 pilot. The existing implementation depends on the Lovable SDK and should be removed or disabled unless a named pilot use case justifies maintaining it. A future implementation should use a vendor-neutral MCP SDK and run as an ordinary authenticated or public endpoint on the selected host.
 
 If retained, its scope must remain read-only and limited to approved public content:
 
@@ -165,7 +165,7 @@ If retained, its scope must remain read-only and limited to approved public cont
 
 MCP responses must draw from the same governed content source as the website. No patient, clinician, account, scheduling, or order tools should be exposed until authentication, authorisation, consent, rate limiting, audit logging, and threat modelling are complete.
 
-No `LOVABLE_API_KEY` should be provisioned on Vercel. It is used only for the current Lovable MCP telemetry path and is not a Meneer runtime requirement.
+No `LOVABLE_API_KEY` should be provisioned on the selected host. It is used only for the current Lovable MCP telemetry path and is not a Meneer runtime requirement.
 
 ## Non-Functional Requirements
 
@@ -184,7 +184,7 @@ No `LOVABLE_API_KEY` should be provisioned on Vercel. It is used only for the cu
 
 ### Phase 0 — Stabilise and de-platform v1
 
-Replace the Lovable Vite wrapper, virtual assets, branding, MCP telemetry/manifest, and generated platform routes. Remove the Cloudflare plugin, Wrangler configuration, and Cloudflare Nitro preset; configure standard TanStack Start and Nitro deployment for Vercel. Correct broken assets and metadata; remove or gate incomplete funnels; resolve lint failures; triage vulnerable dependencies; establish documentation, CI, security headers, environment conventions, and ownership. No health-information collection should occur in this phase.
+Replace the Lovable Vite wrapper, virtual assets, branding, MCP telemetry/manifest, and generated platform routes. Decide the v1 host, remove configuration that is obsolete for that choice, and configure a standard supported TanStack Start deployment. Correct broken assets and metadata; remove or gate incomplete funnels; resolve lint failures; triage vulnerable dependencies; establish documentation, CI, security headers, environment conventions, and ownership. No health-information collection should occur in this phase.
 
 ### Phase 1 — Confirm the v1 pilot operating model
 
@@ -229,7 +229,7 @@ Consider Laravel and React only when measured demand, multi-client operations, c
 
 ### Controlled v1 pilot gate
 
-The pilot may begin only when its exact participant scope, operator workflow, consent basis, support channel, data handling, incident response, and honest interface wording are approved. Every enabled submission must reach a durable, monitored destination; otherwise the route must be labelled as a demonstration or waitlist. Lovable and Cloudflare runtime coupling must be removed, and a Vercel preview-to-production deployment must be verified.
+The pilot may begin only when its exact participant scope, operator workflow, consent basis, support channel, data handling, incident response, and honest interface wording are approved. Every enabled submission must reach a durable, monitored destination; otherwise the route must remain non-transactional. Lovable and obsolete platform coupling must be removed, and the selected host's preview-to-production deployment must be verified.
 
 ### Public-launch gate
 
