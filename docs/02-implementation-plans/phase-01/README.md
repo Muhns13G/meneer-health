@@ -2,7 +2,7 @@
 plan_id: phase-01-technical-debt-stabilisation
 title: Phase 01 Technical Debt Stabilisation
 status: planned
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 owner: unassigned
 ---
 
@@ -11,7 +11,7 @@ owner: unassigned
 ## Mission
 
 Convert the Lovable-generated TanStack prototype into an honest, governed, testable, real-transaction
-v1 pilot baseline on Vercel. Public marketing remains open, while the transactional pilot journey is
+v1 pilot baseline on an approved host. Public marketing remains open, while the transactional pilot journey is
 restricted to the enrolled cohort. Phase 01 covers every item in Technical Debt Registry v1. An item
 may be resolved by implementing, removing, or explicitly deferring a capability when the registry's
 acceptance evidence permits it; framework migration alone does not close debt.
@@ -34,7 +34,7 @@ Plans must be refreshed if these sources materially change. Repository evidence 
 | Sprint | Mission                                                                             | Primary debt                                  | Depends on                                         |
 | ------ | ----------------------------------------------------------------------------------- | --------------------------------------------- | -------------------------------------------------- |
 | 01     | Contain misleading or unsafe pilot surfaces and define the pilot gate.              | TD-001–TD-008, TD-032–TD-034, TD-056          | None                                               |
-| 02     | Replace Lovable/Cloudflare coupling and establish the supported Vercel runtime.     | TD-025, TD-027, TD-041, TD-049, TD-051–TD-053 | Sprint 01 containment decisions                    |
+| 02     | Choose the v1 host, remove obsolete Lovable/platform coupling, and verify runtime.  | TD-025, TD-027, TD-041, TD-049, TD-051–TD-053 | Sprint 01 containment; hosting decision            |
 | 03     | Approve the operating model, ownership, portable architecture, and data boundaries. | TD-009–TD-013, TD-016, TD-050, TD-054         | Sprint 01 pilot scope; Sprint 02 runtime direction |
 | 04     | Restore reproducible engineering, dependency, test, CI, and repository controls.    | TD-021–TD-024, TD-026, TD-028–TD-031          | Sprint 02 dependency/runtime changes               |
 | 05     | Implement the approved data, security, audit, and operational foundations.          | TD-014, TD-015, TD-017–TD-020, TD-055         | Sprints 03 and 04                                  |
@@ -100,7 +100,10 @@ Each sprint must produce:
 - Decision records for material choices.
 - Validation logs and manual/browser evidence appropriate to the risk.
 - Migration and rollback instructions for stateful or platform changes.
-- A completion report listing delivered scope, residual risk, deferred work, and registry status recommendations.
+- A completion report recording the mission/outcome, delivered work and decisions, deviations,
+  lessons learned, newly introduced or discovered debt, validation, residual risk, and release
+  implication. It must separately tabulate existing files modified/deleted and files created,
+  including any branch-only artefacts.
 - Updated registry entries only after acceptance evidence is independently checked.
 
 Completion reports should be stored under `docs/03-completion-reports/phase-01/` using the matching sprint number and slug.
@@ -111,7 +114,7 @@ Phase 01 completes only when:
 
 - TD-001 through TD-056 are each `Verified`, including approved disable/defer outcomes where appropriate.
 - The approved v1 pilot scope and operating model are recorded.
-- Vercel preview and production deployment paths are verified without unintended Lovable or Cloudflare runtime dependencies.
+- Preview and production paths on the selected host are verified without unintended Lovable or obsolete platform dependencies.
 - Frozen install, lint, typecheck, automated tests, build, dependency policy, and critical browser checks pass.
 - Enabled submissions have durable monitored destinations and cannot report false success.
 - Security, privacy, support, incident, rollback, and data-lifecycle procedures exist for the enabled pilot scope.

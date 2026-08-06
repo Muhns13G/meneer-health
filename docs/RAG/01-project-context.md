@@ -3,12 +3,14 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 audience: internal
 sensitivity: internal
 sources:
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
 ---
 
 # Meneer Project Context
@@ -22,11 +24,21 @@ The product is intended to reduce embarrassment and practical friction without b
 ## Current Product Stage
 
 The repository is v1: a Lovable-generated TanStack Start MVP intended for a controlled one-month,
-real-transaction pilot after stabilisation and deployment to Vercel. Marketing is public, while the
+real-transaction pilot after stabilisation and deployment to an approved host. Marketing is public, while the
 transactional journey is restricted to the enrolled cohort. The intended pilot collects real
 information and supports Stripe payments, approved orders, Precise Wellness supply, Meneer-hub
 dispatch, delivery, and support. The audited implementation remains a workflow prototype and does
 not yet implement any of those durable capabilities.
+
+Sprint 01 is closed as a verified containment boundary: incomplete account, consent, intake,
+peptide-transaction, and campaign journeys are not active customer transactions. This does not
+approve pilot activation. Hosting is deliberately unresolved between the currently configured
+Cloudflare path and the previously preferred Vercel path and must be decided before Sprint 02.
+
+Post-closure work has implemented a fail-closed safety entry and canonical campaign/QR boundary.
+The provisional operator is owner-confirmed as OCTOTHORP ZA (`K2024185008`). Professional,
+pharmacy, and urgent-channel values remain explicit development fixtures and block activation;
+they are not evidence of verified registrations or partner approval.
 
 Pilot approval and public-launch approval are separate. Cohort access does not justify removing the
 transactional gate or exposing the same scope as an unrestricted public launch.
@@ -38,7 +50,8 @@ transactional gate or exposing the same scope as an unrestricted public launch.
 - Operations and support staff coordinating non-clinical workflows and exceptions.
 - Approved pharmacy, laboratory, courier, messaging, payment, or consultation partners.
 
-The responsible provider, contracting entity, information-responsibility roles, approved partners, and treatment launch scope remain open decisions.
+The final responsible-provider model, information-responsibility roles, verified professional and
+pharmacy registrations, approved partners, and treatment launch scope remain open decisions.
 
 ## Product Principles
 

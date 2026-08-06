@@ -3,7 +3,7 @@ rag_id: meneer-rag-governance
 title: Meneer RAG Governance
 status: active
 authority: governing
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 audience: internal
 sensitivity: internal
 ---
@@ -65,3 +65,17 @@ Keep internal engineering knowledge physically or logically separate from any fu
 Update this corpus when a debt item is verified, an architecture or operating-model decision is approved, a release gate changes, a framework migration begins, a source document is superseded, or implementation evidence materially changes. Update the relevant document and `07-index.json` in the same change.
 
 Do not overwrite historical evidence. Mark obsolete summaries as superseded and point to their replacement. Never ingest generated build output, dependency directories, secrets, local environment files, or real patient data.
+
+## Sprint Closure Protocol
+
+Every completed sprint must have a completion report under `docs/03-completion-reports/<phase>/`.
+The report must record the sprint mission and outcome, delivered work and decisions, deviations from
+the implementation plan, lessons learned, newly introduced or discovered technical debt, residual
+risk, validation evidence, and the release implication. It must also separate existing files that
+were modified or deleted from files created during the sprint; branch-only artefacts must be
+identified explicitly.
+
+Close the sprint plan, reconcile the technical-debt registry, update affected RAG summaries and
+`07-index.json`, and validate links and structured files in the same documentation boundary. A
+closed engineering sprint is not automatically approval for pilot activation, production release,
+public launch, or collection of health information.

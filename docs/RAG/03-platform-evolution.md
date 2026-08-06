@@ -3,7 +3,7 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-direction
 authority: strategic
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 audience: internal
 sensitivity: internal
 sources:
@@ -16,9 +16,10 @@ sources:
 
 ## Generations
 
-### v1 — TanStack Start on Vercel
+### v1 — TanStack Start on an approved host
 
-Purpose: stabilise the Lovable-generated MVP, detach Lovable and Cloudflare runtime coupling, and
+Purpose: stabilise the Lovable-generated MVP, detach Lovable ecosystem coupling, choose and verify
+the v1 host before Sprint 02, and
 support a controlled one-month real-transaction pilot. Public marketing remains open; registration,
 clinical intake, payment, ordering, and fulfilment are restricted to the enrolled cohort. Every
 enabled transaction must be real, durable, monitored, supportable, and portable to v2; peptides
@@ -50,8 +51,10 @@ React components, route conventions, server-function APIs, Vercel configuration,
 
 1. Recover the real brand assets and replace Lovable virtual-asset references.
 2. Replace the Lovable Vite wrapper with explicit TanStack Start, Nitro, React, Tailwind, and path-alias configuration.
-3. Remove Cloudflare plugin, Wrangler, compatibility flags, and Cloudflare Nitro targeting.
-4. Configure and verify TanStack Start on Vercel across local, preview, and production environments.
+3. Decide between the current Cloudflare path and the previously preferred Vercel path against
+   runtime support, cost, operations, integrations, portability, and rollback requirements.
+4. Remove only the configuration that is obsolete for the selected host, then verify TanStack Start
+   across local, preview, and production environments.
 5. Do not provision `LOVABLE_API_KEY`.
 6. Remove the Lovable MCP SDK, generated routes, and manifest; either defer MCP or reimplement a justified public use case with a vendor-neutral SDK.
 7. Replace Lovable metadata and package-install exceptions.
@@ -72,4 +75,4 @@ A framework migration requires an approved reason based on product evidence, ope
 
 ## Platform-Portability Rule
 
-Vercel may provide hosting, previews, functions, logs, and static delivery. Selection of identity, PostgreSQL, object storage, messaging, analytics, and clinical integrations must consider POPIA, data location, security, exportability, failure recovery, contractual obligations, and the planned Next.js/Laravel evolution. Replacing Lovable coupling with avoidable Vercel-specific domain coupling is not an acceptable migration outcome.
+The selected host may provide builds, previews, functions, logs, and static delivery. Selection of identity, PostgreSQL, object storage, messaging, analytics, and clinical integrations must consider POPIA, data location, security, exportability, failure recovery, contractual obligations, and the planned Next.js/Laravel evolution. Replacing Lovable coupling with avoidable host-specific domain coupling is not an acceptable migration outcome.

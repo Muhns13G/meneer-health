@@ -1,11 +1,11 @@
 ---
 plan_id: phase-01-sprint-01
 title: Pilot Risk Containment
-status: planned
+status: completed
 primary_debt:
   [TD-001, TD-002, TD-003, TD-004, TD-005, TD-006, TD-007, TD-008, TD-032, TD-033, TD-034, TD-056]
 depends_on: []
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 owner: "@Muhns13G"
 ---
 
@@ -61,6 +61,13 @@ records the verified local placeholder logo replacement, safe media-review bound
 poster gate, and desktop/mobile browser evidence. Sprint 01.6 is closed as a verified local
 engineering boundary; hosted-platform, final-media, and QR acceptance work remains open under
 TD-032–TD-034.
+
+The post-closure
+[Sprint 01.8 safety and campaign continuation evidence](./annexures/sprint-01-8-safety-campaign-continuation-evidence.md)
+records the fail-closed `/start` safety boundary, centralized placeholder profile, stable campaign
+redirects, QR assets, and internal poster proofs. TD-008 and TD-034 are now in progress; neither is
+Verified until its remaining clinical, hosted, operational, and physical-print acceptance evidence
+is complete.
 
 ## Confirmed Owner Direction
 
@@ -173,11 +180,21 @@ buildable intermediate state:
 6. [x] `Repair acquisition assets` — permanent implementation boundary recorded in Sprint 01.6
        evidence; final logo visual verification, approved video accessibility assets, and tested
        campaign QR codes remain open under TD-032–TD-034.
-7. [ ] `Complete Sprint 1 verification and reporting`
+7. [x] `Complete Sprint 1 verification and reporting` — closure evidence recorded in
+       [`docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md`](../../03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md).
+8. [x] `Implement fail-closed safety and campaign continuation` — local implementation and evidence
+       recorded in Sprint 01.8; TD-008 and TD-034 remain acceptance-gated in the registry.
 
 Each commit should contain its directly related validation and documentation. Do not mix unrelated
 formatting, dependency, or generated-file changes into these boundaries. The repository owner stages,
 commits, and pushes after reviewing each completed outcome.
+
+## Closure Status
+
+Sprint 01 is complete as a verified engineering containment boundary. This closure does not approve
+pilot activation, hosted release, health-information collection, or public launch. TD-008 and
+TD-034 have progressed to implemented local boundaries but remain acceptance-gated. TD-005–TD-008,
+TD-032–TD-034, and TD-056 retain their registry acceptance criteria.
 
 ## Validation
 
