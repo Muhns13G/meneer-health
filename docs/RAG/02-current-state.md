@@ -74,11 +74,25 @@ rendered or exported by the active routes. TypeScript and the production build p
 at desktop and mobile sizes found no gate-page error overlay, console warning/error, or horizontal
 overflow. See the Sprint 01.2 evidence artefact for the complete verification matrix.
 
+## Sprint 1.6 Asset Update
+
+The permanent working-tree boundary replaces the Lovable virtual logo metadata with a
+company-approved local placeholder imported by the shared navigation and footer. `/peptides` remains
+gated unless an explicit video URL enables a non-transactional draft-review layout; neither mode
+exposes the preserved profile, acknowledgement, or questionnaire prototype. The empty video source
+has been removed. Local desktop/mobile browser verification confirms the shared logo renders in the
+header and footer, the preview-branch MP4 decodes and renders its first frame and native controls
+without a media error, and both campaign routes remain inactive without QR or transactional
+surfaces. Sprint 01.6 is closed as a verified local engineering boundary; hosted logo verification,
+approved video accessibility assets, final-brand work, and campaign QR evidence remain open under
+TD-032–TD-034.
+
 ## Lovable and Cloudflare Coupling
 
 - `@lovable.dev/vite-tanstack-config` supplies hidden Vite defaults, sandbox behaviour, virtual-asset proxying, and a Cloudflare-oriented Nitro preset.
 - `@lovable.dev/mcp-js` defines the MCP tools and generates routes and `.lovable/mcp/manifest.json`.
-- The logo references Lovable's `/__l5e/assets-v1/...` service; no deployable logo image exists in the audited source.
+- The shared logo now uses a local placeholder; the Lovable Vite wrapper's broader virtual-asset
+  capability remains until Sprint 02 de-platforming.
 - Root metadata still identifies the application and author as Lovable.
 - `@cloudflare/vite-plugin`, `wrangler.jsonc`, and Cloudflare compatibility configuration do not match the confirmed Vercel target.
 - `LOVABLE_API_KEY` is used only for default Lovable MCP telemetry and must not be provisioned on Vercel.
@@ -89,7 +103,7 @@ overflow. See the Sprint 01.2 evidence artefact for the complete verification ma
 - Placeholder legal/support content and unsupported public claims.
 - Unresolved peptide offering and contradictory positioning.
 - No provider/operating model, backend, identity, database, authorisation, audit, retention, observability, or incident process.
-- Broken logo, placeholder QR codes, incomplete media, navigation defects, and accessibility gaps.
+- Placeholder QR codes, incomplete final media/branding, navigation defects, and accessibility gaps.
 - No automated tests or CI; lint and dependency gates fail.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.
