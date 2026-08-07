@@ -12,7 +12,7 @@ sensitivity: internal
 
 ## Usage
 
-This register separates confirmed direction from unresolved choices. “Confirmed” records owner direction, not implementation completion. Formal architecture, clinical, legal, privacy, or operational decisions must later move into owned decision records with rationale, consequences, effective dates, and approvers.
+This register separates confirmed direction from unresolved choices. “Confirmed” records owner direction, not implementation completion. Formal architecture, clinical, legal, privacy, or operational decisions move into the owned [`docs/07-decisions/`](../07-decisions/README.md) record set with rationale, consequences, effective dates, and approvers. Only approved records are authoritative.
 
 ## Confirmed Direction
 
