@@ -106,6 +106,9 @@ Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](annexures/spr
 4. Regenerate the TanStack route tree through supported tooling; do not edit it manually.
 5. Verify removed endpoints return the approved not-found response and no unrelated route changes.
 
+Evidence: [`sprint-02-4-mcp-removal-evidence.md`](annexures/sprint-02-4-mcp-removal-evidence.md)
+— verified locally 7 August 2026; hosted verification remains Task 2.7.
+
 ### Task 2.5 — Remove telemetry behaviour and normalize dependencies
 
 1. Remove Lovable-only environment handling and `bunfig.toml` package-age exceptions.

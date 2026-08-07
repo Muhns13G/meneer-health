@@ -56,7 +56,9 @@ React components, route conventions, server-function APIs, Vercel configuration,
 4. Normalize the selected-host configuration, then verify TanStack Start
    across local, preview, and production environments.
 5. Do not provision `LOVABLE_API_KEY`.
-6. Remove the Lovable MCP SDK, generated routes, and manifest; either defer MCP or reimplement a justified public use case with a vendor-neutral SDK.
+6. **Completed in Sprint 02 Task 2.4:** the Lovable MCP SDK, generated routes, OAuth metadata,
+   tools, manifest, and built output were removed. Any future MCP requires a justified use case and
+   separately approved vendor-neutral boundary.
 7. Replace Lovable metadata and package-install exceptions.
 8. Verify build, SSR, routes, assets, endpoints, logs, security headers, rollback, and dependency reachability.
 
