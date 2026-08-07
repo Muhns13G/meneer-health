@@ -363,6 +363,29 @@
       ],
       "status": "verified-local",
       "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-002",
+      "path": "docs/07-decisions/DR-002-commercial-fulfilment-model.md",
+      "authority_for": [
+        "approved-v1-commercial-policy",
+        "approved-payment-and-refund-principles",
+        "approved-fulfilment-and-exception-principles",
+        "commercial-activation-gates"
+      ],
+      "status": "approved",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-3-commercial-model-evidence.md",
+      "authority_for": [
+        "sprint-03-task-03-validation",
+        "td-010-in-progress-evidence",
+        "commercial-claim-source-reconciliation"
+      ],
+      "status": "verified-local",
+      "last_updated": "2026-08-08"
     }
   ],
   "implementation_plans": [

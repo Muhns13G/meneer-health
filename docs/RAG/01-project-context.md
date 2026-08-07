@@ -19,6 +19,7 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md
+  - docs/07-decisions/DR-002-commercial-fulfilment-model.md
 ---
 
 # Meneer Project Context
@@ -80,6 +81,11 @@ owns technology, marketing, general support, and operations coordination, and in
 clinical/pharmacy actors retain professional authority. The contracting model,
 information-responsibility roles, verified professionals and pharmacy, urgent channel, fulfilment
 partners, and treatment activation evidence remain open gates under TD-009 and related debt.
+
+DR-002 approves a conservative one-time, explicit-line-item v1 commercial model with separate
+consultation, medication, delivery, cancellation, refund, payment, and fulfilment states. Exact
+prices, tax treatment, merchant allocation, transactional terms, Stripe activation, and operational
+delivery evidence remain gated and are not live through that policy approval.
 
 ## Product Principles
 
