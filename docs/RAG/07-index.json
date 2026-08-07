@@ -345,9 +345,15 @@
     },
     {
       "id": "phase-01-sprint-02",
-      "path": "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
-      "status": "requires-refresh",
+      "path": "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md",
+      "status": "approved-for-implementation",
       "primary_debt": ["TD-025", "TD-027", "TD-041", "TD-049", "TD-051", "TD-052", "TD-053"]
+    },
+    {
+      "id": "phase-01-sprint-02-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-1-hosting-and-scope-decision-evidence.md",
+      "status": "verified",
+      "authority_for": ["DIR-030", "DIR-031", "TD-052 decision", "TD-053 decision"]
     },
     {
       "id": "phase-01-sprint-03",
@@ -481,7 +487,7 @@
       "verify_against": [
         "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
         "docs/02-implementation-plans/phase-01/annexures/sprint-01-pilot-route-disposition.md",
-        "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
+        "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md",
         "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
         "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
         "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",

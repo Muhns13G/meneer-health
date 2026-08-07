@@ -34,7 +34,7 @@ Plans must be refreshed if these sources materially change. Repository evidence 
 | Sprint | Mission                                                                             | Primary debt                                  | Depends on                                         |
 | ------ | ----------------------------------------------------------------------------------- | --------------------------------------------- | -------------------------------------------------- |
 | 01     | Contain misleading or unsafe pilot surfaces and define the pilot gate.              | TD-001–TD-008, TD-032–TD-034, TD-056          | None                                               |
-| 02     | Choose the v1 host, remove obsolete Lovable/platform coupling, and verify runtime.  | TD-025, TD-027, TD-041, TD-049, TD-051–TD-053 | Sprint 01 containment; hosting decision            |
+| 02     | Remove Lovable coupling and explicitly own and verify the Cloudflare v1 runtime.    | TD-025, TD-027, TD-041, TD-049, TD-051–TD-053 | Sprint 01 containment; approved Cloudflare host    |
 | 03     | Approve the operating model, ownership, portable architecture, and data boundaries. | TD-009–TD-013, TD-016, TD-050, TD-054         | Sprint 01 pilot scope; Sprint 02 runtime direction |
 | 04     | Restore reproducible engineering, dependency, test, CI, and repository controls.    | TD-021–TD-024, TD-026, TD-028–TD-031          | Sprint 02 dependency/runtime changes               |
 | 05     | Implement the approved data, security, audit, and operational foundations.          | TD-014, TD-015, TD-017–TD-020, TD-055         | Sprints 03 and 04                                  |

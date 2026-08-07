@@ -35,8 +35,8 @@ not yet implement any of those durable capabilities.
 Sprint 01 is closed as a verified containment boundary: incomplete account, consent, intake,
 peptide-transaction, and campaign journeys are not active customer transactions. This does not
 approve pilot activation. The current `itws-I-preview` build is deployed through Cloudflare at
-`meneerhealth.co.za`; the longer-term Cloudflare-versus-Vercel direction remains a Sprint 02
-decision.
+`meneerhealth.co.za`. The repository owner selected Cloudflare for the v1 TanStack pilot; Vercel
+remains a possible v2 Next.js host rather than a current dependency.
 
 Post-closure work has implemented a fail-closed safety entry and canonical campaign/QR boundary.
 The provisional operator is owner-confirmed as OCTOTHORP ZA (`K2024185008`). Professional,
