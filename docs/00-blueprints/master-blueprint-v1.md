@@ -6,7 +6,7 @@
 - **Date:** 2026-08-05
 - **Last amended:** 2026-08-07
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
-- **Current implementation:** Lovable-built TanStack Start v1 MVP; v1 host decision reopened before Sprint 02
+- **Current implementation:** Lovable-built TanStack Start v1 MVP; `itws-I-preview` is hosted through Cloudflare at `meneerhealth.co.za`, with the longer-term v1 host decision retained for Sprint 02
 - **Purpose:** Define the intended destination before further feature development begins
 
 ## Executive Vision
@@ -25,7 +25,7 @@ Meneer will evolve through deliberate product generations rather than treating e
 
 Frameworks are replaceable delivery shells. The durable product consists of the domain model, approved content, workflow states, API contracts, database schema, audit events, security rules, migration history, and acceptance tests. Every generation must demonstrate behavioural equivalence for retained capabilities and document intentional improvements or removals.
 
-The earlier Vercel preference for v1 was reopened after Sprint 01. Cloudflare and Vercel must be compared and the v1 host selected before Sprint 02 implementation; the v2 hosting choice remains separate. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
+The earlier Vercel preference for v1 was reopened after Sprint 01. The current review deployment uses Cloudflare at the canonical domain, but Cloudflare and Vercel must still be compared and the longer-term v1 host direction confirmed during Sprint 02; the v2 hosting choice remains separate. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
 
 ## Product Thesis
 
@@ -61,10 +61,8 @@ Meneer should make legitimate healthcare easier to start and simpler to complete
 6. **Clinical intake:** a versioned, condition-specific questionnaire captures medical history, medication, symptoms, and relevant measurements.
 7. **Triage:** rules identify emergencies, exclusions, missing information, laboratory requirements, and suitable consultation pathways.
 
-/* +++ OLD STEP 8 and 9 +++
-8. **Consult:** an authorised clinician reviews the record and conducts the required video or telephone consultation.
-9. **Clinical decision:** the clinician records assessment, treatment decision, follow-up plan, and prescription where appropriate.
-*/
+/_ +++ OLD STEP 8 and 9 +++ 8. **Consult:** an authorised clinician reviews the record and conducts the required video or telephone consultation. 9. **Clinical decision:** the clinician records assessment, treatment decision, follow-up plan, and prescription where appropriate.
+_/
 
 8. **Required review:** the workflow routes the patient to the approved decision authority for that
    condition. The intended peptide route is a Precise Wellness questionnaire and dispensing decision;

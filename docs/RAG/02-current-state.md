@@ -71,7 +71,9 @@ At permanent implementation boundary `b9997d8` and documentation closure on 2026
   preview-only draft video render without console errors or horizontal overflow.
 - TD-033 is Verified through containment: the preview-only 6.7 MB video remains isolated on
   `itws-I-preview` and is not part of `itws-I`.
-- No automated test framework or hosted preview/production verification exists.
+- The `itws-I-preview` deployment is served at `meneerhealth.co.za`. Hosted checks verify the
+  homepage, `/peptides`, hashed logo, campaign redirects, and attributed `/start` destinations.
+- No automated test framework or CI workflow exists.
 
 ## Pre-Phase 1 Runtime Refresh
 
@@ -104,7 +106,8 @@ header and footer, the preview-branch MP4 decodes and renders its first frame an
 without a media error, and both campaign routes remain inactive without QR or transactional
 surfaces. Sprint 01.6 is closed as a verified local engineering boundary. TD-033 is Verified through
 isolated-preview containment; final accessible media remains a public-use reactivation requirement.
-Hosted logo verification and campaign QR evidence remain open under TD-032 and TD-034.
+Subsequent canonical-domain checks verified the placeholder logo, closing TD-032. Final identity
+quality remains tracked under FC-002.
 
 ## Sprint 1.8 Safety and Campaign Continuation
 
@@ -126,8 +129,10 @@ Local TypeScript, focused lint, default/proof builds, redirect, responsive, asse
 console checks passed. A subsequent dev-server retest confirmed all acquisition entries terminate at
 gated routes with no form controls, placeholder identities, API transaction, or fulfilment path.
 TD-008 is therefore Verified through a disabled-capability outcome; its clinical, accountable-party,
-and server-enforcement requirements apply before any transaction is enabled. TD-034 remains in
-progress pending deployed canonical-domain checks, an operational `/start`, and physical A1 scans.
+and server-enforcement requirements apply before any transaction is enabled. On 7 August 2026,
+hosted checks confirmed both canonical 307 redirects and HTTP 200 attributed `/start` destinations,
+and the owner confirmed successful QR scans. TD-034 is Verified. Final A1 production/material QA
+remains a mandatory pre-distribution release check.
 
 ## Sprint 1.9 Pilot Scope, Policy, and Support Update
 
@@ -165,8 +170,9 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
 - The shared logo now uses a local placeholder; the Lovable Vite wrapper's broader virtual-asset
   capability remains until Sprint 02 de-platforming.
 - Root metadata still identifies the application and author as Lovable.
-- `@cloudflare/vite-plugin`, `wrangler.jsonc`, and Cloudflare compatibility configuration remain
-  while the v1 host decision is open.
+- `@cloudflare/vite-plugin`, `wrangler.jsonc`, and Cloudflare compatibility configuration remain.
+  The current `itws-I-preview` build is deployed at `meneerhealth.co.za`; the longer-term
+  Cloudflare-versus-Vercel decision remains Sprint 02 work.
 - `LOVABLE_API_KEY` is used only for default Lovable MCP telemetry and must not be provisioned on
   the selected host.
 
@@ -177,7 +183,7 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
 - No provider/operating model, backend, identity, database, authorisation, audit, retention, observability, or incident process.
-- Placeholder QR codes, incomplete final media/branding, navigation defects, and accessibility gaps.
+- Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - No automated tests or CI; lint and dependency gates fail.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.

@@ -18,24 +18,25 @@ complete as a **verified engineering containment boundary**: active routes canno
 accounts, capture placeholder consent, submit empty questionnaires, claim durable completion, or
 expose unfinished peptide and campaign transactions.
 
-This outcome does **not** approve pilot activation, hosted release, health-information collection,
+This outcome does **not** approve pilot activation, transactional hosted release, health-information collection,
 or public launch. The operating, clinical, legal/privacy, partner, safety, and release inputs needed
 to activate real transactions remain open.
 
 ## Work Completed
 
-| Task  | Delivered outcome                                                                                                                                                   | Evidence / boundary                                               |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| 01.1  | Inventoried public CTAs, forms, routes, and hand-offs; approved a preserve-disable-replace disposition.                                                             | `2ca211d`; route-disposition annexure                             |
-| 01.2  | Added a reusable inactive-route gate to `/start`, `/peptides`, `/poster`, and `/poster-thanks`; preserved prototypes for controlled replacement.                    | `3c1ff01`; Sprint 01.2 evidence                                   |
-| 01.3  | Verified that active routes expose no simulated password/account or placeholder-consent controls.                                                                   | `b8591b0`; Sprint 01.3 evidence                                   |
-| 01.4  | Verified that active routes expose no empty questionnaire submission or local-only success state.                                                                   | `83ad1eb`; Sprint 01.4 evidence                                   |
-| 01.5  | Corrected the support address, aligned MCP peptide positioning, created a claims/evidence register, and preserved established public wording and metadata.          | `308e175`; Sprint 01.5 evidence                                   |
-| 01.6  | Replaced the broken Lovable logo dependency with an approved local placeholder, retained poster gates, and established an isolated draft-video review path.         | `b9997d8`; Sprint 01.6 evidence                                   |
-| 01.7  | Re-ran closure validation, reconciled the plan, registry, RAG corpus, decisions, residual debt, and file inventory.                                                 | This report                                                       |
-| 01.8  | Added a fail-closed safety-entry boundary, centralized compliance fixtures, stable attributed campaign redirects, real local QR assets, and internal poster proofs. | Sprint 01.8 evidence; uncommitted boundary                        |
-| 01.9  | Replaced placeholder website policies, strengthened the general-support boundary, and drafted the controlled-pilot charter, measures, stop criteria, and exit gate. | Policy/support evidence and owner-approved pilot charter          |
-| 01.10 | Audited retained claims and the peptide pathway against authoritative requirements and created the exact external close-out pack.                                   | Close-out evidence; external records and domain approvals pending |
+| Task      | Delivered outcome                                                                                                                                                   | Evidence / boundary                                               |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| 01.1      | Inventoried public CTAs, forms, routes, and hand-offs; approved a preserve-disable-replace disposition.                                                             | `2ca211d`; route-disposition annexure                             |
+| 01.2      | Added a reusable inactive-route gate to `/start`, `/peptides`, `/poster`, and `/poster-thanks`; preserved prototypes for controlled replacement.                    | `3c1ff01`; Sprint 01.2 evidence                                   |
+| 01.3      | Verified that active routes expose no simulated password/account or placeholder-consent controls.                                                                   | `b8591b0`; Sprint 01.3 evidence                                   |
+| 01.4      | Verified that active routes expose no empty questionnaire submission or local-only success state.                                                                   | `83ad1eb`; Sprint 01.4 evidence                                   |
+| 01.5      | Corrected the support address, aligned MCP peptide positioning, created a claims/evidence register, and preserved established public wording and metadata.          | `308e175`; Sprint 01.5 evidence                                   |
+| 01.6      | Replaced the broken Lovable logo dependency with an approved local placeholder, retained poster gates, and established an isolated draft-video review path.         | `b9997d8`; Sprint 01.6 evidence                                   |
+| 01.7      | Re-ran closure validation, reconciled the plan, registry, RAG corpus, decisions, residual debt, and file inventory.                                                 | This report                                                       |
+| 01.8      | Added a fail-closed safety-entry boundary, centralized compliance fixtures, stable attributed campaign redirects, real local QR assets, and internal poster proofs. | Sprint 01.8 evidence; uncommitted boundary                        |
+| 01.9      | Replaced placeholder website policies, strengthened the general-support boundary, and drafted the controlled-pilot charter, measures, stop criteria, and exit gate. | Policy/support evidence and owner-approved pilot charter          |
+| 01.10     | Audited retained claims and the peptide pathway against authoritative requirements and created the exact external close-out pack.                                   | Close-out evidence; external records and domain approvals pending |
+| Close-out | Verified the placeholder logo and both attributed QR routes on the canonical Cloudflare deployment; recorded owner-confirmed QR scans.                              | TD-032 and TD-034 hosted closure addenda                          |
 
 ## Decisions Recorded
 
@@ -61,6 +62,10 @@ to activate real transactions remain open.
   updates for every future sprint.
 - `meneerhealth.co.za` is the canonical campaign origin. Both Father's Day concepts use stable
   `/go/...` paths and offline-poster attribution before reaching `/start`.
+- `meneerhealth.co.za` currently points to the `itws-I-preview` Cloudflare deployment. The hosted
+  logo, canonical redirects, attributed destinations, and owner-confirmed QR scans close TD-032
+  and TD-034 for the contained implementation. Final A1 production/material QA remains required
+  before physical distribution.
 - OCTOTHORP ZA (`K2024185008`) is the provisional operator supplied by the owner. John/Jane Doe and
   professional-registration strings are development fixtures only and keep activation blocked.
 - General email is not an urgent clinical service. The interim entry boundary uses 112 and 10177;
@@ -79,24 +84,25 @@ to activate real transactions remain open.
 | Define approved pilot participants, operations, measures, stop criteria, and exit criteria. | The repository owner approved the complete conservative charter on 7 August 2026; TD-056 is Verified without activating the pilot.                                                                                                               |
 | Implement or approve safety entry, exclusion, and emergency routing for enabled flows.      | No clinical flow is enabled. Local runtime verification proves every active entry remains fail-closed, so TD-008 is Verified through containment; replacement controls remain mandatory before activation.                                       |
 | Publish fully evidenced claims, policies, partners, and peptide pathway.                    | Website-only privacy/terms and support containment are implemented, owner-approved, and Verified without changing marketing copy. TD-006–TD-007 retain claim and peptide evidence requirements.                                                  |
-| Supply final optimised brand and production-equivalent asset evidence.                      | An approved raster placeholder was used without redesigning the theme. Hosted verification and final identity remain under TD-032/FC-002.                                                                                                        |
+| Supply final optimised brand and production-equivalent asset evidence.                      | The approved raster placeholder is verified locally and on the canonical Cloudflare deployment, closing TD-032. Final identity quality remains separate under FC-002.                                                                            |
 | Hide media until final approval.                                                            | Owner approved a labelled, non-transactional draft review on an isolated preview branch. TD-033 is Verified through containment; approval, poster, captions, transcript, manual playback, and hosted checks remain prerequisites for public use. |
-| Replace and print-test campaign QR destinations.                                            | Stable canonical routes, attributed redirects, QR assets, and internal print proofs are now implemented. Deployed-domain checks and physical A1 scan evidence remain under TD-034.                                                               |
+| Replace and print-test campaign QR destinations.                                            | Stable canonical routes, attributed redirects, QR assets, internal proofs, hosted checks, and owner-confirmed scans close TD-034. Final A1 production/material QA remains a mandatory pre-distribution checklist item.                           |
 | Approve safety entry and emergency routing for enabled flows.                               | A universal fail-closed boundary is implemented and locally verified. Because no flow is enabled, TD-008 closes as a disabled outcome; condition-specific approval and enforcement are reactivation requirements.                                |
-| Verify on Vercel preview/production.                                                        | Hosting was deliberately deferred for a Cloudflare-versus-Vercel decision before Sprint 02. Sprint 01 closure uses local build and browser evidence only.                                                                                        |
+| Verify on Vercel preview/production.                                                        | The provider decision remains part of Sprint 02, but the current `itws-I-preview` build is deployed through Cloudflare at the canonical domain and supplies production-equivalent hosted evidence for TD-032 and TD-034.                         |
 
 ## Validation Results
 
-| Check                         | Result                  | Notes                                                                                                                           |
-| ----------------------------- | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `bunx tsc --noEmit`           | Pass                    | Re-run 2026-08-07.                                                                                                              |
-| `bun run build`               | Pass                    | Client, SSR, and Cloudflare-oriented Nitro output built; known adapter/bundler warnings remain.                                 |
-| `bun run lint`                | Fail                    | 30 unrelated Prettier errors and 7 Fast Refresh warnings; retained as existing Sprint 04 repository-health debt.                |
-| Policy/support route checks   | Pass within local scope | `/privacy`, `/terms`, and `/contact` returned HTTP 200 with expected content and no forms or placeholder identities.            |
-| Desktop/mobile browser checks | Pass within local scope | Homepage, logo, gated routes, media review, responsive layout, console, and overflow checks completed.                          |
-| Draft video containment       | Pass                    | Decode, first-frame, native-control, MIME, response, and branch-isolation checks passed; public-media readiness is not claimed. |
-| Automated tests / CI          | Not available           | No test runner or CI workflow is configured.                                                                                    |
-| Hosted preview/production     | Not run                 | Awaiting the pre-Sprint-02 hosting decision.                                                                                    |
+| Check                         | Result                     | Notes                                                                                                                           |
+| ----------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `bunx tsc --noEmit`           | Pass                       | Re-run 2026-08-07.                                                                                                              |
+| `bun run build`               | Pass                       | Client, SSR, and Cloudflare-oriented Nitro output built; known adapter/bundler warnings remain.                                 |
+| `bun run lint`                | Fail                       | 30 unrelated Prettier errors and 7 Fast Refresh warnings; retained as existing Sprint 04 repository-health debt.                |
+| Policy/support route checks   | Pass within local scope    | `/privacy`, `/terms`, and `/contact` returned HTTP 200 with expected content and no forms or placeholder identities.            |
+| Desktop/mobile browser checks | Pass within local scope    | Homepage, logo, gated routes, media review, responsive layout, console, and overflow checks completed.                          |
+| Draft video containment       | Pass                       | Decode, first-frame, native-control, MIME, response, and branch-isolation checks passed; public-media readiness is not claimed. |
+| Automated tests / CI          | Not available              | No test runner or CI workflow is configured.                                                                                    |
+| Hosted canonical deployment   | Pass                       | Homepage, `/peptides`, hashed logo, both campaign redirects, and attributed `/start` destinations responded as expected.        |
+| QR scan                       | Pass by owner confirmation | Both QR codes resolve through the canonical `meneerhealth.co.za` routes.                                                        |
 
 ## Lessons Learned
 
@@ -122,9 +128,9 @@ and acceptance boundaries for existing items:
 | TD-005        | Verified through owner-approved website-only notices, a monitored general-support procedure, and owner-confirmed mailbox security controls.        |
 | TD-006–TD-007 | In progress; owner direction and close-out requirements are recorded, while external evidence and domain approvals remain required.                |
 | TD-008        | Verified through disabled-capability containment; replacement parties, condition rules, and server enforcement remain mandatory before activation. |
-| TD-032        | Open; selected-host logo evidence remains required.                                                                                                |
+| TD-032        | Verified locally and on the canonical Cloudflare deployment; final identity quality remains under FC-002.                                          |
 | TD-033        | Verified through isolated-preview containment; final accessible media remains a public-use reactivation requirement.                               |
-| TD-034        | In progress; canonical QR/redirect/proof implementation exists, but deployed-domain and physical A1 scan evidence remain required.                 |
+| TD-034        | Verified through canonical redirects, working attributed destinations, and owner-confirmed QR scans; final A1 production QA is a release check.    |
 | TD-056        | Verified; the repository owner approved the complete controlled-pilot charter on 7 August 2026.                                                    |
 
 The raster placeholder/theme limitation is tracked in FC-002. The preview-only video binary is
@@ -198,7 +204,8 @@ reopened hosting decision is now explicit in TD-052 and ARC-007.
 ## Final Release Statement
 
 Sprint 01 is **closed**. The public marketing and local containment boundary is verified, but the
-v1 pilot remains **not approved for activation**. Before Sprint 02 implementation, select the v1
-host and refresh the platform-exit plan. Before any transactional pilot route is enabled, satisfy
-the outstanding Sprint 01 debt and its domain approvals. TD-008 is Verified only for the current
-disabled outcome; TD-034 remains acceptance-gated as recorded in the Sprint 01.8 annexure.
+v1 pilot remains **not approved for activation**. Before Sprint 02 implementation, confirm the v1
+hosting direction and refresh the platform-exit plan. TD-032 and TD-034 are Verified on the current
+canonical Cloudflare deployment. TD-006 and TD-007 are the only original Sprint 01 debts carried
+forward; satisfy their external evidence and approval requirements before enabling the peptide
+transaction. TD-008 remains Verified only for the current disabled outcome.
