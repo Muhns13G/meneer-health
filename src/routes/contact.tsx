@@ -34,8 +34,20 @@ function ContactPage() {
             .
           </p>
           <p>
-            This inbox is not an emergency service. If you need urgent medical help, contact your
-            local emergency services.
+            This is a general inbox. Do not send symptoms, medical records, identity documents,
+            prescriptions, payment details, or other sensitive information by ordinary email.
+          </p>
+          <p>
+            This inbox is not an emergency or urgent clinical service. If you need urgent medical
+            help, call{" "}
+            <a className="text-gold hover:underline underline-offset-4" href="tel:112">
+              112 from a mobile
+            </a>{" "}
+            or{" "}
+            <a className="text-gold hover:underline underline-offset-4" href="tel:10177">
+              10177 for an ambulance
+            </a>
+            , or go to the nearest emergency facility.
           </p>
         </div>
       </main>
