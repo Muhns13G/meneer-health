@@ -63,9 +63,9 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 ## Platform Limits
 
 The repository is hosted for contained review but is not ready for transactional pilot use.
-The Lovable Vite wrapper has been removed and replaced by explicit supported Cloudflare/TanStack
-configuration. Lovable's MCP SDK, telemetry path, manifest, and metadata remain until Tasks
-2.4–2.6. The `itws-I-preview` build is served at `meneerhealth.co.za`;
+The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
+is absent from source and built output; final environment proof remains Task 2.5. Lovable metadata
+remains until Task 2.6. The `itws-I-preview` build is served at `meneerhealth.co.za`;
 canonical checks verify the local placeholder logo and campaign routes. The longer-term
 Vercel decision is deferred to the planned Next.js v2; Cloudflare environment roles, hosted logs,
 and rollback evidence remain Sprint 02 work. Final brand work remains open.
@@ -77,6 +77,11 @@ that path: explicit Cloudflare output now passes Vite preview and Wrangler dry-r
 on 30 formatting errors plus 7 warnings, and the baseline dependency audit reported 41 findings.
 One upstream `punycode` deprecation remains in current Cloudflare tooling; package normalization and
 audit reassessment remain Task 2.5 work.
+
+Task 2.4 removes MCP locally: its SDK, plugin, definitions, routes, OAuth metadata, manifest, and
+built output are absent, and every former endpoint returns the ordinary HTML 404 in development and
+production preview. The currently deployed branch may retain the old surface until the repository
+owner commits and deploys this boundary; hosted removal evidence remains Task 2.7.
 
 ## Engineering Limits
 

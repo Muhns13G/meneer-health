@@ -1,5 +1,4 @@
 import { cloudflare } from "@cloudflare/vite-plugin";
-import { mcpPlugin } from "@lovable.dev/mcp-js/stacks/tanstack/vite";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import react from "@vitejs/plugin-react";
@@ -22,7 +21,6 @@ export default defineConfig({
       },
     }),
     react(),
-    mcpPlugin(),
   ],
   resolve: {
     alias: {

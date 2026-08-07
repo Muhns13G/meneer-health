@@ -378,6 +378,17 @@
       ]
     },
     {
+      "id": "phase-01-sprint-02-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md",
+      "status": "verified-local",
+      "authority_for": [
+        "Lovable MCP SDK and route removal",
+        "MCP and OAuth local not-found behaviour",
+        "MCP dependency and built-output removal",
+        "DIR-031 implementation"
+      ]
+    },
+    {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
       "status": "planned",
