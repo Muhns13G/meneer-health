@@ -67,9 +67,13 @@ local brand mark, local QR assets, human-readable fallback URLs, `noindex, nofol
 `Internal print proof · not for distribution` label. They remain behind
 `VITE_CAMPAIGN_PRINT_PROOF=true`; the default build retains the inactive route gate.
 
-TD-034 is therefore **in progress**, not Verified. Acceptable closure still requires a deployed
-`meneerhealth.co.za` route check, an operational `/start` destination, and representative physical
-A1 print scans on the intended devices and materials.
+TD-034 was initially **in progress** at this local boundary. On 7 August 2026,
+`meneerhealth.co.za` was connected to the `itws-I-preview` Cloudflare deployment. Hosted checks
+confirmed both stable routes return the approved attributed 307 redirects and both gated `/start`
+destinations return HTTP 200. The owner confirmed successful QR scans and accepted the current
+gated `/start` page as the campaign destination while that journey is improved in later sprints.
+TD-034 is therefore **Verified**. Final A1 production/material QA remains mandatory before physical
+distribution, but is a release checklist obligation rather than unresolved implementation debt.
 
 ## Local Verification
 
@@ -83,7 +87,17 @@ A1 print scans on the intended devices and materials.
 | `/start` at 390 x 844                                | Pass; no horizontal overflow; emergency and support links present |
 | Both posters at 371 x 792, 390 x 844, and 1440 x 900 | Pass; local logo/QR load and no horizontal overflow               |
 | Browser console                                      | No errors or warnings on verified routes                          |
-| QR physical A1 scan                                  | Not run; release acceptance remains open                          |
+| QR scan                                              | Pass; owner confirmed both codes resolve to the canonical routes  |
+| Final A1 production/material QA                      | Required before distribution; tracked as a release checklist      |
+
+## Hosted Campaign Closure Evidence — 2026-08-07
+
+| Check                                      | Result                                                                 |
+| ------------------------------------------ | ---------------------------------------------------------------------- |
+| `https://meneerhealth.co.za/go/dads`       | HTTP 307 to the approved attributed `/start` destination               |
+| `https://meneerhealth.co.za/go/thanks-dad` | HTTP 307 to the approved attributed `/start` destination               |
+| Both attributed `/start` destinations      | HTTP 200; the intentional non-transactional safety gate remains active |
+| QR scan                                    | Owner-confirmed successful resolution and redirect                     |
 
 ### TD-008 closure retest — 2026-08-07
 

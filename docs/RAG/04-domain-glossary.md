@@ -21,7 +21,8 @@ sensitivity: internal
 
 ## Release Terms
 
-- **v1:** current TanStack Start generation intended for a controlled pilot on a host selected before Sprint 02.
+- **v1:** current TanStack Start generation hosted through Cloudflare for review and intended for a
+  controlled pilot after Sprint 02 confirms the longer-term hosting direction.
 - **Controlled pilot:** restricted, monitored use by an approved test group under a defined scope and support model. It is not public-launch approval.
 - **Pilot charter:** the proposed or approved participant, journey, operating, measurement, stop,
   activation, and exit boundary; a charter does not itself activate a release.

@@ -62,11 +62,11 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 
 ## Platform Limits
 
-The repository is not yet ready for hosted pilot use. Lovable's Vite wrapper, MCP
-SDK, telemetry path, manifest, and metadata remain. Cloudflare plugin and Wrangler configuration
-remain. Sprint 01.6 replaces the shared logo's virtual-asset dependency with a local approved
-placeholder. Local desktop/mobile visual evidence is complete; the Cloudflare-versus-Vercel choice,
-selected-host preview/production verification, and final brand work remain open.
+The repository is hosted for contained review but is not ready for transactional pilot use.
+Lovable's Vite wrapper, MCP SDK, telemetry path, manifest, and metadata remain. Cloudflare plugin
+and Wrangler configuration remain. The `itws-I-preview` build is served at `meneerhealth.co.za`;
+canonical checks verify the local placeholder logo and campaign routes. The longer-term
+Cloudflare-versus-Vercel choice and final brand work remain open.
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
 
@@ -77,14 +77,15 @@ Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovabl
 - No automated test framework or CI workflow exists.
 - Build warnings and deployment-adapter drift remain unresolved.
 - No environment contract, deployment guide, monitoring, incident runbook, or rollback procedure exists.
-- Accessibility, navigation, SEO, content consistency, media, and QR defects remain open.
+- Accessibility, navigation, SEO, content consistency, final media, and campaign print-production
+  QA remain open.
 
 Build and audit counts are dated evidence. Re-run checks before using them in a current-status report.
 
 ## Release Limits
 
-The codebase is not approved for public launch or health-information collection. A complete
-controlled-pilot charter is proposed but not yet owner-approved. Activation still requires its
+The codebase is not approved for public launch or health-information collection. The controlled-
+pilot charter is owner-approved, but activation still requires its
 operating model, consent/data handling, monitored destination for every enabled submission, support
 and incident procedures, accountable approvers, and passing gate evidence.
 
@@ -95,8 +96,9 @@ TD-008 is Verified only through the current disabled-capability outcome; enablin
 transaction requires its approved clinical rules, verified accountable parties, server enforcement,
 and renewed evidence. TD-005 is Verified through the current website-only policy/support
 containment, TD-033 is Verified through isolated-preview containment, and TD-056 is Verified through
-the approved charter. TD-006–TD-007 are in progress with an exact external close-out pack; TD-032
-and TD-034 remain unresolved as recorded in the completion report and registry.
+the approved charter. TD-032 and TD-034 are Verified through canonical hosted asset, redirect,
+destination, and owner-confirmed QR-scan evidence. TD-006–TD-007 are the only original Sprint 01
+debts still in progress, with an exact external close-out pack.
 
 ## Retrieval Response Pattern
 

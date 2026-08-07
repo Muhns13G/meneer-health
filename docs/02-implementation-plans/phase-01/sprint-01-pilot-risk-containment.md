@@ -59,16 +59,17 @@ The focused
 [Sprint 01.6 acquisition assets evidence](./annexures/sprint-01-6-acquisition-assets-evidence.md)
 records the verified local placeholder logo replacement, safe media-review boundary, continued
 poster gate, and desktop/mobile browser evidence. Sprint 01.6 is closed as a verified local
-engineering boundary. TD-033 was later Verified through isolated-preview containment; hosted logo
-and QR acceptance remain under TD-032 and TD-034, while final media requirements apply before
-public use.
+engineering boundary. TD-032 was later Verified on the canonical Cloudflare deployment and TD-033
+through isolated-preview containment; final identity and public-media requirements remain separate
+future/release obligations.
 
 The post-closure
 [Sprint 01.8 safety and campaign continuation evidence](./annexures/sprint-01-8-safety-campaign-continuation-evidence.md)
 records the fail-closed `/start` safety boundary, centralized placeholder profile, stable campaign
 redirects, QR assets, and internal poster proofs. TD-008 is Verified through a local
-disabled-capability outcome. TD-034 remains in progress pending its hosted, operational, and
-physical-print acceptance evidence.
+disabled-capability outcome. TD-034 was later Verified after both canonical redirects and attributed
+destinations passed hosted checks and the owner confirmed successful QR scans. Final A1
+production/material QA remains a pre-distribution release check.
 
 The post-closure
 [controlled-pilot charter](./annexures/sprint-01-controlled-pilot-charter-v1.md) and
@@ -192,13 +193,14 @@ buildable intermediate state:
        policy/support containment is now Verified under TD-005, while claim-approval and
        peptide-activation work remains open under TD-006 and TD-007.
 6. [x] `Repair acquisition assets` — permanent implementation boundary recorded in Sprint 01.6
-       evidence. TD-033 is Verified through branch-isolated draft-video containment; hosted logo
-       evidence and final campaign QR acceptance remain under TD-032 and TD-034.
+       evidence. TD-032 is Verified on the canonical deployment, TD-033 through branch-isolated
+       draft-video containment, and TD-034 through canonical redirect and owner-confirmed scan
+       evidence.
 7. [x] `Complete Sprint 1 verification and reporting` — closure evidence recorded in
        [`docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md`](../../03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md).
 8. [x] `Implement fail-closed safety and campaign continuation` — local implementation and evidence
-       recorded in Sprint 01.8; TD-008 is Verified through containment and TD-034 remains
-       acceptance-gated in the registry.
+       recorded in Sprint 01.8; TD-008 is Verified through containment and TD-034 is Verified for
+       the current attributed, gated campaign destination.
 9. [x] `Approve pilot charter and policy/support containment` — the repository owner approved the
        charter and website policy/support boundary and confirmed the support mailbox's ownership,
        monitoring, and security controls on 7 August 2026. TD-005 and TD-056 are Verified.
@@ -213,12 +215,15 @@ commits, and pushes after reviewing each completed outcome.
 ## Closure Status
 
 Sprint 01 is complete as a verified engineering containment boundary. This closure does not approve
-pilot activation, hosted release, health-information collection, or public launch. TD-008 is
+pilot activation, transactional hosted release, health-information collection, or public launch. TD-008 is
 Verified only while all condition transactions remain disabled; its replacement requirements apply
 before activation. TD-005 is Verified through the approved non-transactional policy/support
 containment, and TD-056 is Verified through its approved charter. TD-033 is Verified through
-isolated-preview containment and carries explicit public-media reactivation requirements. TD-006,
-TD-007, TD-032, and TD-034 retain their registry acceptance criteria.
+isolated-preview containment and carries explicit public-media reactivation requirements. TD-032
+and TD-034 are Verified through canonical Cloudflare deployment, redirect, destination, and
+owner-confirmed QR-scan evidence. Only TD-006 and TD-007 remain in progress from the original
+Sprint 01 debt scope; their external evidence requirements carry forward without reopening the
+completed engineering sprint.
 
 ## Validation
 
