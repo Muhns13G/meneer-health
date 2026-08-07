@@ -1,0 +1,19 @@
+# The repository owner retains review control while the project has a single maintainer.
+* @Muhns13G
+
+# Sensitive governance, policy, infrastructure, and patient-boundary areas.
+/.github/ @Muhns13G
+/AGENTS.md @Muhns13G
+/docs/00-blueprints/ @Muhns13G
+/docs/02-implementation-plans/ @Muhns13G
+/docs/04-technical-debt/ @Muhns13G
+/docs/06-operations/ @Muhns13G
+/docs/07-decisions/ @Muhns13G
+/docs/RAG/ @Muhns13G
+/src/lib/compliance/ @Muhns13G
+/src/routes/contact.tsx @Muhns13G
+/src/routes/privacy.tsx @Muhns13G
+/src/routes/start.tsx @Muhns13G
+/src/routes/terms.tsx @Muhns13G
+/vite.config.ts @Muhns13G
+/wrangler.jsonc @Muhns13G

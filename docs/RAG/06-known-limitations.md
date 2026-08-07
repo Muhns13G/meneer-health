@@ -17,6 +17,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
+  - docs/07-decisions/DR-001-operating-model-responsibility.md
+  - docs/07-decisions/DR-008-governance-ownership-approval.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -41,12 +43,15 @@ requirements before enabling submission; the preserved prototype is not suitable
 
 ## Clinical and Legal Limits
 
-Provider identity, registrations, partner arrangements, treatment eligibility, contraindications,
-clinical pathways, transactional consent/privacy/terms, pricing, refund rules, delivery promises,
-and peptide positioning are not approved in the repository evidence. Versioned website-only privacy
-and terms notices are implemented and owner-approved for publication as version 1.0; they are not
-authority for health-data collection or transactions. Existing marketing and MCP claims require a
-governed claim register and domain review.
+DR-001 approves the role boundary: Meneer is the working brand, OCTOTHORP ZA is the
+technology/marketing/general-support/operations layer, and verified independent clinical/pharmacy
+actors retain professional authority. It does not approve the remaining contracting and
+information-responsibility allocations, registrations, partner evidence, treatment eligibility,
+contraindications, clinical pathways, transactional consent/privacy/terms, pricing, refund rules,
+delivery promises, or peptide authority. Versioned website-only privacy and terms notices are
+implemented and owner-approved for publication as version 1.0; they are not authority for
+health-data collection or transactions. Existing marketing claims require a governed claim
+register and domain review.
 
 The owner-confirmed provisional operator and development fixtures are centralized in the pilot
 compliance profile. `Dr John Doe`, `Jane Doe`, `HPCSA-PLACEHOLDER`, and

@@ -17,6 +17,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
+  - docs/07-decisions/DR-001-operating-model-responsibility.md
+  - docs/07-decisions/DR-008-governance-ownership-approval.md
 ---
 
 # Meneer Project Context
@@ -73,8 +75,11 @@ transactional gate or exposing the same scope as an unrestricted public launch.
 - Operations and support staff coordinating non-clinical workflows and exceptions.
 - Approved pharmacy, laboratory, courier, messaging, payment, or consultation partners.
 
-The final responsible-provider model, information-responsibility roles, verified professional and
-pharmacy registrations, approved partners, and treatment launch scope remain open decisions.
+DR-001 approves the operating boundary: Meneer is the working customer-facing brand, OCTOTHORP ZA
+owns technology, marketing, general support, and operations coordination, and independent verified
+clinical/pharmacy actors retain professional authority. The contracting model,
+information-responsibility roles, verified professionals and pharmacy, urgent channel, fulfilment
+partners, and treatment activation evidence remain open gates under TD-009 and related debt.
 
 ## Product Principles
 

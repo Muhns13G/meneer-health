@@ -3,7 +3,7 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
 ---
@@ -66,6 +66,21 @@ sensitivity: internal
   use case and separately approved boundary and must never be assumed to be a patient-data interface.
 - **RAG:** retrieval-augmented generation. Here it refers to curated internal documents used to ground agents in current evidence and approved direction.
 
-## Roles Requiring Definition
+## Operating Roles
 
-The terms healthcare provider, intermediary, technology/marketing layer, responsible party, operator, clinician, pharmacy, courier, and support owner are not interchangeable. Their Meneer-specific allocation remains open until approved in an operating-model decision and responsibility matrix.
+- **Meneer Health:** working customer-facing brand and product experience; not itself the clinical
+  or pharmacy decision-maker.
+- **OCTOTHORP ZA:** current website operator and intended technology, marketing, general-support,
+  release, and operations-coordination layer.
+- **Clinical lead/authorised clinician:** independent authority for the applicable clinical
+  protocol, decision, record, and escalation.
+- **Precise Wellness pathway:** owner-confirmed intended peptide clinical/pharmacy service identity;
+  exact juristic, professional, pharmacy, product, data, and escalation evidence remains gated.
+- **Pharmacy lead/responsible pharmacist:** authority for dispensing, product release, pharmacy
+  records, and applicable supply or recall decisions.
+- **Hub/courier:** traceable custody and delivery actors after an authorised pharmacy release; exact
+  arrangements remain gated.
+
+These allocations come from DR-001. Contracting and information-responsibility roles remain open;
+the terms provider, responsible party, operator, processor, clinician, pharmacy, courier, and
+support owner are not interchangeable.
