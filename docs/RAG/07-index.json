@@ -385,7 +385,20 @@
         "Lovable MCP SDK and route removal",
         "MCP and OAuth local not-found behaviour",
         "MCP dependency and built-output removal",
-        "DIR-031 implementation"
+        "DIR-031 implementation",
+        "TD-047 and TD-048 verification"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md",
+      "status": "verified-local",
+      "authority_for": [
+        "Lovable environment and telemetry removal",
+        "dependency reachability classification",
+        "bounded lockfile normalization",
+        "Task 2.5 dependency audits",
+        "TD-025 and TD-027 verification"
       ]
     },
     {
@@ -473,6 +486,23 @@
       "status": "deferred",
       "decision_due": "post-pilot-brand-review",
       "topics": ["brand", "logo", "theme", "dark-mode", "accessibility", "visual-identity"]
+    },
+    {
+      "id": "FC-003",
+      "path": "docs/05-future-considerations/dependency-reintroduction-triggers.md",
+      "title": "Dependency Reintroduction Triggers",
+      "status": "tracked",
+      "decision_due": "feature-triggered",
+      "topics": [
+        "dependencies",
+        "zod",
+        "date-fns",
+        "react-query",
+        "forms",
+        "tanstack-router",
+        "nitro",
+        "lovable-exit"
+      ]
     }
   ],
   "routing": [
