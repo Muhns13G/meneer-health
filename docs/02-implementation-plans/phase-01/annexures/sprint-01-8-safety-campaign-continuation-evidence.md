@@ -4,6 +4,8 @@ title: Sprint 01.8 Safety and Campaign Continuation Evidence
 status: verified-local-implementation
 verified: 2026-08-07
 related_debt: [TD-008, TD-034]
+td_008_status: verified-disabled-outcome
+td_034_status: in-progress
 owner: "@Muhns13G"
 ---
 
@@ -44,9 +46,12 @@ The profile contains unmistakable development fixtures: `Dr John Doe`, `HPCSA-PL
 `Jane Doe`, and `Y-NUMBER-PLACEHOLDER`. These values are not rendered as registrations. Activation
 remains fail-closed until verified clinician, pharmacy, and urgent-channel values replace them.
 
-TD-008 is therefore **in progress**, not Verified. Acceptable closure still requires accountable
-clinical approval of the minimum-age, location, red-flag, contraindication, exclusion, and escalation
-matrix for every enabled condition, plus server-side enforcement and browser evidence.
+TD-008 is **Verified through a disabled-capability outcome**. No condition transaction is enabled,
+so no user can bypass the safety boundary and enter routine consultation or fulfilment. This closes
+the present unsafe-entry debt without approving activation. Before any condition flow is enabled,
+replace the fixtures, obtain accountable clinical approval of its minimum-age, location, red-flag,
+contraindication, exclusion, and escalation matrix, enforce those rules server-side, and repeat the
+browser/server verification.
 
 ## Campaign Boundary Implemented
 
@@ -79,6 +84,23 @@ A1 print scans on the intended devices and materials.
 | Both posters at 371 x 792, 390 x 844, and 1440 x 900 | Pass; local logo/QR load and no horizontal overflow               |
 | Browser console                                      | No errors or warnings on verified routes                          |
 | QR physical A1 scan                                  | Not run; release acceptance remains open                          |
+
+### TD-008 closure retest — 2026-08-07
+
+| Boundary                      | Result                                                                                                                                                                 |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Dev server                    | `bun run dev` started successfully at `127.0.0.1:8080`; no runtime error was emitted during requests                                                                   |
+| Homepage acquisition          | HTTP 200; eight `/start` links and two `/peptides` links converge on gated routes; no form or input exists                                                             |
+| Direct `/start`               | HTTP 200; emergency, ambulance, general-support, restricted-cohort, and no-health-information guidance rendered                                                        |
+| Campaign-attributed `/start`  | HTTP 200 with the same safety boundary                                                                                                                                 |
+| `/peptides`                   | HTTP 200; explicit gated pathway; no form, input, select, or textarea exists                                                                                           |
+| Preserved prototype isolation | No consent screen, confirmation state, or placeholder professional identity appears in rendered HTML                                                                   |
+| Campaign entry                | Both `/go/...` routes return 307 to attributed `/start` destinations                                                                                                   |
+| Browser layer                 | Existing Sprint 01.8 responsive/console evidence remains applicable; browser control was unavailable for this HTTP retest and no affected route code changed afterward |
+
+There is no client-to-API, API-to-data, or data-to-response boundary for TD-008 because the active
+experience is deliberately non-transactional. Reopening a transaction invalidates this disabled
+outcome and requires the replacement controls above before release.
 
 ## Release Rule
 

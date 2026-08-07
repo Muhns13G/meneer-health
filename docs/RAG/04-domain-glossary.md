@@ -23,6 +23,8 @@ sensitivity: internal
 
 - **v1:** current TanStack Start generation intended for a controlled pilot on a host selected before Sprint 02.
 - **Controlled pilot:** restricted, monitored use by an approved test group under a defined scope and support model. It is not public-launch approval.
+- **Pilot charter:** the proposed or approved participant, journey, operating, measurement, stop,
+  activation, and exit boundary; a charter does not itself activate a release.
 - **v2:** planned Next.js generation intended to absorb v1 learning and support public launch.
 - **Public launch:** unrestricted intended-market availability after the complete public release gate passes.
 - **v3:** conditional Laravel API and React evolution triggered by demonstrated scale or operational complexity.
@@ -46,6 +48,8 @@ sensitivity: internal
 - **Audit event:** append-only evidence of an actor, action, subject, time, outcome, correlation identifier, and safe metadata.
 - **Special personal information:** health and related information requiring heightened protection. This glossary is descriptive and not legal advice.
 - **Release gate:** evidence that must exist before a defined pilot or public release may proceed.
+- **Website-only policy:** a notice or term governing the current informational website; it is not
+  transactional terms, clinical consent, or authority to collect health information.
 - **Sprint completion report:** the verified closure record for delivered work, decisions,
   deviations, lessons, debt, file changes, validation, and residual risk.
 - **Closed engineering boundary:** planned work has been implemented or honestly dispositioned and

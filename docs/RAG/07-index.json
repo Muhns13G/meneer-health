@@ -190,13 +190,27 @@
       "last_updated": "2026-08-06"
     },
     {
+      "id": "phase-01-sprint-01-10-claims-peptide-closeout-evidence",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-10-claims-peptide-closeout-evidence.md",
+      "authority_for": [
+        "td-006-closeout-pack",
+        "td-007-closeout-pack",
+        "claim-substantiation-requirements",
+        "peptide-product-and-pathway-evidence",
+        "bpc-157-tb-500-candidate-boundary"
+      ],
+      "status": "external-evidence-pending",
+      "last_updated": "2026-08-07"
+    },
+    {
       "id": "phase-01-sprint-01-6-acquisition-assets-evidence",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-6-acquisition-assets-evidence.md",
       "authority_for": [
         "local-placeholder-logo",
         "peptide-media-review-boundary",
         "preview-branch-video-contract",
-        "acquisition-asset-containment"
+        "acquisition-asset-containment",
+        "td-033-verified-preview-containment"
       ],
       "status": "verified-task-evidence",
       "last_updated": "2026-08-06"
@@ -205,12 +219,36 @@
       "id": "phase-01-sprint-01-8-safety-campaign-continuation-evidence",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md",
       "authority_for": [
-        "td-008-local-safety-boundary",
+        "td-008-verified-disabled-outcome",
         "td-034-local-campaign-boundary",
         "canonical-campaign-routes",
         "activation-placeholder-guardrails"
       ],
-      "status": "verified-local-implementation",
+      "status": "mixed-verified-and-in-progress-evidence",
+      "last_updated": "2026-08-07"
+    },
+    {
+      "id": "phase-01-controlled-pilot-charter-v1",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md",
+      "authority_for": [
+        "proposed-pilot-scope",
+        "participant-boundary",
+        "pilot-measures",
+        "stop-criteria",
+        "activation-and-exit-gates"
+      ],
+      "status": "approved",
+      "last_updated": "2026-08-07"
+    },
+    {
+      "id": "phase-01-sprint-01-9-policy-support-evidence",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-01-9-policy-support-evidence.md",
+      "authority_for": [
+        "website-policy-containment",
+        "general-support-boundary",
+        "td-005-closure-requirements"
+      ],
+      "status": "verified",
       "last_updated": "2026-08-07"
     },
     {
@@ -468,6 +506,43 @@
         "docs/04-technical-debt/technical-debt-registry-v1.md",
         "src/lib/compliance/pilot-profile.ts",
         "src/lib/campaigns.ts"
+      ]
+    },
+    {
+      "query_topics": [
+        "pilot-charter",
+        "pilot-scope",
+        "participants",
+        "success-measures",
+        "stop-criteria",
+        "exit-criteria",
+        "public-launch-gate"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md"
+      ],
+      "verify_against": [
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "docs/RAG/05-decision-register.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "privacy-notice",
+        "website-terms",
+        "support-email",
+        "privacy-rights",
+        "sensitive-email",
+        "td-005"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-01-9-policy-support-evidence.md"
+      ],
+      "verify_against": [
+        "src/routes/privacy.tsx",
+        "src/routes/terms.tsx",
+        "src/routes/contact.tsx",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
       ]
     },
     {

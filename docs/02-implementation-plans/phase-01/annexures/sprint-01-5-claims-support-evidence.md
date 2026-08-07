@@ -79,13 +79,16 @@ claim was rewritten in this task.
 - Runtime MCP `list_treatments`: returned peptides first with the established product wording.
 - Homepage working-tree diff: none.
 
-## Open Technical Debt After Closure
+## Technical Debt Position at Sprint 01.5 Closure
 
-- TD-005 remains open for approved, versioned policies and monitored support procedures. Active data
-  collection remains gated in the meantime.
-- TD-006 remains open until each retained claim has its domain evidence and accountable approver.
-- TD-007 remains open at the transactional boundary until the exact peptide pathway is
-  evidenced and approved; its first-rollout product position is owner-confirmed.
+- TD-005 was open at this boundary for approved, versioned policies and monitored support
+  procedures. It was later Verified through Sprint 01.9 website-only containment; transactional
+  policy and support requirements remain activation prerequisites.
+- TD-006 was open until each retained claim received its domain evidence and accountable approver;
+  Sprint 01.10 moved it to `In progress` with an exact close-out pack.
+- TD-007 was open at the transactional boundary until the exact peptide pathway was evidenced and
+  approved; Sprint 01.10 moved it to `In progress` while retaining its owner-confirmed first-rollout
+  product position.
 
 Sprint 01.5 is closed as a verified containment, consistency, and documentation task. Closure does
 not resolve or waive the open activation work above.
