@@ -3,7 +3,7 @@ artifact_id: phase-01-sprint-01-6-acquisition-assets-evidence
 title: Sprint 01.6 Acquisition Assets Evidence
 status: verified-task-evidence
 authority: repository-observed-and-owner-confirmed
-last_updated: 2026-08-06
+last_updated: 2026-08-07
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -94,9 +94,11 @@ into `itws-I`.
 
 - TD-032's local visual requirement is verified. Hosted preview/production rendering and final
   brand quality remain open for the selected hosting sprint and FC-002.
-- TD-033's local draft-rendering and decode path is verified. Final approval, an approved poster,
-  captions, transcript, manual playback, loading behaviour, and hosted browser evidence remain
-  open.
+- TD-033's local draft-rendering and decode path was verified. On 7 August 2026, the owner approved
+  closing it through isolated-preview containment: the binary exists only on `itws-I-preview`, the
+  permanent branch contains no media binary or default media URL, and both modes remain
+  non-transactional. Final approval, an approved poster, captions, transcript, manual playback,
+  loading behaviour, and hosted browser evidence are reactivation requirements before public use.
 - TD-034 remains open until approved campaign URLs, attributed QR assets, representative device
   scans, and A1 print tests exist; local browser evidence confirms the inactive gates expose none
   of those unapproved surfaces.
@@ -104,3 +106,11 @@ into `itws-I`.
 Sprint 01.6 is closed as a verified local engineering boundary. It replaces broken dependencies
 and provides safe containment, but does not represent draft media, final branding, or campaign
 concepts as production-approved assets.
+
+## TD-033 Closure Addendum
+
+Read-only Git inspection on 7 August 2026 confirmed that `itws-I-preview` contains the 6,703,712-byte
+draft MP4 and preview-only fallback, while `itws-I` contains neither the binary nor that fallback.
+The permanent route remains gated unless an explicit environment URL is supplied. The owner
+approved this branch-isolated, labelled, non-transactional review outcome. TD-033 is therefore
+Verified through containment; public-media readiness is not claimed.

@@ -49,7 +49,9 @@ A newer document does not automatically outrank a domain-approved source. When s
 
 - Do not infer that a planned capability exists.
 - Do not convert marketing copy into clinical fact.
-- Do not describe placeholder consent, policies, accounts, questionnaires, or confirmations as operational.
+- Do not describe placeholder consent, accounts, questionnaires, or confirmations as operational.
+- Do not treat website-only privacy/terms as transactional policy, telehealth consent, or authority
+  to collect health information.
 - Do not expose secrets, credentials, tokens, patient data, health submissions, or private operational records.
 - Do not use internal debt, incidents, or deliberations in a public response.
 - Do not recommend `LOVABLE_API_KEY`; it is not a Meneer runtime requirement.

@@ -10,6 +10,8 @@ sources:
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-01-9-policy-support-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
 ---
 
@@ -39,6 +41,12 @@ Post-closure work has implemented a fail-closed safety entry and canonical campa
 The provisional operator is owner-confirmed as OCTOTHORP ZA (`K2024185008`). Professional,
 pharmacy, and urgent-channel values remain explicit development fixtures and block activation;
 they are not evidence of verified registrations or partner approval.
+
+An owner-approved controlled-pilot charter now defines the 30-day invite-only, peptide-only transactional
+scope, operating roles, measures, stop criteria, activation gate, exit review, and distinct
+public-launch threshold. Versioned website-only privacy and terms notices replace the earlier
+placeholders and are approved for publication as version 1.0. The support mailbox exists, is
+owner-monitored daily, and has owner-confirmed security controls. TD-005 and TD-056 are Verified.
 
 Pilot approval and public-launch approval are separate. Cohort access does not justify removing the
 transactional gate or exposing the same scope as an unrestricted public launch.
@@ -79,3 +87,4 @@ Only the public presentation and read-only Lovable MCP currently exist in recogn
 - Target direction and delivery gates: [`master-blueprint-v1.md`](../00-blueprints/master-blueprint-v1.md)
 - Dated implementation evidence: [`project-codebase-audit-2026-08-05.md`](../01-audits/project-codebase-audit-2026-08-05.md)
 - Remediation obligations: [`technical-debt-registry-v1.md`](../04-technical-debt/technical-debt-registry-v1.md)
+- Claims and peptide close-out pack: [`sprint-01-10-claims-peptide-closeout-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-01-10-claims-peptide-closeout-evidence.md)

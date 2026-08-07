@@ -52,22 +52,36 @@ records the verified disabled outcomes for TD-001 and TD-003 at committed bounda
 The focused
 [Sprint 01.5 claims and support evidence](./annexures/sprint-01-5-claims-support-evidence.md)
 records the retained-copy boundary, claim register, support correction, and peptide catalogue
-alignment. Sprint 01.5 is closed as a verified engineering boundary; TD-005, TD-006, and TD-007
-remain open for the operational and domain work that was not completed in this task.
+alignment. Sprint 01.5 is closed as a verified engineering boundary; TD-005 was later Verified,
+while TD-006 and TD-007 require the operational and domain evidence not completed in that task.
 
 The focused
 [Sprint 01.6 acquisition assets evidence](./annexures/sprint-01-6-acquisition-assets-evidence.md)
 records the verified local placeholder logo replacement, safe media-review boundary, continued
 poster gate, and desktop/mobile browser evidence. Sprint 01.6 is closed as a verified local
-engineering boundary; hosted-platform, final-media, and QR acceptance work remains open under
-TD-032–TD-034.
+engineering boundary. TD-033 was later Verified through isolated-preview containment; hosted logo
+and QR acceptance remain under TD-032 and TD-034, while final media requirements apply before
+public use.
 
 The post-closure
 [Sprint 01.8 safety and campaign continuation evidence](./annexures/sprint-01-8-safety-campaign-continuation-evidence.md)
 records the fail-closed `/start` safety boundary, centralized placeholder profile, stable campaign
-redirects, QR assets, and internal poster proofs. TD-008 and TD-034 are now in progress; neither is
-Verified until its remaining clinical, hosted, operational, and physical-print acceptance evidence
-is complete.
+redirects, QR assets, and internal poster proofs. TD-008 is Verified through a local
+disabled-capability outcome. TD-034 remains in progress pending its hosted, operational, and
+physical-print acceptance evidence.
+
+The post-closure
+[controlled-pilot charter](./annexures/sprint-01-controlled-pilot-charter-v1.md) and
+[Sprint 01.9 policy/support evidence](./annexures/sprint-01-9-policy-support-evidence.md) define the
+approved TD-056 release boundary and implement TD-005's truthful website-only policy containment.
+The charter and website policy boundary are owner-approved. The support mailbox exists, is
+owner-monitored daily, and has the required security controls. TD-005 and TD-056 are Verified.
+
+The post-closure
+[Sprint 01.10 claims and peptide close-out evidence](./annexures/sprint-01-10-claims-peptide-closeout-evidence.md)
+records owner approval to proceed and maps each retained claim and peptide-pathway obligation to its
+required authoritative evidence and domain approver. TD-006 and TD-007 are in progress; the public
+copy remains unchanged and the transactional gates remain mandatory.
 
 ## Confirmed Owner Direction
 
@@ -175,15 +189,22 @@ buildable intermediate state:
 4. [x] `Prevent false submission success states` — satisfied by `3c1ff01`; focused registry evidence
        recorded in the current boundary.
 5. [x] `Correct pilot claims and support surfaces` — Sprint 01.5 closed with verified evidence;
-       unfinished policy, claim-approval, support-operation, and peptide-activation work remains
-       open under TD-005, TD-006, and TD-007.
+       policy/support containment is now Verified under TD-005, while claim-approval and
+       peptide-activation work remains open under TD-006 and TD-007.
 6. [x] `Repair acquisition assets` — permanent implementation boundary recorded in Sprint 01.6
-       evidence; final logo visual verification, approved video accessibility assets, and tested
-       campaign QR codes remain open under TD-032–TD-034.
+       evidence. TD-033 is Verified through branch-isolated draft-video containment; hosted logo
+       evidence and final campaign QR acceptance remain under TD-032 and TD-034.
 7. [x] `Complete Sprint 1 verification and reporting` — closure evidence recorded in
        [`docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md`](../../03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md).
 8. [x] `Implement fail-closed safety and campaign continuation` — local implementation and evidence
-       recorded in Sprint 01.8; TD-008 and TD-034 remain acceptance-gated in the registry.
+       recorded in Sprint 01.8; TD-008 is Verified through containment and TD-034 remains
+       acceptance-gated in the registry.
+9. [x] `Approve pilot charter and policy/support containment` — the repository owner approved the
+       charter and website policy/support boundary and confirmed the support mailbox's ownership,
+       monitoring, and security controls on 7 August 2026. TD-005 and TD-056 are Verified.
+10. [ ] `Substantiate retained claims and peptide pathway` — owner direction and the close-out pack
+        are recorded. Close TD-006 and TD-007 only after the named external evidence, register
+        checks, domain approvals, and channel reconciliation are complete.
 
 Each commit should contain its directly related validation and documentation. Do not mix unrelated
 formatting, dependency, or generated-file changes into these boundaries. The repository owner stages,
@@ -192,9 +213,12 @@ commits, and pushes after reviewing each completed outcome.
 ## Closure Status
 
 Sprint 01 is complete as a verified engineering containment boundary. This closure does not approve
-pilot activation, hosted release, health-information collection, or public launch. TD-008 and
-TD-034 have progressed to implemented local boundaries but remain acceptance-gated. TD-005–TD-008,
-TD-032–TD-034, and TD-056 retain their registry acceptance criteria.
+pilot activation, hosted release, health-information collection, or public launch. TD-008 is
+Verified only while all condition transactions remain disabled; its replacement requirements apply
+before activation. TD-005 is Verified through the approved non-transactional policy/support
+containment, and TD-056 is Verified through its approved charter. TD-033 is Verified through
+isolated-preview containment and carries explicit public-media reactivation requirements. TD-006,
+TD-007, TD-032, and TD-034 retain their registry acceptance criteria.
 
 ## Validation
 

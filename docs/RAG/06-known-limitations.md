@@ -36,7 +36,12 @@ requirements before enabling submission; the preserved prototype is not suitable
 
 ## Clinical and Legal Limits
 
-Provider identity, registrations, partner arrangements, treatment eligibility, contraindications, clinical pathways, consent wording, privacy terms, pricing, refund rules, delivery promises, and peptide positioning are not approved in the repository evidence. Existing marketing and MCP claims require a governed claim register and domain review.
+Provider identity, registrations, partner arrangements, treatment eligibility, contraindications,
+clinical pathways, transactional consent/privacy/terms, pricing, refund rules, delivery promises,
+and peptide positioning are not approved in the repository evidence. Versioned website-only privacy
+and terms notices are implemented and owner-approved for publication as version 1.0; they are not
+authority for health-data collection or transactions. Existing marketing and MCP claims require a
+governed claim register and domain review.
 
 The owner-confirmed provisional operator and development fixtures are centralized in the pilot
 compliance profile. `Dr John Doe`, `Jane Doe`, `HPCSA-PLACEHOLDER`, and
@@ -48,6 +53,10 @@ Peptides are owner-confirmed as the first intended v1 rollout product, not a "co
 The current transaction is nevertheless gated until its product-level, partner, questionnaire,
 data-transfer, dispensing, exclusion, escalation, and operational evidence is approved. Preserve
 established customer-facing messaging while keeping that implementation boundary explicit.
+
+BPC-157 plus TB-500 (“Wolverine stack”) is the initial candidate pairing, not an approved offering.
+SAHPRA's public warning names both among illegally marketed peptides; product-specific registration
+or valid Section 21 authority is required before either can enter transactional scope.
 
 Never generate patient-specific diagnosis, dosing, eligibility, or treatment advice from this corpus. Never treat the blueprint's intended journey as an approved clinical protocol.
 
@@ -74,14 +83,20 @@ Build and audit counts are dated evidence. Re-run checks before using them in a 
 
 ## Release Limits
 
-The codebase is not approved for public launch or health-information collection. A controlled pilot also requires its own approved scope, operating model, consent/data handling, monitored destination for every enabled submission, support and incident procedures, success measures, and stop criteria.
+The codebase is not approved for public launch or health-information collection. A complete
+controlled-pilot charter is proposed but not yet owner-approved. Activation still requires its
+operating model, consent/data handling, monitored destination for every enabled submission, support
+and incident procedures, accountable approvers, and passing gate evidence.
 
 Technical debt is authoritative for outstanding obligations. An item is not resolved because a recommendation exists or code was edited; it must be marked `Verified` with acceptance evidence.
 
 Sprint 01 is closed as an engineering containment boundary, not as pilot activation approval.
-TD-008 and TD-034 now have verified local implementation progress but remain acceptance-gated;
-TD-005–TD-008, TD-032–TD-034, and TD-056 remain unresolved as recorded in the completion report and
-registry.
+TD-008 is Verified only through the current disabled-capability outcome; enabling any condition
+transaction requires its approved clinical rules, verified accountable parties, server enforcement,
+and renewed evidence. TD-005 is Verified through the current website-only policy/support
+containment, TD-033 is Verified through isolated-preview containment, and TD-056 is Verified through
+the approved charter. TD-006–TD-007 are in progress with an exact external close-out pack; TD-032
+and TD-034 remain unresolved as recorded in the completion report and registry.
 
 ## Retrieval Response Pattern
 
