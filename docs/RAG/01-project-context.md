@@ -13,6 +13,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-9-policy-support-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
+  - docs/06-operations/cloudflare-environments-release-runbook.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
 ---
 
 # Meneer Project Context
@@ -37,6 +39,13 @@ peptide-transaction, and campaign journeys are not active customer transactions.
 approve pilot activation. The current `itws-I-preview` build is deployed through Cloudflare at
 `meneerhealth.co.za`. The repository owner selected Cloudflare for the v1 TanStack pilot; Vercel
 remains a possible v2 Next.js host rather than a current dependency.
+
+Cloudflare currently treats `itws-I-preview` as the production branch and all other branches,
+including permanent source branch `itws-I`, as non-production version uploads. The canonical Worker
+now runs Sprint 2.6 from `itws-I-preview` commit `2e83767`; `itws-I` commit `774839d` is available as
+a non-production Worker version. Hosted route and identity removal are verified, while Task 2.7's
+persisted-log and release configuration remains local. The owner-only runbook governs its eventual
+merge/deploy and the later handoff of production branch responsibility to `itws-I`.
 
 Post-closure work has implemented a fail-closed safety entry and canonical campaign/QR boundary.
 The provisional operator is owner-confirmed as OCTOTHORP ZA (`K2024185008`). Professional,

@@ -10,6 +10,7 @@ sources:
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
+  - docs/06-operations/cloudflare-environments-release-runbook.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -62,7 +63,9 @@ React components, route conventions, server-function APIs, Vercel configuration,
 7. **Completed locally in Sprint 02 Tasks 2.5–2.6:** Lovable package-install exceptions, telemetry
    references, historical lockfile cache URLs, and root/fallback identity are removed. Hosted
    network, route, and log verification remains Task 2.7.
-8. Verify build, SSR, routes, assets, endpoints, logs, security headers, rollback, and dependency reachability.
+8. **Implemented locally in Sprint 02 Task 2.7:** define build versions, environment/branch roles,
+   secrets, promotion, observability, and rollback. Current-source hosted SSR, navigation, routes,
+   assets, endpoints, logs, and headers remain pending the owner deployment.
 
 ## Migration Entry Criteria
 

@@ -145,6 +145,10 @@ Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](annexures/sprint-02-6-mene
 5. Document owner-controlled deployment, promotion, rollback, and post-deploy verification. The
    repository owner performs GitHub pushes and production actions.
 
+Evidence: [`sprint-02-7-cloudflare-release-evidence.md`](annexures/sprint-02-7-cloudflare-release-evidence.md)
+— repository boundary implemented locally 7 August 2026; the Sprint 2.6 hosted baseline is verified,
+while the Task 2.7 commit/deployment, persisted logs, and browser closure remain required.
+
 ### Task 2.8 — Verify and close Sprint 02
 
 1. Run clean-install, type, lint, build, audit, static-search, route, browser, log, and rollback
