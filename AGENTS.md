@@ -6,7 +6,6 @@ This Bun-managed TanStack Start app uses React, TypeScript, Vite, Tailwind CSS, 
 
 - `src/routes/` contains file-based pages and server endpoints. Dynamic or special paths use bracketed folders, such as `src/routes/[.mcp]/`.
 - `src/components/` holds site sections; reusable Radix/shadcn-style primitives live in `src/components/ui/`.
-- `src/lib/mcp/` defines the public MCP server and its tools.
 - `src/hooks/` and `src/lib/` contain shared code. Images and generated asset metadata live in `src/assets/`; global styles are in `src/styles.css`.
 - `src/routeTree.gen.ts` is generated routing output; do not edit it manually.
 - Root configuration lives in `vite.config.ts`, `tsconfig.json`, `eslint.config.js`, and `wrangler.jsonc`.
@@ -32,11 +31,11 @@ Prettier enforces 100-character lines, semicolons, double quotes, and trailing c
 
 ## Testing Guidelines
 
-When adding tests, colocate `*.test.ts` or `*.test.tsx` near the code and add the runner to `package.json`. Prioritize routes, forms, navigation, and MCP responses. For MCP changes, verify both tool-listing and invocation endpoints. Document manual checks in the pull request.
+When adding tests, colocate `*.test.ts` or `*.test.tsx` near the code and add the runner to `package.json`. Prioritize routes, forms, navigation, redirects, and server responses. Document manual checks in the pull request.
 
 ## Commit & Pull Request Guidelines
 
-Existing history is informal (`Changes`, `Work in progress`, and occasional descriptive fixes). Prefer concise, imperative commits such as `Add peptide eligibility form` or `Fix MCP treatment response`. Keep each commit scoped to one concern.
+Existing history is informal (`Changes`, `Work in progress`, and occasional descriptive fixes). Prefer concise, imperative commits such as `Add peptide eligibility form` or `Fix campaign attribution redirect`. Keep each commit scoped to one concern.
 
 Pull requests should explain the change, list validation, link relevant issues, and include screenshots for visual updates. Call out generated files, dependencies, or Cloudflare configuration changes.
 

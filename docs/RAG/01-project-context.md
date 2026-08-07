@@ -78,13 +78,16 @@ pharmacy registrations, approved partners, and treatment launch scope remain ope
 
 ## Intended Capability Boundaries
 
-- **Public acquisition:** marketing pages, condition education, campaigns, SEO, approved claims, public policies, and optional public MCP information.
+- **Public acquisition:** marketing pages, condition education, campaigns, SEO, approved claims,
+  and public policies. MCP is not part of v1.
 - **Patient application:** identity, consent, intake, appointments, messages, orders, documents, delivery status, and account rights.
 - **Clinical workspace:** review queues, consultation records, decisions, prescriptions, follow-up, and clinical audit events.
 - **Operations workspace:** support, scheduling, payment exceptions, pharmacy hand-off, delivery, refunds, and escalation.
 - **Integration layer:** controlled adapters for identity, messaging, video, laboratories, payments, pharmacy, courier, and observability.
 
-Only the public presentation and read-only Lovable MCP currently exist in recognisable form. The other boundaries describe intended future capabilities.
+Only the public presentation currently exists in recognisable form. The former read-only Lovable
+MCP surface was removed in Sprint 02 Task 2.4. The other boundaries describe intended future
+capabilities.
 
 ## Authoritative References
 
