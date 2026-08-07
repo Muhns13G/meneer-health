@@ -257,17 +257,22 @@ The service is not ready for public launch until all of the following are eviden
 
 ## Decisions Required Before Detailed Implementation Planning
 
-1. Is Meneer the healthcare provider, an intermediary, or a technology/marketing layer for a provider?
-2. Which legal entity contracts with the patient and controls each data category?
-3. Which clinicians, pharmacies, laboratories, couriers, and peptide partner are approved?
-4. Which treatments launch first, and which remain informational or waitlisted?
-5. What consultation, prescription, payment, subscription, cancellation, and refund models apply?
-6. Which authentication, database, scheduling, messaging, payment, and observability vendors are acceptable?
-7. What are the authoritative clinical pathways and escalation rules per condition?
-8. Who owns clinical approval, privacy, security, operations, content, and release decisions?
-9. Which v1 workflows are in the controlled pilot, and which are demonstrations, waitlisted, or removed?
-10. Which measured thresholds would justify the Next.js and later Laravel/React migrations?
-11. Which database and service providers meet portability, POPIA, residency, security, and operational requirements?
+DR-001 approves a layered boundary: Meneer Health is the working customer-facing brand, OCTOTHORP
+ZA owns technology, marketing, general support, and operations coordination, and verified
+independent clinical and pharmacy parties retain professional authority. DR-008 establishes the
+accountable approval roles. The remaining decisions are:
+
+1. Which legal entity contracts with the patient for each component and controls each data category?
+2. Which clinicians, pharmacies, laboratories, couriers, and peptide-partner authorities are approved?
+3. Which treatments launch first, and which remain informational or waitlisted?
+4. What consultation, prescription, payment, subscription, cancellation, and refund models apply?
+5. Which authentication, database, scheduling, messaging, payment, and observability vendors are acceptable?
+6. What are the authoritative clinical pathways and escalation rules per condition?
+7. Which private role holders satisfy the DR-008 clinical, privacy, security, operations, content,
+   data, and release approval roles?
+8. Which v1 workflows are in the controlled pilot, and which are demonstrations, waitlisted, or removed?
+9. Which measured thresholds would justify the Next.js and later Laravel/React migrations?
+10. Which database and service providers meet portability, POPIA, residency, security, and operational requirements?
 
 ## Market Reference Position
 
