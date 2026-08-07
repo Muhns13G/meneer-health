@@ -301,6 +301,31 @@
         "security-basics"
       ],
       "status": "active"
+    },
+    {
+      "id": "decision-record-index",
+      "path": "docs/07-decisions/README.md",
+      "authority_for": [
+        "decision-record-identifiers",
+        "decision-status-lifecycle",
+        "decision-ownership-and-approval",
+        "sprint-03-decision-record-register"
+      ],
+      "status": "active",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-1-decision-governance-evidence.md",
+      "authority_for": [
+        "sprint-03-delivery-contract",
+        "decision-record-governance",
+        "td-013-implementation-evidence-allocation",
+        "td-016-implementation-evidence-allocation",
+        "sprint-03-task-01-validation"
+      ],
+      "status": "verified-local",
+      "last_updated": "2026-08-08"
     }
   ],
   "implementation_plans": [
@@ -462,7 +487,7 @@
     {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
-      "status": "planned",
+      "status": "in-progress",
       "primary_debt": [
         "TD-009",
         "TD-010",
@@ -472,7 +497,11 @@
         "TD-016",
         "TD-050",
         "TD-054"
-      ]
+      ],
+      "implementation_follow_through": {
+        "sprint": "phase-01-sprint-05",
+        "debt": ["TD-013", "TD-016"]
+      }
     },
     {
       "id": "phase-01-sprint-04",
@@ -494,7 +523,8 @@
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
       "status": "planned",
-      "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"]
+      "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"],
+      "implementation_follow_through": ["TD-013", "TD-016"]
     },
     {
       "id": "phase-01-sprint-06",
@@ -707,7 +737,7 @@
     },
     {
       "query_topics": ["decision", "vendor", "provider", "pilot-scope", "open-question"],
-      "read_first": ["docs/RAG/05-decision-register.md"],
+      "read_first": ["docs/RAG/05-decision-register.md", "docs/07-decisions/README.md"],
       "verify_against": [
         "approved decision records",
         "docs/04-technical-debt/technical-debt-registry-v1.md"
