@@ -66,7 +66,8 @@ The repository is hosted for contained review but is not ready for transactional
 Lovable's Vite wrapper, MCP SDK, telemetry path, manifest, and metadata remain. Cloudflare plugin
 and Wrangler configuration remain. The `itws-I-preview` build is served at `meneerhealth.co.za`;
 canonical checks verify the local placeholder logo and campaign routes. The longer-term
-Cloudflare-versus-Vercel choice and final brand work remain open.
+Vercel decision is deferred to the planned Next.js v2; explicit Cloudflare configuration,
+environment roles, logs, and rollback evidence remain Sprint 02 work. Final brand work remains open.
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
 

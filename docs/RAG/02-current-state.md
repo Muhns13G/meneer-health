@@ -30,7 +30,8 @@ support records.
 - Bun package management with `bun.lock`.
 - React 19, TypeScript strict mode, TanStack Start/Router, Vite, Tailwind CSS, and Nitro.
 - Lovable Vite configuration and MCP packages.
-- Cloudflare-oriented build configuration while the Cloudflare-versus-Vercel host decision is open.
+- Cloudflare is the approved v1 host; its build configuration remains partly hidden behind the
+  Lovable wrapper until Sprint 02 replaces that wrapper with explicit supported plugins.
 - Radix/shadcn-style primitives, most of which are unused by product routes.
 
 ## Route Behaviour
@@ -167,12 +168,14 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
 
 - `@lovable.dev/vite-tanstack-config` supplies hidden Vite defaults, sandbox behaviour, virtual-asset proxying, and a Cloudflare-oriented Nitro preset.
 - `@lovable.dev/mcp-js` defines the MCP tools and generates routes and `.lovable/mcp/manifest.json`.
+  Removal is approved for Sprint 02 because MCP has no required v1 pilot use case; it remains active
+  until Task 2.4 passes.
 - The shared logo now uses a local placeholder; the Lovable Vite wrapper's broader virtual-asset
   capability remains until Sprint 02 de-platforming.
 - Root metadata still identifies the application and author as Lovable.
 - `@cloudflare/vite-plugin`, `wrangler.jsonc`, and Cloudflare compatibility configuration remain.
-  The current `itws-I-preview` build is deployed at `meneerhealth.co.za`; the longer-term
-  Cloudflare-versus-Vercel decision remains Sprint 02 work.
+  The current `itws-I-preview` build is deployed at `meneerhealth.co.za`; Sprint 02 retains and
+  explicitly owns this Cloudflare runtime while removing Lovable coupling.
 - `LOVABLE_API_KEY` is used only for default Lovable MCP telemetry and must not be provisioned on
   the selected host.
 
