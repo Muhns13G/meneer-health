@@ -34,8 +34,9 @@ not yet implement any of those durable capabilities.
 
 Sprint 01 is closed as a verified containment boundary: incomplete account, consent, intake,
 peptide-transaction, and campaign journeys are not active customer transactions. This does not
-approve pilot activation. Hosting is deliberately unresolved between the currently configured
-Cloudflare path and the previously preferred Vercel path and must be decided before Sprint 02.
+approve pilot activation. The current `itws-I-preview` build is deployed through Cloudflare at
+`meneerhealth.co.za`; the longer-term Cloudflare-versus-Vercel direction remains a Sprint 02
+decision.
 
 Post-closure work has implemented a fail-closed safety entry and canonical campaign/QR boundary.
 The provisional operator is owner-confirmed as OCTOTHORP ZA (`K2024185008`). Professional,
@@ -47,6 +48,9 @@ scope, operating roles, measures, stop criteria, activation gate, exit review, a
 public-launch threshold. Versioned website-only privacy and terms notices replace the earlier
 placeholders and are approved for publication as version 1.0. The support mailbox exists, is
 owner-monitored daily, and has owner-confirmed security controls. TD-005 and TD-056 are Verified.
+Hosted canonical-domain checks and owner-confirmed QR scans also close TD-032 and TD-034. TD-006
+and TD-007 are the only original Sprint 01 debts carried forward for external claim and peptide
+pathway evidence.
 
 Pilot approval and public-launch approval are separate. Cohort access does not justify removing the
 transactional gate or exposing the same scope as an unrestricted public launch.

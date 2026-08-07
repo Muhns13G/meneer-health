@@ -90,18 +90,20 @@ into `itws-I`.
   image, registration, submission, or success state. Server output showed no runtime error during
   the verification pass.
 
-## Open Technical Debt After This Boundary
+## Technical Debt After This Boundary
 
-- TD-032's local visual requirement is verified. Hosted preview/production rendering and final
-  brand quality remain open for the selected hosting sprint and FC-002.
+- TD-032's local visual requirement was verified at this boundary. On 7 August 2026,
+  `itws-I-preview` was published at `meneerhealth.co.za`; the canonical homepage and `/peptides`
+  returned HTTP 200, and the emitted PNG returned HTTP 200 with the expected 107,450-byte length.
+  TD-032 is Verified. Final brand quality remains separate under FC-002.
 - TD-033's local draft-rendering and decode path was verified. On 7 August 2026, the owner approved
   closing it through isolated-preview containment: the binary exists only on `itws-I-preview`, the
   permanent branch contains no media binary or default media URL, and both modes remain
   non-transactional. Final approval, an approved poster, captions, transcript, manual playback,
   loading behaviour, and hosted browser evidence are reactivation requirements before public use.
-- TD-034 remains open until approved campaign URLs, attributed QR assets, representative device
-  scans, and A1 print tests exist; local browser evidence confirms the inactive gates expose none
-  of those unapproved surfaces.
+- TD-034 was later Verified through the hosted canonical redirects, HTTP 200 attributed `/start`
+  destinations, and owner-confirmed successful QR scans. Final A1 production/material QA remains a
+  mandatory pre-distribution release check.
 
 Sprint 01.6 is closed as a verified local engineering boundary. It replaces broken dependencies
 and provides safe containment, but does not represent draft media, final branding, or campaign
@@ -114,3 +116,12 @@ draft MP4 and preview-only fallback, while `itws-I` contains neither the binary 
 The permanent route remains gated unless an explicit environment URL is supplied. The owner
 approved this branch-isolated, labelled, non-transactional review outcome. TD-033 is therefore
 Verified through containment; public-media readiness is not claimed.
+
+## TD-032 and TD-034 Hosted Closure Addendum
+
+On 7 August 2026, the owner connected `meneerhealth.co.za` to the `itws-I-preview` Cloudflare
+deployment. Read-only hosted checks confirmed HTTP 200 for the homepage and `/peptides`, plus HTTP
+200 for the hashed local logo asset with a 107,450-byte response. The same canonical deployment
+returned the approved attributed 307 redirects for both `/go/...` routes and HTTP 200 at their
+gated `/start` destinations. The owner separately confirmed that both QR codes scan and redirect
+successfully. TD-032 and TD-034 are therefore Verified for the current contained implementation.
