@@ -2,7 +2,7 @@
 plan_id: phase-01-technical-debt-stabilisation
 title: Phase 01 Technical Debt Stabilisation
 status: planned
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 owner: unassigned
 ---
 
@@ -40,6 +40,9 @@ Plans must be refreshed if these sources materially change. Repository evidence 
 | 05     | Implement the approved data, security, audit, and operational foundations.          | TD-014, TD-015, TD-017–TD-020, TD-055         | Sprints 03 and 04                                  |
 | 06     | Correct journeys, accessibility, navigation, discovery, and support surfaces.       | TD-035–TD-039, TD-042–TD-044                  | Sprints 01, 03, and 04                             |
 | 07     | Establish canonical content, privacy-safe measurement, and the final MCP boundary.  | TD-040, TD-045–TD-048                         | Sprints 02, 03, 05, and 06                         |
+
+Sprint 02 closed on 8 August 2026 after Tasks 2.1–2.8. TD-025, TD-027, TD-041, TD-049, and
+TD-051–TD-053 are Verified.
 
 External decision preparation may begin early, but a sprint cannot claim completion until its prerequisites and acceptance evidence are satisfied.
 

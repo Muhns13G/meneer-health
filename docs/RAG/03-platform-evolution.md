@@ -3,7 +3,7 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-direction
 authority: strategic
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
 sources:
@@ -11,6 +11,7 @@ sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
+  - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -60,12 +61,12 @@ React components, route conventions, server-function APIs, Vercel configuration,
 6. **Completed in Sprint 02 Task 2.4:** the Lovable MCP SDK, generated routes, OAuth metadata,
    tools, manifest, and built output were removed. Any future MCP requires a justified use case and
    separately approved vendor-neutral boundary.
-7. **Completed locally in Sprint 02 Tasks 2.5–2.6:** Lovable package-install exceptions, telemetry
-   references, historical lockfile cache URLs, and root/fallback identity are removed. Hosted
-   network, route, and log verification remains Task 2.7.
-8. **Implemented locally in Sprint 02 Task 2.7:** define build versions, environment/branch roles,
-   secrets, promotion, observability, and rollback. Current-source hosted SSR, navigation, routes,
-   assets, endpoints, logs, and headers remain pending the owner deployment.
+7. **Completed in Sprint 02 Tasks 2.5–2.8:** Lovable package-install exceptions, telemetry
+   references, historical lockfile cache URLs, and root/fallback identity are removed; hosted
+   network and log evidence confirms their absence.
+8. **Completed in Sprint 02:** build versions, environment/branch roles, secrets, promotion,
+   observability, rollback, SSR, navigation, routes, assets, endpoints, and logs are verified.
+   Production and non-production builds pin Bun 1.3.14 and use the documented Bun runner.
 
 ## Migration Entry Criteria
 

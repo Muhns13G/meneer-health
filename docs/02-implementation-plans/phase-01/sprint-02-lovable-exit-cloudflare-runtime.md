@@ -1,10 +1,10 @@
 ---
 plan_id: phase-01-sprint-02
 title: Lovable Exit and Cloudflare Runtime Ownership
-status: approved-for-implementation
+status: completed
 primary_debt: [TD-025, TD-027, TD-041, TD-049, TD-051, TD-052, TD-053]
 depends_on: [phase-01-sprint-01]
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 owner: "@Muhns13G"
 ---
 
@@ -107,7 +107,7 @@ Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](annexures/spr
 5. Verify removed endpoints return the approved not-found response and no unrelated route changes.
 
 Evidence: [`sprint-02-4-mcp-removal-evidence.md`](annexures/sprint-02-4-mcp-removal-evidence.md)
-— verified locally 7 August 2026; hosted verification remains Task 2.7.
+— verified locally 7 August 2026; hosted removal confirmed in Task 2.8.
 
 ### Task 2.5 — Remove telemetry behaviour and normalize dependencies
 
@@ -118,7 +118,7 @@ Evidence: [`sprint-02-4-mcp-removal-evidence.md`](annexures/sprint-02-4-mcp-remo
 5. Re-run the production dependency audit and preserve unrelated remediation for its assigned sprint.
 
 Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](annexures/sprint-02-5-telemetry-dependency-evidence.md)
-— verified locally 7 August 2026; hosted telemetry confirmation remains Task 2.7.
+— verified locally 7 August 2026; hosted network/log absence confirmed in Task 2.8.
 
 ### Task 2.6 — Replace remaining Lovable identity
 
@@ -130,7 +130,7 @@ Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](annexures/sprint-02-5
 4. Prove no active source or built output presents Lovable as the application or author.
 
 Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](annexures/sprint-02-6-meneer-metadata-evidence.md)
-— verified locally 7 August 2026; hosted release verification remains Task 2.7.
+— verified locally 7 August 2026; hosted metadata confirmed in Task 2.8.
 
 ### Task 2.7 — Define Cloudflare environments and release operations
 
@@ -146,8 +146,7 @@ Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](annexures/sprint-02-6-mene
    repository owner performs GitHub pushes and production actions.
 
 Evidence: [`sprint-02-7-cloudflare-release-evidence.md`](annexures/sprint-02-7-cloudflare-release-evidence.md)
-— repository boundary implemented locally 7 August 2026; the Sprint 2.6 hosted baseline is verified,
-while the Task 2.7 commit/deployment, persisted logs, and browser closure remain required.
+— verified 7 August 2026 after the owner committed, pushed, and deployed the Task 2.7 boundary.
 
 ### Task 2.8 — Verify and close Sprint 02
 
@@ -157,6 +156,9 @@ while the Task 2.7 commit/deployment, persisted logs, and browser closure remain
 3. Update TD-025, TD-027, TD-041, TD-049, and TD-051–TD-053 only where acceptance evidence passes.
 4. Reconcile the implementation plan, technical-debt registry, blueprint, RAG corpus, and index.
 5. Produce the Sprint 02 completion report using the approved recurring report structure.
+
+Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](annexures/sprint-02-8-verification-and-closure-evidence.md)
+— verified 8 August 2026. All seven primary debt items are Verified and Sprint 02 is closed.
 
 ## Task and Commit Protocol
 

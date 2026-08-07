@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
 sources:
@@ -15,6 +15,8 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
 ---
 
 # Meneer Project Context
@@ -41,11 +43,11 @@ approve pilot activation. The current `itws-I-preview` build is deployed through
 remains a possible v2 Next.js host rather than a current dependency.
 
 Cloudflare currently treats `itws-I-preview` as the production branch and all other branches,
-including permanent source branch `itws-I`, as non-production version uploads. The canonical Worker
-now runs Sprint 2.6 from `itws-I-preview` commit `2e83767`; `itws-I` commit `774839d` is available as
-a non-production Worker version. Hosted route and identity removal are verified, while Task 2.7's
-persisted-log and release configuration remains local. The owner-only runbook governs its eventual
-merge/deploy and the later handoff of production branch responsibility to `itws-I`.
+including permanent source branch `itws-I`, as non-production version uploads. Canonical routes,
+hydration, assets, logs, Lovable absence, rollback availability, and both pinned build paths are
+verified. Production version `ee3a151d-e25b-47b8-a036-c041a9225d13` serves 100%; aliased
+non-production version `641f728e-b460-4cd9-bbea-4448f98f7fba` remains available. Cloudflare Fonts
+and automatic Web Analytics are disabled for the pilot. TD-052 is Verified.
 
 Post-closure work has implemented a fail-closed safety entry and canonical campaign/QR boundary.
 The provisional operator is owner-confirmed as OCTOTHORP ZA (`K2024185008`). Professional,

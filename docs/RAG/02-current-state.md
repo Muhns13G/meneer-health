@@ -3,11 +3,11 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
-source_baseline: b9997d8b50395fde62524f8777c0aa672acbb9fc
-runtime_baseline: aaab9d1b31bf31f062a0b2d336cbcbde13e46911
+source_baseline: ce2bcdf2010e226149c95779f2ea71bc393521f0
+runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
@@ -19,6 +19,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
 ---
 
@@ -186,7 +188,7 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
   The current `itws-I-preview` build is deployed at `meneerhealth.co.za`; Sprint 02 retains and
   explicitly owns this Cloudflare runtime while removing Lovable coupling.
 - `LOVABLE_API_KEY` must not be provisioned. Its former MCP telemetry implementation is absent from
-  current source, packages, lockfile, and built output; hosted network/log proof remains Task 2.7.
+  current source, packages, lockfile, built output, hosted browser network, and persisted logs.
 
 ### Sprint 02 pre-exit baseline — 7 August 2026
 
@@ -216,8 +218,8 @@ Evidence: [`sprint-02-2-pre-exit-baseline-evidence.md`](../02-implementation-pla
 - The earlier TanStack, Rollup, directive, and Wrangler-override warnings are gone. A bounded
   upstream Node `punycode` deprecation remains in current Cloudflare tooling.
 - MCP removal is Task 2.4; Lovable telemetry proof, dependency classification, and root Lovable
-  metadata remain assigned to Tasks 2.5–2.6. Hosted logs, environment roles, promotion, and rollback
-  remain Task 2.7.
+  metadata were assigned to Tasks 2.5–2.6. Task 2.8 subsequently verified hosted logs, environment
+  roles, promotion, and rollback availability.
 
 Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md).
 
@@ -232,8 +234,8 @@ Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](../02-impleme
   Wrangler dry-run upload reduced from 1,930.40 KiB to 912.65 KiB.
 - TD-047 and TD-048 are Verified through removal of the duplicated claims surface and the approved
   gate requiring a new threat model and vendor-neutral boundary before any future MCP.
-- Local telemetry/environment proof is complete in Task 2.5; hosted removal and no-telemetry evidence
-  remain Task 2.7.
+- Local telemetry/environment proof completed in Task 2.5; Task 2.8 subsequently verified hosted
+  removal and no-telemetry evidence.
 
 Evidence: [`sprint-02-4-mcp-removal-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md).
 
@@ -247,7 +249,7 @@ Evidence: [`sprint-02-4-mcp-removal-evidence.md`](../02-implementation-plans/pha
 - Frozen install, TypeScript, build, and Wrangler dry-run pass with 456 installs across 566 packages.
 - The full audit reduced from 41 to 31 findings. The production-filtered audit reports 24 findings;
   remaining coordinated remediation belongs to Sprint 04.
-- TD-025 and TD-027 are Verified. TD-049 awaits only hosted network/log confirmation in Task 2.7.
+- TD-025, TD-027, and TD-049 are Verified.
 
 Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md).
 
@@ -266,21 +268,24 @@ Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](../02-implementation-
 
 Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md).
 
-### Sprint 02 Cloudflare release boundary — 7 August 2026
+### Sprint 02 Cloudflare release boundary — 8 August 2026
 
 - Repository configuration now names Worker `meneer-health`, pins Bun/Node expectations, enables
   public version previews and persisted invocation logs, and defines a secret-free environment
   contract.
 - An owner-only runbook covers local/review/canonical environments, the temporary preview-video
   merge path, permanent `itws-I` handoff, post-deploy checks, logs, and immutable-version rollback.
-- Cloudflare successfully built `itws-I` commit `774839d` as a non-production Worker version and
-  deployed `itws-I-preview` commit `2e83767` to the canonical production boundary.
+- Cloudflare successfully rebuilt both branches with Bun 1.3.14 and Node 22.23.2. Production uses
+  `bunx wrangler deploy` and serves version `ee3a151d-e25b-47b8-a036-c041a9225d13` at 100%.
+  Non-production uses `bunx wrangler versions upload` and produced aliased version
+  `641f728e-b460-4cd9-bbea-4448f98f7fba`.
 - The canonical and workers.dev deployments serve approved Meneer metadata, retained routes and
   redirects, and ordinary HTML 404 responses for the removed MCP/OAuth paths.
-- TD-053 is Verified. TD-049 and TD-052 remain In progress until Task 2.7 is committed and deployed
-  with persisted-log and hosted browser evidence.
+- Canonical desktop/mobile browser, hydration, assets, routes, redirects, logs, cold-start smoke,
+  and rollback availability pass. Cloudflare Fonts and automatic Web Analytics are disabled.
+- TD-049, TD-052, and TD-053 are Verified. All seven Sprint 02 primary debt items are closed.
 
-Evidence: [`sprint-02-7-cloudflare-release-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md).
+Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md).
 
 ## Highest-Risk Gaps
 
