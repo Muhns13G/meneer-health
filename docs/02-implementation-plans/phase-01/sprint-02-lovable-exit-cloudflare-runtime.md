@@ -117,6 +117,9 @@ Evidence: [`sprint-02-4-mcp-removal-evidence.md`](annexures/sprint-02-4-mcp-remo
 4. Regenerate and verify `bun.lock` through bounded Bun operations.
 5. Re-run the production dependency audit and preserve unrelated remediation for its assigned sprint.
 
+Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](annexures/sprint-02-5-telemetry-dependency-evidence.md)
+— verified locally 7 August 2026; hosted telemetry confirmation remains Task 2.7.
+
 ### Task 2.6 — Replace remaining Lovable identity
 
 1. Replace root, error, and fallback metadata with approved Meneer values.

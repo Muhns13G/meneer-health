@@ -64,8 +64,9 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 
 The repository is hosted for contained review but is not ready for transactional pilot use.
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
-is absent from source and built output; final environment proof remains Task 2.5. Lovable metadata
-remains until Task 2.6. The `itws-I-preview` build is served at `meneerhealth.co.za`;
+and environment references are absent from local source, configuration, and built output; hosted
+network/log proof remains Task 2.7. Lovable metadata remains until Task 2.6. The `itws-I-preview`
+build is served at `meneerhealth.co.za`;
 canonical checks verify the local placeholder logo and campaign routes. The longer-term
 Vercel decision is deferred to the planned Next.js v2; Cloudflare environment roles, hosted logs,
 and rollback evidence remain Sprint 02 work. Final brand work remains open.
@@ -75,18 +76,26 @@ Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovabl
 The Task 2.2 isolated baseline recorded a generic `bun run preview` 500 failure. Task 2.3 repaired
 that path: explicit Cloudflare output now passes Vite preview and Wrangler dry-run. Lint still fails
 on 30 formatting errors plus 7 warnings, and the baseline dependency audit reported 41 findings.
-One upstream `punycode` deprecation remains in current Cloudflare tooling; package normalization and
-audit reassessment remain Task 2.5 work.
+One upstream `punycode` deprecation remains in current Cloudflare tooling. Task 2.5 bounded it to
+build/development commands and completed package normalization; final upstream remediation belongs
+to routine dependency maintenance.
 
 Task 2.4 removes MCP locally: its SDK, plugin, definitions, routes, OAuth metadata, manifest, and
 built output are absent, and every former endpoint returns the ordinary HTML 404 in development and
 production preview. The currently deployed branch may retain the old surface until the repository
 owner commits and deploys this boundary; hosted removal evidence remains Task 2.7.
 
+Task 2.5 removes all remaining active Lovable environment and package-install references locally.
+The dependency graph now contains 456 installs across 566 packages. `bun audit` reports 31 findings
+(15 high, 12 moderate, 4 low), while `bun audit --prod` reports 24 (9 high, 11 moderate, 4 low).
+These are unresolved dependency advisories assigned to Sprint 04, not evidence that a specific
+deployed Worker path is exploitable. Hosted no-telemetry verification remains Task 2.7.
+
 ## Engineering Limits
 
-- TypeScript, the production build, generic preview, and Wrangler dry-run pass after Task 2.3. Lint
-  fails with 30 formatting errors and 7 warnings; Task 2.2's dependency audit reported 41 findings.
+- TypeScript, the production build, generic preview, and Wrangler dry-run pass. After MCP removal,
+  lint fails with 22 formatting errors and 7 warnings. Task 2.5's dependency audits report 31 full
+  and 24 production-filtered findings.
 - No automated test framework or CI workflow exists.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation and
   hosted release-operation evidence remain unresolved.

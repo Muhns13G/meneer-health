@@ -16,6 +16,7 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -201,7 +202,8 @@ Evidence: [`sprint-02-2-pre-exit-baseline-evidence.md`](../02-implementation-pla
 ### Sprint 02 explicit Cloudflare runtime — 7 August 2026
 
 - The Lovable Vite wrapper is absent from Vite runtime configuration, declared dependencies, and
-  the lockfile. Its now-inert `bunfig.toml` package-age exception remains assigned to Task 2.5.
+  the lockfile. Its then-inert `bunfig.toml` package-age exception was subsequently removed in Task
+  2.5.
 - The supported Cloudflare Vite plugin now produces `dist/client` and `dist/server/index.js`;
   `bun run preview`, development SSR, production build, and Wrangler dry-run all pass.
 - Retained routes, redirects, assets, and error outcomes match the Task 2.2 baseline.
@@ -222,9 +224,25 @@ Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](../02-impleme
   redirects, and assets preserve their established outcomes.
 - The resolved install reduced from 575 installs across 724 packages to 490 across 643. The
   Wrangler dry-run upload reduced from 1,930.40 KiB to 912.65 KiB.
-- Hosted removal evidence remains Task 2.7. Final environment/telemetry proof remains Task 2.5.
+- TD-047 and TD-048 are Verified through removal of the duplicated claims surface and the approved
+  gate requiring a new threat model and vendor-neutral boundary before any future MCP.
+- Local telemetry/environment proof is complete in Task 2.5; hosted removal and no-telemetry evidence
+  remain Task 2.7.
 
 Evidence: [`sprint-02-4-mcp-removal-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md).
+
+### Sprint 02 telemetry and dependency normalization — 7 August 2026
+
+- No Lovable package-install exception, environment reference, SDK, telemetry URL, or virtual-asset
+  reference remains in active source, configuration, declared packages, lockfile, or current build.
+- Build-only Cloudflare, Tailwind, and Vite-path tooling is classified under `devDependencies`; six
+  unused direct declarations were removed without broad version updates.
+- Frozen install, TypeScript, build, and Wrangler dry-run pass with 456 installs across 566 packages.
+- The full audit reduced from 41 to 31 findings. The production-filtered audit reports 24 findings;
+  remaining coordinated remediation belongs to Sprint 04.
+- TD-025 and TD-027 are Verified. TD-049 awaits only hosted network/log confirmation in Task 2.7.
+
+Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md).
 
 ## Highest-Risk Gaps
 
