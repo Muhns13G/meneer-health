@@ -356,6 +356,17 @@
       "authority_for": ["DIR-030", "DIR-031", "TD-052 decision", "TD-053 decision"]
     },
     {
+      "id": "phase-01-sprint-02-task-02",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-2-pre-exit-baseline-evidence.md",
+      "status": "verified",
+      "authority_for": [
+        "Sprint 02 pre-exit baseline",
+        "dependency reachability",
+        "build and route comparison",
+        "Lovable and Cloudflare configuration baseline"
+      ]
+    },
+    {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
       "status": "planned",
