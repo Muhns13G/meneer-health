@@ -45,7 +45,7 @@ source documents without explicit authorisation.
 | ID     | Planned record                                                                        | Accountable role                | Task | Status   |
 | ------ | ------------------------------------------------------------------------------------- | ------------------------------- | ---- | -------- |
 | DR-001 | [Operating model and responsibility matrix](DR-001-operating-model-responsibility.md) | Business owner                  | 3.2  | Approved |
-| DR-002 | Commercial and fulfilment model                                                       | Commercial owner                | 3.3  | Planned  |
+| DR-002 | [Commercial and fulfilment model](DR-002-commercial-fulfilment-model.md)              | Commercial owner                | 3.3  | Approved |
 | DR-003 | Platform boundaries and authoritative state                                           | Architecture owner              | 3.4  | Planned  |
 | DR-004 | Framework-neutral contracts and migration boundaries                                  | Architecture owner              | 3.5  | Planned  |
 | DR-005 | Data, tenancy, lifecycle, and migration model                                         | Data and privacy owners         | 3.6  | Planned  |

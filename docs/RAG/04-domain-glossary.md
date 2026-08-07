@@ -39,6 +39,12 @@ sensitivity: internal
 - **Clinical decision:** an authorised clinician's recorded assessment and plan, including a decision not to treat where appropriate.
 - **Fulfilment:** approved prescription/order hand-off, pharmacy processing, packaging, delivery, exceptions, and reconciliation.
 - **Follow-up:** monitoring, support, repeat consultation, adverse-event handling, and continuity activity after a decision or treatment.
+- **Clinical rejection:** an authorised decision that treatment is not appropriate; it is distinct
+  from payment failure, patient cancellation, pharmacy rejection, or stock failure.
+- **Eligible for fulfilment:** proposed DR-002 state reached only after all required clinical,
+  payment, stock, pharmacy, address, consent, and operational conditions independently pass.
+- **Bundle:** a presentation of separately governed consultation, medication, delivery, discount,
+  refund, and adjustment line items; it is never one opaque clinical/commercial state.
 
 ## Governance Terms
 
