@@ -29,14 +29,26 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Meneer — Back to your best." },
+      {
+        name: "description",
+        content:
+          "Back to your best. South African men's telehealth with real HPCSA-registered doctors. Hair loss, ED, weight, TRT — discreetly delivered to your door.",
+      },
+      { name: "application-name", content: "Meneer" },
+      { name: "author", content: "Meneer" },
+      { property: "og:title", content: "Meneer — Back to your best." },
+      {
+        property: "og:description",
+        content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Meneer — Back to your best." },
+      {
+        name: "twitter:description",
+        content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
+      },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -50,7 +62,6 @@ export const Route = createRootRoute({
         href: appCss,
       },
     ],
-
   }),
   shellComponent: RootShell,
   component: RootComponent,

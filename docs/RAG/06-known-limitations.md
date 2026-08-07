@@ -12,6 +12,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -65,8 +66,8 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 The repository is hosted for contained review but is not ready for transactional pilot use.
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, and built output; hosted
-network/log proof remains Task 2.7. Lovable metadata remains until Task 2.6. The `itws-I-preview`
-build is served at `meneerhealth.co.za`;
+network/log proof remains Task 2.7. Root and fallback metadata now use approved Meneer values; the
+broader TD-042 discovery package remains open. The `itws-I-preview` build is served at `meneerhealth.co.za`;
 canonical checks verify the local placeholder logo and campaign routes. The longer-term
 Vercel decision is deferred to the planned Next.js v2; Cloudflare environment roles, hosted logs,
 and rollback evidence remain Sprint 02 work. Final brand work remains open.
@@ -85,16 +86,22 @@ built output are absent, and every former endpoint returns the ordinary HTML 404
 production preview. The currently deployed branch may retain the old surface until the repository
 owner commits and deploys this boundary; hosted removal evidence remains Task 2.7.
 
-Task 2.5 removes all remaining active Lovable environment and package-install references locally.
-The dependency graph now contains 456 installs across 566 packages. `bun audit` reports 31 findings
+Task 2.5 removes active Lovable environment and package-install behaviour locally; Task 2.6 removes
+three historical Lovable package-cache URLs that its narrower search initially overlooked. The
+dependency graph remains 456 installs across 566 packages. `bun audit` reports 31 findings
 (15 high, 12 moderate, 4 low), while `bun audit --prod` reports 24 (9 high, 11 moderate, 4 low).
 These are unresolved dependency advisories assigned to Sprint 04, not evidence that a specific
 deployed Worker path is exploitable. Hosted no-telemetry verification remains Task 2.7.
 
+Task 2.6 removes the remaining Lovable application, author, and social identity from root metadata
+and historical Lovable package-cache URLs from the lockfile. Existing route metadata and page copy
+remain intact. TD-041 is Verified locally; hosted release checks remain Task 2.7, while favicon,
+absolute canonical, social-image, robots, and sitemap work remains TD-042.
+
 ## Engineering Limits
 
-- TypeScript, the production build, generic preview, and Wrangler dry-run pass. After MCP removal,
-  lint fails with 22 formatting errors and 7 warnings. Task 2.5's dependency audits report 31 full
+- TypeScript, the production build, generic preview, and Wrangler dry-run pass. After Task 2.6,
+  lint fails with 21 pre-existing formatting errors and 7 warnings. Task 2.5's dependency audits report 31 full
   and 24 production-filtered findings.
 - No automated test framework or CI workflow exists.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation and
