@@ -18,6 +18,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
+  - docs/06-operations/cloudflare-environments-release-runbook.md
 ---
 
 # Meneer v1 Verified Current State
@@ -31,7 +33,9 @@ support records.
 
 ## Technology
 
-- Bun package management with `bun.lock`.
+- Bun 1.3.x package management with `bun.lock`; the current package-manager pin is 1.3.14.
+- Node 22.x build tooling is supported and Cloudflare Builds is pinned through `.node-version`;
+  deployed code runs on `workerd` with `nodejs_compat`, not a general Node.js process.
 - React 19, TypeScript strict mode, TanStack Start/Router, Vite, Tailwind CSS, and Cloudflare
   Workers.
 - Explicit Cloudflare Vite, TanStack Start, React, Tailwind, and TypeScript-path configuration.
@@ -261,6 +265,22 @@ Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](../02-implementation-
   robots, and sitemap work.
 
 Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md).
+
+### Sprint 02 Cloudflare release boundary — 7 August 2026
+
+- Repository configuration now names Worker `meneer-health`, pins Bun/Node expectations, enables
+  public version previews and persisted invocation logs, and defines a secret-free environment
+  contract.
+- An owner-only runbook covers local/review/canonical environments, the temporary preview-video
+  merge path, permanent `itws-I` handoff, post-deploy checks, logs, and immutable-version rollback.
+- Cloudflare successfully built `itws-I` commit `774839d` as a non-production Worker version and
+  deployed `itws-I-preview` commit `2e83767` to the canonical production boundary.
+- The canonical and workers.dev deployments serve approved Meneer metadata, retained routes and
+  redirects, and ordinary HTML 404 responses for the removed MCP/OAuth paths.
+- TD-053 is Verified. TD-049 and TD-052 remain In progress until Task 2.7 is committed and deployed
+  with persisted-log and hosted browser evidence.
+
+Evidence: [`sprint-02-7-cloudflare-release-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md).
 
 ## Highest-Risk Gaps
 

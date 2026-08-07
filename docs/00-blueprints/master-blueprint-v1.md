@@ -6,7 +6,9 @@
 - **Date:** 2026-08-05
 - **Last amended:** 2026-08-07
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
-- **Current implementation:** Lovable-built TanStack Start v1 MVP; Cloudflare is the approved v1 host and `itws-I-preview` is currently served at `meneerhealth.co.za`
+- **Current implementation:** Lovable-origin TanStack Start v1 MVP with repository-owned Cloudflare
+  configuration; `itws-I-preview` temporarily remains the Cloudflare production branch serving
+  `meneerhealth.co.za`, while `itws-I` is the permanent source boundary
 - **Purpose:** Define the intended destination before further feature development begins
 
 ## Executive Vision
@@ -26,6 +28,13 @@ Meneer will evolve through deliberate product generations rather than treating e
 Frameworks are replaceable delivery shells. The durable product consists of the domain model, approved content, workflow states, API contracts, database schema, audit events, security rules, migration history, and acceptance tests. Every generation must demonstrate behavioural equivalence for retained capabilities and document intentional improvements or removals.
 
 After Sprint 01 comparison, the repository owner selected Cloudflare for the TanStack v1 pilot. Vercel remains a possible host for the planned Next.js v2 and is not a v1 dependency. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
+
+The v1 release contract is documented in
+`docs/06-operations/cloudflare-environments-release-runbook.md`. The repository pins its Bun and
+Node build boundary, keeps browser-visible variables separate from server secrets, uses immutable
+Worker versions for review and rollback, and reserves Git pushes, production promotion, and
+rollback for the repository owner. The temporary preview-video branch mapping must not be mistaken
+for the permanent source of truth.
 
 ## Product Thesis
 
