@@ -19,6 +19,7 @@ sources:
   - docs/06-operations/cloudflare-environments-release-runbook.md
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md
+  - docs/07-decisions/DR-002-commercial-fulfilment-model.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -52,6 +53,12 @@ delivery promises, or peptide authority. Versioned website-only privacy and term
 implemented and owner-approved for publication as version 1.0; they are not authority for
 health-data collection or transactions. Existing marketing claims require a governed claim
 register and domain review.
+
+DR-002 approves conservative v1 commercial and fulfilment principles, not universal industry norms.
+No price, tax treatment, merchant-of-record allocation, transactional term, Stripe activation, or
+delivery performance is live or approved merely because the policy exists. Retained cancellation
+and no-charge-on-clinical-rejection wording is unchanged and must be reconciled against approved
+gated particulars and implemented evidence before checkout is enabled.
 
 The owner-confirmed provisional operator and development fixtures are centralized in the pilot
 compliance profile. `Dr John Doe`, `Jane Doe`, `HPCSA-PLACEHOLDER`, and
