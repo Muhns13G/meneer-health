@@ -367,6 +367,17 @@
       ]
     },
     {
+      "id": "phase-01-sprint-02-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md",
+      "status": "verified",
+      "authority_for": [
+        "explicit Cloudflare and TanStack runtime configuration",
+        "Lovable Vite wrapper removal",
+        "local build, preview, route, and Wrangler dry-run parity",
+        "TD-051 verification"
+      ]
+    },
+    {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
       "status": "planned",
