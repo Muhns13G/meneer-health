@@ -6,7 +6,7 @@
 - **Date:** 2026-08-05
 - **Last amended:** 2026-08-07
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
-- **Current implementation:** Lovable-built TanStack Start v1 MVP; `itws-I-preview` is hosted through Cloudflare at `meneerhealth.co.za`, with the longer-term v1 host decision retained for Sprint 02
+- **Current implementation:** Lovable-built TanStack Start v1 MVP; Cloudflare is the approved v1 host and `itws-I-preview` is currently served at `meneerhealth.co.za`
 - **Purpose:** Define the intended destination before further feature development begins
 
 ## Executive Vision
@@ -19,13 +19,13 @@ The current repository proves the acquisition concept and visual direction. It d
 
 Meneer will evolve through deliberate product generations rather than treating each framework change as a clean rewrite:
 
-1. **v1 — TanStack Start pilot:** remove Lovable and obsolete platform coupling, choose and verify the v1 host, stabilise the experience, and operate a controlled one-month pilot with a test client group. v1 must not imply that unimplemented clinical or operational actions occurred.
+1. **v1 — TanStack Start pilot:** remove Lovable coupling, explicitly own and verify the Cloudflare runtime, stabilise the experience, and operate a controlled one-month pilot with a test client group. v1 must not imply that unimplemented clinical or operational actions occurred.
 2. **v2 — Next.js public launch:** absorb validated v1 journeys, language, analytics, domain rules, data contracts, and test cases; correct pilot findings; and deliver the first public-launch architecture.
 3. **v3 — Laravel API and React:** introduce a mature service backend when real user volume, client operations, integrations, or organisational scale justify it. Preserve compatible contracts and migrate data through rehearsed, reversible procedures.
 
 Frameworks are replaceable delivery shells. The durable product consists of the domain model, approved content, workflow states, API contracts, database schema, audit events, security rules, migration history, and acceptance tests. Every generation must demonstrate behavioural equivalence for retained capabilities and document intentional improvements or removals.
 
-The earlier Vercel preference for v1 was reopened after Sprint 01. The current review deployment uses Cloudflare at the canonical domain, but Cloudflare and Vercel must still be compared and the longer-term v1 host direction confirmed during Sprint 02; the v2 hosting choice remains separate. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
+After Sprint 01 comparison, the repository owner selected Cloudflare for the TanStack v1 pilot. Vercel remains a possible host for the planned Next.js v2 and is not a v1 dependency. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
 
 ## Product Thesis
 

@@ -16,11 +16,11 @@ sources:
 
 ## Generations
 
-### v1 — TanStack Start on an approved host
+### v1 — TanStack Start on Cloudflare
 
-Purpose: stabilise the Lovable-generated MVP, detach Lovable ecosystem coupling, use the current
-canonical Cloudflare deployment as the hosted baseline, confirm the longer-term v1 host direction
-during Sprint 02, and support a controlled one-month real-transaction pilot. Public marketing remains open; registration,
+Purpose: stabilise the Lovable-generated MVP, detach Lovable ecosystem coupling, explicitly own and
+verify the canonical Cloudflare runtime, and support a controlled one-month real-transaction pilot.
+Public marketing remains open; registration,
 clinical intake, payment, ordering, and fulfilment are restricted to the enrolled cohort. Every
 enabled transaction must be real, durable, monitored, supportable, and portable to v2; peptides
 remain gated or waitlisted until approved.
@@ -51,10 +51,9 @@ React components, route conventions, server-function APIs, Vercel configuration,
 
 1. Recover the real brand assets and replace Lovable virtual-asset references.
 2. Replace the Lovable Vite wrapper with explicit TanStack Start, Nitro, React, Tailwind, and path-alias configuration.
-3. Compare the verified canonical Cloudflare path with the previously preferred Vercel path against
-   runtime support, cost, operations, integrations, portability, and rollback requirements, then
-   confirm the longer-term v1 host direction.
-4. Remove only the configuration that is obsolete for the selected host, then verify TanStack Start
+3. Retain the approved Cloudflare Vite/Workers path while removing hidden Lovable defaults and
+   unrelated coupling; reserve the Vercel decision for the later Next.js v2.
+4. Normalize the selected-host configuration, then verify TanStack Start
    across local, preview, and production environments.
 5. Do not provision `LOVABLE_API_KEY`.
 6. Remove the Lovable MCP SDK, generated routes, and manifest; either defer MCP or reimplement a justified public use case with a vendor-neutral SDK.
