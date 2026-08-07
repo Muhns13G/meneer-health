@@ -69,6 +69,9 @@ Primary debt: TD-025, TD-027, TD-041, TD-049, and TD-051–TD-053.
 3. Preserve Vercel as a later v2 consideration rather than a current dependency.
 4. Synchronize the blueprint, phase index, debt registry, RAG corpus, and document routing.
 
+Evidence: [`sprint-02-1-hosting-and-scope-decision-evidence.md`](annexures/sprint-02-1-hosting-and-scope-decision-evidence.md)
+— verified 7 August 2026.
+
 ### Task 2.2 — Capture the pre-exit baseline
 
 1. Record the dependency graph and classify build-time, runtime, client, and server reachability.
@@ -77,6 +80,9 @@ Primary debt: TD-025, TD-027, TD-041, TD-049, and TD-051–TD-053.
 3. Capture local and canonical-host responses for retained routes, redirects, assets, and MCP before
    removal.
 4. Record the current Cloudflare build/deploy configuration and reversible source boundary.
+
+Evidence: [`sprint-02-2-pre-exit-baseline-evidence.md`](annexures/sprint-02-2-pre-exit-baseline-evidence.md)
+— verified 7 August 2026.
 
 ### Task 2.3 — Own the TanStack and Cloudflare configuration
 

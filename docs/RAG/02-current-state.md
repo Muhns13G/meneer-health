@@ -179,6 +179,23 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
 - `LOVABLE_API_KEY` is used only for default Lovable MCP telemetry and must not be provisioned on
   the selected host.
 
+### Sprint 02 pre-exit baseline — 7 August 2026
+
+- An isolated frozen install and TypeScript check pass. The production Cloudflare-module build
+  passes with known TanStack/Rollup and Wrangler override warnings.
+- `bun run preview` is not a valid production preview at this baseline: it returns 500 while looking
+  for `dist/server/server.js`. The generated Worker runs successfully through Wrangler from
+  `.output/` and matches the canonical route matrix.
+- Lint has 30 existing Prettier errors and 7 Fast Refresh warnings. `bun audit` reports 41 findings
+  across application-server, build, MCP, and development dependency paths.
+- The compiled Worker retains the Lovable MCP SDK, Model Context Protocol SDK, Zod, AJV, and Lovable
+  environment/telemetry logic. Without `LOVABLE_API_KEY`, telemetry is disabled but the code path is
+  still present.
+- The committed `itws-I` source has no draft video; both current hosted origins serve the known
+  `itws-I-preview` video variant. This is an intentional branch/deployment distinction.
+
+Evidence: [`sprint-02-2-pre-exit-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-2-pre-exit-baseline-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former

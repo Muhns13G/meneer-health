@@ -71,10 +71,15 @@ environment roles, logs, and rollback evidence remain Sprint 02 work. Final bran
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
 
+The Task 2.2 isolated baseline also confirms that the generic `bun run preview` path returns 500,
+lint fails on 30 formatting errors plus 7 warnings, and the current dependency audit reports 41
+findings. The generated Worker itself runs successfully through Wrangler. These observations are
+baseline evidence for Tasks 2.3–2.5, not newly introduced regressions.
+
 ## Engineering Limits
 
-- TypeScript and the production build passed at Sprint 01 closure. Lint still failed with 32 errors
-  and 7 warnings; dependency-audit findings remain dated audit debt.
+- TypeScript and the production build pass at the Task 2.2 baseline. Lint fails with 30 formatting
+  errors and 7 warnings; the current dependency audit reports 41 findings.
 - No automated test framework or CI workflow exists.
 - Build warnings and deployment-adapter drift remain unresolved.
 - No environment contract, deployment guide, monitoring, incident runbook, or rollback procedure exists.
