@@ -14,6 +14,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -28,10 +29,11 @@ support records.
 ## Technology
 
 - Bun package management with `bun.lock`.
-- React 19, TypeScript strict mode, TanStack Start/Router, Vite, Tailwind CSS, and Nitro.
-- Lovable Vite configuration and MCP packages.
-- Cloudflare is the approved v1 host; its build configuration remains partly hidden behind the
-  Lovable wrapper until Sprint 02 replaces that wrapper with explicit supported plugins.
+- React 19, TypeScript strict mode, TanStack Start/Router, Vite, Tailwind CSS, and Cloudflare
+  Workers.
+- Explicit Cloudflare Vite, TanStack Start, React, Tailwind, and TypeScript-path configuration.
+- Cloudflare is the approved v1 host. The Lovable Vite wrapper has been removed; the Lovable MCP
+  package remains only until its isolated removal in Sprint 02 Task 2.4.
 - Radix/shadcn-style primitives, most of which are unused by product routes.
 
 ## Route Behaviour
@@ -166,12 +168,13 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
 
 ## Lovable and Cloudflare Coupling
 
-- `@lovable.dev/vite-tanstack-config` supplies hidden Vite defaults, sandbox behaviour, virtual-asset proxying, and a Cloudflare-oriented Nitro preset.
+- The former `@lovable.dev/vite-tanstack-config` wrapper and its hidden defaults have been removed.
+  `vite.config.ts` now explicitly owns the supported Cloudflare, TanStack Start, React, Tailwind,
+  TypeScript-path, alias, import-protection, deduplication, and development-server configuration.
 - `@lovable.dev/mcp-js` defines the MCP tools and generates routes and `.lovable/mcp/manifest.json`.
   Removal is approved for Sprint 02 because MCP has no required v1 pilot use case; it remains active
   until Task 2.4 passes.
-- The shared logo now uses a local placeholder; the Lovable Vite wrapper's broader virtual-asset
-  capability remains until Sprint 02 de-platforming.
+- The shared logo uses a local placeholder; the removed virtual-asset proxy is no longer required.
 - Root metadata still identifies the application and author as Lovable.
 - `@cloudflare/vite-plugin`, `wrangler.jsonc`, and Cloudflare compatibility configuration remain.
   The current `itws-I-preview` build is deployed at `meneerhealth.co.za`; Sprint 02 retains and
@@ -195,6 +198,20 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
   `itws-I-preview` video variant. This is an intentional branch/deployment distinction.
 
 Evidence: [`sprint-02-2-pre-exit-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-2-pre-exit-baseline-evidence.md).
+
+### Sprint 02 explicit Cloudflare runtime — 7 August 2026
+
+- The Lovable Vite wrapper is absent from Vite runtime configuration, declared dependencies, and
+  the lockfile. Its now-inert `bunfig.toml` package-age exception remains assigned to Task 2.5.
+- The supported Cloudflare Vite plugin now produces `dist/client` and `dist/server/index.js`;
+  `bun run preview`, development SSR, production build, and Wrangler dry-run all pass.
+- Retained routes, redirects, assets, MCP responses, and error outcomes match the Task 2.2 baseline.
+- The earlier TanStack, Rollup, directive, and Wrangler-override warnings are gone. A bounded
+  upstream Node `punycode` deprecation remains in current Cloudflare tooling.
+- MCP, Lovable telemetry, direct dependency classification, and root Lovable metadata remain
+  assigned to Tasks 2.4–2.6. Hosted logs, environment roles, promotion, and rollback remain Task 2.7.
+
+Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md).
 
 ## Highest-Risk Gaps
 

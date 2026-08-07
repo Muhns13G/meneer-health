@@ -94,6 +94,9 @@ Evidence: [`sprint-02-2-pre-exit-baseline-evidence.md`](annexures/sprint-02-2-pr
 4. Preserve routing, SSR, aliases, import protection, HMR, static assets, and preview behaviour.
 5. Resolve owned build warnings or record a bounded, evidenced exception.
 
+Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md)
+— verified 7 August 2026.
+
 ### Task 2.4 — Remove the Lovable MCP surface
 
 1. Remove `@lovable.dev/mcp-js` and its Vite plugin.

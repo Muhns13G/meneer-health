@@ -63,25 +63,28 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 ## Platform Limits
 
 The repository is hosted for contained review but is not ready for transactional pilot use.
-Lovable's Vite wrapper, MCP SDK, telemetry path, manifest, and metadata remain. Cloudflare plugin
-and Wrangler configuration remain. The `itws-I-preview` build is served at `meneerhealth.co.za`;
+The Lovable Vite wrapper has been removed and replaced by explicit supported Cloudflare/TanStack
+configuration. Lovable's MCP SDK, telemetry path, manifest, and metadata remain until Tasks
+2.4–2.6. The `itws-I-preview` build is served at `meneerhealth.co.za`;
 canonical checks verify the local placeholder logo and campaign routes. The longer-term
-Vercel decision is deferred to the planned Next.js v2; explicit Cloudflare configuration,
-environment roles, logs, and rollback evidence remain Sprint 02 work. Final brand work remains open.
+Vercel decision is deferred to the planned Next.js v2; Cloudflare environment roles, hosted logs,
+and rollback evidence remain Sprint 02 work. Final brand work remains open.
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
 
-The Task 2.2 isolated baseline also confirms that the generic `bun run preview` path returns 500,
-lint fails on 30 formatting errors plus 7 warnings, and the current dependency audit reports 41
-findings. The generated Worker itself runs successfully through Wrangler. These observations are
-baseline evidence for Tasks 2.3–2.5, not newly introduced regressions.
+The Task 2.2 isolated baseline recorded a generic `bun run preview` 500 failure. Task 2.3 repaired
+that path: explicit Cloudflare output now passes Vite preview and Wrangler dry-run. Lint still fails
+on 30 formatting errors plus 7 warnings, and the baseline dependency audit reported 41 findings.
+One upstream `punycode` deprecation remains in current Cloudflare tooling; package normalization and
+audit reassessment remain Task 2.5 work.
 
 ## Engineering Limits
 
-- TypeScript and the production build pass at the Task 2.2 baseline. Lint fails with 30 formatting
-  errors and 7 warnings; the current dependency audit reports 41 findings.
+- TypeScript, the production build, generic preview, and Wrangler dry-run pass after Task 2.3. Lint
+  fails with 30 formatting errors and 7 warnings; Task 2.2's dependency audit reported 41 findings.
 - No automated test framework or CI workflow exists.
-- Build warnings and deployment-adapter drift remain unresolved.
+- The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation and
+  hosted release-operation evidence remain unresolved.
 - No environment contract, deployment guide, monitoring, incident runbook, or rollback procedure exists.
 - Accessibility, navigation, SEO, content consistency, final media, and campaign print-production
   QA remain open.
