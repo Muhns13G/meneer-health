@@ -13,6 +13,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
+  - docs/06-operations/cloudflare-environments-release-runbook.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -66,11 +68,12 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 The repository is hosted for contained review but is not ready for transactional pilot use.
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, and built output; hosted
-network/log proof remains Task 2.7. Root and fallback metadata now use approved Meneer values; the
+network/log proof remains open in Task 2.7. Root and fallback metadata now use approved Meneer values; the
 broader TD-042 discovery package remains open. The `itws-I-preview` build is served at `meneerhealth.co.za`;
 canonical checks verify the local placeholder logo and campaign routes. The longer-term
-Vercel decision is deferred to the planned Next.js v2; Cloudflare environment roles, hosted logs,
-and rollback evidence remain Sprint 02 work. Final brand work remains open.
+Vercel decision is deferred to the planned Next.js v2. Cloudflare environment roles and rollback
+procedure are now documented, but current-source hosted logs and post-deploy evidence remain open.
+Final brand work remains open.
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.
 
@@ -95,8 +98,14 @@ deployed Worker path is exploitable. Hosted no-telemetry verification remains Ta
 
 Task 2.6 removes the remaining Lovable application, author, and social identity from root metadata
 and historical Lovable package-cache URLs from the lockfile. Existing route metadata and page copy
-remain intact. TD-041 is Verified locally; hosted release checks remain Task 2.7, while favicon,
-absolute canonical, social-image, robots, and sitemap work remains TD-042.
+remain intact. TD-041 is Verified locally and on the canonical deployment; favicon, absolute
+canonical, social-image, robots, and sitemap work remains TD-042.
+
+The canonical Worker now deploys Sprint 2.6 from `itws-I-preview` commit `2e83767`, while `itws-I`
+commit `774839d` is available as a non-production version. The public host serves Meneer metadata
+and ordinary HTML 404 responses for retired MCP/OAuth routes, closing TD-053. Runtime pins, secret
+rules, branch roles, persisted logs, promotion, post-deploy checks, and rollback are documented
+locally; Task 2.7 must still be committed and deployed before TD-049 or TD-052 can close.
 
 ## Engineering Limits
 
@@ -105,8 +114,9 @@ absolute canonical, social-image, robots, and sitemap work remains TD-042.
   and 24 production-filtered findings.
 - No automated test framework or CI workflow exists.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation and
-  hosted release-operation evidence remain unresolved.
-- No environment contract, deployment guide, monitoring, incident runbook, or rollback procedure exists.
+  current-source hosted release evidence remain unresolved.
+- The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
+  and stateful recovery remain future work.
 - Accessibility, navigation, SEO, content consistency, final media, and campaign print-production
   QA remain open.
 

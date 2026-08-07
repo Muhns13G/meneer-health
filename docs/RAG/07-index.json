@@ -414,6 +414,29 @@
       ]
     },
     {
+      "id": "phase-01-sprint-02-task-07",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md",
+      "status": "in-progress-owner-action",
+      "authority_for": [
+        "Cloudflare account and hosted deployment snapshot",
+        "current branch and version mapping",
+        "hosted route and header baseline",
+        "Task 2.7 remaining owner actions"
+      ]
+    },
+    {
+      "id": "meneer-cloudflare-v1-release",
+      "path": "docs/06-operations/cloudflare-environments-release-runbook.md",
+      "status": "active-owner-controlled",
+      "authority_for": [
+        "Cloudflare v1 environment contract",
+        "Bun and Node build boundary",
+        "branch review and promotion procedure",
+        "Cloudflare post-deploy verification",
+        "Worker version rollback procedure"
+      ]
+    },
+    {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
       "status": "planned",
