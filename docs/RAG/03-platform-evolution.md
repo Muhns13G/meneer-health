@@ -59,8 +59,9 @@ React components, route conventions, server-function APIs, Vercel configuration,
 6. **Completed in Sprint 02 Task 2.4:** the Lovable MCP SDK, generated routes, OAuth metadata,
    tools, manifest, and built output were removed. Any future MCP requires a justified use case and
    separately approved vendor-neutral boundary.
-7. **Partially completed in Sprint 02 Task 2.5:** Lovable package-install exceptions and telemetry
-   references are removed. Lovable root/fallback metadata remains Task 2.6.
+7. **Completed locally in Sprint 02 Tasks 2.5–2.6:** Lovable package-install exceptions, telemetry
+   references, historical lockfile cache URLs, and root/fallback identity are removed. Hosted
+   network, route, and log verification remains Task 2.7.
 8. Verify build, SSR, routes, assets, endpoints, logs, security headers, rollback, and dependency reachability.
 
 ## Migration Entry Criteria
