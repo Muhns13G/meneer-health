@@ -129,6 +129,9 @@ Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](annexures/sprint-02-5
    correction is required.
 4. Prove no active source or built output presents Lovable as the application or author.
 
+Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](annexures/sprint-02-6-meneer-metadata-evidence.md)
+— verified locally 7 August 2026; hosted release verification remains Task 2.7.
+
 ### Task 2.7 — Define Cloudflare environments and release operations
 
 1. Document local, preview/review, and production-equivalent build/runtime expectations plus

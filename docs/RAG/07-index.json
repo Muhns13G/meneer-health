@@ -402,6 +402,18 @@
       ]
     },
     {
+      "id": "phase-01-sprint-02-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md",
+      "status": "verified-local",
+      "authority_for": [
+        "Meneer root and fallback metadata",
+        "route-specific metadata preservation",
+        "local rendered-head and not-found verification",
+        "Lovable identity and lockfile cache removal",
+        "TD-041 verification"
+      ]
+    },
+    {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
       "status": "planned",

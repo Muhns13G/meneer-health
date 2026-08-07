@@ -17,6 +17,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -175,12 +176,13 @@ clinical, data, dispensing, safety, and fulfilment pathway are evidenced.
 - The former `@lovable.dev/mcp-js` package, Vite plugin, server/tool definitions, generated routes,
   OAuth metadata route, and `.lovable/mcp/manifest.json` have been removed.
 - The shared logo uses a local placeholder; the removed virtual-asset proxy is no longer required.
-- Root metadata still identifies the application and author as Lovable.
+- Root, author, Open Graph, and Twitter fallback metadata now identify the application as Meneer;
+  route-specific metadata and established page copy remain unchanged.
 - `@cloudflare/vite-plugin`, `wrangler.jsonc`, and Cloudflare compatibility configuration remain.
   The current `itws-I-preview` build is deployed at `meneerhealth.co.za`; Sprint 02 retains and
   explicitly owns this Cloudflare runtime while removing Lovable coupling.
 - `LOVABLE_API_KEY` must not be provisioned. Its former MCP telemetry implementation is absent from
-  current source, packages, lockfile, and built output; Task 2.5 owns the final environment proof.
+  current source, packages, lockfile, and built output; hosted network/log proof remains Task 2.7.
 
 ### Sprint 02 pre-exit baseline — 7 August 2026
 
@@ -233,8 +235,9 @@ Evidence: [`sprint-02-4-mcp-removal-evidence.md`](../02-implementation-plans/pha
 
 ### Sprint 02 telemetry and dependency normalization — 7 August 2026
 
-- No Lovable package-install exception, environment reference, SDK, telemetry URL, or virtual-asset
-  reference remains in active source, configuration, declared packages, lockfile, or current build.
+- Task 2.5 removed Lovable package-install exceptions, environment references, the SDK, telemetry
+  URL, and virtual-asset references. Task 2.6 subsequently removed three overlooked historical
+  package-cache URLs from the lockfile.
 - Build-only Cloudflare, Tailwind, and Vite-path tooling is classified under `devDependencies`; six
   unused direct declarations were removed without broad version updates.
 - Frozen install, TypeScript, build, and Wrangler dry-run pass with 456 installs across 566 packages.
@@ -243,6 +246,21 @@ Evidence: [`sprint-02-4-mcp-removal-evidence.md`](../02-implementation-plans/pha
 - TD-025 and TD-027 are Verified. TD-049 awaits only hosted network/log confirmation in Task 2.7.
 
 Evidence: [`sprint-02-5-telemetry-dependency-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md).
+
+### Sprint 02 Meneer metadata — 7 August 2026
+
+- Root fallback metadata now uses approved Meneer identity and established “Back to your best”
+  language. The unowned Lovable author and social-account values are removed.
+- Existing page titles, descriptions, Open Graph overrides, canonicals, `noindex` directives, and
+  visible error/not-found wording are preserved.
+- Local rendered-head checks cover the homepage, peptides, gated journeys, policy routes, and an
+  unknown route. Static source/build checks find no active Lovable application or author identity.
+- Three historical Lovable package-cache source URLs were removed from `bun.lock` without changing
+  package versions or integrity records; the frozen install passes.
+- TD-041 is Verified. TD-042 retains the broader favicon, absolute canonical, social-image,
+  robots, and sitemap work.
+
+Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md).
 
 ## Highest-Risk Gaps
 

@@ -31,6 +31,11 @@ mapping, or deployments. The repository owner retains commit, push, and deployme
 The current source and build therefore contain no executable Lovable request path. Hosted network
 confirmation remains Task 2.7 after the repository owner commits and deploys this boundary.
 
+Task 2.6 correction: the Task 2.5 pattern set did not match three lowercase historical
+`lovable-core-prod` package-cache URLs in `bun.lock`. Task 2.6 normalized those source fields without
+changing package versions, dependency metadata, or integrity hashes, and the frozen install passed.
+This correction does not change the Task 2.5 dependency classification or telemetry conclusion.
+
 ## Dependency Classification
 
 | Classification                     | Packages and disposition                                                                                                                                                                                                                                |
