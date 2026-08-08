@@ -99,6 +99,16 @@ sensitivity: internal
   authority, or commercial requirement that scoring cannot override.
 - **Lock-in budget:** the limited provider-specific implementation permitted behind portable
   contracts, migrations, exports, tests, and an evidenced exit path.
+- **Internal subject:** Meneer's stable opaque identity for a person, distinct from mutable contact
+  details, provider account identifiers, professional roles, and tenant memberships.
+- **RBAC plus context:** role-based permission combined with tenant, resource relationship,
+  assignment, purpose, workflow state, and authentication-assurance checks.
+- **Step-up authentication:** fresh stronger authentication required before a high-risk action even
+  when a session is already active.
+- **Break glass:** exceptional, time-limited, notified and reviewed access for immediate patient
+  safety or a declared incident; it is not ordinary support access.
+- **Service identity:** a non-human, environment/purpose-scoped principal used by one integration or
+  workload instead of a shared credential or human account.
 - **Portable core:** domain rules, records, contracts, and tests that can move between TanStack, Next.js, Laravel, or hosting providers.
 - **Contract test:** a test proving that an API, event, or behaviour remains compatible across implementations.
 - **Reconciliation:** proving that source and destination records or external transactions agree after processing or migration.

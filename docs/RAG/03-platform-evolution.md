@@ -16,6 +16,7 @@ sources:
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -116,3 +117,8 @@ leaving the provider open. Canonical identifiers, logical ownership, tenant scop
 lifecycle state, attribution, and audit correlation survive migrations. DR-006 requires each exact
 service/product to pass legal/privacy, security, isolation, portability/exit, recovery, authority,
 and commercial gates. Provider bundles and hosting relationships confer no automatic approval.
+
+DR-007 keeps identity portable by mapping provider authentication to opaque internal subjects and
+server-owned permissions. Tenant, role, resource, assignment, purpose, state, assurance, session,
+recovery, break-glass, service-identity, and audit semantics survive an identity or framework
+migration; provider claims and framework middleware remain adapters.
