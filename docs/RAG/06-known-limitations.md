@@ -28,6 +28,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -165,6 +166,8 @@ paths pass, closing TD-049, TD-052, and TD-053.
 
 - TypeScript, the production build, generic preview, and Wrangler dry-run pass. Task 4.1 confirms
   lint still fails with 21 formatting errors and reports 7 Fast Refresh warnings.
+- Task 4.2 adds a genuine repository-wide `format:check`; it reports 13 pre-existing files without
+  modifying them. Task 4.4 must clear that baseline before Task 4.10 enforces it in CI.
 - Task 4.1's dated dependency baseline reports 33 full and 26 production-filtered findings across
   nine affected package families. The production-filtered label does not prove deployed Worker
   reachability; Tasks 4.8–4.9 must establish that per advisory before fixing or accepting anything.

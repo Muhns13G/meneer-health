@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
-source_baseline: f88975e14eb85d66fdbb3473c1689256efbd5840
+source_baseline: b4ceae5
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -29,6 +29,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -62,7 +63,8 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
 
 ## Technology
 
-- Bun 1.3.x package management with `bun.lock`; the current package-manager pin is 1.3.14.
+- The private package is named `meneer-health`. Bun 1.3.x manages the authoritative `bun.lock`; the
+  package-manager pin is 1.3.14, and a version-aligned frozen install passes without changes.
 - Node 22.x build tooling is supported and Cloudflare Builds is pinned through `.node-version`;
   deployed code runs on `workerd` with `nodejs_compat`, not a general Node.js process.
 - React 19, TypeScript strict mode, TanStack Start/Router, Vite, Tailwind CSS, and Cloudflare
@@ -70,6 +72,10 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
 - Explicit Cloudflare Vite, TanStack Start, React, Tailwind, and TypeScript-path configuration.
 - Cloudflare is the approved v1 host. The Lovable Vite wrapper and MCP package have been removed.
 - Radix/shadcn-style primitives, most of which are unused by product routes.
+
+Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. It currently reports
+13 pre-existing files and intentionally remains red until Task 4.4 applies mechanical formatting;
+CI enforcement remains Task 4.10.
 
 ## Route Behaviour
 
