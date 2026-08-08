@@ -438,6 +438,19 @@
         "vendor-portability-and-exit"
       ],
       "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-007",
+      "path": "docs/07-decisions/DR-007-identity-authorisation-architecture.md",
+      "status": "approved",
+      "authority_for": [
+        "identity-and-authentication-model",
+        "session-recovery-and-revocation-requirements",
+        "role-action-and-contextual-authorisation",
+        "privileged-and-break-glass-access",
+        "service-identity-and-access-test-boundaries"
+      ],
+      "last_updated": "2026-08-08"
     }
   ],
   "implementation_plans": [
@@ -604,6 +617,17 @@
         "Task 3.4 completion",
         "TD-011 decision verification",
         "current versus target boundary distinction"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-07",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-7-identity-authorisation-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.7 completion",
+        "TD-013 decision-portion evidence",
+        "identity-authorisation-source-reconciliation"
       ],
       "last_updated": "2026-08-08"
     },

@@ -25,6 +25,7 @@ sources:
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
 ---
 
 # Meneer v1 Verified Current State
@@ -44,6 +45,10 @@ repository yet.
 DR-005 and DR-006 now approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
 backup/restore, and vendor-evaluation architecture. They do not change the observed runtime: no
 provider, database, bucket, schema, migration, tenant policy, backup, or restore workflow exists.
+
+DR-007 approves the target identity and authorisation architecture. No identity provider, account,
+verification, MFA, session, recovery, role, permission, break-glass, service identity, or access
+policy exists in the current runtime.
 
 ## Technology
 

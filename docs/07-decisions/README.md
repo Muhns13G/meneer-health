@@ -50,7 +50,7 @@ source documents without explicit authorisation.
 | DR-004 | [Framework-neutral contracts and migration boundaries](DR-004-framework-neutral-contracts-migration.md) | Architecture owner              | 3.5  | Approved |
 | DR-005 | [Data, tenancy, lifecycle, and migration model](DR-005-data-tenancy-lifecycle-migration.md)             | Data and privacy owners         | 3.6  | Approved |
 | DR-006 | [Vendor evaluation and exit criteria](DR-006-vendor-evaluation-criteria.md)                             | Architecture and privacy owners | 3.6  | Approved |
-| DR-007 | Identity and authorisation architecture                                                                 | Security owner                  | 3.7  | Planned  |
+| DR-007 | [Identity and authorisation architecture](DR-007-identity-authorisation-architecture.md)                | Security owner                  | 3.7  | Approved |
 | DR-008 | [Governance ownership and approval workflow](DR-008-governance-ownership-approval.md)                   | Business owner                  | 3.2  | Approved |
 
 ## Required Maintenance
