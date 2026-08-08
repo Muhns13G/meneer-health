@@ -26,6 +26,7 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run deploy:dry-run` builds and validates the Cloudflare upload without deploying.
 - `bun run lint` runs ESLint and Prettier checks.
 - `bun run format` rewrites supported files with Prettier.
+- `bun run format:check` checks Prettier formatting without changing files.
 - `bun audit` checks installed packages for vulnerabilities.
 
 No automated test command or test framework is currently configured. Until one is added, run lint, typecheck, build, and manual route/responsive checks.

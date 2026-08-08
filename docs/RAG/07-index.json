@@ -731,6 +731,21 @@
       "last_updated": "2026-08-08"
     },
     {
+      "id": "phase-01-sprint-04-task-02",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.2 completion",
+        "private package identity",
+        "Bun and Node package contract",
+        "frozen-install evidence",
+        "non-writing format-check baseline",
+        "TD-028 in-progress evidence"
+      ],
+      "source_baseline": "b4ceae5",
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
       "status": "planned",
