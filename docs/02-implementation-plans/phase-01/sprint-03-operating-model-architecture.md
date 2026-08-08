@@ -1,7 +1,7 @@
 ---
 plan_id: phase-01-sprint-03
 title: Operating Model and Architecture Decisions
-status: in-progress
+status: completed
 primary_debt: [TD-009, TD-010, TD-011, TD-012, TD-013, TD-016, TD-050, TD-054]
 depends_on: [phase-01-sprint-01, phase-01-sprint-02]
 last_updated: 2026-08-08
@@ -35,7 +35,7 @@ placeholder must never be represented as verified or patient-facing approval.
 | 3.6  | Approve the data, tenancy, lifecycle, migration, and vendor-evaluation architecture.               | TD-012                                      | Completed |
 | 3.7  | Approve identity, session, role, permission, privileged-access, and service-identity requirements. | TD-013 decision portion                     | Completed |
 | 3.8  | Validate lifecycle, permissions, responsibilities, states, threats, and required scenarios.        | TD-016 decision portion; all Sprint 03 debt | Completed |
-| 3.9  | Obtain approvals and reconcile the registry, RAG corpus, blueprint, and completion report.         | All Sprint 03 debt                          | Planned   |
+| 3.9  | Obtain approvals and reconcile the registry, RAG corpus, blueprint, and completion report.         | All Sprint 03 debt                          | Completed |
 
 Each task is reviewed and committed separately by the repository owner. A task may prepare a draft,
 but only recorded domain approval changes a decision record to `approved`.
@@ -159,3 +159,13 @@ The primary risk is premature architecture built on unresolved legal or operatin
 - Update TD-009–TD-013, TD-016, TD-050, and TD-054 only after approvals are evidenced.
 - Refresh `docs/RAG/01-project-context.md`, `03-platform-evolution.md`, `04-domain-glossary.md`, `05-decision-register.md`, `06-known-limitations.md`, and `07-index.json`.
 - Produce `docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md`.
+
+## Completion Disposition
+
+Sprint 03 is complete as an architecture-and-decision sprint. DR-001–DR-008 are approved and the
+cross-record scenario validation is complete. TD-011, TD-012, TD-050, and TD-054 are Verified.
+TD-009 and TD-010 remain In progress pending the named-party, contracting, commercial, partner, and
+operational particulars deliberately retained as pre-launch gates. TD-013 and TD-016 remain In
+progress pending the Sprint 05 runtime, access-boundary, restore, and synthetic data-subject
+evidence required by their registry acceptance criteria. This disposition does not activate the
+pilot or claim that the approved target architecture is implemented.

@@ -26,6 +26,7 @@ sources:
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer Project Context
@@ -134,6 +135,11 @@ Task 3.8 validates DR-001–DR-008 as one coherent design across happy, rejectio
 fulfilment, support, rights, incident, and migration scenarios. It approves the conservative v1
 lifecycle/recovery baseline while keeping named-party, provider, domain sign-off, and Sprint 05
 runtime evidence as explicit gates.
+
+Sprint 03 is closed as an approved architecture-and-decision boundary. TD-011, TD-012, TD-050, and
+TD-054 are Verified; TD-009, TD-010, TD-013, and TD-016 remain In progress under their recorded
+operational or implementation gates. Closure neither activates the pilot nor changes the observed
+non-transactional runtime.
 
 ## Authoritative References
 

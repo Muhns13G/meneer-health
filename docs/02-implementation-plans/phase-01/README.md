@@ -44,6 +44,10 @@ Plans must be refreshed if these sources materially change. Repository evidence 
 Sprint 02 closed on 8 August 2026 after Tasks 2.1–2.8. TD-025, TD-027, TD-041, TD-049, and
 TD-051–TD-053 are Verified.
 
+Sprint 03 closed on 8 August 2026 after Tasks 3.1–3.9. TD-011, TD-012, TD-050, and TD-054 are
+Verified. TD-009 and TD-010 retain named operating/commercial gates; TD-013 and TD-016 retain the
+Sprint 05 implementation evidence required by their acceptance criteria.
+
 External decision preparation may begin early, but a sprint cannot claim completion until its prerequisites and acceptance evidence are satisfied.
 
 ## Coverage Matrix
