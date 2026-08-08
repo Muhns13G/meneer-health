@@ -700,7 +700,7 @@
     {
       "id": "phase-01-sprint-04",
       "path": "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
-      "status": "planned",
+      "status": "ready-for-owner-approval",
       "primary_debt": [
         "TD-021",
         "TD-022",
@@ -711,7 +711,9 @@
         "TD-029",
         "TD-030",
         "TD-031"
-      ]
+      ],
+      "task_count": 12,
+      "last_updated": "2026-08-08"
     },
     {
       "id": "phase-01-sprint-05",
