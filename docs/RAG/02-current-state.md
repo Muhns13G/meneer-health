@@ -22,6 +22,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
 ---
 
 # Meneer v1 Verified Current State
@@ -32,6 +33,11 @@ The repository is a responsive acquisition site with inactive, preserved workflo
 not yet a production healthcare application. Active routes do not persist or transmit account,
 consent, questionnaire, appointment, clinical, prescription, payment, pharmacy, delivery, or
 support records.
+
+DR-003 now approves the target platform boundaries and authoritative-state ownership. That is a
+design decision, not a current capability: no application/API boundary, modular domain core,
+datastore, identity service, clinical/operations workspace, or transactional adapter exists in the
+repository yet.
 
 ## Technology
 
@@ -293,7 +299,8 @@ Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](../02-implementat
   false-success paths are contained behind inactive routes.
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
-- No provider/operating model, backend, identity, database, authorisation, audit, retention, observability, or incident process.
+- The operating model and logical backend/state boundaries are approved, but no backend, identity,
+  database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - No automated tests or CI; lint and dependency gates fail.
 
