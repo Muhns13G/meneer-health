@@ -632,6 +632,19 @@
       "last_updated": "2026-08-08"
     },
     {
+      "id": "phase-01-sprint-03-task-08",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md",
+      "status": "validated-with-gates",
+      "authority_for": [
+        "Task 3.8 completion",
+        "cross-decision architecture validation",
+        "v1 lifecycle and recovery baseline",
+        "required scenario walkthroughs",
+        "TD-016 decision-portion evidence"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "phase-01-sprint-03-task-06",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-6-data-vendor-evidence.md",
       "status": "verified-task-evidence",

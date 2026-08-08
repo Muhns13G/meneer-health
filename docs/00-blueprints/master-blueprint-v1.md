@@ -161,6 +161,13 @@ security, isolation, portability/exit, recovery, authority, and commercial gates
 weighted comparison. Cloudflare hosting or a Supabase/Neon/Brevo shortlist is not automatic
 approval of any additional service.
 
+Task 3.8 validates these decisions across required success, rejection, urgent, payment, fulfilment,
+support, rights, incident, and migration scenarios. The approved v1 lifecycle baseline follows
+purpose-limited retention, a general six-year dormant clinical-record minimum subject to longer
+exceptions, a five-year finance/tax baseline, short raw integration/export windows, 35-day rolling
+backups, and critical one-hour RPO/four-hour RTO. Final domain application and Sprint 05 restore/
+rights evidence remain release gates.
+
 The platform should classify data before selecting storage or vendors:
 
 - **Public:** approved marketing and treatment information.

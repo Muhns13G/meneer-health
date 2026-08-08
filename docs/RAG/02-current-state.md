@@ -26,6 +26,7 @@ sources:
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -49,6 +50,10 @@ provider, database, bucket, schema, migration, tenant policy, backup, or restore
 DR-007 approves the target identity and authorisation architecture. No identity provider, account,
 verification, MFA, session, recovery, role, permission, break-glass, service identity, or access
 policy exists in the current runtime.
+
+Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
+This is documentation evidence only: no scenario was executed against a transactional backend, and
+TD-013/TD-016 remain In progress pending Sprint 05 access, restore, and data-subject tests.
 
 ## Technology
 
