@@ -610,6 +610,21 @@
       "last_updated": "2026-08-08"
     },
     {
+      "id": "phase-01-sprint-04-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.1 completion",
+        "Sprint 04 post-Sprint 03 command baseline",
+        "current dependency advisory inventory",
+        "UI primitive and direct-dependency reachability inventory",
+        "generated-file and contributor-documentation inventory",
+        "TD-021 TD-026 and TD-030 in-progress evidence"
+      ],
+      "source_baseline": "f88975e14eb85d66fdbb3473c1689256efbd5840",
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "meneer-cloudflare-v1-release",
       "path": "docs/06-operations/cloudflare-environments-release-runbook.md",
       "status": "active-owner-controlled",
@@ -700,7 +715,7 @@
     {
       "id": "phase-01-sprint-04",
       "path": "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
-      "status": "ready-for-owner-approval",
+      "status": "in-progress",
       "primary_debt": [
         "TD-021",
         "TD-022",
