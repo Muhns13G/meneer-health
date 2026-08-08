@@ -1,10 +1,10 @@
 ---
 consideration_id: FC-001
 title: PostgreSQL, Authentication, and Transactional Email Vendor Strategy
-status: decision-required
-decision_due: phase-01-sprint-03
-last_reviewed: 2026-08-06
-owner: unassigned
+status: evaluation-pending
+decision_due: before-phase-01-sprint-05-provisioning
+last_reviewed: 2026-08-08
+owner: Octothorp ZA architecture and data owners
 sensitivity: internal
 ---
 
@@ -21,9 +21,15 @@ contracts, and exit procedure are approved.
 
 ## Current Recommendation
 
-- Do not provision production services during Sprint 01. First contain the mock journeys and approve
-  the real transactional route and data disposition.
-- Select the database, identity, and email approach in Sprint 03 after the responsible entity, enabled data, roles, retention, residency, and vendor requirements are known.
+DR-005 now approves managed PostgreSQL as the portable relational system of record and encrypted
+object storage for binaries. DR-006 approves the vendor-evaluation and exit method. No database,
+identity, email, or storage vendor is selected or provisioned by those decisions; the options below
+remain a shortlist that must be reverified against current primary evidence before selection.
+
+- Do not provision production services until Task 3.8 approves the remaining identity/lifecycle
+  decisions and the selected service passes DR-006.
+- Select exact database, identity, storage, and email services before Sprint 05 production-capable
+  provisioning, after the data map, roles, retention, residency, and vendor requirements are approved.
 - Implement the approved pilot scope in Sprint 05. A production-grade database and identity service
   are mandatory because registration, consent, intake, payment/order state, fulfilment, and audit
   evidence must be durable.
@@ -131,6 +137,8 @@ Reassess this consideration when the pilot scope changes, before vendor provisio
 
 ## Related Project Documents
 
+- [DR-005 data, tenancy, lifecycle, and migration model](../07-decisions/DR-005-data-tenancy-lifecycle-migration.md)
+- [DR-006 vendor evaluation and exit criteria](../07-decisions/DR-006-vendor-evaluation-criteria.md)
 - [Phase 01 plan](../02-implementation-plans/phase-01/README.md)
 - [Sprint 03 operating model and architecture](../02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md)
 - [Sprint 05 data, security, and operations](../02-implementation-plans/phase-01/sprint-05-data-security-operations.md)

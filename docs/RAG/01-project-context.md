@@ -22,6 +22,8 @@ sources:
   - docs/07-decisions/DR-002-commercial-fulfilment-model.md
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
 ---
 
 # Meneer Project Context
@@ -120,7 +122,9 @@ MCP surface was removed in Sprint 02 Task 2.4. DR-003 approves the other boundar
 architecture, but no application API, durable modular core, datastore, authentication, clinical
 workspace, operations workspace, transactional adapter, canonical schema catalogue, or contract-test
 suite has been implemented. DR-004 approves the future contract and migration rules without
-changing that observed implementation state.
+changing that observed implementation state. DR-005 approves PostgreSQL/object-storage, logical
+schema, tenancy, lifecycle, migration, backup, and restore architecture; DR-006 approves how vendors
+must be evaluated. Neither decision provisions a provider or makes the site transactional.
 
 ## Authoritative References
 
