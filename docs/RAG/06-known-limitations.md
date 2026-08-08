@@ -25,6 +25,7 @@ sources:
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -107,6 +108,12 @@ DR-007 approves patient/workforce/service identity, MFA, sessions, recovery, rol
 permissions, break glass, audit, and access-test requirements. No identity provider or control is
 implemented. TD-013 is In progress—not Verified—until Sprint 05 proves server-side permissions,
 horizontal/vertical isolation, privileged MFA, recovery, revocation, and service identities.
+
+Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
+prove operation. Final legal/privacy/clinical application to named entities/providers remains an
+activation gate. TD-016 is In progress until Sprint 05 demonstrates a staging restore and complete
+synthetic rights request with processor and backup reconciliation. Do not describe the nine scenario
+walkthroughs as executed customer transactions or runtime tests.
 
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, built output, hosted
