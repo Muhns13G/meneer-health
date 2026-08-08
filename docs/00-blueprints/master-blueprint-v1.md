@@ -153,8 +153,9 @@ Provides controlled adapters for identity, messaging, video consultations, labor
 DR-005 approves managed PostgreSQL as the portable relational system of record and encrypted object
 storage for binary objects. It assigns logical namespaces, opaque identifiers, explicit tenant
 scope, classification, lifecycle states, data-subject procedures, migrations, backups, restores,
-pilot exit, and cross-generation reconciliation. Exact retention periods and recovery objectives
-remain Task 3.8 gates; physical schemas and restore evidence remain Sprint 05 work.
+pilot exit, and cross-generation reconciliation. Task 3.8 approved the conservative v1 retention
+and recovery baseline; final named-domain application, physical schemas, and restore evidence remain
+release or Sprint 05 gates.
 
 DR-006 governs every production data or service provider through non-negotiable legal/privacy,
 security, isolation, portability/exit, recovery, authority, and commercial gates followed by a
@@ -167,6 +168,12 @@ purpose-limited retention, a general six-year dormant clinical-record minimum su
 exceptions, a five-year finance/tax baseline, short raw integration/export windows, 35-day rolling
 backups, and critical one-hour RPO/four-hour RTO. Final domain application and Sprint 05 restore/
 rights evidence remain release gates.
+
+Sprint 03 is complete as an architecture-and-decision milestone. DR-001–DR-008 are approved;
+TD-011, TD-012, TD-050, and TD-054 are Verified. TD-009 and TD-010 retain named operating and
+commercial activation gates, while TD-013 and TD-016 retain Sprint 05 implementation-evidence
+gates. Completion therefore constrains future implementation without representing the current site
+as transactional or authorising the pilot.
 
 The platform should classify data before selecting storage or vendors:
 
