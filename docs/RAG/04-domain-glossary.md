@@ -64,6 +64,20 @@ sensitivity: internal
 ## Technical Terms
 
 - **Authoritative state:** the durable server-side record that determines workflow truth; browser component state is not authoritative.
+- **Channel/workspace boundary:** a purpose-specific public, patient, clinical, or operations
+  interface that renders authorised projections and submits intent without owning workflow truth.
+- **Application/API boundary:** the server-side entry that authenticates, authorises, validates,
+  and routes commands and queries to the module that owns the state.
+- **Modular core:** framework-neutral domain modules with explicit ownership and dependency rules;
+  modules may share one deployment without sharing private state or bypassing contracts.
+- **Integration port/adapter:** a controlled contract and implementation for an external service;
+  provider objects and callbacks do not become domain authority.
+- **Source evidence:** an externally or professionally authored fact that must be verified and
+  normalised before it affects Meneer's workflow state.
+- **System of record:** the module responsible for preserving the authoritative internal record,
+  history, and permitted transitions for a state domain.
+- **Pending reconciliation:** an explicit non-success state used when external and internal
+  evidence is missing, delayed, or conflicting.
 - **Portable core:** domain rules, records, contracts, and tests that can move between TanStack, Next.js, Laravel, or hosting providers.
 - **Contract test:** a test proving that an API, event, or behaviour remains compatible across implementations.
 - **Reconciliation:** proving that source and destination records or external transactions agree after processing or migration.

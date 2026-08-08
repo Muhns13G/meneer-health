@@ -42,16 +42,16 @@ source documents without explicit authorisation.
 
 ## Sprint 03 Register
 
-| ID     | Planned record                                                                        | Accountable role                | Task | Status   |
-| ------ | ------------------------------------------------------------------------------------- | ------------------------------- | ---- | -------- |
-| DR-001 | [Operating model and responsibility matrix](DR-001-operating-model-responsibility.md) | Business owner                  | 3.2  | Approved |
-| DR-002 | [Commercial and fulfilment model](DR-002-commercial-fulfilment-model.md)              | Commercial owner                | 3.3  | Approved |
-| DR-003 | Platform boundaries and authoritative state                                           | Architecture owner              | 3.4  | Planned  |
-| DR-004 | Framework-neutral contracts and migration boundaries                                  | Architecture owner              | 3.5  | Planned  |
-| DR-005 | Data, tenancy, lifecycle, and migration model                                         | Data and privacy owners         | 3.6  | Planned  |
-| DR-006 | Vendor evaluation criteria                                                            | Architecture and privacy owners | 3.6  | Planned  |
-| DR-007 | Identity and authorisation architecture                                               | Security owner                  | 3.7  | Planned  |
-| DR-008 | [Governance ownership and approval workflow](DR-008-governance-ownership-approval.md) | Business owner                  | 3.2  | Approved |
+| ID     | Planned record                                                                                   | Accountable role                | Task | Status   |
+| ------ | ------------------------------------------------------------------------------------------------ | ------------------------------- | ---- | -------- |
+| DR-001 | [Operating model and responsibility matrix](DR-001-operating-model-responsibility.md)            | Business owner                  | 3.2  | Approved |
+| DR-002 | [Commercial and fulfilment model](DR-002-commercial-fulfilment-model.md)                         | Commercial owner                | 3.3  | Approved |
+| DR-003 | [Platform boundaries and authoritative state](DR-003-platform-boundaries-authoritative-state.md) | Architecture owner              | 3.4  | Approved |
+| DR-004 | Framework-neutral contracts and migration boundaries                                             | Architecture owner              | 3.5  | Planned  |
+| DR-005 | Data, tenancy, lifecycle, and migration model                                                    | Data and privacy owners         | 3.6  | Planned  |
+| DR-006 | Vendor evaluation criteria                                                                       | Architecture and privacy owners | 3.6  | Planned  |
+| DR-007 | Identity and authorisation architecture                                                          | Security owner                  | 3.7  | Planned  |
+| DR-008 | [Governance ownership and approval workflow](DR-008-governance-ownership-approval.md)            | Business owner                  | 3.2  | Approved |
 
 ## Required Maintenance
 

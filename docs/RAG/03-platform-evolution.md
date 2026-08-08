@@ -12,6 +12,7 @@ sources:
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -36,6 +37,12 @@ Purpose: absorb verified v1 learning and deliver the public-launch architecture.
 Purpose: support proven scale, multi-client operations, complex integrations, or team/operational separation when measured demand justifies it. This is a conditional evolution, not a scheduled rewrite.
 
 ## Durable Core
+
+DR-003 approves the logical shape of this core: channel-specific public, patient, clinical, and
+operations interfaces call an authenticated application/API boundary; framework-neutral domain
+modules own invariants and state transitions; persistence and external services remain behind
+ports/adapters. v1 may be one modular deployment. This decision does not claim that the core is
+implemented today.
 
 The following must survive framework changes where still valid:
 

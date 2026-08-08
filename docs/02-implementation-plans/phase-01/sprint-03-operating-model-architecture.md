@@ -30,7 +30,7 @@ placeholder must never be represented as verified or patient-facing approval.
 | 3.1  | Refresh the plan; establish decision-record governance, templates, and evidence ownership.         | All Sprint 03 debt                          | Completed |
 | 3.2  | Approve the operating model, responsibility matrix, and accountable-domain ownership.              | TD-009, TD-050                              | Completed |
 | 3.3  | Approve the commercial, payment, fulfilment, and exception model.                                  | TD-010                                      | Completed |
-| 3.4  | Approve platform boundaries and authoritative workflow-state ownership.                            | TD-011                                      | Planned   |
+| 3.4  | Approve platform boundaries and authoritative workflow-state ownership.                            | TD-011                                      | Completed |
 | 3.5  | Approve framework-neutral domain, API, event, compatibility, and migration contracts.              | TD-054                                      | Planned   |
 | 3.6  | Approve the data, tenancy, lifecycle, migration, and vendor-evaluation architecture.               | TD-012                                      | Planned   |
 | 3.7  | Approve identity, session, role, permission, privileged-access, and service-identity requirements. | TD-013 decision portion                     | Planned   |

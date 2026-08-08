@@ -89,6 +89,12 @@ No later stage may be implied as complete when an earlier durable transaction ha
 
 ## Target Platform Boundaries
 
+DR-003 is the authoritative logical-boundary decision for this target. It approves channel-specific
+interfaces over an application/API boundary and a framework-neutral modular core. v1 may implement
+that design as one deployable modular application; route files, browser state, framework APIs, and
+external-provider callbacks are not authoritative workflow records. Physical services may be
+separated only when evidence justifies the added operational cost.
+
 ```mermaid
 flowchart LR
     A[Acquisition channels] --> B[Public Meneer site]

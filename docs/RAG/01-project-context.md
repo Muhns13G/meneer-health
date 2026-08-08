@@ -20,6 +20,7 @@ sources:
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md
   - docs/07-decisions/DR-002-commercial-fulfilment-model.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
 ---
 
 # Meneer Project Context
@@ -100,6 +101,11 @@ delivery evidence remain gated and are not live through that policy approval.
 
 ## Intended Capability Boundaries
 
+DR-003 approves these as logical product boundaries over an authenticated application/API layer
+and framework-neutral modular core. A single v1 deployment is acceptable, but each module must own
+its state and transitions; browser state, route output, and provider redirects are not workflow
+authority.
+
 - **Public acquisition:** marketing pages, condition education, campaigns, SEO, approved claims,
   and public policies. MCP is not part of v1.
 - **Patient application:** identity, consent, intake, appointments, messages, orders, documents, delivery status, and account rights.
@@ -108,8 +114,9 @@ delivery evidence remain gated and are not live through that policy approval.
 - **Integration layer:** controlled adapters for identity, messaging, video, laboratories, payments, pharmacy, courier, and observability.
 
 Only the public presentation currently exists in recognisable form. The former read-only Lovable
-MCP surface was removed in Sprint 02 Task 2.4. The other boundaries describe intended future
-capabilities.
+MCP surface was removed in Sprint 02 Task 2.4. DR-003 approves the other boundaries as target
+architecture, but no application API, durable modular core, datastore, authentication, clinical
+workspace, operations workspace, or transactional adapter has been implemented.
 
 ## Authoritative References
 

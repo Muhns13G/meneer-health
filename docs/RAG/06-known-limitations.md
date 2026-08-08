@@ -20,6 +20,7 @@ sources:
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md
   - docs/07-decisions/DR-002-commercial-fulfilment-model.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -80,6 +81,11 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 ## Platform Limits
 
 The repository is hosted for contained review but is not ready for transactional pilot use.
+DR-003 approves logical channel, application/API, domain, persistence, integration, audit, and
+authoritative-state boundaries. It does not implement them. Do not describe the current site as
+having a backend, durable modular core, system of record, clinical/operations workspace, or
+transactional integration merely because the target architecture is approved.
+
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, built output, hosted
 browser network, and persisted logs. Root and fallback metadata now use approved Meneer values; the
