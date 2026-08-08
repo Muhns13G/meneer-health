@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
-source_baseline: df94a1206fddd5f08f03132d1c548c0b468a7fe6
+source_baseline: f88975e14eb85d66fdbb3473c1689256efbd5840
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -28,6 +28,7 @@ sources:
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -312,6 +313,25 @@ Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](../02-implementation-plans
 - TD-049, TD-052, and TD-053 are Verified. All seven Sprint 02 primary debt items are closed.
 
 Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md).
+
+### Sprint 04.1 repository-health baseline — 8 August 2026
+
+- Frozen install confirms 456 installs across 566 packages without changing the lockfile.
+- TypeScript, production build, and Wrangler dry-run pass. Lint fails with 21 formatting errors and
+  reports 7 Fast Refresh warnings.
+- The current full dependency audit reports 33 findings (17 high, 12 moderate, 4 low); the
+  production-filtered audit reports 26 (11 high, 11 moderate, 4 low). Nine affected package
+  families and their initial paths/reachability are inventoried for bounded Tasks 4.8–4.9.
+- All 46 tracked `src/components/ui/` files have no product-source importer. Their 38 candidate
+  direct dependencies and two support-only source files remain present until Task 4.3 removal and
+  regression evidence.
+- No test framework, test script, test file, or CI workflow exists. The root README, test/CI guide,
+  vulnerability routing, contribution guide, and PR template remain missing; the decision index,
+  environment template, `CODEOWNERS`, and Cloudflare runbook already exist.
+- `bun.lock` and `src/routeTree.gen.ts` are the tracked generated artefacts. The latter still needs
+  an explicit formatter/generation consistency policy.
+
+Evidence: [`sprint-04-1-repository-health-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md).
 
 ## Highest-Risk Gaps
 
