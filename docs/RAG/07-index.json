@@ -412,6 +412,32 @@
         "cross-generation-migration-reconciliation-and-rollback"
       ],
       "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-005",
+      "path": "docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md",
+      "status": "approved",
+      "authority_for": [
+        "portable-data-storage-model",
+        "logical-domain-namespaces",
+        "tenant-isolation-model",
+        "data-classification-and-lifecycle-architecture",
+        "schema-migration-backup-restore-and-pilot-exit"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-006",
+      "path": "docs/07-decisions/DR-006-vendor-evaluation-criteria.md",
+      "status": "approved",
+      "authority_for": [
+        "vendor-hard-gates",
+        "weighted-vendor-comparison",
+        "provider-evaluation-evidence",
+        "environment-and-provisioning-controls",
+        "vendor-portability-and-exit"
+      ],
+      "last_updated": "2026-08-08"
     }
   ],
   "implementation_plans": [
@@ -582,6 +608,17 @@
       "last_updated": "2026-08-08"
     },
     {
+      "id": "phase-01-sprint-03-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-6-data-vendor-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.6 completion",
+        "TD-012 decision verification",
+        "data-vendor-source-reconciliation"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "phase-01-sprint-03-task-05",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-5-contract-migration-evidence.md",
       "status": "verified-task-evidence",
@@ -661,8 +698,8 @@
       "id": "FC-001",
       "path": "docs/05-future-considerations/postgres-auth-email-vendor-strategy.md",
       "title": "PostgreSQL, Authentication, and Transactional Email Vendor Strategy",
-      "status": "decision-required",
-      "decision_due": "phase-01-sprint-03",
+      "status": "evaluation-pending",
+      "decision_due": "before-phase-01-sprint-05-provisioning",
       "topics": [
         "postgresql",
         "supabase",

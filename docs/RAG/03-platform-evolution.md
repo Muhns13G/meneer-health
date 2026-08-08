@@ -14,6 +14,8 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -108,3 +110,9 @@ A framework migration requires an approved reason based on product evidence, ope
 ## Platform-Portability Rule
 
 The selected host may provide builds, previews, functions, logs, and static delivery. Selection of identity, PostgreSQL, object storage, messaging, analytics, and clinical integrations must consider POPIA, data location, security, exportability, failure recovery, contractual obligations, and the planned Next.js/Laravel evolution. Replacing Lovable coupling with avoidable host-specific domain coupling is not an acceptable migration outcome.
+
+DR-005 fixes the portable data class at managed PostgreSQL plus encrypted object storage while
+leaving the provider open. Canonical identifiers, logical ownership, tenant scope, schema history,
+lifecycle state, attribution, and audit correlation survive migrations. DR-006 requires each exact
+service/product to pass legal/privacy, security, isolation, portability/exit, recovery, authority,
+and commercial gates. Provider bundles and hosting relationships confer no automatic approval.
