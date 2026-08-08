@@ -17,6 +17,7 @@ sources:
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -122,3 +123,8 @@ DR-007 keeps identity portable by mapping provider authentication to opaque inte
 server-owned permissions. Tenant, role, resource, assignment, purpose, state, assurance, session,
 recovery, break-glass, service-identity, and audit semantics survive an identity or framework
 migration; provider claims and framework middleware remain adapters.
+
+Task 3.8 validates the same ownership, permission, lifecycle and contract semantics across nine
+required operational and migration scenarios. Cross-generation movement must preserve the approved
+retention trigger, restriction/hold, disposition, deletion propagation, audit correlation and
+critical one-hour RPO/four-hour RTO rather than resetting lifecycle clocks.

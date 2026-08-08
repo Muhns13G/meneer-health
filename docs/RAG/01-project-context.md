@@ -25,6 +25,7 @@ sources:
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
 ---
 
 # Meneer Project Context
@@ -128,6 +129,11 @@ schema, tenancy, lifecycle, migration, backup, and restore architecture; DR-006 
 must be evaluated. DR-007 approves the identity, session, role, permission, break-glass, recovery,
 and service-identity architecture. None of these decisions provisions a provider or makes the site
 transactional.
+
+Task 3.8 validates DR-001–DR-008 as one coherent design across happy, rejection, urgent, payment,
+fulfilment, support, rights, incident, and migration scenarios. It approves the conservative v1
+lifecycle/recovery baseline while keeping named-party, provider, domain sign-off, and Sprint 05
+runtime evidence as explicit gates.
 
 ## Authoritative References
 

@@ -109,6 +109,14 @@ sensitivity: internal
   safety or a declared incident; it is not ordinary support access.
 - **Service identity:** a non-human, environment/purpose-scoped principal used by one integration or
   workload instead of a shared credential or human account.
+- **Dormant clinical record:** a health record whose retention clock starts from the patient's last
+  treatment/clinical activity, subject to longer applicable exceptions or holds.
+- **Legal or clinical hold:** an authorised, scoped and reviewed pause on ordinary disposition; it
+  does not permit unrelated access or create indefinite retention by default.
+- **RPO:** recovery point objective—the maximum approved amount of recent data loss measured in time.
+- **RTO:** recovery time objective—the maximum approved time to restore the required service/data.
+- **Deletion propagation:** reconciling an approved deletion/restriction across authoritative data,
+  providers, projections, caches, queues, exports, analytics and restored backups.
 - **Portable core:** domain rules, records, contracts, and tests that can move between TanStack, Next.js, Laravel, or hosting providers.
 - **Contract test:** a test proving that an API, event, or behaviour remains compatible across implementations.
 - **Reconciliation:** proving that source and destination records or external transactions agree after processing or migration.
