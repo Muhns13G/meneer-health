@@ -386,6 +386,19 @@
       ],
       "status": "verified-local",
       "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-003",
+      "path": "docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md",
+      "status": "approved",
+      "authority_for": [
+        "logical-platform-boundaries",
+        "authoritative-workflow-state-ownership",
+        "module-responsibilities",
+        "transition-and-reconciliation-rules",
+        "framework-neutral-deployment-mapping"
+      ],
+      "last_updated": "2026-08-08"
     }
   ],
   "implementation_plans": [
@@ -543,6 +556,17 @@
         "Cloudflare post-deploy verification",
         "Worker version rollback procedure"
       ]
+    },
+    {
+      "id": "phase-01-sprint-03-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.4 completion",
+        "TD-011 decision verification",
+        "current versus target boundary distinction"
+      ],
+      "last_updated": "2026-08-08"
     },
     {
       "id": "phase-01-sprint-03",
