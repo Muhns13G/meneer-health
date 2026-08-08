@@ -78,6 +78,17 @@ sensitivity: internal
   history, and permitted transitions for a state domain.
 - **Pending reconciliation:** an explicit non-success state used when external and internal
   evidence is missing, delayed, or conflicting.
+- **Contract catalogue:** the canonical version-controlled definitions, ownership, schemas,
+  semantics, privacy classification, fixtures, and tests for cross-boundary communication.
+- **Command:** an authorised request for one owning module to perform a state-changing action.
+- **Query:** an authorised request for a purpose-limited projection that does not change domain state.
+- **Domain event:** an immutable, past-tense fact emitted only after the owning transition commits.
+- **Contract major:** the positive integer version changed when structure or behaviour becomes
+  incompatible; consumers must safely reject unsupported majors.
+- **Behavioural equivalence:** evidence that a replacement retains approved contract and journey
+  behaviour, not merely similar pages or responses.
+- **Expand–migrate–contract:** add compatible capability first, migrate and reconcile under
+  observation, then retire the old path after rollback and consumer gates pass.
 - **Portable core:** domain rules, records, contracts, and tests that can move between TanStack, Next.js, Laravel, or hosting providers.
 - **Contract test:** a test proving that an API, event, or behaviour remains compatible across implementations.
 - **Reconciliation:** proving that source and destination records or external transactions agree after processing or migration.
