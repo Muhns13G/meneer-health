@@ -1,7 +1,7 @@
 ---
 plan_id: phase-01-sprint-04
 title: Repository and Delivery Health
-status: ready-for-owner-approval
+status: in-progress
 primary_debt: [TD-021, TD-022, TD-023, TD-024, TD-026, TD-028, TD-029, TD-030, TD-031]
 depends_on: [phase-01-sprint-02, phase-01-sprint-03]
 last_updated: 2026-08-08
@@ -51,20 +51,20 @@ database, identity service, clinical workflow, or transactional backend now exis
 
 ## Commit-Sized Task Plan
 
-| Task | Commit-sized outcome                                                                                                                                  | Primary debt           | Status  |
-| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------- |
-| 4.1  | Freeze the post-Sprint 03 baseline; create advisory, UI-reachability, command, generated-file, and documentation inventories.                         | TD-021, TD-026, TD-030 | Planned |
-| 4.2  | Complete the Bun/package contract: rename the package, add a non-writing format check, and prove version-aligned frozen installation.                 | TD-028                 | Planned |
-| 4.3  | Remove the verified-unused UI primitive surface and its now-unreachable direct dependencies in one bounded, reversible reduction.                     | TD-026                 | Planned |
-| 4.4  | Apply mechanical Prettier formatting to supported tracked source without changing public wording or behaviour.                                        | TD-022                 | Planned |
-| 4.5  | Resolve Fast Refresh findings, re-enable scoped unused-code rules, and remove only evidenced dead code while preserving approved gates/prototypes.    | TD-022, TD-029         | Planned |
-| 4.6  | Add Vitest, jsdom, React Testing Library, deterministic scripts, safe fixtures, and representative unit/component/integration tests.                  | TD-023                 | Planned |
-| 4.7  | Add Playwright plus axe browser/accessibility tests for active routes, redirects, 404s, gates, navigation, viewports, and error-free rendering.       | TD-023                 | Planned |
-| 4.8  | Remediate production-relevant advisories through bounded compatible updates with lockfile, test, build, and reachability evidence.                    | TD-021                 | Planned |
-| 4.9  | Remediate development/tooling advisories and record any unavoidable exception with owner, controls, expiry, and review trigger.                       | TD-021                 | Planned |
-| 4.10 | Add GitHub CI for frozen install, format, lint, typecheck, tests, build, Wrangler dry-run, audit policy, and generated-file consistency.              | TD-024                 | Planned |
-| 4.11 | Add the root contributor README, test/CI guidance, and contribution/PR templates linked to existing decisions and Cloudflare operations.              | TD-030, TD-031         | Planned |
-| 4.12 | Prove clean-checkout and controlled failing-CI enforcement, run final browser/regression checks, reconcile debt/RAG, and issue the completion report. | All Sprint 04 debt     | Planned |
+| Task | Commit-sized outcome                                                                                                                                  | Primary debt           | Status    |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | --------- |
+| 4.1  | Freeze the post-Sprint 03 baseline; create advisory, UI-reachability, command, generated-file, and documentation inventories.                         | TD-021, TD-026, TD-030 | Completed |
+| 4.2  | Complete the Bun/package contract: rename the package, add a non-writing format check, and prove version-aligned frozen installation.                 | TD-028                 | Planned   |
+| 4.3  | Remove the verified-unused UI primitive surface and its now-unreachable direct dependencies in one bounded, reversible reduction.                     | TD-026                 | Planned   |
+| 4.4  | Apply mechanical Prettier formatting to supported tracked source without changing public wording or behaviour.                                        | TD-022                 | Planned   |
+| 4.5  | Resolve Fast Refresh findings, re-enable scoped unused-code rules, and remove only evidenced dead code while preserving approved gates/prototypes.    | TD-022, TD-029         | Planned   |
+| 4.6  | Add Vitest, jsdom, React Testing Library, deterministic scripts, safe fixtures, and representative unit/component/integration tests.                  | TD-023                 | Planned   |
+| 4.7  | Add Playwright plus axe browser/accessibility tests for active routes, redirects, 404s, gates, navigation, viewports, and error-free rendering.       | TD-023                 | Planned   |
+| 4.8  | Remediate production-relevant advisories through bounded compatible updates with lockfile, test, build, and reachability evidence.                    | TD-021                 | Planned   |
+| 4.9  | Remediate development/tooling advisories and record any unavoidable exception with owner, controls, expiry, and review trigger.                       | TD-021                 | Planned   |
+| 4.10 | Add GitHub CI for frozen install, format, lint, typecheck, tests, build, Wrangler dry-run, audit policy, and generated-file consistency.              | TD-024                 | Planned   |
+| 4.11 | Add the root contributor README, test/CI guidance, and contribution/PR templates linked to existing decisions and Cloudflare operations.              | TD-030, TD-031         | Planned   |
+| 4.12 | Prove clean-checkout and controlled failing-CI enforcement, run final browser/regression checks, reconcile debt/RAG, and issue the completion report. | All Sprint 04 debt     | Planned   |
 
 Tasks 4.8 and 4.9 may be split further only when the Task 4.1 reachability register identifies an
 independent major-version or provider-tooling lane that cannot be reviewed safely in one commit.

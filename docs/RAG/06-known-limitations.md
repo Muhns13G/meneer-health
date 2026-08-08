@@ -27,6 +27,7 @@ sources:
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -162,9 +163,13 @@ paths pass, closing TD-049, TD-052, and TD-053.
 
 ## Engineering Limits
 
-- TypeScript, the production build, generic preview, and Wrangler dry-run pass. After Task 2.6,
-  lint fails with 21 pre-existing formatting errors and 7 warnings. Task 2.5's dependency audits report 31 full
-  and 24 production-filtered findings.
+- TypeScript, the production build, generic preview, and Wrangler dry-run pass. Task 4.1 confirms
+  lint still fails with 21 formatting errors and reports 7 Fast Refresh warnings.
+- Task 4.1's dated dependency baseline reports 33 full and 26 production-filtered findings across
+  nine affected package families. The production-filtered label does not prove deployed Worker
+  reachability; Tasks 4.8–4.9 must establish that per advisory before fixing or accepting anything.
+- All 46 tracked `components/ui` files have no product-source importer, but remain present with 38
+  candidate direct dependencies until Task 4.3 supplies removal and regression evidence.
 - No automated test framework or CI workflow exists.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation
   remains for Sprint 04 dependency maintenance.
