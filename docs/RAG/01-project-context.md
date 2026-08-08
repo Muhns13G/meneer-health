@@ -21,6 +21,7 @@ sources:
   - docs/07-decisions/DR-008-governance-ownership-approval.md
   - docs/07-decisions/DR-002-commercial-fulfilment-model.md
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
 ---
 
 # Meneer Project Context
@@ -98,6 +99,7 @@ delivery evidence remain gated and are not live through that policy approval.
 6. Human accountability and accessible support.
 7. Later versions absorb validated behaviour and evidence from earlier versions.
 8. Core rules and records remain portable across hosting and frameworks.
+9. Cross-boundary commands, queries, events, errors, and migrations follow approved versioned contracts.
 
 ## Intended Capability Boundaries
 
@@ -116,7 +118,9 @@ authority.
 Only the public presentation currently exists in recognisable form. The former read-only Lovable
 MCP surface was removed in Sprint 02 Task 2.4. DR-003 approves the other boundaries as target
 architecture, but no application API, durable modular core, datastore, authentication, clinical
-workspace, operations workspace, or transactional adapter has been implemented.
+workspace, operations workspace, transactional adapter, canonical schema catalogue, or contract-test
+suite has been implemented. DR-004 approves the future contract and migration rules without
+changing that observed implementation state.
 
 ## Authoritative References
 

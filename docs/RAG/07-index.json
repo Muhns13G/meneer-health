@@ -399,6 +399,19 @@
         "framework-neutral-deployment-mapping"
       ],
       "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-004",
+      "path": "docs/07-decisions/DR-004-framework-neutral-contracts-migration.md",
+      "status": "approved",
+      "authority_for": [
+        "framework-neutral-contract-kinds",
+        "required-domain-contract-families",
+        "validation-idempotency-and-concurrency-semantics",
+        "contract-versioning-and-compatibility",
+        "cross-generation-migration-reconciliation-and-rollback"
+      ],
+      "last_updated": "2026-08-08"
     }
   ],
   "implementation_plans": [
@@ -565,6 +578,17 @@
         "Task 3.4 completion",
         "TD-011 decision verification",
         "current versus target boundary distinction"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-5-contract-migration-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.5 completion",
+        "TD-054 decision verification",
+        "contract and migration source reconciliation"
       ],
       "last_updated": "2026-08-08"
     },

@@ -13,6 +13,7 @@ sources:
   - docs/06-operations/cloudflare-environments-release-runbook.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -55,6 +56,22 @@ The following must survive framework changes where still valid:
 - Migration, reconciliation, cutover, rollback, and incident evidence.
 
 React components, route conventions, server-function APIs, Vercel configuration, and framework caches are implementation details. They must not become the sole definition of clinical rules or authoritative records.
+
+## Contract Boundary
+
+DR-004 approves one canonical, runtime-validatable catalogue for commands, queries, results, domain
+events, integration messages, errors, and audit facts. It covers identity, consent, intake, triage,
+clinical decisions, prescriptions, payments/refunds, orders, fulfilment, support, and audit. Routes,
+Server Actions, controllers, ORM models, provider objects, and generated language types are adapters,
+not the normative contract.
+
+Compatible changes are additive and optional within a contract major; changed field meaning,
+required data, validation, authority, idempotency, errors, state transitions, enumerations without
+fallback, or privacy/clinical meaning require a new major. Consumers reject unsupported majors.
+
+Every migration follows inventory, expand, deterministic migration, shadow/reconciliation, staged
+cutover, observation, and contraction. Rollback never deletes or rewrites accepted records. Retained
+contract fixtures and journey tests—not matching page appearance—prove cross-generation equivalence.
 
 ## v1 De-Platform Sequence
 

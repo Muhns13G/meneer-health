@@ -27,6 +27,11 @@ Meneer will evolve through deliberate product generations rather than treating e
 
 Frameworks are replaceable delivery shells. The durable product consists of the domain model, approved content, workflow states, API contracts, database schema, audit events, security rules, migration history, and acceptance tests. Every generation must demonstrate behavioural equivalence for retained capabilities and document intentional improvements or removals.
 
+DR-004 makes that portability enforceable through a canonical contract catalogue for commands,
+queries, results, events, errors, and audit facts. Contract majors, runtime validation, idempotency,
+concurrency, safe errors, reconciliation, compatibility, cutover, and rollback rules survive each
+framework generation; generated types and framework handlers are adapters only.
+
 After Sprint 01 comparison, the repository owner selected Cloudflare for the TanStack v1 pilot. Vercel remains a possible host for the planned Next.js v2 and is not a v1 dependency. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
 
 The v1 release contract is documented in
@@ -94,6 +99,11 @@ interfaces over an application/API boundary and a framework-neutral modular core
 that design as one deployable modular application; route files, browser state, framework APIs, and
 external-provider callbacks are not authoritative workflow records. Physical services may be
 separated only when evidence justifies the added operational cost.
+
+DR-004 governs communication across these boundaries. Modules exchange versioned commands,
+purpose-limited queries, committed domain events, safe errors, and audit facts rather than sharing
+framework state or private persistence. Migrations expand compatible contracts, move and reconcile
+data/consumers, cut over one authority at a time, observe, and only then remove the old path.
 
 ```mermaid
 flowchart LR
