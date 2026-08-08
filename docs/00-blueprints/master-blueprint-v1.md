@@ -150,6 +150,17 @@ Provides controlled adapters for identity, messaging, video consultations, labor
 
 ## Data and Security Model
 
+DR-005 approves managed PostgreSQL as the portable relational system of record and encrypted object
+storage for binary objects. It assigns logical namespaces, opaque identifiers, explicit tenant
+scope, classification, lifecycle states, data-subject procedures, migrations, backups, restores,
+pilot exit, and cross-generation reconciliation. Exact retention periods and recovery objectives
+remain Task 3.8 gates; physical schemas and restore evidence remain Sprint 05 work.
+
+DR-006 governs every production data or service provider through non-negotiable legal/privacy,
+security, isolation, portability/exit, recovery, authority, and commercial gates followed by a
+weighted comparison. Cloudflare hosting or a Supabase/Neon/Brevo shortlist is not automatic
+approval of any additional service.
+
 The platform should classify data before selecting storage or vendors:
 
 - **Public:** approved marketing and treatment information.

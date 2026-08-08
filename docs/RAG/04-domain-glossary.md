@@ -89,6 +89,16 @@ sensitivity: internal
   behaviour, not merely similar pages or responses.
 - **Expand–migrate–contract:** add compatible capability first, migrate and reconcile under
   observation, then retire the old path after rollback and consumer gates pass.
+- **Logical namespace:** a data-ownership boundary for one domain; physical schema names may vary,
+  but another module may not bypass its commands/queries to mutate private records.
+- **Tenant scope:** the server-derived business/client boundary applied to records, commands,
+  queries, jobs, exports, storage, caches, logs, and audit evidence.
+- **Data lifecycle state:** the approved progression through active, restricted/archive,
+  disposition, deletion/de-identification, with a scoped hold able to pause disposition.
+- **Vendor hard gate:** a non-negotiable legal/privacy, security, isolation, portability/recovery,
+  authority, or commercial requirement that scoring cannot override.
+- **Lock-in budget:** the limited provider-specific implementation permitted behind portable
+  contracts, migrations, exports, tests, and an evidenced exit path.
 - **Portable core:** domain rules, records, contracts, and tests that can move between TanStack, Next.js, Laravel, or hosting providers.
 - **Contract test:** a test proving that an API, event, or behaviour remains compatible across implementations.
 - **Reconciliation:** proving that source and destination records or external transactions agree after processing or migration.

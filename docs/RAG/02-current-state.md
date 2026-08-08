@@ -23,6 +23,8 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
 ---
 
 # Meneer v1 Verified Current State
@@ -38,6 +40,10 @@ DR-003 now approves the target platform boundaries and authoritative-state owner
 design decision, not a current capability: no application/API boundary, modular domain core,
 datastore, identity service, clinical/operations workspace, or transactional adapter exists in the
 repository yet.
+
+DR-005 and DR-006 now approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
+backup/restore, and vendor-evaluation architecture. They do not change the observed runtime: no
+provider, database, bucket, schema, migration, tenant policy, backup, or restore workflow exists.
 
 ## Technology
 

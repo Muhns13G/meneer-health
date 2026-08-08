@@ -22,6 +22,8 @@ sources:
   - docs/07-decisions/DR-002-commercial-fulfilment-model.md
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -92,6 +94,13 @@ cutover, and rollback rules. The repository still has no canonical machine-reada
 runtime validators, command/event infrastructure, provider adapters, contract fixtures, contract
 tests, or behavioural-equivalence suite. TD-054 decision closure must not be described as closure
 of TD-014, TD-055, or transactional implementation.
+
+DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
+and restore architecture; DR-006 approves vendor evaluation and exit criteria. No database, object
+store, identity, messaging, or other production data service is selected or provisioned. No physical
+schema, migration, tenant policy, backup, restore, data-subject workflow, or retention period exists
+in runtime. TD-012 decision closure must not be described as closure of TD-016 or Sprint 05
+implementation. Supabase, Neon, and Brevo remain candidates only.
 
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, built output, hosted
