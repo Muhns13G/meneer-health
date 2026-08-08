@@ -171,6 +171,12 @@ The platform should classify data before selecting storage or vendors:
 
 Required controls include encryption in transit and at rest, least-privilege access, MFA for privileged users, secure session management, rate limiting, abuse protection, immutable audit events, backup and restore testing, retention schedules, deletion/anonymisation workflows, incident response, and vendor/data-processing review.
 
+DR-007 makes identity and access deny-by-default: managed authentication maps to stable internal
+subjects, while server policy enforces tenant, role, action, assignment, purpose, workflow state,
+and authentication assurance. Workforce MFA, bounded/revocable sessions, governed recovery,
+audited break glass, separate service identities, and horizontal/vertical negative tests are
+mandatory before authenticated journeys activate.
+
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
 ## Clinical and Content Governance

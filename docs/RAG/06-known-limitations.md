@@ -24,6 +24,7 @@ sources:
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -101,6 +102,11 @@ store, identity, messaging, or other production data service is selected or prov
 schema, migration, tenant policy, backup, restore, data-subject workflow, or retention period exists
 in runtime. TD-012 decision closure must not be described as closure of TD-016 or Sprint 05
 implementation. Supabase, Neon, and Brevo remain candidates only.
+
+DR-007 approves patient/workforce/service identity, MFA, sessions, recovery, roles, contextual
+permissions, break glass, audit, and access-test requirements. No identity provider or control is
+implemented. TD-013 is In progress—not Verified—until Sprint 05 proves server-side permissions,
+horizontal/vertical isolation, privileged MFA, recovery, revocation, and service identities.
 
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, built output, hosted

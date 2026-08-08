@@ -24,6 +24,7 @@ sources:
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
 ---
 
 # Meneer Project Context
@@ -124,7 +125,9 @@ workspace, operations workspace, transactional adapter, canonical schema catalog
 suite has been implemented. DR-004 approves the future contract and migration rules without
 changing that observed implementation state. DR-005 approves PostgreSQL/object-storage, logical
 schema, tenancy, lifecycle, migration, backup, and restore architecture; DR-006 approves how vendors
-must be evaluated. Neither decision provisions a provider or makes the site transactional.
+must be evaluated. DR-007 approves the identity, session, role, permission, break-glass, recovery,
+and service-identity architecture. None of these decisions provisions a provider or makes the site
+transactional.
 
 ## Authoritative References
 

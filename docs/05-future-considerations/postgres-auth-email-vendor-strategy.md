@@ -26,6 +26,10 @@ object storage for binaries. DR-006 approves the vendor-evaluation and exit meth
 identity, email, or storage vendor is selected or provisioned by those decisions; the options below
 remain a shortlist that must be reverified against current primary evidence before selection.
 
+DR-007 now approves the provider-neutral identity, MFA, session, recovery, permission, break-glass,
+service-identity, and access-test requirements. Candidate identity services must implement that
+contract; their default roles, sessions, or metadata are not automatically acceptable.
+
 - Do not provision production services until Task 3.8 approves the remaining identity/lifecycle
   decisions and the selected service passes DR-006.
 - Select exact database, identity, storage, and email services before Sprint 05 production-capable
@@ -139,6 +143,7 @@ Reassess this consideration when the pilot scope changes, before vendor provisio
 
 - [DR-005 data, tenancy, lifecycle, and migration model](../07-decisions/DR-005-data-tenancy-lifecycle-migration.md)
 - [DR-006 vendor evaluation and exit criteria](../07-decisions/DR-006-vendor-evaluation-criteria.md)
+- [DR-007 identity and authorisation architecture](../07-decisions/DR-007-identity-authorisation-architecture.md)
 - [Phase 01 plan](../02-implementation-plans/phase-01/README.md)
 - [Sprint 03 operating model and architecture](../02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md)
 - [Sprint 05 data, security, and operations](../02-implementation-plans/phase-01/sprint-05-data-security-operations.md)
