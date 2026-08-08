@@ -598,6 +598,18 @@
       ]
     },
     {
+      "id": "phase-01-sprint-03-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md",
+      "status": "verified-completion",
+      "authority_for": [
+        "Sprint 03 completion",
+        "Sprint 03 decisions and deviations",
+        "Sprint 03 lessons and file inventory",
+        "Sprint 03 debt disposition and residual gates"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "meneer-cloudflare-v1-release",
       "path": "docs/06-operations/cloudflare-environments-release-runbook.md",
       "status": "active-owner-controlled",
@@ -669,7 +681,7 @@
     {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
-      "status": "in-progress",
+      "status": "completed",
       "primary_debt": [
         "TD-009",
         "TD-010",
@@ -863,6 +875,25 @@
     },
     {
       "query_topics": [
+        "sprint-03-completion",
+        "operating-model",
+        "architecture-decisions",
+        "sprint-03-deviations",
+        "sprint-03-files",
+        "sprint-03-residual-gates"
+      ],
+      "read_first": [
+        "docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md"
+      ],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md",
+        "docs/07-decisions/README.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository"
+      ]
+    },
+    {
+      "query_topics": [
         "campaign",
         "poster",
         "qr",
@@ -961,10 +992,9 @@
     "unapproved drafts presented without status metadata"
   ],
   "next_expansion": [
-    "approved architecture decision records",
-    "v1 pilot scope and operating-model decision",
+    "verified named operating and commercial activation particulars",
     "future verified sprint completion reports",
-    "portable API, event, data, and migration contracts",
+    "implemented portable API, event, data, and migration contracts",
     "security, privacy, deployment, incident, and recovery runbooks",
     "approved public and clinical content in a separate collection"
   ]

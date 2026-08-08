@@ -18,6 +18,7 @@ sources:
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -118,6 +119,11 @@ leaving the provider open. Canonical identifiers, logical ownership, tenant scop
 lifecycle state, attribution, and audit correlation survive migrations. DR-006 requires each exact
 service/product to pass legal/privacy, security, isolation, portability/exit, recovery, authority,
 and commercial gates. Provider bundles and hosting relationships confer no automatic approval.
+
+Sprint 03 completes the decision layer for this evolution. Implementation must now demonstrate the
+approved contracts and boundaries rather than reinterpret them inside a framework or provider.
+Sprint 05 owns the first runtime proof for identity, authorisation, lifecycle, restore, rights, and
+portable data operations.
 
 DR-007 keeps identity portable by mapping provider authentication to opaque internal subjects and
 server-owned permissions. Tenant, role, resource, assignment, purpose, state, assurance, session,

@@ -122,6 +122,15 @@ Before new product features begin, the project should complete a stabilisation m
 | TD-055 |  P1 | Open     | No cross-generation migration contract or behavioural-equivalence suite exists. A later rewrite could silently lose validated v1 behaviour or data.                                                                                                                                                                                                                                        | Catalogue retained journeys and create framework-independent fixtures and acceptance tests. Every migration plan must identify intentional changes, schema/data migration, reconciliation, cutover, rollback, and signed evidence that retained behaviour still passes.                                                                                                                                                                                                                                                                                                                                                                                     |
 | TD-056 |  P0 | Verified | The repository owner approved the controlled-pilot charter on 7 August 2026. It defines a 30-day invite-only adult South African cohort, peptide-only transaction scope, route matrix, data boundary, operating roles, support/monitoring, success measures, stop criteria, activation gate, exit review, and separate public-launch gate.                                                 | The missing pilot-scope decision is closed. This does not activate the pilot: named clinical, privacy, pharmacy, operations, support, security, and release evidence must still satisfy the charter's activation gate. Evidence: [`sprint-01-controlled-pilot-charter-v1.md`](../02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md).                                                                                                                                                                                                                                                                                      |
 
+## Sprint 03 Closure Reconciliation
+
+Sprint 03 is complete as decision and architecture work. Its four decision-complete items are
+Verified: TD-011, TD-012, TD-050, and TD-054. TD-009 and TD-010 remain In progress for the gated
+named-party, contracting, partner, price, merchant, terms, and operational evidence. TD-013 and
+TD-016 remain In progress until Sprint 05 supplies the server-authorisation, access-boundary,
+staging-restore, and synthetic data-subject evidence required by their existing acceptance
+criteria. No new technical-debt ID arose from Sprint 03.
+
 ## Suggested Resolution Order
 
 1. **Contain public and pilot risk:** TD-001 through TD-008, TD-032 through TD-034, and TD-056.

@@ -26,6 +26,7 @@ sources:
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -114,6 +115,11 @@ prove operation. Final legal/privacy/clinical application to named entities/prov
 activation gate. TD-016 is In progress until Sprint 05 demonstrates a staging restore and complete
 synthetic rights request with processor and backup reconciliation. Do not describe the nine scenario
 walkthroughs as executed customer transactions or runtime tests.
+
+Sprint 03 is complete, but only as an architecture-and-decision boundary. Do not convert that
+status into claims that vendors are selected, accountable particulars are verified, controls are
+implemented, transactions are enabled, or the pilot is approved. Its residual debts remain TD-009,
+TD-010, TD-013, and TD-016.
 
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, built output, hosted

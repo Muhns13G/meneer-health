@@ -60,6 +60,10 @@ sensitivity: internal
   deviations, lessons, debt, file changes, validation, and residual risk.
 - **Closed engineering boundary:** planned work has been implemented or honestly dispositioned and
   recorded; it does not by itself authorise pilot activation or public release.
+- **Decision-complete:** the required choice, rationale, ownership, consequences, and gates are
+  approved and recorded; it does not mean the resulting system capability is implemented.
+- **Implementation-evidence boundary:** the explicit point at which an approved design must be
+  proven through running code, tests, operations, or release evidence before related debt closes.
 
 ## Technical Terms
 

@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
-source_baseline: ce2bcdf2010e226149c95779f2ea71bc393521f0
+source_baseline: df94a1206fddd5f08f03132d1c548c0b468a7fe6
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -27,6 +27,7 @@ sources:
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer v1 Verified Current State
@@ -54,6 +55,9 @@ policy exists in the current runtime.
 Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
 This is documentation evidence only: no scenario was executed against a transactional backend, and
 TD-013/TD-016 remain In progress pending Sprint 05 access, restore, and data-subject tests.
+
+Task 3.9 closes Sprint 03 after reconciling the approved records, blueprint, registry, completion
+report, and RAG corpus. The closure changes documentation authority, not runtime capability.
 
 ## Technology
 
