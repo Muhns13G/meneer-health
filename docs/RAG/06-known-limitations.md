@@ -21,6 +21,7 @@ sources:
   - docs/07-decisions/DR-008-governance-ownership-approval.md
   - docs/07-decisions/DR-002-commercial-fulfilment-model.md
   - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -85,6 +86,12 @@ DR-003 approves logical channel, application/API, domain, persistence, integrati
 authoritative-state boundaries. It does not implement them. Do not describe the current site as
 having a backend, durable modular core, system of record, clinical/operations workspace, or
 transactional integration merely because the target architecture is approved.
+
+DR-004 approves the future framework-neutral contract, compatibility, migration, reconciliation,
+cutover, and rollback rules. The repository still has no canonical machine-readable schemas,
+runtime validators, command/event infrastructure, provider adapters, contract fixtures, contract
+tests, or behavioural-equivalence suite. TD-054 decision closure must not be described as closure
+of TD-014, TD-055, or transactional implementation.
 
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, built output, hosted
