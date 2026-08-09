@@ -168,16 +168,17 @@ paths pass, closing TD-049, TD-052, and TD-053.
 - TypeScript, the production build, generic preview, and Wrangler dry-run pass. Tasks 4.4–4.5 clear
   the tracked formatting, Fast Refresh, and unused-code baseline: format, lint, and typecheck pass
   locally with zero lint findings.
-- The clean format/lint baseline is not enforced remotely until Task 4.10 adds CI.
-- Tasks 4.8–4.9 clear both full and production-filtered Bun audits without an exception. The clean
-  dependency policy is not enforced remotely until Task 4.10 adds CI.
+- The Task 4.10 CI workflow declares the clean format/lint baseline, but hosted execution and
+  enforcement remain unverified until Task 4.12.
+- Tasks 4.8–4.9 clear both full and production-filtered Bun audits without an exception. Task 4.10
+  declares both gates in CI; Task 4.12 must prove hosted enforcement.
 - The unused shadcn/Radix surface and its direct dependencies are removed. New primitives must be
   added with their first approved product use, not as speculative scaffolding.
 - The inactive `StartFlow` and `PeptidesPage` prototypes remain deliberate unused-code exceptions.
   They are not rendered, exported, or suitable for activation without their replacement gates.
 - Vitest/jsdom unit, component, and redirect-integration coverage exists. Controlled desktop/mobile
-  Playwright/axe coverage passes locally, but no CI workflow exists until Task 4.10. Automated axe
-  checks do not replace manual keyboard or assistive-technology review.
+  Playwright/axe coverage passes locally and is declared in Task 4.10 CI, but hosted execution is
+  not yet proven. Automated axe checks do not replace manual keyboard or assistive-technology review.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation
   remains for Sprint 04 dependency maintenance.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
