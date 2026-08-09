@@ -119,6 +119,12 @@ sensitivity: internal
   safety or a declared incident; it is not ordinary support access.
 - **Service identity:** a non-human, environment/purpose-scoped principal used by one integration or
   workload instead of a shared credential or human account.
+- **Public build configuration:** a declared `VITE_*` value intentionally embedded in browser
+  output; it can never contain a credential, patient information, or other secret.
+- **Server-only configuration:** a named value consumed only behind the Worker/server boundary and
+  prohibited from browser bundles, logs, RAG, screenshots, and CI artefacts.
+- **Bundle canary:** a synthetic non-secret marker required in server output and forbidden from
+  client output to prove the configured server/client separation remains enforced.
 - **Dormant clinical record:** a health record whose retention clock starts from the patient's last
   treatment/clinical activity, subject to longer applicable exceptions or holds.
 - **Legal or clinical hold:** an authorised, scoped and reviewed pause on ordinary disposition; it
