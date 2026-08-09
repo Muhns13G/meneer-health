@@ -73,6 +73,8 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
 - Explicit Cloudflare Vite, TanStack Start, React, Tailwind, and TypeScript-path configuration.
 - Cloudflare is the approved v1 host. The Lovable Vite wrapper and MCP package have been removed.
 - Five intentional runtime dependencies: TanStack Start/Router, React/ReactDOM, and Lucide.
+- Vitest, jsdom, React Testing Library, user-event, jest-dom, and V8 coverage are test-only
+  development tooling; the production dependency declarations remain unchanged.
 
 Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. Task 4.4 clears its
 tracked formatting backlog without changing public wording or behaviour. The check now passes;
@@ -384,6 +386,24 @@ Evidence: [`sprint-04-4-formatting-baseline-evidence.md`](../02-implementation-p
 
 Evidence: [`sprint-04-5-lint-unused-code-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-5-lint-unused-code-evidence.md).
 
+### Sprint 04.6 test foundation — 9 August 2026
+
+- A dedicated Vitest 4/jsdom configuration avoids loading the Cloudflare Worker plugin during unit
+  tests while retaining React and TypeScript-path handling.
+- `bun run test`, `test:watch`, and `test:coverage` are available. Six files contain 11 passing
+  unit/component/integration tests with automatic DOM cleanup and no console noise.
+- Tests cover campaign configuration and 307 attribution redirects, activation blockers,
+  non-transactional/no-false-success gates, emergency links, mobile-menu state, and error recovery.
+- Test fixtures use synthetic content and a reserved `.invalid` origin; coverage output is ignored.
+  Risk-based expectations are recorded without treating a global percentage as a release signal.
+- Frozen install now checks 418 installs across 538 package records. Full and
+  production-filtered audit totals remain 33 and 26; test-only Vite/Undici paths are recorded for
+  Tasks 4.8–4.9.
+- Formatting, lint, typecheck, tests, coverage execution, production build, and Wrangler dry-run
+  pass. The generated route tree and production bundle topology remain unchanged.
+
+Evidence: [`sprint-04-6-test-foundation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-6-test-foundation-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
@@ -393,6 +413,6 @@ Evidence: [`sprint-04-5-lint-unused-code-evidence.md`](../02-implementation-plan
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- No automated tests or CI; the clean local lint baseline and dependency gates are not yet enforced.
+- Unit/component/integration tests now exist; browser/accessibility automation and CI remain absent.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.

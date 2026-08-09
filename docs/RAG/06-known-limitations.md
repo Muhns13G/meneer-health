@@ -176,7 +176,8 @@ paths pass, closing TD-049, TD-052, and TD-053.
   added with their first approved product use, not as speculative scaffolding.
 - The inactive `StartFlow` and `PeptidesPage` prototypes remain deliberate unused-code exceptions.
   They are not rendered, exported, or suitable for activation without their replacement gates.
-- No automated test framework or CI workflow exists.
+- Vitest/jsdom unit, component, and redirect-integration coverage exists. Controlled
+  Playwright/accessibility coverage remains Task 4.7, and no CI workflow exists until Task 4.10.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation
   remains for Sprint 04 dependency maintenance.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
