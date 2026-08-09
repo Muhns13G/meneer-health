@@ -169,9 +169,8 @@ paths pass, closing TD-049, TD-052, and TD-053.
   the tracked formatting, Fast Refresh, and unused-code baseline: format, lint, and typecheck pass
   locally with zero lint findings.
 - The clean format/lint baseline is not enforced remotely until Task 4.10 adds CI.
-- Task 4.8 clears the production-filtered audit and reduces the full audit to seven lint-only
-  `brace-expansion` findings. Task 4.9 must remediate or time-bound that remaining family, and Task
-  4.10 must enforce the approved audit policy in CI.
+- Tasks 4.8–4.9 clear both full and production-filtered Bun audits without an exception. The clean
+  dependency policy is not enforced remotely until Task 4.10 adds CI.
 - The unused shadcn/Radix surface and its direct dependencies are removed. New primitives must be
   added with their first approved product use, not as speculative scaffolding.
 - The inactive `StartFlow` and `PeptidesPage` prototypes remain deliberate unused-code exceptions.

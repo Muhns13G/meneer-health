@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
-source_baseline: 71173b8
+source_baseline: 6bcc6bb
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -33,6 +33,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -441,6 +442,22 @@ Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation
   progress until Task 4.9 resolves or time-bounds the tooling path and Task 4.10 enforces policy.
 
 Evidence: [`sprint-04-8-production-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md).
+
+### Sprint 04.9 tooling advisory remediation — 9 August 2026
+
+- The final seven full-audit findings are removed by refreshing the two existing
+  `brace-expansion` lockfile branches within their parents' declared ranges: 1.1.14 to 1.1.18 for
+  `minimatch@3`, and 5.0.5 to 5.0.9 for `minimatch@10`.
+- Full and production-filtered `bun audit` now report no vulnerabilities. No security exception,
+  parent-tool upgrade, broad update command, or manifest override is required.
+- A global 5.x override was rejected during review because it would have forced the legacy
+  `minimatch@3` path outside `^1.1.7`; that incompatible intermediate state is not retained.
+- Frozen install, format, lint, typecheck, 11 Vitest tests, production build, Wrangler dry-run, and
+  all 48 Playwright/axe checks pass. Application source, public wording, direct dependencies, and
+  the generated route tree are unchanged.
+- TD-021 remains In progress only until Task 4.10 enforces the clean dependency policy in CI.
+
+Evidence: [`sprint-04-9-tooling-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md).
 
 ## Highest-Risk Gaps
 
