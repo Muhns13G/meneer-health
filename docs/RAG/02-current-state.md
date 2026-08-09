@@ -3,7 +3,7 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-09
+last_updated: 2026-08-10
 audience: internal
 sensitivity: internal
 source_baseline: 06c22dd
@@ -523,6 +523,20 @@ Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementati
 - Task 4.12 and Sprint 04 are complete. TD-021–TD-024, TD-026, and TD-028–TD-031 are Verified.
 
 Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
+
+### Sprint 05.1 data, security, and operations baseline — 10 August 2026
+
+- Sprint 05 is reconciled into 17 owner-committed tasks. Provider-neutral contracts, environment
+  safety, and browser security precede the external-service checkpoint.
+- No state-changing server function, database, migration, identity, payment, messaging, audit,
+  application-observability, backup, restore, or data-subject workflow currently exists.
+- PostgreSQL remains the approved portable data model, but no exact database, identity, storage,
+  email, observability, or payment provider, region, environment, or exit plan is approved.
+- All transactional routes remain inaccessible. Provider-backed work cannot claim completion until
+  DR-006 passes; payment and partner fulfilment remain additionally gated by TD-007, TD-009, and
+  TD-010.
+
+Evidence: [`sprint-05-1-data-security-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-1-data-security-baseline-evidence.md).
 
 ## Highest-Risk Gaps
 
