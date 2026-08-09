@@ -137,6 +137,8 @@ function PeptideVideoPreview({ videoUrl, posterUrl }: PeptideVideoPreviewProps) 
 type Step = "intro" | "profile" | "acknowledge";
 
 // Preserved prototype: keep inaccessible until an approved replacement is verified and cut over.
+// @ts-expect-error TS6133 -- intentionally unreachable while the fail-closed gate is active.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- preserved replacement reference.
 function PeptidesPage() {
   const [step, setStep] = useState<Step>("intro");
   const [profile, setProfile] = useState({

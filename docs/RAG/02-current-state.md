@@ -369,6 +369,21 @@ Evidence: [`sprint-04-3-ui-surface-reduction-evidence.md`](../02-implementation-
 
 Evidence: [`sprint-04-4-formatting-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-4-formatting-baseline-evidence.md).
 
+### Sprint 04.5 lint and unused-code baseline — 9 August 2026
+
+- The default error component moves from `src/router.tsx` into a component-only module, clearing the
+  final Fast Refresh warning without changing its markup, wording, retry, or home actions.
+- TypeScript now rejects unused locals and parameters. ESLint treats unused variables as errors and
+  excludes only the generated route tree at configuration level.
+- `StartFlow` and `PeptidesPage` remain preserved, unreachable prototypes behind the active gates;
+  their declarations carry narrow compiler and linter exceptions explaining that boundary.
+- One unused derived activation flag is removed. The compliance profile and canonical campaign
+  origin remain used internally but are no longer exported without consumers.
+- Frozen install, formatting, lint, typecheck, production build, Wrangler dry-run, active routes,
+  campaign redirects, retired/unknown 404s, and approved-message signatures pass.
+
+Evidence: [`sprint-04-5-lint-unused-code-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-5-lint-unused-code-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
@@ -378,6 +393,6 @@ Evidence: [`sprint-04-4-formatting-baseline-evidence.md`](../02-implementation-p
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- No automated tests or CI; the remaining lint warning and dependency gates are not yet enforced.
+- No automated tests or CI; the clean local lint baseline and dependency gates are not yet enforced.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.

@@ -57,7 +57,7 @@ database, identity service, clinical workflow, or transactional backend now exis
 | 4.2  | Complete the Bun/package contract: rename the package, add a non-writing format check, and prove version-aligned frozen installation.                 | TD-028                 | Completed |
 | 4.3  | Remove the verified-unused UI primitive surface and its now-unreachable direct dependencies in one bounded, reversible reduction.                     | TD-026                 | Completed |
 | 4.4  | Apply mechanical Prettier formatting to supported tracked source without changing public wording or behaviour.                                        | TD-022                 | Completed |
-| 4.5  | Resolve Fast Refresh findings, re-enable scoped unused-code rules, and remove only evidenced dead code while preserving approved gates/prototypes.    | TD-022, TD-029         | Planned   |
+| 4.5  | Resolve Fast Refresh findings, re-enable scoped unused-code rules, and remove only evidenced dead code while preserving approved gates/prototypes.    | TD-022, TD-029         | Completed |
 | 4.6  | Add Vitest, jsdom, React Testing Library, deterministic scripts, safe fixtures, and representative unit/component/integration tests.                  | TD-023                 | Planned   |
 | 4.7  | Add Playwright plus axe browser/accessibility tests for active routes, redirects, 404s, gates, navigation, viewports, and error-free rendering.       | TD-023                 | Planned   |
 | 4.8  | Remediate production-relevant advisories through bounded compatible updates with lockfile, test, build, and reachability evidence.                    | TD-021                 | Planned   |
