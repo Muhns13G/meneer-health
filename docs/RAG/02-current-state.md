@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
-source_baseline: 8e8c285
+source_baseline: 71173b8
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -32,6 +32,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -69,8 +70,8 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
   package-manager pin is 1.3.14, and a version-aligned frozen install passes without changes.
 - Node 22.x build tooling is supported and Cloudflare Builds is pinned through `.node-version`;
   deployed code runs on `workerd` with `nodejs_compat`, not a general Node.js process.
-- React 19, TypeScript strict mode, TanStack Start/Router, Vite, Tailwind CSS, and Cloudflare
-  Workers.
+- React 19, TypeScript strict mode, TanStack Start 1.167.65, TanStack Router, Vite 7.3.6, Tailwind
+  CSS, and Cloudflare Workers.
 - Explicit Cloudflare Vite, TanStack Start, React, Tailwind, and TypeScript-path configuration.
 - Cloudflare is the approved v1 host. The Lovable Vite wrapper and MCP package have been removed.
 - Five intentional runtime dependencies: TanStack Start/Router, React/ReactDOM, and Lucide.
@@ -423,6 +424,23 @@ Evidence: [`sprint-04-6-test-foundation-evidence.md`](../02-implementation-plans
   assistive-technology review. CI enforcement remains Task 4.10.
 
 Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md).
+
+### Sprint 04.8 production advisory remediation — 9 August 2026
+
+- Bounded compatible updates and exact reviewed security overrides clear all 26 findings from
+  `bun audit --prod`; the full audit falls from 33 findings to seven.
+- TanStack Start is pinned to 1.167.65, its server core resolves to 1.167.30, and Vite is unified on
+  7.3.6. Affected PostCSS, nanoid, Undici, Babel, esbuild, js-yaml, and optional tsx versions are
+  upgraded or eliminated without adding or removing a direct package.
+- The remaining six high and one moderate findings are all `brace-expansion@5.0.5` through the
+  lint-only TypeScript-ESLint path. They are absent from the production-filtered audit and remain
+  assigned to Task 4.9.
+- Frozen install checks 482 installs across 524 packages. Format, lint, typecheck, 11 Vitest tests,
+  production build, Wrangler dry-run, and all 48 Playwright/axe checks pass.
+- Application source, public wording, and the generated route tree are unchanged. TD-021 remains In
+  progress until Task 4.9 resolves or time-bounds the tooling path and Task 4.10 enforces policy.
+
+Evidence: [`sprint-04-8-production-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md).
 
 ## Highest-Risk Gaps
 
