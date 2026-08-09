@@ -183,6 +183,8 @@ paths pass, closing TD-049, TD-052, and TD-053.
   remains for Sprint 04 dependency maintenance.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
   and stateful recovery remain future work.
+- Task 4.11 adds root onboarding, contribution/security routing, test/CI guidance, and GitHub change
+  templates. Their clean-checkout usability and hosted rendering remain unverified until Task 4.12.
 - Accessibility, navigation, SEO, content consistency, final media, and campaign print-production
   QA remain open.
 
