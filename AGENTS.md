@@ -37,7 +37,9 @@ No automated test command or test framework is currently configured. Until one i
 Prettier enforces 100-character lines, semicolons, double quotes, and trailing commas. TypeScript is
 strict. Use two-space indentation, named exports, PascalCase components (`HowItWorks.tsx`),
 kebab-case route files (`poster-thanks.tsx`), and the `@/` alias. Reuse existing Tailwind patterns;
-do not add a component library or primitive before its first approved product use.
+do not add a component library or primitive before its first approved product use. Unused locals
+and parameters fail validation; use a narrow, explained exception only for an approved preserved
+prototype or generated boundary.
 
 ## Testing Guidelines
 

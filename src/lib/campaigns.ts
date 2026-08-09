@@ -1,4 +1,4 @@
-export const CANONICAL_PUBLIC_ORIGIN = "https://meneerhealth.co.za";
+const CANONICAL_PUBLIC_ORIGIN = "https://meneerhealth.co.za";
 
 export const CAMPAIGNS = {
   dads: {
