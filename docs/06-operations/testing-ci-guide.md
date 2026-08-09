@@ -63,8 +63,8 @@ local scripts above with one Playwright worker.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.
-Hosted success, hosted deliberate-failure proof, and required-check/merge control remain pending
-until the owner pushes the workflow and configures the active integration branch.
+Hosted run `31324807644` proves `Repository validation` passes at commit `b6331bd`. Hosted
+deliberate-failure proof and required-check/merge control remain pending owner configuration.
 
 GitHub reads issue and pull-request templates from the repository default branch. While `itws-I` is
 the permanent source boundary but stale `main` remains the default, contributor templates cannot be

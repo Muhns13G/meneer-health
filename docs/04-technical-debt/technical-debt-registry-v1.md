@@ -89,10 +89,11 @@ At committed HEAD `8b23428`, an isolated clone passes frozen installation, forma
 and all 48 CI-mode Playwright/axe checks. The configured lint gate also rejects a synthetic unused-
 variable failure with exit code 1. This completes the repository-controlled acceptance work.
 
-TD-021–TD-024 and TD-028–TD-031 remain In progress because the hosted `itws-I` branch is seven
-commits behind, `main` remains the stale default branch, GitHub templates only activate from the
-default branch, and no hosted passing/failing run or required-check enforcement has yet been
-recorded. Evidence and the exact owner sequence are in
+GitHub run `31324807644` proves the complete `Repository validation` job passes at pushed commit
+`b6331bd`. TD-021–TD-024 and TD-028–TD-031 remain In progress because `main` remains the stale
+default branch, GitHub templates only activate from the default branch, and no hosted controlled-
+failure or required-check enforcement has yet been recorded. Evidence and the exact owner sequence
+are in
 [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
 
 ## D. Broken Assets, UX, Accessibility, and Discovery Debt

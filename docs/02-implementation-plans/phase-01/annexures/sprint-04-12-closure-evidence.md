@@ -4,6 +4,7 @@ title: Sprint 04.12 Closure Evidence
 status: hosted-verification-pending
 date: 2026-08-09
 source_commit: 8b23428
+hosted_commit: b6331bd
 owner: "@Muhns13G"
 related_debt: [TD-021, TD-022, TD-023, TD-024, TD-026, TD-028, TD-029, TD-030, TD-031]
 ---
@@ -50,13 +51,17 @@ intentionally unused variable. ESLint rejected it with
 This proves the configured validation gate distinguishes the green baseline from a controlled
 source-quality failure. Hosted rejection remains a separate acceptance gate.
 
-## Hosted-state inspection
+## Hosted passing-run proof
 
 Read-only local and GitHub inspection found:
 
-- Local `itws-I` is seven commits ahead of `origin/itws-I`.
-- Hosted `itws-I` remains at `b76750f`, the Task 4.4 formatting commit. It therefore does not yet
-  contain Tasks 4.5–4.11, the CI workflow, contributor documents, or templates.
+- Local and hosted `itws-I` resolve to
+  `b6331bdaf82593f658160ce583742a2e043a8ef4` with a clean working tree.
+- GitHub Actions run
+  [`31324807644`](https://github.com/Muhns13G/meneer-health/actions/runs/31324807644), triggered by
+  the Task 4.12 push, completed successfully in 2m33s.
+- Its `Repository validation` job completed successfully in 2m29s. The public run summary reports
+  no artifact, consistent with failure-only artifact retention.
 - The public repository's default branch is `main`, which remains an older pre-Sprint 04 surface.
 - GitHub requires issue and pull-request templates to exist on the default branch. Templates held
   only on `itws-I` cannot render for contributors.
@@ -66,21 +71,19 @@ and [protected branch availability](https://docs.github.com/en/rest/branches/bra
 
 ## Remaining owner-controlled acceptance sequence
 
-1. Review and commit Task 4.12, then push `itws-I`.
-2. Confirm the `CI / Repository validation` run passes at the pushed commit.
-3. Create a temporary branch or pull request containing one harmless, deliberate lint failure;
+1. Create a temporary branch or pull request containing one harmless, deliberate lint failure;
    confirm the same check fails and prevents merge, then delete/close that temporary proof.
-4. Align the repository default branch with the approved permanent source boundary (`itws-I`), or
+2. Align the repository default branch with the approved permanent source boundary (`itws-I`), or
    merge the contributor/template files into whichever branch remains default.
-5. Confirm the bug form and pull-request template render without submitting either form.
-6. Protect the active integration branch with `Repository validation` as a required check and
+3. Confirm the bug form and pull-request template render without submitting either form.
+4. Protect the active integration branch with `Repository validation` as a required check and
    retain repository-owner control over merges and releases.
-7. Record the hosted run URLs/settings evidence, mark Task 4.12 Completed, and move TD-021–TD-024
+5. Record the remaining hosted run/settings evidence, mark Task 4.12 Completed, and move TD-021–TD-024
    and TD-028–TD-031 to Verified.
 
 ## Current disposition
 
-All repository-controlled and local acceptance work is complete. Sprint 04 is not yet fully closed
-because hosted passing/failing workflow evidence, default-branch template rendering, and required-
-check enforcement require an owner push and GitHub configuration. No new technical-debt ID is
-needed; these are the explicit remaining acceptance criteria of the existing Sprint 04 items.
+All repository-controlled, local, and hosted passing-run acceptance work is complete. Sprint 04 is
+not yet fully closed because hosted failure rejection, default-branch template rendering, and
+required-check enforcement require owner-controlled GitHub configuration. No new technical-debt ID
+is needed; these are the explicit remaining acceptance criteria of the existing Sprint 04 items.
