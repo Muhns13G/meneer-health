@@ -49,6 +49,8 @@ const conditions: { id: Condition; label: string; body: string }[] = [
 const phaseLabels = ["Choose condition", "Consent", "Create account", "Questionnaire"];
 
 // Preserved prototype: keep inaccessible until an approved replacement is verified and cut over.
+// @ts-expect-error TS6133 -- intentionally unreachable while the fail-closed gate is active.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- preserved replacement reference.
 function StartFlow() {
   // step: 0 = condition, 1 = consent, 2 = account, 3 = questionnaire, 4 = confirmation
   const [step, setStep] = useState(0);
