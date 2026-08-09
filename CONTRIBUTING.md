@@ -4,12 +4,17 @@
 
 Before editing, read:
 
-1. [AGENTS.md](AGENTS.md) for repository rules and commands.
-2. The current sprint plan under `docs/02-implementation-plans/`.
+1. [AGENTS.md](https://github.com/Muhns13G/meneer-health/blob/develop/AGENTS.md) on `develop` for
+   repository rules and commands.
+2. The
+   [current sprint plans](https://github.com/Muhns13G/meneer-health/tree/develop/docs/02-implementation-plans/)
+   on `develop`.
 3. The relevant entries in the
-   [technical-debt registry](docs/04-technical-debt/technical-debt-registry-v1.md).
-4. The [decision-record index](docs/07-decisions/README.md) and
-   [verified current state](docs/RAG/02-current-state.md).
+   [technical-debt registry](https://github.com/Muhns13G/meneer-health/blob/develop/docs/04-technical-debt/technical-debt-registry-v1.md).
+4. The
+   [decision-record index](https://github.com/Muhns13G/meneer-health/blob/develop/docs/07-decisions/README.md)
+   and
+   [verified current state](https://github.com/Muhns13G/meneer-health/blob/develop/docs/RAG/02-current-state.md).
 
 Do not infer that planned clinical, patient, payment, pharmacy, or operational capability already
 exists. Unknown names, registrations, prices, approvals, and operating evidence remain explicit
@@ -25,7 +30,7 @@ gates; do not invent them.
 - Add dependencies only with an implemented use, reachability evidence, and bounded audit review.
   Do not run broad or forced dependency updates.
 - Do not manually edit `src/routeTree.gen.ts`; run the supported build and consistency check.
-- Keep `itws-I` free of the preview-only video binary.
+- Keep `develop` and `main` free of the preview-only video binary.
 
 Only the repository owner may push, merge, deploy, promote, or roll back.
 
@@ -50,8 +55,9 @@ Run `bun run test:e2e` for routes, redirects, navigation, rendering, accessibili
 browser-relevant changes. Include screenshots for visual changes. Use only synthetic fixtures and
 review all logs, screenshots, traces, snapshots, and reports before sharing them.
 
-The [testing and CI guide](docs/06-operations/testing-ci-guide.md) explains command ownership,
-failure artifacts, and hosted validation.
+The
+[testing and CI guide](https://github.com/Muhns13G/meneer-health/blob/develop/docs/06-operations/testing-ci-guide.md)
+explains command ownership, failure artifacts, and hosted validation.
 
 ## Document and Submit
 
@@ -59,8 +65,8 @@ Use the pull-request template. State the outcome, link the sprint task or debt i
 and domain approvals, list migrations/configuration/dependency effects, and record exact validation.
 Include rollback notes where a change affects runtime, data, infrastructure, or an external service.
 
-Update implementation plans, evidence annexures, the technical-debt registry, RAG documents, and
-decision indexes when their asserted state changes. Do not mark debt Verified without its required
-acceptance evidence.
+Update the implementation plans, evidence annexures, technical-debt registry, RAG documents, and
+decision indexes on `develop` when their asserted state changes. Do not mark debt Verified without
+its required acceptance evidence.
 
 For security issues, follow [SECURITY.md](SECURITY.md) and do not create a public issue.

@@ -43,37 +43,45 @@ bun run test:e2e
 ```
 
 `deploy:dry-run` validates the Cloudflare upload but does not deploy. See the
-[testing and CI guide](docs/06-operations/testing-ci-guide.md) for test layers, artifacts, CI
-behaviour, and troubleshooting.
+[testing and CI guide](https://github.com/Muhns13G/meneer-health/blob/develop/docs/06-operations/testing-ci-guide.md)
+on `develop` for test layers, artifacts, CI behaviour, and troubleshooting.
 
 ## Repository Map
 
 - `src/routes/` — file-based routes and campaign redirects
 - `src/components/` — current product sections and shared components
-- `src/lib/`, `src/hooks/` — shared logic and hooks
+- `src/lib/` — shared logic and configuration
 - `src/assets/`, `src/styles.css` — local assets and global styles
 - `e2e/` — controlled desktop/mobile Playwright and axe checks
-- `docs/` — blueprints, audits, implementation plans, evidence, decisions, and operations
 - `.github/workflows/ci.yml` — read-only repository validation; no deployment
+
+This production branch intentionally excludes `/docs`. Blueprints, audits, plans, evidence,
+decisions, and RAG material live on `develop`.
 
 `src/routeTree.gen.ts` is generated. Do not edit it manually.
 
 ## Authoritative Guidance
 
-Read [AGENTS.md](AGENTS.md) and [CONTRIBUTING.md](CONTRIBUTING.md) before changing the repository.
-Product and architecture direction comes from the
-[master blueprint](docs/00-blueprints/master-blueprint-v1.md) and
-[approved decision records](docs/07-decisions/README.md). The
-[verified current state](docs/RAG/02-current-state.md) distinguishes implemented behaviour from
-planned capability; the [technical-debt registry](docs/04-technical-debt/technical-debt-registry-v1.md)
+Read
+[AGENTS.md](https://github.com/Muhns13G/meneer-health/blob/develop/AGENTS.md) on `develop` and
+[CONTRIBUTING.md](CONTRIBUTING.md) before changing the repository. Product and architecture
+direction comes from the
+[master blueprint](https://github.com/Muhns13G/meneer-health/blob/develop/docs/00-blueprints/master-blueprint-v1.md)
+and
+[approved decision records](https://github.com/Muhns13G/meneer-health/blob/develop/docs/07-decisions/README.md).
+The
+[verified current state](https://github.com/Muhns13G/meneer-health/blob/develop/docs/RAG/02-current-state.md)
+distinguishes implemented behaviour from planned capability; the
+[technical-debt registry](https://github.com/Muhns13G/meneer-health/blob/develop/docs/04-technical-debt/technical-debt-registry-v1.md)
 owns remaining acceptance gates.
 
 ## Release Boundary
 
-Cloudflare is the approved v1 host. `itws-I` is the permanent source boundary;
-`itws-I-preview` temporarily carries the draft video and serves the canonical review deployment.
-Only the repository owner may push, merge, deploy, promote, or roll back. Follow the
-[Cloudflare release runbook](docs/06-operations/cloudflare-environments-release-runbook.md).
+Cloudflare is the approved v1 host. `develop` is the full engineering and documentation boundary;
+`main` is the stripped production branch. `itws-I-preview` temporarily carries the draft video and
+serves the canonical review deployment. Only the repository owner may push, merge, deploy, promote,
+or roll back. Follow the
+[Cloudflare release runbook](https://github.com/Muhns13G/meneer-health/blob/develop/docs/06-operations/cloudflare-environments-release-runbook.md).
 
 ## Security
 
