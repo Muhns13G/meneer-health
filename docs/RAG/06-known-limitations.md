@@ -165,11 +165,10 @@ paths pass, closing TD-049, TD-052, and TD-053.
 
 ## Engineering Limits
 
-- TypeScript, the production build, generic preview, and Wrangler dry-run pass. After Task 4.3,
-  lint still fails with 21 formatting errors but reports only the `src/router.tsx` Fast Refresh
-  warning.
-- Task 4.2 adds a genuine repository-wide `format:check`; it reports 13 pre-existing files without
-  modifying them. Task 4.4 must clear that baseline before Task 4.10 enforces it in CI.
+- TypeScript, the production build, generic preview, and Wrangler dry-run pass. Task 4.4 clears the
+  tracked formatting backlog: `format:check` passes and lint exits successfully with only the
+  `src/router.tsx` Fast Refresh warning assigned to Task 4.5.
+- The clean format/lint baseline is not enforced remotely until Task 4.10 adds CI.
 - Task 4.1's dated dependency baseline reports 33 full and 26 production-filtered findings across
   nine affected package families. The production-filtered label does not prove deployed Worker
   reachability; Tasks 4.8–4.9 must establish that per advisory before fixing or accepting anything.
