@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
-source_baseline: b4ceae5
+source_baseline: 93c6ff7
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -30,6 +30,7 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -71,7 +72,7 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
   Workers.
 - Explicit Cloudflare Vite, TanStack Start, React, Tailwind, and TypeScript-path configuration.
 - Cloudflare is the approved v1 host. The Lovable Vite wrapper and MCP package have been removed.
-- Radix/shadcn-style primitives, most of which are unused by product routes.
+- Five intentional runtime dependencies: TanStack Start/Router, React/ReactDOM, and Lucide.
 
 Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. It currently reports
 13 pre-existing files and intentionally remains red until Task 4.4 applies mechanical formatting;
@@ -338,6 +339,23 @@ Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](../02-implementat
   an explicit formatter/generation consistency policy.
 
 Evidence: [`sprint-04-1-repository-health-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md).
+
+### Sprint 04.3 UI-surface reduction — 8 August 2026
+
+- All 46 unreachable UI primitives, two support-only files, stale shadcn configuration, and 38
+  direct packages are removed. No product source or public wording changed.
+- Frozen installation now checks 319 installs across 442 packages, down from 456 across 566.
+- Generated CSS falls from 85.95 kB to 35.04 kB; product JavaScript and Worker modules remain
+  unchanged because the removed packages were not bundled into reachable application code.
+- Typecheck, production build, Wrangler dry-run, all active route responses, campaign redirects,
+  retired MCP/OAuth 404s, and approved-message signatures pass.
+- Rendered desktop checks across eight active pages show correct titles/headings, no horizontal
+  overflow, no broken images, and no console warnings or errors.
+- Lint retains the 21 formatting errors assigned to Task 4.4 but drops from 7 warnings to the single
+  `src/router.tsx` warning assigned to Task 4.5. Audit counts remain 33 full and 26
+  production-filtered findings for Tasks 4.8–4.9.
+
+Evidence: [`sprint-04-3-ui-surface-reduction-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md).
 
 ## Highest-Risk Gaps
 
