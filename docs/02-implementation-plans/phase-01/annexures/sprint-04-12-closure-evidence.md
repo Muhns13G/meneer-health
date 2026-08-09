@@ -1,10 +1,14 @@
 ---
 evidence_id: phase-01-sprint-04-task-12
 title: Sprint 04.12 Closure Evidence
-status: hosted-verification-pending
+status: verified-task-evidence
 date: 2026-08-09
 source_commit: 8b23428
 hosted_commit: b6331bd
+failure_commit: 62a6a78045c6b544d7167efe105feb9b546967dc
+passing_run: https://github.com/Muhns13G/meneer-health/actions/runs/31324807644
+failure_run: https://github.com/Muhns13G/meneer-health/actions/runs/31336490260
+failure_pr: https://github.com/Muhns13G/meneer-health/pull/10
 owner: "@Muhns13G"
 related_debt: [TD-021, TD-022, TD-023, TD-024, TD-026, TD-028, TD-029, TD-030, TD-031]
 ---
@@ -49,7 +53,7 @@ The committed ESLint configuration was given a synthetic TypeScript stdin fixtur
 intentionally unused variable. ESLint rejected it with
 `@typescript-eslint/no-unused-vars` and exit code 1. No repository file was created or modified.
 This proves the configured validation gate distinguishes the green baseline from a controlled
-source-quality failure. Hosted rejection remains a separate acceptance gate.
+source-quality failure. The hosted proof below independently verifies enforcement on GitHub.
 
 ## Hosted passing-run proof
 
@@ -62,28 +66,36 @@ Read-only local and GitHub inspection found:
   the Task 4.12 push, completed successfully in 2m33s.
 - Its `Repository validation` job completed successfully in 2m29s. The public run summary reports
   no artifact, consistent with failure-only artifact retention.
-- The public repository's default branch is `main`, which remains an older pre-Sprint 04 surface.
-- GitHub requires issue and pull-request templates to exist on the default branch. Templates held
-  only on `itws-I` cannot render for contributors.
+- `main` remains the stripped production/default branch, while `develop` is the canonical full
+  engineering and documentation branch. Root production documentation uses absolute links to
+  `develop`; contributor templates and CI remain available from `main`.
 
 References: [GitHub template behaviour](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/about-issue-and-pull-request-templates)
 and [protected branch availability](https://docs.github.com/en/rest/branches/branch-protection).
 
-## Remaining owner-controlled acceptance sequence
+## Hosted controlled-failure and repository-control proof
 
-1. Create a temporary branch or pull request containing one harmless, deliberate lint failure;
-   confirm the same check fails and prevents merge, then delete/close that temporary proof.
-2. Align the repository default branch with the approved permanent source boundary (`itws-I`), or
-   merge the contributor/template files into whichever branch remains default.
-3. Confirm the bug form and pull-request template render without submitting either form.
-4. Protect the active integration branch with `Repository validation` as a required check and
-   retain repository-owner control over merges and releases.
-5. Record the remaining hosted run/settings evidence, mark Task 4.12 Completed, and move TD-021–TD-024
-   and TD-028–TD-031 to Verified.
+- The owner protected both `main` and `develop` and configured `Repository validation` as a required
+  check on the integration path.
+- The owner enabled GitHub Issues and confirmed the structured Bug report form renders. Public API
+  inspection confirms Issues are enabled and the body of PR #10 was prefilled by the repository PR
+  template.
+- [PR #10](https://github.com/Muhns13G/meneer-health/pull/10) targeted `develop` from `itws-XX`
+  with one isolated two-line file at commit `62a6a78045c6b544d7167efe105feb9b546967dc`.
+- [Hosted run `31336490260`](https://github.com/Muhns13G/meneer-health/actions/runs/31336490260)
+  completed the required
+  [`Repository validation` job](https://github.com/Muhns13G/meneer-health/actions/runs/31336490260/job/93303094741)
+  with conclusion `failure` in 18 seconds. The format gate rejected the deliberate fixture before
+  later gates could run.
+- The owner-provided GitHub screenshot shows the failed check marked `Required` and the ordinary
+  merge control disabled. GitHub's public API confirms the PR is closed, unmerged, and targeted
+  `develop` at base commit `06c22dd`.
+- The proof branch was deleted. Remote `develop` never contained
+  `src/ci-controlled-failure.ts`; application and production code therefore remain unchanged.
 
 ## Current disposition
 
-All repository-controlled, local, and hosted passing-run acceptance work is complete. Sprint 04 is
-not yet fully closed because hosted failure rejection, default-branch template rendering, and
-required-check enforcement require owner-controlled GitHub configuration. No new technical-debt ID
-is needed; these are the explicit remaining acceptance criteria of the existing Sprint 04 items.
+All repository-controlled and owner-controlled acceptance work is complete. The clean-clone matrix,
+hosted passing and failing runs, rendered templates, protected branches, required merge check, and
+safe proof-branch disposal verify Task 4.12. Sprint 04 is closed. TD-021–TD-024, TD-026, and
+TD-028–TD-031 are Verified; no new technical-debt ID arose from closure.

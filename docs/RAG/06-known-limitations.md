@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-08
+last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
 sources:
@@ -30,6 +30,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -169,24 +171,24 @@ paths pass, closing TD-049, TD-052, and TD-053.
   the tracked formatting, Fast Refresh, and unused-code baseline: format, lint, and typecheck pass
   locally with zero lint findings.
 - The Task 4.10 CI workflow declares the clean format/lint baseline, and Task 4.12 proves the full
-  sequence from an isolated clone plus a controlled local failure. Hosted run `31324807644` passes
-  at `b6331bd`; hosted failure rejection and required-check enforcement remain unverified.
+  sequence from an isolated clone plus hosted passing and controlled-failure runs. Protected
+  `develop` rejects the failed required check on closed unmerged PR #10.
 - Tasks 4.8–4.9 clear both full and production-filtered Bun audits without an exception. Task 4.10
-  declares both gates in CI; Task 4.12 must prove hosted enforcement.
+  declares both gates in CI; Task 4.12 verifies hosted enforcement.
 - The unused shadcn/Radix surface and its direct dependencies are removed. New primitives must be
   added with their first approved product use, not as speculative scaffolding.
 - The inactive `StartFlow` and `PeptidesPage` prototypes remain deliberate unused-code exceptions.
   They are not rendered, exported, or suitable for activation without their replacement gates.
 - Vitest/jsdom unit, component, and redirect-integration coverage exists. Controlled desktop/mobile
-  Playwright/axe coverage passes locally and is declared in Task 4.10 CI, but hosted execution is
-  not yet proven. Automated axe checks do not replace manual keyboard or assistive-technology review.
+  Playwright/axe coverage passes locally and in hosted Task 4.10 CI. Automated axe checks do not
+  replace manual keyboard or assistive-technology review.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation
-  remains for Sprint 04 dependency maintenance.
+  remains for routine dependency maintenance.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
   and stateful recovery remain future work.
 - Task 4.11 adds root onboarding, contribution/security routing, test/CI guidance, and GitHub change
-  templates. Task 4.12 verifies clean-checkout usability. Hosted rendering remains unavailable while
-  stale `main` is the GitHub default because contributor templates activate only from that branch.
+  templates. Task 4.12 verifies clean-checkout usability and hosted rendering from protected
+  production/default `main`; canonical engineering documentation remains on `develop`.
 - Accessibility, navigation, SEO, content consistency, final media, and campaign print-production
   QA remain open.
 
