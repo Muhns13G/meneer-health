@@ -2,6 +2,13 @@ import { defineTool } from "@lovable.dev/mcp-js";
 
 const treatments = [
   {
+    id: "peptides",
+    category: "Peptides",
+    title: "Precision, at a cellular level.",
+    description:
+      "Peptide treatment, medically guided. Doctor-led peptide therapy for recovery, performance, and longevity.",
+  },
+  {
     id: "hair-loss",
     category: "Hair loss",
     title: "Hair today. Still here tomorrow.",
@@ -35,7 +42,7 @@ export default defineTool({
   name: "list_treatments",
   title: "List Meneer treatments",
   description:
-    "Return the men's health treatment categories offered by Meneer (hair loss, ED, weight management, TRT).",
+    "Return the men's health treatment categories offered by Meneer (peptides, hair loss, ED, weight management, TRT).",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: () => ({

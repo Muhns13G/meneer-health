@@ -1,33 +1,54 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { SafetyEntryGate } from "@/components/SafetyEntryGate";
 
 export const Route = createFileRoute("/start")({
   head: () => ({
     meta: [
       { title: "Start your private consult — Meneer" },
-      { name: "description", content: "A few private questions. A real doctor. Treatment at your door." },
+      {
+        name: "description",
+        content: "A few private questions. A real doctor. Treatment at your door.",
+      },
+      { name: "robots", content: "noindex, nofollow" },
     ],
   }),
-  component: StartFlow,
+  component: StartRoute,
 });
+
+function StartRoute() {
+  return <SafetyEntryGate />;
+}
 
 type Condition = "hair" | "ed" | "weight" | "trt";
 
 const conditions: { id: Condition; label: string; body: string }[] = [
-  { id: "hair", label: "Hair Loss", body: "Slow loss and regrow with finasteride and minoxidil protocols." },
-  { id: "ed", label: "Erectile Dysfunction", body: "PDE5 inhibitors prescribed and dosed for you, discreetly." },
-  { id: "weight", label: "Weight Management", body: "Medical-grade weight loss support, doctor-led plans." },
-  { id: "trt", label: "Testosterone / TRT", body: "Full bloodwork and TRT with proper monitoring." },
+  {
+    id: "hair",
+    label: "Hair Loss",
+    body: "Slow loss and regrow with finasteride and minoxidil protocols.",
+  },
+  {
+    id: "ed",
+    label: "Erectile Dysfunction",
+    body: "PDE5 inhibitors prescribed and dosed for you, discreetly.",
+  },
+  {
+    id: "weight",
+    label: "Weight Management",
+    body: "Medical-grade weight loss support, doctor-led plans.",
+  },
+  {
+    id: "trt",
+    label: "Testosterone / TRT",
+    body: "Full bloodwork and TRT with proper monitoring.",
+  },
 ];
 
-const phaseLabels = [
-  "Choose condition",
-  "Consent",
-  "Create account",
-  "Questionnaire",
-];
+const phaseLabels = ["Choose condition", "Consent", "Create account", "Questionnaire"];
 
+// Preserved prototype: keep inaccessible until an approved replacement is verified and cut over.
 function StartFlow() {
   // step: 0 = condition, 1 = consent, 2 = account, 3 = questionnaire, 4 = confirmation
   const [step, setStep] = useState(0);
@@ -36,13 +57,19 @@ function StartFlow() {
   const [account, setAccount] = useState({ firstName: "", email: "", whatsapp: "", password: "" });
 
   const totalSteps = 4; // 4 interactive steps; step 5 (index 4) is the confirmation state
-  const currentProgress = step >= totalSteps ? 100 : Math.round(((step + 1) / (totalSteps + 1)) * 100);
+  const currentProgress =
+    step >= totalSteps ? 100 : Math.round(((step + 1) / (totalSteps + 1)) * 100);
 
   const canNext = useMemo(() => {
     if (step === 0) return !!condition;
     if (step === 1) return consent;
     if (step === 2) {
-      return account.firstName.trim() && account.email.includes("@") && account.whatsapp.length >= 7 && account.password.length >= 6;
+      return (
+        account.firstName.trim() &&
+        account.email.includes("@") &&
+        account.whatsapp.length >= 7 &&
+        account.password.length >= 6
+      );
     }
     if (step === 3) return true;
     return false;
@@ -74,17 +101,11 @@ function StartFlow() {
 
       <main className="flex-1 flex items-center justify-center py-12 px-5">
         <div className="w-full max-w-2xl">
-          {step === 0 && (
-            <ConditionStep condition={condition} onSelect={setCondition} />
-          )}
+          {step === 0 && <ConditionStep condition={condition} onSelect={setCondition} />}
 
-          {step === 1 && (
-            <ConsentStep consent={consent} setConsent={setConsent} />
-          )}
+          {step === 1 && <ConsentStep consent={consent} setConsent={setConsent} />}
 
-          {step === 2 && (
-            <AccountStep account={account} setAccount={setAccount} />
-          )}
+          {step === 2 && <AccountStep account={account} setAccount={setAccount} />}
 
           {step === 3 && <QuestionnaireStep />}
 
@@ -133,9 +154,7 @@ function ConditionStep({
               key={c.id}
               onClick={() => onSelect(c.id)}
               className={`text-left p-6 rounded-2xl border transition-colors ${
-                selected
-                  ? "border-gold bg-gold/5"
-                  : "border-border bg-surface hover:border-gold/50"
+                selected ? "border-gold bg-gold/5" : "border-border bg-surface hover:border-gold/50"
               }`}
             >
               <div className="flex items-start justify-between gap-3">
@@ -167,16 +186,21 @@ function ConsentStep({
       <p className="label-caps">Step 02</p>
       <h1 className="mt-4 font-serif text-3xl sm:text-4xl">POPIA & informed consent.</h1>
       <p className="mt-3 text-muted-foreground">
-        Before we go further, we need your explicit consent to process your health information and provide care.
+        Before we go further, we need your explicit consent to process your health information and
+        provide care.
       </p>
 
       <div className="mt-8 rounded-2xl border border-border bg-surface p-6 text-sm text-muted-foreground leading-relaxed max-h-80 overflow-y-auto">
         <p className="italic">[POPIA and informed consent language pending legal review]</p>
         <p className="mt-4">
-          [Placeholder — this section will describe how Meneer collects, stores and processes your personal and health information under POPIA, the nature of the telehealth consultation, the risks and benefits of treatment, your right to withdraw, and how your data is protected.]
+          [Placeholder — this section will describe how Meneer collects, stores and processes your
+          personal and health information under POPIA, the nature of the telehealth consultation,
+          the risks and benefits of treatment, your right to withdraw, and how your data is
+          protected.]
         </p>
         <p className="mt-4">
-          [Placeholder — informed consent to a virtual doctor consultation, prescription issuance where clinically appropriate, and delivery of medication to your address.]
+          [Placeholder — informed consent to a virtual doctor consultation, prescription issuance
+          where clinically appropriate, and delivery of medication to your address.]
         </p>
       </div>
 
@@ -188,7 +212,8 @@ function ConsentStep({
           className="mt-1 h-5 w-5 rounded border-border bg-surface accent-[color:var(--gold,#c9a961)] cursor-pointer"
         />
         <span className="text-sm text-foreground leading-relaxed">
-          I have read and understood the above. I consent to Meneer processing my personal and health information under POPIA, and to a telehealth consultation with a registered doctor.
+          I have read and understood the above. I consent to Meneer processing my personal and
+          health information under POPIA, and to a telehealth consultation with a registered doctor.
         </span>
       </label>
     </div>
@@ -200,7 +225,9 @@ function AccountStep({
   setAccount,
 }: {
   account: { firstName: string; email: string; whatsapp: string; password: string };
-  setAccount: React.Dispatch<React.SetStateAction<{ firstName: string; email: string; whatsapp: string; password: string }>>;
+  setAccount: React.Dispatch<
+    React.SetStateAction<{ firstName: string; email: string; whatsapp: string; password: string }>
+  >;
 }) {
   const inputCls =
     "w-full bg-surface border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-gold transition-colors";
@@ -277,7 +304,8 @@ function QuestionnaireStep() {
           [Full clinical questionnaire coming soon]
         </p>
         <p className="mt-3 text-xs text-muted-foreground/70">
-          This step will collect condition-specific medical history, current medications, and lifestyle factors — reviewed by your doctor before your consult.
+          This step will collect condition-specific medical history, current medications, and
+          lifestyle factors — reviewed by your doctor before your consult.
         </p>
       </div>
     </div>
@@ -311,8 +339,8 @@ function Confirmation() {
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl leading-tight">You're in, meneer.</h1>
           <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
-            One of our doctors will be in touch within 48 hours to schedule your
-            virtual consultation. We'll reach out via WhatsApp — keep an eye out.
+            One of our doctors will be in touch within 48 hours to schedule your virtual
+            consultation. We'll reach out via WhatsApp — keep an eye out.
           </p>
 
           <div className="mt-12">

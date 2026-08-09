@@ -23,14 +23,31 @@ function ContactPage() {
           Contact
         </h1>
         <div className="mt-10 space-y-6 text-muted-foreground leading-relaxed">
-          <p>[Contact details pending — final channels to be confirmed]</p>
           <p>
-            For general enquiries, partnerships, or press, reach out to{" "}
-            <span className="text-gold">hello@meneer.co.za</span>. Existing patients should use the
-            WhatsApp thread opened with their doctor for clinical questions.
+            For general enquiries, partnerships, press, or support, email{" "}
+            <a
+              className="text-gold hover:underline underline-offset-4"
+              href="mailto:support@meneerhealth.co.za"
+            >
+              support@meneerhealth.co.za
+            </a>
+            .
           </p>
           <p>
-            A proper contact form will land here shortly.
+            This is a general inbox. Do not send symptoms, medical records, identity documents,
+            prescriptions, payment details, or other sensitive information by ordinary email.
+          </p>
+          <p>
+            This inbox is not an emergency or urgent clinical service. If you need urgent medical
+            help, call{" "}
+            <a className="text-gold hover:underline underline-offset-4" href="tel:112">
+              112 from a mobile
+            </a>{" "}
+            or{" "}
+            <a className="text-gold hover:underline underline-offset-4" href="tel:10177">
+              10177 for an ambulance
+            </a>
+            , or go to the nearest emergency facility.
           </p>
         </div>
       </main>
