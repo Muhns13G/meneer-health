@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
-source_baseline: 6bf6200
+source_baseline: 06c22dd
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -36,6 +36,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md
   - docs/06-operations/testing-ci-guide.md
 ---
 
@@ -84,12 +86,12 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
 - Playwright 1.62.1 and axe-core provide a controlled desktop/mobile Chromium browser matrix. The
   managed browser cache is local tooling and is not committed to the repository.
 - A read-only GitHub Actions workflow now declares the frozen install, quality, tests, dual audit,
-  build, generated-route, Cloudflare dry-run, and browser gates. Hosted enforcement remains
-  unverified until Task 4.12 runs the committed workflow.
+  build, generated-route, Cloudflare dry-run, and browser gates. Sprint 04.12 verifies hosted
+  passing and controlled-failure enforcement on protected branches.
 
 Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. Task 4.4 clears its
 tracked formatting backlog without changing public wording or behaviour. The check now passes;
-Task 4.10 declares it in CI, with hosted enforcement proof remaining Task 4.12.
+Task 4.10 declares it in CI, and Task 4.12 verifies hosted enforcement.
 
 ## Route Behaviour
 
@@ -428,7 +430,7 @@ Evidence: [`sprint-04-6-test-foundation-evidence.md`](../02-implementation-plans
 - Frozen install now checks 424 installs across 544 package records. Full and production-filtered
   audit totals remain 33 and 26; Playwright and axe are test-only additions.
 - Automated accessibility checks supplement rather than replace manual keyboard and
-  assistive-technology review. Task 4.10 declares the suite in CI; hosted proof remains Task 4.12.
+  assistive-technology review. Task 4.10 declares the suite in CI; Task 4.12 verifies hosted execution.
 
 Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md).
 
@@ -445,7 +447,7 @@ Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation
 - Frozen install checks 482 installs across 524 packages. Format, lint, typecheck, 11 Vitest tests,
   production build, Wrangler dry-run, and all 48 Playwright/axe checks pass.
 - Application source, public wording, and the generated route tree are unchanged. Tasks 4.9–4.10
-  subsequently clear the tooling path and declare CI policy; hosted proof remains Task 4.12.
+  subsequently clear the tooling path, declare CI policy, and verify hosted enforcement.
 
 Evidence: [`sprint-04-8-production-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md).
 
@@ -461,14 +463,15 @@ Evidence: [`sprint-04-8-production-advisory-remediation-evidence.md`](../02-impl
 - Frozen install, format, lint, typecheck, 11 Vitest tests, production build, Wrangler dry-run, and
   all 48 Playwright/axe checks pass. Application source, public wording, direct dependencies, and
   the generated route tree are unchanged.
-- Task 4.10 subsequently declares both clean audit gates in CI; hosted proof remains Task 4.12.
+- Task 4.10 declares both clean audit gates in CI; Task 4.12 verifies hosted enforcement.
 
 Evidence: [`sprint-04-9-tooling-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md).
 
 ### Sprint 04.10 CI policy — 9 August 2026
 
 - `.github/workflows/ci.yml` adds one read-only validation job for pull requests, manual dispatch,
-  and pushes to `main`, `itws-I`, and `itws-I-preview`; it contains no deploy or promotion action.
+  and pushes to `main`, `develop`, `itws-I`, and `itws-I-preview`; it contains no deploy or
+  promotion action.
 - Node follows `.node-version`, Bun is pinned to 1.3.14, installation is frozen, and local package
   scripts own format, lint, typecheck, test, full/production audit, build, generated-route, dry-run,
   and browser commands.
@@ -477,8 +480,8 @@ Evidence: [`sprint-04-9-tooling-advisory-remediation-evidence.md`](../02-impleme
 - Workflow YAML parsing and the complete command sequence pass locally, including 11 Vitest tests,
   both zero-finding audits, unchanged generated routes, Cloudflare dry-run, and 48 CI-mode
   Playwright/axe checks.
-- Hosted success, controlled failure, and repository required-check/merge-control evidence remain
-  Task 4.12; related debt therefore remains In progress.
+- Task 4.12 verifies hosted success, controlled failure, rendered templates, and required-check
+  merge control; the related Sprint 04 debt is Verified.
 
 Evidence: [`sprint-04-10-ci-policy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md).
 
@@ -495,12 +498,12 @@ Evidence: [`sprint-04-10-ci-policy-evidence.md`](../02-implementation-plans/phas
   directing vulnerability reports to the private security process.
 - Formatting, YAML/schema parsing, local-link checks, the full quality/test/build/dry-run/browser
   matrix, both audits, and generated-route consistency pass without application or runtime changes.
-- TD-030 and TD-031 remain In progress until Task 4.12 proves clean-checkout usability and hosted
-  template rendering.
+- Task 4.12 proves clean-checkout usability and hosted PR/bug-form rendering; TD-030 and TD-031 are
+  Verified.
 
 Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md).
 
-### Sprint 04.12 local closure proof — 9 August 2026
+### Sprint 04.12 verified closure — 9 August 2026
 
 - A no-hard-link clone of committed HEAD `8b23428` installs deterministically with Bun 1.3.14 and
   passes format, lint, typecheck, 11 Vitest tests, both zero-finding audits, build, generated-route
@@ -508,13 +511,16 @@ Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementati
 - The checkout remains clean after validation. A synthetic TypeScript stdin fixture is rejected by
   the configured unused-variable rule with exit code 1, proving the local gate detects a controlled
   failure without adding a repository file.
-- Hosted `itws-I` now matches local commit `b6331bd`. GitHub run `31324807644` completed
+- Hosted run `31324807644` at commit `b6331bd` completed
   `Repository validation` successfully in 2m29s with no artifact; the overall run took 2m33s.
-- The stale `main` branch remains the GitHub default.
-- GitHub activates issue and pull-request templates only from the default branch. An `itws-I` push
-  alone can trigger its CI workflow but cannot complete template-rendering acceptance.
-- Task 4.12 and Sprint 04 therefore remain open for hosted controlled-failure rejection,
-  default/source-branch alignment or equivalent merge, rendered templates, and required-check proof.
+- `develop` is the canonical full engineering/documentation branch; `main` is the stripped
+  production/default branch and routes root documentation to absolute `develop` links.
+- The owner protected both branches, enabled Issues, and confirmed the PR template and structured
+  Bug report form render from `main`.
+- Closed unmerged PR #10 targeted protected `develop`. Required `Repository validation` run
+  `31336490260` rejected controlled commit `62a6a78`, disabled ordinary merge, and left no proof file
+  on `develop`.
+- Task 4.12 and Sprint 04 are complete. TD-021–TD-024, TD-026, and TD-028–TD-031 are Verified.
 
 Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
 

@@ -619,7 +619,7 @@
         "current dependency advisory inventory",
         "UI primitive and direct-dependency reachability inventory",
         "generated-file and contributor-documentation inventory",
-        "TD-021 TD-026 and TD-030 in-progress evidence"
+        "TD-021 TD-026 and TD-030 verification evidence"
       ],
       "source_baseline": "f88975e14eb85d66fdbb3473c1689256efbd5840",
       "last_updated": "2026-08-08"
@@ -715,7 +715,7 @@
     {
       "id": "phase-01-sprint-04",
       "path": "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
-      "status": "in-progress",
+      "status": "completed",
       "primary_debt": [
         "TD-021",
         "TD-022",
@@ -740,7 +740,7 @@
         "Bun and Node package contract",
         "frozen-install evidence",
         "non-writing format-check baseline",
-        "TD-028 in-progress evidence"
+        "TD-028 verification evidence"
       ],
       "source_baseline": "b4ceae5",
       "last_updated": "2026-08-08"
@@ -768,7 +768,7 @@
         "Task 4.4 completion",
         "clean repository formatting baseline",
         "public wording and behaviour preservation",
-        "TD-022 in-progress evidence"
+        "TD-022 verification evidence"
       ],
       "source_baseline": "bad96f8",
       "last_updated": "2026-08-09"
@@ -782,7 +782,7 @@
         "clean local lint baseline",
         "Fast Refresh resolution",
         "unused-code enforcement and exceptions",
-        "TD-022 and TD-029 in-progress evidence"
+        "TD-022 and TD-029 verification evidence"
       ],
       "source_baseline": "b76750f",
       "last_updated": "2026-08-09"
@@ -796,7 +796,7 @@
         "Vitest and React Testing Library foundation",
         "risk-based unit component and integration coverage",
         "safe non-production fixture contract",
-        "TD-023 in-progress evidence"
+        "TD-023 verification evidence"
       ],
       "source_baseline": "68606a5",
       "last_updated": "2026-08-09"
@@ -810,7 +810,7 @@
         "controlled Playwright and axe baseline",
         "desktop and mobile browser route matrix",
         "accessibility corrections without wording changes",
-        "TD-023 in-progress evidence"
+        "TD-023 verification evidence"
       ],
       "source_baseline": "8e8c285",
       "last_updated": "2026-08-09"
@@ -824,7 +824,7 @@
         "production advisory remediation",
         "bounded compatible framework and build-tool updates",
         "zero production-filtered audit findings",
-        "TD-021 in-progress evidence"
+        "TD-021 verification evidence"
       ],
       "source_baseline": "71173b8",
       "last_updated": "2026-08-09"
@@ -838,7 +838,7 @@
         "development tooling advisory remediation",
         "compatible brace-expansion lockfile branches",
         "zero full and production-filtered audit findings",
-        "TD-021 in-progress evidence"
+        "TD-021 verification evidence"
       ],
       "source_baseline": "6bcc6bb",
       "last_updated": "2026-08-09"
@@ -852,7 +852,7 @@
         "GitHub Actions validation policy",
         "local and CI command parity",
         "failure-only browser artifact policy",
-        "TD-021 TD-022 TD-023 TD-024 TD-028 and TD-029 in-progress evidence"
+        "TD-021 TD-022 TD-023 TD-024 TD-028 and TD-029 verification evidence"
       ],
       "source_baseline": "be1cdbb",
       "last_updated": "2026-08-09"
@@ -866,7 +866,7 @@
         "repository contributor entry points",
         "contribution and change template contract",
         "private vulnerability routing",
-        "TD-030 and TD-031 in-progress evidence"
+        "TD-030 and TD-031 verification evidence"
       ],
       "source_baseline": "6bf6200",
       "last_updated": "2026-08-09"
@@ -888,27 +888,31 @@
     {
       "id": "phase-01-sprint-04-task-12",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md",
-      "status": "hosted-verification-pending",
+      "status": "verified-task-evidence",
       "authority_for": [
         "Task 4.12 clean-checkout evidence",
-        "controlled local failure evidence",
-        "hosted passing CI and default-branch findings",
-        "Sprint 04 owner-controlled closure sequence"
+        "controlled local and hosted failure evidence",
+        "hosted passing CI and protected-branch enforcement",
+        "rendered contributor templates",
+        "Sprint 04 verified closure"
       ],
       "source_baseline": "8b23428",
       "hosted_commit": "b6331bd",
       "hosted_run": "https://github.com/Muhns13G/meneer-health/actions/runs/31324807644",
+      "failure_commit": "62a6a78045c6b544d7167efe105feb9b546967dc",
+      "failure_run": "https://github.com/Muhns13G/meneer-health/actions/runs/31336490260",
+      "failure_pr": "https://github.com/Muhns13G/meneer-health/pull/10",
       "last_updated": "2026-08-09"
     },
     {
       "id": "phase-01-sprint-04-completion",
       "path": "docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md",
-      "status": "hosted-verification-pending",
+      "status": "verified-completion",
       "authority_for": [
         "Sprint 04 mission and delivered work",
         "Sprint 04 deviations and lessons",
         "Sprint 04 file inventory",
-        "Sprint 04 residual hosted gate"
+        "Sprint 04 verified closure"
       ],
       "source_baseline": "8b23428",
       "last_updated": "2026-08-09"
