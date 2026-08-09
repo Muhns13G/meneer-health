@@ -3,10 +3,10 @@ consideration_id: FC-003
 title: Dependency Reintroduction Triggers
 status: tracked
 decision_due: feature-triggered
-last_reviewed: 2026-08-09
+last_reviewed: 2026-08-10
 owner: "@Muhns13G"
 sensitivity: internal
-source_tasks: [phase-01-sprint-02-task-05, phase-01-sprint-04-task-03]
+source_tasks: [phase-01-sprint-02-task-05, phase-01-sprint-04-task-03, phase-01-sprint-05-task-02]
 ---
 
 # Dependency Reintroduction Triggers
@@ -17,6 +17,11 @@ Record why Sprint 02 removed unused direct packages and define when they should 
 the current repository does not directly use the package; it is not a prohibition against future
 use. Add a package only in the task that introduces its first supported import and verifies its
 runtime, security, and maintenance impact.
+
+Task 5.2 met the recorded `zod` trigger. Zod 4.4.3 is now a runtime dependency used directly by the
+canonical contract boundary for strict envelope, catalogue, error, timestamp, identifier, and
+version validation. Portable valid/invalid fixtures and tests verify the first use. This does not
+trigger React Hook Form, resolvers, or any customer-facing form.
 
 ## Feature-Triggered Reintroductions
 
@@ -78,7 +83,7 @@ before Task 4.3 is committed:
 
 | Delivery point                     | Expected decision                                                                                              | Trigger and boundary                                                                                                            |
 | ---------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| Sprint 05 validated commands       | `zod` is the likely first reintroduction.                                                                      | Add it with the first real server boundary and shared payload schema; do not add it merely for client-only validation.          |
+| Sprint 05 contract foundation      | Task 5.2 reintroduced `zod` 4.4.3 as a runtime dependency.                                                     | Trigger met by strict canonical boundary schemas and portable contract fixtures/tests; active workflow payloads remain gated.   |
 | Sprint 05–06 intake implementation | Decide whether `react-hook-form` and `@hookform/resolvers` materially improve the approved multi-step journey. | Reintroduce only after the real field model, server errors, consent versioning, recovery behaviour, and test cases are defined. |
 | Sprint 06 UX/accessibility work    | Consider small brand-specific `Action`, `Field`, description, and error-message primitives.                    | Extract them from repeated current use while preserving Meneer's styling; they need not depend on shadcn or Radix.              |
 | Sprint 06 complex interactions     | Evaluate individual Radix primitives against native HTML.                                                      | Add only the exact primitive needed for verified focus, keyboard, disclosure, selection, or modal requirements.                 |
@@ -132,6 +137,7 @@ Before adding a removed package:
 - [Sprint 02 implementation plan](../02-implementation-plans/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md)
 - [Task 2.5 evidence](../02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md)
 - [Task 4.3 evidence](../02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md)
+- [Task 5.2 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md)
 - [Technical debt registry](../04-technical-debt/technical-debt-registry-v1.md)
 - [Platform evolution](../RAG/03-platform-evolution.md)
 - [Known limitations](../RAG/06-known-limitations.md)

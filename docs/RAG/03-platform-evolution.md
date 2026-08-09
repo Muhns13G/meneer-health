@@ -3,7 +3,7 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-direction
 authority: strategic
-last_updated: 2026-08-08
+last_updated: 2026-08-10
 audience: internal
 sensitivity: internal
 sources:
@@ -16,6 +16,7 @@ sources:
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
@@ -77,6 +78,12 @@ fallback, or privacy/clinical meaning require a new major. Consumers reject unsu
 Every migration follows inventory, expand, deterministic migration, shadow/reconciliation, staged
 cutover, observation, and contraction. Rollback never deletes or rewrites accepted records. Retained
 contract fixtures and journey tests—not matching page appearance—prove cross-generation equivalence.
+
+Task 5.2 implements the first portable slice in top-level `contracts/`: strict common command,
+event, error, catalogue, and positive-integer-major schemas; synthetic fixtures; compatibility
+guards; and framework-independent tests. ESLint enforces the initial inward dependency rules. This
+foundation does not yet implement the required business contract families or prove behavioural
+equivalence across framework generations; those remain TD-014 and TD-055 work.
 
 ## v1 De-Platform Sequence
 

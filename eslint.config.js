@@ -32,5 +32,63 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: ["contracts/**/*.ts"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/**", "../src/**", "../../src/**", "react", "react/**", "@tanstack/**"],
+              message:
+                "Canonical contracts must remain independent of UI, framework, route, and adapter code.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/domain/**/*.ts", "src/domain/**/*.tsx"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: [
+                "@/routes/**",
+                "@/components/**",
+                "@/adapters/**",
+                "react",
+                "react/**",
+                "@tanstack/**",
+              ],
+              message:
+                "Domain code may depend on canonical contracts, but not routes, UI, frameworks, or adapters.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/application/**/*.ts", "src/application/**/*.tsx"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@/routes/**", "@/components/**", "@/adapters/**", "react", "react/**"],
+              message:
+                "Application code may use domain contracts and ports, but not routes, UI, or concrete adapters.",
+            },
+          ],
+        },
+      ],
+    },
+  },
   eslintPluginPrettier,
 );

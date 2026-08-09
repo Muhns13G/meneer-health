@@ -39,6 +39,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md
   - docs/06-operations/testing-ci-guide.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-1-data-security-baseline-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -537,6 +539,22 @@ Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-
   TD-010.
 
 Evidence: [`sprint-05-1-data-security-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-1-data-security-baseline-evidence.md).
+
+### Sprint 05.2 contract foundation — 10 August 2026
+
+- A top-level `contracts/` boundary now contains strict Zod runtime schemas for common command,
+  committed-event, error, catalogue, identifier, timestamp, and major-version semantics.
+- Zod 4.4.3 is again a direct runtime dependency because its recorded first-use trigger is met;
+  `bun.lock`, TypeScript, Vitest coverage, and ESLint scope include the canonical contracts.
+- ESLint encodes inward dependencies for contracts and future domain/application modules. Canonical
+  contracts cannot import route, UI, React, TanStack, Cloudflare, ORM, or provider objects.
+- Seven test files and 24 tests pass, including 13 portable contract assertions over valid and
+  invalid synthetic fixtures, stable safe errors, registry metadata, and unsupported majors.
+- TD-014 and TD-055 are In progress, not Verified. No real workflow payload, server mutation,
+  state machine, persistence, idempotency store, provider adapter, capability catalogue, or
+  cross-generation rehearsal exists.
+
+Evidence: [`sprint-05-2-contract-foundation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md).
 
 ## Highest-Risk Gaps
 
