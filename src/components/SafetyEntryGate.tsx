@@ -83,7 +83,7 @@ export function SafetyEntryGate() {
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="mailto:support@meneerhealth.co.za"
-              className="inline-flex items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-charcoal"
+              className="inline-flex items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground"
             >
               General support
             </a>

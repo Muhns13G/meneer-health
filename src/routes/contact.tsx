@@ -26,7 +26,7 @@ function ContactPage() {
           <p>
             For general enquiries, partnerships, press, or support, email{" "}
             <a
-              className="text-gold hover:underline underline-offset-4"
+              className="text-gold underline underline-offset-4"
               href="mailto:support@meneerhealth.co.za"
             >
               support@meneerhealth.co.za
@@ -40,11 +40,11 @@ function ContactPage() {
           <p>
             This inbox is not an emergency or urgent clinical service. If you need urgent medical
             help, call{" "}
-            <a className="text-gold hover:underline underline-offset-4" href="tel:112">
+            <a className="text-gold underline underline-offset-4" href="tel:112">
               112 from a mobile
             </a>{" "}
             or{" "}
-            <a className="text-gold hover:underline underline-offset-4" href="tel:10177">
+            <a className="text-gold underline underline-offset-4" href="tel:10177">
               10177 for an ambulance
             </a>
             , or go to the nearest emergency facility.
