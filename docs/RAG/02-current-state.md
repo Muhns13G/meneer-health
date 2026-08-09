@@ -508,11 +508,12 @@ Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementati
 - The checkout remains clean after validation. A synthetic TypeScript stdin fixture is rejected by
   the configured unused-variable rule with exit code 1, proving the local gate detects a controlled
   failure without adding a repository file.
-- Hosted `itws-I` remains seven commits behind local HEAD and does not yet contain the workflow or
-  contributor documents. The stale `main` branch remains the GitHub default.
+- Hosted `itws-I` now matches local commit `b6331bd`. GitHub run `31324807644` completed
+  `Repository validation` successfully in 2m29s with no artifact; the overall run took 2m33s.
+- The stale `main` branch remains the GitHub default.
 - GitHub activates issue and pull-request templates only from the default branch. An `itws-I` push
   alone can trigger its CI workflow but cannot complete template-rendering acceptance.
-- Task 4.12 and Sprint 04 therefore remain open for the owner push, hosted passing/failing run,
+- Task 4.12 and Sprint 04 therefore remain open for hosted controlled-failure rejection,
   default/source-branch alignment or equivalent merge, rendered templates, and required-check proof.
 
 Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
@@ -526,7 +527,7 @@ Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- Unit/component/integration and controlled browser/accessibility tests pass from a clean clone. CI
-  is configured locally but not yet hosted, deliberately failed, or required on GitHub.
+- Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
+  in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.

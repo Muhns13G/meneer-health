@@ -74,11 +74,12 @@ graph without an advisory-by-advisory plan and separate approval.
 ### Task 4.12 current disposition
 
 The isolated clean-clone command matrix and controlled local failure proof pass at committed HEAD
-`8b23428`. Hosted closure remains owner-controlled: local `itws-I` is seven commits ahead of the
-hosted branch, and GitHub contributor templates require the repository default branch while the
-stale `main` branch remains default. The owner must push, prove hosted CI success and deliberate
-failure, align the default/source branch or merge the templates into the retained default, confirm
-template rendering, and require the validation check before Task 4.12 and Sprint 04 can close.
+`8b23428`. Hosted run `31324807644` then proves `Repository validation` passes at pushed commit
+`b6331bd`. Hosted closure remains owner-controlled: GitHub contributor templates require the
+repository default branch while stale `main` remains default. The owner must still prove hosted
+deliberate failure, align the default/source branch or merge the templates into the retained
+default, confirm template rendering, and require the validation check before Task 4.12 and Sprint 04
+can close.
 
 Evidence: [`sprint-04-12-closure-evidence.md`](annexures/sprint-04-12-closure-evidence.md).
 
