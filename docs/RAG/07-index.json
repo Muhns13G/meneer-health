@@ -858,6 +858,34 @@
       "last_updated": "2026-08-09"
     },
     {
+      "id": "phase-01-sprint-04-task-11",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.11 completion",
+        "repository contributor entry points",
+        "contribution and change template contract",
+        "private vulnerability routing",
+        "TD-030 and TD-031 in-progress evidence"
+      ],
+      "source_baseline": "6bf6200",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "meneer-testing-ci-guide",
+      "path": "docs/06-operations/testing-ci-guide.md",
+      "status": "active",
+      "authority_for": [
+        "local validation sequence",
+        "test layer ownership",
+        "GitHub CI behaviour",
+        "safe fixtures and artifacts",
+        "validation failure triage"
+      ],
+      "source_baseline": "6bf6200",
+      "last_updated": "2026-08-09"
+    },
+    {
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
       "status": "planned",

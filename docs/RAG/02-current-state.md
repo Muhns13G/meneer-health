@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
-source_baseline: be1cdbb
+source_baseline: 6bf6200
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -35,6 +35,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md
+  - docs/06-operations/testing-ci-guide.md
 ---
 
 # Meneer v1 Verified Current State
@@ -479,6 +481,24 @@ Evidence: [`sprint-04-9-tooling-advisory-remediation-evidence.md`](../02-impleme
   Task 4.12; related debt therefore remains In progress.
 
 Evidence: [`sprint-04-10-ci-policy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md).
+
+### Sprint 04.11 contributor operations — 9 August 2026
+
+- Root README, contribution, and security documents now state the actual non-transactional product
+  boundary and route contributors to the blueprint, current state, debt registry, approved
+  decisions, environment contract, CI, and Cloudflare release runbook.
+- The testing/CI guide defines command ownership, sequential build use, safe synthetic fixtures,
+  ignored/failure-only artifacts, hosted workflow behaviour, and failure triage.
+- The PR template requires outcome, plan/debt evidence, sensitive-domain review, dependency/config/
+  migration/generated/runtime effects, exact validation, rollback, and visual evidence.
+- A structured bug form requires synthetic reproduction and no-PHI/no-secret confirmation while
+  directing vulnerability reports to the private security process.
+- Formatting, YAML/schema parsing, local-link checks, the full quality/test/build/dry-run/browser
+  matrix, both audits, and generated-route consistency pass without application or runtime changes.
+- TD-030 and TD-031 remain In progress until Task 4.12 proves clean-checkout usability and hosted
+  template rendering.
+
+Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md).
 
 ## Highest-Risk Gaps
 
