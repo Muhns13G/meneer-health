@@ -62,8 +62,14 @@ It pins Bun 1.3.14, reads Node from `.node-version`, uses frozen installation, a
 local scripts above with one Playwright worker.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
-days. Hosted success, deliberate-failure proof, and required-check/merge control are Task 4.12
-acceptance evidence.
+days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.
+Hosted success, hosted deliberate-failure proof, and required-check/merge control remain pending
+until the owner pushes the workflow and configures the active integration branch.
+
+GitHub reads issue and pull-request templates from the repository default branch. While `itws-I` is
+the permanent source boundary but stale `main` remains the default, contributor templates cannot be
+considered active. The owner must align those branch roles or merge the templates into the retained
+default branch before accepting hosted template verification.
 
 ## Safe Fixtures and Artifacts
 
