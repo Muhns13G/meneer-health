@@ -48,6 +48,12 @@ Sprint 03 closed on 8 August 2026 after Tasks 3.1–3.9. TD-011, TD-012, TD-050,
 Verified. TD-009 and TD-010 retain named operating/commercial gates; TD-013 and TD-016 retain the
 Sprint 05 implementation evidence required by their acceptance criteria.
 
+Sprint 04 Tasks 4.1–4.11 are complete. Task 4.12 passes the full clean-clone matrix and controlled
+local failure proof at `8b23428`; hosted `Repository validation` also passes at pushed commit
+`b6331bd`. Sprint 04 remains open until the owner records hosted controlled-failure rejection,
+resolves the `itws-I` source versus stale `main` default-branch mismatch for GitHub templates, and
+enables the required validation check.
+
 External decision preparation may begin early, but a sprint cannot claim completion until its prerequisites and acceptance evidence are satisfied.
 
 ## Coverage Matrix

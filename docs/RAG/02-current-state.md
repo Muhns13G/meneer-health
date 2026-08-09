@@ -3,10 +3,10 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-08
+last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
-source_baseline: df94a1206fddd5f08f03132d1c548c0b468a7fe6
+source_baseline: 6bf6200
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -28,6 +28,15 @@ sources:
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md
+  - docs/06-operations/testing-ci-guide.md
 ---
 
 # Meneer v1 Verified Current State
@@ -61,14 +70,26 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
 
 ## Technology
 
-- Bun 1.3.x package management with `bun.lock`; the current package-manager pin is 1.3.14.
+- The private package is named `meneer-health`. Bun 1.3.x manages the authoritative `bun.lock`; the
+  package-manager pin is 1.3.14, and a version-aligned frozen install passes without changes.
 - Node 22.x build tooling is supported and Cloudflare Builds is pinned through `.node-version`;
   deployed code runs on `workerd` with `nodejs_compat`, not a general Node.js process.
-- React 19, TypeScript strict mode, TanStack Start/Router, Vite, Tailwind CSS, and Cloudflare
-  Workers.
+- React 19, TypeScript strict mode, TanStack Start 1.167.65, TanStack Router, Vite 7.3.6, Tailwind
+  CSS, and Cloudflare Workers.
 - Explicit Cloudflare Vite, TanStack Start, React, Tailwind, and TypeScript-path configuration.
 - Cloudflare is the approved v1 host. The Lovable Vite wrapper and MCP package have been removed.
-- Radix/shadcn-style primitives, most of which are unused by product routes.
+- Five intentional runtime dependencies: TanStack Start/Router, React/ReactDOM, and Lucide.
+- Vitest, jsdom, React Testing Library, user-event, jest-dom, and V8 coverage are test-only
+  development tooling; the production dependency declarations remain unchanged.
+- Playwright 1.62.1 and axe-core provide a controlled desktop/mobile Chromium browser matrix. The
+  managed browser cache is local tooling and is not committed to the repository.
+- A read-only GitHub Actions workflow now declares the frozen install, quality, tests, dual audit,
+  build, generated-route, Cloudflare dry-run, and browser gates. Hosted enforcement remains
+  unverified until Task 4.12 runs the committed workflow.
+
+Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. Task 4.4 clears its
+tracked formatting backlog without changing public wording or behaviour. The check now passes;
+Task 4.10 declares it in CI, with hosted enforcement proof remaining Task 4.12.
 
 ## Route Behaviour
 
@@ -313,6 +334,190 @@ Evidence: [`sprint-02-6-meneer-metadata-evidence.md`](../02-implementation-plans
 
 Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md).
 
+### Sprint 04.1 repository-health baseline — 8 August 2026
+
+- Frozen install confirms 456 installs across 566 packages without changing the lockfile.
+- TypeScript, production build, and Wrangler dry-run pass. Lint fails with 21 formatting errors and
+  reports 7 Fast Refresh warnings.
+- The current full dependency audit reports 33 findings (17 high, 12 moderate, 4 low); the
+  production-filtered audit reports 26 (11 high, 11 moderate, 4 low). Nine affected package
+  families and their initial paths/reachability are inventoried for bounded Tasks 4.8–4.9.
+- All 46 tracked `src/components/ui/` files have no product-source importer. Their 38 candidate
+  direct dependencies and two support-only source files remain present until Task 4.3 removal and
+  regression evidence.
+- No test framework, test script, test file, or CI workflow exists. The root README, test/CI guide,
+  vulnerability routing, contribution guide, and PR template remain missing; the decision index,
+  environment template, `CODEOWNERS`, and Cloudflare runbook already exist.
+- `bun.lock` and `src/routeTree.gen.ts` are the tracked generated artefacts. The latter still needs
+  an explicit formatter/generation consistency policy.
+
+Evidence: [`sprint-04-1-repository-health-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md).
+
+### Sprint 04.3 UI-surface reduction — 8 August 2026
+
+- All 46 unreachable UI primitives, two support-only files, stale shadcn configuration, and 38
+  direct packages are removed. No product source or public wording changed.
+- Frozen installation now checks 319 installs across 442 packages, down from 456 across 566.
+- Generated CSS falls from 85.95 kB to 35.04 kB; product JavaScript and Worker modules remain
+  unchanged because the removed packages were not bundled into reachable application code.
+- Typecheck, production build, Wrangler dry-run, all active route responses, campaign redirects,
+  retired MCP/OAuth 404s, and approved-message signatures pass.
+- Rendered desktop checks across eight active pages show correct titles/headings, no horizontal
+  overflow, no broken images, and no console warnings or errors.
+- Lint retains the 21 formatting errors assigned to Task 4.4 but drops from 7 warnings to the single
+  `src/router.tsx` warning assigned to Task 4.5. Audit counts remain 33 full and 26
+  production-filtered findings for Tasks 4.8–4.9.
+
+Evidence: [`sprint-04-3-ui-surface-reduction-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md).
+
+### Sprint 04.4 formatting baseline — 9 August 2026
+
+- Prettier mechanically formats nine live source/style files and one historical audit document.
+- Public strings, JSX structure, routes, runtime configuration, dependencies, lockfile, and
+  generated route output are unchanged. CSS edits are formatting plus equivalent decimal spelling.
+- `bun run format:check`, `bun run lint`, typecheck, production build, and Wrangler dry-run pass.
+  Lint retains one non-blocking `src/router.tsx` Fast Refresh warning for Task 4.5.
+- The generated client CSS, main client JavaScript, Worker entry, module count, and asset count match
+  the Task 4.3 baseline, supporting the no-behaviour-change boundary.
+
+Evidence: [`sprint-04-4-formatting-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-4-formatting-baseline-evidence.md).
+
+### Sprint 04.5 lint and unused-code baseline — 9 August 2026
+
+- The default error component moves from `src/router.tsx` into a component-only module, clearing the
+  final Fast Refresh warning without changing its markup, wording, retry, or home actions.
+- TypeScript now rejects unused locals and parameters. ESLint treats unused variables as errors and
+  excludes only the generated route tree at configuration level.
+- `StartFlow` and `PeptidesPage` remain preserved, unreachable prototypes behind the active gates;
+  their declarations carry narrow compiler and linter exceptions explaining that boundary.
+- One unused derived activation flag is removed. The compliance profile and canonical campaign
+  origin remain used internally but are no longer exported without consumers.
+- Frozen install, formatting, lint, typecheck, production build, Wrangler dry-run, active routes,
+  campaign redirects, retired/unknown 404s, and approved-message signatures pass.
+
+Evidence: [`sprint-04-5-lint-unused-code-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-5-lint-unused-code-evidence.md).
+
+### Sprint 04.6 test foundation — 9 August 2026
+
+- A dedicated Vitest 4/jsdom configuration avoids loading the Cloudflare Worker plugin during unit
+  tests while retaining React and TypeScript-path handling.
+- `bun run test`, `test:watch`, and `test:coverage` are available. Six files contain 11 passing
+  unit/component/integration tests with automatic DOM cleanup and no console noise.
+- Tests cover campaign configuration and 307 attribution redirects, activation blockers,
+  non-transactional/no-false-success gates, emergency links, mobile-menu state, and error recovery.
+- Test fixtures use synthetic content and a reserved `.invalid` origin; coverage output is ignored.
+  Risk-based expectations are recorded without treating a global percentage as a release signal.
+- Frozen install now checks 418 installs across 538 package records. Full and
+  production-filtered audit totals remain 33 and 26; test-only Vite/Undici paths are recorded for
+  Tasks 4.8–4.9.
+- Formatting, lint, typecheck, tests, coverage execution, production build, and Wrangler dry-run
+  pass. The generated route tree and production bundle topology remain unchanged.
+
+Evidence: [`sprint-04-6-test-foundation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-6-test-foundation-evidence.md).
+
+### Sprint 04.7 browser and accessibility baseline — 9 August 2026
+
+- Playwright owns an isolated local server and managed Chromium profiles for 1440 x 900 desktop and
+  Pixel 7 mobile verification. Failure-only artifacts are ignored and browser video is disabled.
+- Forty-eight checks pass across eight active routes, four ordinary 404 boundaries, two exact 307
+  campaign redirects, inactive gates, responsive navigation, rendering health, and automated WCAG
+  A/AA axe rules.
+- Task 4.7 corrected four repeated accessibility findings without changing public wording: inline
+  legal/support links are always underlined, and the gated support button uses the existing
+  contrast-safe foreground token.
+- Frozen install now checks 424 installs across 544 package records. Full and production-filtered
+  audit totals remain 33 and 26; Playwright and axe are test-only additions.
+- Automated accessibility checks supplement rather than replace manual keyboard and
+  assistive-technology review. Task 4.10 declares the suite in CI; hosted proof remains Task 4.12.
+
+Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md).
+
+### Sprint 04.8 production advisory remediation — 9 August 2026
+
+- Bounded compatible updates and exact reviewed security overrides clear all 26 findings from
+  `bun audit --prod`; the full audit falls from 33 findings to seven.
+- TanStack Start is pinned to 1.167.65, its server core resolves to 1.167.30, and Vite is unified on
+  7.3.6. Affected PostCSS, nanoid, Undici, Babel, esbuild, js-yaml, and optional tsx versions are
+  upgraded or eliminated without adding or removing a direct package.
+- The remaining six high and one moderate findings are all `brace-expansion@5.0.5` through the
+  lint-only TypeScript-ESLint path. They are absent from the production-filtered audit and remain
+  assigned to Task 4.9.
+- Frozen install checks 482 installs across 524 packages. Format, lint, typecheck, 11 Vitest tests,
+  production build, Wrangler dry-run, and all 48 Playwright/axe checks pass.
+- Application source, public wording, and the generated route tree are unchanged. Tasks 4.9–4.10
+  subsequently clear the tooling path and declare CI policy; hosted proof remains Task 4.12.
+
+Evidence: [`sprint-04-8-production-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md).
+
+### Sprint 04.9 tooling advisory remediation — 9 August 2026
+
+- The final seven full-audit findings are removed by refreshing the two existing
+  `brace-expansion` lockfile branches within their parents' declared ranges: 1.1.14 to 1.1.18 for
+  `minimatch@3`, and 5.0.5 to 5.0.9 for `minimatch@10`.
+- Full and production-filtered `bun audit` now report no vulnerabilities. No security exception,
+  parent-tool upgrade, broad update command, or manifest override is required.
+- A global 5.x override was rejected during review because it would have forced the legacy
+  `minimatch@3` path outside `^1.1.7`; that incompatible intermediate state is not retained.
+- Frozen install, format, lint, typecheck, 11 Vitest tests, production build, Wrangler dry-run, and
+  all 48 Playwright/axe checks pass. Application source, public wording, direct dependencies, and
+  the generated route tree are unchanged.
+- Task 4.10 subsequently declares both clean audit gates in CI; hosted proof remains Task 4.12.
+
+Evidence: [`sprint-04-9-tooling-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md).
+
+### Sprint 04.10 CI policy — 9 August 2026
+
+- `.github/workflows/ci.yml` adds one read-only validation job for pull requests, manual dispatch,
+  and pushes to `main`, `itws-I`, and `itws-I-preview`; it contains no deploy or promotion action.
+- Node follows `.node-version`, Bun is pinned to 1.3.14, installation is frozen, and local package
+  scripts own format, lint, typecheck, test, full/production audit, build, generated-route, dry-run,
+  and browser commands.
+- CI installs only Chromium plus its Linux dependencies, keeps one worker, and uploads ignored
+  synthetic Playwright evidence only on failure for seven days.
+- Workflow YAML parsing and the complete command sequence pass locally, including 11 Vitest tests,
+  both zero-finding audits, unchanged generated routes, Cloudflare dry-run, and 48 CI-mode
+  Playwright/axe checks.
+- Hosted success, controlled failure, and repository required-check/merge-control evidence remain
+  Task 4.12; related debt therefore remains In progress.
+
+Evidence: [`sprint-04-10-ci-policy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md).
+
+### Sprint 04.11 contributor operations — 9 August 2026
+
+- Root README, contribution, and security documents now state the actual non-transactional product
+  boundary and route contributors to the blueprint, current state, debt registry, approved
+  decisions, environment contract, CI, and Cloudflare release runbook.
+- The testing/CI guide defines command ownership, sequential build use, safe synthetic fixtures,
+  ignored/failure-only artifacts, hosted workflow behaviour, and failure triage.
+- The PR template requires outcome, plan/debt evidence, sensitive-domain review, dependency/config/
+  migration/generated/runtime effects, exact validation, rollback, and visual evidence.
+- A structured bug form requires synthetic reproduction and no-PHI/no-secret confirmation while
+  directing vulnerability reports to the private security process.
+- Formatting, YAML/schema parsing, local-link checks, the full quality/test/build/dry-run/browser
+  matrix, both audits, and generated-route consistency pass without application or runtime changes.
+- TD-030 and TD-031 remain In progress until Task 4.12 proves clean-checkout usability and hosted
+  template rendering.
+
+Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md).
+
+### Sprint 04.12 local closure proof — 9 August 2026
+
+- A no-hard-link clone of committed HEAD `8b23428` installs deterministically with Bun 1.3.14 and
+  passes format, lint, typecheck, 11 Vitest tests, both zero-finding audits, build, generated-route
+  consistency, Cloudflare dry-run, and all 48 CI-mode Playwright/axe checks.
+- The checkout remains clean after validation. A synthetic TypeScript stdin fixture is rejected by
+  the configured unused-variable rule with exit code 1, proving the local gate detects a controlled
+  failure without adding a repository file.
+- Hosted `itws-I` now matches local commit `b6331bd`. GitHub run `31324807644` completed
+  `Repository validation` successfully in 2m29s with no artifact; the overall run took 2m33s.
+- The stale `main` branch remains the GitHub default.
+- GitHub activates issue and pull-request templates only from the default branch. An `itws-I` push
+  alone can trigger its CI workflow but cannot complete template-rendering acceptance.
+- Task 4.12 and Sprint 04 therefore remain open for hosted controlled-failure rejection,
+  default/source-branch alignment or equivalent merge, rendered templates, and required-check proof.
+
+Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
@@ -322,6 +527,7 @@ Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](../02-implementat
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- No automated tests or CI; lint and dependency gates fail.
+- Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
+  in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.

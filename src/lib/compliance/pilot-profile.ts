@@ -6,7 +6,7 @@ type RegulatedParty = {
   evidenceState: EvidenceState;
 };
 
-export const pilotComplianceProfile = {
+const pilotComplianceProfile = {
   operator: {
     legalName: "OCTOTHORP ZA",
     enterpriseNumber: "K2024185008",
@@ -42,5 +42,3 @@ export const pilotActivationBlockers = [
     ? "Monitored urgent clinical telephone or WhatsApp channel and hours"
     : null,
 ].filter((value): value is string => value !== null);
-
-export const isPilotActivationReady = pilotActivationBlockers.length === 0;

@@ -27,6 +27,9 @@ sources:
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -162,14 +165,28 @@ paths pass, closing TD-049, TD-052, and TD-053.
 
 ## Engineering Limits
 
-- TypeScript, the production build, generic preview, and Wrangler dry-run pass. After Task 2.6,
-  lint fails with 21 pre-existing formatting errors and 7 warnings. Task 2.5's dependency audits report 31 full
-  and 24 production-filtered findings.
-- No automated test framework or CI workflow exists.
+- TypeScript, the production build, generic preview, and Wrangler dry-run pass. Tasks 4.4–4.5 clear
+  the tracked formatting, Fast Refresh, and unused-code baseline: format, lint, and typecheck pass
+  locally with zero lint findings.
+- The Task 4.10 CI workflow declares the clean format/lint baseline, and Task 4.12 proves the full
+  sequence from an isolated clone plus a controlled local failure. Hosted run `31324807644` passes
+  at `b6331bd`; hosted failure rejection and required-check enforcement remain unverified.
+- Tasks 4.8–4.9 clear both full and production-filtered Bun audits without an exception. Task 4.10
+  declares both gates in CI; Task 4.12 must prove hosted enforcement.
+- The unused shadcn/Radix surface and its direct dependencies are removed. New primitives must be
+  added with their first approved product use, not as speculative scaffolding.
+- The inactive `StartFlow` and `PeptidesPage` prototypes remain deliberate unused-code exceptions.
+  They are not rendered, exported, or suitable for activation without their replacement gates.
+- Vitest/jsdom unit, component, and redirect-integration coverage exists. Controlled desktop/mobile
+  Playwright/axe coverage passes locally and is declared in Task 4.10 CI, but hosted execution is
+  not yet proven. Automated axe checks do not replace manual keyboard or assistive-technology review.
 - The former adapter warnings are resolved; one bounded upstream Cloudflare-tooling deprecation
   remains for Sprint 04 dependency maintenance.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
   and stateful recovery remain future work.
+- Task 4.11 adds root onboarding, contribution/security routing, test/CI guidance, and GitHub change
+  templates. Task 4.12 verifies clean-checkout usability. Hosted rendering remains unavailable while
+  stale `main` is the GitHub default because contributor templates activate only from that branch.
 - Accessibility, navigation, SEO, content consistency, final media, and campaign print-production
   QA remain open.
 

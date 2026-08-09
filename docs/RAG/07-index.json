@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "foundation",
     "status": "active",
-    "last_updated": "2026-08-08",
+    "last_updated": "2026-08-09",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -111,7 +111,7 @@
         "release-gates"
       ],
       "status": "initial-planning-baseline",
-      "last_updated": "2026-08-08"
+      "last_updated": "2026-08-09"
     },
     {
       "id": "project-codebase-audit-2026-08-05",
@@ -610,6 +610,21 @@
       "last_updated": "2026-08-08"
     },
     {
+      "id": "phase-01-sprint-04-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.1 completion",
+        "Sprint 04 post-Sprint 03 command baseline",
+        "current dependency advisory inventory",
+        "UI primitive and direct-dependency reachability inventory",
+        "generated-file and contributor-documentation inventory",
+        "TD-021 TD-026 and TD-030 in-progress evidence"
+      ],
+      "source_baseline": "f88975e14eb85d66fdbb3473c1689256efbd5840",
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "meneer-cloudflare-v1-release",
       "path": "docs/06-operations/cloudflare-environments-release-runbook.md",
       "status": "active-owner-controlled",
@@ -700,7 +715,7 @@
     {
       "id": "phase-01-sprint-04",
       "path": "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
-      "status": "planned",
+      "status": "in-progress",
       "primary_debt": [
         "TD-021",
         "TD-022",
@@ -711,7 +726,192 @@
         "TD-029",
         "TD-030",
         "TD-031"
-      ]
+      ],
+      "task_count": 12,
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-02",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.2 completion",
+        "private package identity",
+        "Bun and Node package contract",
+        "frozen-install evidence",
+        "non-writing format-check baseline",
+        "TD-028 in-progress evidence"
+      ],
+      "source_baseline": "b4ceae5",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-04-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.3 completion",
+        "TD-026 verification",
+        "removed UI primitive and support surface",
+        "removed direct UI dependencies",
+        "dependency graph and CSS reduction",
+        "post-removal route and rendered-browser evidence"
+      ],
+      "source_baseline": "93c6ff7",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-04-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-4-formatting-baseline-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.4 completion",
+        "clean repository formatting baseline",
+        "public wording and behaviour preservation",
+        "TD-022 in-progress evidence"
+      ],
+      "source_baseline": "bad96f8",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-5-lint-unused-code-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.5 completion",
+        "clean local lint baseline",
+        "Fast Refresh resolution",
+        "unused-code enforcement and exceptions",
+        "TD-022 and TD-029 in-progress evidence"
+      ],
+      "source_baseline": "b76750f",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-6-test-foundation-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.6 completion",
+        "Vitest and React Testing Library foundation",
+        "risk-based unit component and integration coverage",
+        "safe non-production fixture contract",
+        "TD-023 in-progress evidence"
+      ],
+      "source_baseline": "68606a5",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-07",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.7 completion",
+        "controlled Playwright and axe baseline",
+        "desktop and mobile browser route matrix",
+        "accessibility corrections without wording changes",
+        "TD-023 in-progress evidence"
+      ],
+      "source_baseline": "8e8c285",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-08",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.8 completion",
+        "production advisory remediation",
+        "bounded compatible framework and build-tool updates",
+        "zero production-filtered audit findings",
+        "TD-021 in-progress evidence"
+      ],
+      "source_baseline": "71173b8",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-09",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.9 completion",
+        "development tooling advisory remediation",
+        "compatible brace-expansion lockfile branches",
+        "zero full and production-filtered audit findings",
+        "TD-021 in-progress evidence"
+      ],
+      "source_baseline": "6bcc6bb",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-10",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.10 completion",
+        "GitHub Actions validation policy",
+        "local and CI command parity",
+        "failure-only browser artifact policy",
+        "TD-021 TD-022 TD-023 TD-024 TD-028 and TD-029 in-progress evidence"
+      ],
+      "source_baseline": "be1cdbb",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-11",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.11 completion",
+        "repository contributor entry points",
+        "contribution and change template contract",
+        "private vulnerability routing",
+        "TD-030 and TD-031 in-progress evidence"
+      ],
+      "source_baseline": "6bf6200",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "meneer-testing-ci-guide",
+      "path": "docs/06-operations/testing-ci-guide.md",
+      "status": "active",
+      "authority_for": [
+        "local validation sequence",
+        "test layer ownership",
+        "GitHub CI behaviour",
+        "safe fixtures and artifacts",
+        "validation failure triage"
+      ],
+      "source_baseline": "6bf6200",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-task-12",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md",
+      "status": "hosted-verification-pending",
+      "authority_for": [
+        "Task 4.12 clean-checkout evidence",
+        "controlled local failure evidence",
+        "hosted passing CI and default-branch findings",
+        "Sprint 04 owner-controlled closure sequence"
+      ],
+      "source_baseline": "8b23428",
+      "hosted_commit": "b6331bd",
+      "hosted_run": "https://github.com/Muhns13G/meneer-health/actions/runs/31324807644",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md",
+      "status": "hosted-verification-pending",
+      "authority_for": [
+        "Sprint 04 mission and delivered work",
+        "Sprint 04 deviations and lessons",
+        "Sprint 04 file inventory",
+        "Sprint 04 residual hosted gate"
+      ],
+      "source_baseline": "8b23428",
+      "last_updated": "2026-08-09"
     },
     {
       "id": "phase-01-sprint-05",
@@ -775,12 +975,16 @@
       "title": "Dependency Reintroduction Triggers",
       "status": "tracked",
       "decision_due": "feature-triggered",
+      "last_updated": "2026-08-09",
       "topics": [
         "dependencies",
         "zod",
         "date-fns",
         "react-query",
         "forms",
+        "ui-primitives",
+        "shadcn",
+        "radix",
         "tanstack-router",
         "nitro",
         "lovable-exit"
@@ -890,6 +1094,23 @@
         "docs/07-decisions/README.md",
         "docs/04-technical-debt/technical-debt-registry-v1.md",
         "current repository"
+      ]
+    },
+    {
+      "query_topics": [
+        "sprint-04-completion",
+        "repository-health",
+        "clean-checkout",
+        "hosted-ci",
+        "required-checks",
+        "sprint-04-files"
+      ],
+      "read_first": ["docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md"],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository",
+        "current GitHub hosted state"
       ]
     },
     {
