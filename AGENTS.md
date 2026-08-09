@@ -23,14 +23,14 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run build` creates the production bundle and catches integration errors.
 - `bun run build:dev` builds with development-mode settings.
 - `bun run preview` serves the built output locally.
+- `bun run test` runs the deterministic Vitest suite once; `bun run test:watch` watches locally.
+- `bun run test:coverage` writes an ignored V8 coverage report under `coverage/`.
 - `bun run typecheck` runs strict TypeScript validation without emitting files.
 - `bun run deploy:dry-run` builds and validates the Cloudflare upload without deploying.
 - `bun run lint` runs ESLint and Prettier checks.
 - `bun run format` rewrites supported files with Prettier.
 - `bun run format:check` checks Prettier formatting without changing files.
 - `bun audit` checks installed packages for vulnerabilities.
-
-No automated test command or test framework is currently configured. Until one is added, run lint, typecheck, build, and manual route/responsive checks.
 
 ## Coding Style & Naming Conventions
 
@@ -43,8 +43,10 @@ prototype or generated boundary.
 
 ## Testing Guidelines
 
-When adding tests, colocate future `*.test.ts(x)` files near the code and add the runner to `package.json`. Prioritize
-routes, forms, navigation, redirects, and server responses. Record manual checks in the pull request.
+Vitest, jsdom, and React Testing Library cover unit/component/integration tests. Colocate
+`*.test.ts(x)` files; prefix tests inside `src/routes/` with `-` so TanStack ignores them as routes.
+Use only synthetic `.invalid` fixtures—never patient data or production credentials. Test risk and
+behaviour rather than chasing an arbitrary percentage; browser/accessibility tests remain separate.
 
 ## Commit & Pull Request Guidelines
 
