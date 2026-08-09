@@ -63,7 +63,7 @@ function PrivacyPage() {
               <li>
                 Information you choose to include when emailing{" "}
                 <a
-                  className="text-gold hover:underline underline-offset-4"
+                  className="text-gold underline underline-offset-4"
                   href="mailto:support@meneerhealth.co.za"
                 >
                   support@meneerhealth.co.za
@@ -100,14 +100,14 @@ function PrivacyPage() {
               Subject to applicable law, you may ask whether we hold your personal information and
               request access, correction, deletion, or an objection to processing. Send a request to{" "}
               <a
-                className="text-gold hover:underline underline-offset-4"
+                className="text-gold underline underline-offset-4"
                 href="mailto:support@meneerhealth.co.za"
               >
                 support@meneerhealth.co.za
               </a>
               . You may also submit a complaint through the{" "}
               <a
-                className="text-gold hover:underline underline-offset-4"
+                className="text-gold underline underline-offset-4"
                 href="https://inforegulator.org.za/popia/"
                 target="_blank"
                 rel="noreferrer"

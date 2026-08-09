@@ -59,7 +59,7 @@ database, identity service, clinical workflow, or transactional backend now exis
 | 4.4  | Apply mechanical Prettier formatting to supported tracked source without changing public wording or behaviour.                                        | TD-022                 | Completed |
 | 4.5  | Resolve Fast Refresh findings, re-enable scoped unused-code rules, and remove only evidenced dead code while preserving approved gates/prototypes.    | TD-022, TD-029         | Completed |
 | 4.6  | Add Vitest, jsdom, React Testing Library, deterministic scripts, safe fixtures, and representative unit/component/integration tests.                  | TD-023                 | Completed |
-| 4.7  | Add Playwright plus axe browser/accessibility tests for active routes, redirects, 404s, gates, navigation, viewports, and error-free rendering.       | TD-023                 | Planned   |
+| 4.7  | Add Playwright plus axe browser/accessibility tests for active routes, redirects, 404s, gates, navigation, viewports, and error-free rendering.       | TD-023                 | Completed |
 | 4.8  | Remediate production-relevant advisories through bounded compatible updates with lockfile, test, build, and reachability evidence.                    | TD-021                 | Planned   |
 | 4.9  | Remediate development/tooling advisories and record any unavoidable exception with owner, controls, expiry, and review trigger.                       | TD-021                 | Planned   |
 | 4.10 | Add GitHub CI for frozen install, format, lint, typecheck, tests, build, Wrangler dry-run, audit policy, and generated-file consistency.              | TD-024                 | Planned   |

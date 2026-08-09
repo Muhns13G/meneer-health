@@ -13,6 +13,8 @@ dist-ssr
 .output
 .vinxi
 coverage
+playwright-report
+test-results
 .tanstack/**
 .nitro
 *.local
