@@ -169,8 +169,8 @@ paths pass, closing TD-049, TD-052, and TD-053.
   the tracked formatting, Fast Refresh, and unused-code baseline: format, lint, and typecheck pass
   locally with zero lint findings.
 - The Task 4.10 CI workflow declares the clean format/lint baseline, and Task 4.12 proves the full
-  sequence from an isolated clone plus a controlled local failure. Hosted execution and enforcement
-  remain unverified because `origin/itws-I` is seven commits behind.
+  sequence from an isolated clone plus a controlled local failure. Hosted run `31324807644` passes
+  at `b6331bd`; hosted failure rejection and required-check enforcement remain unverified.
 - Tasks 4.8–4.9 clear both full and production-filtered Bun audits without an exception. Task 4.10
   declares both gates in CI; Task 4.12 must prove hosted enforcement.
 - The unused shadcn/Radix surface and its direct dependencies are removed. New primitives must be

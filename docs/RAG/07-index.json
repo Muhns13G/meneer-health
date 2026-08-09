@@ -892,10 +892,12 @@
       "authority_for": [
         "Task 4.12 clean-checkout evidence",
         "controlled local failure evidence",
-        "hosted branch and default-branch findings",
+        "hosted passing CI and default-branch findings",
         "Sprint 04 owner-controlled closure sequence"
       ],
       "source_baseline": "8b23428",
+      "hosted_commit": "b6331bd",
+      "hosted_run": "https://github.com/Muhns13G/meneer-health/actions/runs/31324807644",
       "last_updated": "2026-08-09"
     },
     {

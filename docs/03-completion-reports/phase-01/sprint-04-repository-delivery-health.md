@@ -12,8 +12,9 @@ owner: "@Muhns13G"
 
 Sprint 04 converts the post-Lovable repository into a reproducible, testable, dependency-clean,
 contributor-operable engineering baseline. Tasks 4.1–4.11 are complete. Task 4.12 has passed every
-repository-controlled and clean-checkout check, but Sprint 04 remains open until the owner completes
-the hosted GitHub workflow, template, default-branch, and required-check evidence.
+repository-controlled and clean-checkout check plus one hosted passing workflow, but Sprint 04
+remains open until the owner completes the hosted failure, template, default-branch, and required-
+check evidence.
 
 ## Work and Decisions
 
@@ -48,7 +49,8 @@ the hosted GitHub workflow, template, default-branch, and required-check evidenc
   rejected because it crossed an older parent's declared major range.
 - Task 4.12 found that the hosted `itws-I` branch remains seven commits behind local HEAD and that
   GitHub only activates issue/PR templates from the default branch. Because `main` remains default
-  and stale, hosted template proof cannot follow from an `itws-I` push alone.
+  and stale, hosted template proof cannot follow from an `itws-I` push alone. The owner subsequently
+  pushed through `b6331bd`, and the first hosted CI run passed.
 - Task 4.12 necessarily uses an owner checkpoint commit/push followed by a final evidence commit:
   GitHub cannot execute or render files that have not yet reached the hosted repository.
 - The completion report is therefore issued as `hosted-verification-pending`; it must not be treated
@@ -74,7 +76,8 @@ the hosted GitHub workflow, template, default-branch, and required-check evidenc
 No new technical-debt ID was introduced or discovered. TD-026 is Verified. TD-021–TD-024 and
 TD-028–TD-031 remain In progress only for the owner-controlled hosted acceptance sequence recorded
 in the Task 4.12 evidence. The local baseline, dependency policy, tests, CI declaration, onboarding,
-and templates are implemented; they are not yet proven as enforced GitHub controls.
+and templates are implemented, and hosted CI passes; failure rejection, templates, and required
+checks are not yet proven as enforced GitHub controls.
 
 Sprint closure does not activate transactional, patient-data, clinical, pharmacy, payment, or
 fulfilment capability and does not authorise pilot or public launch.
@@ -131,7 +134,9 @@ fulfilment capability and does not authorise pilot or public launch.
 The isolated clean clone passes frozen install, format, lint, typecheck, 11 Vitest tests, both
 zero-vulnerability audits, production build, generated-route consistency, Cloudflare dry-run, and
 48 CI-mode Playwright/axe checks. A synthetic unused TypeScript variable is rejected with exit code
-1, proving the configured lint gate fails closed. The post-validation clone remains clean.
+1, proving the configured lint gate fails closed. The post-validation clone remains clean. Hosted
+GitHub run `31324807644` passes at commit `b6331bd` in 2m33s, including the complete 2m29s
+`Repository validation` job.
 
 The repository owner must now complete the hosted sequence in
 [`sprint-04-12-closure-evidence.md`](../../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
