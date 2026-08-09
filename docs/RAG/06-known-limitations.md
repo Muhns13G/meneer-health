@@ -14,6 +14,8 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md
+  - docs/06-operations/environment-secrets-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
@@ -188,6 +190,10 @@ paths pass, closing TD-049, TD-052, and TD-053.
   remains for routine dependency maintenance.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
   and stateful recovery remain future work.
+- Task 5.3 verifies the current no-secret environment boundary: declared public values are validated,
+  server startup is strict, and the production bundle canary prevents server configuration from
+  entering browser output. This does not mean a database, identity, email, payment, or other
+  provider is selected, configured, or safe to activate; those consumers must extend the contract.
 - Task 4.11 adds root onboarding, contribution/security routing, test/CI guidance, and GitHub change
   templates. Task 4.12 verifies clean-checkout usability and hosted rendering from protected
   production/default `main`; canonical engineering documentation remains on `develop`.

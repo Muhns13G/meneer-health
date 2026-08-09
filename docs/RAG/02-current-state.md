@@ -41,6 +41,8 @@ sources:
   - docs/06-operations/testing-ci-guide.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-1-data-security-baseline-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md
+  - docs/06-operations/environment-secrets-runbook.md
 ---
 
 # Meneer v1 Verified Current State
@@ -555,6 +557,22 @@ Evidence: [`sprint-05-1-data-security-baseline-evidence.md`](../02-implementatio
   cross-generation rehearsal exists.
 
 Evidence: [`sprint-05-2-contract-foundation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md).
+
+### Sprint 05.3 environment and secret safety — 10 August 2026
+
+- `config/environment-catalogue.ts` is the machine-checked, secret-free catalogue for the three
+  current public values. Each has purpose, owner, sensitivity, environments, required state,
+  exposure, and rotation metadata; no server secret is required or provisioned.
+- Vite rejects invalid/unknown `VITE_*` configuration before compilation with a generic safe error.
+  Existing media and print-proof behavior is normalized centrally without changing route wording.
+- `src/server.ts` explicitly owns the Cloudflare Worker entry and runs strict server-only validation
+  at isolate startup. Future required server values must extend that schema with their consumer.
+- Every production build proves a synthetic server canary exists in server output and is absent from
+  client output. The scanner also rejects every future catalogued server-only name in the client.
+- Eight test files and 35 tests pass, including 11 environment/configuration assertions. TD-019 is
+  Verified for the current no-secret runtime; Task 5.5 still gates provider selection.
+
+Evidence: [`sprint-05-3-environment-security-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md).
 
 ## Highest-Risk Gaps
 

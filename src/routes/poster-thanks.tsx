@@ -2,8 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
 import meneerMark from "@/assets/brand/meneer-mark.png";
 import { CAMPAIGNS, getCanonicalCampaignUrl } from "@/lib/campaigns";
+import { publicEnvironment } from "@/config/public-environment";
 
-const CAMPAIGN_PRINT_PROOF_ENABLED = import.meta.env.VITE_CAMPAIGN_PRINT_PROOF === "true";
+const CAMPAIGN_PRINT_PROOF_ENABLED = publicEnvironment.campaignPrintProof;
 
 export const Route = createFileRoute("/poster-thanks")({
   component: PosterThanksRoute,

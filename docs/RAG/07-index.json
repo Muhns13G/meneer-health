@@ -637,6 +637,19 @@
       ]
     },
     {
+      "id": "meneer-environment-secrets",
+      "path": "docs/06-operations/environment-secrets-runbook.md",
+      "status": "active",
+      "authority_for": [
+        "environment configuration catalogue",
+        "server and client exposure rules",
+        "local preview and production provisioning",
+        "secret rotation and revocation",
+        "configuration incident procedure"
+      ],
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-03-task-04",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
       "status": "verified-task-evidence",
@@ -953,6 +966,21 @@
         "Zod reintroduction"
       ],
       "source_baseline": "dc366f9",
+      "last_updated": "2026-08-10"
+    },
+    {
+      "id": "phase-01-sprint-05-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.3 completion",
+        "TD-019 verification",
+        "public build configuration validation",
+        "server startup configuration validation",
+        "client-bundle canary",
+        "environment and secret lifecycle"
+      ],
+      "source_baseline": "7caf2a1",
       "last_updated": "2026-08-10"
     },
     {
