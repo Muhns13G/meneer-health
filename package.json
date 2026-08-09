@@ -20,7 +20,10 @@
     "test:e2e:headed": "playwright test --headed",
     "test:all": "bun run test && bun run test:e2e",
     "typecheck": "tsc --noEmit",
+    "audit": "bun audit",
+    "audit:prod": "bun audit --prod",
     "deploy:dry-run": "bun run build && wrangler deploy --dry-run",
+    "check:generated": "git diff --exit-code -- src/routeTree.gen.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

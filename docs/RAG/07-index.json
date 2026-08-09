@@ -844,6 +844,20 @@
       "last_updated": "2026-08-09"
     },
     {
+      "id": "phase-01-sprint-04-task-10",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 4.10 completion",
+        "GitHub Actions validation policy",
+        "local and CI command parity",
+        "failure-only browser artifact policy",
+        "TD-021 TD-022 TD-023 TD-024 TD-028 and TD-029 in-progress evidence"
+      ],
+      "source_baseline": "be1cdbb",
+      "last_updated": "2026-08-09"
+    },
+    {
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
       "status": "planned",
