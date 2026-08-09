@@ -11,6 +11,8 @@ Workers on Node 22 build tooling.
   feature uses them; the unused shadcn/Radix scaffold was removed in Sprint 4.3.
 - `src/hooks/` and `src/lib/` contain shared code. Images live in `src/assets/`; global styles are in
   `src/styles.css`.
+- `e2e/` contains controlled Playwright/axe browser tests; `playwright.config.ts` owns the local
+  server, desktop Chromium, and Pixel 7 profiles.
 - `src/routeTree.gen.ts` is generated routing output; do not edit it manually.
 - Root configuration lives in `vite.config.ts`, `tsconfig.json`, `eslint.config.js`, and `wrangler.jsonc`.
 
@@ -25,6 +27,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run preview` serves the built output locally.
 - `bun run test` runs the deterministic Vitest suite once; `bun run test:watch` watches locally.
 - `bun run test:coverage` writes an ignored V8 coverage report under `coverage/`.
+- `bunx playwright install chromium` installs the managed browser once on a new workstation.
+- `bun run test:e2e` runs the extension-free Playwright/axe matrix; `bun run test:e2e:headed` shows
+  the same checks in managed Chromium.
+- `bun run test:all` runs Vitest followed by Playwright.
 - `bun run typecheck` runs strict TypeScript validation without emitting files.
 - `bun run deploy:dry-run` builds and validates the Cloudflare upload without deploying.
 - `bun run lint` runs ESLint and Prettier checks.
@@ -46,7 +52,10 @@ prototype or generated boundary.
 Vitest, jsdom, and React Testing Library cover unit/component/integration tests. Colocate
 `*.test.ts(x)` files; prefix tests inside `src/routes/` with `-` so TanStack ignores them as routes.
 Use only synthetic `.invalid` fixtures—never patient data or production credentials. Test risk and
-behaviour rather than chasing an arbitrary percentage; browser/accessibility tests remain separate.
+behaviour rather than chasing an arbitrary percentage. Playwright owns its local server on port
+8085 and checks both desktop and mobile profiles; failure-only artifacts under `test-results/` and
+`playwright-report/` are ignored. Automated axe results supplement, not replace, manual keyboard and
+assistive-technology review. Do not run concurrent build commands because they share `dist/`.
 
 ## Commit & Pull Request Guidelines
 
