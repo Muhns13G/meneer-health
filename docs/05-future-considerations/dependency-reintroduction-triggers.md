@@ -3,10 +3,10 @@ consideration_id: FC-003
 title: Dependency Reintroduction Triggers
 status: tracked
 decision_due: feature-triggered
-last_reviewed: 2026-08-07
+last_reviewed: 2026-08-09
 owner: "@Muhns13G"
 sensitivity: internal
-source_task: phase-01-sprint-02-task-05
+source_tasks: [phase-01-sprint-02-task-05, phase-01-sprint-04-task-03]
 ---
 
 # Dependency Reintroduction Triggers
@@ -25,9 +25,67 @@ runtime, security, and maintenance impact.
 | `zod`                     | Its only direct schemas belonged to the retired Lovable MCP tools.                                          | An active server boundary, intake, consent, API, or configuration path needs runtime schema validation.                                  | Add the approved current version to `dependencies`; define shared schemas, reject malformed input server-side, test success/failure cases, and verify bundle/runtime compatibility. |
 | `@hookform/resolvers`     | No active or preserved component imports a resolver.                                                        | A rendered React Hook Form deliberately uses Zod or another supported schema library.                                                    | Add to `dependencies`; keep authoritative validation server-side, map accessible field errors, and test keyboard plus failed-submission behaviour.                                  |
 | `@tanstack/react-query`   | No Query client, provider, hook, cache, mutation, or invalidation path exists.                              | Interactive client-side server state needs caching, retries, invalidation, optimistic updates, or background refresh.                    | Add to `dependencies`; document cache ownership, health-data restrictions, error/retry policy, hydration, and mutation reconciliation tests.                                        |
-| `date-fns`                | Meneer does not directly import its API; `react-day-picker` owns the remaining transitive copy.             | Application code directly formats, compares, validates, or calculates dates.                                                             | Add to `dependencies`; centralize timezone and locale rules, test South African display and boundary cases, and avoid clinical or expiry decisions based only on browser time.      |
+| `date-fns`                | Meneer does not directly import its API or currently render a date-picker workflow.                         | Application code directly formats, compares, validates, or calculates dates.                                                             | Add to `dependencies`; centralize timezone and locale rules, test South African display and boundary cases, and avoid clinical or expiry decisions based only on browser time.      |
 | `@tanstack/router-plugin` | TanStack Start already owns the required router generator/plugin transitively.                              | The repository introduces a standalone TanStack Router build configuration outside TanStack Start.                                       | Add to `devDependencies`; avoid duplicate plugin registration and verify generated routes, development startup, build, and deep links.                                              |
 | `nitro`                   | It supported the retired Lovable/Nitro Cloudflare output; the supported Cloudflare Vite plugin now owns v1. | An approved TanStack deployment architecture explicitly selects a Nitro adapter and demonstrates a benefit over the current Worker path. | Add to `devDependencies`; record an architecture decision and verify SSR, assets, endpoints, preview, deployment, logs, and rollback. Next.js v2 does not by itself trigger Nitro.  |
+
+## Removed UI and Design-System Surface
+
+Sprint 04 Task 4.3 removed the unused shadcn scaffold, 46 primitives, and their 38 direct packages.
+Reintroduce only the smallest package set required by an approved, rendered feature:
+
+| Package family                                                                                      | Reintroduction trigger                                                                                                        | Required evidence                                                                                                                                                                         |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The 26 former `@radix-ui/react-*` packages                                                          | A current feature needs that exact accessible primitive and native HTML cannot meet the interaction.                          | Add only the imported primitive; test keyboard, focus, screen-reader semantics, hydration, bundle impact, and Worker build.                                                               |
+| `class-variance-authority`, `clsx`, `tailwind-merge`                                                | Two or more current components need shared variants or conflict-safe class composition.                                       | Introduce one intentional utility API with direct consumers and tests; do not restore the old bulk scaffold.                                                                              |
+| `react-hook-form`, `react-day-picker`                                                               | An approved form or date-input journey is implemented and native controlled inputs are insufficient.                          | Pair with authoritative server validation, accessible errors, timezone rules, and success/failure tests. Add `zod` or `@hookform/resolvers` only when their separate triggers also apply. |
+| `cmdk`, `embla-carousel-react`, `input-otp`, `react-resizable-panels`, `recharts`, `sonner`, `vaul` | A shipped command palette, carousel, OTP flow, resizable workspace, chart, toast system, or drawer directly uses the package. | Record the user journey, accessibility behaviour, mobile layout, dependency audit, bundle delta, and fallback/rollback.                                                                   |
+
+The Radix family above means exactly:
+
+- `@radix-ui/react-accordion`, `@radix-ui/react-alert-dialog`,
+  `@radix-ui/react-aspect-ratio`, `@radix-ui/react-avatar`, `@radix-ui/react-checkbox`, and
+  `@radix-ui/react-collapsible`;
+- `@radix-ui/react-context-menu`, `@radix-ui/react-dialog`,
+  `@radix-ui/react-dropdown-menu`, `@radix-ui/react-hover-card`, `@radix-ui/react-label`, and
+  `@radix-ui/react-menubar`;
+- `@radix-ui/react-navigation-menu`, `@radix-ui/react-popover`, `@radix-ui/react-progress`,
+  `@radix-ui/react-radio-group`, `@radix-ui/react-scroll-area`, and `@radix-ui/react-select`;
+- `@radix-ui/react-separator`, `@radix-ui/react-slider`, `@radix-ui/react-slot`,
+  `@radix-ui/react-switch`, `@radix-ui/react-tabs`, `@radix-ui/react-toggle`,
+  `@radix-ui/react-toggle-group`, and `@radix-ui/react-tooltip`.
+
+The shadcn `components.json` file may return only when the repository deliberately adopts the CLI
+for an active component. Its aliases and output paths must match the then-current architecture.
+
+## Replacement-Fit Audit and Sequencing
+
+The 9 August 2026 follow-up audit compared the removed UI surface with active controls, preserved
+prototypes, and the approved Sprint 05–06 requirements. It found no package that should be restored
+before Task 4.3 is committed:
+
+- The live `/start` route renders `SafetyEntryGate`; its account/intake flow remains an inaccessible
+  prototype. The live peptide route renders its gate or video preview, not its preserved profile
+  prototype.
+- Current native buttons, links, and checkboxes do not require an external primitive. The old
+  shadcn button/input defaults also do not express Meneer's established gold-pill visual language.
+- The removed form wrapper supplies client-side wiring and ARIA helpers, but not authoritative
+  server validation, consent persistence, authorisation, idempotency, audit events, or safe error
+  transport. Restoring it would not satisfy Sprint 05.
+- CTA styling is repeated enough to justify reviewing a small Meneer-specific abstraction later,
+  but not enough to justify restoring the generic Lovable catalogue before the transactional and
+  accessibility requirements are implemented.
+
+| Delivery point                     | Expected decision                                                                                              | Trigger and boundary                                                                                                            |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Sprint 05 validated commands       | `zod` is the likely first reintroduction.                                                                      | Add it with the first real server boundary and shared payload schema; do not add it merely for client-only validation.          |
+| Sprint 05–06 intake implementation | Decide whether `react-hook-form` and `@hookform/resolvers` materially improve the approved multi-step journey. | Reintroduce only after the real field model, server errors, consent versioning, recovery behaviour, and test cases are defined. |
+| Sprint 06 UX/accessibility work    | Consider small brand-specific `Action`, `Field`, description, and error-message primitives.                    | Extract them from repeated current use while preserving Meneer's styling; they need not depend on shadcn or Radix.              |
+| Sprint 06 complex interactions     | Evaluate individual Radix primitives against native HTML.                                                      | Add only the exact primitive needed for verified focus, keyboard, disclosure, selection, or modal requirements.                 |
+| Later product features             | Evaluate date picker, OTP, toast, chart, carousel, command menu, drawer, or panel packages separately.         | A designed and approved user journey must directly import the package and satisfy the checklist below.                          |
+
+This sequencing is a review checkpoint, not an instruction to install packages automatically at a
+sprint boundary. The feature trigger and acceptance evidence remain authoritative.
 
 ## Reclassified, Not Removed
 
@@ -73,6 +131,7 @@ Before adding a removed package:
 
 - [Sprint 02 implementation plan](../02-implementation-plans/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md)
 - [Task 2.5 evidence](../02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md)
+- [Task 4.3 evidence](../02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md)
 - [Technical debt registry](../04-technical-debt/technical-debt-registry-v1.md)
 - [Platform evolution](../RAG/03-platform-evolution.md)
 - [Known limitations](../RAG/06-known-limitations.md)

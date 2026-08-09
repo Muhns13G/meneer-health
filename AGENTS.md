@@ -7,7 +7,8 @@ Workers on Node 22 build tooling.
 
 - `src/routes/` contains file-based pages and server endpoints; nested campaign routes live under
   `src/routes/go/`.
-- `src/components/` holds site sections; reusable Radix/shadcn-style primitives live in `src/components/ui/`.
+- `src/components/` holds current site sections. Add shared UI primitives only when an implemented
+  feature uses them; the unused shadcn/Radix scaffold was removed in Sprint 4.3.
 - `src/hooks/` and `src/lib/` contain shared code. Images live in `src/assets/`; global styles are in
   `src/styles.css`.
 - `src/routeTree.gen.ts` is generated routing output; do not edit it manually.
@@ -35,8 +36,8 @@ No automated test command or test framework is currently configured. Until one i
 
 Prettier enforces 100-character lines, semicolons, double quotes, and trailing commas. TypeScript is
 strict. Use two-space indentation, named exports, PascalCase components (`HowItWorks.tsx`),
-kebab-case route files (`poster-thanks.tsx`), and the `@/` alias. Reuse existing Tailwind patterns
-and `components/ui` primitives.
+kebab-case route files (`poster-thanks.tsx`), and the `@/` alias. Reuse existing Tailwind patterns;
+do not add a component library or primitive before its first approved product use.
 
 ## Testing Guidelines
 
