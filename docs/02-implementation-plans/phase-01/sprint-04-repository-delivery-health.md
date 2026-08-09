@@ -62,7 +62,7 @@ database, identity service, clinical workflow, or transactional backend now exis
 | 4.7  | Add Playwright plus axe browser/accessibility tests for active routes, redirects, 404s, gates, navigation, viewports, and error-free rendering.       | TD-023                 | Completed |
 | 4.8  | Remediate production-relevant advisories through bounded compatible updates with lockfile, test, build, and reachability evidence.                    | TD-021                 | Completed |
 | 4.9  | Remediate development/tooling advisories and record any unavoidable exception with owner, controls, expiry, and review trigger.                       | TD-021                 | Completed |
-| 4.10 | Add GitHub CI for frozen install, format, lint, typecheck, tests, build, Wrangler dry-run, audit policy, and generated-file consistency.              | TD-024                 | Planned   |
+| 4.10 | Add GitHub CI for frozen install, format, lint, typecheck, tests, build, Wrangler dry-run, audit policy, and generated-file consistency.              | TD-024                 | Completed |
 | 4.11 | Add the root contributor README, test/CI guidance, and contribution/PR templates linked to existing decisions and Cloudflare operations.              | TD-030, TD-031         | Planned   |
 | 4.12 | Prove clean-checkout and controlled failing-CI enforcement, run final browser/regression checks, reconcile debt/RAG, and issue the completion report. | All Sprint 04 debt     | Planned   |
 

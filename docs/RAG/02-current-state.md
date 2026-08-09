@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
-source_baseline: 6bcc6bb
+source_baseline: be1cdbb
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -34,6 +34,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -80,10 +81,13 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
   development tooling; the production dependency declarations remain unchanged.
 - Playwright 1.62.1 and axe-core provide a controlled desktop/mobile Chromium browser matrix. The
   managed browser cache is local tooling and is not committed to the repository.
+- A read-only GitHub Actions workflow now declares the frozen install, quality, tests, dual audit,
+  build, generated-route, Cloudflare dry-run, and browser gates. Hosted enforcement remains
+  unverified until Task 4.12 runs the committed workflow.
 
 Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. Task 4.4 clears its
 tracked formatting backlog without changing public wording or behaviour. The check now passes;
-CI enforcement remains Task 4.10.
+Task 4.10 declares it in CI, with hosted enforcement proof remaining Task 4.12.
 
 ## Route Behaviour
 
@@ -422,7 +426,7 @@ Evidence: [`sprint-04-6-test-foundation-evidence.md`](../02-implementation-plans
 - Frozen install now checks 424 installs across 544 package records. Full and production-filtered
   audit totals remain 33 and 26; Playwright and axe are test-only additions.
 - Automated accessibility checks supplement rather than replace manual keyboard and
-  assistive-technology review. CI enforcement remains Task 4.10.
+  assistive-technology review. Task 4.10 declares the suite in CI; hosted proof remains Task 4.12.
 
 Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md).
 
@@ -438,8 +442,8 @@ Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation
   assigned to Task 4.9.
 - Frozen install checks 482 installs across 524 packages. Format, lint, typecheck, 11 Vitest tests,
   production build, Wrangler dry-run, and all 48 Playwright/axe checks pass.
-- Application source, public wording, and the generated route tree are unchanged. TD-021 remains In
-  progress until Task 4.9 resolves or time-bounds the tooling path and Task 4.10 enforces policy.
+- Application source, public wording, and the generated route tree are unchanged. Tasks 4.9–4.10
+  subsequently clear the tooling path and declare CI policy; hosted proof remains Task 4.12.
 
 Evidence: [`sprint-04-8-production-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-8-production-advisory-remediation-evidence.md).
 
@@ -455,9 +459,26 @@ Evidence: [`sprint-04-8-production-advisory-remediation-evidence.md`](../02-impl
 - Frozen install, format, lint, typecheck, 11 Vitest tests, production build, Wrangler dry-run, and
   all 48 Playwright/axe checks pass. Application source, public wording, direct dependencies, and
   the generated route tree are unchanged.
-- TD-021 remains In progress only until Task 4.10 enforces the clean dependency policy in CI.
+- Task 4.10 subsequently declares both clean audit gates in CI; hosted proof remains Task 4.12.
 
 Evidence: [`sprint-04-9-tooling-advisory-remediation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-9-tooling-advisory-remediation-evidence.md).
+
+### Sprint 04.10 CI policy — 9 August 2026
+
+- `.github/workflows/ci.yml` adds one read-only validation job for pull requests, manual dispatch,
+  and pushes to `main`, `itws-I`, and `itws-I-preview`; it contains no deploy or promotion action.
+- Node follows `.node-version`, Bun is pinned to 1.3.14, installation is frozen, and local package
+  scripts own format, lint, typecheck, test, full/production audit, build, generated-route, dry-run,
+  and browser commands.
+- CI installs only Chromium plus its Linux dependencies, keeps one worker, and uploads ignored
+  synthetic Playwright evidence only on failure for seven days.
+- Workflow YAML parsing and the complete command sequence pass locally, including 11 Vitest tests,
+  both zero-finding audits, unchanged generated routes, Cloudflare dry-run, and 48 CI-mode
+  Playwright/axe checks.
+- Hosted success, controlled failure, and repository required-check/merge-control evidence remain
+  Task 4.12; related debt therefore remains In progress.
+
+Evidence: [`sprint-04-10-ci-policy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-10-ci-policy-evidence.md).
 
 ## Highest-Risk Gaps
 
@@ -468,6 +489,7 @@ Evidence: [`sprint-04-9-tooling-advisory-remediation-evidence.md`](../02-impleme
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- Unit/component/integration and controlled browser/accessibility tests now exist; CI remains absent.
+- Unit/component/integration and controlled browser/accessibility tests now exist. CI is configured
+  locally but not yet proven or required on GitHub.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.
