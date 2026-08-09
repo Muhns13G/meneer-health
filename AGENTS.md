@@ -36,7 +36,8 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run lint` runs ESLint and Prettier checks.
 - `bun run format` rewrites supported files with Prettier.
 - `bun run format:check` checks Prettier formatting without changing files.
-- `bun audit` checks installed packages for vulnerabilities.
+- `bun run audit` and `bun run audit:prod` check all and production dependency advisories.
+- `bun run check:generated` rejects an uncommitted route-tree change after building.
 
 ## Coding Style & Naming Conventions
 
@@ -62,7 +63,9 @@ assistive-technology review. Do not run concurrent build commands because they s
 Existing history is informal (`Changes`, `Work in progress`, and occasional descriptive fixes). Prefer concise, imperative commits such as `Add peptide eligibility form` or `Fix campaign attribution redirect`. Keep each commit to
 one concern.
 
-Pull requests should explain the change, list validation, link relevant issues, and include screenshots for visual updates. Call out generated files, dependencies, or Cloudflare configuration changes.
+Follow `CONTRIBUTING.md` and the pull-request template. Explain the change, list validation, link
+relevant issues, and include screenshots for visual updates. Call out generated files, dependencies,
+or Cloudflare configuration changes.
 
 ## Security & Configuration
 
