@@ -74,8 +74,8 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
 - Cloudflare is the approved v1 host. The Lovable Vite wrapper and MCP package have been removed.
 - Five intentional runtime dependencies: TanStack Start/Router, React/ReactDOM, and Lucide.
 
-Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. It currently reports
-13 pre-existing files and intentionally remains red until Task 4.4 applies mechanical formatting;
+Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. Task 4.4 clears its
+tracked formatting backlog without changing public wording or behaviour. The check now passes;
 CI enforcement remains Task 4.10.
 
 ## Route Behaviour
@@ -357,6 +357,18 @@ Evidence: [`sprint-04-1-repository-health-baseline-evidence.md`](../02-implement
 
 Evidence: [`sprint-04-3-ui-surface-reduction-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md).
 
+### Sprint 04.4 formatting baseline — 9 August 2026
+
+- Prettier mechanically formats nine live source/style files and one historical audit document.
+- Public strings, JSX structure, routes, runtime configuration, dependencies, lockfile, and
+  generated route output are unchanged. CSS edits are formatting plus equivalent decimal spelling.
+- `bun run format:check`, `bun run lint`, typecheck, production build, and Wrangler dry-run pass.
+  Lint retains one non-blocking `src/router.tsx` Fast Refresh warning for Task 4.5.
+- The generated client CSS, main client JavaScript, Worker entry, module count, and asset count match
+  the Task 4.3 baseline, supporting the no-behaviour-change boundary.
+
+Evidence: [`sprint-04-4-formatting-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-4-formatting-baseline-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
@@ -366,6 +378,6 @@ Evidence: [`sprint-04-3-ui-surface-reduction-evidence.md`](../02-implementation-
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- No automated tests or CI; lint and dependency gates fail.
+- No automated tests or CI; the remaining lint warning and dependency gates are not yet enforced.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.

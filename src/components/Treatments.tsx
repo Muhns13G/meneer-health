@@ -32,8 +32,7 @@ export function Treatments() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-6 gap-4">
           {treatments.map((t, i) => {
             // On lg: first 4 span 3 cols each (2x2), 5th spans all 6 as a feature row
-            const lgSpan =
-              i < 4 ? "lg:col-span-3" : "lg:col-span-6";
+            const lgSpan = i < 4 ? "lg:col-span-3" : "lg:col-span-6";
             return (
               <Link
                 key={t.tag}
@@ -52,9 +51,7 @@ export function Treatments() {
                     </span>
                   )}
                 </div>
-                <h3 className="mt-4 font-serif text-2xl sm:text-3xl text-foreground">
-                  {t.title}
-                </h3>
+                <h3 className="mt-4 font-serif text-2xl sm:text-3xl text-foreground">{t.title}</h3>
                 <div className="mt-8 flex items-center justify-end">
                   <ArrowUpRight
                     size={20}
@@ -69,4 +66,3 @@ export function Treatments() {
     </section>
   );
 }
-

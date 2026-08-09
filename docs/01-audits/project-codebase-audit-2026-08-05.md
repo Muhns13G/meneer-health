@@ -24,19 +24,19 @@ The application uses Bun, React 19, TanStack Start/Router, TypeScript, Vite, Tai
 
 The route surface consists of:
 
-| Route | Present function | Audit assessment |
-|---|---|---|
-| `/` | Primary marketing landing page | Strong prototype presentation |
-| `/start` | Five-state intake/account demonstration | No backend or durable submission |
-| `/peptides` | Education/profile/partner hand-off | Incomplete and compliance-sensitive |
-| `/poster` | A1 acquisition poster | QR remains a visual placeholder |
-| `/poster-thanks` | A1 campaign poster variant | QR remains a visual placeholder |
-| `/privacy` | Privacy page | Placeholder pending legal review |
-| `/terms` | Terms page | Placeholder pending legal review |
-| `/contact` | Contact page | Channels and form incomplete |
-| `/mcp` | MCP streamable HTTP endpoint | Operational public information surface |
-| `/.mcp/*` | MCP REST companions | Tool list and invocation operational |
-| `/.well-known/*` | OAuth metadata | Returns `404` because MCP auth is disabled |
+| Route            | Present function                        | Audit assessment                           |
+| ---------------- | --------------------------------------- | ------------------------------------------ |
+| `/`              | Primary marketing landing page          | Strong prototype presentation              |
+| `/start`         | Five-state intake/account demonstration | No backend or durable submission           |
+| `/peptides`      | Education/profile/partner hand-off      | Incomplete and compliance-sensitive        |
+| `/poster`        | A1 acquisition poster                   | QR remains a visual placeholder            |
+| `/poster-thanks` | A1 campaign poster variant              | QR remains a visual placeholder            |
+| `/privacy`       | Privacy page                            | Placeholder pending legal review           |
+| `/terms`         | Terms page                              | Placeholder pending legal review           |
+| `/contact`       | Contact page                            | Channels and form incomplete               |
+| `/mcp`           | MCP streamable HTTP endpoint            | Operational public information surface     |
+| `/.mcp/*`        | MCP REST companions                     | Tool list and invocation operational       |
+| `/.well-known/*` | OAuth metadata                          | Returns `404` because MCP auth is disabled |
 
 No test files, CI workflows, README, licence, application backend, database configuration, authentication configuration, migrations, deployment pipeline, environment schema, monitoring integration, or incident/runbook documentation were found.
 
@@ -135,17 +135,17 @@ The unauthenticated, wildcard-CORS posture is acceptable only while tools remain
 
 ### Validation results
 
-| Check | Result |
-|---|---|
-| `bun run build` | Pass |
-| `tsc --noEmit` | Pass |
-| `bun run lint` | Fail: 62 errors, 7 warnings |
-| `bun audit` | Fail: 40 advisories, including 19 high |
-| `bun audit --prod` | Fail: 33 advisories, including 13 high |
-| Browser load/overlay | Pass |
-| All declared page-route HTTP checks | Expected `200` |
-| Unknown route | Correct `404` |
-| MCP list/invoke | Pass |
+| Check                               | Result                                 |
+| ----------------------------------- | -------------------------------------- |
+| `bun run build`                     | Pass                                   |
+| `tsc --noEmit`                      | Pass                                   |
+| `bun run lint`                      | Fail: 62 errors, 7 warnings            |
+| `bun audit`                         | Fail: 40 advisories, including 19 high |
+| `bun audit --prod`                  | Fail: 33 advisories, including 13 high |
+| Browser load/overlay                | Pass                                   |
+| All declared page-route HTTP checks | Expected `200`                         |
+| Unknown route                       | Correct `404`                          |
+| MCP list/invoke                     | Pass                                   |
 
 The production build emits warnings about an unknown `platform` input, ignored `use client` directives, and the Wrangler `main` setting being overridden. These do not currently fail the build but indicate adapter/configuration drift that should be understood before deployment.
 
