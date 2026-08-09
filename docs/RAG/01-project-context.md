@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-07
+last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
 sources:
@@ -13,6 +13,10 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-9-policy-support-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
+  - docs/06-operations/cloudflare-environments-release-runbook.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
 ---
 
 # Meneer Project Context
@@ -35,8 +39,15 @@ not yet implement any of those durable capabilities.
 Sprint 01 is closed as a verified containment boundary: incomplete account, consent, intake,
 peptide-transaction, and campaign journeys are not active customer transactions. This does not
 approve pilot activation. The current `itws-I-preview` build is deployed through Cloudflare at
-`meneerhealth.co.za`; the longer-term Cloudflare-versus-Vercel direction remains a Sprint 02
-decision.
+`meneerhealth.co.za`. The repository owner selected Cloudflare for the v1 TanStack pilot; Vercel
+remains a possible v2 Next.js host rather than a current dependency.
+
+Cloudflare currently treats `itws-I-preview` as the production branch and all other branches,
+including permanent source branch `itws-I`, as non-production version uploads. Canonical routes,
+hydration, assets, logs, Lovable absence, rollback availability, and both pinned build paths are
+verified. Production version `ee3a151d-e25b-47b8-a036-c041a9225d13` serves 100%; aliased
+non-production version `641f728e-b460-4cd9-bbea-4448f98f7fba` remains available. Cloudflare Fonts
+and automatic Web Analytics are disabled for the pilot. TD-052 is Verified.
 
 Post-closure work has implemented a fail-closed safety entry and canonical campaign/QR boundary.
 The provisional operator is owner-confirmed as OCTOTHORP ZA (`K2024185008`). Professional,
@@ -78,13 +89,16 @@ pharmacy registrations, approved partners, and treatment launch scope remain ope
 
 ## Intended Capability Boundaries
 
-- **Public acquisition:** marketing pages, condition education, campaigns, SEO, approved claims, public policies, and optional public MCP information.
+- **Public acquisition:** marketing pages, condition education, campaigns, SEO, approved claims,
+  and public policies. MCP is not part of v1.
 - **Patient application:** identity, consent, intake, appointments, messages, orders, documents, delivery status, and account rights.
 - **Clinical workspace:** review queues, consultation records, decisions, prescriptions, follow-up, and clinical audit events.
 - **Operations workspace:** support, scheduling, payment exceptions, pharmacy hand-off, delivery, refunds, and escalation.
 - **Integration layer:** controlled adapters for identity, messaging, video, laboratories, payments, pharmacy, courier, and observability.
 
-Only the public presentation and read-only Lovable MCP currently exist in recognisable form. The other boundaries describe intended future capabilities.
+Only the public presentation currently exists in recognisable form. The former read-only Lovable
+MCP surface was removed in Sprint 02 Task 2.4. The other boundaries describe intended future
+capabilities.
 
 ## Authoritative References
 

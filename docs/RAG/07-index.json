@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "foundation",
     "status": "active",
-    "last_updated": "2026-08-07",
+    "last_updated": "2026-08-08",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -345,9 +345,119 @@
     },
     {
       "id": "phase-01-sprint-02",
-      "path": "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
-      "status": "requires-refresh",
+      "path": "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md",
+      "status": "completed",
       "primary_debt": ["TD-025", "TD-027", "TD-041", "TD-049", "TD-051", "TD-052", "TD-053"]
+    },
+    {
+      "id": "phase-01-sprint-02-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-1-hosting-and-scope-decision-evidence.md",
+      "status": "verified",
+      "authority_for": ["DIR-030", "DIR-031", "TD-052 decision", "TD-053 decision"]
+    },
+    {
+      "id": "phase-01-sprint-02-task-02",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-2-pre-exit-baseline-evidence.md",
+      "status": "verified",
+      "authority_for": [
+        "Sprint 02 pre-exit baseline",
+        "dependency reachability",
+        "build and route comparison",
+        "Lovable and Cloudflare configuration baseline"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md",
+      "status": "verified",
+      "authority_for": [
+        "explicit Cloudflare and TanStack runtime configuration",
+        "Lovable Vite wrapper removal",
+        "local build, preview, route, and Wrangler dry-run parity",
+        "TD-051 verification"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md",
+      "status": "verified-local",
+      "authority_for": [
+        "Lovable MCP SDK and route removal",
+        "MCP and OAuth local not-found behaviour",
+        "MCP dependency and built-output removal",
+        "DIR-031 implementation",
+        "TD-047 and TD-048 verification"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md",
+      "status": "verified-local",
+      "authority_for": [
+        "Lovable environment and telemetry removal",
+        "dependency reachability classification",
+        "bounded lockfile normalization",
+        "Task 2.5 dependency audits",
+        "TD-025 and TD-027 verification"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md",
+      "status": "verified-local",
+      "authority_for": [
+        "Meneer root and fallback metadata",
+        "route-specific metadata preservation",
+        "local rendered-head and not-found verification",
+        "Lovable identity and lockfile cache removal",
+        "TD-041 verification"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-task-07",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md",
+      "status": "verified",
+      "authority_for": [
+        "Cloudflare account and hosted deployment snapshot",
+        "current branch and version mapping",
+        "hosted route, browser, log, and rollback evidence",
+        "Cloudflare provider-injection disposition"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-task-08",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md",
+      "status": "verified",
+      "authority_for": [
+        "Sprint 02 final regression evidence",
+        "Task 2.2 baseline comparison",
+        "TD-049 verification",
+        "TD-052 verification",
+        "DIR-033 provider-injection decision"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-02-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md",
+      "status": "verified-completion",
+      "authority_for": [
+        "Sprint 02 completion",
+        "Sprint 02 decisions and deviations",
+        "Sprint 02 lessons and file inventory",
+        "Sprint 02 residual debt"
+      ]
+    },
+    {
+      "id": "meneer-cloudflare-v1-release",
+      "path": "docs/06-operations/cloudflare-environments-release-runbook.md",
+      "status": "active-owner-controlled",
+      "authority_for": [
+        "Cloudflare v1 environment contract",
+        "Bun and Node build boundary",
+        "branch review and promotion procedure",
+        "Cloudflare post-deploy verification",
+        "Worker version rollback procedure"
+      ]
     },
     {
       "id": "phase-01-sprint-03",
@@ -434,6 +544,23 @@
       "status": "deferred",
       "decision_due": "post-pilot-brand-review",
       "topics": ["brand", "logo", "theme", "dark-mode", "accessibility", "visual-identity"]
+    },
+    {
+      "id": "FC-003",
+      "path": "docs/05-future-considerations/dependency-reintroduction-triggers.md",
+      "title": "Dependency Reintroduction Triggers",
+      "status": "tracked",
+      "decision_due": "feature-triggered",
+      "topics": [
+        "dependencies",
+        "zod",
+        "date-fns",
+        "react-query",
+        "forms",
+        "tanstack-router",
+        "nitro",
+        "lovable-exit"
+      ]
     }
   ],
   "routing": [
@@ -481,7 +608,7 @@
       "verify_against": [
         "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
         "docs/02-implementation-plans/phase-01/annexures/sprint-01-pilot-route-disposition.md",
-        "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-vercel-migration.md",
+        "docs/02-implementation-plans/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md",
         "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
         "docs/02-implementation-plans/phase-01/sprint-04-repository-delivery-health.md",
         "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
@@ -501,6 +628,23 @@
       "verify_against": [
         "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
         "docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository"
+      ]
+    },
+    {
+      "query_topics": [
+        "sprint-02-completion",
+        "lovable-exit",
+        "cloudflare-runtime",
+        "sprint-02-deviations",
+        "sprint-02-files"
+      ],
+      "read_first": [
+        "docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md"
+      ],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md",
         "docs/04-technical-debt/technical-debt-registry-v1.md",
         "current repository"
       ]
