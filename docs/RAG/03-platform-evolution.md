@@ -12,6 +12,13 @@ sources:
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -37,6 +44,12 @@ Purpose: support proven scale, multi-client operations, complex integrations, or
 
 ## Durable Core
 
+DR-003 approves the logical shape of this core: channel-specific public, patient, clinical, and
+operations interfaces call an authenticated application/API boundary; framework-neutral domain
+modules own invariants and state transitions; persistence and external services remain behind
+ports/adapters. v1 may be one modular deployment. This decision does not claim that the core is
+implemented today.
+
 The following must survive framework changes where still valid:
 
 - Domain entities, identifiers, workflow states, invariants, and error semantics.
@@ -48,6 +61,22 @@ The following must survive framework changes where still valid:
 - Migration, reconciliation, cutover, rollback, and incident evidence.
 
 React components, route conventions, server-function APIs, Vercel configuration, and framework caches are implementation details. They must not become the sole definition of clinical rules or authoritative records.
+
+## Contract Boundary
+
+DR-004 approves one canonical, runtime-validatable catalogue for commands, queries, results, domain
+events, integration messages, errors, and audit facts. It covers identity, consent, intake, triage,
+clinical decisions, prescriptions, payments/refunds, orders, fulfilment, support, and audit. Routes,
+Server Actions, controllers, ORM models, provider objects, and generated language types are adapters,
+not the normative contract.
+
+Compatible changes are additive and optional within a contract major; changed field meaning,
+required data, validation, authority, idempotency, errors, state transitions, enumerations without
+fallback, or privacy/clinical meaning require a new major. Consumers reject unsupported majors.
+
+Every migration follows inventory, expand, deterministic migration, shadow/reconciliation, staged
+cutover, observation, and contraction. Rollback never deletes or rewrites accepted records. Retained
+contract fixtures and journey tests—not matching page appearance—prove cross-generation equivalence.
 
 ## v1 De-Platform Sequence
 
@@ -84,3 +113,24 @@ A framework migration requires an approved reason based on product evidence, ope
 ## Platform-Portability Rule
 
 The selected host may provide builds, previews, functions, logs, and static delivery. Selection of identity, PostgreSQL, object storage, messaging, analytics, and clinical integrations must consider POPIA, data location, security, exportability, failure recovery, contractual obligations, and the planned Next.js/Laravel evolution. Replacing Lovable coupling with avoidable host-specific domain coupling is not an acceptable migration outcome.
+
+DR-005 fixes the portable data class at managed PostgreSQL plus encrypted object storage while
+leaving the provider open. Canonical identifiers, logical ownership, tenant scope, schema history,
+lifecycle state, attribution, and audit correlation survive migrations. DR-006 requires each exact
+service/product to pass legal/privacy, security, isolation, portability/exit, recovery, authority,
+and commercial gates. Provider bundles and hosting relationships confer no automatic approval.
+
+Sprint 03 completes the decision layer for this evolution. Implementation must now demonstrate the
+approved contracts and boundaries rather than reinterpret them inside a framework or provider.
+Sprint 05 owns the first runtime proof for identity, authorisation, lifecycle, restore, rights, and
+portable data operations.
+
+DR-007 keeps identity portable by mapping provider authentication to opaque internal subjects and
+server-owned permissions. Tenant, role, resource, assignment, purpose, state, assurance, session,
+recovery, break-glass, service-identity, and audit semantics survive an identity or framework
+migration; provider claims and framework middleware remain adapters.
+
+Task 3.8 validates the same ownership, permission, lifecycle and contract semantics across nine
+required operational and migration scenarios. Cross-generation movement must preserve the approved
+retention trigger, restriction/hold, disposition, deletion propagation, audit correlation and
+critical one-hour RPO/four-hour RTO rather than resetting lifecycle clocks.

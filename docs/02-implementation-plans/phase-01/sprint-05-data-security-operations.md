@@ -3,8 +3,9 @@ plan_id: phase-01-sprint-05
 title: Data, Security, and Operational Foundations
 status: planned
 primary_debt: [TD-014, TD-015, TD-017, TD-018, TD-019, TD-020, TD-055]
+implementation_follow_through: [TD-013, TD-016]
 depends_on: [phase-01-sprint-03, phase-01-sprint-04]
-last_updated: 2026-08-06
+last_updated: 2026-08-08
 owner: unassigned
 ---
 
@@ -16,13 +17,15 @@ Implement the approved minimum safe server, audit, security, environment, observ
 
 ## Intended Outcome
 
-Enabled state changes are server-validated, authorised, idempotent, auditable, rate-limited, monitored, and recoverable. Environment configuration is explicit and secret-safe. Security headers and privacy-safe observability are verified on Vercel. Framework-independent fixtures and acceptance tests preserve v1 behaviour for migration.
+Enabled state changes are server-validated, authorised, idempotent, auditable, rate-limited, monitored, and recoverable. Environment configuration is explicit and secret-safe. Security headers and privacy-safe observability are verified on the approved Cloudflare v1 runtime. Framework-independent fixtures and acceptance tests preserve v1 behaviour for migration.
 
 Capabilities outside the approved pilot scope remain inaccessible and are documented as deferred; they must not be simulated as operational.
 
 ## Scope
 
-Primary debt: TD-014, TD-015, TD-017–TD-020, and TD-055.
+Primary debt: TD-014, TD-015, TD-017–TD-020, and TD-055. Sprint 05 also supplies the
+implementation evidence required to finish TD-013 and TD-016 after Sprint 03 approves their
+architecture and procedures.
 
 ### Workstream 1 — Validated commands and workflow state
 
@@ -48,7 +51,7 @@ For registration, consent, booking, payment, prescription, or order workflows ou
 1. Threat-model enabled public forms, endpoints, file/body sizes, authentication boundaries, and retained MCP surface.
 2. Add proportionate rate limits, abuse detection, request-size limits, timeouts, origin/CORS rules, and failure behaviour.
 3. Configure and test CSP, framing, MIME-sniffing, referrer, permissions, transport, and sensitive-page caching policies.
-4. Document which controls live in Vercel and which remain application-enforced.
+4. Document which controls live in Cloudflare and which remain application-enforced.
 5. Test bypasses, direct endpoint calls, duplicate requests, malformed bodies, and denial-of-service limits.
 
 ### Workstream 4 — Environment and secret contract
@@ -95,10 +98,12 @@ For registration, consent, booking, payment, prescription, or order workflows ou
 
 | Debt   | Evidence required                                                                                                             |
 | ------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| TD-013 | Server-side role enforcement and horizontal/vertical access-boundary tests satisfy the approved Sprint 03 matrix.             |
+| TD-016 | A staging backup restore and complete synthetic data-subject request satisfy the approved Sprint 03 lifecycle procedures.     |
 | TD-014 | Enabled commands demonstrate server validation, idempotency, replay/concurrency handling, and false-success prevention.       |
 | TD-015 | Append-only audit events and review/access/tamper controls pass representative tests.                                         |
 | TD-017 | Threat model and tests prove approved limits, abuse controls, body limits, and CORS/origin policy.                            |
-| TD-018 | Security-header tests pass locally and on Vercel for public, asset, error, and sensitive route classes.                       |
+| TD-018 | Security-header tests pass locally and on Cloudflare for public, asset, error, and sensitive route classes.                   |
 | TD-019 | Environment schema, startup validation, rotation ownership, and client-bundle secret checks pass.                             |
 | TD-020 | Monitoring, alert, correlation, incident, recovery, and redaction exercises produce reviewed evidence.                        |
 | TD-055 | Capability catalogue, portable fixtures/contracts, migration rehearsal template, reconciliation, and rollback evidence exist. |
@@ -110,7 +115,7 @@ For registration, consent, booking, payment, prescription, or order workflows ou
 - Exercise Stripe webhook signature failure, duplicate delivery, delayed payment, refund, dispute,
   clinical rejection, and browser-return-without-webhook cases using synthetic test-mode data.
 - Inspect bundles and logs for seeded canary secrets and prohibited health fields.
-- Test security headers and cache behaviour on local and Vercel preview routes.
+- Test security headers and cache behaviour on local and Cloudflare preview routes.
 - Trigger a controlled error and uptime alert; follow the incident path to closure.
 - Restore approved non-production fixtures and reconcile record counts/checksums.
 - Run the portable acceptance suite independently of React component internals.
@@ -119,7 +124,7 @@ For registration, consent, booking, payment, prescription, or order workflows ou
 
 - Enabling workflows excluded from the approved v1 pilot.
 - Storing real patient data in development, CI, fixtures, or RAG documents.
-- Treating Vercel controls as a substitute for server-side authorisation or validation.
+- Treating Cloudflare controls as a substitute for server-side authorisation or validation.
 - Performing the Next.js migration in this sprint.
 
 ## Risks and Rollback
@@ -129,6 +134,7 @@ Security controls can block legitimate pilot use, while permissive fallbacks can
 ## Documentation and RAG Updates
 
 - Add environment, security, audit, observability, incident, recovery, and migration-contract documentation.
-- Update TD-014, TD-015, TD-017–TD-020, and TD-055 only after evidence review.
+- Update TD-013–TD-020 and TD-055 only for the acceptance evidence actually demonstrated and
+  independently reviewed; Sprint 05 does not replace Sprint 03 decision approvals.
 - Refresh `docs/RAG/02-current-state.md`, `03-platform-evolution.md`, `04-domain-glossary.md`, `05-decision-register.md`, `06-known-limitations.md`, and `07-index.json`.
 - Produce `docs/03-completion-reports/phase-01/sprint-05-data-security-operations.md`.

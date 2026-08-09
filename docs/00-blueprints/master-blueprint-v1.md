@@ -27,6 +27,11 @@ Meneer will evolve through deliberate product generations rather than treating e
 
 Frameworks are replaceable delivery shells. The durable product consists of the domain model, approved content, workflow states, API contracts, database schema, audit events, security rules, migration history, and acceptance tests. Every generation must demonstrate behavioural equivalence for retained capabilities and document intentional improvements or removals.
 
+DR-004 makes that portability enforceable through a canonical contract catalogue for commands,
+queries, results, events, errors, and audit facts. Contract majors, runtime validation, idempotency,
+concurrency, safe errors, reconciliation, compatibility, cutover, and rollback rules survive each
+framework generation; generated types and framework handlers are adapters only.
+
 After Sprint 01 comparison, the repository owner selected Cloudflare for the TanStack v1 pilot. Vercel remains a possible host for the planned Next.js v2 and is not a v1 dependency. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
 
 The v1 release contract is documented in
@@ -89,6 +94,17 @@ No later stage may be implied as complete when an earlier durable transaction ha
 
 ## Target Platform Boundaries
 
+DR-003 is the authoritative logical-boundary decision for this target. It approves channel-specific
+interfaces over an application/API boundary and a framework-neutral modular core. v1 may implement
+that design as one deployable modular application; route files, browser state, framework APIs, and
+external-provider callbacks are not authoritative workflow records. Physical services may be
+separated only when evidence justifies the added operational cost.
+
+DR-004 governs communication across these boundaries. Modules exchange versioned commands,
+purpose-limited queries, committed domain events, safe errors, and audit facts rather than sharing
+framework state or private persistence. Migrations expand compatible contracts, move and reconcile
+data/consumers, cut over one authority at a time, observe, and only then remove the old path.
+
 ```mermaid
 flowchart LR
     A[Acquisition channels] --> B[Public Meneer site]
@@ -134,6 +150,31 @@ Provides controlled adapters for identity, messaging, video consultations, labor
 
 ## Data and Security Model
 
+DR-005 approves managed PostgreSQL as the portable relational system of record and encrypted object
+storage for binary objects. It assigns logical namespaces, opaque identifiers, explicit tenant
+scope, classification, lifecycle states, data-subject procedures, migrations, backups, restores,
+pilot exit, and cross-generation reconciliation. Task 3.8 approved the conservative v1 retention
+and recovery baseline; final named-domain application, physical schemas, and restore evidence remain
+release or Sprint 05 gates.
+
+DR-006 governs every production data or service provider through non-negotiable legal/privacy,
+security, isolation, portability/exit, recovery, authority, and commercial gates followed by a
+weighted comparison. Cloudflare hosting or a Supabase/Neon/Brevo shortlist is not automatic
+approval of any additional service.
+
+Task 3.8 validates these decisions across required success, rejection, urgent, payment, fulfilment,
+support, rights, incident, and migration scenarios. The approved v1 lifecycle baseline follows
+purpose-limited retention, a general six-year dormant clinical-record minimum subject to longer
+exceptions, a five-year finance/tax baseline, short raw integration/export windows, 35-day rolling
+backups, and critical one-hour RPO/four-hour RTO. Final domain application and Sprint 05 restore/
+rights evidence remain release gates.
+
+Sprint 03 is complete as an architecture-and-decision milestone. DR-001–DR-008 are approved;
+TD-011, TD-012, TD-050, and TD-054 are Verified. TD-009 and TD-010 retain named operating and
+commercial activation gates, while TD-013 and TD-016 retain Sprint 05 implementation-evidence
+gates. Completion therefore constrains future implementation without representing the current site
+as transactional or authorising the pilot.
+
 The platform should classify data before selecting storage or vendors:
 
 - **Public:** approved marketing and treatment information.
@@ -143,6 +184,12 @@ The platform should classify data before selecting storage or vendors:
 - **Security and audit:** authentication events, access decisions, consent versions, administrative changes, and incident evidence.
 
 Required controls include encryption in transit and at rest, least-privilege access, MFA for privileged users, secure session management, rate limiting, abuse protection, immutable audit events, backup and restore testing, retention schedules, deletion/anonymisation workflows, incident response, and vendor/data-processing review.
+
+DR-007 makes identity and access deny-by-default: managed authentication maps to stable internal
+subjects, while server policy enforces tenant, role, action, assignment, purpose, workflow state,
+and authentication assurance. Workforce MFA, bounded/revocable sessions, governed recovery,
+audited break glass, separate service identities, and horizontal/vertical negative tests are
+mandatory before authenticated journeys activate.
 
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
@@ -257,17 +304,22 @@ The service is not ready for public launch until all of the following are eviden
 
 ## Decisions Required Before Detailed Implementation Planning
 
-1. Is Meneer the healthcare provider, an intermediary, or a technology/marketing layer for a provider?
-2. Which legal entity contracts with the patient and controls each data category?
-3. Which clinicians, pharmacies, laboratories, couriers, and peptide partner are approved?
-4. Which treatments launch first, and which remain informational or waitlisted?
-5. What consultation, prescription, payment, subscription, cancellation, and refund models apply?
-6. Which authentication, database, scheduling, messaging, payment, and observability vendors are acceptable?
-7. What are the authoritative clinical pathways and escalation rules per condition?
-8. Who owns clinical approval, privacy, security, operations, content, and release decisions?
-9. Which v1 workflows are in the controlled pilot, and which are demonstrations, waitlisted, or removed?
-10. Which measured thresholds would justify the Next.js and later Laravel/React migrations?
-11. Which database and service providers meet portability, POPIA, residency, security, and operational requirements?
+DR-001 approves a layered boundary: Meneer Health is the working customer-facing brand, OCTOTHORP
+ZA owns technology, marketing, general support, and operations coordination, and verified
+independent clinical and pharmacy parties retain professional authority. DR-008 establishes the
+accountable approval roles. The remaining decisions are:
+
+1. Which legal entity contracts with the patient for each component and controls each data category?
+2. Which clinicians, pharmacies, laboratories, couriers, and peptide-partner authorities are approved?
+3. Which treatments launch first, and which remain informational or waitlisted?
+4. What consultation, prescription, payment, subscription, cancellation, and refund models apply?
+5. Which authentication, database, scheduling, messaging, payment, and observability vendors are acceptable?
+6. What are the authoritative clinical pathways and escalation rules per condition?
+7. Which private role holders satisfy the DR-008 clinical, privacy, security, operations, content,
+   data, and release approval roles?
+8. Which v1 workflows are in the controlled pilot, and which are demonstrations, waitlisted, or removed?
+9. Which measured thresholds would justify the Next.js and later Laravel/React migrations?
+10. Which database and service providers meet portability, POPIA, residency, security, and operational requirements?
 
 ## Market Reference Position
 

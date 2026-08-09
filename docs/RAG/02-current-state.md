@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-08
 audience: internal
 sensitivity: internal
-source_baseline: ce2bcdf2010e226149c95779f2ea71bc393521f0
+source_baseline: df94a1206fddd5f08f03132d1c548c0b468a7fe6
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -22,6 +22,12 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer v1 Verified Current State
@@ -32,6 +38,26 @@ The repository is a responsive acquisition site with inactive, preserved workflo
 not yet a production healthcare application. Active routes do not persist or transmit account,
 consent, questionnaire, appointment, clinical, prescription, payment, pharmacy, delivery, or
 support records.
+
+DR-003 now approves the target platform boundaries and authoritative-state ownership. That is a
+design decision, not a current capability: no application/API boundary, modular domain core,
+datastore, identity service, clinical/operations workspace, or transactional adapter exists in the
+repository yet.
+
+DR-005 and DR-006 now approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
+backup/restore, and vendor-evaluation architecture. They do not change the observed runtime: no
+provider, database, bucket, schema, migration, tenant policy, backup, or restore workflow exists.
+
+DR-007 approves the target identity and authorisation architecture. No identity provider, account,
+verification, MFA, session, recovery, role, permission, break-glass, service identity, or access
+policy exists in the current runtime.
+
+Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
+This is documentation evidence only: no scenario was executed against a transactional backend, and
+TD-013/TD-016 remain In progress pending Sprint 05 access, restore, and data-subject tests.
+
+Task 3.9 closes Sprint 03 after reconciling the approved records, blueprint, registry, completion
+report, and RAG corpus. The closure changes documentation authority, not runtime capability.
 
 ## Technology
 
@@ -293,7 +319,8 @@ Evidence: [`sprint-02-8-verification-and-closure-evidence.md`](../02-implementat
   false-success paths are contained behind inactive routes.
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
-- No provider/operating model, backend, identity, database, authorisation, audit, retention, observability, or incident process.
+- The operating model and logical backend/state boundaries are approved, but no backend, identity,
+  database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - No automated tests or CI; lint and dependency gates fail.
 

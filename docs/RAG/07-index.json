@@ -111,7 +111,7 @@
         "release-gates"
       ],
       "status": "initial-planning-baseline",
-      "last_updated": "2026-08-07"
+      "last_updated": "2026-08-08"
     },
     {
       "id": "project-codebase-audit-2026-08-05",
@@ -259,7 +259,7 @@
       "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
       "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],
       "status": "active",
-      "last_updated": "2026-08-07"
+      "last_updated": "2026-08-08"
     },
     {
       "id": "phase-01-sprint-01-completion",
@@ -301,6 +301,156 @@
         "security-basics"
       ],
       "status": "active"
+    },
+    {
+      "id": "decision-record-index",
+      "path": "docs/07-decisions/README.md",
+      "authority_for": [
+        "decision-record-identifiers",
+        "decision-status-lifecycle",
+        "decision-ownership-and-approval",
+        "sprint-03-decision-record-register"
+      ],
+      "status": "active",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-1-decision-governance-evidence.md",
+      "authority_for": [
+        "sprint-03-delivery-contract",
+        "decision-record-governance",
+        "td-013-implementation-evidence-allocation",
+        "td-016-implementation-evidence-allocation",
+        "sprint-03-task-01-validation"
+      ],
+      "status": "verified-local",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-001",
+      "path": "docs/07-decisions/DR-001-operating-model-responsibility.md",
+      "authority_for": [
+        "meneer-operating-model",
+        "entity-and-partner-boundaries",
+        "responsibility-matrix",
+        "patient-facing-representation-rules",
+        "cross-party-hand-off-rules"
+      ],
+      "status": "approved",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-008",
+      "path": "docs/07-decisions/DR-008-governance-ownership-approval.md",
+      "authority_for": [
+        "accountable-domain-roles",
+        "sensitive-change-approval-matrix",
+        "review-and-stop-authority",
+        "codeowners-boundary"
+      ],
+      "status": "approved",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-02",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-2-operating-model-evidence.md",
+      "authority_for": [
+        "sprint-03-task-02-validation",
+        "td-009-in-progress-evidence",
+        "td-050-verification",
+        "operating-model-source-reconciliation"
+      ],
+      "status": "verified-local",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-002",
+      "path": "docs/07-decisions/DR-002-commercial-fulfilment-model.md",
+      "authority_for": [
+        "approved-v1-commercial-policy",
+        "approved-payment-and-refund-principles",
+        "approved-fulfilment-and-exception-principles",
+        "commercial-activation-gates"
+      ],
+      "status": "approved",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-3-commercial-model-evidence.md",
+      "authority_for": [
+        "sprint-03-task-03-validation",
+        "td-010-in-progress-evidence",
+        "commercial-claim-source-reconciliation"
+      ],
+      "status": "verified-local",
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-003",
+      "path": "docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md",
+      "status": "approved",
+      "authority_for": [
+        "logical-platform-boundaries",
+        "authoritative-workflow-state-ownership",
+        "module-responsibilities",
+        "transition-and-reconciliation-rules",
+        "framework-neutral-deployment-mapping"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-004",
+      "path": "docs/07-decisions/DR-004-framework-neutral-contracts-migration.md",
+      "status": "approved",
+      "authority_for": [
+        "framework-neutral-contract-kinds",
+        "required-domain-contract-families",
+        "validation-idempotency-and-concurrency-semantics",
+        "contract-versioning-and-compatibility",
+        "cross-generation-migration-reconciliation-and-rollback"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-005",
+      "path": "docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md",
+      "status": "approved",
+      "authority_for": [
+        "portable-data-storage-model",
+        "logical-domain-namespaces",
+        "tenant-isolation-model",
+        "data-classification-and-lifecycle-architecture",
+        "schema-migration-backup-restore-and-pilot-exit"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-006",
+      "path": "docs/07-decisions/DR-006-vendor-evaluation-criteria.md",
+      "status": "approved",
+      "authority_for": [
+        "vendor-hard-gates",
+        "weighted-vendor-comparison",
+        "provider-evaluation-evidence",
+        "environment-and-provisioning-controls",
+        "vendor-portability-and-exit"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-007",
+      "path": "docs/07-decisions/DR-007-identity-authorisation-architecture.md",
+      "status": "approved",
+      "authority_for": [
+        "identity-and-authentication-model",
+        "session-recovery-and-revocation-requirements",
+        "role-action-and-contextual-authorisation",
+        "privileged-and-break-glass-access",
+        "service-identity-and-access-test-boundaries"
+      ],
+      "last_updated": "2026-08-08"
     }
   ],
   "implementation_plans": [
@@ -448,6 +598,18 @@
       ]
     },
     {
+      "id": "phase-01-sprint-03-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md",
+      "status": "verified-completion",
+      "authority_for": [
+        "Sprint 03 completion",
+        "Sprint 03 decisions and deviations",
+        "Sprint 03 lessons and file inventory",
+        "Sprint 03 debt disposition and residual gates"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "meneer-cloudflare-v1-release",
       "path": "docs/06-operations/cloudflare-environments-release-runbook.md",
       "status": "active-owner-controlled",
@@ -460,9 +622,66 @@
       ]
     },
     {
+      "id": "phase-01-sprint-03-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.4 completion",
+        "TD-011 decision verification",
+        "current versus target boundary distinction"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-07",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-7-identity-authorisation-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.7 completion",
+        "TD-013 decision-portion evidence",
+        "identity-authorisation-source-reconciliation"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-08",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md",
+      "status": "validated-with-gates",
+      "authority_for": [
+        "Task 3.8 completion",
+        "cross-decision architecture validation",
+        "v1 lifecycle and recovery baseline",
+        "required scenario walkthroughs",
+        "TD-016 decision-portion evidence"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-6-data-vendor-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.6 completion",
+        "TD-012 decision verification",
+        "data-vendor-source-reconciliation"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
+      "id": "phase-01-sprint-03-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-5-contract-migration-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 3.5 completion",
+        "TD-054 decision verification",
+        "contract and migration source reconciliation"
+      ],
+      "last_updated": "2026-08-08"
+    },
+    {
       "id": "phase-01-sprint-03",
       "path": "docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md",
-      "status": "planned",
+      "status": "completed",
       "primary_debt": [
         "TD-009",
         "TD-010",
@@ -472,7 +691,11 @@
         "TD-016",
         "TD-050",
         "TD-054"
-      ]
+      ],
+      "implementation_follow_through": {
+        "sprint": "phase-01-sprint-05",
+        "debt": ["TD-013", "TD-016"]
+      }
     },
     {
       "id": "phase-01-sprint-04",
@@ -494,7 +717,8 @@
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
       "status": "planned",
-      "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"]
+      "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"],
+      "implementation_follow_through": ["TD-013", "TD-016"]
     },
     {
       "id": "phase-01-sprint-06",
@@ -523,8 +747,8 @@
       "id": "FC-001",
       "path": "docs/05-future-considerations/postgres-auth-email-vendor-strategy.md",
       "title": "PostgreSQL, Authentication, and Transactional Email Vendor Strategy",
-      "status": "decision-required",
-      "decision_due": "phase-01-sprint-03",
+      "status": "evaluation-pending",
+      "decision_due": "before-phase-01-sprint-05-provisioning",
       "topics": [
         "postgresql",
         "supabase",
@@ -651,6 +875,25 @@
     },
     {
       "query_topics": [
+        "sprint-03-completion",
+        "operating-model",
+        "architecture-decisions",
+        "sprint-03-deviations",
+        "sprint-03-files",
+        "sprint-03-residual-gates"
+      ],
+      "read_first": [
+        "docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md"
+      ],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md",
+        "docs/07-decisions/README.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository"
+      ]
+    },
+    {
+      "query_topics": [
         "campaign",
         "poster",
         "qr",
@@ -707,7 +950,7 @@
     },
     {
       "query_topics": ["decision", "vendor", "provider", "pilot-scope", "open-question"],
-      "read_first": ["docs/RAG/05-decision-register.md"],
+      "read_first": ["docs/RAG/05-decision-register.md", "docs/07-decisions/README.md"],
       "verify_against": [
         "approved decision records",
         "docs/04-technical-debt/technical-debt-registry-v1.md"
@@ -749,10 +992,9 @@
     "unapproved drafts presented without status metadata"
   ],
   "next_expansion": [
-    "approved architecture decision records",
-    "v1 pilot scope and operating-model decision",
+    "verified named operating and commercial activation particulars",
     "future verified sprint completion reports",
-    "portable API, event, data, and migration contracts",
+    "implemented portable API, event, data, and migration contracts",
     "security, privacy, deployment, incident, and recovery runbooks",
     "approved public and clinical content in a separate collection"
   ]

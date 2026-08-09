@@ -1,11 +1,11 @@
 ---
 plan_id: phase-01-sprint-03
 title: Operating Model and Architecture Decisions
-status: planned
+status: completed
 primary_debt: [TD-009, TD-010, TD-011, TD-012, TD-013, TD-016, TD-050, TD-054]
 depends_on: [phase-01-sprint-01, phase-01-sprint-02]
-last_updated: 2026-08-06
-owner: unassigned
+last_updated: 2026-08-08
+owner: "@Muhns13G"
 ---
 
 # Sprint 03 — Operating Model and Architecture Decisions
@@ -17,6 +17,41 @@ Replace implicit promises and framework-shaped assumptions with approved ownersh
 ## Intended Outcome
 
 Named accountable owners have approved who provides the service, who controls and processes each data class, which roles may perform each action, how records and integrations are bounded, and how the v1 pilot architecture remains portable. No implementation team must guess clinical authority, commercial responsibility, tenancy, identity, or retention rules.
+
+## Delivery Contract
+
+Sprint 03 is documentation and decision work. Unknown legal, clinical, pharmacy, commercial, or
+personal particulars must use an explicit `[TBC — owner role — release gate]` marker. Drafts must
+not invent identities, registration numbers, approvals, prices, or authority, and an unresolved
+placeholder must never be represented as verified or patient-facing approval.
+
+| Task | Commit-sized outcome                                                                               | Primary debt                                | Status    |
+| ---- | -------------------------------------------------------------------------------------------------- | ------------------------------------------- | --------- |
+| 3.1  | Refresh the plan; establish decision-record governance, templates, and evidence ownership.         | All Sprint 03 debt                          | Completed |
+| 3.2  | Approve the operating model, responsibility matrix, and accountable-domain ownership.              | TD-009, TD-050                              | Completed |
+| 3.3  | Approve the commercial, payment, fulfilment, and exception model.                                  | TD-010                                      | Completed |
+| 3.4  | Approve platform boundaries and authoritative workflow-state ownership.                            | TD-011                                      | Completed |
+| 3.5  | Approve framework-neutral domain, API, event, compatibility, and migration contracts.              | TD-054                                      | Completed |
+| 3.6  | Approve the data, tenancy, lifecycle, migration, and vendor-evaluation architecture.               | TD-012                                      | Completed |
+| 3.7  | Approve identity, session, role, permission, privileged-access, and service-identity requirements. | TD-013 decision portion                     | Completed |
+| 3.8  | Validate lifecycle, permissions, responsibilities, states, threats, and required scenarios.        | TD-016 decision portion; all Sprint 03 debt | Completed |
+| 3.9  | Obtain approvals and reconcile the registry, RAG corpus, blueprint, and completion report.         | All Sprint 03 debt                          | Completed |
+
+Each task is reviewed and committed separately by the repository owner. A task may prepare a draft,
+but only recorded domain approval changes a decision record to `approved`.
+
+### Implementation-evidence boundary
+
+Sprint 03 owns the decision portions of TD-013 and TD-016. Their registry acceptance criteria also
+require running-system evidence that this sprint's non-goals prohibit:
+
+- TD-013 remains open after its architecture is approved until Sprint 05 implements server-side
+  permissions and verifies horizontal and vertical access boundaries.
+- TD-016 remains open after its lifecycle schedule and procedures are approved until Sprint 05
+  demonstrates a staging backup restore and a complete synthetic data-subject request.
+
+Sprint 05 owns that implementation follow-through. This allocation preserves the registry's current
+acceptance standard; it does not weaken it or prematurely close either item.
 
 ## Scope
 
@@ -124,3 +159,13 @@ The primary risk is premature architecture built on unresolved legal or operatin
 - Update TD-009–TD-013, TD-016, TD-050, and TD-054 only after approvals are evidenced.
 - Refresh `docs/RAG/01-project-context.md`, `03-platform-evolution.md`, `04-domain-glossary.md`, `05-decision-register.md`, `06-known-limitations.md`, and `07-index.json`.
 - Produce `docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md`.
+
+## Completion Disposition
+
+Sprint 03 is complete as an architecture-and-decision sprint. DR-001–DR-008 are approved and the
+cross-record scenario validation is complete. TD-011, TD-012, TD-050, and TD-054 are Verified.
+TD-009 and TD-010 remain In progress pending the named-party, contracting, commercial, partner, and
+operational particulars deliberately retained as pre-launch gates. TD-013 and TD-016 remain In
+progress pending the Sprint 05 runtime, access-boundary, restore, and synthetic data-subject
+evidence required by their registry acceptance criteria. This disposition does not activate the
+pilot or claim that the approved target architecture is implemented.

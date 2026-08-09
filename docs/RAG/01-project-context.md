@@ -17,6 +17,16 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
+  - docs/07-decisions/DR-001-operating-model-responsibility.md
+  - docs/07-decisions/DR-008-governance-ownership-approval.md
+  - docs/07-decisions/DR-002-commercial-fulfilment-model.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer Project Context
@@ -73,8 +83,16 @@ transactional gate or exposing the same scope as an unrestricted public launch.
 - Operations and support staff coordinating non-clinical workflows and exceptions.
 - Approved pharmacy, laboratory, courier, messaging, payment, or consultation partners.
 
-The final responsible-provider model, information-responsibility roles, verified professional and
-pharmacy registrations, approved partners, and treatment launch scope remain open decisions.
+DR-001 approves the operating boundary: Meneer is the working customer-facing brand, OCTOTHORP ZA
+owns technology, marketing, general support, and operations coordination, and independent verified
+clinical/pharmacy actors retain professional authority. The contracting model,
+information-responsibility roles, verified professionals and pharmacy, urgent channel, fulfilment
+partners, and treatment activation evidence remain open gates under TD-009 and related debt.
+
+DR-002 approves a conservative one-time, explicit-line-item v1 commercial model with separate
+consultation, medication, delivery, cancellation, refund, payment, and fulfilment states. Exact
+prices, tax treatment, merchant allocation, transactional terms, Stripe activation, and operational
+delivery evidence remain gated and are not live through that policy approval.
 
 ## Product Principles
 
@@ -86,8 +104,14 @@ pharmacy registrations, approved partners, and treatment launch scope remain ope
 6. Human accountability and accessible support.
 7. Later versions absorb validated behaviour and evidence from earlier versions.
 8. Core rules and records remain portable across hosting and frameworks.
+9. Cross-boundary commands, queries, events, errors, and migrations follow approved versioned contracts.
 
 ## Intended Capability Boundaries
+
+DR-003 approves these as logical product boundaries over an authenticated application/API layer
+and framework-neutral modular core. A single v1 deployment is acceptable, but each module must own
+its state and transitions; browser state, route output, and provider redirects are not workflow
+authority.
 
 - **Public acquisition:** marketing pages, condition education, campaigns, SEO, approved claims,
   and public policies. MCP is not part of v1.
@@ -97,8 +121,25 @@ pharmacy registrations, approved partners, and treatment launch scope remain ope
 - **Integration layer:** controlled adapters for identity, messaging, video, laboratories, payments, pharmacy, courier, and observability.
 
 Only the public presentation currently exists in recognisable form. The former read-only Lovable
-MCP surface was removed in Sprint 02 Task 2.4. The other boundaries describe intended future
-capabilities.
+MCP surface was removed in Sprint 02 Task 2.4. DR-003 approves the other boundaries as target
+architecture, but no application API, durable modular core, datastore, authentication, clinical
+workspace, operations workspace, transactional adapter, canonical schema catalogue, or contract-test
+suite has been implemented. DR-004 approves the future contract and migration rules without
+changing that observed implementation state. DR-005 approves PostgreSQL/object-storage, logical
+schema, tenancy, lifecycle, migration, backup, and restore architecture; DR-006 approves how vendors
+must be evaluated. DR-007 approves the identity, session, role, permission, break-glass, recovery,
+and service-identity architecture. None of these decisions provisions a provider or makes the site
+transactional.
+
+Task 3.8 validates DR-001–DR-008 as one coherent design across happy, rejection, urgent, payment,
+fulfilment, support, rights, incident, and migration scenarios. It approves the conservative v1
+lifecycle/recovery baseline while keeping named-party, provider, domain sign-off, and Sprint 05
+runtime evidence as explicit gates.
+
+Sprint 03 is closed as an approved architecture-and-decision boundary. TD-011, TD-012, TD-050, and
+TD-054 are Verified; TD-009, TD-010, TD-013, and TD-016 remain In progress under their recorded
+operational or implementation gates. Closure neither activates the pilot nor changes the observed
+non-transactional runtime.
 
 ## Authoritative References
 

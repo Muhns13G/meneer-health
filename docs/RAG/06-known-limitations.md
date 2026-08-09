@@ -17,6 +17,16 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/06-operations/cloudflare-environments-release-runbook.md
+  - docs/07-decisions/DR-001-operating-model-responsibility.md
+  - docs/07-decisions/DR-008-governance-ownership-approval.md
+  - docs/07-decisions/DR-002-commercial-fulfilment-model.md
+  - docs/07-decisions/DR-003-platform-boundaries-authoritative-state.md
+  - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
+  - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
+  - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -41,12 +51,21 @@ requirements before enabling submission; the preserved prototype is not suitable
 
 ## Clinical and Legal Limits
 
-Provider identity, registrations, partner arrangements, treatment eligibility, contraindications,
-clinical pathways, transactional consent/privacy/terms, pricing, refund rules, delivery promises,
-and peptide positioning are not approved in the repository evidence. Versioned website-only privacy
-and terms notices are implemented and owner-approved for publication as version 1.0; they are not
-authority for health-data collection or transactions. Existing marketing and MCP claims require a
-governed claim register and domain review.
+DR-001 approves the role boundary: Meneer is the working brand, OCTOTHORP ZA is the
+technology/marketing/general-support/operations layer, and verified independent clinical/pharmacy
+actors retain professional authority. It does not approve the remaining contracting and
+information-responsibility allocations, registrations, partner evidence, treatment eligibility,
+contraindications, clinical pathways, transactional consent/privacy/terms, pricing, refund rules,
+delivery promises, or peptide authority. Versioned website-only privacy and terms notices are
+implemented and owner-approved for publication as version 1.0; they are not authority for
+health-data collection or transactions. Existing marketing claims require a governed claim
+register and domain review.
+
+DR-002 approves conservative v1 commercial and fulfilment principles, not universal industry norms.
+No price, tax treatment, merchant-of-record allocation, transactional term, Stripe activation, or
+delivery performance is live or approved merely because the policy exists. Retained cancellation
+and no-charge-on-clinical-rejection wording is unchanged and must be reconciled against approved
+gated particulars and implemented evidence before checkout is enabled.
 
 The owner-confirmed provisional operator and development fixtures are centralized in the pilot
 compliance profile. `Dr John Doe`, `Jane Doe`, `HPCSA-PLACEHOLDER`, and
@@ -68,6 +87,40 @@ Never generate patient-specific diagnosis, dosing, eligibility, or treatment adv
 ## Platform Limits
 
 The repository is hosted for contained review but is not ready for transactional pilot use.
+DR-003 approves logical channel, application/API, domain, persistence, integration, audit, and
+authoritative-state boundaries. It does not implement them. Do not describe the current site as
+having a backend, durable modular core, system of record, clinical/operations workspace, or
+transactional integration merely because the target architecture is approved.
+
+DR-004 approves the future framework-neutral contract, compatibility, migration, reconciliation,
+cutover, and rollback rules. The repository still has no canonical machine-readable schemas,
+runtime validators, command/event infrastructure, provider adapters, contract fixtures, contract
+tests, or behavioural-equivalence suite. TD-054 decision closure must not be described as closure
+of TD-014, TD-055, or transactional implementation.
+
+DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
+and restore architecture; DR-006 approves vendor evaluation and exit criteria. No database, object
+store, identity, messaging, or other production data service is selected or provisioned. No physical
+schema, migration, tenant policy, backup, restore, data-subject workflow, or retention period exists
+in runtime. TD-012 decision closure must not be described as closure of TD-016 or Sprint 05
+implementation. Supabase, Neon, and Brevo remain candidates only.
+
+DR-007 approves patient/workforce/service identity, MFA, sessions, recovery, roles, contextual
+permissions, break glass, audit, and access-test requirements. No identity provider or control is
+implemented. TD-013 is In progress—not Verified—until Sprint 05 proves server-side permissions,
+horizontal/vertical isolation, privileged MFA, recovery, revocation, and service identities.
+
+Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
+prove operation. Final legal/privacy/clinical application to named entities/providers remains an
+activation gate. TD-016 is In progress until Sprint 05 demonstrates a staging restore and complete
+synthetic rights request with processor and backup reconciliation. Do not describe the nine scenario
+walkthroughs as executed customer transactions or runtime tests.
+
+Sprint 03 is complete, but only as an architecture-and-decision boundary. Do not convert that
+status into claims that vendors are selected, accountable particulars are verified, controls are
+implemented, transactions are enabled, or the pilot is approved. Its residual debts remain TD-009,
+TD-010, TD-013, and TD-016.
+
 The Lovable Vite wrapper and MCP surface have been removed. The associated telemetry implementation
 and environment references are absent from local source, configuration, built output, hosted
 browser network, and persisted logs. Root and fallback metadata now use approved Meneer values; the
