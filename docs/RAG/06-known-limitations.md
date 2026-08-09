@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-09
+last_updated: 2026-08-10
 audience: internal
 sensitivity: internal
 sources:
@@ -13,6 +13,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
@@ -97,11 +98,12 @@ authoritative-state boundaries. It does not implement them. Do not describe the 
 having a backend, durable modular core, system of record, clinical/operations workspace, or
 transactional integration merely because the target architecture is approved.
 
-DR-004 approves the future framework-neutral contract, compatibility, migration, reconciliation,
-cutover, and rollback rules. The repository still has no canonical machine-readable schemas,
-runtime validators, command/event infrastructure, provider adapters, contract fixtures, contract
-tests, or behavioural-equivalence suite. TD-054 decision closure must not be described as closure
-of TD-014, TD-055, or transactional implementation.
+DR-004 approves the framework-neutral contract, compatibility, migration, reconciliation, cutover,
+and rollback rules. Task 5.2 now supplies strict common machine-readable envelopes, registry/error/
+version schemas, portable synthetic fixtures, contract tests, and initial dependency enforcement.
+The repository still has no approved business payload catalogue, command/event infrastructure,
+provider adapters, complete retained-capability suite, or behavioural-equivalence rehearsal.
+TD-014 and TD-055 are In progress and must not be described as Verified or transactional.
 
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
 and restore architecture; DR-006 approves vendor evaluation and exit criteria. No database, object

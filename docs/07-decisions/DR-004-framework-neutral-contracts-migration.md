@@ -9,7 +9,7 @@ required_approvers:
 effective_date: 2026-08-08
 supersedes: null
 related_debt: [TD-014, TD-054, TD-055]
-last_updated: 2026-08-08
+last_updated: 2026-08-10
 ---
 
 # DR-004 — Framework-Neutral Contracts and Migration Boundaries
@@ -42,9 +42,9 @@ owns identity and permission design.
   classification, tenant scope, physical schemas, retention, and migration tooling.
 - `[TBC — owner: SECURITY OWNER — gate: DR-007 approval]`: actor/subject claim structure,
   authentication context, permission vocabulary, service identities, and signature mechanisms.
-- `[TBC — owner: ARCHITECTURE OWNER — gate: Sprint 05 implementation]`: concrete endpoint paths,
-  schema files, generated types, validation library, event transport, outbox/inbox technology, and
-  contract-test runner.
+- `[PARTIALLY RESOLVED — owner: ARCHITECTURE OWNER — Task 5.2]`: top-level `contracts/`, Zod 4.4.3,
+  and Vitest now own the first runtime schemas and portable contract tests. Concrete endpoint paths,
+  generated types, business payload files, event transport, and outbox/inbox technology remain TBC.
 - `[TBC — owner: RELEASE OWNER — gate: migration approval]`: cutover window, rollback window,
   consumer inventory, operational thresholds, and sign-off evidence for each migration.
 
@@ -275,6 +275,7 @@ and allows v1 to remain operationally small without sacrificing later portabilit
 
 - `docs/00-blueprints/master-blueprint-v1.md`
 - `docs/02-implementation-plans/phase-01/sprint-03-operating-model-architecture.md`
+- `docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md`
 - `docs/04-technical-debt/technical-debt-registry-v1.md`
 - `docs/RAG/01-project-context.md`
 - `docs/RAG/03-platform-evolution.md`

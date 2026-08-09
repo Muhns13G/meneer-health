@@ -3,7 +3,7 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-08-08
+last_updated: 2026-08-10
 audience: internal
 sensitivity: internal
 ---
@@ -84,11 +84,17 @@ sensitivity: internal
   evidence is missing, delayed, or conflicting.
 - **Contract catalogue:** the canonical version-controlled definitions, ownership, schemas,
   semantics, privacy classification, fixtures, and tests for cross-boundary communication.
+- **Canonical contract boundary:** the top-level, runtime-validatable `contracts/` implementation
+  that remains independent of routes, UI frameworks, hosting runtimes, ORMs, and providers.
+- **Contract definition:** registry metadata naming a contract's kind, owner, consumers, major,
+  sensitivity, idempotency expectation, and lifecycle.
 - **Command:** an authorised request for one owning module to perform a state-changing action.
 - **Query:** an authorised request for a purpose-limited projection that does not change domain state.
 - **Domain event:** an immutable, past-tense fact emitted only after the owning transition commits.
 - **Contract major:** the positive integer version changed when structure or behaviour becomes
   incompatible; consumers must safely reject unsupported majors.
+- **Retry classification:** a stable error property indicating whether retry is never appropriate,
+  immediately safe, delayed, or requires reconciliation; it does not itself perform a retry.
 - **Behavioural equivalence:** evidence that a replacement retains approved contract and journey
   behaviour, not merely similar pages or responses.
 - **Expand–migrate–contract:** add compatible capability first, migrate and reconcile under
