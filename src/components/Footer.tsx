@@ -1,12 +1,12 @@
 import { Link } from "@tanstack/react-router";
-import logoAsset from "@/assets/meneer-logo.png.asset.json";
+import logoAsset from "@/assets/brand/meneer-mark.png";
 
 export function Footer() {
   return (
     <footer className="border-t border-border/50 py-10">
       <div className="container-x flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <img src={logoAsset.url} alt="Meneer MNR mark" className="h-7 w-auto" />
+          <img src={logoAsset} alt="Meneer MNR mark" className="h-7 w-auto" />
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
             <p className="font-serif text-foreground">
               Meneer<span className="text-gold">.</span>{" "}
