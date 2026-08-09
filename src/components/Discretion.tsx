@@ -1,9 +1,21 @@
 import { Eye, Package, Lock } from "lucide-react";
 
 const cards = [
-  { Icon: Eye, title: "Browse like a ghost", body: "No login to look around. Your search history doesn't follow you home until you decide it should." },
-  { Icon: Package, title: "Boxed in beige", body: "Unmarked box. Neutral sender. No 'CONFIDENTIAL' stickers screaming the opposite." },
-  { Icon: Lock, title: "Locked-down records", body: "POPIA-compliant. Encrypted. Shared with absolutely nobody — not even your medical aid, unless you say so." },
+  {
+    Icon: Eye,
+    title: "Browse like a ghost",
+    body: "No login to look around. Your search history doesn't follow you home until you decide it should.",
+  },
+  {
+    Icon: Package,
+    title: "Boxed in beige",
+    body: "Unmarked box. Neutral sender. No 'CONFIDENTIAL' stickers screaming the opposite.",
+  },
+  {
+    Icon: Lock,
+    title: "Locked-down records",
+    body: "POPIA-compliant. Encrypted. Shared with absolutely nobody — not even your medical aid, unless you say so.",
+  },
 ];
 
 export function Discretion() {

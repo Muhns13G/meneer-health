@@ -11,9 +11,8 @@ export function Hero() {
             The care you've quietly been wanting.
           </h1>
           <p className="mt-6 text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed">
-            Hair you can run your hands through. Bedrooms that work like they used to.
-            Real doctors, real prescriptions, dropped at your door — wrapped in absolutely
-            nothing interesting.
+            Hair you can run your hands through. Bedrooms that work like they used to. Real doctors,
+            real prescriptions, dropped at your door — wrapped in absolutely nothing interesting.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-3">
@@ -33,7 +32,10 @@ export function Hero() {
         </div>
 
         <div className="relative">
-          <div className="absolute -inset-4 bg-gradient-to-tr from-gold/10 via-transparent to-transparent blur-3xl" aria-hidden />
+          <div
+            className="absolute -inset-4 bg-gradient-to-tr from-gold/10 via-transparent to-transparent blur-3xl"
+            aria-hidden
+          />
           <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-border/60">
             <img
               src={heroImage}

@@ -8,8 +8,8 @@ export function CtaSection() {
           Most men wait too long. You really don't have to.
         </h2>
         <p className="mt-6 text-muted-foreground text-lg leading-relaxed">
-          Five minutes of honesty. A real doctor on the other side. Treatment in
-          the post by the weekend. That's it.
+          Five minutes of honesty. A real doctor on the other side. Treatment in the post by the
+          weekend. That's it.
         </p>
         <div className="mt-10 flex flex-col sm:flex-row justify-center gap-3">
           <Link
