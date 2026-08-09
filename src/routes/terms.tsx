@@ -103,7 +103,7 @@ function TermsPage() {
               These terms are governed by South African law. Material changes will be published with
               a new effective date and version. Questions about the website may be sent to{" "}
               <a
-                className="text-gold hover:underline underline-offset-4"
+                className="text-gold underline underline-offset-4"
                 href="mailto:support@meneerhealth.co.za"
               >
                 support@meneerhealth.co.za

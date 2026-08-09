@@ -3,10 +3,10 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-08
+last_updated: 2026-08-09
 audience: internal
 sensitivity: internal
-source_baseline: 93c6ff7
+source_baseline: 8e8c285
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -31,6 +31,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-2-bun-package-contract-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -75,6 +76,8 @@ report, and RAG corpus. The closure changes documentation authority, not runtime
 - Five intentional runtime dependencies: TanStack Start/Router, React/ReactDOM, and Lucide.
 - Vitest, jsdom, React Testing Library, user-event, jest-dom, and V8 coverage are test-only
   development tooling; the production dependency declarations remain unchanged.
+- Playwright 1.62.1 and axe-core provide a controlled desktop/mobile Chromium browser matrix. The
+  managed browser cache is local tooling and is not committed to the repository.
 
 Task 4.2 adds the repository-wide, non-writing `bun run format:check` command. Task 4.4 clears its
 tracked formatting backlog without changing public wording or behaviour. The check now passes;
@@ -404,6 +407,23 @@ Evidence: [`sprint-04-5-lint-unused-code-evidence.md`](../02-implementation-plan
 
 Evidence: [`sprint-04-6-test-foundation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-6-test-foundation-evidence.md).
 
+### Sprint 04.7 browser and accessibility baseline — 9 August 2026
+
+- Playwright owns an isolated local server and managed Chromium profiles for 1440 x 900 desktop and
+  Pixel 7 mobile verification. Failure-only artifacts are ignored and browser video is disabled.
+- Forty-eight checks pass across eight active routes, four ordinary 404 boundaries, two exact 307
+  campaign redirects, inactive gates, responsive navigation, rendering health, and automated WCAG
+  A/AA axe rules.
+- Task 4.7 corrected four repeated accessibility findings without changing public wording: inline
+  legal/support links are always underlined, and the gated support button uses the existing
+  contrast-safe foreground token.
+- Frozen install now checks 424 installs across 544 package records. Full and production-filtered
+  audit totals remain 33 and 26; Playwright and axe are test-only additions.
+- Automated accessibility checks supplement rather than replace manual keyboard and
+  assistive-technology review. CI enforcement remains Task 4.10.
+
+Evidence: [`sprint-04-7-browser-accessibility-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-7-browser-accessibility-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
@@ -413,6 +433,6 @@ Evidence: [`sprint-04-6-test-foundation-evidence.md`](../02-implementation-plans
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- Unit/component/integration tests now exist; browser/accessibility automation and CI remain absent.
+- Unit/component/integration and controlled browser/accessibility tests now exist; CI remains absent.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.
