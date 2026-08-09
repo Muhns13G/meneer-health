@@ -500,6 +500,23 @@ Evidence: [`sprint-04-10-ci-policy-evidence.md`](../02-implementation-plans/phas
 
 Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md).
 
+### Sprint 04.12 local closure proof — 9 August 2026
+
+- A no-hard-link clone of committed HEAD `8b23428` installs deterministically with Bun 1.3.14 and
+  passes format, lint, typecheck, 11 Vitest tests, both zero-finding audits, build, generated-route
+  consistency, Cloudflare dry-run, and all 48 CI-mode Playwright/axe checks.
+- The checkout remains clean after validation. A synthetic TypeScript stdin fixture is rejected by
+  the configured unused-variable rule with exit code 1, proving the local gate detects a controlled
+  failure without adding a repository file.
+- Hosted `itws-I` remains seven commits behind local HEAD and does not yet contain the workflow or
+  contributor documents. The stale `main` branch remains the GitHub default.
+- GitHub activates issue and pull-request templates only from the default branch. An `itws-I` push
+  alone can trigger its CI workflow but cannot complete template-rendering acceptance.
+- Task 4.12 and Sprint 04 therefore remain open for the owner push, hosted passing/failing run,
+  default/source-branch alignment or equivalent merge, rendered templates, and required-check proof.
+
+Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
@@ -509,7 +526,7 @@ Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementati
 - The operating model and logical backend/state boundaries are approved, but no backend, identity,
   database, authorisation, audit, retention, observability, or incident process is implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- Unit/component/integration and controlled browser/accessibility tests now exist. CI is configured
-  locally but not yet proven or required on GitHub.
+- Unit/component/integration and controlled browser/accessibility tests pass from a clean clone. CI
+  is configured locally but not yet hosted, deliberately failed, or required on GitHub.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.

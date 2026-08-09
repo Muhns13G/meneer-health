@@ -168,8 +168,9 @@ paths pass, closing TD-049, TD-052, and TD-053.
 - TypeScript, the production build, generic preview, and Wrangler dry-run pass. Tasks 4.4–4.5 clear
   the tracked formatting, Fast Refresh, and unused-code baseline: format, lint, and typecheck pass
   locally with zero lint findings.
-- The Task 4.10 CI workflow declares the clean format/lint baseline, but hosted execution and
-  enforcement remain unverified until Task 4.12.
+- The Task 4.10 CI workflow declares the clean format/lint baseline, and Task 4.12 proves the full
+  sequence from an isolated clone plus a controlled local failure. Hosted execution and enforcement
+  remain unverified because `origin/itws-I` is seven commits behind.
 - Tasks 4.8–4.9 clear both full and production-filtered Bun audits without an exception. Task 4.10
   declares both gates in CI; Task 4.12 must prove hosted enforcement.
 - The unused shadcn/Radix surface and its direct dependencies are removed. New primitives must be
@@ -184,7 +185,8 @@ paths pass, closing TD-049, TD-052, and TD-053.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
   and stateful recovery remain future work.
 - Task 4.11 adds root onboarding, contribution/security routing, test/CI guidance, and GitHub change
-  templates. Their clean-checkout usability and hosted rendering remain unverified until Task 4.12.
+  templates. Task 4.12 verifies clean-checkout usability. Hosted rendering remains unavailable while
+  stale `main` is the GitHub default because contributor templates activate only from that branch.
 - Accessibility, navigation, SEO, content consistency, final media, and campaign print-production
   QA remain open.
 

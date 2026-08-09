@@ -85,6 +85,7 @@ This register separates confirmed direction from unresolved choices. “Confirme
 | ARC-003 | Which named legal/privacy/clinical owners approve DR-005's baseline for the final party/provider roles, longer exceptions, and provider-specific cross-border basis?       | TD-015, TD-016                 |
 | ARC-005 | Which security headers, rate limits, abuse controls, and logging/redaction rules apply on the selected host?                                                               | TD-017–TD-020                  |
 | ARC-006 | Which objective thresholds would justify v3 Laravel/React rather than continued Next.js evolution?                                                                         | TD-055–TD-056                  |
+| ARC-007 | Will the owner make permanent source branch `itws-I` the GitHub default, or merge contributor templates and required-check policy into the retained default branch?        | TD-024, TD-031                 |
 
 ## Decision Closure Rule
 
