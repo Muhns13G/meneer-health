@@ -82,6 +82,19 @@ Before new product features begin, the project should complete a stabilisation m
 | TD-030 |  P1 | In progress | Task 4.11 adds a root README, contribution guide, testing/CI operations guide, private security route, and links to the environment template, blueprint, current state, debt, decisions, CI, and Cloudflare runbook. Supported versions, install, validation, ownership, and the non-transactional boundary are explicit.   | Task 4.12 must prove a new contributor can follow the committed material from a clean checkout without external chat context. Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md).                                                                                                                                                      |
 | TD-031 |  P1 | In progress | Task 4.11 adds scoped commit/contribution guidance, a PR template requiring outcome, links, risks, effects, approvals, validation and visual evidence, plus a structured bug form prohibiting secrets/PHI and routing vulnerabilities privately.                                                                            | Task 4.12 must confirm the committed templates render on GitHub and clean-checkout guidance is usable before verification. Preserve history and apply the new traceability contract prospectively. Evidence: [`sprint-04-11-contributor-operations-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-11-contributor-operations-evidence.md).                                                                                 |
 
+### Sprint 04 Task 4.12 reconciliation
+
+At committed HEAD `8b23428`, an isolated clone passes frozen installation, format, lint, typecheck,
+11 Vitest tests, both zero-finding audits, build, generated-route consistency, Cloudflare dry-run,
+and all 48 CI-mode Playwright/axe checks. The configured lint gate also rejects a synthetic unused-
+variable failure with exit code 1. This completes the repository-controlled acceptance work.
+
+TD-021–TD-024 and TD-028–TD-031 remain In progress because the hosted `itws-I` branch is seven
+commits behind, `main` remains the stale default branch, GitHub templates only activate from the
+default branch, and no hosted passing/failing run or required-check enforcement has yet been
+recorded. Evidence and the exact owner sequence are in
+[`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md).
+
 ## D. Broken Assets, UX, Accessibility, and Discovery Debt
 
 | ID     | Pri | Status            | Debt and evidence                                                                                                                                                                                                                                                                                                                                                                                                  | Required outcome / acceptance evidence                                                                                                                                                                                                                                                                                                                                                                                                                                                             |

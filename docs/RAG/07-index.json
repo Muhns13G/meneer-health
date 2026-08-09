@@ -886,6 +886,32 @@
       "last_updated": "2026-08-09"
     },
     {
+      "id": "phase-01-sprint-04-task-12",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md",
+      "status": "hosted-verification-pending",
+      "authority_for": [
+        "Task 4.12 clean-checkout evidence",
+        "controlled local failure evidence",
+        "hosted branch and default-branch findings",
+        "Sprint 04 owner-controlled closure sequence"
+      ],
+      "source_baseline": "8b23428",
+      "last_updated": "2026-08-09"
+    },
+    {
+      "id": "phase-01-sprint-04-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md",
+      "status": "hosted-verification-pending",
+      "authority_for": [
+        "Sprint 04 mission and delivered work",
+        "Sprint 04 deviations and lessons",
+        "Sprint 04 file inventory",
+        "Sprint 04 residual hosted gate"
+      ],
+      "source_baseline": "8b23428",
+      "last_updated": "2026-08-09"
+    },
+    {
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
       "status": "planned",
@@ -1066,6 +1092,23 @@
         "docs/07-decisions/README.md",
         "docs/04-technical-debt/technical-debt-registry-v1.md",
         "current repository"
+      ]
+    },
+    {
+      "query_topics": [
+        "sprint-04-completion",
+        "repository-health",
+        "clean-checkout",
+        "hosted-ci",
+        "required-checks",
+        "sprint-04-files"
+      ],
+      "read_first": ["docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md"],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository",
+        "current GitHub hosted state"
       ]
     },
     {
