@@ -19,7 +19,7 @@ export const pilotComplianceProfile = {
     evidenceState: "placeholder",
   } satisfies RegulatedParty,
   peptidePharmacy: {
-    name: "Precise Wellness — legal name pending",
+    name: "Precise Wellness",
     registration: "Y-NUMBER-PLACEHOLDER",
     responsiblePharmacist: "Jane Doe",
     evidenceState: "placeholder",
