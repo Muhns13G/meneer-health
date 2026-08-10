@@ -53,6 +53,12 @@ source documents without explicit authorisation.
 | DR-007 | [Identity and authorisation architecture](DR-007-identity-authorisation-architecture.md)                | Security owner                  | 3.7  | Approved |
 | DR-008 | [Governance ownership and approval workflow](DR-008-governance-ownership-approval.md)                   | Business owner                  | 3.2  | Approved |
 
+## Sprint 05 Register
+
+| ID     | Planned record                                                             | Accountable role   | Task | Status   |
+| ------ | -------------------------------------------------------------------------- | ------------------ | ---- | -------- |
+| DR-009 | [Free-tier pilot provider stack](DR-009-free-tier-pilot-provider-stack.md) | Architecture owner | 5.5  | Approved |
+
 ## Required Maintenance
 
 When a record changes status or is superseded, update this index, affected implementation plans,

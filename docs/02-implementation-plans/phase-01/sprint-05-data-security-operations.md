@@ -40,9 +40,13 @@ architecture and procedures.
   alert, incident, backup, restore, or reconciliation implementation.
 - The repository defines no CSP or other browser-security header policy. The current build produces
   no tracked or generated `_headers` file.
-- PostgreSQL is the approved portable data model, but Supabase and Neon remain unselected candidates.
-  Identity, storage, email, observability, Stripe activation, provider region, data map, contractual
-  roles, and exit evidence remain decision gates under DR-006.
+- Task 5.5 and DR-009 select the free-tier-first pilot stack: one Supabase Free project in Frankfurt
+  for PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers telemetry;
+  Better Stack Free for uptime and backup heartbeats only; Cloudflare R2 in the EU jurisdiction for
+  encrypted recovery exports; and Stripe Checkout in test mode. Selection does not provision or
+  activate any service.
+- Local development and CI use local Supabase with synthetic data. Cloudflare branch previews must
+  keep provider integrations disabled or synthetic and must never connect to the real pilot store.
 - TD-006, TD-007, TD-009, and TD-010 still gate claims, peptide authority, named operating parties,
   prices, merchant/tax roles, Stripe activation, and fulfilment particulars. Sprint 05 may build and
   test contained foundations with synthetic data; it must not activate those journeys by assumption.
@@ -55,7 +59,7 @@ architecture and procedures.
 | 5.2  | Establish framework-neutral module boundaries, runtime-validated contract envelopes, stable errors, versioning, and dependency rules with representative tests.      | TD-014, TD-055                                | Completed |
 | 5.3  | Implement the secret-free environment catalogue, server-only configuration validation, safe failure behaviour, and client-bundle canary checks.                      | TD-019                                        | Completed |
 | 5.4  | Add and test public, asset, error, and sensitive-route security headers plus explicit cache policy without changing customer-facing content.                         | TD-018                                        | Completed |
-| 5.5  | Complete the DR-006 data map and select exact PostgreSQL, identity, storage, email, observability, and payment services, regions, owners, environments, and exits.   | TD-013, TD-016, TD-019, TD-020; external gate | Pending   |
+| 5.5  | Complete the DR-006 data map and select exact PostgreSQL, identity, storage, email, observability, and payment services, regions, owners, environments, and exits.   | TD-013, TD-016, TD-019, TD-020; external gate | Completed |
 | 5.6  | Add the provider-neutral persistence port, selected PostgreSQL adapter, versioned migrations, opaque identifiers, tenancy boundaries, roles, and synthetic fixtures. | TD-014, TD-016                                | Pending   |
 | 5.7  | Integrate managed identity with stable internal subjects, verified contact, sessions, recovery, workforce MFA, and scoped service identities.                        | TD-013                                        | Pending   |
 | 5.8  | Implement deny-default server authorisation and horizontal/vertical negative tests across subject, tenant, role, assignment, purpose, state, and assurance.          | TD-013                                        | Pending   |
@@ -69,11 +73,12 @@ architecture and procedures.
 | 5.16 | Build the retained-capability catalogue, portable fixtures, contract suite, schema/version registry, and v1-to-v2 rehearsal/cutover/rollback template.               | TD-055                                        | Pending   |
 | 5.17 | Run local and hosted end-to-end validation, restore/incident exercises, reconcile debt/RAG, and issue the Sprint 05 completion report.                               | All Sprint 05 debt                            | Pending   |
 
-Tasks 5.2–5.4 are provider-neutral and may proceed after Task 5.1. Task 5.5 is a hard checkpoint:
-Tasks 5.6–5.15 cannot claim provider-backed or production-capable completion until the exact service,
-region, data map, responsible roles, environment separation, contracts, and exit evidence pass
-DR-006. Tasks 5.14–5.15 additionally require the recorded TD-007, TD-009, and TD-010 particulars.
-All transactional routes and adapters default disabled until their full activation gate passes.
+Tasks 5.2–5.4 are provider-neutral and may proceed after Task 5.1. Task 5.5 closes the DR-006
+selection checkpoint through DR-009 and its evidence annexure; it does not prove provisioning,
+security implementation, recovery, or production readiness. Tasks 5.6–5.15 must implement and prove
+the selected services before claiming provider-backed completion. Tasks 5.14–5.15 additionally
+require the recorded TD-007, TD-009, and TD-010 particulars. All transactional routes and adapters
+default disabled until their full activation gate passes.
 
 ### Workstream 1 — Validated commands and workflow state
 

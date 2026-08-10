@@ -2,7 +2,7 @@
 plan_id: phase-01-technical-debt-stabilisation
 title: Phase 01 Technical Debt Stabilisation
 status: planned
-last_updated: 2026-08-08
+last_updated: 2026-08-10
 owner: unassigned
 ---
 
@@ -54,9 +54,10 @@ prove that required `Repository validation` succeeds for the approved baseline a
 controlled failure. TD-021–TD-024, TD-026, and TD-028–TD-031 are Verified.
 
 Sprint 05 began on 9 August 2026 with Task 5.1. The reconciled 17-task sequence starts with
-provider-neutral contracts, environment safety, and security headers. Exact service, region, data
-map, accountable role, environment, and exit approval under DR-006 is a hard checkpoint before
-provider-backed persistence, identity, payment, or fulfilment work can claim completion.
+provider-neutral contracts, environment safety, and security headers. Task 5.5 closes the DR-006
+service/data-map checkpoint through DR-009's approved free-tier-first stack. Provider-backed
+persistence, identity, payment, or fulfilment still cannot claim completion until the later Sprint
+05 implementation and proof tasks pass.
 
 External decision preparation may begin early, but a sprint cannot claim completion until its prerequisites and acceptance evidence are satisfied.
 

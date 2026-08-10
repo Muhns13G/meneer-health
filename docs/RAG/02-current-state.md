@@ -45,6 +45,8 @@ sources:
   - docs/06-operations/environment-secrets-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md
   - docs/06-operations/http-security-cache-policy.md
+  - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md
 ---
 
 # Meneer v1 Verified Current State
@@ -61,13 +63,14 @@ design decision, not a current capability: no application/API boundary, modular 
 datastore, identity service, clinical/operations workspace, or transactional adapter exists in the
 repository yet.
 
-DR-005 and DR-006 now approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
-backup/restore, and vendor-evaluation architecture. They do not change the observed runtime: no
-provider, database, bucket, schema, migration, tenant policy, backup, or restore workflow exists.
+DR-005 and DR-006 approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
+backup/restore, and vendor-evaluation architecture. DR-009 now selects the exact free-tier-first
+pilot providers, but does not change the observed runtime: no provider credential, database, bucket,
+schema, migration, tenant policy, backup, or restore workflow exists.
 
-DR-007 approves the target identity and authorisation architecture. No identity provider, account,
-verification, MFA, session, recovery, role, permission, break-glass, service identity, or access
-policy exists in the current runtime.
+DR-007 approves the target identity and authorisation architecture, and DR-009 selects Supabase Auth
+Free. No account, verification, MFA, session, recovery, role, permission, break-glass, service
+identity, or access policy exists in the current runtime.
 
 Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
 This is documentation evidence only: no scenario was executed against a transactional backend, and
@@ -536,11 +539,10 @@ Evidence: [`sprint-04-12-closure-evidence.md`](../02-implementation-plans/phase-
   safety, and browser security precede the external-service checkpoint.
 - No state-changing server function, database, migration, identity, payment, messaging, audit,
   application-observability, backup, restore, or data-subject workflow currently exists.
-- PostgreSQL remains the approved portable data model, but no exact database, identity, storage,
-  email, observability, or payment provider, region, environment, or exit plan is approved.
-- All transactional routes remain inaccessible. Provider-backed work cannot claim completion until
-  DR-006 passes; payment and partner fulfilment remain additionally gated by TD-007, TD-009, and
-  TD-010.
+- This was the pre-Task-5.5 baseline. DR-009 subsequently selected the exact services and environment
+  boundary; no provider-backed implementation or activation should be inferred from this section.
+- All transactional routes remain inaccessible. Payment and partner fulfilment remain additionally
+  gated by TD-007, TD-009, and TD-010.
 
 Evidence: [`sprint-05-1-data-security-baseline-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-1-data-security-baseline-evidence.md).
 
@@ -572,7 +574,8 @@ Evidence: [`sprint-05-2-contract-foundation-evidence.md`](../02-implementation-p
 - Every production build proves a synthetic server canary exists in server output and is absent from
   client output. The scanner also rejects every future catalogued server-only name in the client.
 - Eight test files and 35 tests pass, including 11 environment/configuration assertions. TD-019 is
-  Verified for the current no-secret runtime; Task 5.5 still gates provider selection.
+  Verified for the current no-secret runtime; selected provider consumers must extend that contract
+  when implemented.
 
 Evidence: [`sprint-05-3-environment-security-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md).
 
@@ -591,6 +594,21 @@ Evidence: [`sprint-05-3-environment-security-evidence.md`](../02-implementation-
   Verified.
 
 Evidence: [`sprint-05-4-http-security-cache-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md).
+
+### Sprint 05.5 provider selection and data map — 10 August 2026
+
+- DR-009 selects one Supabase Free Frankfurt project for PostgreSQL, Auth, and private Storage;
+  Brevo Free custom SMTP; Cloudflare Workers telemetry; Better Stack Free for uptime and backup
+  heartbeats only; EU-jurisdiction Cloudflare R2 for encrypted recovery exports; and Stripe Checkout
+  in test mode.
+- Local development and CI use local Supabase with synthetic data. Cloudflare branch previews keep
+  real pilot providers disabled or use synthetic adapters; they never connect to the pilot store.
+- Task 5.5 is Completed as a decision and data-map checkpoint. No service was provisioned, no secret
+  was added, no real data was processed, and no transaction was activated.
+- TD-013, TD-016, and TD-020 remain In progress until their implementation and proof tasks pass.
+  TD-019 remains Verified for the current no-secret boundary and must be extended with each consumer.
+
+Evidence: [`sprint-05-5-provider-selection-data-map-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md).
 
 ## Highest-Risk Gaps
 

@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-08
+last_updated: 2026-08-10
 audience: internal
 sensitivity: internal
 sources:
@@ -25,6 +25,8 @@ sources:
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
 ---
@@ -128,8 +130,12 @@ suite has been implemented. DR-004 approves the future contract and migration ru
 changing that observed implementation state. DR-005 approves PostgreSQL/object-storage, logical
 schema, tenancy, lifecycle, migration, backup, and restore architecture; DR-006 approves how vendors
 must be evaluated. DR-007 approves the identity, session, role, permission, break-glass, recovery,
-and service-identity architecture. None of these decisions provisions a provider or makes the site
-transactional.
+and service-identity architecture. DR-009 selects the free-tier-first v1 stack: Supabase Free in
+Frankfurt for PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers
+telemetry; Better Stack uptime/backup heartbeats; EU-jurisdiction R2 encrypted recovery exports; and
+Stripe Checkout test mode. Selection provisions nothing and does not make the site transactional.
+Local/CI environments use local Supabase with synthetic data; Cloudflare branch previews keep real
+pilot providers disabled.
 
 Task 3.8 validates DR-001–DR-008 as one coherent design across happy, rejection, urgent, payment,
 fulfilment, support, rights, incident, and migration scenarios. It approves the conservative v1

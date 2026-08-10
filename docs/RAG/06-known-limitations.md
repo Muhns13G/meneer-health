@@ -30,6 +30,8 @@ sources:
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
+  - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-1-repository-health-baseline-evidence.md
@@ -110,15 +112,20 @@ provider adapters, complete retained-capability suite, or behavioural-equivalenc
 TD-014 and TD-055 are In progress and must not be described as Verified or transactional.
 
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
-and restore architecture; DR-006 approves vendor evaluation and exit criteria. No database, object
-store, identity, messaging, or other production data service is selected or provisioned. No physical
-schema, migration, tenant policy, backup, restore, data-subject workflow, or retention period exists
-in runtime. TD-012 decision closure must not be described as closure of TD-016 or Sprint 05
-implementation. Supabase, Neon, and Brevo remain candidates only.
+and restore architecture; DR-006 approves vendor evaluation and exit criteria. DR-009 selects the
+free-tier-first pilot providers, but no service is provisioned and no physical schema, migration,
+tenant policy, backup, restore, data-subject workflow, or retention enforcement exists in runtime.
+Do not describe provider selection as closure of TD-016 or Sprint 05 implementation.
+
+The selected Supabase Free model has one hosted pilot project, so local/CI use local Supabase and
+Cloudflare branch previews must keep real providers disabled or synthetic. Free-tier limits,
+inactivity pausing, short log retention, and lack of automatic backups/PITR are operational limits,
+not accepted recovery controls. Intake must pause or a reviewed upgrade must occur before a stop
+trigger is crossed; automatic spend is prohibited.
 
 DR-007 approves patient/workforce/service identity, MFA, sessions, recovery, roles, contextual
-permissions, break glass, audit, and access-test requirements. No identity provider or control is
-implemented. TD-013 is In progress—not Verified—until Sprint 05 proves server-side permissions,
+permissions, break glass, audit, and access-test requirements. DR-009 selects Supabase Auth Free,
+but no identity control is implemented. TD-013 is In progress—not Verified—until Sprint 05 proves server-side permissions,
 horizontal/vertical isolation, privileged MFA, recovery, revocation, and service identities.
 
 Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
@@ -194,8 +201,8 @@ paths pass, closing TD-049, TD-052, and TD-053.
   and stateful recovery remain future work.
 - Task 5.3 verifies the current no-secret environment boundary: declared public values are validated,
   server startup is strict, and the production bundle canary prevents server configuration from
-  entering browser output. This does not mean a database, identity, email, payment, or other
-  provider is selected, configured, or safe to activate; those consumers must extend the contract.
+  entering browser output. Task 5.5 selects providers but configures none; every consumer must extend
+  the environment contract before use and remains unsafe to activate until its proof gate passes.
 - Task 5.4 and TD-018 are Verified locally and on Cloudflare for Worker/static-asset security headers,
   cache classes, HSTS, matching nonce CSP, hydration, and clean browser operation. The CSP
   intentionally permits inline styles for current UI implementation, but not inline scripts; new
