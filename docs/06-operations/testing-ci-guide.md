@@ -60,7 +60,9 @@ bun run test:authz
 bun run test:commands
 bun run test:audit
 bun run test:security-evidence
+bun run test:lifecycle
 bun run exercise:incident
+bun run exercise:recovery
 bun run db:stop
 bun run audit
 bun run audit:prod
@@ -100,6 +102,10 @@ fail-closed dependencies, request deadlines, safe correlation and the browser's 
 Task 5.12 adds strict custom telemetry/redaction tests, monitoring thresholds, identified denial and
 disabled break-glass audit evidence, direct-browser rejection, and a deterministic incident
 exercise. Hosted Better Stack and Supabase credentials remain absent from CI.
+Task 5.13 adds verified export/erasure/hold/reconciliation tests, then encrypts a real logical dump,
+restores it into an isolated temporary PostgreSQL database, reconciles counts/checksums, records
+synthetic RPO/RTO evidence, and drops the temporary database. Hosted R2/Better Stack credentials
+remain absent from CI.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.

@@ -5,7 +5,7 @@ status: in-progress
 primary_debt: [TD-014, TD-015, TD-017, TD-018, TD-019, TD-020, TD-055]
 implementation_follow_through: [TD-013, TD-016]
 depends_on: [phase-01-sprint-03, phase-01-sprint-04]
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 owner: "@Muhns13G"
 ---
 
@@ -67,7 +67,7 @@ architecture and procedures.
 | 5.10 | Implement append-only audit facts plus transactional inbox/outbox records with safe metadata, correlation, access review, and tamper evidence.                       | TD-015                                        | Completed |
 | 5.11 | Threat-model and enforce request size, timeout, origin/CORS, rate, anti-automation, duplicate, malformed-body, and direct-endpoint controls.                         | TD-017                                        | Completed |
 | 5.12 | Add privacy-safe structured logging, monitoring, uptime, objectives, alerts, escalation, redaction tests, and a controlled incident exercise.                        | TD-020                                        | Completed |
-| 5.13 | Implement lifecycle and data-subject workflows, backup monitoring, staging restore, reconciliation, legal holds, and synthetic deletion/export evidence.             | TD-016                                        | Pending   |
+| 5.13 | Implement lifecycle and data-subject workflows, backup monitoring, staging restore, reconciliation, legal holds, and synthetic deletion/export evidence.             | TD-016                                        | Completed |
 | 5.14 | Integrate one-time Stripe Checkout and signed idempotent webhooks for approved test-mode scenarios without health data in payment metadata.                          | TD-014, TD-015, TD-020; TD-010 gate           | Pending   |
 | 5.15 | Implement minimum-data Precise Wellness, pharmacy, hub, courier, cancellation, refund, and fulfilment reconciliation behind inactive release gates.                  | TD-014, TD-015, TD-020; TD-007/009/010 gates  | Pending   |
 | 5.16 | Build the retained-capability catalogue, portable fixtures, contract suite, schema/version registry, and v1-to-v2 rehearsal/cutover/rollback template.               | TD-055                                        | Pending   |

@@ -175,6 +175,12 @@ sensitivity: internal
   does not permit unrelated access or create indefinite retention by default.
 - **RPO:** recovery point objective—the maximum approved amount of recent data loss measured in time.
 - **RTO:** recovery time objective—the maximum approved time to restore the required service/data.
+- **Recovery archive:** an AES-256-GCM encrypted logical database/object-manifest package written to
+  a private off-site destination and never read by ordinary application paths.
+- **Erasure reconciliation:** per-destination proof that an approved deletion/de-identification was
+  applied to authoritative data, identity, storage, and recoverable backups before completion.
+- **Legal/clinical hold:** a scoped, authorised pause on disposition with a review due within 90
+  days; release resumes the original lifecycle clock rather than creating a new retention period.
 - **Deletion propagation:** reconciling an approved deletion/restriction across authoritative data,
   providers, projections, caches, queues, exports, analytics and restored backups.
 - **Portable core:** domain rules, records, contracts, and tests that can move between TanStack, Next.js, Laravel, or hosting providers.

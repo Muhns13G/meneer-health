@@ -42,8 +42,9 @@ The repository owner performs these hosted steps; no credential is committed:
    `correlationId`. Never export unreviewed raw platform logs into the repository.
 4. Trigger a Better Stack test incident or controlled monitor failure, acknowledge it, restore the
    service, close the incident, and record timestamps against the objectives above.
-5. Task 5.13 separately provisions and tests the payload-free backup heartbeat. Do not send command
-   output, database names, object names, or error bodies to the heartbeat URL.
+5. Task 5.13 supplies the payload-free backup heartbeat adapter and local failure proof. The owner
+   still provisions and fail-tests the hosted heartbeat under the lifecycle/recovery runbook. Do
+   not send command output, database names, object names, or error bodies to the heartbeat URL.
 
 ## Incident Procedure
 

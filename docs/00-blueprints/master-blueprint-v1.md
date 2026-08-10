@@ -154,8 +154,8 @@ DR-005 approves managed PostgreSQL as the portable relational system of record a
 storage for binary objects. It assigns logical namespaces, opaque identifiers, explicit tenant
 scope, classification, lifecycle states, data-subject procedures, migrations, backups, restores,
 pilot exit, and cross-generation reconciliation. Task 3.8 approved the conservative v1 retention
-and recovery baseline; final named-domain application, physical schemas, and restore evidence remain
-release or Sprint 05 gates.
+and recovery baseline. Task 5.13 now implements the local lifecycle schema and isolated restore
+evidence; final named-domain application and hosted activation remain release gates.
 
 DR-006 governs every production data or service provider through non-negotiable legal/privacy,
 security, isolation, portability/exit, recovery, authority, and commercial gates followed by a
@@ -175,13 +175,13 @@ Task 3.8 validates these decisions across required success, rejection, urgent, p
 support, rights, incident, and migration scenarios. The approved v1 lifecycle baseline follows
 purpose-limited retention, a general six-year dormant clinical-record minimum subject to longer
 exceptions, a five-year finance/tax baseline, short raw integration/export windows, 35-day rolling
-backups, and critical one-hour RPO/four-hour RTO. Final domain application and Sprint 05 restore/
-rights evidence remain release gates.
+backups, and critical one-hour RPO/four-hour RTO. Task 5.13 now supplies the synthetic restore/rights
+evidence; final named-domain application and hosted recovery activation remain release gates.
 
 Sprint 03 is complete as an architecture-and-decision milestone. DR-001–DR-008 are approved;
 TD-011, TD-012, TD-050, and TD-054 are Verified. TD-009 and TD-010 retain named operating and
-commercial activation gates, while TD-013 and TD-016 retain Sprint 05 implementation-evidence
-gates. Completion therefore constrains future implementation without representing the current site
+commercial activation gates, while TD-013 retains later implementation/activation evidence. Task
+5.13 subsequently verifies TD-016's synthetic implementation acceptance. Completion therefore constrains future implementation without representing the current site
 as transactional or authorising the pilot.
 
 The platform should classify data before selecting storage or vendors:
@@ -244,8 +244,11 @@ Sprint 05 Task 5.12 adds a portable strict `telemetry.event` contract, privacy-s
 correlation, explicit pilot objectives and alert ownership, append-only identified denial evidence,
 and a controlled dependency/break-glass incident exercise. Automatic transport-level invocation
 logs are disabled in favour of allowlisted custom events. Better Stack production monitoring and
-Task 5.13's backup heartbeat/recovery proof remain owner activation gates, so observability evidence
-does not imply that a customer transaction or hosted database is active.
+Task 5.13 then adds verified rights/export/erasure/hold workflows, encrypted application-schema
+recovery archives, private-R2 and payload-free heartbeat adapters, and a real isolated synthetic
+restore with count/checksum reconciliation. TD-016 is Verified at repository level. The owner must
+still provision/fail-test R2 and Better Stack and approve the named legal/provider application;
+none of this implies that a customer transaction or hosted database is active.
 
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 

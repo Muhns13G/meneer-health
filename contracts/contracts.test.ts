@@ -11,6 +11,12 @@ import {
 import { contractDefinitionSchema } from "./catalogue";
 import { commandEnvelopeSchema, eventEnvelopeSchema } from "./envelopes";
 import { errorContractSchema, stableErrorCodes } from "./errors";
+import {
+  dataSubjectRequestContract,
+  dataSubjectRequestResultSchema,
+  recoveryArchiveContract,
+  recoveryManifestSchema,
+} from "./lifecycle";
 import { telemetryEventContract, telemetryEventSchema } from "./observability";
 import { requestSecurityDecisionSchema } from "./security";
 import {
@@ -143,6 +149,38 @@ describe("privacy-safe observability evidence", () => {
         durationBucket: "under-250ms",
       }).success,
     ).toBe(true);
+  });
+});
+
+describe("lifecycle and recovery evidence", () => {
+  it("registers the rights workflow and strict recovery manifest", () => {
+    expect(contractDefinitionSchema.parse(dataSubjectRequestContract)).toEqual(
+      dataSubjectRequestContract,
+    );
+    expect(contractDefinitionSchema.parse(recoveryArchiveContract)).toEqual(
+      recoveryArchiveContract,
+    );
+    expect(
+      dataSubjectRequestResultSchema.safeParse({
+        requestId: "b0000000-0000-4000-8000-000000000013",
+        status: "pending_reconciliation",
+        expiresAt: null,
+        reconciliationPending: ["identity", "storage", "recovery_backup"],
+      }).success,
+    ).toBe(true);
+    expect(
+      recoveryManifestSchema.safeParse({
+        contract: "recovery.manifest",
+        version: 1,
+        createdAt: "2030-01-01T00:00:00.000Z",
+        environment: "local",
+        backupId: "b0000000-0000-4000-8000-000000000013",
+        schemaVersion: "20260810222608",
+        recordCounts: { subjects: 3 },
+        checksum: "a".repeat(64),
+        patient: "prohibited",
+      }).success,
+    ).toBe(false);
   });
 });
 
