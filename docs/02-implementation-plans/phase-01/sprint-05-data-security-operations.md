@@ -40,11 +40,11 @@ architecture and procedures.
   alert, incident, backup, restore, or reconciliation implementation.
 - The repository defines no CSP or other browser-security header policy. The current build produces
   no tracked or generated `_headers` file.
-- Task 5.5 and DR-009 select the free-tier-first pilot stack: one Supabase Free project in Frankfurt
+- Task 5.5 and DR-009 select the free-tier-first pilot stack: one Supabase Free project in London
   for PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers telemetry;
   Better Stack Free for uptime and backup heartbeats only; Cloudflare R2 in the EU jurisdiction for
-  encrypted recovery exports; and Stripe Checkout in test mode. Selection does not provision or
-  activate any service.
+  encrypted recovery exports; and Stripe Checkout in test mode. The owner subsequently provisioned
+  the London project; it has no migrations or application integration and remains synthetic-only.
 - Local development and CI use local Supabase with synthetic data. Cloudflare branch previews must
   keep provider integrations disabled or synthetic and must never connect to the real pilot store.
 - TD-006, TD-007, TD-009, and TD-010 still gate claims, peptide authority, named operating parties,

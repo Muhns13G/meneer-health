@@ -131,8 +131,8 @@ The selected host may provide builds, previews, functions, logs, and static deli
 
 DR-005 fixes the portable data class at managed PostgreSQL plus encrypted object storage. DR-006
 requires each service to pass legal/privacy, security, isolation, portability/exit, recovery,
-authority, and commercial gates. DR-009 selects Supabase Free as the v1 PostgreSQL/Auth/private-
-Storage adapter, Brevo SMTP, Cloudflare telemetry and EU R2 recovery exports, Better Stack uptime/
+authority, and commercial gates. DR-009 selects the London Supabase Free project as the v1
+PostgreSQL/Auth/private-Storage adapter, Brevo SMTP, Cloudflare telemetry and EU R2 recovery exports, Better Stack uptime/
 heartbeat monitoring, and Stripe test mode. Provider bundles and hosting relationships confer no
 automatic approval.
 

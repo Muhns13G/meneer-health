@@ -113,8 +113,9 @@ TD-014 and TD-055 are In progress and must not be described as Verified or trans
 
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
 and restore architecture; DR-006 approves vendor evaluation and exit criteria. DR-009 selects the
-free-tier-first pilot providers, but no service is provisioned and no physical schema, migration,
-tenant policy, backup, restore, data-subject workflow, or retention enforcement exists in runtime.
+free-tier-first pilot providers, and the owner has provisioned the empty London Supabase project.
+No application integration, physical schema, migration, tenant policy, backup, restore,
+data-subject workflow, or retention enforcement exists in runtime.
 Do not describe provider selection as closure of TD-016 or Sprint 05 implementation.
 
 The selected Supabase Free model has one hosted pilot project, so local/CI use local Supabase and
