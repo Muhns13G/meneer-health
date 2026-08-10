@@ -240,6 +240,13 @@ same-origin, media-type, body-size, malformed-body, idempotency, anti-automation
 requirements for future commands. Cloudflare's rate-limit binding is a coarse adapter; durable
 idempotency, authorisation and route-specific activation evidence remain authoritative.
 
+Sprint 05 Task 5.12 adds a portable strict `telemetry.event` contract, privacy-safe Worker request
+correlation, explicit pilot objectives and alert ownership, append-only identified denial evidence,
+and a controlled dependency/break-glass incident exercise. Automatic transport-level invocation
+logs are disabled in favour of allowlisted custom events. Better Stack production monitoring and
+Task 5.13's backup heartbeat/recovery proof remain owner activation gates, so observability evidence
+does not imply that a customer transaction or hosted database is active.
+
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
 ## Clinical and Content Governance

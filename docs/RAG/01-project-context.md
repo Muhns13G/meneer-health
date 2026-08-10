@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 audience: internal
 sensitivity: internal
 sources:
@@ -97,6 +97,13 @@ body-free reads; URL/header caps, coarse mutation-probe rate limiting, reserved-
 safe correlation responses and a 15-second deadline run at the Worker entry. Future protected JSON
 commands must additionally pass route-specific body, origin, idempotency, anti-automation or
 trusted-actor, and rate controls. This does not create a form, API, callback or hosted transaction.
+
+Task 5.12 adds the privacy-safe observability foundation: strict custom Worker events contain only
+environment, outcome, correlation and coarse operational classifications; automatic invocation logs
+are disabled. Local policy tests and a controlled exercise raise dependency, abuse, server-failure
+and disabled break-glass alerts. Identified denials append through a server-only audit boundary.
+Better Stack production monitoring and Task 5.13's backup heartbeat/recovery proof remain external
+owner gates.
 
 ## Intended Users and Operators
 

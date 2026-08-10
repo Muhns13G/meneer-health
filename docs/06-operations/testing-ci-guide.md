@@ -30,6 +30,8 @@ patient, clinical, payment, pharmacy, or fulfilment workflow exists.
 | Authorisation         | `bun run test:authz`                      | Synthetic role, tenant, assignment and service-scope boundaries   |
 | Workflow commands     | `bun run test:commands`                   | Atomic state, replay, concurrency and false-success boundaries    |
 | Audit/integration     | `bun run test:audit`                      | Audit chain, review access, inbox replay and outbox atomicity     |
+| Security evidence     | `bun run test:security-evidence`          | Server-only denial append and direct-browser rejection            |
+| Incident exercise     | `bun run exercise:incident`               | Alert thresholds, redaction and incident-stage rehearsal          |
 | Browser/accessibility | `bun run test:e2e`                        | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
 | Dependencies          | `bun run audit`, `bun run audit:prod`     | Full and production-filtered advisory policy                      |
 | Delivery              | `bun run build`, `bun run deploy:dry-run` | Production bundle and non-deploying Cloudflare upload validation  |
@@ -57,6 +59,8 @@ bun run test:auth
 bun run test:authz
 bun run test:commands
 bun run test:audit
+bun run test:security-evidence
+bun run exercise:incident
 bun run db:stop
 bun run audit
 bun run audit:prod
@@ -93,6 +97,9 @@ Task 5.9 command scenario.
 Task 5.11 checks generated Cloudflare binding types, then proves transport caps, body-free reads,
 mutation-probe limiting/denial, protected JSON origin/body/idempotency/anti-automation controls,
 fail-closed dependencies, request deadlines, safe correlation and the browser's no-CORS boundary.
+Task 5.12 adds strict custom telemetry/redaction tests, monitoring thresholds, identified denial and
+disabled break-glass audit evidence, direct-browser rejection, and a deterministic incident
+exercise. Hosted Better Stack and Supabase credentials remain absent from CI.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.

@@ -3,7 +3,7 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-direction
 authority: strategic
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 audience: internal
 sensitivity: internal
 sources:
@@ -116,6 +116,12 @@ bounded transport inputs, body-free public reads, origin/media/body/idempotency 
 JSON commands, safe errors, dependency failure, and a finite handler deadline. Cloudflare's
 rate-limit binding and preflight behaviour are v1 adapters. Next.js/Vercel and Laravel must retain
 the decision semantics and negative evidence while replacing host-specific enforcement cleanly.
+
+Task 5.12 adds the portable strict `telemetry.event` contract and framework-neutral monitoring
+policy. Later runtimes must preserve field allowlisting, correlation, redaction rejection, alert
+threshold semantics, incident stages and authoritative append-only security facts. Cloudflare
+Workers Logs, Better Stack monitors, `console.log` transport and the Supabase RPC are replaceable v1
+adapters; raw request/provider/health payloads must never become the migration interface.
 
 ## v1 De-Platform Sequence
 

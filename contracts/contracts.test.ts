@@ -11,6 +11,7 @@ import {
 import { contractDefinitionSchema } from "./catalogue";
 import { commandEnvelopeSchema, eventEnvelopeSchema } from "./envelopes";
 import { errorContractSchema, stableErrorCodes } from "./errors";
+import { telemetryEventContract, telemetryEventSchema } from "./observability";
 import { requestSecurityDecisionSchema } from "./security";
 import {
   invalidCommandFixtures,
@@ -121,6 +122,27 @@ describe("request security evidence", () => {
         token: "must-not-be-recorded",
       }).success,
     ).toBe(false);
+  });
+});
+
+describe("privacy-safe observability evidence", () => {
+  it("registers and accepts the allowlisted telemetry contract", () => {
+    expect(contractDefinitionSchema.parse(telemetryEventContract)).toEqual(telemetryEventContract);
+    expect(
+      telemetryEventSchema.safeParse({
+        contract: "telemetry.event",
+        version: 1,
+        occurredAt: "2030-01-01T00:00:00.000Z",
+        environment: "local",
+        event: "request.completed",
+        severity: "info",
+        outcome: "succeeded",
+        correlationId: "synthetic_trace_01",
+        routeClass: "public-read",
+        statusClass: "2xx",
+        durationBucket: "under-250ms",
+      }).success,
+    ).toBe(true);
   });
 });
 

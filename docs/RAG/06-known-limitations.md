@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 audience: internal
 sensitivity: internal
 sources:
@@ -146,6 +146,12 @@ denies and rate-checks unregistered mutations, and defines reusable protected-JS
 does not provision Turnstile, configure a hosted WAF rule, publish a command/callback, or prove
 route-specific monitoring. Do not describe TD-017 as Verified: every enabled form, identity action,
 payment or provider callback still needs its own policy and local/preview/hosted bypass evidence.
+
+Task 5.12 adds strict custom Worker telemetry, local alert thresholds, a passing controlled incident
+exercise and append-only identified denial evidence. This is not a hosted monitoring claim.
+Automatic invocation logs are disabled; the owner has not yet recorded Better Stack production
+monitor activation/failure evidence, and Task 5.13 still owns the backup heartbeat and restore.
+Therefore TD-020, TD-013, TD-015 and TD-017 remain In progress despite the completed repository task.
 
 Task 5.9 implements an inactive synthetic workflow command with strict validation, contextual
 authorisation, independent clinical/payment/fulfilment state, optimistic versions, durable
