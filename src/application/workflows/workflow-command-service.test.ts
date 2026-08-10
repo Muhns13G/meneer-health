@@ -44,6 +44,7 @@ const actor = resolveServerWorkflowActor({
   subjectId,
   tenantId,
   role: "operations",
+  assurance: "aal2",
   observedAt: new Date("2030-01-01T00:10:00Z"),
 });
 
@@ -89,6 +90,11 @@ describe("WorkflowCommandService", () => {
         expectedVersion: 0,
         transition: "supply.request",
         requestFingerprint: expect.stringMatching(/^[a-f0-9]{64}$/),
+        actorRole: "operations",
+        assurance: "aal2",
+        correlationId: "trace_01",
+        causationId: "request_01",
+        policyVersion: "test",
       }),
     );
   });

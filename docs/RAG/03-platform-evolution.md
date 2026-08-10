@@ -18,6 +18,7 @@ sources:
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
@@ -101,6 +102,12 @@ strict validation, server-owned authority, independent workflow dimensions, opti
 payload-bound idempotency, exact replay and no success before durable state plus receipt commit.
 Next.js and Laravel must reproduce these behaviours without depending on TanStack routes or the
 Supabase RPC implementation.
+
+Task 5.10 adds portable `audit.fact`, `workflow.transitioned`, and `integration.received` version-1
+contracts. Later generations must preserve atomic state/receipt/audit/outbox commit, exact replay
+deduplication, minimum event payloads, fingerprint-only inbox evidence, correlation/causation,
+purpose-bound review records and verifiable append order. Supabase RPCs, table names, PostgreSQL
+triggers and the concrete hash implementation remain replaceable adapters.
 
 ## v1 De-Platform Sequence
 

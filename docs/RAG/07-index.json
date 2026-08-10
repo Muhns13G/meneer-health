@@ -1111,6 +1111,23 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "phase-01-sprint-05-task-10",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.10 completion",
+        "portable audit event and inbox contracts",
+        "atomic workflow receipt audit and outbox commit",
+        "append-only tenant hash chain",
+        "safe allow-listed audit metadata",
+        "fingerprint-bound integration inbox replay",
+        "purpose-bound AAL2 audit review",
+        "tamper and direct-browser denial evidence"
+      ],
+      "source_parent": "3ccea7f",
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1434,6 +1451,27 @@
         "src/application/identity/",
         "src/adapters/identity/supabase/",
         "supabase/migrations/20260810142803_identity_governance.sql",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "audit",
+        "audit-fact",
+        "outbox",
+        "inbox",
+        "tamper-evidence",
+        "correlation",
+        "td-015",
+        "task-5.10"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md",
+        "docs/06-operations/audit-integration-evidence-runbook.md"
+      ],
+      "verify_against": [
+        "supabase/migrations/20260810200633_audit_inbox_outbox_evidence.sql",
+        "contracts/audit.ts",
         "docs/04-technical-debt/technical-debt-registry-v1.md"
       ]
     },

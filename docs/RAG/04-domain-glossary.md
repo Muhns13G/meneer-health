@@ -133,6 +133,14 @@ sensitivity: internal
   to its committed result; a changed payload cannot reuse the key.
 - **False-success prevention:** the rule that success is returned only after every authoritative
   write required by that command commits; rollback leaves neither changed state nor a success receipt.
+- **Audit fact:** an append-only minimum evidence record for an access, decision, committed command
+  or privileged change; it contains opaque references, outcome, reason and correlation—not raw content.
+- **Audit chain:** a tenant-serialized sequence in which each audit fact hashes its approved fields
+  plus the previous hash; recomputation detects changes but is not external WORM storage.
+- **Transactional outbox:** a minimum domain event committed in the same database transaction as
+  authoritative state, then delivered and reconciled separately without dual-writing success.
+- **Integration inbox:** a replay-safe receipt for verified external evidence. The current boundary
+  stores provider/event identity and payload fingerprint, not the raw provider payload.
 - **Step-up authentication:** fresh stronger authentication required before a high-risk action even
   when a session is already active.
 - **Break glass:** exceptional, time-limited, notified and reviewed access for immediate patient

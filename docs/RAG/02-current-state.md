@@ -48,6 +48,9 @@ sources:
   - docs/06-operations/http-security-cache-policy.md
   - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
+  - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
 # Meneer v1 Verified Current State
@@ -66,8 +69,9 @@ clinical/operations workspace, or transactional workflow is enabled.
 
 DR-005 and DR-006 approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
 backup/restore, and vendor-evaluation architecture. DR-009 selects the exact free-tier-first pilot
-providers, and the owner has provisioned the empty London Supabase project. Local/CI now rebuild four
-versioned migrations with synthetic tenancy, identity, authorisation and workflow data. The hosted project still has no
+providers, and the owner has provisioned the empty London Supabase project. Local/CI now rebuild five
+versioned migrations with synthetic tenancy, identity, authorisation, workflow and audit/integration
+evidence data. The hosted project still has no
 application credential or migrated schema, and no bucket, backup, restore or pilot data exists.
 
 Task 5.7 implements server-only Supabase Auth behind provider-neutral ports, stable subject/contact
@@ -88,6 +92,13 @@ commits an explicit workflow version and durable idempotency receipt. Exact and 
 deduplicate; changed replay, stale version, invalid state, missing prerequisites and browser/direct
 table mutation fail without false success. Clinical, payment, supply, hub receipt, dispatch,
 delivery, cancellation and refund remain independent. No customer route invokes this foundation.
+
+Task 5.10 makes the successful Task 5.9 mutation an atomic state, receipt, audit and outbox commit.
+Portable audit/event/inbox contracts, an allow-listed safe metadata boundary, tenant-serialized
+SHA-256 audit chains, fingerprint-only inbox replay and purpose-bound AAL2 audit review pass locally.
+Audit/review rows reject ordinary mutation, chain recomputation detects privileged storage changes,
+and browser/direct service table access is denied. No provider callback, outbox worker, customer
+route or hosted migration is active.
 
 Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
 This is documentation evidence only: no scenario was executed against a transactional backend, and
@@ -647,7 +658,7 @@ Evidence: [`sprint-05-5-provider-selection-data-map-evidence.md`](../02-implemen
 
 Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md).
 
-### Sprint 05.7–05.9 identity, authorisation and command foundations — 10 August 2026
+### Sprint 05.7–05.10 identity, authorisation, command and audit foundations — 10 August 2026
 
 - Supabase Auth is isolated behind provider-neutral identity, session and governance ports with
   stable internal subjects, verified contact, TOTP AAL2, bounded sessions and governed recovery.
@@ -659,11 +670,14 @@ Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-p
 - The validated command keeps eight workflow authorities separate and atomically commits an
   optimistic state version plus payload-bound idempotency receipt. Exact/concurrent replay is safe;
   changed replay, stale state, missing prerequisites and false success are rejected.
-- Four migrations reset cleanly, 136 pgTAP assertions and 133 Vitest checks pass, all three live
+- Successful commands now commit one hash-chained safe audit fact and minimum outbox event in the
+  same transaction. Exact replay deduplicates all evidence. A fingerprint-only inbox and capped,
+  assigned AAL2 audit review are server-only; each review is itself recorded.
+- Five migrations reset cleanly, 184 pgTAP assertions and 144 Vitest checks pass, all four live
   synthetic integrations pass, and Supabase lint/advisors report no issues. Hosted Supabase remains
   unchanged.
 
-Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md) and [`sprint-05-9-validated-workflow-commands-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md).
+Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md), [`sprint-05-9-validated-workflow-commands-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md), and [`sprint-05-10-audit-integration-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md).
 
 ## Highest-Risk Gaps
 
@@ -673,8 +687,8 @@ Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementat
 - Unresolved peptide offering and contradictory positioning.
 - The operating model and logical backend/state boundaries are approved. Local persistence,
   identity, contextual authorisation and one synthetic durable command foundation now exist, but
-  customer-facing writes, audit, retention, hosted recovery, observability, and incident processes
-  are not implemented.
+  customer-facing writes, complete sensitive-action audit coverage, retention enforcement, hosted
+  recovery, observability, and incident processes are not implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
   in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.

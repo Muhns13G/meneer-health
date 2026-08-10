@@ -224,6 +224,13 @@ independent states; a committed receipt and state version succeed or fail togeth
 safe, while changed replay, stale version, invalid transition, unmet prerequisite and browser/direct
 table mutation are rejected. Real payment and partner commands remain gated to Tasks 5.14–5.15.
 
+Sprint 05 Task 5.10 extends that command boundary with portable `audit.fact`,
+`workflow.transitioned`, and `integration.received` contract families. The Supabase adapter commits
+workflow state, receipt, hash-chained safe audit fact and minimum outbox event atomically; an
+idempotent fingerprint-only inbox and AAL2 purpose-bound audit review remain server-only. Browser
+roles and direct service-table access are denied. Scheduled monitoring, lifecycle/export, external
+providers and hosted activation remain Tasks 5.12–5.15.
+
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
 ## Clinical and Content Governance
