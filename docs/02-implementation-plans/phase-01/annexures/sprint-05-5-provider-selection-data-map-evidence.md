@@ -3,7 +3,7 @@ evidence_id: phase-01-sprint-05-task-05
 title: Sprint 05.5 Free-Tier Provider Selection and Data Map
 status: verified-task-evidence
 date: 2026-08-10
-source_commit: pending-owner-commit
+source_commit: 71a3d3c
 owner: "@Muhns13G"
 related_debt: [TD-010, TD-013, TD-016, TD-019, TD-020]
 ---
@@ -28,12 +28,19 @@ Supabase account evidence confirmed:
 - the connector quotes the next project at USD 0 per month; and
 - a hosted preview branch would cost USD 0.01344 per hour and requires the paid branching feature.
 
-DR-009 therefore selects one Frankfurt Supabase Free project for PostgreSQL, Auth and private
+DR-009 therefore selects one London Supabase Free project for PostgreSQL, Auth and private
 Storage; local Supabase for development/CI; provider-disabled or synthetic Cloudflare previews; an
 EU-jurisdiction R2 recovery bucket; Brevo Free; Cloudflare native observability; Better Stack Free
 uptime/heartbeats; and Stripe test mode.
 
 No service was created or changed while obtaining this evidence.
+
+After the Task 5.5 commit, the owner provisioned the `meneer-health` Free project in West Europe
+(London), `eu-west-2`. The owner-provided dashboard evidence showed a healthy Nano project with no
+migrations and no backups. The project remains synthetic-only and is not connected to the
+application runtime. The dashboard shows the GitHub repository is linked; its automatic migration
+and branch settings must be inspected before Task 5.6 pushes any schema change. No project
+reference, password, connection string, or privileged key is recorded here.
 
 ## DR-006 Gate Disposition
 
@@ -81,8 +88,9 @@ environment is approved.
 - Better Stack Free currently includes 10 monitors/heartbeats and email/Slack alerts. It is selected
   for uptime and recovery heartbeat only—not patient logs, web analytics or session replay.
 
-These facts are dated selection evidence, not perpetual entitlements. Reverify them at provisioning
-and activation and record observed limits without credentials or private documents.
+These facts are dated selection evidence, not perpetual entitlements. Reverify them before the first
+hosted migration/application credential and again at activation; record observed limits without
+credentials or private documents.
 
 ## Debt Disposition
 

@@ -162,10 +162,11 @@ security, isolation, portability/exit, recovery, authority, and commercial gates
 weighted comparison. Cloudflare hosting or a Supabase/Neon/Brevo shortlist is not automatic
 approval of any additional service.
 
-DR-009 applies those gates to the free-tier-first v1 selection: Supabase Free in Frankfurt for
+DR-009 applies those gates to the free-tier-first v1 selection: Supabase Free in London for
 PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers telemetry; Better
 Stack uptime and backup heartbeats; EU-jurisdiction R2 encrypted recovery exports; and Stripe test
-mode. Selection provisions nothing. Local/CI use local Supabase with synthetic data, Cloudflare
+mode. The owner has provisioned the London project, but no schema, application credential, or real
+data is active. Local/CI use local Supabase with synthetic data, Cloudflare
 branch previews keep pilot providers disabled, and real-data activation remains gated by Sprint 05
 implementation and domain approval.
 

@@ -13,10 +13,11 @@ sensitivity: internal
 ## Current Decision
 
 DR-009 approves an integrated, free-tier-first v1 provider stack. Selection closes Sprint 05 Task
-5.5; it does not provision services, approve health-data processing, or activate a transaction.
+5.5. The owner has since provisioned the selected Supabase project; this does not approve
+health-data processing or activate a transaction.
 
-- **Database, identity, and primary private files:** one Supabase Free project in Frankfurt
-  (`eu-central-1`) using PostgreSQL, Supabase Auth, and private Storage.
+- **Database, identity, and primary private files:** one Supabase Free project in London
+  (`eu-west-2`) using PostgreSQL, Supabase Auth, and private Storage.
 - **Transactional email:** Brevo Free as Supabase custom SMTP, with tracking disabled and generic
   message content.
 - **Recovery exports:** encrypted PostgreSQL and object exports in a Cloudflare R2 bucket restricted
@@ -26,9 +27,10 @@ DR-009 approves an integrated, free-tier-first v1 provider stack. Selection clos
   information, application log payloads, or session replay.
 - **Payments:** Stripe Checkout in test mode until TD-010's commercial and live-activation gates pass.
 
-The owner verified that the OITWS Supabase organisation is on the Free plan, has one active project,
-and reports a zero monthly project cost for the remaining project slot. Supabase hosted branching is
-not selected because it is billed; local Supabase provides development and CI databases instead.
+The owner verified that the OITWS Supabase organisation is on the Free plan and then used the
+remaining zero-monthly-cost project slot for `meneer-health`. The healthy London Nano project has no
+migrations or backups and remains synthetic-only. Supabase hosted branching is not selected because
+it is billed; local Supabase provides development and CI databases instead.
 
 ## Environment Contract
 

@@ -64,9 +64,10 @@ datastore, identity service, clinical/operations workspace, or transactional ada
 repository yet.
 
 DR-005 and DR-006 approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
-backup/restore, and vendor-evaluation architecture. DR-009 now selects the exact free-tier-first
-pilot providers, but does not change the observed runtime: no provider credential, database, bucket,
-schema, migration, tenant policy, backup, or restore workflow exists.
+backup/restore, and vendor-evaluation architecture. DR-009 selects the exact free-tier-first pilot
+providers, and the owner has provisioned the empty London Supabase project. The application runtime
+still has no provider credential, schema, migration, tenant policy, bucket, backup, or restore
+workflow.
 
 DR-007 approves the target identity and authorisation architecture, and DR-009 selects Supabase Auth
 Free. No account, verification, MFA, session, recovery, role, permission, break-glass, service
@@ -597,14 +598,15 @@ Evidence: [`sprint-05-4-http-security-cache-evidence.md`](../02-implementation-p
 
 ### Sprint 05.5 provider selection and data map — 10 August 2026
 
-- DR-009 selects one Supabase Free Frankfurt project for PostgreSQL, Auth, and private Storage;
+- DR-009 selects one Supabase Free London project for PostgreSQL, Auth, and private Storage;
   Brevo Free custom SMTP; Cloudflare Workers telemetry; Better Stack Free for uptime and backup
   heartbeats only; EU-jurisdiction Cloudflare R2 for encrypted recovery exports; and Stripe Checkout
   in test mode.
 - Local development and CI use local Supabase with synthetic data. Cloudflare branch previews keep
   real pilot providers disabled or use synthetic adapters; they never connect to the pilot store.
-- Task 5.5 is Completed as a decision and data-map checkpoint. No service was provisioned, no secret
-  was added, no real data was processed, and no transaction was activated.
+- Task 5.5 is Completed as a decision and data-map checkpoint. The owner subsequently provisioned
+  the healthy London Nano project with no migrations or backups. No application secret was added,
+  no real data was processed, and no transaction was activated.
 - TD-013, TD-016, and TD-020 remain In progress until their implementation and proof tasks pass.
   TD-019 remains Verified for the current no-secret boundary and must be extended with each consumer.
 

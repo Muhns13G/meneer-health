@@ -36,9 +36,9 @@ waive the remaining privacy, security, clinical, commercial, recovery, and relea
 
 - The v1 pilot is small, invite-only, and peptide-focused, but will process real identity, health,
   payment, and fulfilment state only after its activation gates pass.
-- The connected `OITWS` Supabase organisation is on the Free plan with one active project. A
-  read-only account check quoted the second project at USD 0 per month, leaving one hosted Free
-  project available for Meneer.
+- The connected `OITWS` Supabase organisation is on the Free plan. A read-only account check quoted
+  the second project at USD 0 per month; the owner subsequently used that remaining slot for the
+  healthy `meneer-health` Nano project in London. It currently has no migrations or backups.
 - Supabase Free branching is unavailable. The connector quoted a preview branch at USD 0.01344 per
   hour, and current documentation states branching requires Pro.
 - PostgreSQL remains the portable system of record. Cloudflare D1/SQLite does not replace DR-005.
@@ -67,24 +67,24 @@ waive the remaining privacy, security, clinical, commercial, recovery, and relea
 
 Use this zero-fixed-cost v1 implementation stack:
 
-| Capability                | Exact service and tier                                             | Region/location            | Environment boundary                                      | Purpose                                              |
-| ------------------------- | ------------------------------------------------------------------ | -------------------------- | --------------------------------------------------------- | ---------------------------------------------------- |
-| Runtime/edge              | Cloudflare Workers Free                                            | Global edge                | Existing preview and production Worker deployments        | HTTP/runtime only                                    |
-| PostgreSQL                | Supabase Free PostgreSQL                                           | Frankfurt `eu-central-1`   | One hosted Meneer pilot project; local Supabase elsewhere | Authoritative relational state                       |
-| Identity                  | Supabase Auth Free with TOTP MFA                                   | Frankfurt `eu-central-1`   | Same hosted project; local synthetic Auth                 | Authentication only; permissions remain server-owned |
-| Private objects           | Supabase Storage Free, private buckets                             | Frankfurt project boundary | Same hosted project; local synthetic Storage              | Active private objects and metadata-linked binaries  |
-| Recovery exports          | Cloudflare R2 Standard within free allowance, EU jurisdiction      | European Union             | Separate recovery bucket and credentials                  | Encrypted off-site database/object exports only      |
-| Transactional email       | Brevo Free SMTP/API                                                | European Union processing  | Test and production sender credentials/templates          | Generic delivery only; tracking disabled             |
-| Application observability | Cloudflare Workers Logs, Metrics and Traces on available free tier | Cloudflare-managed         | Environment-tagged, redacted telemetry                    | Runtime diagnostics without health payloads          |
-| Uptime/backup heartbeat   | Better Stack Free                                                  | Provider-managed           | Production URL monitors and backup heartbeat              | Availability/heartbeat only; no patient payloads     |
-| Payments                  | Stripe Checkout and signed webhooks in test mode                   | Stripe-managed             | Test mode until TD-010 passes                             | Payment adapter; live merchant remains blocked       |
+| Capability                | Exact service and tier                                             | Region/location           | Environment boundary                                      | Purpose                                              |
+| ------------------------- | ------------------------------------------------------------------ | ------------------------- | --------------------------------------------------------- | ---------------------------------------------------- |
+| Runtime/edge              | Cloudflare Workers Free                                            | Global edge               | Existing preview and production Worker deployments        | HTTP/runtime only                                    |
+| PostgreSQL                | Supabase Free PostgreSQL                                           | London `eu-west-2`        | One hosted Meneer pilot project; local Supabase elsewhere | Authoritative relational state                       |
+| Identity                  | Supabase Auth Free with TOTP MFA                                   | London `eu-west-2`        | Same hosted project; local synthetic Auth                 | Authentication only; permissions remain server-owned |
+| Private objects           | Supabase Storage Free, private buckets                             | London project boundary   | Same hosted project; local synthetic Storage              | Active private objects and metadata-linked binaries  |
+| Recovery exports          | Cloudflare R2 Standard within free allowance, EU jurisdiction      | European Union            | Separate recovery bucket and credentials                  | Encrypted off-site database/object exports only      |
+| Transactional email       | Brevo Free SMTP/API                                                | European Union processing | Test and production sender credentials/templates          | Generic delivery only; tracking disabled             |
+| Application observability | Cloudflare Workers Logs, Metrics and Traces on available free tier | Cloudflare-managed        | Environment-tagged, redacted telemetry                    | Runtime diagnostics without health payloads          |
+| Uptime/backup heartbeat   | Better Stack Free                                                  | Provider-managed          | Production URL monitors and backup heartbeat              | Availability/heartbeat only; no patient payloads     |
+| Payments                  | Stripe Checkout and signed webhooks in test mode                   | Stripe-managed            | Test mode until TD-010 passes                             | Payment adapter; live merchant remains blocked       |
 
 The hosted Supabase project is production-named for configuration discipline but may contain only
 synthetic data until every applicable DR-006 gate passes and the release owner records go/no-go.
 
 ## Environment Model
 
-One remaining Free project cannot provide separate hosted staging and production. The approved
+One Free project cannot provide separate hosted staging and production. The approved
 controlled-pilot compromise is:
 
 ```text
@@ -228,12 +228,14 @@ Task 5.16 must preserve provider-neutral fixtures and migration contracts. A fai
 ## Implementation and Verification
 
 - Tasks 5.6–5.13 may implement the approved stack with local/synthetic data and inactive release gates.
-- Only the repository owner may create the remaining Supabase project or any R2/Brevo/Better Stack resource.
+- The repository owner has created the London Supabase project. Only the owner may provision any
+  R2, Brevo, Better Stack, or additional Supabase resource.
 - Every provider consumer adds configuration catalogue/schema/tests, secret rotation/revocation,
   quota/health evidence and client-bundle checks in its first implementation commit.
 - Verify least privilege, RLS, export/import, restore, deletion, rotation, alerting, quota thresholds
   and provider failure before any real pilot record.
-- Reverify tier limits, regions, terms, security evidence and the remaining free allocation at provisioning.
+- Reverify tier limits, region, terms, security evidence, and account controls before applying the
+  first hosted migration or runtime credential.
 
 ## Affected Documents
 
@@ -262,6 +264,6 @@ appointments, provider contracts, real-data processing authority, recovery opera
 
 ## Review Trigger
 
-Review before provisioning, before real data or live payment, at 70% of any free allowance, on a
-pause/restriction/incident or material vendor change, before pilot expansion/public launch, and
-before the Next.js or Laravel migration.
+Review before the first hosted migration or application credential, before real data or live
+payment, at 70% of any free allowance, on a pause/restriction/incident or material vendor change,
+before pilot expansion/public launch, and before the Next.js or Laravel migration.

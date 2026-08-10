@@ -131,9 +131,10 @@ changing that observed implementation state. DR-005 approves PostgreSQL/object-s
 schema, tenancy, lifecycle, migration, backup, and restore architecture; DR-006 approves how vendors
 must be evaluated. DR-007 approves the identity, session, role, permission, break-glass, recovery,
 and service-identity architecture. DR-009 selects the free-tier-first v1 stack: Supabase Free in
-Frankfurt for PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers
+London for PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers
 telemetry; Better Stack uptime/backup heartbeats; EU-jurisdiction R2 encrypted recovery exports; and
-Stripe Checkout test mode. Selection provisions nothing and does not make the site transactional.
+Stripe Checkout test mode. The owner has provisioned the empty London project, but no application
+credential, schema, or real data exists and the site remains non-transactional.
 Local/CI environments use local Supabase with synthetic data; Cloudflare branch previews keep real
 pilot providers disabled.
 
