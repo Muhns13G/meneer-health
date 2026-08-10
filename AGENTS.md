@@ -13,7 +13,8 @@ Workers on Node 22 build tooling.
   `src/styles.css`.
 - `e2e/` contains controlled Playwright/axe browser tests; `playwright.config.ts` owns the local
   server, desktop Chromium, and Pixel 7 profiles.
-- `src/routeTree.gen.ts` is generated routing output; do not edit it manually.
+- `src/routeTree.gen.ts` and `worker-configuration.d.ts` are generated outputs; do not edit them
+  manually.
 - Root configuration lives in `vite.config.ts`, `tsconfig.json`, `eslint.config.js`, and `wrangler.jsonc`.
 
 ## Build, Test, and Development Commands
@@ -35,6 +36,7 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   the same checks in managed Chromium.
 - `bun run test:all` runs Vitest followed by Playwright.
 - `bun run typecheck` runs strict TypeScript validation without emitting files.
+- `bun run check:cloudflare-types` rejects stale generated Worker binding/runtime types.
 - `bun run deploy:dry-run` builds and validates the Cloudflare upload without deploying.
 - `bun run lint` runs ESLint and Prettier checks.
 - `bun run format` rewrites supported files with Prettier.

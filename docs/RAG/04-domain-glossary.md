@@ -155,6 +155,12 @@ sensitivity: internal
   client output to prove the configured server/client separation remains enforced.
 - **Response class:** the server-derived public, sensitive, redirect, error, fingerprinted-asset,
   or mutable-asset category that determines a response's security headers and cache policy.
+- **Request-security decision:** a payload-free allow/deny fact carrying a safe correlation ID,
+  route class and stable reason; it is not authorisation or proof that a business command committed.
+- **Coarse edge rate limit:** a fast abuse-control allowance scoped by the selected edge provider;
+  it is not durable accounting, idempotency, authorisation, or a substitute for route monitoring.
+- **Anti-automation proof:** a short-lived server-verified challenge for an approved anonymous
+  command. The raw proof is never trusted as identity, stored in evidence, or exposed to a client.
 - **CSP nonce:** a fresh request-scoped value authorising only the matching rendered scripts; it
   avoids granting blanket inline-script execution and must be emitted with the same response policy.
 - **Dormant clinical record:** a health record whose retention clock starts from the patient's last

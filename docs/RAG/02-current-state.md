@@ -50,6 +50,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
+  - docs/06-operations/request-security-abuse-runbook.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
@@ -678,6 +680,26 @@ Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-p
   unchanged.
 
 Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md), [`sprint-05-9-validated-workflow-commands-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md), and [`sprint-05-10-audit-integration-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md).
+
+### Sprint 05.11 request security and abuse foundation — 10 August 2026
+
+- The Worker now applies 4 KiB URL and 32 KiB aggregate-header caps, permits only body-free public
+  reads, rate-checks every unregistered mutation before denial, hides reserved endpoints, and wraps
+  work in a 15-second deadline with safe correlation-bearing errors.
+- The reusable protected-JSON boundary requires exact same-origin browser context, JSON object/body
+  caps, durable idempotency identity, a trusted principal or verified anti-automation-derived rate
+  key, rate allowance, and fail-closed dependencies before a handler can run.
+- Cloudflare runtime types and the `REQUEST_RATE_LIMITER` binding are generated and CI-checked.
+  Current platform preflights grant no CORS origin; direct cross-origin mutation probes remain
+  denied. No form, API, callback, Turnstile widget, WAF rule, secret, migration or deployment is
+  activated.
+- The clean repository run passes 164 Vitest checks, 184 pgTAP assertions, four synthetic Supabase
+  integrations, both zero-finding dependency audits, production build/client canary/generated
+  checks, Cloudflare dry-run with the rate binding, and 52 desktop/mobile browser checks.
+- Task 5.11 is Completed. TD-017 is In progress until each future route has its own limits,
+  monitoring and local/preview/hosted evidence; Task 5.12 owns abuse alerts and incident proof.
+
+Evidence: [`sprint-05-11-request-security-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md) and [`request-security-abuse-runbook.md`](../06-operations/request-security-abuse-runbook.md).
 
 ## Highest-Risk Gaps
 

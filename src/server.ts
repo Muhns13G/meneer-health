@@ -6,9 +6,15 @@ import {
   type RequestHandler,
 } from "@tanstack/react-start/server";
 import type { Register } from "@tanstack/react-router";
+import { env } from "cloudflare:workers";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import { applyResponsePolicy } from "./server/security/response-policy";
+import {
+  applyCorrelationHeader,
+  executeWithRequestTimeout,
+  inspectPublicRequest,
+} from "./server/security/request-security";
 
 const serverEnvironment = initialiseServerEnvironment();
 const handleRequest = createStartHandler(async (context) => {
@@ -30,9 +36,19 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
         throw new Error("Server configuration is invalid.");
       }
 
-      const response = await entry.fetch(...args);
+      const requestDecision = await inspectPublicRequest(args[0], env.REQUEST_RATE_LIMITER);
+      if (!requestDecision.allowed) {
+        return applyResponsePolicy(args[0], requestDecision.response);
+      }
 
-      return applyResponsePolicy(args[0], response);
+      const response = await executeWithRequestTimeout(args[0], (boundedRequest) =>
+        Promise.resolve(entry.fetch(boundedRequest, args[1])),
+      );
+
+      return applyResponsePolicy(
+        args[0],
+        applyCorrelationHeader(response, requestDecision.decision),
+      );
     },
   };
 }

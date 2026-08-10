@@ -19,6 +19,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
+  - docs/06-operations/request-security-abuse-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
@@ -108,6 +110,12 @@ contracts. Later generations must preserve atomic state/receipt/audit/outbox com
 deduplication, minimum event payloads, fingerprint-only inbox evidence, correlation/causation,
 purpose-bound review records and verifiable append order. Supabase RPCs, table names, PostgreSQL
 triggers and the concrete hash implementation remain replaceable adapters.
+
+Task 5.11 adds the portable `security.request-decision` contract and observable request boundary:
+bounded transport inputs, body-free public reads, origin/media/body/idempotency checks for protected
+JSON commands, safe errors, dependency failure, and a finite handler deadline. Cloudflare's
+rate-limit binding and preflight behaviour are v1 adapters. Next.js/Vercel and Laravel must retain
+the decision semantics and negative evidence while replacing host-specific enforcement cleanly.
 
 ## v1 De-Platform Sequence
 

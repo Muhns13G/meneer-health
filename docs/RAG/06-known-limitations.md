@@ -17,7 +17,9 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
   - docs/06-operations/audit-integration-evidence-runbook.md
+  - docs/06-operations/request-security-abuse-runbook.md
   - docs/06-operations/environment-secrets-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md
   - docs/06-operations/http-security-cache-policy.md
@@ -135,8 +137,15 @@ immutable absolute session origins, atomic idle expiry, revocation and scoped se
 The corrected database/Auth lifecycle proof passed on 2026-08-10, closing Task 5.7. Task 5.8 then
 implements and locally verifies the ordinary deny-default contextual matrix, horizontal/vertical
 isolation, minimum projections and exact service scope. This remains an inactive server foundation,
-not an account journey. TD-013 remains In progress while Tasks 5.10–5.12 still own persistent
-decision audit, monitored break glass, abuse controls and activation evidence.
+not an account journey. Tasks 5.10–5.11 now add successful-command audit/review and shared
+request-abuse foundations. TD-013 remains In progress while Task 5.12 owns denial evidence,
+monitored break glass, abuse alerts and activation evidence.
+
+Task 5.11 adds a locally verified inactive request-security foundation. It protects current reads,
+denies and rate-checks unregistered mutations, and defines reusable protected-JSON controls, but it
+does not provision Turnstile, configure a hosted WAF rule, publish a command/callback, or prove
+route-specific monitoring. Do not describe TD-017 as Verified: every enabled form, identity action,
+payment or provider callback still needs its own policy and local/preview/hosted bypass evidence.
 
 Task 5.9 implements an inactive synthetic workflow command with strict validation, contextual
 authorisation, independent clinical/payment/fulfilment state, optimistic versions, durable
