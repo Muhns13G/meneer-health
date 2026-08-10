@@ -17,6 +17,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md
@@ -79,10 +81,12 @@ pathway evidence.
 Pilot approval and public-launch approval are separate. Cohort access does not justify removing the
 transactional gate or exposing the same scope as an unrestricted public launch.
 
-Tasks 5.6–5.8 now provide local/synthetic provider-neutral tenancy, managed identity/session and
-deny-default contextual-authorisation foundations. The policy resolves internal tenant, subject,
-role, assignment, purpose, workflow, assurance and validity evidence server-side; it does not expose
-an authenticated route, migrate hosted Supabase or approve pilot activation.
+Tasks 5.6–5.9 now provide local/synthetic provider-neutral tenancy, managed identity/session,
+deny-default contextual authorisation and validated command foundations. The policy resolves
+internal tenant, subject, role, assignment, purpose, workflow, assurance and validity evidence
+server-side. The first strict command uses optimistic versions, payload-bound durable idempotency,
+atomic state/receipt commits and explicit independent clinical/payment/fulfilment states. These
+foundations do not expose an authenticated route, migrate hosted Supabase or approve activation.
 
 ## Intended Users and Operators
 
@@ -129,8 +133,9 @@ authority.
 - **Integration layer:** controlled adapters for identity, messaging, video, laboratories, payments, pharmacy, courier, and observability.
 
 Only the public presentation exists as a customer-facing surface. Sprint 05 now adds portable
-contracts, a local/synthetic tenancy schema, and a server-only managed identity/session foundation;
-it still exposes no application API or authenticated journey. The former read-only Lovable MCP
+contracts, a local/synthetic tenancy schema, server-only managed identity/session and contextual
+authorisation, plus an inactive validated workflow-command boundary; it still exposes no
+application API or authenticated journey. The former read-only Lovable MCP
 surface was removed in Sprint 02 Task 2.4. DR-003–DR-007 remain authoritative for the broader target
 application, clinical/operations workspaces, workflow state, lifecycle, permissions and recovery.
 DR-009 selects the free-tier-first v1 stack: Supabase Free in

@@ -60,13 +60,14 @@ consent, questionnaire, appointment, clinical, prescription, payment, pharmacy, 
 support records.
 
 DR-003 approves the target platform boundaries and authoritative-state ownership. Sprint 05 has now
-implemented portable contract, local persistence, and managed identity/session foundations, but no
-customer application/API, clinical/operations workspace, or transactional workflow is enabled.
+implemented portable contract, local persistence, managed identity/session, contextual
+authorisation and validated command foundations, but no customer application/API,
+clinical/operations workspace, or transactional workflow is enabled.
 
 DR-005 and DR-006 approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
 backup/restore, and vendor-evaluation architecture. DR-009 selects the exact free-tier-first pilot
-providers, and the owner has provisioned the empty London Supabase project. Local/CI now rebuild two
-versioned migrations with synthetic tenancy and identity data. The hosted project still has no
+providers, and the owner has provisioned the empty London Supabase project. Local/CI now rebuild four
+versioned migrations with synthetic tenancy, identity, authorisation and workflow data. The hosted project still has no
 application credential or migrated schema, and no bucket, backup, restore or pilot data exists.
 
 Task 5.7 implements server-only Supabase Auth behind provider-neutral ports, stable subject/contact
@@ -79,6 +80,14 @@ eleven resource classes, explicit actions, own/assigned relationships, purpose, 
 membership/session validity and service environment/scope all deny by default. A third migration
 adds governed membership validity and read-only assignment evidence. No public account route,
 hosted identity/migration, browser table grant, break-glass path or transaction is active.
+
+Task 5.9 implements and locally verifies the first inactive state-changing command boundary. A
+strict `workflow.transition` contract requires server-resolved actor and resource context, Task 5.8
+authorisation, optimistic versions and a canonical payload fingerprint. PostgreSQL atomically
+commits an explicit workflow version and durable idempotency receipt. Exact and concurrent replays
+deduplicate; changed replay, stale version, invalid state, missing prerequisites and browser/direct
+table mutation fail without false success. Clinical, payment, supply, hub receipt, dispatch,
+delivery, cancellation and refund remain independent. No customer route invokes this foundation.
 
 Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
 This is documentation evidence only: no scenario was executed against a transactional backend, and
@@ -632,12 +641,13 @@ Evidence: [`sprint-05-5-provider-selection-data-map-evidence.md`](../02-implemen
   GitHub validation runs the same PostgreSQL-only database gate without hosted credentials.
 - The optional `SUPABASE_URL`/`SUPABASE_SECRET_KEY` server pair excludes preview, requires HTTPS and
   remains absent from browser output. No value or hosted migration was committed or deployed.
-- Task 5.6 is Completed. TD-014 remains In progress for Task 5.9 writes/idempotency/concurrency;
-  TD-016 remains In progress for Task 5.13 lifecycle, recovery, restore and rights evidence.
+- Task 5.6 is Completed. Task 5.9 has since added the first validated write/idempotency/concurrency
+  boundary; TD-014 remains In progress for the gated Tasks 5.14–5.15 commands. TD-016 remains In
+  progress for Task 5.13 lifecycle, recovery, restore and rights evidence.
 
 Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md).
 
-### Sprint 05.7–05.8 identity and authorisation foundations — 10 August 2026
+### Sprint 05.7–05.9 identity, authorisation and command foundations — 10 August 2026
 
 - Supabase Auth is isolated behind provider-neutral identity, session and governance ports with
   stable internal subjects, verified contact, TOTP AAL2, bounded sessions and governed recovery.
@@ -646,10 +656,14 @@ Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-p
   assurance and an own/current-assignment relationship; the result carries a minimum projection.
 - Service access requires a current credential digest plus exact tenant, environment, purpose and
   resource/action scope. Browser roles retain no table privilege or permissive policy.
-- Three migrations reset cleanly, 89 pgTAP assertions and 115 Vitest checks pass, both live synthetic
-  integrations pass, and Supabase lint/advisors report no issues. Hosted Supabase remains unchanged.
+- The validated command keeps eight workflow authorities separate and atomically commits an
+  optimistic state version plus payload-bound idempotency receipt. Exact/concurrent replay is safe;
+  changed replay, stale state, missing prerequisites and false success are rejected.
+- Four migrations reset cleanly, 136 pgTAP assertions and 133 Vitest checks pass, all three live
+  synthetic integrations pass, and Supabase lint/advisors report no issues. Hosted Supabase remains
+  unchanged.
 
-Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md).
+Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md) and [`sprint-05-9-validated-workflow-commands-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md).
 
 ## Highest-Risk Gaps
 
@@ -657,9 +671,10 @@ Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementat
   false-success paths are contained behind inactive routes.
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
-- The operating model and logical backend/state boundaries are approved. Local, read-only
-  persistence, identity and contextual-authorisation foundations now exist, but durable writes, audit,
-  retention, hosted recovery, observability, and incident processes are not implemented.
+- The operating model and logical backend/state boundaries are approved. Local persistence,
+  identity, contextual authorisation and one synthetic durable command foundation now exist, but
+  customer-facing writes, audit, retention, hosted recovery, observability, and incident processes
+  are not implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
   in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.

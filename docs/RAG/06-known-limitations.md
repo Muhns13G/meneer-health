@@ -108,16 +108,17 @@ transactional integration merely because the target architecture is approved.
 DR-004 approves the framework-neutral contract, compatibility, migration, reconciliation, cutover,
 and rollback rules. Task 5.2 now supplies strict common machine-readable envelopes, registry/error/
 version schemas, portable synthetic fixtures, contract tests, and initial dependency enforcement.
-The repository still has no approved business payload catalogue, command/event infrastructure,
-provider adapters, complete retained-capability suite, or behavioural-equivalence rehearsal.
-TD-014 and TD-055 are In progress and must not be described as Verified or transactional.
+Task 5.9 now supplies the first strict business command and Supabase transaction adapter, but the
+repository still has no complete business payload catalogue, event infrastructure, retained-
+capability suite, or behavioural-equivalence rehearsal. TD-014 and TD-055 are In progress and must
+not be described as Verified or as an enabled customer transaction.
 
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
 and restore architecture; DR-006 approves vendor evaluation and exit criteria. DR-009 selects the
 free-tier-first pilot providers, and the owner has provisioned the empty London Supabase project.
-Local/CI contains versioned tenancy and identity migrations plus synthetic provider integration; the
-hosted project remains unmigrated and credential-free. No backup, restore, data-subject workflow, or
-retention enforcement exists in pilot runtime.
+Local/CI contains versioned tenancy, identity, authorisation and workflow-command migrations plus
+synthetic provider integration; the hosted project remains unmigrated and credential-free. No
+backup, restore, data-subject workflow, or retention enforcement exists in pilot runtime.
 Do not describe provider selection as closure of TD-016 or Sprint 05 implementation.
 
 The selected Supabase Free model has one hosted pilot project, so local/CI use local Supabase and
@@ -133,6 +134,14 @@ implements and locally verifies the ordinary deny-default contextual matrix, hor
 isolation, minimum projections and exact service scope. This remains an inactive server foundation,
 not an account journey. TD-013 remains In progress while Tasks 5.10–5.12 still own persistent
 decision audit, monitored break glass, abuse controls and activation evidence.
+
+Task 5.9 implements an inactive synthetic workflow command with strict validation, contextual
+authorisation, independent clinical/payment/fulfilment state, optimistic versions, durable
+payload-bound idempotency, concurrent replay and atomic false-success prevention. It proves the
+shared command boundary, not a live registration, consent, booking, payment, prescription, order or
+partner workflow. TD-014 remains In progress until Tasks 5.14–5.15 implement the applicable real
+commands after their commercial and partner gates pass. Task 5.10 separately owns audit and
+inbox/outbox evidence; do not treat command receipts as the completed audit ledger.
 
 Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
 prove operation. Final legal/privacy/clinical application to named entities/providers remains an

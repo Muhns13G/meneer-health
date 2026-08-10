@@ -216,6 +216,14 @@ authority inputs from internal records, returns minimum projections, and keeps b
 roles without table access. Public routes and hosted Supabase remain unchanged; later tasks still
 own break glass, decision-audit persistence, abuse controls and activation evidence.
 
+Sprint 05 Task 5.9 implements the first durable command boundary without activating a customer
+route. A strict `workflow.transition` contract, server-resolved actor/resource context, contextual
+authorisation, optimistic versions and payload-bound idempotency feed one atomic PostgreSQL
+function. Clinical, payment, supply, hub receipt, dispatch, delivery, cancellation and refund remain
+independent states; a committed receipt and state version succeed or fail together. Exact replay is
+safe, while changed replay, stale version, invalid transition, unmet prerequisite and browser/direct
+table mutation are rejected. Real payment and partner commands remain gated to Tasks 5.14–5.15.
+
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
 ## Clinical and Content Governance

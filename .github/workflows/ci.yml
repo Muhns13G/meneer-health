@@ -65,6 +65,7 @@ jobs:
           bun run db:lint
           bun run test:auth
           bun run test:authz
+          bun run test:commands
 
       - name: Stop synthetic local database and identity services
         if: always()
