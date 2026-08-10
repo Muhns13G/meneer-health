@@ -25,22 +25,60 @@ values
     'subject-beta'
   );
 
-insert into public.tenant_memberships (id, tenant_id, subject_id, role, status)
+insert into public.tenant_memberships (
+  id,
+  tenant_id,
+  subject_id,
+  role,
+  status,
+  valid_from,
+  expires_at,
+  approved_by_subject_id
+)
 values
   (
     '40000000-0000-4000-8000-000000000001',
     '10000000-0000-4000-8000-000000000001',
     '20000000-0000-4000-8000-000000000001',
     'patient',
-    'active'
+    'active',
+    '2030-01-01T00:00:00Z',
+    null,
+    null
   ),
   (
     '40000000-0000-4000-8000-000000000002',
     '10000000-0000-4000-8000-000000000002',
     '20000000-0000-4000-8000-000000000002',
     'operations',
-    'active'
+    'active',
+    '2030-01-01T00:00:00Z',
+    '2031-01-01T00:00:00Z',
+    '20000000-0000-4000-8000-000000000001'
   );
+
+insert into public.access_assignments (
+  id,
+  tenant_id,
+  subject_id,
+  resource_type,
+  resource_id,
+  purpose,
+  status,
+  valid_from,
+  expires_at
+)
+values (
+  '41000000-0000-4000-8000-000000000001',
+  '10000000-0000-4000-8000-000000000002',
+  '20000000-0000-4000-8000-000000000002',
+  'fulfilment',
+  'a0000000-0000-4000-8000-000000000002',
+  'operations',
+  'active',
+  '2030-01-01T00:00:00Z',
+  '2031-01-01T00:00:00Z'
+);
 
 insert into public.subject_contacts (
   id, subject_id, kind, normalized_value, status, provider, verified_at
@@ -120,16 +158,16 @@ insert into public.service_identities (
 )
 values (
   '80000000-0000-4000-8000-000000000001',
-  '10000000-0000-4000-8000-000000000001',
-  'synthetic-intake-adapter',
+  '10000000-0000-4000-8000-000000000002',
+  'synthetic-fulfilment-adapter',
   'local',
-  'submit synthetic intake evidence',
+  'operations',
   'active',
   '2031-01-01T00:00:00Z'
 );
 
 insert into public.service_identity_scopes (service_identity_id, resource, action)
-values ('80000000-0000-4000-8000-000000000001', 'synthetic-intake', 'create');
+values ('80000000-0000-4000-8000-000000000001', 'fulfilment', 'update');
 
 insert into public.service_identity_credentials (
   id, service_identity_id, secret_digest, valid_from, expires_at

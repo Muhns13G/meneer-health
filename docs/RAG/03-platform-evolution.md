@@ -146,8 +146,9 @@ not Supabase-specific UI or workflow logic.
 Sprint 03 completes the decision layer for this evolution. Implementation must now demonstrate the
 approved contracts and boundaries rather than reinterpret them inside a framework or provider.
 Sprint 05 owns the first runtime proof for identity, authorisation, lifecycle, restore, rights, and
-portable data operations. Tasks 5.6–5.7 now prove portable tenancy and identity/session boundaries
-locally; provider activation and contextual authorisation remain separate gates.
+portable data operations. Tasks 5.6–5.8 now prove portable tenancy, identity/session and
+contextual-authorisation boundaries locally; provider activation, persistent audit, break glass and
+abuse controls remain separate gates.
 
 DR-007 keeps identity portable by mapping provider authentication to opaque internal subjects and
 server-owned permissions. Tenant, role, resource, assignment, purpose, state, assurance, session,

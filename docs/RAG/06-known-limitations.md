@@ -128,10 +128,11 @@ trigger is crossed; automatic spend is prohibited.
 
 Task 5.7 implements stable subject/contact mapping, bound invitation/recovery governance, TOTP AAL2,
 immutable absolute session origins, atomic idle expiry, revocation and scoped service identities.
-The corrected database/Auth lifecycle proof passed on 2026-08-10, closing Task 5.7. This is not an
-active account journey or authorisation layer. TD-013 remains In progress until
-Task 5.8 proves server-side contextual permissions and horizontal/vertical isolation; later tasks
-still own break glass, audit, abuse controls and activation evidence.
+The corrected database/Auth lifecycle proof passed on 2026-08-10, closing Task 5.7. Task 5.8 then
+implements and locally verifies the ordinary deny-default contextual matrix, horizontal/vertical
+isolation, minimum projections and exact service scope. This remains an inactive server foundation,
+not an account journey. TD-013 remains In progress while Tasks 5.10–5.12 still own persistent
+decision audit, monitored break glass, abuse controls and activation evidence.
 
 Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
 prove operation. Final legal/privacy/clinical application to named entities/providers remains an

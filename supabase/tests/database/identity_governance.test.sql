@@ -189,11 +189,37 @@ select is(
 
 select lives_ok(
   $$
-    insert into public.tenant_memberships (tenant_id, subject_id, role, status)
+    insert into public.tenant_memberships (
+      tenant_id, subject_id, role, status, valid_from, expires_at, approved_by_subject_id
+    )
     values
-      ('10000000-0000-4000-8000-000000000001', '20000000-0000-4000-8000-000000000002', 'support', 'active'),
-      ('10000000-0000-4000-8000-000000000001', '20000000-0000-4000-8000-000000000002', 'auditor', 'active'),
-      ('10000000-0000-4000-8000-000000000001', '20000000-0000-4000-8000-000000000002', 'release', 'active')
+      (
+        '10000000-0000-4000-8000-000000000001',
+        '20000000-0000-4000-8000-000000000002',
+        'support',
+        'active',
+        now(),
+        now() + interval '90 days',
+        '20000000-0000-4000-8000-000000000001'
+      ),
+      (
+        '10000000-0000-4000-8000-000000000001',
+        '20000000-0000-4000-8000-000000000002',
+        'auditor',
+        'active',
+        now(),
+        now() + interval '90 days',
+        '20000000-0000-4000-8000-000000000001'
+      ),
+      (
+        '10000000-0000-4000-8000-000000000001',
+        '20000000-0000-4000-8000-000000000002',
+        'release',
+        'active',
+        now(),
+        now() + interval '90 days',
+        '20000000-0000-4000-8000-000000000001'
+      )
   $$,
   'the approved workforce roles are representable without a broad staff role'
 );

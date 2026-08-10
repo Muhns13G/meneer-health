@@ -79,6 +79,9 @@ describe("SupabaseAccessRepository", () => {
             subject_id: "20000000-0000-4000-8000-000000000001",
             role: "patient",
             status: "active",
+            valid_from: "2030-01-01T00:00:00Z",
+            expires_at: null,
+            approved_by_subject_id: null,
           },
         ],
         error: null,
@@ -93,6 +96,7 @@ describe("SupabaseAccessRepository", () => {
         subjectId: "20000000-0000-4000-8000-000000000001",
         role: "patient",
         status: "active",
+        validFrom: new Date("2030-01-01T00:00:00Z"),
       },
     ]);
   });

@@ -121,6 +121,12 @@ sensitivity: internal
   details, provider account identifiers, professional roles, and tenant memberships.
 - **RBAC plus context:** role-based permission combined with tenant, resource relationship,
   assignment, purpose, workflow state, and authentication-assurance checks.
+- **Access assignment:** server-owned, tenant/resource/purpose-specific relationship evidence with
+  activation, expiry and suspension state; it is not a broad role or client-supplied claim.
+- **Authorisation projection:** the minimum approved view returned by an allowed policy decision,
+  such as own, status-only, clinical, dispensing, evidence or configuration—not general table access.
+- **Policy reason code:** a stable, payload-free allow/deny explanation suitable for later audit and
+  monitoring without copying patient or clinical content.
 - **Step-up authentication:** fresh stronger authentication required before a high-risk action even
   when a session is already active.
 - **Break glass:** exceptional, time-limited, notified and reviewed access for immediate patient
