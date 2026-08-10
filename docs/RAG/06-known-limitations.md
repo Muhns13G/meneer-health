@@ -196,10 +196,10 @@ paths pass, closing TD-049, TD-052, and TD-053.
   server startup is strict, and the production bundle canary prevents server configuration from
   entering browser output. This does not mean a database, identity, email, payment, or other
   provider is selected, configured, or safe to activate; those consumers must extend the contract.
-- Task 5.4 implements and locally verifies the Worker/static-asset security-header and cache split.
-  TD-018 remains In progress until the exact committed build passes the Cloudflare HTTPS matrix.
-  The CSP intentionally permits inline styles for current UI implementation, but not inline scripts;
-  new origins or sensitive routes require an explicit policy review and regression evidence.
+- Task 5.4 and TD-018 are Verified locally and on Cloudflare for Worker/static-asset security headers,
+  cache classes, HSTS, matching nonce CSP, hydration, and clean browser operation. The CSP
+  intentionally permits inline styles for current UI implementation, but not inline scripts; new
+  origins or sensitive routes require an explicit policy review and renewed regression evidence.
 - Task 4.11 adds root onboarding, contribution/security routing, test/CI guidance, and GitHub change
   templates. Task 4.12 verifies clean-checkout usability and hosted rendering from protected
   production/default `main`; canonical engineering documentation remains on `develop`.
