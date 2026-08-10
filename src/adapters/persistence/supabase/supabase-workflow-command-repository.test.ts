@@ -90,10 +90,19 @@ describe("SupabaseWorkflowCommandRepository", () => {
         expectedVersion: 0,
         transition: "supply.request",
         occurredAt: new Date("2030-01-01T00:10:00Z"),
+        actorType: "workforce",
+        actorSubjectId: "20000000-0000-4000-8000-000000000002",
+        actorRole: "operations",
+        assurance: "aal2",
+        subjectId: "20000000-0000-4000-8000-000000000002",
+        purpose: "operations",
+        policyVersion: "authorisation.v1",
+        correlationId: "trace_01",
+        causationId: "request_01",
       }),
     ).resolves.toEqual(result);
     expect(rpc).toHaveBeenCalledWith(
-      "execute_workflow_transition",
+      "execute_audited_workflow_transition",
       expect.objectContaining({ p_expected_version: 0, p_transition: "supply.request" }),
     );
   });
@@ -119,6 +128,15 @@ describe("SupabaseWorkflowCommandRepository", () => {
         expectedVersion: 0,
         transition: "supply.request",
         occurredAt: new Date("2030-01-01T00:10:00Z"),
+        actorType: "workforce",
+        actorSubjectId: "20000000-0000-4000-8000-000000000002",
+        actorRole: "operations",
+        assurance: "aal2",
+        subjectId: "20000000-0000-4000-8000-000000000002",
+        purpose: "operations",
+        policyVersion: "authorisation.v1",
+        correlationId: "trace_01",
+        causationId: "request_01",
       }),
     ).rejects.toEqual(new WorkflowRepositoryError(failure));
   });

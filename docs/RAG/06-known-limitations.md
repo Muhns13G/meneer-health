@@ -16,6 +16,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
+  - docs/06-operations/audit-integration-evidence-runbook.md
   - docs/06-operations/environment-secrets-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md
   - docs/06-operations/http-security-cache-policy.md
@@ -108,8 +110,9 @@ transactional integration merely because the target architecture is approved.
 DR-004 approves the framework-neutral contract, compatibility, migration, reconciliation, cutover,
 and rollback rules. Task 5.2 now supplies strict common machine-readable envelopes, registry/error/
 version schemas, portable synthetic fixtures, contract tests, and initial dependency enforcement.
-Task 5.9 now supplies the first strict business command and Supabase transaction adapter, but the
-repository still has no complete business payload catalogue, event infrastructure, retained-
+Task 5.9 now supplies the first strict business command and Supabase transaction adapter. Task 5.10
+adds its first portable audit/domain-event/inbox contracts and durable local audit/outbox/inbox
+foundation, but the repository still has no complete business payload catalogue, delivery worker, retained-
 capability suite, or behavioural-equivalence rehearsal. TD-014 and TD-055 are In progress and must
 not be described as Verified or as an enabled customer transaction.
 
@@ -140,8 +143,13 @@ authorisation, independent clinical/payment/fulfilment state, optimistic version
 payload-bound idempotency, concurrent replay and atomic false-success prevention. It proves the
 shared command boundary, not a live registration, consent, booking, payment, prescription, order or
 partner workflow. TD-014 remains In progress until Tasks 5.14–5.15 implement the applicable real
-commands after their commercial and partner gates pass. Task 5.10 separately owns audit and
-inbox/outbox evidence; do not treat command receipts as the completed audit ledger.
+commands after their commercial and partner gates pass.
+
+Task 5.10 proves one inactive workflow's atomic audit/outbox evidence, replay-safe fingerprint-only
+inbox, append blocking, hash-chain tamper detection and assigned AAL2 audit review. Do not describe
+this as complete audit coverage, immutable/WORM storage, active provider messaging, scheduled
+monitoring, retention/export enforcement or hosted operation. TD-015 remains In progress through
+Tasks 5.12–5.15.
 
 Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
 prove operation. Final legal/privacy/clinical application to named entities/providers remains an

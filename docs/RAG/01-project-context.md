@@ -19,6 +19,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
+  - docs/06-operations/audit-integration-evidence-runbook.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md

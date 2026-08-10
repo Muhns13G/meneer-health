@@ -3,6 +3,9 @@ import type {
   WorkflowTransition,
   WorkflowTransitionResult,
 } from "../../../contracts/workflows";
+import type { AuthenticationAssurance } from "@/domain/access/identity";
+import type { AuthorisationPurpose } from "@/domain/access/authorisation";
+import type { MembershipRole } from "@/domain/access/models";
 
 export type ExecuteWorkflowTransition = Readonly<{
   tenantId: string;
@@ -14,6 +17,15 @@ export type ExecuteWorkflowTransition = Readonly<{
   expectedVersion: number;
   transition: WorkflowTransition;
   occurredAt: Date;
+  actorType: "patient" | "workforce";
+  actorSubjectId: string;
+  actorRole: MembershipRole;
+  assurance: AuthenticationAssurance;
+  subjectId: string;
+  purpose: AuthorisationPurpose;
+  policyVersion: string;
+  correlationId: string;
+  causationId: string;
 }>;
 
 export interface WorkflowCommandRepository {

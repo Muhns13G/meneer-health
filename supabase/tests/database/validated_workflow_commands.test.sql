@@ -87,12 +87,12 @@ select ok(
   'authenticated callers cannot invoke the command function'
 );
 select ok(
-  has_function_privilege(
+  not has_function_privilege(
     'service_role',
     'public.execute_workflow_transition(uuid,uuid,text,text,text,text,integer,text,timestamptz)'::regprocedure,
     'execute'
   ),
-  'the server role can invoke the command function'
+  'the server role cannot bypass the later audited command wrapper'
 );
 select ok(
   not has_table_privilege('service_role', 'public.workflow_instances', 'insert')

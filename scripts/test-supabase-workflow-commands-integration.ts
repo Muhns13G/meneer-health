@@ -91,6 +91,7 @@ async function run(): Promise<void> {
     subjectId,
     tenantId,
     role: "operations",
+    assurance: "aal2",
     observedAt: new Date("2030-01-01T00:10:00Z"),
   });
 
@@ -171,17 +172,29 @@ async function run(): Promise<void> {
     .limit(1);
   invariant(browserReadError?.code === "42501", "Browser role unexpectedly read workflow state.");
 
-  const { error: browserCommandError } = await browserClient.rpc("execute_workflow_transition", {
-    p_tenant_id: tenantId,
-    p_workflow_id: workflowId,
-    p_command_name: "workflow.transition",
-    p_request_id: "request_browser",
-    p_idempotency_key: "retry_browser",
-    p_request_fingerprint: "f".repeat(64),
-    p_expected_version: 2,
-    p_transition: "hub.expect",
-    p_occurred_at: "2030-01-01T00:10:00Z",
-  });
+  const { error: browserCommandError } = await browserClient.rpc(
+    "execute_audited_workflow_transition",
+    {
+      p_tenant_id: tenantId,
+      p_workflow_id: workflowId,
+      p_command_name: "workflow.transition",
+      p_request_id: "request_browser",
+      p_idempotency_key: "retry_browser",
+      p_request_fingerprint: "f".repeat(64),
+      p_expected_version: 2,
+      p_transition: "hub.expect",
+      p_occurred_at: "2030-01-01T00:10:00Z",
+      p_actor_type: "workforce",
+      p_actor_subject_id: subjectId,
+      p_actor_role: "operations",
+      p_assurance: "aal2",
+      p_subject_id: subjectId,
+      p_purpose: "operations",
+      p_policy_version: "authorisation.v1",
+      p_correlation_id: "correlation_browser",
+      p_causation_id: "request_browser",
+    },
+  );
   invariant(
     browserCommandError?.code === "42501",
     "Browser role invoked the server command function.",

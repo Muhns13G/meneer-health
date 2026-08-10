@@ -81,7 +81,7 @@ export class SupabaseWorkflowCommandRepository implements WorkflowCommandReposit
   }
 
   async executeTransition(command: ExecuteWorkflowTransition): Promise<WorkflowTransitionResult> {
-    const { data, error } = await this.client.rpc("execute_workflow_transition", {
+    const { data, error } = await this.client.rpc("execute_audited_workflow_transition", {
       p_tenant_id: command.tenantId,
       p_workflow_id: command.workflowId,
       p_command_name: command.commandName,
@@ -91,6 +91,15 @@ export class SupabaseWorkflowCommandRepository implements WorkflowCommandReposit
       p_expected_version: command.expectedVersion,
       p_transition: command.transition,
       p_occurred_at: command.occurredAt.toISOString(),
+      p_actor_type: command.actorType,
+      p_actor_subject_id: command.actorSubjectId,
+      p_actor_role: command.actorRole,
+      p_assurance: command.assurance,
+      p_subject_id: command.subjectId,
+      p_purpose: command.purpose,
+      p_policy_version: command.policyVersion,
+      p_correlation_id: command.correlationId,
+      p_causation_id: command.causationId,
     });
 
     if (error) throw new WorkflowRepositoryError(providerFailure(error));
