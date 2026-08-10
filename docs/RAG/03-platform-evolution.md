@@ -63,6 +63,12 @@ The following must survive framework changes where still valid:
 
 React components, route conventions, server-function APIs, Vercel configuration, and framework caches are implementation details. They must not become the sole definition of clinical rules or authoritative records.
 
+Task 5.4 makes the response classes and expected HTTP behaviour portable acceptance requirements:
+public documents revalidate, sensitive/error/redirect/cookie-bearing responses are no-store, and
+only fingerprinted assets are long-lived immutable. The TanStack Worker wrapper and Cloudflare
+`_headers` file are v1 adapters; Next.js/Vercel and Laravel must reproduce the observed contract
+using their native response and asset layers rather than copying those implementation files.
+
 ## Contract Boundary
 
 DR-004 approves one canonical, runtime-validatable catalogue for commands, queries, results, domain

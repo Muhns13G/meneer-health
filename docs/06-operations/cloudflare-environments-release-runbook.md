@@ -101,6 +101,16 @@ the SSR document head and caused a React hydration mismatch during Task 2.8. Aut
 Analytics injects a client beacon that is outside the current website-only privacy boundary. Any
 future reintroduction requires an explicit privacy decision and canonical hydration/network checks.
 
+## HTTP Security and Cache Policy
+
+Apply [`http-security-cache-policy.md`](http-security-cache-policy.md) to every release. Worker-
+generated responses are governed in `src/server.ts`; static assets that bypass the Worker are
+governed by `public/_headers`. Verify public, sensitive, redirect, error, fingerprinted-asset, and
+mutable-asset classes after deployment. Hosted closure requires the expected cache value, CSP,
+framing, MIME, referrer, permissions, and HSTS headers plus successful hydration and no CSP
+console/network violation. Dashboard Transform Rules or other header overrides are not approved by
+this repository policy and must be reconciled before promotion.
+
 ## Rollback
 
 1. Stop promotion and record the failing route, time, Ray ID, deployment/version ID, and symptoms.
@@ -133,3 +143,5 @@ workers.dev origin returned HTTP 200 after deployment. TD-052 is Verified.
 - [Preview URLs](https://developers.cloudflare.com/workers/versions-and-deployments/preview-urls/)
 - [Real-time logs](https://developers.cloudflare.com/workers/observability/logs/real-time-logs/)
 - [Worker rollbacks](https://developers.cloudflare.com/workers/versions-and-deployments/rollbacks/)
+- [Workers static asset headers](https://developers.cloudflare.com/workers/static-assets/headers/)
+- [Workers Response API](https://developers.cloudflare.com/workers/runtime-apis/response/)
