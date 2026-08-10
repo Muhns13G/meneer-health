@@ -200,6 +200,14 @@ and authentication assurance. Workforce MFA, bounded/revocable sessions, governe
 audited break glass, separate service identities, and horizontal/vertical negative tests are
 mandatory before authenticated journeys activate.
 
+Sprint 05 Task 5.7 implements the first local/synthetic runtime proof: a provider-neutral identity
+and session boundary, server-only Supabase Auth adapter, passwordless verification and recovery
+primitives, TOTP AAL2 elevation, bounded patient/workforce/privileged sessions, verified-contact
+mapping, governed invitation/recovery lifecycle operations, immutable absolute session origins,
+atomic idle expiry, and environment/purpose-scoped service identities. Public routes remain
+unauthenticated and database access remains deny-default until Task 5.8 implements contextual
+authorisation. Task 5.7's corrected local database/Auth lifecycle proof passed on 2026-08-10.
+
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
 ## Clinical and Content Governance

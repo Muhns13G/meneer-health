@@ -16,6 +16,7 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-3-cloudflare-runtime-ownership-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-5-telemetry-dependency-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
@@ -58,20 +59,22 @@ not yet a production healthcare application. Active routes do not persist or tra
 consent, questionnaire, appointment, clinical, prescription, payment, pharmacy, delivery, or
 support records.
 
-DR-003 now approves the target platform boundaries and authoritative-state ownership. That is a
-design decision, not a current capability: no application/API boundary, modular domain core,
-datastore, identity service, clinical/operations workspace, or transactional adapter exists in the
-repository yet.
+DR-003 approves the target platform boundaries and authoritative-state ownership. Sprint 05 has now
+implemented portable contract, local persistence, and managed identity/session foundations, but no
+customer application/API, clinical/operations workspace, or transactional workflow is enabled.
 
 DR-005 and DR-006 approve the target PostgreSQL/object-storage, tenancy, lifecycle, migration,
 backup/restore, and vendor-evaluation architecture. DR-009 selects the exact free-tier-first pilot
-providers, and the owner has provisioned the empty London Supabase project. The application runtime
-still has no provider credential, schema, migration, tenant policy, bucket, backup, or restore
-workflow.
+providers, and the owner has provisioned the empty London Supabase project. Local/CI now rebuild two
+versioned migrations with synthetic tenancy and identity data. The hosted project still has no
+application credential or migrated schema, and no bucket, backup, restore or pilot data exists.
 
-DR-007 approves the target identity and authorisation architecture, and DR-009 selects Supabase Auth
-Free. No account, verification, MFA, session, recovery, role, permission, break-glass, service
-identity, or access policy exists in the current runtime.
+Task 5.7 implements server-only Supabase Auth behind provider-neutral ports, stable subject/contact
+mapping, bound invitation and recovery governance, immutable absolute session origins, atomic idle
+expiry, TOTP AAL2, revocation and scoped service-identity lifecycle operations. Code gates pass; the
+corrected local database/Auth lifecycle proof passed on 2026-08-10. No public account route, hosted
+identity, browser table grant, contextual permission policy or break-glass path is active; Task 5.8
+owns the authorisation matrix.
 
 Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
 This is documentation evidence only: no scenario was executed against a transactional backend, and

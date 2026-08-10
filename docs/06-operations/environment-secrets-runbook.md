@@ -14,8 +14,8 @@ sensitivity: internal
 
 This runbook governs application configuration without storing values in documentation or source.
 The machine-checked catalogue is `config/environment-catalogue.ts`; `.env.example` lists names only.
-Task 5.6 adds the first optional server consumer through an all-or-none Supabase pair. Values remain
-uncommitted and provider-backed persistence stays disabled when the pair is absent.
+Tasks 5.6–5.7 use one optional all-or-none Supabase pair for server-only persistence and managed
+identity administration. Values remain uncommitted and both adapters stay disabled when absent.
 
 ## Current Catalogue
 
@@ -87,4 +87,5 @@ Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or 
 - [Sprint 05 plan](../02-implementation-plans/phase-01/sprint-05-data-security-operations.md)
 - [Task 5.3 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md)
 - [Task 5.6 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md)
+- [Task 5.7 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md)
 - [Technical-debt registry](../04-technical-debt/technical-debt-registry-v1.md)

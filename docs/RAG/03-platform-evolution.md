@@ -16,6 +16,7 @@ sources:
   - docs/07-decisions/DR-004-framework-neutral-contracts-migration.md
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
@@ -145,7 +146,8 @@ not Supabase-specific UI or workflow logic.
 Sprint 03 completes the decision layer for this evolution. Implementation must now demonstrate the
 approved contracts and boundaries rather than reinterpret them inside a framework or provider.
 Sprint 05 owns the first runtime proof for identity, authorisation, lifecycle, restore, rights, and
-portable data operations.
+portable data operations. Tasks 5.6–5.7 now prove portable tenancy and identity/session boundaries
+locally; provider activation and contextual authorisation remain separate gates.
 
 DR-007 keeps identity portable by mapping provider authentication to opaque internal subjects and
 server-owned permissions. Tenant, role, resource, assignment, purpose, state, assurance, session,
