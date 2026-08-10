@@ -2,7 +2,7 @@
 document_id: meneer-testing-ci-guide
 title: Testing and CI Guide
 status: active
-last_updated: 2026-08-09
+last_updated: 2026-08-10
 owner: "@Muhns13G"
 audience: contributors
 sensitivity: internal
@@ -25,6 +25,7 @@ patient, clinical, payment, pharmacy, or fulfilment workflow exists.
 | Types                 | `bun run typecheck`                       | Strict TypeScript without output                                  |
 | Unit/integration      | `bun run test`                            | Vitest, jsdom, components, utilities, and redirects               |
 | Database              | `bun run db:reset`, `db:test`, `db:lint`  | Versioned schema, fixtures, RLS, privileges and database lint     |
+| Managed identity      | `bun run test:auth`                       | Synthetic passwordless, mapping, TOTP, sessions and revocation    |
 | Browser/accessibility | `bun run test:e2e`                        | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
 | Dependencies          | `bun run audit`, `bun run audit:prod`     | Full and production-filtered advisory policy                      |
 | Delivery              | `bun run build`, `bun run deploy:dry-run` | Production bundle and non-deploying Cloudflare upload validation  |
@@ -47,6 +48,7 @@ bun run db:start:test
 bun run db:reset
 bun run db:test
 bun run db:lint
+bun run test:auth
 bun run db:stop
 bun run audit
 bun run audit:prod
@@ -65,9 +67,12 @@ boundary evidence.
 `.github/workflows/ci.yml` runs for pull requests, manual dispatch, and pushes to `main`, `itws-I`,
 or `itws-I-preview`. The workflow has read-only repository permission and performs no deployment.
 It pins Bun 1.3.14, reads Node from `.node-version`, uses frozen installation, and executes the
-local scripts above with one Playwright worker. Task 5.6 starts a PostgreSQL-only local Supabase
-stack, resets its synthetic schema, runs pgTAP and database lint, and always stops the stack. Hosted
-Supabase credentials and data are never used by CI.
+local scripts above with one Playwright worker. Tasks 5.6–5.7 start only the local PostgreSQL, Auth,
+gateway and Data API services, reset synthetic migrations, run pgTAP/database lint, exercise the
+managed identity flow, and always stop the stack. Hosted Supabase credentials and data are never
+used by CI. The Task 5.7 proof binds and accepts an invitation, preserves the original session origin
+through TOTP elevation, completes recovery only after revocation, and creates/scopes/revokes a
+synthetic service credential.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.

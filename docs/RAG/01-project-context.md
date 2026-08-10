@@ -16,6 +16,7 @@ sources:
   - docs/06-operations/cloudflare-environments-release-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-7-cloudflare-release-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-8-verification-and-closure-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md
@@ -122,15 +123,12 @@ authority.
 - **Operations workspace:** support, scheduling, payment exceptions, pharmacy hand-off, delivery, refunds, and escalation.
 - **Integration layer:** controlled adapters for identity, messaging, video, laboratories, payments, pharmacy, courier, and observability.
 
-Only the public presentation currently exists in recognisable form. The former read-only Lovable
-MCP surface was removed in Sprint 02 Task 2.4. DR-003 approves the other boundaries as target
-architecture, but no application API, durable modular core, datastore, authentication, clinical
-workspace, operations workspace, transactional adapter, canonical schema catalogue, or contract-test
-suite has been implemented. DR-004 approves the future contract and migration rules without
-changing that observed implementation state. DR-005 approves PostgreSQL/object-storage, logical
-schema, tenancy, lifecycle, migration, backup, and restore architecture; DR-006 approves how vendors
-must be evaluated. DR-007 approves the identity, session, role, permission, break-glass, recovery,
-and service-identity architecture. DR-009 selects the free-tier-first v1 stack: Supabase Free in
+Only the public presentation exists as a customer-facing surface. Sprint 05 now adds portable
+contracts, a local/synthetic tenancy schema, and a server-only managed identity/session foundation;
+it still exposes no application API or authenticated journey. The former read-only Lovable MCP
+surface was removed in Sprint 02 Task 2.4. DR-003–DR-007 remain authoritative for the broader target
+application, clinical/operations workspaces, workflow state, lifecycle, permissions and recovery.
+DR-009 selects the free-tier-first v1 stack: Supabase Free in
 London for PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers
 telemetry; Better Stack uptime/backup heartbeats; EU-jurisdiction R2 encrypted recovery exports; and
 Stripe Checkout test mode. The owner has provisioned the empty London project, but no application

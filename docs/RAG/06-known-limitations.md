@@ -15,6 +15,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/06-operations/environment-secrets-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md
   - docs/06-operations/http-security-cache-policy.md
@@ -114,8 +115,9 @@ TD-014 and TD-055 are In progress and must not be described as Verified or trans
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
 and restore architecture; DR-006 approves vendor evaluation and exit criteria. DR-009 selects the
 free-tier-first pilot providers, and the owner has provisioned the empty London Supabase project.
-No application integration, physical schema, migration, tenant policy, backup, restore,
-data-subject workflow, or retention enforcement exists in runtime.
+Local/CI contains versioned tenancy and identity migrations plus synthetic provider integration; the
+hosted project remains unmigrated and credential-free. No backup, restore, data-subject workflow, or
+retention enforcement exists in pilot runtime.
 Do not describe provider selection as closure of TD-016 or Sprint 05 implementation.
 
 The selected Supabase Free model has one hosted pilot project, so local/CI use local Supabase and
@@ -124,10 +126,12 @@ inactivity pausing, short log retention, and lack of automatic backups/PITR are 
 not accepted recovery controls. Intake must pause or a reviewed upgrade must occur before a stop
 trigger is crossed; automatic spend is prohibited.
 
-DR-007 approves patient/workforce/service identity, MFA, sessions, recovery, roles, contextual
-permissions, break glass, audit, and access-test requirements. DR-009 selects Supabase Auth Free,
-but no identity control is implemented. TD-013 is In progress—not Verified—until Sprint 05 proves server-side permissions,
-horizontal/vertical isolation, privileged MFA, recovery, revocation, and service identities.
+Task 5.7 implements stable subject/contact mapping, bound invitation/recovery governance, TOTP AAL2,
+immutable absolute session origins, atomic idle expiry, revocation and scoped service identities.
+The corrected database/Auth lifecycle proof passed on 2026-08-10, closing Task 5.7. This is not an
+active account journey or authorisation layer. TD-013 remains In progress until
+Task 5.8 proves server-side contextual permissions and horizontal/vertical isolation; later tasks
+still own break glass, audit, abuse controls and activation evidence.
 
 Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
 prove operation. Final legal/privacy/clinical application to named entities/providers remains an

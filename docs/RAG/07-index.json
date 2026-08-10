@@ -147,7 +147,7 @@
         "preserved-prototype-boundary",
         "gate-browser-evidence"
       ],
-      "status": "verified-task-evidence",
+      "status": "validation-pending",
       "source_parent": "f1e45c7",
       "last_updated": "2026-08-06"
     },
@@ -1060,6 +1060,23 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "phase-01-sprint-05-task-07",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.7 verified implementation and lifecycle evidence",
+        "provider-neutral managed identity and session ports",
+        "Supabase Auth server adapter",
+        "stable internal subject and verified contact mapping",
+        "passwordless recovery and TOTP AAL2",
+        "immutable absolute and atomic idle session controls",
+        "invitation and recovery governance",
+        "scoped service-identity lifecycle"
+      ],
+      "source_parent": "a069392",
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1361,6 +1378,29 @@
         "current vendor documentation",
         "DR-005 through DR-009",
         "current South African legal and regulatory guidance"
+      ]
+    },
+    {
+      "query_topics": [
+        "managed-identity",
+        "supabase-auth",
+        "passwordless",
+        "mfa",
+        "totp",
+        "session",
+        "recovery",
+        "service-identity",
+        "td-013"
+      ],
+      "read_first": [
+        "docs/07-decisions/DR-007-identity-authorisation-architecture.md",
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md"
+      ],
+      "verify_against": [
+        "src/application/identity/",
+        "src/adapters/identity/supabase/",
+        "supabase/migrations/20260810142803_identity_governance.sql",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
       ]
     },
     {
