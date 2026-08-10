@@ -24,6 +24,7 @@ patient, clinical, payment, pharmacy, or fulfilment workflow exists.
 | Static analysis       | `bun run lint`                            | ESLint and repository rules                                       |
 | Types                 | `bun run typecheck`                       | Strict TypeScript without output                                  |
 | Unit/integration      | `bun run test`                            | Vitest, jsdom, components, utilities, and redirects               |
+| Database              | `bun run db:reset`, `db:test`, `db:lint`  | Versioned schema, fixtures, RLS, privileges and database lint     |
 | Browser/accessibility | `bun run test:e2e`                        | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
 | Dependencies          | `bun run audit`, `bun run audit:prod`     | Full and production-filtered advisory policy                      |
 | Delivery              | `bun run build`, `bun run deploy:dry-run` | Production bundle and non-deploying Cloudflare upload validation  |
@@ -42,6 +43,11 @@ bun run format:check
 bun run lint
 bun run typecheck
 bun run test
+bun run db:start:test
+bun run db:reset
+bun run db:test
+bun run db:lint
+bun run db:stop
 bun run audit
 bun run audit:prod
 bun run build
@@ -59,7 +65,9 @@ boundary evidence.
 `.github/workflows/ci.yml` runs for pull requests, manual dispatch, and pushes to `main`, `itws-I`,
 or `itws-I-preview`. The workflow has read-only repository permission and performs no deployment.
 It pins Bun 1.3.14, reads Node from `.node-version`, uses frozen installation, and executes the
-local scripts above with one Playwright worker.
+local scripts above with one Playwright worker. Task 5.6 starts a PostgreSQL-only local Supabase
+stack, resets its synthetic schema, runs pgTAP and database lint, and always stops the stack. Hosted
+Supabase credentials and data are never used by CI.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.

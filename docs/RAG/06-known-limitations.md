@@ -200,10 +200,14 @@ paths pass, closing TD-049, TD-052, and TD-053.
   remains for routine dependency maintenance.
 - The environment/release/rollback contract exists. Broader monitoring, alerting, incident response,
   and stateful recovery remain future work.
-- Task 5.3 verifies the current no-secret environment boundary: declared public values are validated,
-  server startup is strict, and the production bundle canary prevents server configuration from
-  entering browser output. Task 5.5 selects providers but configures none; every consumer must extend
-  the environment contract before use and remains unsafe to activate until its proof gate passes.
+- Task 5.3 established the environment boundary; Task 5.6 extends it with an optional all-or-none
+  server-only Supabase URL/secret pair. Preview excludes the pair, partial or non-HTTPS configuration
+  fails closed, and the bundle canary prevents the names from entering browser output. No hosted
+  value is recorded in Git and the adapter remains unsafe to activate until later proof gates pass.
+- Task 5.6 provides a local read-side persistence scaffold only. Forced RLS and revoked browser
+  privileges deliberately leave no user policy; Supabase service access bypasses RLS and therefore
+  remains server-only. Do not describe this as authentication, authorisation, durable workflow,
+  hosted schema, backup, restore, patient-data readiness or pilot activation.
 - Task 5.4 and TD-018 are Verified locally and on Cloudflare for Worker/static-asset security headers,
   cache classes, HSTS, matching nonce CSP, hydration, and clean browser operation. The CSP
   intentionally permits inline styles for current UI implementation, but not inline scripts; new

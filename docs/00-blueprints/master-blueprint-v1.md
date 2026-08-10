@@ -165,10 +165,11 @@ approval of any additional service.
 DR-009 applies those gates to the free-tier-first v1 selection: Supabase Free in London for
 PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers telemetry; Better
 Stack uptime and backup heartbeats; EU-jurisdiction R2 encrypted recovery exports; and Stripe test
-mode. The owner has provisioned the London project, but no schema, application credential, or real
-data is active. Local/CI use local Supabase with synthetic data, Cloudflare
-branch previews keep pilot providers disabled, and real-data activation remains gated by Sprint 05
-implementation and domain approval.
+mode. The owner has provisioned the London project, but no hosted schema, application credential,
+or real data is active. Task 5.6 implements the local provider-neutral read port, server-only
+Supabase adapter, UUID-keyed tenant foundation, forced RLS and synthetic fixtures. Local/CI use
+local Supabase, Cloudflare branch previews keep pilot providers disabled, and real-data activation
+remains gated by later Sprint 05 implementation and domain approval.
 
 Task 3.8 validates these decisions across required success, rejection, urgent, payment, fulfilment,
 support, rights, incident, and migration scenarios. The approved v1 lifecycle baseline follows

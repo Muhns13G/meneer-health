@@ -15,6 +15,26 @@ export type EnvironmentCatalogueEntry = {
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   {
+    name: "SUPABASE_URL",
+    purpose: "Server-only endpoint for the selected Supabase PostgreSQL Data API adapter.",
+    owner: "Data and release owner",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation: "Review when the project or environment changes.",
+  },
+  {
+    name: "SUPABASE_SECRET_KEY",
+    purpose: "Server-only credential for the Supabase persistence adapter.",
+    owner: "Data and security owner",
+    sensitivity: "secret",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation: "Rotate after suspected exposure, role change, or project replacement.",
+  },
+  {
     name: "VITE_PEPTIDE_VIDEO_URL",
     purpose: "Optional root-relative or HTTPS URL for the draft peptide explainer video.",
     owner: "Content and release owner",
