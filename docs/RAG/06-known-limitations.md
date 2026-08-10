@@ -123,8 +123,9 @@ and restore architecture; DR-006 approves vendor evaluation and exit criteria. D
 free-tier-first pilot providers, and the owner has provisioned the empty London Supabase project.
 Local/CI contains versioned tenancy, identity, authorisation and workflow-command migrations plus
 synthetic provider integration; the hosted project remains unmigrated and credential-free. No
-backup, restore, data-subject workflow, or retention enforcement exists in pilot runtime.
-Do not describe provider selection as closure of TD-016 or Sprint 05 implementation.
+Task 5.13 now implements and locally proves the lifecycle/recovery boundary, but no hosted schema,
+recovery object, heartbeat, real request, or automated retention job exists in pilot runtime.
+Do not describe repository proof as hosted activation or named-domain approval.
 
 The selected Supabase Free model has one hosted pilot project, so local/CI use local Supabase and
 Cloudflare branch previews must keep real providers disabled or synthetic. Free-tier limits,
@@ -150,7 +151,8 @@ payment or provider callback still needs its own policy and local/preview/hosted
 Task 5.12 adds strict custom Worker telemetry, local alert thresholds, a passing controlled incident
 exercise and append-only identified denial evidence. This is not a hosted monitoring claim.
 Automatic invocation logs are disabled; the owner has not yet recorded Better Stack production
-monitor activation/failure evidence, and Task 5.13 still owns the backup heartbeat and restore.
+monitor activation/failure evidence. Task 5.13 supplies the backup heartbeat adapter and local
+restore proof, but owner-hosted R2/Better Stack activation is still absent.
 Therefore TD-020, TD-013, TD-015 and TD-017 remain In progress despite the completed repository task.
 
 Task 5.9 implements an inactive synthetic workflow command with strict validation, contextual
@@ -168,8 +170,8 @@ Tasks 5.12–5.15.
 
 Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
 prove operation. Final legal/privacy/clinical application to named entities/providers remains an
-activation gate. TD-016 is In progress until Sprint 05 demonstrates a staging restore and complete
-synthetic rights request with processor and backup reconciliation. Do not describe the nine scenario
+activation gate. Task 5.13 demonstrates the required isolated restore and complete synthetic rights
+request with processor/backup reconciliation, so TD-016 is Verified at repository level. Do not describe the nine scenario
 walkthroughs as executed customer transactions or runtime tests.
 
 Sprint 03 is complete, but only as an architecture-and-decision boundary. Do not convert that

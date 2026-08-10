@@ -159,6 +159,12 @@ A framework migration requires an approved reason based on product evidence, ope
 
 The selected host may provide builds, previews, functions, logs, and static delivery. Selection of identity, PostgreSQL, object storage, messaging, analytics, and clinical integrations must consider POPIA, data location, security, exportability, failure recovery, contractual obligations, and the planned Next.js/Laravel evolution. Replacing Lovable coupling with avoidable host-specific domain coupling is not an acceptable migration outcome.
 
+Task 5.13 proves the portability boundary with a standard logical PostgreSQL archive, strict
+provider-neutral lifecycle/recovery contracts, AES-256-GCM wrapping, and an isolated restore with
+record/checksum reconciliation. Cloudflare R2 and Better Stack are adapters, not authoritative
+state. A later Next.js or Laravel generation must preserve request, hold, erasure tombstone,
+destination-reconciliation, archive-manifest, and restore-evidence semantics.
+
 DR-005 fixes the portable data class at managed PostgreSQL plus encrypted object storage. DR-006
 requires each service to pass legal/privacy, security, isolation, portability/exit, recovery,
 authority, and commercial gates. DR-009 selects the London Supabase Free project as the v1
@@ -168,7 +174,8 @@ automatic approval.
 
 This selection remains migration-safe only while ordinary PostgreSQL migrations and dumps,
 storage/identity exports, provider-neutral contracts, and tested restore/exit procedures remain
-authoritative. Local and CI use local Supabase with synthetic data; Cloudflare branch previews do
+authoritative. Task 5.13 supplies the first application-schema restore proof; hosted identity/object
+exports still require activation evidence. Local and CI use local Supabase with synthetic data; Cloudflare branch previews do
 not connect to the pilot store. Next.js and Laravel must absorb the proven records and behaviour,
 not Supabase-specific UI or workflow logic.
 

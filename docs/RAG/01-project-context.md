@@ -102,8 +102,11 @@ Task 5.12 adds the privacy-safe observability foundation: strict custom Worker e
 environment, outcome, correlation and coarse operational classifications; automatic invocation logs
 are disabled. Local policy tests and a controlled exercise raise dependency, abuse, server-failure
 and disabled break-glass alerts. Identified denials append through a server-only audit boundary.
-Better Stack production monitoring and Task 5.13's backup heartbeat/recovery proof remain external
-owner gates.
+Task 5.13 adds verified export/erasure/hold workflows, complete processor/backup reconciliation,
+AES-256-GCM recovery archives, private-R2 and payload-free heartbeat adapters, and a passing real
+logical restore into an isolated synthetic database. TD-016 is Verified at repository level.
+Better Stack/R2 hosted provisioning, failure evidence, and final named-domain approvals remain
+external owner gates.
 
 ## Intended Users and Operators
 
@@ -170,7 +173,7 @@ lifecycle/recovery baseline while keeping named-party, provider, domain sign-off
 runtime evidence as explicit gates.
 
 Sprint 03 is closed as an approved architecture-and-decision boundary. TD-011, TD-012, TD-050, and
-TD-054 are Verified; TD-009, TD-010, TD-013, and TD-016 remain In progress under their recorded
+TD-054 and (after Task 5.13) TD-016 are Verified; TD-009, TD-010, and TD-013 remain In progress under their recorded
 operational or implementation gates. Closure neither activates the pilot nor changes the observed
 non-transactional runtime.
 

@@ -103,8 +103,9 @@ and browser/direct service table access is denied. No provider callback, outbox 
 route or hosted migration is active.
 
 Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
-This is documentation evidence only: no scenario was executed against a transactional backend, and
-TD-013/TD-016 remain In progress pending Sprint 05 access, restore, and data-subject tests.
+At Sprint 03 closure this was documentation evidence only. Tasks 5.7–5.13 subsequently implemented
+the local transactional access, restore, and data-subject evidence; TD-016 is now Verified while
+TD-013 retains hosted/activated-journey gates.
 
 Task 3.9 closes Sprint 03 after reconciling the approved records, blueprint, registry, completion
 report, and RAG corpus. The closure changes documentation authority, not runtime capability.
@@ -655,8 +656,8 @@ Evidence: [`sprint-05-5-provider-selection-data-map-evidence.md`](../02-implemen
 - The optional `SUPABASE_URL`/`SUPABASE_SECRET_KEY` server pair excludes preview, requires HTTPS and
   remains absent from browser output. No value or hosted migration was committed or deployed.
 - Task 5.6 is Completed. Task 5.9 has since added the first validated write/idempotency/concurrency
-  boundary; TD-014 remains In progress for the gated Tasks 5.14–5.15 commands. TD-016 remains In
-  progress for Task 5.13 lifecycle, recovery, restore and rights evidence.
+  boundary; TD-014 remains In progress for the gated Tasks 5.14–5.15 commands. Task 5.13 later
+  supplied lifecycle, recovery, restore and rights evidence and Verified TD-016.
 
 Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md).
 
@@ -714,10 +715,28 @@ Evidence: [`sprint-05-11-request-security-evidence.md`](../02-implementation-pla
   denials to the existing hash chain. Browser calls, arbitrary actions and unapproved roles fail.
 - The synthetic exercise detects both critical scenarios, rejects prohibited fields, and completes
   detect, triage, contain, recover and review. Task 5.12 is complete as a repository foundation.
-- Better Stack has not been provisioned/tested from this task. Task 5.13 owns its payload-free backup
-  heartbeat and recovery proof; TD-020 and related activation debts remain In progress.
+- Better Stack was not provisioned/tested by Task 5.12. Task 5.13 subsequently supplies its
+  payload-free backup-heartbeat adapter and recovery proof; hosted activation remains outstanding.
 
 Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-12-observability-incident-evidence.md) and [`observability-incident-runbook.md`](../06-operations/observability-incident-runbook.md).
+
+### Sprint 05.13 lifecycle, rights, and recovery foundation — 11 August 2026
+
+- Server-only verified access-export and erasure requests are idempotent and hash-chain audited;
+  exports expire after 24 hours and lifecycle evidence stores no exported content.
+- Purpose-specific legal/clinical holds block erasure, require review within 90 days, and must be
+  explicitly released. Erasure cannot report completion before database, identity, private-storage,
+  and recovery-backup reconciliation succeeds.
+- Complete logical archives are encrypted with AES-256-GCM before durable storage. Private R2 and
+  payload-free HTTPS heartbeat adapters enforce storage-before-success ordering and reject unsafe
+  keys/URLs or false-success behavior.
+- The local exercise restored a real application-schema archive into an isolated temporary
+  PostgreSQL database and reconciled 62/62 records with matching deterministic checksums in 13
+  seconds. The temporary database and plaintext working file were removed.
+- Task 5.13 is complete and TD-016 is Verified at repository level. The hosted Supabase project is
+  still unmigrated; R2/Better Stack are not provisioned, so TD-020 and release gates remain open.
+
+Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-13-lifecycle-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).
 
 ## Highest-Risk Gaps
 
@@ -727,8 +746,8 @@ Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementati
 - Unresolved peptide offering and contradictory positioning.
 - The operating model and logical backend/state boundaries are approved. Local persistence,
   identity, contextual authorisation and one synthetic durable command foundation now exist, but
-  customer-facing writes, complete sensitive-action audit coverage, retention enforcement, hosted
-  recovery, observability, and incident processes are not implemented.
+  customer-facing writes, complete sensitive-action audit coverage, hosted lifecycle scheduling,
+  recovery, observability, and incident activation are not implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
   in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.

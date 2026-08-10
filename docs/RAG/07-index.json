@@ -704,6 +704,19 @@
       "last_updated": "2026-08-11"
     },
     {
+      "id": "meneer-lifecycle-backup-recovery",
+      "path": "docs/06-operations/lifecycle-backup-recovery-runbook.md",
+      "status": "active-foundation",
+      "authority_for": [
+        "verified data-subject request operation",
+        "legal and clinical hold operation",
+        "encrypted recovery export and retention",
+        "isolated restore and reconciliation procedure",
+        "hosted R2 and heartbeat owner activation"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
       "id": "phase-01-sprint-03-task-04",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
       "status": "verified-task-evidence",
@@ -1185,6 +1198,21 @@
       "last_updated": "2026-08-11"
     },
     {
+      "id": "phase-01-sprint-05-task-13",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-13-lifecycle-recovery-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.13 completion",
+        "verified export erasure and hold workflow",
+        "processor and backup reconciliation",
+        "encrypted recovery archive and heartbeat boundary",
+        "isolated logical restore evidence",
+        "TD-016 verification and TD-020 residual"
+      ],
+      "source_parent": "442d6ff",
+      "last_updated": "2026-08-11"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1577,6 +1605,33 @@
         "src/application/observability/",
         "src/server/observability/telemetry.ts",
         "supabase/migrations/20260810214446_security_observability_evidence.sql",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "lifecycle",
+        "data-subject-request",
+        "export",
+        "erasure",
+        "legal-hold",
+        "backup",
+        "restore",
+        "reconciliation",
+        "r2",
+        "heartbeat",
+        "td-016",
+        "task-5.13"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-13-lifecycle-recovery-evidence.md",
+        "docs/06-operations/lifecycle-backup-recovery-runbook.md"
+      ],
+      "verify_against": [
+        "contracts/lifecycle.ts",
+        "src/application/lifecycle/",
+        "src/application/recovery/",
+        "supabase/migrations/20260810222608_lifecycle_recovery_governance.sql",
         "docs/04-technical-debt/technical-debt-registry-v1.md"
       ]
     },

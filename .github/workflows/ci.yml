@@ -71,9 +71,13 @@ jobs:
           bun run test:commands
           bun run test:audit
           bun run test:security-evidence
+          bun run test:lifecycle
 
       - name: Exercise privacy-safe incident controls
         run: bun run exercise:incident
+
+      - name: Exercise encrypted synthetic recovery
+        run: bun run exercise:recovery
 
       - name: Stop synthetic local database and identity services
         if: always()
