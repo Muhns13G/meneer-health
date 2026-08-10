@@ -1,7 +1,7 @@
 ---
 runbook_id: meneer-http-security-cache
 title: HTTP Security Headers and Cache Policy
-status: active-local-hosted-verification-pending
+status: active-verified
 last_updated: 2026-08-10
 owner: "@Muhns13G"
 audience: internal
@@ -68,3 +68,13 @@ HSTS header, nonce-bearing document CSP, normal hydration, and no CSP console/ne
 Record the deployed commit and Cloudflare evidence before marking TD-018 Verified. If a policy
 breaks a required journey, roll back under the release runbook; do not weaken it globally without a
 documented resource need and regression evidence.
+
+## Verified Hosted Baseline
+
+On 10 August 2026, permanent implementation commit `a4c8e52` was reconciled with preview deployment
+head `8809ca2`. Cloudflare deployment `56271c10-0057-4dcf-9052-4450d010276a`, Worker version
+`30b11eb9-d5d4-4cbc-a920-81b5f6a217a0`, passed the complete HTTPS response matrix at
+`https://meneerhealth.co.za`. Public, sensitive, redirect, error, fingerprinted-asset, and mutable
+asset classes returned the intended headers and cache policy. The rendered nonce matched the CSP,
+hydration completed, the preview video reached ready state, and the browser console contained no
+warnings or errors. This baseline verifies TD-018; changes described above require renewed evidence.

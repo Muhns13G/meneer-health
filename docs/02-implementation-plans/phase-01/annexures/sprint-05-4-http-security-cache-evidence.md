@@ -1,9 +1,13 @@
 ---
 evidence_id: phase-01-sprint-05-task-04
 title: Sprint 05.4 HTTP Security and Cache Policy
-status: implemented-local-hosted-verification-pending
+status: verified-task-evidence
 date: 2026-08-10
-source_commit: 64fc65d
+source_commit: a4c8e52
+hosted_commit: 8809ca2
+hosted_deployment: 56271c10-0057-4dcf-9052-4450d010276a
+hosted_version: 30b11eb9-d5d4-4cbc-a920-81b5f6a217a0
+hosted_origin: https://meneerhealth.co.za
 owner: "@Muhns13G"
 related_debt: [TD-018]
 ---
@@ -42,18 +46,28 @@ changed.
   accessibility; production preview separately proves the built static-asset classes.
 - Frozen install, format, lint, typecheck, build/client-canary, generated-route consistency, both
   zero-finding audits, Cloudflare dry-run, JSON parsing, and `git diff --check` pass. The existing
-  upstream `punycode` deprecation remains bounded and no deployment occurred.
+  upstream `punycode` deprecation remains bounded; the local verification did not deploy.
 - The customer-facing route and component files are untouched.
-
-## Debt Disposition
-
-TD-018 moves from Open to In progress. Implementation and local evidence are complete, but the
-registry requires the exact committed build to pass the same matrix on Cloudflare HTTPS before the
-debt and Task 5.4 may be marked Verified. The repository owner must commit/push/deploy; this task
-does not authorise the agent to do so.
 
 ## Hosted Close-out
 
-After deployment, record the source commit, deployment/version, response matrix, HSTS and nonce-CSP
-evidence, hydration/console result, and owner acceptance here. Then change this evidence and Task
-5.4 to verified/completed and update TD-018 to Verified.
+The repository owner committed and deployed the Task 5.4 implementation. Permanent branch commit
+`a4c8e52` and preview implementation commit `19d3661` are equivalent for the security/cache files;
+preview head `8809ca2` adds only the approved preview video fallback. Cloudflare deployment
+`56271c10-0057-4dcf-9052-4450d010276a` serves Worker version
+`30b11eb9-d5d4-4cbc-a920-81b5f6a217a0` at 100% from `https://meneerhealth.co.za`.
+
+| Hosted class            | Verified outcome                                                                                 |
+| ----------------------- | ------------------------------------------------------------------------------------------------ |
+| Public document `/`     | HTTP 200; `public, max-age=0, must-revalidate`; complete security baseline and one-year HSTS.    |
+| Sensitive journeys      | `/start` and `/peptides` return HTTP 200 with `private, no-store, max-age=0`.                    |
+| Redirect                | `/go/dads` returns HTTP 307 with the approved attributed `/start` location and private no-store. |
+| Error                   | An unknown path returns HTTP 404 with private no-store.                                          |
+| Fingerprinted asset     | The deployed stylesheet returns one-year immutable caching and the static security baseline.     |
+| Mutable campaign asset  | `/campaigns/qr/dads.svg` returns one-hour revalidation and the static security baseline.         |
+| CSP and browser runtime | The header nonce matches the rendered script nonce; hydration completes with no warnings/errors. |
+| Preview media           | `/peptides` resolves the approved draft MP4; the browser reports media ready state 4.            |
+
+The owner requested the closure-document update after reviewing the audit. Task 5.4 is Completed
+and TD-018 is Verified. Future routes, origins, inline requirements, or sensitive journeys must
+extend the policy and repeat the relevant regression matrix.

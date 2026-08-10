@@ -584,8 +584,11 @@ Evidence: [`sprint-05-3-environment-security-evidence.md`](../02-implementation-
   redirects, non-read methods, and cookie-bearing responses are private no-store.
 - Cloudflare static assets bypass the Worker and are therefore governed by `public/_headers`:
   fingerprinted `/assets/*` files are one-year immutable; mutable `/campaigns/*` files revalidate.
-- Unit, production-preview response-matrix, and desktop/mobile browser evidence pass locally. Task
-  5.4 and TD-018 remain In progress until the committed build passes the HTTPS matrix on Cloudflare.
+- Unit, production-preview response-matrix, and desktop/mobile browser evidence pass locally.
+  Cloudflare deployment `56271c10-0057-4dcf-9052-4450d010276a` / Worker version
+  `30b11eb9-d5d4-4cbc-a920-81b5f6a217a0` subsequently passed the complete HTTPS matrix, matching
+  nonce, hydration, preview-media, and clean-console checks. Task 5.4 is Completed and TD-018 is
+  Verified.
 
 Evidence: [`sprint-05-4-http-security-cache-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md).
 

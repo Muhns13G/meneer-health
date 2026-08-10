@@ -652,7 +652,7 @@
     {
       "id": "meneer-http-security-cache",
       "path": "docs/06-operations/http-security-cache-policy.md",
-      "status": "active-local-hosted-verification-pending",
+      "status": "active-verified",
       "authority_for": [
         "HTTP response classification",
         "Worker and static-asset header ownership",
@@ -999,16 +999,20 @@
     {
       "id": "phase-01-sprint-05-task-04",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md",
-      "status": "implemented-local-hosted-verification-pending",
+      "status": "verified-task-evidence",
       "authority_for": [
-        "Task 5.4 local implementation evidence",
-        "TD-018 in-progress evidence",
+        "Task 5.4 completion",
+        "TD-018 verification",
         "security header response matrix",
         "cache classification",
         "request-scoped CSP nonce",
-        "Cloudflare static asset header boundary"
+        "Cloudflare static asset header boundary",
+        "hosted deployment verification"
       ],
-      "source_baseline": "64fc65d",
+      "source_baseline": "a4c8e52",
+      "hosted_commit": "8809ca2",
+      "hosted_deployment": "56271c10-0057-4dcf-9052-4450d010276a",
+      "hosted_version": "30b11eb9-d5d4-4cbc-a920-81b5f6a217a0",
       "last_updated": "2026-08-10"
     },
     {
