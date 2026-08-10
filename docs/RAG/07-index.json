@@ -650,6 +650,19 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "meneer-http-security-cache",
+      "path": "docs/06-operations/http-security-cache-policy.md",
+      "status": "active-local-hosted-verification-pending",
+      "authority_for": [
+        "HTTP response classification",
+        "Worker and static-asset header ownership",
+        "content security policy",
+        "sensitive route caching",
+        "hosted header verification"
+      ],
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-03-task-04",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
       "status": "verified-task-evidence",
@@ -984,6 +997,21 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "phase-01-sprint-05-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md",
+      "status": "implemented-local-hosted-verification-pending",
+      "authority_for": [
+        "Task 5.4 local implementation evidence",
+        "TD-018 in-progress evidence",
+        "security header response matrix",
+        "cache classification",
+        "request-scoped CSP nonce",
+        "Cloudflare static asset header boundary"
+      ],
+      "source_baseline": "64fc65d",
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1105,6 +1133,27 @@
         "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
         "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
         "docs/02-implementation-plans/phase-01/sprint-07-content-measurement-mcp.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "security-headers",
+        "content-security-policy",
+        "csp-nonce",
+        "cache-control",
+        "sensitive-cache",
+        "static-assets",
+        "td-018"
+      ],
+      "read_first": [
+        "docs/06-operations/http-security-cache-policy.md",
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md"
+      ],
+      "verify_against": [
+        "src/server/security/response-policy.ts",
+        "public/_headers",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current Cloudflare HTTPS deployment"
       ]
     },
     {

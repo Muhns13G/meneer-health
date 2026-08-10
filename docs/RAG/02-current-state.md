@@ -43,6 +43,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md
   - docs/06-operations/environment-secrets-runbook.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md
+  - docs/06-operations/http-security-cache-policy.md
 ---
 
 # Meneer v1 Verified Current State
@@ -573,6 +575,19 @@ Evidence: [`sprint-05-2-contract-foundation-evidence.md`](../02-implementation-p
   Verified for the current no-secret runtime; Task 5.5 still gates provider selection.
 
 Evidence: [`sprint-05-3-environment-security-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md).
+
+### Sprint 05.4 HTTP security and cache policy — 10 August 2026
+
+- Worker responses now receive an explicit CSP, framing, MIME-sniffing, referrer, permissions,
+  transport, and cache policy without buffering their streamed bodies.
+- Rendered documents use request-scoped script nonces. Sensitive `/start` and `/peptides`, errors,
+  redirects, non-read methods, and cookie-bearing responses are private no-store.
+- Cloudflare static assets bypass the Worker and are therefore governed by `public/_headers`:
+  fingerprinted `/assets/*` files are one-year immutable; mutable `/campaigns/*` files revalidate.
+- Unit, production-preview response-matrix, and desktop/mobile browser evidence pass locally. Task
+  5.4 and TD-018 remain In progress until the committed build passes the HTTPS matrix on Cloudflare.
+
+Evidence: [`sprint-05-4-http-security-cache-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-4-http-security-cache-evidence.md).
 
 ## Highest-Risk Gaps
 

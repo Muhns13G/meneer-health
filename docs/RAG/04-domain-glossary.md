@@ -125,6 +125,10 @@ sensitivity: internal
   prohibited from browser bundles, logs, RAG, screenshots, and CI artefacts.
 - **Bundle canary:** a synthetic non-secret marker required in server output and forbidden from
   client output to prove the configured server/client separation remains enforced.
+- **Response class:** the server-derived public, sensitive, redirect, error, fingerprinted-asset,
+  or mutable-asset category that determines a response's security headers and cache policy.
+- **CSP nonce:** a fresh request-scoped value authorising only the matching rendered scripts; it
+  avoids granting blanket inline-script execution and must be emitted with the same response policy.
 - **Dormant clinical record:** a health record whose retention clock starts from the patient's last
   treatment/clinical activity, subject to longer applicable exceptions or holds.
 - **Legal or clinical hold:** an authorised, scoped and reviewed pause on ordinary disposition; it
