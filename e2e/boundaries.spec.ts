@@ -43,6 +43,7 @@ test("security and cache headers match each Worker response class", async ({
   expect(publicResponse.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(publicResponse.headers()["x-content-type-options"]).toBe("nosniff");
   expect(publicResponse.headers()["x-frame-options"]).toBe("DENY");
+  expect(publicResponse.headers()["x-correlation-id"]).toMatch(/^[A-Za-z0-9._:-]+$/);
 
   for (const path of ["/start", "/peptides"]) {
     const sensitiveResponse = await request.get(`${baseURL}${path}`);
@@ -55,6 +56,36 @@ test("security and cache headers match each Worker response class", async ({
   const errorResponse = await request.get(`${baseURL}/definitely-not-a-route`);
   expect(errorResponse.status()).toBe(404);
   expect(errorResponse.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+});
+
+test("unregistered mutations and direct endpoints fail closed without CORS", async ({
+  request,
+  baseURL,
+}) => {
+  const mutationResponse = await request.post(`${baseURL}/start`, {
+    data: { synthetic: true },
+  });
+  expect(mutationResponse.status()).toBe(405);
+  expect(mutationResponse.headers().allow).toBe("GET, HEAD");
+  expect(mutationResponse.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+
+  const preflightResponse = await request.fetch(`${baseURL}/api/workflows/transition`, {
+    method: "OPTIONS",
+    headers: {
+      Origin: "https://attacker.invalid",
+      "Access-Control-Request-Method": "POST",
+    },
+  });
+  expect(preflightResponse.status()).toBe(204);
+  expect(preflightResponse.headers()["access-control-allow-origin"]).toBeUndefined();
+
+  const directResponse = await request.post(`${baseURL}/api/workflows/transition`, {
+    data: { synthetic: true },
+    headers: { Origin: "https://attacker.invalid" },
+  });
+  expect(directResponse.status()).toBe(404);
+  expect(directResponse.headers()["access-control-allow-origin"]).toBeUndefined();
+  expect(await directResponse.text()).not.toContain("workflow");
 });
 
 test("active intake and campaign surfaces remain non-transactional", async ({ page }) => {
