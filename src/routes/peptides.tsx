@@ -8,7 +8,9 @@ import { publicEnvironment } from "@/config/public-environment";
 // TODO: Replace with real Precise Wellness questionnaire URL once confirmed.
 const PW_QUESTIONNAIRE_URL = "https://precisewellness.example.com/questionnaire";
 
-const PEPTIDE_VIDEO_URL = publicEnvironment.peptideVideoUrl;
+// Preview-branch fallback: keep this draft-media default out of the permanent branch.
+const PREVIEW_VIDEO_URL = "/media/peptides/peptide-explainer-draft.mp4";
+const PEPTIDE_VIDEO_URL = publicEnvironment.peptideVideoUrl ?? PREVIEW_VIDEO_URL;
 const PEPTIDE_VIDEO_POSTER_URL = publicEnvironment.peptideVideoPosterUrl;
 
 export const Route = createFileRoute("/peptides")({
