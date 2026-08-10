@@ -3,7 +3,7 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 audience: internal
 sensitivity: internal
 ---
@@ -159,6 +159,12 @@ sensitivity: internal
   route class and stable reason; it is not authorisation or proof that a business command committed.
 - **Coarse edge rate limit:** a fast abuse-control allowance scoped by the selected edge provider;
   it is not durable accounting, idempotency, authorisation, or a substitute for route monitoring.
+- **Telemetry event:** a strict payload-free operational fact containing only environment, event,
+  outcome, severity, correlation and approved coarse classifications; it is not authoritative audit.
+- **Service objective:** an internal measurable pilot target with a window, threshold, owner and
+  response time; the 99.5% availability objective is not a public SLA.
+- **Controlled incident exercise:** a synthetic detect/triage/contain/recover/review rehearsal that
+  proves alerts and redaction without disrupting production or using patient data.
 - **Anti-automation proof:** a short-lived server-verified challenge for an approved anonymous
   command. The raw proof is never trusted as identity, stored in evidence, or exposed to a client.
 - **CSP nonce:** a fresh request-scoped value authorising only the matching rendered scripts; it

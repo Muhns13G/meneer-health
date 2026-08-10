@@ -70,6 +70,10 @@ jobs:
           bun run test:authz
           bun run test:commands
           bun run test:audit
+          bun run test:security-evidence
+
+      - name: Exercise privacy-safe incident controls
+        run: bun run exercise:incident
 
       - name: Stop synthetic local database and identity services
         if: always()

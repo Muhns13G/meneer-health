@@ -6,6 +6,7 @@ import {
   inspectProtectedJsonRequest,
   inspectPublicRequest,
   requestSecurityLimits,
+  safeInternalFailureResponse,
   type AntiAutomationPort,
   type RateLimitPort,
 } from "./request-security";
@@ -279,6 +280,7 @@ describe("future protected JSON boundary", () => {
 describe("request timeout and response correlation", () => {
   it("aborts and returns a safe no-store-compatible timeout response", async () => {
     let observedSignal: AbortSignal | undefined;
+    const onTimeout = vi.fn();
     const response = await executeWithRequestTimeout(
       request("/start"),
       async (boundedRequest) => {
@@ -287,11 +289,15 @@ describe("request timeout and response correlation", () => {
         return new Response("late");
       },
       1,
+      onTimeout,
     );
 
     expect(response.status).toBe(503);
     expect(observedSignal?.aborted).toBe(true);
     expect(await response.text()).not.toContain("request-timeout");
+    expect(onTimeout).toHaveBeenCalledWith(
+      expect.objectContaining({ reason: "REQUEST_TIMEOUT", outcome: "denied" }),
+    );
   });
 
   it("adds the safe correlation identifier without replacing the response body", async () => {
@@ -303,5 +309,22 @@ describe("request timeout and response correlation", () => {
 
     expect(response.headers.get("X-Correlation-ID")).toBe("trace_safe_02");
     expect(await response.text()).toBe("ok");
+  });
+
+  it("normalises an unhandled operation failure without diagnostic leakage", async () => {
+    const response = safeInternalFailureResponse("internal_failure_trace");
+
+    expect(response.status).toBe(500);
+    expect(response.headers.get("X-Correlation-ID")).toBe("internal_failure_trace");
+    expect(await response.json()).toEqual({
+      contract: "error.response",
+      version: 1,
+      correlationId: "internal_failure_trace",
+      error: {
+        code: "INTERNAL_FAILURE",
+        message: "The request could not be completed.",
+        retry: "safe",
+      },
+    });
   });
 });

@@ -3,10 +3,10 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 audience: internal
 sensitivity: internal
-source_baseline: 06c22dd
+source_baseline: f3b2187
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -700,6 +700,24 @@ Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementat
   monitoring and local/preview/hosted evidence; Task 5.12 owns abuse alerts and incident proof.
 
 Evidence: [`sprint-05-11-request-security-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md) and [`request-security-abuse-runbook.md`](../06-operations/request-security-abuse-runbook.md).
+
+### Sprint 05.12 privacy-safe observability and incident foundation — 11 August 2026
+
+- A portable strict `telemetry.event` contract allows only environment, event, severity, outcome,
+  correlation, route class, reason, status class and duration bucket. Tests reject identity,
+  contact, URL, header, token, payload and health-like additions before logging.
+- The Worker emits payload-free custom request completion/denial objects. Cloudflare automatic
+  invocation logs are disabled because their transport metadata bypasses the application allowlist.
+- Explicit internal pilot objectives and alert policy cover availability, acknowledgement,
+  dependency/timeouts, server-failure bursts, abuse denials and every disabled break-glass attempt.
+- A service-role-only Supabase function appends identified authorisation and disabled break-glass
+  denials to the existing hash chain. Browser calls, arbitrary actions and unapproved roles fail.
+- The synthetic exercise detects both critical scenarios, rejects prohibited fields, and completes
+  detect, triage, contain, recover and review. Task 5.12 is complete as a repository foundation.
+- Better Stack has not been provisioned/tested from this task. Task 5.13 owns its payload-free backup
+  heartbeat and recovery proof; TD-020 and related activation debts remain In progress.
+
+Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-12-observability-incident-evidence.md) and [`observability-incident-runbook.md`](../06-operations/observability-incident-runbook.md).
 
 ## Highest-Risk Gaps
 

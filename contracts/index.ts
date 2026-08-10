@@ -2,6 +2,7 @@ export * from "./audit";
 export * from "./catalogue";
 export * from "./envelopes";
 export * from "./errors";
+export * from "./observability";
 export * from "./security";
 export * from "./shared";
 export * from "./versioning";

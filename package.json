@@ -35,6 +35,8 @@
     "test:authz": "bun run scripts/test-supabase-authorisation-integration.ts",
     "test:commands": "bun run scripts/test-supabase-workflow-commands-integration.ts",
     "test:audit": "bun run scripts/test-supabase-audit-integration.ts",
+    "test:security-evidence": "bun run scripts/test-supabase-security-evidence-integration.ts",
+    "exercise:incident": "bun run scripts/run-controlled-incident-exercise.ts",
     "db:lint": "supabase db lint --local --level error",
     "lint": "eslint .",
     "format": "prettier --write .",
