@@ -612,14 +612,33 @@ Evidence: [`sprint-05-4-http-security-cache-evidence.md`](../02-implementation-p
 
 Evidence: [`sprint-05-5-provider-selection-data-map-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md).
 
+### Sprint 05.6 persistence and tenancy foundation — 10 August 2026
+
+- Framework-neutral domain models and `AccessRepository` now define read-side tenant, subject,
+  external-identity and membership contracts. The server-only Supabase adapter maps provider rows
+  and converts provider failures into one stable safe application error.
+- A versioned local Supabase migration creates four UUID-keyed, constrained and indexed foundation
+  tables. Every table enables and forces RLS; browser roles have no privileges or policies and the
+  service role is read-only.
+- Local/CI fixtures are deterministic and synthetic. The reset passes, 26 pgTAP assertions pass,
+  database lint passes, and the repository suite passes 58 tests plus build and production audit.
+  GitHub validation runs the same PostgreSQL-only database gate without hosted credentials.
+- The optional `SUPABASE_URL`/`SUPABASE_SECRET_KEY` server pair excludes preview, requires HTTPS and
+  remains absent from browser output. No value or hosted migration was committed or deployed.
+- Task 5.6 is Completed. TD-014 remains In progress for Task 5.9 writes/idempotency/concurrency;
+  TD-016 remains In progress for Task 5.13 lifecycle, recovery, restore and rights evidence.
+
+Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
   false-success paths are contained behind inactive routes.
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
-- The operating model and logical backend/state boundaries are approved, but no backend, identity,
-  database, authorisation, audit, retention, observability, or incident process is implemented.
+- The operating model and logical backend/state boundaries are approved. A local, read-only
+  persistence foundation now exists, but identity, authorisation policies, durable writes, audit,
+  retention, hosted recovery, observability, and incident processes are not implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
   in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.

@@ -13,9 +13,9 @@ sensitivity: internal
 ## Purpose and Current Boundary
 
 This runbook governs application configuration without storing values in documentation or source.
-The machine-checked catalogue is `config/environment-catalogue.ts`; `.env.example` lists only the
-three current public variables. Meneer consumes no server secret in Task 5.3. Add no placeholder
-secret before its server-only consumer, owner, environments, and failure behavior are reviewed.
+The machine-checked catalogue is `config/environment-catalogue.ts`; `.env.example` lists names only.
+Task 5.6 adds the first optional server consumer through an all-or-none Supabase pair. Values remain
+uncommitted and provider-backed persistence stays disabled when the pair is absent.
 
 ## Current Catalogue
 
@@ -24,6 +24,8 @@ secret before its server-only consumer, owner, environments, and failure behavio
 | `VITE_PEPTIDE_VIDEO_URL`        | Public client/build | No       | Content and release owner  | Replace with the approved media location.                                   |
 | `VITE_PEPTIDE_VIDEO_POSTER_URL` | Public client/build | No       | Content and release owner  | Replace with the associated approved release.                               |
 | `VITE_CAMPAIGN_PRINT_PROOF`     | Public client/build | No       | Campaign and release owner | Use exact `true` only for approved proofing; otherwise omit or use `false`. |
+| `SUPABASE_URL`                  | Server only         | No       | Data and release owner     | Change with the selected project/environment; HTTPS only.                   |
+| `SUPABASE_SECRET_KEY`           | Server secret       | No       | Data and security owner    | Rotate after exposure, role change, or project replacement.                 |
 
 Public media must be root-relative or HTTPS. Unknown `VITE_*` names, invalid URLs, and non-boolean
 print-proof values fail the build with a safe message that does not echo the supplied value.
@@ -44,8 +46,8 @@ print-proof values fail the build with a safe message that does not echo the sup
 
 - **Local:** public values may use ignored `.env.local`; future Worker secrets use ignored
   `.dev.vars`. Use synthetic data only and restrict file permissions.
-- **Preview:** the owner provisions a distinct value or Cloudflare secret for the review branch/
-  environment. Never copy production credentials or patient data into a public preview.
+- **Preview:** Supabase is deliberately unconfigured. Never copy production credentials or patient
+  data into a public preview.
 - **Production:** the owner provisions the approved value in Cloudflare only after release review.
   Required configuration must fail at startup when missing or invalid; it must never fall back to a
   preview, test, or developer credential.
@@ -72,8 +74,8 @@ Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or 
 
 - `vite.config.ts` validates declared public configuration before either client or SSR compilation.
 - `src/server.ts` is the explicit Cloudflare Worker entry and validates the server-only schema at
-  isolate startup. The current empty strict schema proves that undeclared input fails closed while
-  intentionally requiring no secret.
+  isolate startup. The optional Supabase URL/secret pair must be complete or absent; partial,
+  non-HTTPS or undeclared input fails closed.
 - `scripts/check-client-bundle.ts` requires a synthetic marker in server output and rejects it or
   any catalogued server-only name in client output.
 - Configuration errors use stable generic messages and do not serialize Zod issues, input values,
@@ -84,4 +86,5 @@ Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or 
 - [Cloudflare environment and release runbook](cloudflare-environments-release-runbook.md)
 - [Sprint 05 plan](../02-implementation-plans/phase-01/sprint-05-data-security-operations.md)
 - [Task 5.3 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md)
+- [Task 5.6 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md)
 - [Technical-debt registry](../04-technical-debt/technical-debt-registry-v1.md)

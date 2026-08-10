@@ -52,8 +52,17 @@ describe("environment catalogue", () => {
     }
   });
 
-  it("contains no placeholder secret or required server value", () => {
-    expect(environmentCatalogue.some((entry) => entry.sensitivity === "secret")).toBe(false);
+  it("catalogues the server-only Supabase pair without enabling preview", () => {
+    const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
+
+    expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "SUPABASE_URL",
+      "SUPABASE_SECRET_KEY",
+    ]);
+    expect(serverEntries.every((entry) => !entry.environments.includes("preview"))).toBe(true);
+    expect(serverEntries.find((entry) => entry.name === "SUPABASE_SECRET_KEY")?.sensitivity).toBe(
+      "secret",
+    );
     expect(
       environmentCatalogue.some((entry) => entry.exposure === "server" && entry.required),
     ).toBe(false);
@@ -61,8 +70,35 @@ describe("environment catalogue", () => {
 });
 
 describe("server startup configuration", () => {
-  it("accepts the intentional no-secret Task 5.3 server schema", () => {
-    expect(validateServerEnvironment({})).toEqual({});
+  it("keeps persistence disabled when the optional server pair is absent", () => {
+    expect(validateServerEnvironment({})).toEqual({ supabase: undefined });
+  });
+
+  it("accepts and normalises the complete Supabase server pair", () => {
+    expect(
+      validateServerEnvironment({
+        SUPABASE_URL: "https://example.supabase.co",
+        SUPABASE_SECRET_KEY: "synthetic-secret",
+      }),
+    ).toEqual({
+      supabase: {
+        url: "https://example.supabase.co",
+        secretKey: "synthetic-secret",
+      },
+    });
+  });
+
+  it.each([
+    { SUPABASE_URL: "https://example.supabase.co" },
+    { SUPABASE_SECRET_KEY: "synthetic-secret" },
+    {
+      SUPABASE_URL: "http://example.supabase.co",
+      SUPABASE_SECRET_KEY: "synthetic-secret",
+    },
+  ])("rejects partial or insecure Supabase server configuration", (environment) => {
+    expect(() => validateServerEnvironment(environment)).toThrow(
+      ServerEnvironmentConfigurationError,
+    );
   });
 
   it("fails closed without echoing an unexpected value", () => {

@@ -1045,6 +1045,21 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "phase-01-sprint-05-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.6 completion",
+        "provider-neutral persistence port",
+        "Supabase read adapter",
+        "versioned tenancy schema",
+        "deny-default RLS and privileges",
+        "synthetic database fixtures and tests"
+      ],
+      "source_parent": "35e2afc",
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
