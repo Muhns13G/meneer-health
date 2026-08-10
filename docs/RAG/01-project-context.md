@@ -20,7 +20,9 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
   - docs/06-operations/audit-integration-evidence-runbook.md
+  - docs/06-operations/request-security-abuse-runbook.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
   - docs/07-decisions/DR-001-operating-model-responsibility.md
   - docs/07-decisions/DR-008-governance-ownership-approval.md
@@ -90,6 +92,12 @@ server-side. The first strict command uses optimistic versions, payload-bound du
 atomic state/receipt commits and explicit independent clinical/payment/fulfilment states. These
 foundations do not expose an authenticated route, migrate hosted Supabase or approve activation.
 
+Task 5.11 adds the inactive shared request-security boundary. Current public routes accept only
+body-free reads; URL/header caps, coarse mutation-probe rate limiting, reserved-endpoint hiding,
+safe correlation responses and a 15-second deadline run at the Worker entry. Future protected JSON
+commands must additionally pass route-specific body, origin, idempotency, anti-automation or
+trusted-actor, and rate controls. This does not create a form, API, callback or hosted transaction.
+
 ## Intended Users and Operators
 
 - Adult South African men seeking support for hair loss, erectile dysfunction, weight management, testosterone concerns, and possibly peptides.
@@ -137,7 +145,8 @@ authority.
 Only the public presentation exists as a customer-facing surface. Sprint 05 now adds portable
 contracts, a local/synthetic tenancy schema, server-only managed identity/session and contextual
 authorisation, plus an inactive validated workflow-command boundary; it still exposes no
-application API or authenticated journey. The former read-only Lovable MCP
+application API or authenticated journey. The request-security foundation protects and specifies
+that inactive boundary without registering a mutation. The former read-only Lovable MCP
 surface was removed in Sprint 02 Task 2.4. DR-003–DR-007 remain authoritative for the broader target
 application, clinical/operations workspaces, workflow state, lifecycle, permissions and recovery.
 DR-009 selects the free-tier-first v1 stack: Supabase Free in

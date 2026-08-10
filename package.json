@@ -24,6 +24,7 @@
     "audit:prod": "bun audit --prod",
     "deploy:dry-run": "bun run build && wrangler deploy --dry-run",
     "check:client-bundle": "bun run scripts/check-client-bundle.ts",
+    "check:cloudflare-types": "wrangler types --check",
     "check:generated": "git diff --exit-code -- src/routeTree.gen.ts",
     "db:start": "supabase start",
     "db:start:test": "supabase start -x realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor",

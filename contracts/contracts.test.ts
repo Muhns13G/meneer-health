@@ -11,6 +11,7 @@ import {
 import { contractDefinitionSchema } from "./catalogue";
 import { commandEnvelopeSchema, eventEnvelopeSchema } from "./envelopes";
 import { errorContractSchema, stableErrorCodes } from "./errors";
+import { requestSecurityDecisionSchema } from "./security";
 import {
   invalidCommandFixtures,
   validCommandEnvelope,
@@ -89,6 +90,35 @@ describe("stable errors", () => {
           message: "Database failed\nselect * from patient",
           retry: "safe",
         },
+      }).success,
+    ).toBe(false);
+  });
+});
+
+describe("request security evidence", () => {
+  it("accepts a portable safe denial decision", () => {
+    expect(
+      requestSecurityDecisionSchema.safeParse({
+        contract: "security.request-decision",
+        version: 1,
+        correlationId: "trace_request_01",
+        outcome: "denied",
+        reason: "RATE_LIMITED",
+        routeClass: "protected-command",
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects raw request or challenge material", () => {
+    expect(
+      requestSecurityDecisionSchema.safeParse({
+        contract: "security.request-decision",
+        version: 1,
+        correlationId: "trace_request_01",
+        outcome: "denied",
+        reason: "ANTI_AUTOMATION_FAILED",
+        routeClass: "protected-command",
+        token: "must-not-be-recorded",
       }).success,
     ).toBe(false);
   });

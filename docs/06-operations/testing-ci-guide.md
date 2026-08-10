@@ -23,6 +23,7 @@ patient, clinical, payment, pharmacy, or fulfilment workflow exists.
 | Formatting            | `bun run format:check`                    | Non-writing Prettier check                                        |
 | Static analysis       | `bun run lint`                            | ESLint and repository rules                                       |
 | Types                 | `bun run typecheck`                       | Strict TypeScript without output                                  |
+| Cloudflare types      | `bun run check:cloudflare-types`          | Rejects generated runtime/binding type drift                      |
 | Unit/integration      | `bun run test`                            | Vitest, jsdom, components, utilities, and redirects               |
 | Database              | `bun run db:reset`, `db:test`, `db:lint`  | Versioned schema, fixtures, RLS, privileges and database lint     |
 | Managed identity      | `bun run test:auth`                       | Synthetic passwordless, mapping, TOTP, sessions and revocation    |
@@ -46,6 +47,7 @@ bun install --frozen-lockfile
 bun run format:check
 bun run lint
 bun run typecheck
+bun run check:cloudflare-types
 bun run test
 bun run db:start:test
 bun run db:reset
@@ -73,7 +75,7 @@ boundary evidence.
 `.github/workflows/ci.yml` runs for pull requests, manual dispatch, and pushes to `main`, `itws-I`,
 or `itws-I-preview`. The workflow has read-only repository permission and performs no deployment.
 It pins Bun 1.3.14, reads Node from `.node-version`, uses frozen installation, and executes the
-local scripts above with one Playwright worker. Tasks 5.6–5.10 start only the local PostgreSQL, Auth,
+local scripts above with one Playwright worker. Tasks 5.6–5.11 start only the local PostgreSQL, Auth,
 gateway and Data API services, reset synthetic migrations, run pgTAP/database lint, exercise the
 managed identity flow, and always stop the stack. Hosted Supabase credentials and data are never
 used by CI. The Task 5.7 proof binds and accepts an invitation, preserves the original session origin
@@ -88,6 +90,9 @@ Task 5.10 then proves the workflow/audit/outbox atomic transaction, append-only 
 purpose-bound AAL2 audit review, access-review evidence, allow-listed metadata, fingerprint-bound
 inbox replay and direct browser denial. Its second synthetic workflow keeps it independent from the
 Task 5.9 command scenario.
+Task 5.11 checks generated Cloudflare binding types, then proves transport caps, body-free reads,
+mutation-probe limiting/denial, protected JSON origin/body/idempotency/anti-automation controls,
+fail-closed dependencies, request deadlines, safe correlation and the browser's no-CORS boundary.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.

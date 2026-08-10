@@ -5,6 +5,16 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
   "preview_urls": true,
+  "ratelimits": [
+    {
+      "name": "REQUEST_RATE_LIMITER",
+      "namespace_id": "51101",
+      "simple": {
+        "limit": 60,
+        "period": 60,
+      },
+    },
+  ],
   "observability": {
     "enabled": true,
     "logs": {

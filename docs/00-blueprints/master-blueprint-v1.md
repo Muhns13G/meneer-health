@@ -213,8 +213,9 @@ tenant, subject, role, action, ownership/assignment, purpose, workflow state, as
 and expiry. Eight human roles and eleven resource classes have explicit allow/deny cells; service
 identities require exact tenant/environment/purpose/resource/action scope. The server resolves all
 authority inputs from internal records, returns minimum projections, and keeps browser database
-roles without table access. Public routes and hosted Supabase remain unchanged; later tasks still
-own break glass, decision-audit persistence, abuse controls and activation evidence.
+roles without table access. Public routes and hosted Supabase remain unchanged. Tasks 5.10–5.11
+subsequently add successful-command audit/review and shared request-abuse foundations; Task 5.12
+still owns denial evidence, monitored break glass, abuse alerts and activation evidence.
 
 Sprint 05 Task 5.9 implements the first durable command boundary without activating a customer
 route. A strict `workflow.transition` contract, server-resolved actor/resource context, contextual
@@ -230,6 +231,14 @@ workflow state, receipt, hash-chained safe audit fact and minimum outbox event a
 idempotent fingerprint-only inbox and AAL2 purpose-bound audit review remain server-only. Browser
 roles and direct service-table access are denied. Scheduled monitoring, lifecycle/export, external
 providers and hosted activation remain Tasks 5.12–5.15.
+
+Sprint 05 Task 5.11 establishes an inactive request-security boundary without publishing an API or
+form. The Worker admits only body-free reads, caps URLs and headers, rate-checks and denies every
+unregistered mutation, hides reserved endpoint probes, applies a 15-second request deadline, and
+emits only safe correlation-bearing errors. A portable protected-JSON inspector defines
+same-origin, media-type, body-size, malformed-body, idempotency, anti-automation and trusted-rate-key
+requirements for future commands. Cloudflare's rate-limit binding is a coarse adapter; durable
+idempotency, authorisation and route-specific activation evidence remain authoritative.
 
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 

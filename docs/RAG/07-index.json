@@ -678,6 +678,19 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "meneer-request-security-abuse",
+      "path": "docs/06-operations/request-security-abuse-runbook.md",
+      "status": "active-foundation",
+      "authority_for": [
+        "current public request boundary",
+        "future protected JSON activation controls",
+        "Cloudflare rate-limit binding ownership",
+        "anti-automation and callback separation",
+        "request abuse incident and limit procedure"
+      ],
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-03-task-04",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
       "status": "verified-task-evidence",
@@ -1128,6 +1141,21 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "phase-01-sprint-05-task-11",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.11 completion",
+        "portable request-security decision contract",
+        "public request size timeout and direct-endpoint controls",
+        "protected JSON origin body duplicate and anti-automation boundary",
+        "Cloudflare coarse rate-limit binding",
+        "TD-017 in-progress evidence"
+      ],
+      "source_parent": "a222a67",
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1472,6 +1500,29 @@
       "verify_against": [
         "supabase/migrations/20260810200633_audit_inbox_outbox_evidence.sql",
         "contracts/audit.ts",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "request-security",
+        "rate-limit",
+        "cors",
+        "origin",
+        "anti-automation",
+        "turnstile",
+        "body-limit",
+        "timeout",
+        "td-017",
+        "task-5.11"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md",
+        "docs/06-operations/request-security-abuse-runbook.md"
+      ],
+      "verify_against": [
+        "src/server/security/request-security.ts",
+        "wrangler.jsonc",
         "docs/04-technical-debt/technical-debt-registry-v1.md"
       ]
     },

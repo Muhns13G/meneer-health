@@ -52,6 +52,9 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
 
+      - name: Check Cloudflare binding types
+        run: bun run check:cloudflare-types
+
       - name: Run unit and integration tests
         run: bun run test
 
