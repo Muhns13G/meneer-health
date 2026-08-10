@@ -17,6 +17,7 @@ sources:
   - docs/07-decisions/DR-005-data-tenancy-lifecycle-migration.md
   - docs/07-decisions/DR-006-vendor-evaluation-criteria.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
   - docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md
@@ -94,6 +95,13 @@ guards; and framework-independent tests. ESLint enforces the initial inward depe
 foundation does not yet implement the required business contract families or prove behavioural
 equivalence across framework generations; those remain TD-014 and TD-055 work.
 
+Task 5.9 adds the first portable business command: `workflow.transition` major version 1 plus a
+provider-neutral application service and Supabase transaction adapter. Its observable contract is
+strict validation, server-owned authority, independent workflow dimensions, optimistic concurrency,
+payload-bound idempotency, exact replay and no success before durable state plus receipt commit.
+Next.js and Laravel must reproduce these behaviours without depending on TanStack routes or the
+Supabase RPC implementation.
+
 ## v1 De-Platform Sequence
 
 1. Recover the real brand assets and replace Lovable virtual-asset references.
@@ -146,8 +154,8 @@ not Supabase-specific UI or workflow logic.
 Sprint 03 completes the decision layer for this evolution. Implementation must now demonstrate the
 approved contracts and boundaries rather than reinterpret them inside a framework or provider.
 Sprint 05 owns the first runtime proof for identity, authorisation, lifecycle, restore, rights, and
-portable data operations. Tasks 5.6–5.8 now prove portable tenancy, identity/session and
-contextual-authorisation boundaries locally; provider activation, persistent audit, break glass and
+portable data operations. Tasks 5.6–5.9 now prove portable tenancy, identity/session,
+contextual-authorisation and command/state boundaries locally; provider activation, persistent audit, break glass and
 abuse controls remain separate gates.
 
 DR-007 keeps identity portable by mapping provider authentication to opaque internal subjects and

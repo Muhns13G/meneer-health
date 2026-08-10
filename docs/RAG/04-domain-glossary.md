@@ -127,6 +127,12 @@ sensitivity: internal
   such as own, status-only, clinical, dispensing, evidence or configuration—not general table access.
 - **Policy reason code:** a stable, payload-free allow/deny explanation suitable for later audit and
   monitoring without copying patient or clinical content.
+- **Optimistic version:** the server-owned aggregate version a command must match before mutation;
+  a stale version produces a conflict rather than overwriting a concurrent change.
+- **Idempotency receipt:** the durable command-name/key/fingerprint record binding an exact request
+  to its committed result; a changed payload cannot reuse the key.
+- **False-success prevention:** the rule that success is returned only after every authoritative
+  write required by that command commits; rollback leaves neither changed state nor a success receipt.
 - **Step-up authentication:** fresh stronger authentication required before a high-risk action even
   when a session is already active.
 - **Break glass:** exceptional, time-limited, notified and reviewed access for immediate patient

@@ -80,6 +80,13 @@ values (
   '2031-01-01T00:00:00Z'
 );
 
+insert into public.workflow_instances (id, tenant_id, subject_id)
+values (
+  'a0000000-0000-4000-8000-000000000002',
+  '10000000-0000-4000-8000-000000000002',
+  '20000000-0000-4000-8000-000000000002'
+);
+
 insert into public.subject_contacts (
   id, subject_id, kind, normalized_value, status, provider, verified_at
 )

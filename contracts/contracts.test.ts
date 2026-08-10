@@ -13,6 +13,11 @@ import {
   supportsContractMajor,
   UnsupportedContractMajorError,
 } from "./versioning";
+import {
+  workflowTransitionCommandSchema,
+  workflowTransitionContract,
+  workflowTransitionResultSchema,
+} from "./workflows";
 
 describe("canonical contract envelopes", () => {
   it("accepts a framework-neutral command fixture", () => {
@@ -109,5 +114,58 @@ describe("catalogue and major-version compatibility", () => {
     expect(() => assertSupportedContractMajor(supportedMajors, "example.perform", 2)).toThrow(
       UnsupportedContractMajorError,
     );
+  });
+});
+
+describe("workflow command contracts", () => {
+  const command = {
+    contract: "workflow.transition",
+    version: 1,
+    requestId: "request_01",
+    idempotencyKey: "retry_01",
+    correlationId: "trace_01",
+    actor: { type: "workforce", id: "20000000-0000-4000-8000-000000000002" },
+    subjectId: "20000000-0000-4000-8000-000000000002",
+    expectedVersion: 0,
+    requestedAt: "2030-01-01T00:10:00Z",
+    payload: {
+      workflowId: "a0000000-0000-4000-8000-000000000002",
+      transition: "supply.request",
+    },
+  } as const;
+
+  it("accepts only the approved major, actor and transition payload", () => {
+    expect(contractDefinitionSchema.parse(workflowTransitionContract)).toEqual(
+      workflowTransitionContract,
+    );
+    expect(workflowTransitionCommandSchema.safeParse(command).success).toBe(true);
+    expect(workflowTransitionCommandSchema.safeParse({ ...command, version: 2 }).success).toBe(
+      false,
+    );
+    expect(
+      workflowTransitionCommandSchema.safeParse({
+        ...command,
+        payload: { ...command.payload, authoritativeStatus: "approved" },
+      }).success,
+    ).toBe(false);
+  });
+
+  it("keeps every workflow authority explicit in committed results", () => {
+    expect(
+      workflowTransitionResultSchema.safeParse({
+        replayed: false,
+        workflowId: command.payload.workflowId,
+        tenantId: "10000000-0000-4000-8000-000000000002",
+        version: 1,
+        clinicalState: "not_started",
+        paymentState: "not_started",
+        supplyState: "pending",
+        hubReceiptState: "not_started",
+        dispatchState: "not_ready",
+        deliveryState: "not_started",
+        cancellationState: "active",
+        refundState: "not_required",
+      }).success,
+    ).toBe(true);
   });
 });

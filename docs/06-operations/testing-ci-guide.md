@@ -27,6 +27,7 @@ patient, clinical, payment, pharmacy, or fulfilment workflow exists.
 | Database              | `bun run db:reset`, `db:test`, `db:lint`  | Versioned schema, fixtures, RLS, privileges and database lint     |
 | Managed identity      | `bun run test:auth`                       | Synthetic passwordless, mapping, TOTP, sessions and revocation    |
 | Authorisation         | `bun run test:authz`                      | Synthetic role, tenant, assignment and service-scope boundaries   |
+| Workflow commands     | `bun run test:commands`                   | Atomic state, replay, concurrency and false-success boundaries    |
 | Browser/accessibility | `bun run test:e2e`                        | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
 | Dependencies          | `bun run audit`, `bun run audit:prod`     | Full and production-filtered advisory policy                      |
 | Delivery              | `bun run build`, `bun run deploy:dry-run` | Production bundle and non-deploying Cloudflare upload validation  |
@@ -51,6 +52,7 @@ bun run db:test
 bun run db:lint
 bun run test:auth
 bun run test:authz
+bun run test:commands
 bun run db:stop
 bun run audit
 bun run audit:prod
@@ -69,14 +71,17 @@ boundary evidence.
 `.github/workflows/ci.yml` runs for pull requests, manual dispatch, and pushes to `main`, `itws-I`,
 or `itws-I-preview`. The workflow has read-only repository permission and performs no deployment.
 It pins Bun 1.3.14, reads Node from `.node-version`, uses frozen installation, and executes the
-local scripts above with one Playwright worker. Tasks 5.6–5.8 start only the local PostgreSQL, Auth,
+local scripts above with one Playwright worker. Tasks 5.6–5.9 start only the local PostgreSQL, Auth,
 gateway and Data API services, reset synthetic migrations, run pgTAP/database lint, exercise the
 managed identity flow, and always stop the stack. Hosted Supabase credentials and data are never
 used by CI. The Task 5.7 proof binds and accepts an invitation, preserves the original session origin
 through TOTP elevation, completes recovery only after revocation, and creates/scopes/revokes a
 synthetic service credential.
 Task 5.8 then exercises own, assigned, cross-subject, cross-tenant, vertical-role,
-cross-environment-service and direct-browser-denial boundaries without hosted credentials.
+cross-environment-service and direct-browser-denial boundaries without hosted credentials. Task
+5.9 exercises validated server context, optimistic versions, exact and changed replays, concurrent
+duplicate delivery, state prerequisites, atomic receipts, false-success rollback and direct browser
+denial. Reset the local database before rerunning this state-changing integration.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.
