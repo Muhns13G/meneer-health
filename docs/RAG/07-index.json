@@ -451,6 +451,21 @@
         "service-identity-and-access-test-boundaries"
       ],
       "last_updated": "2026-08-08"
+    },
+    {
+      "id": "DR-009",
+      "path": "docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md",
+      "status": "approved",
+      "authority_for": [
+        "v1 free-tier pilot provider selection",
+        "Supabase database identity and private storage",
+        "Brevo transactional SMTP",
+        "Cloudflare telemetry and R2 recovery exports",
+        "Better Stack uptime and backup heartbeats",
+        "Stripe test-mode payment boundary",
+        "provider environment separation and stop triggers"
+      ],
+      "last_updated": "2026-08-10"
     }
   ],
   "implementation_plans": [
@@ -1016,6 +1031,20 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "phase-01-sprint-05-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.5 completion",
+        "DR-006 provider checkpoint closure",
+        "pilot data map",
+        "free-tier account evidence",
+        "local CI preview and pilot environment boundaries",
+        "provider portability exit and upgrade triggers"
+      ],
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1042,8 +1071,8 @@
       "id": "FC-001",
       "path": "docs/05-future-considerations/postgres-auth-email-vendor-strategy.md",
       "title": "PostgreSQL, Authentication, and Transactional Email Vendor Strategy",
-      "status": "evaluation-pending",
-      "decision_due": "before-phase-01-sprint-05-provisioning",
+      "status": "selected-with-activation-gates",
+      "decision_due": "before-pilot-activation",
       "topics": [
         "postgresql",
         "supabase",
@@ -1051,6 +1080,10 @@
         "authentication",
         "brevo",
         "email",
+        "cloudflare-r2",
+        "better-stack",
+        "stripe-test-mode",
+        "free-tier-stop-triggers",
         "data-residency",
         "popia",
         "portability"
@@ -1304,12 +1337,14 @@
         "data-residency"
       ],
       "read_first": [
+        "docs/07-decisions/DR-009-free-tier-pilot-provider-stack.md",
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md",
         "docs/05-future-considerations/postgres-auth-email-vendor-strategy.md",
         "docs/RAG/05-decision-register.md"
       ],
       "verify_against": [
         "current vendor documentation",
-        "approved Sprint 03 decision records",
+        "DR-005 through DR-009",
         "current South African legal and regulatory guidance"
       ]
     },

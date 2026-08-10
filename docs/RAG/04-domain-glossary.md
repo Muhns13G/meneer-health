@@ -29,6 +29,14 @@ sensitivity: internal
 - **Public launch:** unrestricted intended-market availability after the complete public release gate passes.
 - **v3:** conditional Laravel API and React evolution triggered by demonstrated scale or operational complexity.
 - **Migration by absorption:** preserving validated behaviour, contracts, data, and tests while deliberately improving or removing weaknesses.
+- **Pilot provider stack:** DR-009's selected v1 combination of Supabase Free, Brevo Free,
+  Cloudflare telemetry and EU R2 recovery exports, Better Stack uptime/heartbeats, and Stripe test
+  mode; selection is not provisioning or activation.
+- **Provider-disabled preview:** a Cloudflare branch build whose real pilot database, identity,
+  email, storage, monitoring payloads, and payment integrations remain disabled or synthetic.
+- **Free-tier stop trigger:** a usage, reliability, recovery, privacy, security, or operational
+  threshold that requires intake to pause or a reviewed upgrade before it is exceeded; automatic
+  spend is not permitted.
 
 ## Product Terms
 
