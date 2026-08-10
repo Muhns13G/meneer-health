@@ -72,9 +72,13 @@ application credential or migrated schema, and no bucket, backup, restore or pil
 Task 5.7 implements server-only Supabase Auth behind provider-neutral ports, stable subject/contact
 mapping, bound invitation and recovery governance, immutable absolute session origins, atomic idle
 expiry, TOTP AAL2, revocation and scoped service-identity lifecycle operations. Code gates pass; the
-corrected local database/Auth lifecycle proof passed on 2026-08-10. No public account route, hosted
-identity, browser table grant, contextual permission policy or break-glass path is active; Task 5.8
-owns the authorisation matrix.
+corrected local database/Auth lifecycle proof passed on 2026-08-10.
+
+Task 5.8 implements and locally verifies the provider-neutral contextual policy: eight human roles,
+eleven resource classes, explicit actions, own/assigned relationships, purpose, state, assurance,
+membership/session validity and service environment/scope all deny by default. A third migration
+adds governed membership validity and read-only assignment evidence. No public account route,
+hosted identity/migration, browser table grant, break-glass path or transaction is active.
 
 Task 3.8 confirms the Sprint 03 design is internally consistent and adds lifecycle/recovery targets.
 This is documentation evidence only: no scenario was executed against a transactional backend, and
@@ -633,14 +637,28 @@ Evidence: [`sprint-05-5-provider-selection-data-map-evidence.md`](../02-implemen
 
 Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md).
 
+### Sprint 05.7–05.8 identity and authorisation foundations — 10 August 2026
+
+- Supabase Auth is isolated behind provider-neutral identity, session and governance ports with
+  stable internal subjects, verified contact, TOTP AAL2, bounded sessions and governed recovery.
+- A provider-neutral policy covers eight human roles and eleven resource classes. Every allow needs
+  active tenant/subject/membership/session context, matching tenant, explicit action, purpose/state,
+  assurance and an own/current-assignment relationship; the result carries a minimum projection.
+- Service access requires a current credential digest plus exact tenant, environment, purpose and
+  resource/action scope. Browser roles retain no table privilege or permissive policy.
+- Three migrations reset cleanly, 89 pgTAP assertions and 115 Vitest checks pass, both live synthetic
+  integrations pass, and Supabase lint/advisors report no issues. Hosted Supabase remains unchanged.
+
+Evidence: [`sprint-05-8-contextual-authorisation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
   false-success paths are contained behind inactive routes.
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
-- The operating model and logical backend/state boundaries are approved. A local, read-only
-  persistence foundation now exists, but identity, authorisation policies, durable writes, audit,
+- The operating model and logical backend/state boundaries are approved. Local, read-only
+  persistence, identity and contextual-authorisation foundations now exist, but durable writes, audit,
   retention, hosted recovery, observability, and incident processes are not implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and

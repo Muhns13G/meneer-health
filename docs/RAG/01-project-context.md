@@ -79,6 +79,11 @@ pathway evidence.
 Pilot approval and public-launch approval are separate. Cohort access does not justify removing the
 transactional gate or exposing the same scope as an unrestricted public launch.
 
+Tasks 5.6–5.8 now provide local/synthetic provider-neutral tenancy, managed identity/session and
+deny-default contextual-authorisation foundations. The policy resolves internal tenant, subject,
+role, assignment, purpose, workflow, assurance and validity evidence server-side; it does not expose
+an authenticated route, migrate hosted Supabase or approve pilot activation.
+
 ## Intended Users and Operators
 
 - Adult South African men seeking support for hair loss, erectile dysfunction, weight management, testosterone concerns, and possibly peptides.

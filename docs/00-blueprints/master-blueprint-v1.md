@@ -208,6 +208,14 @@ atomic idle expiry, and environment/purpose-scoped service identities. Public ro
 unauthenticated and database access remains deny-default until Task 5.8 implements contextual
 authorisation. Task 5.7's corrected local database/Auth lifecycle proof passed on 2026-08-10.
 
+Sprint 05 Task 5.8 implements and locally verifies a provider-neutral deny-default policy across
+tenant, subject, role, action, ownership/assignment, purpose, workflow state, assurance, suspension
+and expiry. Eight human roles and eleven resource classes have explicit allow/deny cells; service
+identities require exact tenant/environment/purpose/resource/action scope. The server resolves all
+authority inputs from internal records, returns minimum projections, and keeps browser database
+roles without table access. Public routes and hosted Supabase remain unchanged; later tasks still
+own break glass, decision-audit persistence, abuse controls and activation evidence.
+
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
 ## Clinical and Content Governance

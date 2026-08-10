@@ -1077,6 +1077,23 @@
       "last_updated": "2026-08-10"
     },
     {
+      "id": "phase-01-sprint-05-task-08",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-8-contextual-authorisation-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.8 completion",
+        "provider-neutral deny-default authorisation",
+        "explicit human role and resource matrix",
+        "horizontal and vertical negative evidence",
+        "purpose state assurance and validity checks",
+        "minimum authorisation projections",
+        "exact service environment purpose and scope",
+        "server-only assignment evidence"
+      ],
+      "source_parent": "54550ec",
+      "last_updated": "2026-08-10"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",

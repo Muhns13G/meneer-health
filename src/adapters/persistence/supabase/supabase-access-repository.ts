@@ -35,6 +35,9 @@ type MembershipRow = {
   subject_id: string;
   role: MembershipRole;
   status: MembershipStatus;
+  valid_from: string;
+  expires_at: string | null;
+  approved_by_subject_id: string | null;
 };
 
 function ensureNoProviderError(error: unknown): void {
@@ -88,7 +91,7 @@ export class SupabaseAccessRepository implements AccessRepository {
   async listMemberships(subjectId: SubjectId): Promise<readonly TenantMembership[]> {
     const { data, error } = await this.client
       .from("tenant_memberships")
-      .select("tenant_id, subject_id, role, status")
+      .select("tenant_id, subject_id, role, status, valid_from, expires_at, approved_by_subject_id")
       .eq("subject_id", subjectId)
       .returns<MembershipRow[]>();
     ensureNoProviderError(error);
@@ -98,6 +101,9 @@ export class SupabaseAccessRepository implements AccessRepository {
       subjectId: row.subject_id,
       role: row.role,
       status: row.status,
+      validFrom: new Date(row.valid_from),
+      ...(row.expires_at ? { expiresAt: new Date(row.expires_at) } : {}),
+      ...(row.approved_by_subject_id ? { approvedBySubjectId: row.approved_by_subject_id } : {}),
     }));
   }
 }
