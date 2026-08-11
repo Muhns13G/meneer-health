@@ -402,11 +402,11 @@ select is(
   1::bigint,
   'the pending synthetic recovery fixture is seeded'
 );
-select is((select count(*) from public.service_identities), 1::bigint, 'one scoped synthetic service identity is seeded');
+select is((select count(*) from public.service_identities), 2::bigint, 'two scoped synthetic service identities are seeded');
 select is(
   (select count(*) from public.service_identity_credentials),
-  1::bigint,
-  'one hashed synthetic service credential is seeded'
+  2::bigint,
+  'two hashed synthetic service credentials are seeded'
 );
 
 select * from finish();

@@ -11,6 +11,7 @@
         "lucide-react": "^0.575.0",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
+        "stripe": "22.5.0",
         "zod": "^4.4.3",
       },
       "devDependencies": {
@@ -957,6 +958,8 @@
     "strip-indent": ["strip-indent@3.0.0", "", { "dependencies": { "min-indent": "^1.0.0" } }, "sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ=="],
 
     "strip-json-comments": ["strip-json-comments@3.1.1", "", {}, "sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig=="],
+
+    "stripe": ["stripe@22.5.0", "", { "peerDependencies": { "@types/node": ">=18" }, "optionalPeers": ["@types/node"] }, "sha512-QVwMwriC0bbySx6R4dpsvJ0W//GojC1kwWVS6rPSoVqDUIZX4Hy3TaUrd2AZeXEAaKbfWIjQjvo3vKAReHZ0vQ=="],
 
     "supabase": ["supabase@2.113.0", "", { "dependencies": { "eciesjs": "^0.5.0", "jose": "^6.2.4" }, "optionalDependencies": { "@supabase/cli-darwin-arm64": "2.113.0", "@supabase/cli-darwin-x64": "2.113.0", "@supabase/cli-linux-arm64": "2.113.0", "@supabase/cli-linux-arm64-musl": "2.113.0", "@supabase/cli-linux-x64": "2.113.0", "@supabase/cli-linux-x64-musl": "2.113.0", "@supabase/cli-windows-arm64": "2.113.0", "@supabase/cli-windows-x64": "2.113.0" }, "bin": { "supabase": "dist/supabase.js" } }, "sha512-GWlx87NpsT1opPOLWRkaTnXEUUchWmCMPVCLRU22GD+oJEH/sVnUI9NCrMZuf5XpmQE+aSbPogHW69UIbVL32w=="],
 

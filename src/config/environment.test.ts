@@ -60,6 +60,8 @@ describe("environment catalogue", () => {
       "SUPABASE_SECRET_KEY",
       "RECOVERY_ENCRYPTION_KEY_BASE64",
       "BACKUP_HEARTBEAT_URL",
+      "STRIPE_RESTRICTED_KEY",
+      "STRIPE_WEBHOOK_SIGNING_SECRET",
     ]);
     expect(serverEntries.every((entry) => !entry.environments.includes("preview"))).toBe(true);
     expect(serverEntries.find((entry) => entry.name === "SUPABASE_SECRET_KEY")?.sensitivity).toBe(
@@ -73,7 +75,11 @@ describe("environment catalogue", () => {
 
 describe("server startup configuration", () => {
   it("keeps persistence disabled when the optional server pair is absent", () => {
-    expect(validateServerEnvironment({})).toEqual({ supabase: undefined, recovery: undefined });
+    expect(validateServerEnvironment({})).toEqual({
+      supabase: undefined,
+      recovery: undefined,
+      stripe: undefined,
+    });
   });
 
   it("accepts and normalises the complete Supabase server pair", () => {
@@ -88,6 +94,7 @@ describe("server startup configuration", () => {
         secretKey: "synthetic-secret",
       },
       recovery: undefined,
+      stripe: undefined,
     });
   });
 
@@ -102,6 +109,24 @@ describe("server startup configuration", () => {
       recovery: {
         encryptionKeyBase64: `${"A".repeat(43)}=`,
         heartbeatUrl: "https://heartbeat.example.invalid/synthetic",
+      },
+      stripe: undefined,
+    });
+  });
+
+  it("accepts only a complete restricted Stripe test-mode pair", () => {
+    expect(
+      validateServerEnvironment({
+        STRIPE_RESTRICTED_KEY: `rk_test_${"A".repeat(24)}`,
+        STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}`,
+      }),
+    ).toEqual({
+      supabase: undefined,
+      recovery: undefined,
+      stripe: {
+        restrictedKey: `rk_test_${"A".repeat(24)}`,
+        webhookSigningSecret: `whsec_${"B".repeat(24)}`,
+        mode: "test",
       },
     });
   });
@@ -118,6 +143,16 @@ describe("server startup configuration", () => {
     {
       RECOVERY_ENCRYPTION_KEY_BASE64: "not-a-key",
       BACKUP_HEARTBEAT_URL: "https://heartbeat.example.invalid/synthetic",
+    },
+    { STRIPE_RESTRICTED_KEY: `rk_test_${"A".repeat(24)}` },
+    { STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}` },
+    {
+      STRIPE_RESTRICTED_KEY: `sk_test_${"A".repeat(24)}`,
+      STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}`,
+    },
+    {
+      STRIPE_RESTRICTED_KEY: `rk_live_${"A".repeat(24)}`,
+      STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}`,
     },
   ])("rejects partial or insecure Supabase server configuration", (environment) => {
     expect(() => validateServerEnvironment(environment)).toThrow(

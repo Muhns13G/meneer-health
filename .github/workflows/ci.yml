@@ -72,6 +72,7 @@ jobs:
           bun run test:audit
           bun run test:security-evidence
           bun run test:lifecycle
+          bun run test:payments
 
       - name: Exercise privacy-safe incident controls
         run: bun run exercise:incident

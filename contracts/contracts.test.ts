@@ -18,6 +18,12 @@ import {
   recoveryManifestSchema,
 } from "./lifecycle";
 import { telemetryEventContract, telemetryEventSchema } from "./observability";
+import {
+  paymentCheckoutCommandSchema,
+  paymentCheckoutContract,
+  paymentProviderEventContract,
+  verifiedPaymentProviderEventSchema,
+} from "./payments";
 import { requestSecurityDecisionSchema } from "./security";
 import {
   invalidCommandFixtures,
@@ -179,6 +185,68 @@ describe("lifecycle and recovery evidence", () => {
         recordCounts: { subjects: 3 },
         checksum: "a".repeat(64),
         patient: "prohibited",
+      }).success,
+    ).toBe(false);
+  });
+});
+
+describe("payment contracts", () => {
+  it("registers one-time checkout and signed provider-event boundaries", () => {
+    expect(contractDefinitionSchema.parse(paymentCheckoutContract)).toEqual(
+      paymentCheckoutContract,
+    );
+    expect(contractDefinitionSchema.parse(paymentProviderEventContract)).toEqual(
+      paymentProviderEventContract,
+    );
+  });
+
+  it("accepts an opaque checkout command and rejects health or browser amounts", () => {
+    const command = {
+      contract: "payment.checkout",
+      version: 1,
+      requestId: "payment_request_01",
+      idempotencyKey: "payment_retry_01",
+      correlationId: "payment_trace_01",
+      actor: { type: "patient", id: "20000000-0000-4000-8000-000000000001" },
+      subjectId: "20000000-0000-4000-8000-000000000001",
+      expectedVersion: 0,
+      requestedAt: "2030-01-01T00:10:00Z",
+      payload: {
+        workflowId: "a0000000-0000-4000-8000-000000000001",
+        scenario: "consultation_only",
+      },
+    };
+
+    expect(paymentCheckoutCommandSchema.safeParse(command).success).toBe(true);
+    expect(
+      paymentCheckoutCommandSchema.safeParse({
+        ...command,
+        payload: { ...command.payload, amount: 123, diagnosis: "prohibited" },
+      }).success,
+    ).toBe(false);
+  });
+
+  it("keeps the verified provider event strict and free of health payloads", () => {
+    const event = {
+      contract: "payment.provider",
+      version: 1,
+      provider: "stripe",
+      environment: "local",
+      externalEventId: "evt_synthetic_0001",
+      eventType: "checkout.session.completed",
+      orderId: "b0000000-0000-4000-8000-000000000014",
+      checkoutSessionId: "cs_test_synthetic_0001",
+      paymentIntentId: "pi_synthetic_0001",
+      paymentStatus: "paid",
+      occurredAt: "2030-01-01T00:10:00Z",
+      payloadFingerprint: "a".repeat(64),
+    };
+
+    expect(verifiedPaymentProviderEventSchema.safeParse(event).success).toBe(true);
+    expect(
+      verifiedPaymentProviderEventSchema.safeParse({
+        ...event,
+        questionnaireResponse: "prohibited",
       }).success,
     ).toBe(false);
   });
