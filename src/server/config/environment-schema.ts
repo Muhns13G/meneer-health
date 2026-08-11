@@ -1,8 +1,16 @@
 import { z } from "zod";
 
+const supabaseServerUrlSchema = z.url().refine((value) => {
+  const url = new URL(value);
+  return (
+    url.protocol === "https:" ||
+    (url.protocol === "http:" && (url.hostname === "127.0.0.1" || url.hostname === "localhost"))
+  );
+});
+
 const optionalSupabaseEnvironmentSchema = z
   .object({
-    SUPABASE_URL: z.url().startsWith("https://").optional(),
+    SUPABASE_URL: supabaseServerUrlSchema.optional(),
     SUPABASE_SECRET_KEY: z.string().min(1).optional(),
     RECOVERY_ENCRYPTION_KEY_BASE64: z
       .string()
@@ -17,6 +25,7 @@ const optionalSupabaseEnvironmentSchema = z
       .string()
       .regex(/^whsec_[A-Za-z0-9]{16,}$/)
       .optional(),
+    STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: z.uuid().optional(),
   })
   .strict()
   .superRefine((environment, context) => {
@@ -47,6 +56,7 @@ const optionalSupabaseEnvironmentSchema = z
     const stripeValues = [
       environment.STRIPE_RESTRICTED_KEY,
       environment.STRIPE_WEBHOOK_SIGNING_SECRET,
+      environment.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID,
     ];
     if (
       stripeValues.some((value) => value !== undefined) &&
@@ -76,10 +86,13 @@ export const serverEnvironmentSchema = optionalSupabaseEnvironmentSchema.transfo
           }
         : undefined,
     stripe:
-      environment.STRIPE_RESTRICTED_KEY && environment.STRIPE_WEBHOOK_SIGNING_SECRET
+      environment.STRIPE_RESTRICTED_KEY &&
+      environment.STRIPE_WEBHOOK_SIGNING_SECRET &&
+      environment.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID
         ? {
             restrictedKey: environment.STRIPE_RESTRICTED_KEY,
             webhookSigningSecret: environment.STRIPE_WEBHOOK_SIGNING_SECRET,
+            webhookServiceIdentityId: environment.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID,
             mode: "test" as const,
           }
         : undefined,

@@ -12,6 +12,10 @@ const encoder = new TextEncoder();
 const correlationPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 const idempotencyPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$/;
 const directEndpointPrefixes = ["/api", "/.mcp"] as const;
+const registeredPostRoutes = new Map<string, RequestRouteClass>([
+  ["/api/payments/checkout", "protected-command"],
+  ["/api/payments/stripe/webhook", "provider-callback"],
+]);
 
 export const requestSecurityLimits = Object.freeze({
   maxUrlBytes: 4_096,
@@ -68,6 +72,8 @@ function correlationId(request: Request): string {
 }
 
 function routeClass(pathname: string): RequestRouteClass {
+  const registered = registeredPostRoutes.get(pathname);
+  if (registered) return registered;
   return directEndpointPrefixes.some(
     (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
   )
@@ -240,6 +246,23 @@ export async function inspectPublicRequest(
     return rejection(request, "HEADER_LIMIT_EXCEEDED", classifiedRoute);
   }
 
+  if (classifiedRoute === "protected-command" || classifiedRoute === "provider-callback") {
+    if (request.method !== "POST") {
+      return rejection(request, "DIRECT_ENDPOINT_DENIED", classifiedRoute);
+    }
+    try {
+      const limit = await rateLimiter.limit({ key: await coarseRateKey(request) });
+      if (!limit.success) return rejection(request, "RATE_LIMITED", classifiedRoute);
+    } catch {
+      return rejection(request, "DEPENDENCY_UNAVAILABLE", classifiedRoute);
+    }
+    return {
+      allowed: true,
+      decision: decision(request, "allowed", "ALLOWED", classifiedRoute),
+      value: undefined,
+    };
+  }
+
   if (request.method === "GET" || request.method === "HEAD") {
     if (hasBodyFraming(request)) return rejection(request, "BODY_NOT_ALLOWED", classifiedRoute);
     return {
@@ -260,6 +283,45 @@ export async function inspectPublicRequest(
     return rejection(request, "DIRECT_ENDPOINT_DENIED", classifiedRoute);
   }
   return rejection(request, "METHOD_NOT_ALLOWED", classifiedRoute);
+}
+
+export async function readBoundedTextRequest(
+  request: Request,
+  maximumBytes: number,
+): Promise<string | "too-large" | "malformed"> {
+  const length = advertisedLength(request);
+  if (length === "invalid" || (request.headers.has("transfer-encoding") && length !== undefined)) {
+    return "malformed";
+  }
+  if (length !== undefined && length > maximumBytes) return "too-large";
+  if (!request.body) return "malformed";
+
+  const reader = request.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  while (true) {
+    const chunk = await reader.read();
+    if (chunk.done) break;
+    total += chunk.value.byteLength;
+    if (total > maximumBytes) {
+      await reader.cancel();
+      return "too-large";
+    }
+    chunks.push(chunk.value);
+  }
+
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+
+  try {
+    return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+  } catch {
+    return "malformed";
+  }
 }
 
 function isSameOriginBrowserRequest(request: Request): boolean {

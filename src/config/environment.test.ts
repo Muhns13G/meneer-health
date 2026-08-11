@@ -62,6 +62,7 @@ describe("environment catalogue", () => {
       "BACKUP_HEARTBEAT_URL",
       "STRIPE_RESTRICTED_KEY",
       "STRIPE_WEBHOOK_SIGNING_SECRET",
+      "STRIPE_WEBHOOK_SERVICE_IDENTITY_ID",
     ]);
     expect(serverEntries.every((entry) => !entry.environments.includes("preview"))).toBe(true);
     expect(serverEntries.find((entry) => entry.name === "SUPABASE_SECRET_KEY")?.sensitivity).toBe(
@@ -98,6 +99,25 @@ describe("server startup configuration", () => {
     });
   });
 
+  it("allows insecure Supabase transport only on the loopback test boundary", () => {
+    expect(
+      validateServerEnvironment({
+        SUPABASE_URL: "http://127.0.0.1:54321",
+        SUPABASE_SECRET_KEY: "synthetic-secret",
+      }),
+    ).toMatchObject({
+      supabase: { url: "http://127.0.0.1:54321" },
+    });
+    expect(
+      validateServerEnvironment({
+        SUPABASE_URL: "http://localhost:54321",
+        SUPABASE_SECRET_KEY: "synthetic-secret",
+      }),
+    ).toMatchObject({
+      supabase: { url: "http://localhost:54321" },
+    });
+  });
+
   it("accepts only a complete HTTPS recovery pair", () => {
     expect(
       validateServerEnvironment({
@@ -114,11 +134,12 @@ describe("server startup configuration", () => {
     });
   });
 
-  it("accepts only a complete restricted Stripe test-mode pair", () => {
+  it("accepts only a complete restricted Stripe test-mode configuration", () => {
     expect(
       validateServerEnvironment({
         STRIPE_RESTRICTED_KEY: `rk_test_${"A".repeat(24)}`,
         STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}`,
+        STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: "80000000-0000-4000-8000-000000000002",
       }),
     ).toEqual({
       supabase: undefined,
@@ -126,6 +147,7 @@ describe("server startup configuration", () => {
       stripe: {
         restrictedKey: `rk_test_${"A".repeat(24)}`,
         webhookSigningSecret: `whsec_${"B".repeat(24)}`,
+        webhookServiceIdentityId: "80000000-0000-4000-8000-000000000002",
         mode: "test",
       },
     });
@@ -146,13 +168,16 @@ describe("server startup configuration", () => {
     },
     { STRIPE_RESTRICTED_KEY: `rk_test_${"A".repeat(24)}` },
     { STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}` },
+    { STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: "80000000-0000-4000-8000-000000000002" },
     {
       STRIPE_RESTRICTED_KEY: `sk_test_${"A".repeat(24)}`,
       STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}`,
+      STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: "80000000-0000-4000-8000-000000000002",
     },
     {
       STRIPE_RESTRICTED_KEY: `rk_live_${"A".repeat(24)}`,
       STRIPE_WEBHOOK_SIGNING_SECRET: `whsec_${"B".repeat(24)}`,
+      STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: "80000000-0000-4000-8000-000000000002",
     },
   ])("rejects partial or insecure Supabase server configuration", (environment) => {
     expect(() => validateServerEnvironment(environment)).toThrow(

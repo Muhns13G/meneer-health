@@ -25,6 +25,10 @@ async function sha256(value: string): Promise<string> {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
+// Stripe includes this non-secret value in the idempotent request parameters, so it must remain
+// stable across Worker instances and retries. Replace it only as an explicit integration migration.
+const stripeIntegrationIdentifier = "meneer_health_checkout_kqtdvzmp";
+
 export class StripePaymentProvider implements PaymentProvider {
   private readonly stripe: Stripe;
 
@@ -33,8 +37,13 @@ export class StripePaymentProvider implements PaymentProvider {
     private readonly webhookSigningSecret: string,
     private readonly environment: StripeEnvironment,
     stripeClient?: Stripe,
+    private readonly integrationIdentifier: string = stripeIntegrationIdentifier,
   ) {
-    if (!restrictedKey.startsWith("rk_test_") || !webhookSigningSecret.startsWith("whsec_")) {
+    if (
+      !restrictedKey.startsWith("rk_test_") ||
+      !webhookSigningSecret.startsWith("whsec_") ||
+      !/^meneer_health_checkout_[a-z]{8}$/.test(integrationIdentifier)
+    ) {
       throw new PaymentProviderError();
     }
     this.stripe =
@@ -52,6 +61,7 @@ export class StripePaymentProvider implements PaymentProvider {
       const session = await this.stripe.checkout.sessions.create(
         {
           mode: "payment",
+          integration_identifier: this.integrationIdentifier,
           client_reference_id: input.order.orderId,
           success_url: input.successUrl,
           cancel_url: input.cancelUrl,

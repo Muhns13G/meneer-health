@@ -60,7 +60,7 @@ export const paymentLineSnapshotSchema = z
     currency: z.literal("zar"),
     taxTreatment: opaqueIdentifierSchema,
     priceVersion: opaqueIdentifierSchema,
-    providerPriceId: z.string().regex(/^price_test_[A-Za-z0-9_]{8,96}$/),
+    providerPriceId: z.string().regex(/^price_[A-Za-z0-9]{8,96}$/),
   })
   .strict();
 

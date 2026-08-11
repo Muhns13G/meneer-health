@@ -5,6 +5,7 @@ import {
   executeWithRequestTimeout,
   inspectProtectedJsonRequest,
   inspectPublicRequest,
+  readBoundedTextRequest,
   requestSecurityLimits,
   safeInternalFailureResponse,
   type AntiAutomationPort,
@@ -117,6 +118,26 @@ describe("current public request boundary", () => {
     }
   });
 
+  it("admits only the registered payment POST routes to their route-level controls", async () => {
+    const checkout = await inspectPublicRequest(
+      request("/api/payments/checkout", { method: "POST" }),
+      allowRate,
+    );
+    const webhook = await inspectPublicRequest(
+      request("/api/payments/stripe/webhook", { method: "POST" }),
+      allowRate,
+    );
+    const hiddenRead = await inspectPublicRequest(
+      request("/api/payments/checkout", { method: "GET" }),
+      allowRate,
+    );
+
+    expect(checkout.allowed && checkout.decision.routeClass).toBe("protected-command");
+    expect(webhook.allowed && webhook.decision.routeClass).toBe("provider-callback");
+    expect(hiddenRead.allowed).toBe(false);
+    if (!hiddenRead.allowed) expect(hiddenRead.response.status).toBe(404);
+  });
+
   it("denies ordinary non-read methods and fails closed when the limiter is unavailable", async () => {
     const method = await inspectPublicRequest(request("/start", { method: "POST" }), allowRate);
     const dependency = await inspectPublicRequest(request("/start", { method: "POST" }), {
@@ -147,6 +168,38 @@ describe("current public request boundary", () => {
 
     expect(retained.decision.correlationId).toBe("trace_safe_01");
     expect(replaced.decision.correlationId).not.toBe("unsafe trace");
+  });
+});
+
+describe("bounded raw request reader", () => {
+  it("preserves the exact signed body and rejects oversized or malformed framing", async () => {
+    const payload = '{"id":"evt_synthetic"}\n';
+    await expect(
+      readBoundedTextRequest(
+        request("/api/payments/stripe/webhook", { method: "POST", body: payload }),
+        256_000,
+      ),
+    ).resolves.toBe(payload);
+    await expect(
+      readBoundedTextRequest(
+        request("/api/payments/stripe/webhook", {
+          method: "POST",
+          body: "large",
+          headers: { "Content-Length": "256001" },
+        }),
+        256_000,
+      ),
+    ).resolves.toBe("too-large");
+    await expect(
+      readBoundedTextRequest(
+        request("/api/payments/stripe/webhook", {
+          method: "POST",
+          body: "body",
+          headers: { "Content-Length": "invalid" },
+        }),
+        256_000,
+      ),
+    ).resolves.toBe("malformed");
   });
 });
 

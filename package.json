@@ -38,6 +38,7 @@
     "test:security-evidence": "bun run scripts/test-supabase-security-evidence-integration.ts",
     "test:lifecycle": "bun run scripts/test-supabase-lifecycle-integration.ts",
     "test:payments": "bun run scripts/test-supabase-payments-integration.ts",
+    "test:payments:provider": "bun run scripts/test-stripe-payments-provider-integration.ts",
     "exercise:incident": "bun run scripts/run-controlled-incident-exercise.ts",
     "exercise:recovery": "bun run scripts/run-synthetic-recovery-exercise.ts",
     "db:lint": "supabase db lint --local --level error",
@@ -47,7 +48,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "2.112.2",
-    "@tanstack/react-router": "^1.168.0",
+    "@tanstack/react-router": "1.169.2",
     "@tanstack/react-start": "1.167.65",
     "lucide-react": "^0.575.0",
     "react": "^19.2.0",

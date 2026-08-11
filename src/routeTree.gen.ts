@@ -19,6 +19,8 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
+import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
+import { Route as ApiPaymentsStripeWebhookRouteImport } from './routes/api/payments/stripe/webhook'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -70,6 +72,17 @@ const GoDadsRoute = GoDadsRouteImport.update({
   path: '/go/dads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
+  id: '/api/payments/checkout',
+  path: '/api/payments/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsStripeWebhookRoute =
+  ApiPaymentsStripeWebhookRouteImport.update({
+    id: '/api/payments/stripe/webhook',
+    path: '/api/payments/stripe/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +95,8 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
+  '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +109,8 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
+  '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +124,8 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
+  '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +140,8 @@ export interface FileRouteTypes {
     | '/terms'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/api/payments/checkout'
+    | '/api/payments/stripe/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +154,8 @@ export interface FileRouteTypes {
     | '/terms'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/api/payments/checkout'
+    | '/api/payments/stripe/webhook'
   id:
     | '__root__'
     | '/'
@@ -145,6 +168,8 @@ export interface FileRouteTypes {
     | '/terms'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/api/payments/checkout'
+    | '/api/payments/stripe/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +183,8 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
+  ApiPaymentsCheckoutRoute: typeof ApiPaymentsCheckoutRoute
+  ApiPaymentsStripeWebhookRoute: typeof ApiPaymentsStripeWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +259,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoDadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/payments/checkout': {
+      id: '/api/payments/checkout'
+      path: '/api/payments/checkout'
+      fullPath: '/api/payments/checkout'
+      preLoaderRoute: typeof ApiPaymentsCheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/stripe/webhook': {
+      id: '/api/payments/stripe/webhook'
+      path: '/api/payments/stripe/webhook'
+      fullPath: '/api/payments/stripe/webhook'
+      preLoaderRoute: typeof ApiPaymentsStripeWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +287,8 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
+  ApiPaymentsCheckoutRoute: ApiPaymentsCheckoutRoute,
+  ApiPaymentsStripeWebhookRoute: ApiPaymentsStripeWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
