@@ -14,7 +14,15 @@ const projectId = "meneer-health-local";
 const container = `supabase_db_${projectId}`;
 const stagingDatabase = `meneer_recovery_${process.pid}`;
 const containerDump = `/tmp/${stagingDatabase}.dump`;
-const schemaVersion = "20260810222608";
+const schemaVersion = "20260811113146";
+const governedSchemas = [
+  "public",
+  "audit_private",
+  "fulfilment_private",
+  "identity_private",
+  "lifecycle_private",
+  "payments_private",
+] as const;
 
 function docker(args: string[]): Buffer {
   return execFileSync("docker", args, {
@@ -83,14 +91,7 @@ async function run(): Promise<void> {
       "-d",
       "postgres",
       "-Fc",
-      "-n",
-      "public",
-      "-n",
-      "audit_private",
-      "-n",
-      "identity_private",
-      "-n",
-      "lifecycle_private",
+      ...governedSchemas.flatMap((schema) => ["-n", schema]),
     ]) as Buffer;
     const dumpChecksum = createHash("sha256").update(dump).digest("hex");
     let heartbeatCalls = 0;
