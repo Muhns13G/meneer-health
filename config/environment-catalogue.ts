@@ -16,7 +16,8 @@ export type EnvironmentCatalogueEntry = {
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   {
     name: "SUPABASE_URL",
-    purpose: "Server-only endpoint for the selected Supabase PostgreSQL Data API adapter.",
+    purpose:
+      "Server-only endpoint for the selected Supabase PostgreSQL and managed identity adapters.",
     owner: "Data and release owner",
     sensitivity: "public",
     environments: ["local", "production"],
@@ -26,7 +27,8 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   },
   {
     name: "SUPABASE_SECRET_KEY",
-    purpose: "Server-only credential for the Supabase persistence adapter.",
+    purpose:
+      "Server-only credential for the Supabase persistence and identity administration adapters.",
     owner: "Data and security owner",
     sensitivity: "secret",
     environments: ["local", "production"],
