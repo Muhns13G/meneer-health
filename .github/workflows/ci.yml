@@ -55,6 +55,19 @@ jobs:
       - name: Run unit and integration tests
         run: bun run test
 
+      - name: Start synthetic local PostgreSQL
+        run: bun run db:start:test
+
+      - name: Validate database migration and security
+        run: |
+          bun run db:reset
+          bun run db:test
+          bun run db:lint
+
+      - name: Stop synthetic local PostgreSQL
+        if: always()
+        run: bun run db:stop
+
       - name: Audit all dependencies
         run: bun run audit
 
