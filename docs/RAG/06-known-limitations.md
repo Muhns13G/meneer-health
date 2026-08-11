@@ -289,6 +289,20 @@ the approved charter. TD-032 and TD-034 are Verified through canonical hosted as
 destination, and owner-confirmed QR-scan evidence. TD-006–TD-007 are the only original Sprint 01
 debts still in progress, with an exact external close-out pack.
 
+## Sprint 05 Closure Boundary
+
+Sprint 05 is implementation-complete at the Task 5.17 owner checkpoint, not yet verified closed.
+The current local suite and canonical read-only boundary pass, including 125/125 encrypted restore
+reconciliation, but required hosted CI cannot test uncommitted source. The owner must commit/push
+the exact closure change and record its passing workflow.
+
+TD-013, TD-017, and TD-020 remain In progress for authenticated/approved break glass activation,
+route-specific hosted abuse/WAF proof, and provisioned/fail-tested monitoring, recovery storage,
+Stripe webhook and partner callbacks. These limits prohibit activation; they do not mean the
+inactive portable foundations are absent. The managed browser was unavailable after the Task 5.17
+restart, so current hosted evidence is HTTP/rendered-title inspection plus the complete local
+managed Chromium matrix.
+
 ## Retrieval Response Pattern
 
 When answering a question that touches an unresolved area:

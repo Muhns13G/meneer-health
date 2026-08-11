@@ -221,3 +221,11 @@ Task 3.8 validates the same ownership, permission, lifecycle and contract semant
 required operational and migration scenarios. Cross-generation movement must preserve the approved
 retention trigger, restriction/hold, disposition, deletion propagation, audit correlation and
 critical one-hour RPO/four-hour RTO rather than resetting lifecycle clocks.
+
+## Sprint 05 Migration Baseline
+
+Task 5.16 freezes 14 retained/retired capabilities, 14 supported contract majors and 20
+language-neutral fixtures plus a mandatory rehearsal/cutover/rollback template. Task 5.17 verifies
+that this portability check runs alongside the current data, security, browser, incident and
+125-record recovery suites. This is the migration baseline for a future Next.js candidate; it is
+not approval to migrate, cut over authority, or remove the TanStack v1 rollback path.

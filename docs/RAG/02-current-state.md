@@ -808,9 +808,29 @@ Evidence: [`sprint-05-16-platform-portability-evidence.md`](../02-implementation
 - The operating model and logical backend/state boundaries are approved. Local persistence,
   identity, contextual authorisation, workflow-command, signed synthetic payment, and minimum-data
   fulfilment foundations now exist, but customer-facing writes, hosted provider callbacks,
-  lifecycle scheduling, recovery, observability, and incident activation are not implemented.
+  hosted lifecycle scheduling, provider monitoring, recovery storage, and incident activation are
+  not provisioned. Local lifecycle, observability, incident and recovery foundations are verified.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
-- Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
-  in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.
+- Unit/component/integration and controlled browser/accessibility tests pass locally. Sprint 04
+  proved required hosted CI with passing and controlled-failure runs; Task 5.17 still needs its own
+  exact-commit hosted pass after the owner checkpoint.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.
+
+### Sprint 05.17 verification and closure checkpoint — 11 August 2026
+
+- All 17 Sprint 05 tasks are implemented locally. Format, lint, typecheck, 40 Vitest files / 237
+  tests, both audits, build, generated checks, Cloudflare dry run, portability checks, and all 54
+  desktop/mobile Playwright checks pass.
+- Nine migrations, nine pgTAP suites / 293 assertions, and all synthetic identity, authorisation,
+  command, audit, lifecycle, payment, security-evidence and fulfilment integrations pass.
+- The controlled incident exercise passes. The recovery exercise was updated to include the later
+  `fulfilment_private` schema and now restores 125/125 records with matching checksums in nine
+  seconds.
+- Current canonical HTTPS checks confirm approved page titles, no forms, security headers, cache
+  classes, campaign redirects, and fail-closed retired/payment endpoints.
+- Sprint 05 remains at owner checkpoint until this exact change is committed/pushed and required
+  hosted CI passes. TD-013, TD-017, and TD-020 retain activation-specific evidence; no transaction,
+  provider callback, patient-data collection, or pilot approval is implied.
+
+Evidence: [`sprint-05-17-verification-and-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-17-verification-and-closure-evidence.md) and [`sprint-05-data-security-operations.md`](../03-completion-reports/phase-01/sprint-05-data-security-operations.md).
