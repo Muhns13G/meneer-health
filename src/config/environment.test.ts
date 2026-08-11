@@ -58,6 +58,8 @@ describe("environment catalogue", () => {
     expect(serverEntries.map((entry) => entry.name)).toEqual([
       "SUPABASE_URL",
       "SUPABASE_SECRET_KEY",
+      "RECOVERY_ENCRYPTION_KEY_BASE64",
+      "BACKUP_HEARTBEAT_URL",
     ]);
     expect(serverEntries.every((entry) => !entry.environments.includes("preview"))).toBe(true);
     expect(serverEntries.find((entry) => entry.name === "SUPABASE_SECRET_KEY")?.sensitivity).toBe(
@@ -71,7 +73,7 @@ describe("environment catalogue", () => {
 
 describe("server startup configuration", () => {
   it("keeps persistence disabled when the optional server pair is absent", () => {
-    expect(validateServerEnvironment({})).toEqual({ supabase: undefined });
+    expect(validateServerEnvironment({})).toEqual({ supabase: undefined, recovery: undefined });
   });
 
   it("accepts and normalises the complete Supabase server pair", () => {
@@ -85,6 +87,22 @@ describe("server startup configuration", () => {
         url: "https://example.supabase.co",
         secretKey: "synthetic-secret",
       },
+      recovery: undefined,
+    });
+  });
+
+  it("accepts only a complete HTTPS recovery pair", () => {
+    expect(
+      validateServerEnvironment({
+        RECOVERY_ENCRYPTION_KEY_BASE64: `${"A".repeat(43)}=`,
+        BACKUP_HEARTBEAT_URL: "https://heartbeat.example.invalid/synthetic",
+      }),
+    ).toEqual({
+      supabase: undefined,
+      recovery: {
+        encryptionKeyBase64: `${"A".repeat(43)}=`,
+        heartbeatUrl: "https://heartbeat.example.invalid/synthetic",
+      },
     });
   });
 
@@ -94,6 +112,12 @@ describe("server startup configuration", () => {
     {
       SUPABASE_URL: "http://example.supabase.co",
       SUPABASE_SECRET_KEY: "synthetic-secret",
+    },
+    { RECOVERY_ENCRYPTION_KEY_BASE64: `${"A".repeat(43)}=` },
+    { BACKUP_HEARTBEAT_URL: "https://heartbeat.example.invalid/synthetic" },
+    {
+      RECOVERY_ENCRYPTION_KEY_BASE64: "not-a-key",
+      BACKUP_HEARTBEAT_URL: "https://heartbeat.example.invalid/synthetic",
     },
   ])("rejects partial or insecure Supabase server configuration", (environment) => {
     expect(() => validateServerEnvironment(environment)).toThrow(

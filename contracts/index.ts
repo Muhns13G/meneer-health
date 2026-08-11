@@ -3,6 +3,7 @@ export * from "./catalogue";
 export * from "./envelopes";
 export * from "./errors";
 export * from "./observability";
+export * from "./lifecycle";
 export * from "./security";
 export * from "./shared";
 export * from "./versioning";

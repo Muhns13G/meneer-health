@@ -4,6 +4,11 @@ const optionalSupabaseEnvironmentSchema = z
   .object({
     SUPABASE_URL: z.url().startsWith("https://").optional(),
     SUPABASE_SECRET_KEY: z.string().min(1).optional(),
+    RECOVERY_ENCRYPTION_KEY_BASE64: z
+      .string()
+      .regex(/^[A-Za-z0-9+/]{43}=$/)
+      .optional(),
+    BACKUP_HEARTBEAT_URL: z.url().startsWith("https://").optional(),
   })
   .strict()
   .superRefine((environment, context) => {
@@ -16,6 +21,20 @@ const optionalSupabaseEnvironmentSchema = z
         message: "Supabase server configuration must be complete or absent.",
       });
     }
+
+    const recoveryValues = [
+      environment.RECOVERY_ENCRYPTION_KEY_BASE64,
+      environment.BACKUP_HEARTBEAT_URL,
+    ];
+    if (
+      recoveryValues.some((value) => value !== undefined) &&
+      recoveryValues.some((value) => value === undefined)
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: "Recovery server configuration must be complete or absent.",
+      });
+    }
   });
 
 export const serverEnvironmentSchema = optionalSupabaseEnvironmentSchema.transform(
@@ -25,6 +44,13 @@ export const serverEnvironmentSchema = optionalSupabaseEnvironmentSchema.transfo
         ? {
             url: environment.SUPABASE_URL,
             secretKey: environment.SUPABASE_SECRET_KEY,
+          }
+        : undefined,
+    recovery:
+      environment.RECOVERY_ENCRYPTION_KEY_BASE64 && environment.BACKUP_HEARTBEAT_URL
+        ? {
+            encryptionKeyBase64: environment.RECOVERY_ENCRYPTION_KEY_BASE64,
+            heartbeatUrl: environment.BACKUP_HEARTBEAT_URL,
           }
         : undefined,
   }),
