@@ -388,6 +388,7 @@ export async function executeWithRequestTimeout(
   request: Request,
   operation: (boundedRequest: Request) => Promise<Response>,
   timeoutMs: number = requestSecurityLimits.handlerTimeoutMs,
+  onTimeout?: (decision: RequestSecurityDecision) => void,
 ): Promise<Response> {
   const controller = new AbortController();
   const abortFromCaller = () => controller.abort(request.signal.reason);
@@ -397,9 +398,13 @@ export async function executeWithRequestTimeout(
   const timeout = new Promise<Response>((resolve) => {
     timeoutId = setTimeout(() => {
       controller.abort("request-timeout");
-      resolve(
-        rejection(request, "REQUEST_TIMEOUT", routeClass(new URL(request.url).pathname)).response,
+      const timeoutRejection = rejection(
+        request,
+        "REQUEST_TIMEOUT",
+        routeClass(new URL(request.url).pathname),
       );
+      onTimeout?.(timeoutRejection.decision);
+      resolve(timeoutRejection.response);
     }, timeoutMs);
   });
 
@@ -424,5 +429,25 @@ export function applyCorrelationHeader(
     status: response.status,
     statusText: response.statusText,
     headers,
+  });
+}
+
+export function safeInternalFailureResponse(correlationId: string): Response {
+  const error: ErrorContract = {
+    contract: "error.response",
+    version: 1,
+    correlationId,
+    error: {
+      code: "INTERNAL_FAILURE",
+      message: "The request could not be completed.",
+      retry: "safe",
+    },
+  };
+  return new Response(JSON.stringify(error), {
+    status: 500,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Correlation-ID": correlationId,
+    },
   });
 }

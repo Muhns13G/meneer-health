@@ -9,11 +9,18 @@ import type { Register } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
+import {
+  classifyTelemetryEnvironment,
+  durationBucket,
+  emitTelemetry,
+  statusClass,
+} from "./server/observability/telemetry";
 import { applyResponsePolicy } from "./server/security/response-policy";
 import {
   applyCorrelationHeader,
   executeWithRequestTimeout,
   inspectPublicRequest,
+  safeInternalFailureResponse,
 } from "./server/security/request-security";
 
 const serverEnvironment = initialiseServerEnvironment();
@@ -36,17 +43,67 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
         throw new Error("Server configuration is invalid.");
       }
 
-      const requestDecision = await inspectPublicRequest(args[0], env.REQUEST_RATE_LIMITER);
+      const startedAt = performance.now();
+      const request = args[0];
+      const environment = classifyTelemetryEnvironment(new URL(request.url).hostname);
+      const requestDecision = await inspectPublicRequest(request, env.REQUEST_RATE_LIMITER);
       if (!requestDecision.allowed) {
-        return applyResponsePolicy(args[0], requestDecision.response);
+        emitTelemetry({
+          contract: "telemetry.event",
+          version: 1,
+          occurredAt: new Date().toISOString(),
+          environment,
+          event: "request.denied",
+          severity:
+            requestDecision.decision.reason === "DEPENDENCY_UNAVAILABLE" ? "error" : "warning",
+          outcome:
+            requestDecision.decision.reason === "DEPENDENCY_UNAVAILABLE" ? "failed" : "denied",
+          correlationId: requestDecision.decision.correlationId,
+          routeClass: requestDecision.decision.routeClass,
+          reasonCode: requestDecision.decision.reason,
+          statusClass: statusClass(requestDecision.response.status),
+          durationBucket: durationBucket(performance.now() - startedAt),
+        });
+        return applyResponsePolicy(request, requestDecision.response);
       }
 
-      const response = await executeWithRequestTimeout(args[0], (boundedRequest) =>
-        Promise.resolve(entry.fetch(boundedRequest, args[1])),
-      );
+      let timedOut = false;
+      let internalFailure = false;
+      let response: Response;
+      try {
+        response = await executeWithRequestTimeout(
+          request,
+          (boundedRequest) => Promise.resolve(entry.fetch(boundedRequest, args[1])),
+          undefined,
+          () => {
+            timedOut = true;
+          },
+        );
+      } catch {
+        internalFailure = true;
+        response = safeInternalFailureResponse(requestDecision.decision.correlationId);
+      }
+      emitTelemetry({
+        contract: "telemetry.event",
+        version: 1,
+        occurredAt: new Date().toISOString(),
+        environment,
+        event: "request.completed",
+        severity: response.status >= 500 ? "error" : "info",
+        outcome: response.status >= 500 ? "failed" : "succeeded",
+        correlationId: requestDecision.decision.correlationId,
+        routeClass: requestDecision.decision.routeClass,
+        ...(timedOut
+          ? { reasonCode: "REQUEST_TIMEOUT" as const }
+          : internalFailure
+            ? { reasonCode: "INTERNAL_FAILURE" as const }
+            : {}),
+        statusClass: statusClass(response.status),
+        durationBucket: durationBucket(performance.now() - startedAt),
+      });
 
       return applyResponsePolicy(
-        args[0],
+        request,
         applyCorrelationHeader(response, requestDecision.decision),
       );
     },

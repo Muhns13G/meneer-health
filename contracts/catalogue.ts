@@ -10,6 +10,7 @@ export const contractKindSchema = z.enum([
   "integration-message",
   "error",
   "audit-fact",
+  "telemetry-event",
 ]);
 
 export const sensitivitySchema = z.enum([
