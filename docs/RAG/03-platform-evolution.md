@@ -20,6 +20,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md
   - docs/06-operations/request-security-abuse-runbook.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/07-decisions/DR-007-identity-authorisation-architecture.md
@@ -123,6 +124,12 @@ threshold semantics, incident stages and authoritative append-only security fact
 Workers Logs, Better Stack monitors, `console.log` transport and the Supabase RPC are replaceable v1
 adapters; raw request/provider/health payloads must never become the migration interface.
 
+Task 5.14 adds portable `payment.checkout` and `payment.provider` version-1 contracts. Later
+generations must preserve server-owned price snapshots, one-time Checkout semantics, opaque
+metadata, raw-body signature verification, provider-event idempotency, independent payment/refund/
+dispute state, reconciliation exceptions, and the rule that browser return is not payment evidence.
+Stripe SDK objects, Supabase tables/RPCs, and Cloudflare routing remain replaceable adapters.
+
 ## v1 De-Platform Sequence
 
 1. Recover the real brand assets and replace Lovable virtual-asset references.
@@ -164,6 +171,11 @@ provider-neutral lifecycle/recovery contracts, AES-256-GCM wrapping, and an isol
 record/checksum reconciliation. Cloudflare R2 and Better Stack are adapters, not authoritative
 state. A later Next.js or Laravel generation must preserve request, hold, erasure tombstone,
 destination-reconciliation, archive-manifest, and restore-evidence semantics.
+
+Task 5.14 proves the same boundary for payments: framework-neutral commands/events and repository
+ports own behaviour, while the Stripe and Supabase implementations remain adapters. No later
+framework may infer paid state from a redirect, accept browser pricing, embed health data in provider
+metadata, or collapse clinical, payment, refund, dispute, supply, and dispatch authority.
 
 DR-005 fixes the portable data class at managed PostgreSQL plus encrypted object storage. DR-006
 requires each service to pass legal/privacy, security, isolation, portability/exit, recovery,

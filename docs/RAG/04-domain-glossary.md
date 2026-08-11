@@ -53,6 +53,12 @@ sensitivity: internal
   payment, stock, pharmacy, address, consent, and operational conditions independently pass.
 - **Bundle:** a presentation of separately governed consultation, medication, delivery, discount,
   refund, and adjustment line items; it is never one opaque clinical/commercial state.
+- **Payment evidence:** a verified provider event durably reconciled to an internal order; a browser
+  redirect, client message, or Checkout page is not payment evidence.
+- **Payment reconciliation exception:** a durable operations item created when a refund, dispute,
+  provider reference, or state transition cannot be applied unambiguously; it blocks false success.
+- **Server price snapshot:** immutable internal order lines selected from an approved
+  environment-specific catalogue before provider contact; browser amounts are never authoritative.
 
 ## Governance Terms
 

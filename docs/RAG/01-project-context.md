@@ -21,6 +21,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md
   - docs/06-operations/audit-integration-evidence-runbook.md
   - docs/06-operations/request-security-abuse-runbook.md
   - docs/03-completion-reports/phase-01/sprint-02-lovable-exit-cloudflare-runtime.md
@@ -108,6 +109,12 @@ logical restore into an isolated synthetic database. TD-016 is Verified at repos
 Better Stack/R2 hosted provisioning, failure evidence, and final named-domain approvals remain
 external owner gates.
 
+Task 5.14 adds an inactive, test-mode Stripe boundary: governed server price snapshots, one-time
+Checkout, signed raw-body webhooks, durable replay/audit/reconciliation evidence, and independent
+payment/refund/dispute state pass locally. It stores no card data, raw provider body, or health data
+in payment metadata. No customer route, hosted endpoint, production price, or Stripe credential is
+active; TD-010 remains the activation gate.
+
 ## Intended Users and Operators
 
 - Adult South African men seeking support for hair loss, erectile dysfunction, weight management, testosterone concerns, and possibly peptides.
@@ -154,9 +161,9 @@ authority.
 
 Only the public presentation exists as a customer-facing surface. Sprint 05 now adds portable
 contracts, a local/synthetic tenancy schema, server-only managed identity/session and contextual
-authorisation, plus an inactive validated workflow-command boundary; it still exposes no
-application API or authenticated journey. The request-security foundation protects and specifies
-that inactive boundary without registering a mutation. The former read-only Lovable MCP
+authorisation, an inactive validated workflow-command boundary, and a signed synthetic payment
+boundary; it still exposes no application API or authenticated journey. The request-security
+foundation protects and specifies that inactive boundary without registering a mutation. The former read-only Lovable MCP
 surface was removed in Sprint 02 Task 2.4. DR-003–DR-007 remain authoritative for the broader target
 application, clinical/operations workspaces, workflow state, lifecycle, permissions and recovery.
 DR-009 selects the free-tier-first v1 stack: Supabase Free in

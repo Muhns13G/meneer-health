@@ -1213,6 +1213,21 @@
       "last_updated": "2026-08-11"
     },
     {
+      "id": "phase-01-sprint-05-task-14",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.14 completion",
+        "inactive one-time Stripe Checkout boundary",
+        "signed replay-safe payment provider events",
+        "server price snapshots and payment state separation",
+        "refund dispute and reconciliation evidence",
+        "TD-010 TD-014 TD-015 and TD-020 residuals"
+      ],
+      "source_parent": "d0b8108",
+      "last_updated": "2026-08-11"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1632,6 +1647,32 @@
         "src/application/lifecycle/",
         "src/application/recovery/",
         "supabase/migrations/20260810222608_lifecycle_recovery_governance.sql",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "payment",
+        "stripe",
+        "checkout",
+        "webhook",
+        "refund",
+        "dispute",
+        "payment-reconciliation",
+        "td-010",
+        "td-014",
+        "td-015",
+        "task-5.14"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md",
+        "docs/06-operations/stripe-checkout-webhook-runbook.md"
+      ],
+      "verify_against": [
+        "contracts/payments.ts",
+        "src/application/payments/",
+        "src/adapters/payments/stripe/",
+        "supabase/migrations/20260810231243_stripe_checkout_payments.sql",
         "docs/04-technical-debt/technical-debt-registry-v1.md"
       ]
     },

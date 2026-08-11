@@ -4,6 +4,7 @@ export * from "./envelopes";
 export * from "./errors";
 export * from "./observability";
 export * from "./lifecycle";
+export * from "./payments";
 export * from "./security";
 export * from "./shared";
 export * from "./versioning";

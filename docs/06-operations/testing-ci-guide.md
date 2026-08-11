@@ -31,6 +31,7 @@ patient, clinical, payment, pharmacy, or fulfilment workflow exists.
 | Workflow commands     | `bun run test:commands`                   | Atomic state, replay, concurrency and false-success boundaries    |
 | Audit/integration     | `bun run test:audit`                      | Audit chain, review access, inbox replay and outbox atomicity     |
 | Security evidence     | `bun run test:security-evidence`          | Server-only denial append and direct-browser rejection            |
+| Payment integration   | `bun run test:payments`                   | Server Checkout, signed webhook, replay and browser denial        |
 | Incident exercise     | `bun run exercise:incident`               | Alert thresholds, redaction and incident-stage rehearsal          |
 | Browser/accessibility | `bun run test:e2e`                        | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
 | Dependencies          | `bun run audit`, `bun run audit:prod`     | Full and production-filtered advisory policy                      |
@@ -61,6 +62,7 @@ bun run test:commands
 bun run test:audit
 bun run test:security-evidence
 bun run test:lifecycle
+bun run test:payments
 bun run exercise:incident
 bun run exercise:recovery
 bun run db:stop
@@ -106,6 +108,9 @@ Task 5.13 adds verified export/erasure/hold/reconciliation tests, then encrypts 
 restores it into an isolated temporary PostgreSQL database, reconciles counts/checksums, records
 synthetic RPO/RTO evidence, and drops the temporary database. Hosted R2/Better Stack credentials
 remain absent from CI.
+Task 5.14 adds server-priced one-time Checkout, raw-body Stripe signature, replay, payment-state,
+refund/dispute/reconciliation and browser-denial tests. The integration uses an SDK-generated test
+signature and synthetic local Supabase; it makes no Stripe network request and uses no hosted key.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.
