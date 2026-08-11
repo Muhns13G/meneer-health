@@ -32,7 +32,10 @@ const hostedRecoveryEnvironmentSchema = z
     CLOUDFLARE_ACCOUNT_ID: z.string().regex(/^[a-f0-9]{32}$/),
     R2_ACCESS_KEY_ID: z.string().min(20),
     R2_SECRET_ACCESS_KEY: z.string().min(32),
-    SUPABASE_DB_URL: z.url().startsWith("postgresql://").optional(),
+    SUPABASE_DB_URL: z.preprocess(
+      (value) => (value === "" ? undefined : value),
+      z.url().startsWith("postgresql://").optional(),
+    ),
   })
   .superRefine((environment, context) => {
     if (environment.RECOVERY_EXPORT_SOURCE === "production" && !environment.SUPABASE_DB_URL) {

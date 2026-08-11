@@ -27,6 +27,12 @@ describe("hosted recovery support", () => {
       RECOVERY_EXPORT_SOURCE: "synthetic",
       RECOVERY_R2_BUCKET: "meneer-health-recovery-production",
     });
+    expect(
+      readHostedRecoveryEnvironment({ ...validEnvironment, SUPABASE_DB_URL: "" }),
+    ).toMatchObject({
+      RECOVERY_EXPORT_SOURCE: "synthetic",
+      SUPABASE_DB_URL: undefined,
+    });
   });
 
   it("requires a database URL and a 32-byte key for production", () => {
