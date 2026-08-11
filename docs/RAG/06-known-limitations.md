@@ -147,7 +147,9 @@ Task 5.11 adds a locally verified inactive request-security foundation. It prote
 denies and rate-checks unregistered mutations, and defines reusable protected-JSON controls, but it
 does not provision Turnstile, configure a hosted WAF rule, publish a command/callback, or prove
 route-specific monitoring. Do not describe TD-017 as Verified: every enabled form, identity action,
-payment or provider callback still needs its own policy and local/preview/hosted bypass evidence.
+future form or provider callback still needs its own policy and local/preview/hosted bypass evidence.
+Task 5.14 now supplies named local checkout and Stripe callback policies, but hosted bypass and
+monitoring evidence remain absent.
 
 Task 5.12 adds strict custom Worker telemetry, local alert thresholds, a passing controlled incident
 exercise and append-only identified denial evidence. This is not a hosted monitoring claim.
@@ -160,15 +162,15 @@ Task 5.9 implements an inactive synthetic workflow command with strict validatio
 authorisation, independent clinical/payment/fulfilment state, optimistic versions, durable
 payload-bound idempotency, concurrent replay and atomic false-success prevention. It proves the
 shared command boundary, not a live registration, consent, booking, payment, prescription, order or
-partner workflow. Task 5.14 now adds the inactive Stripe test-mode payment command and provider
-event boundary. It does not add a customer route, hosted endpoint, approved production price,
-Stripe credential, or live charge. TD-014 remains In progress until Task 5.15 adds the partner and
-fulfilment commands; TD-010 still gates any payment activation.
+partner workflow. Task 5.14 now adds the inactive Stripe test-mode payment command, exact local-only
+POST routes, and provider event boundary. It does not add a customer-facing entry point, hosted
+endpoint, approved production price, live credential, or completed charge. TD-014 remains In
+progress until Task 5.15 adds the partner and fulfilment commands; TD-010 still gates activation.
 
-Do not describe the Task 5.14 local Stripe proof as a functioning payment journey. It proves
-server-owned synthetic prices, signed-event truth, replay/refund/dispute handling, browser denial,
-and reconciliation without Stripe network access. Hosted endpoint/signature/alert exercises and
-commercial approval remain open under TD-010 and TD-020.
+Do not describe the Task 5.14 Stripe proof as a functioning payment journey. It proves server-owned
+sandbox prices, real no-charge Checkout creation, signed-event truth, replay/refund/dispute handling,
+browser denial, and local reconciliation. It does not complete a payment. Hosted endpoint,
+signature-delivery/alert exercises and commercial approval remain open under TD-010 and TD-020.
 
 Task 5.10 proves one inactive workflow's atomic audit/outbox evidence, replay-safe fingerprint-only
 inbox, append blocking, hash-chain tamper detection and assigned AAL2 audit review. Do not describe

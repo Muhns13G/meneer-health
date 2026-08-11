@@ -12,18 +12,20 @@ sensitivity: internal
 
 ## Current Boundary
 
-The repository contains a local/test-mode payment foundation only. No public checkout route,
-production price, hosted webhook, account credential, or live charge is active. TD-010 approval and
-a reviewed release are prerequisites; do not bypass them by adding temporary prices or keys.
+The repository contains a local/test-mode payment foundation only. Exact local POST boundaries exist
+at `/api/payments/checkout` and `/api/payments/stripe/webhook`; hosted requests fail closed and no
+customer-facing control links to them. Three reusable ZAR sandbox Prices and a least-privilege test
+key are configured locally. No production price, hosted webhook, live credential, completed charge,
+or public payment journey is active. TD-010 approval and a reviewed release remain prerequisites.
 
 ## Test-Mode Provisioning
 
-1. Confirm the standalone Meneer Stripe account, accountable account owner, MFA, least-privilege
-   roles, merchant/tax allocation, approved ZAR prices, line descriptions, terms, refunds, and
-   support/reconciliation owners.
-2. Create environment-specific test Prices for each approved line. Record only their `price_test_*`
-   identifiers in the governed server catalogue—never accept a browser-supplied Price or amount.
-3. Create a restricted test key limited to Checkout Session creation. Provision it as
+1. Before public activation, confirm the accountable account owner, MFA, merchant/tax allocation,
+   production ZAR prices, line descriptions, terms, refunds, and support/reconciliation owners.
+2. The sandbox catalogue reuses one consultation, medication, and delivery Price across the three
+   approved test scenarios. Record only `price_*` identifiers in the governed server catalogue—never
+   accept a browser-supplied Price or amount.
+3. Use a restricted test key limited to the required Checkout read/create operations. Provision it as
    `STRIPE_RESTRICTED_KEY`; `sk_test_*` and all live keys are deliberately rejected.
 4. Create a test webhook endpoint and provision its signing secret as
    `STRIPE_WEBHOOK_SIGNING_SECRET`. Keep both values server-only and out of Git, logs, screenshots,
@@ -76,3 +78,13 @@ bun run test:payments
 
 These checks use reserved synthetic values and an SDK-generated test signature; they make no Stripe
 network request and do not prove hosted account activation.
+
+With the ignored local Stripe sandbox configuration loaded, additionally run:
+
+```bash
+bun --env-file=.env.production.local run test:payments:provider
+```
+
+This creates no-charge Checkout Sessions for all three scenarios, validates the remote sandbox
+objects and opaque metadata, and applies a signed webhook to reset local Supabase data. It does not
+complete a payment, deploy an endpoint, or prove live/hosted readiness.

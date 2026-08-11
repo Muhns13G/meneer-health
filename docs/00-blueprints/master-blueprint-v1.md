@@ -254,8 +254,10 @@ Sprint 05 Task 5.14 adds the inactive payment implementation: strict provider-ne
 provider-event contracts, immutable server price/line snapshots, one-time Stripe Checkout in test
 mode, raw-body signature verification, durable replay/audit/reconciliation, and explicit paid,
 failed, expired, refunded and disputed outcomes. Browser return is never payment evidence, and
-payment never implies clinical approval or fulfilment. No public route, hosted webhook, real key,
-production price, or charge is enabled; TD-010 and hosted monitoring remain activation gates.
+payment never implies clinical approval or fulfilment. Exact local-only POST routes, reusable
+sandbox Prices, and an ignored restricted test key are verified without completing a payment. No
+customer-facing entry point, hosted webhook, production Price, live credential, or charge exists;
+TD-010 and hosted monitoring remain activation gates.
 
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 

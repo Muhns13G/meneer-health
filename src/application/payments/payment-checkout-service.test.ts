@@ -48,7 +48,7 @@ const preparedOrder = paymentOrderSchema.parse({
       currency: "zar",
       taxTreatment: "synthetic_tax_treatment",
       priceVersion: "synthetic_prices_v1",
-      providerPriceId: "price_test_synthetic_consultation_01",
+      providerPriceId: "price_syntheticconsultation01",
     },
   ],
   replayed: false,

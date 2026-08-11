@@ -39,7 +39,7 @@ create table public.payment_price_catalogue (
   constraint payment_price_terms_not_blank check (length(btrim(terms_version)) > 0),
   constraint payment_price_version_not_blank check (length(btrim(price_version)) > 0),
   constraint payment_price_provider_test check (
-    provider_price_id ~ '^price_test_[A-Za-z0-9_]{8,96}$'
+    provider_price_id ~ '^price_[A-Za-z0-9]{8,96}$'
   ),
   constraint payment_price_status_valid check (status in ('inactive', 'test_approved', 'retired')),
   constraint payment_price_window_valid check (
@@ -48,7 +48,7 @@ create table public.payment_price_catalogue (
   constraint payment_price_scope_unique unique (
     environment, scenario, line_type, price_version
   ),
-  constraint payment_price_provider_unique unique (environment, provider_price_id)
+  constraint payment_price_provider_unique unique (environment, scenario, provider_price_id)
 );
 
 create index payment_price_active_scenario_idx
@@ -167,7 +167,7 @@ create table public.payment_order_lines (
   ),
   constraint payment_lines_currency_zar check (currency = 'zar'),
   constraint payment_lines_provider_test check (
-    provider_price_id ~ '^price_test_[A-Za-z0-9_]{8,96}$'
+    provider_price_id ~ '^price_[A-Za-z0-9]{8,96}$'
   ),
   constraint payment_lines_order_type_unique unique (order_id, line_type)
 );

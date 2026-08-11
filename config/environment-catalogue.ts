@@ -77,6 +77,16 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     rotation: "Rotate after exposure or webhook endpoint replacement and reverify signatures.",
   },
   {
+    name: "STRIPE_WEBHOOK_SERVICE_IDENTITY_ID",
+    purpose: "Server-only identifier for the scoped Stripe webhook service principal.",
+    owner: "Stripe account, commercial, and security owner",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation: "Replace when the scoped webhook service identity is replaced or revoked.",
+  },
+  {
     name: "VITE_PEPTIDE_VIDEO_URL",
     purpose: "Optional root-relative or HTTPS URL for the draft peptide explainer video.",
     owner: "Content and release owner",

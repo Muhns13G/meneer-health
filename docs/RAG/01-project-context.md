@@ -111,9 +111,11 @@ external owner gates.
 
 Task 5.14 adds an inactive, test-mode Stripe boundary: governed server price snapshots, one-time
 Checkout, signed raw-body webhooks, durable replay/audit/reconciliation evidence, and independent
-payment/refund/dispute state pass locally. It stores no card data, raw provider body, or health data
-in payment metadata. No customer route, hosted endpoint, production price, or Stripe credential is
-active; TD-010 remains the activation gate.
+payment/refund/dispute state pass locally. Exact local POST routes fail closed when hosted. Three
+reusable sandbox Prices and an ignored restricted test credential are provider-tested without
+completing a payment. It stores no card data, raw provider body, or health data in metadata. No
+customer entry point, hosted endpoint, production price, or live credential is active; TD-010
+remains the activation gate.
 
 ## Intended Users and Operators
 

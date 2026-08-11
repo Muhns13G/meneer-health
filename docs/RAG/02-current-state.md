@@ -749,10 +749,14 @@ Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-p
 - Raw-body signatures, restricted `rk_test_*` keys, durable idempotency, provider inbox replay,
   append-only audit, and explicit paid/failed/expired/refunded/disputed/reconciliation states are
   locally verified. Browser return remains pending until a signed provider event commits.
-- Eight migration suites / 257 pgTAP tests, 36 Vitest files / 215 tests, and the signed local
-  Stripe-to-Supabase integration pass. It makes no Stripe network request.
-- No customer route, hosted webhook, credential, production price, or charge is active. Task 5.14
-  is complete; TD-010 and hosted TD-020 gates remain, while TD-014/TD-015 await Task 5.15.
+- Thirty-seven Vitest files / 223 tests, eight migration suites / 257 pgTAP assertions, and the
+  signed deterministic Stripe-to-Supabase integration pass. Provider-backed checks created
+  no-charge Checkout Sessions for all three scenarios and verified sandbox mode, ZAR totals,
+  opaque-only metadata, actual local webhook HTTP application, and replay safety. Desktop/mobile
+  checks prove both payment endpoints remain hidden without local provider configuration.
+- Exact local checkout/webhook routes exist but fail closed when hosted and have no customer-facing
+  entry point. No hosted webhook, production price, live credential, or completed charge is active.
+  Task 5.14 is complete; TD-010 and hosted TD-020 gates remain, while TD-014/TD-015 await Task 5.15.
 
 Evidence: [`sprint-05-14-stripe-checkout-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md) and [`stripe-checkout-webhook-runbook.md`](../06-operations/stripe-checkout-webhook-runbook.md).
 

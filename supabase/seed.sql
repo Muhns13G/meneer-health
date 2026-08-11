@@ -245,8 +245,8 @@ values (
   '2030-02-01T00:00:00Z'
 );
 
--- Synthetic Stripe Checkout fixtures. Values are deliberately non-production and cannot be used
--- as approved public prices, tax treatment, terms, provider objects, or merchant evidence.
+-- Stripe sandbox Checkout fixtures. Provider IDs point to non-live sandbox objects; prices, tax
+-- treatment, terms, and merchant responsibility remain internal test evidence, not public approval.
 insert into public.payment_readiness (
   workflow_id,
   tenant_id,
@@ -296,38 +296,38 @@ values
   (
     'b1000000-0000-4000-8000-000000000001', 'local', 'consultation_only',
     'consultation', 'Consultation', 1, 10000, 'synthetic_tax_treatment',
-    'synthetic_terms_v1', 'synthetic_prices_v1', 'price_test_synthetic_consultation_01',
-    'test_approved', '2030-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
+    'synthetic_terms_v1', 'stripe_sandbox_v1', 'price_1U33vjFfj16Nnr1iG9nEWWAh',
+    'test_approved', '2026-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
   ),
   (
     'b1000000-0000-4000-8000-000000000002', 'local', 'medication_delivery',
     'medication', 'Medication', 1, 20000, 'synthetic_tax_treatment',
-    'synthetic_terms_v1', 'synthetic_prices_v1', 'price_test_synthetic_medication_01',
-    'test_approved', '2030-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
+    'synthetic_terms_v1', 'stripe_sandbox_v1', 'price_1U33vkFfj16Nnr1itbqxCCfi',
+    'test_approved', '2026-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
   ),
   (
     'b1000000-0000-4000-8000-000000000003', 'local', 'medication_delivery',
     'delivery', 'Delivery', 1, 3000, 'synthetic_tax_treatment',
-    'synthetic_terms_v1', 'synthetic_prices_v1', 'price_test_synthetic_delivery_01',
-    'test_approved', '2030-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
+    'synthetic_terms_v1', 'stripe_sandbox_v1', 'price_1U33vlFfj16Nnr1iKKIs2Jwu',
+    'test_approved', '2026-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
   ),
   (
     'b1000000-0000-4000-8000-000000000004', 'local', 'bundle',
     'consultation', 'Consultation', 1, 10000, 'synthetic_tax_treatment',
-    'synthetic_terms_v1', 'synthetic_prices_v1', 'price_test_synthetic_consultation_02',
-    'test_approved', '2030-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
+    'synthetic_terms_v1', 'stripe_sandbox_v1', 'price_1U33vjFfj16Nnr1iG9nEWWAh',
+    'test_approved', '2026-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
   ),
   (
     'b1000000-0000-4000-8000-000000000005', 'local', 'bundle',
     'medication', 'Medication', 1, 20000, 'synthetic_tax_treatment',
-    'synthetic_terms_v1', 'synthetic_prices_v1', 'price_test_synthetic_medication_02',
-    'test_approved', '2030-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
+    'synthetic_terms_v1', 'stripe_sandbox_v1', 'price_1U33vkFfj16Nnr1itbqxCCfi',
+    'test_approved', '2026-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
   ),
   (
     'b1000000-0000-4000-8000-000000000006', 'local', 'bundle',
     'delivery', 'Delivery', 1, 3000, 'synthetic_tax_treatment',
-    'synthetic_terms_v1', 'synthetic_prices_v1', 'price_test_synthetic_delivery_02',
-    'test_approved', '2030-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
+    'synthetic_terms_v1', 'stripe_sandbox_v1', 'price_1U33vlFfj16Nnr1iKKIs2Jwu',
+    'test_approved', '2026-01-01T00:00:00Z', '2031-01-01T00:00:00Z'
   );
 
 insert into public.service_identities (
