@@ -1,7 +1,7 @@
 ---
 plan_id: phase-01-sprint-05
 title: Data, Security, and Operational Foundations
-status: in-progress
+status: implementation-complete-owner-checkpoint
 primary_debt: [TD-014, TD-015, TD-017, TD-018, TD-019, TD-020, TD-055]
 implementation_follow_through: [TD-013, TD-016]
 depends_on: [phase-01-sprint-03, phase-01-sprint-04]
@@ -53,25 +53,25 @@ architecture and procedures.
 
 ## Commit-Sized Task Plan
 
-| Task | Commit-sized outcome                                                                                                                                                 | Primary debt / gate                           | Status    |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | --------- |
-| 5.1  | Freeze the post-Sprint 04 data/security baseline, reconcile enabled scope and external gates, and record the implementation sequence.                                | All Sprint 05 debt                            | Completed |
-| 5.2  | Establish framework-neutral module boundaries, runtime-validated contract envelopes, stable errors, versioning, and dependency rules with representative tests.      | TD-014, TD-055                                | Completed |
-| 5.3  | Implement the secret-free environment catalogue, server-only configuration validation, safe failure behaviour, and client-bundle canary checks.                      | TD-019                                        | Completed |
-| 5.4  | Add and test public, asset, error, and sensitive-route security headers plus explicit cache policy without changing customer-facing content.                         | TD-018                                        | Completed |
-| 5.5  | Complete the DR-006 data map and select exact PostgreSQL, identity, storage, email, observability, and payment services, regions, owners, environments, and exits.   | TD-013, TD-016, TD-019, TD-020; external gate | Completed |
-| 5.6  | Add the provider-neutral persistence port, selected PostgreSQL adapter, versioned migrations, opaque identifiers, tenancy boundaries, roles, and synthetic fixtures. | TD-014, TD-016                                | Completed |
-| 5.7  | Integrate managed identity with stable internal subjects, verified contact, sessions, recovery, workforce MFA, and scoped service identities.                        | TD-013                                        | Completed |
-| 5.8  | Implement deny-default server authorisation and horizontal/vertical negative tests across subject, tenant, role, assignment, purpose, state, and assurance.          | TD-013                                        | Completed |
-| 5.9  | Implement approved commands, explicit state machines, idempotency, replay/concurrency handling, transactions, and false-success prevention.                          | TD-014                                        | Completed |
-| 5.10 | Implement append-only audit facts plus transactional inbox/outbox records with safe metadata, correlation, access review, and tamper evidence.                       | TD-015                                        | Completed |
-| 5.11 | Threat-model and enforce request size, timeout, origin/CORS, rate, anti-automation, duplicate, malformed-body, and direct-endpoint controls.                         | TD-017                                        | Completed |
-| 5.12 | Add privacy-safe structured logging, monitoring, uptime, objectives, alerts, escalation, redaction tests, and a controlled incident exercise.                        | TD-020                                        | Completed |
-| 5.13 | Implement lifecycle and data-subject workflows, backup monitoring, staging restore, reconciliation, legal holds, and synthetic deletion/export evidence.             | TD-016                                        | Completed |
-| 5.14 | Integrate one-time Stripe Checkout and signed idempotent webhooks for approved test-mode scenarios without health data in payment metadata.                          | TD-014, TD-015, TD-020; TD-010 gate           | Completed |
-| 5.15 | Implement minimum-data Precise Wellness, pharmacy, hub, courier, cancellation, refund, and fulfilment reconciliation behind inactive release gates.                  | TD-014, TD-015, TD-020; TD-007/009/010 gates  | Completed |
-| 5.16 | Build the retained-capability catalogue, portable fixtures, contract suite, schema/version registry, and v1-to-v2 rehearsal/cutover/rollback template.               | TD-055                                        | Completed |
-| 5.17 | Run local and hosted end-to-end validation, restore/incident exercises, reconcile debt/RAG, and issue the Sprint 05 completion report.                               | All Sprint 05 debt                            | Pending   |
+| Task | Commit-sized outcome                                                                                                                                                 | Primary debt / gate                           | Status           |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- | ---------------- |
+| 5.1  | Freeze the post-Sprint 04 data/security baseline, reconcile enabled scope and external gates, and record the implementation sequence.                                | All Sprint 05 debt                            | Completed        |
+| 5.2  | Establish framework-neutral module boundaries, runtime-validated contract envelopes, stable errors, versioning, and dependency rules with representative tests.      | TD-014, TD-055                                | Completed        |
+| 5.3  | Implement the secret-free environment catalogue, server-only configuration validation, safe failure behaviour, and client-bundle canary checks.                      | TD-019                                        | Completed        |
+| 5.4  | Add and test public, asset, error, and sensitive-route security headers plus explicit cache policy without changing customer-facing content.                         | TD-018                                        | Completed        |
+| 5.5  | Complete the DR-006 data map and select exact PostgreSQL, identity, storage, email, observability, and payment services, regions, owners, environments, and exits.   | TD-013, TD-016, TD-019, TD-020; external gate | Completed        |
+| 5.6  | Add the provider-neutral persistence port, selected PostgreSQL adapter, versioned migrations, opaque identifiers, tenancy boundaries, roles, and synthetic fixtures. | TD-014, TD-016                                | Completed        |
+| 5.7  | Integrate managed identity with stable internal subjects, verified contact, sessions, recovery, workforce MFA, and scoped service identities.                        | TD-013                                        | Completed        |
+| 5.8  | Implement deny-default server authorisation and horizontal/vertical negative tests across subject, tenant, role, assignment, purpose, state, and assurance.          | TD-013                                        | Completed        |
+| 5.9  | Implement approved commands, explicit state machines, idempotency, replay/concurrency handling, transactions, and false-success prevention.                          | TD-014                                        | Completed        |
+| 5.10 | Implement append-only audit facts plus transactional inbox/outbox records with safe metadata, correlation, access review, and tamper evidence.                       | TD-015                                        | Completed        |
+| 5.11 | Threat-model and enforce request size, timeout, origin/CORS, rate, anti-automation, duplicate, malformed-body, and direct-endpoint controls.                         | TD-017                                        | Completed        |
+| 5.12 | Add privacy-safe structured logging, monitoring, uptime, objectives, alerts, escalation, redaction tests, and a controlled incident exercise.                        | TD-020                                        | Completed        |
+| 5.13 | Implement lifecycle and data-subject workflows, backup monitoring, staging restore, reconciliation, legal holds, and synthetic deletion/export evidence.             | TD-016                                        | Completed        |
+| 5.14 | Integrate one-time Stripe Checkout and signed idempotent webhooks for approved test-mode scenarios without health data in payment metadata.                          | TD-014, TD-015, TD-020; TD-010 gate           | Completed        |
+| 5.15 | Implement minimum-data Precise Wellness, pharmacy, hub, courier, cancellation, refund, and fulfilment reconciliation behind inactive release gates.                  | TD-014, TD-015, TD-020; TD-007/009/010 gates  | Completed        |
+| 5.16 | Build the retained-capability catalogue, portable fixtures, contract suite, schema/version registry, and v1-to-v2 rehearsal/cutover/rollback template.               | TD-055                                        | Completed        |
+| 5.17 | Run local and hosted end-to-end validation, restore/incident exercises, reconcile debt/RAG, and issue the Sprint 05 completion report.                               | All Sprint 05 debt                            | Owner checkpoint |
 
 Tasks 5.2–5.4 are provider-neutral and may proceed after Task 5.1. Task 5.5 closes the DR-006
 selection checkpoint through DR-009 and its evidence annexure; it does not prove provisioning,
@@ -79,6 +79,10 @@ security implementation, recovery, or production readiness. Tasks 5.6–5.15 mus
 the selected services before claiming provider-backed completion. Tasks 5.14–5.15 additionally
 require the recorded TD-007, TD-009, and TD-010 particulars. All transactional routes and adapters
 default disabled until their full activation gate passes.
+
+Task 5.17 is locally complete. Final verified Sprint closure requires the repository owner to
+commit and push the closure change and confirm the required hosted workflow passes at that exact
+commit. Evidence: [`sprint-05-17-verification-and-closure-evidence.md`](annexures/sprint-05-17-verification-and-closure-evidence.md).
 
 ### Workstream 1 — Validated commands and workflow state
 

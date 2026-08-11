@@ -199,9 +199,16 @@ TD-054 and (after Task 5.13) TD-016 are Verified; TD-009, TD-010, and TD-013 rem
 operational or implementation gates. Closure neither activates the pilot nor changes the observed
 non-transactional runtime.
 
+Sprint 05 is implementation-complete at the Task 5.17 owner checkpoint. Portable data, identity,
+authorisation, command, audit, security, recovery, test-mode payment, fulfilment, and migration
+foundations pass locally while customer/provider mutations remain inactive. The current canonical
+site preserves the approved non-transactional boundary. Final Sprint closure requires the owner's
+commit/push and passing hosted CI at that exact commit; this is not pilot activation.
+
 ## Authoritative References
 
 - Target direction and delivery gates: [`master-blueprint-v1.md`](../00-blueprints/master-blueprint-v1.md)
 - Dated implementation evidence: [`project-codebase-audit-2026-08-05.md`](../01-audits/project-codebase-audit-2026-08-05.md)
 - Remediation obligations: [`technical-debt-registry-v1.md`](../04-technical-debt/technical-debt-registry-v1.md)
 - Claims and peptide close-out pack: [`sprint-01-10-claims-peptide-closeout-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-01-10-claims-peptide-closeout-evidence.md)
+- Sprint 05 closure checkpoint: [`sprint-05-17-verification-and-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-17-verification-and-closure-evidence.md)

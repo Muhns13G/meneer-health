@@ -229,3 +229,13 @@ sensitivity: internal
 These allocations come from DR-001. Contracting and information-responsibility roles remain open;
 the terms provider, responsible party, operator, processor, clinician, pharmacy, courier, and
 support owner are not interchangeable.
+
+## Sprint Closure Terms
+
+- **Implementation-complete owner checkpoint:** all repository work and local/current-hosted
+  boundary checks are complete, but the owner must commit/push the exact change and obtain passing
+  required hosted CI before verified closure.
+- **Repository-Verified:** acceptance evidence proves an inactive or synthetic implementation in
+  source and controlled tests; it does not imply provider activation or launch approval.
+- **Activation evidence:** environment-specific proof required before a dormant route, identity,
+  data, payment, monitoring or partner capability may process real use.

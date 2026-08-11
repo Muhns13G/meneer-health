@@ -1,7 +1,7 @@
 ---
 plan_id: phase-01-technical-debt-stabilisation
 title: Phase 01 Technical Debt Stabilisation
-status: planned
+status: in-progress
 last_updated: 2026-08-10
 owner: unassigned
 ---
@@ -53,11 +53,11 @@ rendered contributor templates, protected `main` and `develop` branches, and clo
 prove that required `Repository validation` succeeds for the approved baseline and blocks a
 controlled failure. TD-021–TD-024, TD-026, and TD-028–TD-031 are Verified.
 
-Sprint 05 began on 9 August 2026 with Task 5.1. The reconciled 17-task sequence starts with
-provider-neutral contracts, environment safety, and security headers. Task 5.5 closes the DR-006
-service/data-map checkpoint through DR-009's approved free-tier-first stack. Provider-backed
-persistence, identity, payment, or fulfilment still cannot claim completion until the later Sprint
-05 implementation and proof tasks pass.
+Sprint 05 is implementation-complete through Task 5.17. The local suite, database integrations,
+incident exercise, 125/125 encrypted restore, Cloudflare dry run, desktop/mobile browser matrix,
+and current canonical response boundary pass. Final verified closure awaits the owner's Task 5.17
+commit/push and required hosted workflow at that exact commit. TD-013, TD-017, and TD-020 retain
+activation-specific evidence without negating the completed inactive foundations.
 
 External decision preparation may begin early, but a sprint cannot claim completion until its prerequisites and acceptance evidence are satisfied.
 

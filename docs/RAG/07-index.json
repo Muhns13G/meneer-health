@@ -1026,11 +1026,11 @@
     {
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
-      "status": "in-progress",
+      "status": "implementation-complete-owner-checkpoint",
       "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"],
       "implementation_follow_through": ["TD-013", "TD-016"],
       "task_count": 17,
-      "last_updated": "2026-08-10"
+      "last_updated": "2026-08-11"
     },
     {
       "id": "phase-01-sprint-05-task-01",
@@ -1279,6 +1279,32 @@
         "portable behavioural fixtures and drift check",
         "v1-to-v2 rehearsal cutover and rollback template",
         "TD-055 repository verification"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
+      "id": "phase-01-sprint-05-task-17",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-17-verification-and-closure-evidence.md",
+      "status": "owner-checkpoint",
+      "authority_for": [
+        "Task 5.17 local completion",
+        "Sprint 05 full validation matrix",
+        "current canonical response boundary",
+        "controlled incident exercise",
+        "125-record encrypted restore reconciliation",
+        "Sprint 05 debt reconciliation and owner checkpoint"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
+      "id": "phase-01-sprint-05-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-05-data-security-operations.md",
+      "status": "implementation-complete-owner-checkpoint",
+      "authority_for": [
+        "Sprint 05 mission and delivered work",
+        "Sprint 05 deviations and lessons",
+        "Sprint 05 file inventory",
+        "Sprint 05 residual debt and closure boundary"
       ],
       "last_updated": "2026-08-11"
     },
@@ -1775,6 +1801,27 @@
         "contracts/fixtures/retained-capabilities.json",
         "scripts/check-portability.ts",
         "docs/07-decisions/DR-004-framework-neutral-contracts-migration.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "sprint-05-closure",
+        "task-5.17",
+        "full-validation",
+        "owner-checkpoint",
+        "incident-exercise",
+        "recovery-exercise",
+        "technical-debt-reconciliation"
+      ],
+      "read_first": [
+        "docs/03-completion-reports/phase-01/sprint-05-data-security-operations.md",
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-17-verification-and-closure-evidence.md"
+      ],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "scripts/run-controlled-incident-exercise.ts",
+        "scripts/run-synthetic-recovery-exercise.ts"
       ]
     },
     {
