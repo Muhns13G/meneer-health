@@ -59,6 +59,12 @@ sensitivity: internal
   provider reference, or state transition cannot be applied unambiguously; it blocks false success.
 - **Server price snapshot:** immutable internal order lines selected from an approved
   environment-specific catalogue before provider contact; browser amounts are never authoritative.
+- **Fulfilment partner event:** strict minimum-data integration evidence carrying an opaque workflow
+  and event reference, event type, provider-reference digest, payload fingerprint, environment, and
+  timestamp; it never carries questionnaire, clinical, address, tracking, or raw provider payloads.
+- **Partner release gate:** provider/environment configuration that defaults to disabled. Task 5.15
+  permits synthetic local evidence only; preview and production remain inactive until named
+  authority, commercial, operational, data, security, monitoring, and release approvals pass.
 
 ## Governance Terms
 

@@ -588,9 +588,9 @@ Evidence: [`sprint-05-1-data-security-baseline-evidence.md`](../02-implementatio
   contracts cannot import route, UI, React, TanStack, Cloudflare, ORM, or provider objects.
 - Seven test files and 24 tests pass, including 13 portable contract assertions over valid and
   invalid synthetic fixtures, stable safe errors, registry metadata, and unsupported majors.
-- TD-014 and TD-055 are In progress, not Verified. No real workflow payload, server mutation,
-  state machine, persistence, idempotency store, provider adapter, capability catalogue, or
-  cross-generation rehearsal exists.
+- At Task 5.2, TD-014 and TD-055 moved to In progress. Tasks 5.9 and 5.14–5.15 subsequently
+  completed TD-014's inactive command/provider implementation; TD-055 still awaits the capability
+  catalogue and cross-generation rehearsal in Task 5.16.
 
 Evidence: [`sprint-05-2-contract-foundation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md).
 
@@ -656,9 +656,10 @@ Evidence: [`sprint-05-5-provider-selection-data-map-evidence.md`](../02-implemen
   GitHub validation runs the same PostgreSQL-only database gate without hosted credentials.
 - The optional `SUPABASE_URL`/`SUPABASE_SECRET_KEY` server pair excludes preview, requires HTTPS and
   remains absent from browser output. No value or hosted migration was committed or deployed.
-- Task 5.6 is Completed. Task 5.9 has since added the first validated write/idempotency/concurrency
-  boundary; TD-014 remains In progress for the gated Tasks 5.14–5.15 commands. Task 5.13 later
-  supplied lifecycle, recovery, restore and rights evidence and Verified TD-016.
+- Task 5.6 is Completed. Tasks 5.9 and 5.14–5.15 subsequently added validated
+  write/idempotency/concurrency, payment, and partner fulfilment boundaries and Verified TD-014 at
+  repository level. Task 5.13 supplied lifecycle, recovery, restore and rights evidence and
+  Verified TD-016.
 
 Evidence: [`sprint-05-6-persistence-tenancy-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md).
 
@@ -756,9 +757,28 @@ Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-p
   checks prove both payment endpoints remain hidden without local provider configuration.
 - Exact local checkout/webhook routes exist but fail closed when hosted and have no customer-facing
   entry point. No hosted webhook, production price, live credential, or completed charge is active.
-  Task 5.14 is complete; TD-010 and hosted TD-020 gates remain, while TD-014/TD-015 await Task 5.15.
+  Task 5.14 is complete; Task 5.15 subsequently Verified TD-014/TD-015 at repository level, while
+  TD-010 and hosted TD-020 gates remain.
 
 Evidence: [`sprint-05-14-stripe-checkout-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md) and [`stripe-checkout-webhook-runbook.md`](../06-operations/stripe-checkout-webhook-runbook.md).
+
+### Sprint 05.15 partner and fulfilment reconciliation — 11 August 2026
+
+- Strict `fulfilment.partner` contracts, a provider-neutral service, server-only Supabase adapter,
+  forced-RLS case/event ledgers, and automatic reconciliation are implemented without a public API.
+- Precise Wellness hand-off, dispensing-pharmacy release, Meneer-hub custody, courier
+  dispatch/delivery, cancellation, and refund remain independently evidenced states.
+- Only opaque workflow/event IDs, provider-reference digests, payload fingerprints, event types,
+  environment, and timestamps persist. Questionnaire, health, contact, address, tracking, and raw
+  provider payloads are structurally excluded.
+- Thirty-six task-specific pgTAP assertions and the TypeScript/Supabase integration prove the full
+  synthetic chain, replay, changed replay, out-of-order delivery, refund reconciliation, browser
+  denial, and preview fail-closed behavior.
+- Local gates are synthetic; preview and production are disabled. No real partner endpoint,
+  patient order, address, parcel, notification, or customer route exists. TD-014 and TD-015 are
+  Verified at repository level; TD-007, TD-009, TD-010, and hosted TD-020 gates remain.
+
+Evidence: [`sprint-05-15-fulfilment-partner-reconciliation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-15-fulfilment-partner-reconciliation-evidence.md) and [`fulfilment-partner-reconciliation-runbook.md`](../06-operations/fulfilment-partner-reconciliation-runbook.md).
 
 ## Highest-Risk Gaps
 
@@ -767,9 +787,9 @@ Evidence: [`sprint-05-14-stripe-checkout-evidence.md`](../02-implementation-plan
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
 - The operating model and logical backend/state boundaries are approved. Local persistence,
-  identity, contextual authorisation, workflow-command, and signed synthetic payment foundations
-  now exist, but customer-facing writes, complete sensitive-action audit coverage, hosted lifecycle
-  scheduling, recovery, observability, and incident activation are not implemented.
+  identity, contextual authorisation, workflow-command, signed synthetic payment, and minimum-data
+  fulfilment foundations now exist, but customer-facing writes, hosted provider callbacks,
+  lifecycle scheduling, recovery, observability, and incident activation are not implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
   in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.

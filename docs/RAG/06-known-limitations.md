@@ -115,9 +115,10 @@ and rollback rules. Task 5.2 now supplies strict common machine-readable envelop
 version schemas, portable synthetic fixtures, contract tests, and initial dependency enforcement.
 Task 5.9 now supplies the first strict business command and Supabase transaction adapter. Task 5.10
 adds its first portable audit/domain-event/inbox contracts and durable local audit/outbox/inbox
-foundation, but the repository still has no complete business payload catalogue, delivery worker, retained-
-capability suite, or behavioural-equivalence rehearsal. TD-014 and TD-055 are In progress and must
-not be described as Verified or as an enabled customer transaction.
+foundation. Tasks 5.14–5.15 subsequently complete the inactive payment/fulfilment payload and
+provider evidence required to Verify TD-014. The repository still has no delivery worker, retained-
+capability suite, or behavioural-equivalence rehearsal, so TD-055 remains In progress. TD-014
+verification must not be described as an enabled customer transaction.
 
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
 and restore architecture; DR-006 approves vendor evaluation and exit criteria. DR-009 selects the
@@ -156,27 +157,27 @@ exercise and append-only identified denial evidence. This is not a hosted monito
 Automatic invocation logs are disabled; the owner has not yet recorded Better Stack production
 monitor activation/failure evidence. Task 5.13 supplies the backup heartbeat adapter and local
 restore proof, but owner-hosted R2/Better Stack activation is still absent.
-Therefore TD-020, TD-013, TD-015 and TD-017 remain In progress despite the completed repository task.
+Therefore TD-020, TD-013 and TD-017 remain In progress despite the completed repository tasks;
+Task 5.15 subsequently Verified TD-015's repository audit boundary.
 
-Task 5.9 implements an inactive synthetic workflow command with strict validation, contextual
-authorisation, independent clinical/payment/fulfilment state, optimistic versions, durable
-payload-bound idempotency, concurrent replay and atomic false-success prevention. It proves the
-shared command boundary, not a live registration, consent, booking, payment, prescription, order or
-partner workflow. Task 5.14 now adds the inactive Stripe test-mode payment command, exact local-only
-POST routes, and provider event boundary. It does not add a customer-facing entry point, hosted
-endpoint, approved production price, live credential, or completed charge. TD-014 remains In
-progress until Task 5.15 adds the partner and fulfilment commands; TD-010 still gates activation.
+Task 5.9 implements the shared inactive workflow command boundary. Tasks 5.14–5.15 extend it through
+Stripe test-mode payment and minimum-data partner fulfilment. The latter verifies Precise hand-off,
+pharmacy release, hub custody, courier dispatch/delivery, cancellation, refund, replay and
+out-of-order reconciliation in local synthetic Supabase. TD-014 is repository-Verified, but no
+registration, consent, booking, prescription, patient order, real partner API, customer-facing
+entry point, hosted endpoint, production price, live credential, parcel, or completed charge exists.
+TD-007, TD-009, and TD-010 still gate activation.
 
 Do not describe the Task 5.14 Stripe proof as a functioning payment journey. It proves server-owned
 sandbox prices, real no-charge Checkout creation, signed-event truth, replay/refund/dispute handling,
 browser denial, and local reconciliation. It does not complete a payment. Hosted endpoint,
 signature-delivery/alert exercises and commercial approval remain open under TD-010 and TD-020.
 
-Task 5.10 proves one inactive workflow's atomic audit/outbox evidence, replay-safe fingerprint-only
-inbox, append blocking, hash-chain tamper detection and assigned AAL2 audit review. Do not describe
-this as complete audit coverage, immutable/WORM storage, active provider messaging, scheduled
-monitoring, retention/export enforcement or hosted operation. TD-015 remains In progress through
-Tasks 5.12–5.15.
+Tasks 5.10–5.15 prove inactive command, denial, lifecycle, payment, and fulfilment audit/outbox
+evidence plus replay-safe fingerprint-only inbox records, append blocking, hash-chain tamper
+detection, and assigned AAL2 review. TD-015 is repository-Verified. Do not describe this as
+immutable/WORM storage, active provider messaging, hosted monitoring, or production operation;
+those remain release and TD-020 considerations.
 
 Task 3.8 validates the design and approves a conservative lifecycle/recovery baseline; it does not
 prove operation. Final legal/privacy/clinical application to named entities/providers remains an

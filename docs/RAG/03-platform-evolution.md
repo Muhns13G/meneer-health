@@ -112,6 +112,12 @@ deduplication, minimum event payloads, fingerprint-only inbox evidence, correlat
 purpose-bound review records and verifiable append order. Supabase RPCs, table names, PostgreSQL
 triggers and the concrete hash implementation remain replaceable adapters.
 
+Task 5.15 adds the portable `fulfilment.partner` integration contract and observable
+reconciliation behavior. Later generations must preserve provider/event ownership, opaque-only
+evidence, exact replay, changed-replay rejection, out-of-order pending state, independent pathway,
+pharmacy, custody, courier, cancellation and refund states, and fail-closed activation gates. The
+Supabase tables, RPC, trigger, and local provider codes remain replaceable adapters.
+
 Task 5.11 adds the portable `security.request-decision` contract and observable request boundary:
 bounded transport inputs, body-free public reads, origin/media/body/idempotency checks for protected
 JSON commands, safe errors, dependency failure, and a finite handler deadline. Cloudflare's

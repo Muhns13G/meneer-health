@@ -29,8 +29,9 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run test` runs the deterministic Vitest suite once; `bun run test:watch` watches locally.
 - `bun run test:coverage` writes an ignored V8 coverage report under `coverage/`.
 - `bun run db:start:test`, `db:reset`, `db:test`, `test:auth`, `test:authz`, `test:commands`,
-  `test:audit`, `test:security-evidence`, `test:lifecycle`, and `test:payments` verify the synthetic
-  local PostgreSQL and trusted boundaries; finish with `bun run db:stop`.
+  `test:audit`, `test:security-evidence`, `test:lifecycle`, `test:payments`, and `test:fulfilment`
+  verify the synthetic local PostgreSQL, identity, payment, partner, and reconciliation boundaries;
+  finish with `bun run db:stop`.
 - `bun --env-file=.env.production.local run test:payments:provider` performs the explicit no-charge
   Stripe sandbox exercise; never run it in ordinary CI or with live credentials.
 - `bun run exercise:incident` runs the payload-free dependency/break-glass incident rehearsal.

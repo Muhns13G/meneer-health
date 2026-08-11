@@ -2,6 +2,7 @@ export * from "./audit";
 export * from "./catalogue";
 export * from "./envelopes";
 export * from "./errors";
+export * from "./fulfilment";
 export * from "./observability";
 export * from "./lifecycle";
 export * from "./payments";

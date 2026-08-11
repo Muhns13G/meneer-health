@@ -717,6 +717,19 @@
       "last_updated": "2026-08-11"
     },
     {
+      "id": "meneer-fulfilment-partner-reconciliation",
+      "path": "docs/06-operations/fulfilment-partner-reconciliation-runbook.md",
+      "status": "active-inactive-boundary",
+      "authority_for": [
+        "minimum-data partner event operation",
+        "provider service identity binding",
+        "inactive release gates",
+        "fulfilment reconciliation and recovery",
+        "real partner activation checklist"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
       "id": "phase-01-sprint-03-task-04",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
       "status": "verified-task-evidence",
@@ -963,7 +976,7 @@
         "validation failure triage"
       ],
       "source_baseline": "6bf6200",
-      "last_updated": "2026-08-09"
+      "last_updated": "2026-08-11"
     },
     {
       "id": "phase-01-sprint-04-task-12",
@@ -1225,6 +1238,21 @@
         "TD-010 TD-014 TD-015 and TD-020 residuals"
       ],
       "source_parent": "301e50b",
+      "last_updated": "2026-08-11"
+    },
+    {
+      "id": "phase-01-sprint-05-task-15",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-15-fulfilment-partner-reconciliation-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.15 completion",
+        "minimum-data fulfilment partner contract",
+        "Precise pharmacy hub and courier state separation",
+        "cancellation refund and fulfilment reconciliation",
+        "inactive provider release gates",
+        "TD-014 and TD-015 repository verification",
+        "TD-007 TD-009 TD-010 and TD-020 residuals"
+      ],
       "last_updated": "2026-08-11"
     },
     {
