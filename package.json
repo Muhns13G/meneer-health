@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "vite build && bun run check:client-bundle",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "test": "vitest run",
@@ -23,6 +23,7 @@
     "audit": "bun audit",
     "audit:prod": "bun audit --prod",
     "deploy:dry-run": "bun run build && wrangler deploy --dry-run",
+    "check:client-bundle": "bun run scripts/check-client-bundle.ts",
     "check:generated": "git diff --exit-code -- src/routeTree.gen.ts",
     "lint": "eslint .",
     "format": "prettier --write .",

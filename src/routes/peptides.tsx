@@ -3,16 +3,13 @@ import { useState } from "react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
+import { publicEnvironment } from "@/config/public-environment";
 
 // TODO: Replace with real Precise Wellness questionnaire URL once confirmed.
 const PW_QUESTIONNAIRE_URL = "https://precisewellness.example.com/questionnaire";
 
-function configuredUrl(value: string | undefined) {
-  return value?.trim() || undefined;
-}
-
-const PEPTIDE_VIDEO_URL = configuredUrl(import.meta.env.VITE_PEPTIDE_VIDEO_URL);
-const PEPTIDE_VIDEO_POSTER_URL = configuredUrl(import.meta.env.VITE_PEPTIDE_VIDEO_POSTER_URL);
+const PEPTIDE_VIDEO_URL = publicEnvironment.peptideVideoUrl;
+const PEPTIDE_VIDEO_POSTER_URL = publicEnvironment.peptideVideoPosterUrl;
 
 export const Route = createFileRoute("/peptides")({
   head: () => ({
