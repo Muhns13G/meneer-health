@@ -130,7 +130,23 @@ values
     'a0000000-0000-4000-8000-000000000003',
     '10000000-0000-4000-8000-000000000002',
     '20000000-0000-4000-8000-000000000002'
+  ),
+  (
+    'a0000000-0000-4000-8000-000000000009',
+    '10000000-0000-4000-8000-000000000002',
+    '20000000-0000-4000-8000-000000000002'
   );
+
+-- Synthetic provider-integration precondition only. This avoids weakening force-RLS grants merely
+-- to prepare a local test; no real subject, order, partner reference, or patient data is present.
+update public.workflow_instances
+set clinical_state = 'approved',
+    payment_state = 'paid',
+    supply_state = 'available',
+    hub_receipt_state = 'pending',
+    dispatch_state = 'ready',
+    updated_at = '2030-01-01T00:05:00Z'
+where id = 'a0000000-0000-4000-8000-000000000009';
 
 insert into public.subject_contacts (
   id, subject_id, kind, normalized_value, status, provider, verified_at
@@ -233,6 +249,18 @@ values (
 
 insert into public.service_identity_scopes (service_identity_id, resource, action)
 values ('80000000-0000-4000-8000-000000000001', 'fulfilment', 'update');
+
+insert into public.fulfilment_service_bindings (service_identity_id, provider, environment)
+select
+  '80000000-0000-4000-8000-000000000001',
+  provider,
+  'local'
+from unnest(array[
+  'precise_wellness',
+  'dispensing_pharmacy',
+  'meneer_hub',
+  'courier'
+]) provider;
 
 insert into public.service_identity_credentials (
   id, service_identity_id, secret_digest, valid_from, expires_at
