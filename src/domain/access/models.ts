@@ -3,7 +3,15 @@ export type SubjectId = string;
 
 export type TenantStatus = "active" | "suspended" | "closed";
 export type SubjectStatus = "active" | "suspended" | "erasure_pending" | "erased";
-export type MembershipRole = "patient" | "clinician" | "pharmacy" | "operations" | "admin";
+export type MembershipRole =
+  | "patient"
+  | "clinician"
+  | "pharmacy"
+  | "operations"
+  | "support"
+  | "auditor"
+  | "admin"
+  | "release";
 export type MembershipStatus = "invited" | "active" | "suspended" | "revoked";
 
 export type Tenant = Readonly<{
@@ -23,4 +31,7 @@ export type TenantMembership = Readonly<{
   subjectId: SubjectId;
   role: MembershipRole;
   status: MembershipStatus;
+  validFrom: Date;
+  expiresAt?: Date;
+  approvedBySubjectId?: SubjectId;
 }>;
