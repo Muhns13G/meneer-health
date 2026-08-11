@@ -51,6 +51,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-9-validated-workflow-commands-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md
   - docs/06-operations/request-security-abuse-runbook.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
@@ -738,6 +739,23 @@ Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementati
 
 Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-13-lifecycle-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).
 
+### Sprint 05.14 Stripe Checkout and payment reconciliation — 11 August 2026
+
+- Strict `payment.checkout` and `payment.provider` contracts, provider-neutral services, a
+  server-only Supabase adapter, and the official Stripe SDK implement an inactive test-mode path.
+- Three server-priced ZAR scenarios preserve explicit consultation, medication, and delivery line
+  snapshots. Browser amounts/statuses are rejected; Stripe metadata contains opaque order/tenant
+  references and no health data.
+- Raw-body signatures, restricted `rk_test_*` keys, durable idempotency, provider inbox replay,
+  append-only audit, and explicit paid/failed/expired/refunded/disputed/reconciliation states are
+  locally verified. Browser return remains pending until a signed provider event commits.
+- Eight migration suites / 257 pgTAP tests, 36 Vitest files / 215 tests, and the signed local
+  Stripe-to-Supabase integration pass. It makes no Stripe network request.
+- No customer route, hosted webhook, credential, production price, or charge is active. Task 5.14
+  is complete; TD-010 and hosted TD-020 gates remain, while TD-014/TD-015 await Task 5.15.
+
+Evidence: [`sprint-05-14-stripe-checkout-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md) and [`stripe-checkout-webhook-runbook.md`](../06-operations/stripe-checkout-webhook-runbook.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former
@@ -745,9 +763,9 @@ Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-p
 - Transactional policies, consent, secure support, and incident procedures remain activation work.
 - Unresolved peptide offering and contradictory positioning.
 - The operating model and logical backend/state boundaries are approved. Local persistence,
-  identity, contextual authorisation and one synthetic durable command foundation now exist, but
-  customer-facing writes, complete sensitive-action audit coverage, hosted lifecycle scheduling,
-  recovery, observability, and incident activation are not implemented.
+  identity, contextual authorisation, workflow-command, and signed synthetic payment foundations
+  now exist, but customer-facing writes, complete sensitive-action audit coverage, hosted lifecycle
+  scheduling, recovery, observability, and incident activation are not implemented.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass from a clean clone and
   in hosted CI. The workflow has not yet been deliberately failed or required on GitHub.

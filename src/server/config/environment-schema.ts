@@ -9,6 +9,14 @@ const optionalSupabaseEnvironmentSchema = z
       .regex(/^[A-Za-z0-9+/]{43}=$/)
       .optional(),
     BACKUP_HEARTBEAT_URL: z.url().startsWith("https://").optional(),
+    STRIPE_RESTRICTED_KEY: z
+      .string()
+      .regex(/^rk_test_[A-Za-z0-9]{16,}$/)
+      .optional(),
+    STRIPE_WEBHOOK_SIGNING_SECRET: z
+      .string()
+      .regex(/^whsec_[A-Za-z0-9]{16,}$/)
+      .optional(),
   })
   .strict()
   .superRefine((environment, context) => {
@@ -35,6 +43,20 @@ const optionalSupabaseEnvironmentSchema = z
         message: "Recovery server configuration must be complete or absent.",
       });
     }
+
+    const stripeValues = [
+      environment.STRIPE_RESTRICTED_KEY,
+      environment.STRIPE_WEBHOOK_SIGNING_SECRET,
+    ];
+    if (
+      stripeValues.some((value) => value !== undefined) &&
+      stripeValues.some((value) => value === undefined)
+    ) {
+      context.addIssue({
+        code: "custom",
+        message: "Stripe test configuration must be complete or absent.",
+      });
+    }
   });
 
 export const serverEnvironmentSchema = optionalSupabaseEnvironmentSchema.transform(
@@ -51,6 +73,14 @@ export const serverEnvironmentSchema = optionalSupabaseEnvironmentSchema.transfo
         ? {
             encryptionKeyBase64: environment.RECOVERY_ENCRYPTION_KEY_BASE64,
             heartbeatUrl: environment.BACKUP_HEARTBEAT_URL,
+          }
+        : undefined,
+    stripe:
+      environment.STRIPE_RESTRICTED_KEY && environment.STRIPE_WEBHOOK_SIGNING_SECRET
+        ? {
+            restrictedKey: environment.STRIPE_RESTRICTED_KEY,
+            webhookSigningSecret: environment.STRIPE_WEBHOOK_SIGNING_SECRET,
+            mode: "test" as const,
           }
         : undefined,
   }),

@@ -18,6 +18,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md
   - docs/06-operations/audit-integration-evidence-runbook.md
   - docs/06-operations/request-security-abuse-runbook.md
   - docs/06-operations/environment-secrets-runbook.md
@@ -121,9 +122,9 @@ not be described as Verified or as an enabled customer transaction.
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
 and restore architecture; DR-006 approves vendor evaluation and exit criteria. DR-009 selects the
 free-tier-first pilot providers, and the owner has provisioned the empty London Supabase project.
-Local/CI contains versioned tenancy, identity, authorisation and workflow-command migrations plus
-synthetic provider integration; the hosted project remains unmigrated and credential-free. No
-Task 5.13 now implements and locally proves the lifecycle/recovery boundary, but no hosted schema,
+Local/CI contains versioned tenancy, identity, authorisation, workflow-command, lifecycle, audit,
+and payment migrations plus synthetic provider integration; the hosted project remains unmigrated
+and credential-free. Task 5.13 now implements and locally proves the lifecycle/recovery boundary, but no hosted schema,
 recovery object, heartbeat, real request, or automated retention job exists in pilot runtime.
 Do not describe repository proof as hosted activation or named-domain approval.
 
@@ -159,8 +160,15 @@ Task 5.9 implements an inactive synthetic workflow command with strict validatio
 authorisation, independent clinical/payment/fulfilment state, optimistic versions, durable
 payload-bound idempotency, concurrent replay and atomic false-success prevention. It proves the
 shared command boundary, not a live registration, consent, booking, payment, prescription, order or
-partner workflow. TD-014 remains In progress until Tasks 5.14–5.15 implement the applicable real
-commands after their commercial and partner gates pass.
+partner workflow. Task 5.14 now adds the inactive Stripe test-mode payment command and provider
+event boundary. It does not add a customer route, hosted endpoint, approved production price,
+Stripe credential, or live charge. TD-014 remains In progress until Task 5.15 adds the partner and
+fulfilment commands; TD-010 still gates any payment activation.
+
+Do not describe the Task 5.14 local Stripe proof as a functioning payment journey. It proves
+server-owned synthetic prices, signed-event truth, replay/refund/dispute handling, browser denial,
+and reconciliation without Stripe network access. Hosted endpoint/signature/alert exercises and
+commercial approval remain open under TD-010 and TD-020.
 
 Task 5.10 proves one inactive workflow's atomic audit/outbox evidence, replay-safe fingerprint-only
 inbox, append blocking, hash-chain tamper detection and assigned AAL2 audit review. Do not describe

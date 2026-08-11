@@ -15,7 +15,8 @@ sensitivity: internal
 This runbook governs application configuration without storing values in documentation or source.
 The machine-checked catalogue is `config/environment-catalogue.ts`; `.env.example` lists names only.
 Tasks 5.6–5.7 use one optional all-or-none Supabase pair for server-only persistence and managed
-identity administration. Values remain uncommitted and both adapters stay disabled when absent.
+identity administration. Task 5.14 adds an optional all-or-none restricted Stripe test-key and
+webhook-signing pair. Values remain uncommitted and every adapter stays disabled when absent.
 
 ## Current Catalogue
 
@@ -26,6 +27,8 @@ identity administration. Values remain uncommitted and both adapters stay disabl
 | `VITE_CAMPAIGN_PRINT_PROOF`     | Public client/build | No       | Campaign and release owner | Use exact `true` only for approved proofing; otherwise omit or use `false`. |
 | `SUPABASE_URL`                  | Server only         | No       | Data and release owner     | Change with the selected project/environment; HTTPS only.                   |
 | `SUPABASE_SECRET_KEY`           | Server secret       | No       | Data and security owner    | Rotate after exposure, role change, or project replacement.                 |
+| `STRIPE_RESTRICTED_KEY`         | Server secret       | No       | Payment and security owner | Restricted `rk_test_*` only; rotate after exposure or scope/account change. |
+| `STRIPE_WEBHOOK_SIGNING_SECRET` | Server secret       | No       | Payment and security owner | Test webhook secret; rotate after exposure or endpoint replacement.         |
 
 Public media must be root-relative or HTTPS. Unknown `VITE_*` names, invalid URLs, and non-boolean
 print-proof values fail the build with a safe message that does not echo the supplied value.
@@ -74,8 +77,8 @@ Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or 
 
 - `vite.config.ts` validates declared public configuration before either client or SSR compilation.
 - `src/server.ts` is the explicit Cloudflare Worker entry and validates the server-only schema at
-  isolate startup. The optional Supabase URL/secret pair must be complete or absent; partial,
-  non-HTTPS or undeclared input fails closed.
+  isolate startup. The optional Supabase and Stripe pairs must each be complete or absent; partial,
+  non-HTTPS, live/unrestricted Stripe, or undeclared input fails closed.
 - `scripts/check-client-bundle.ts` requires a synthetic marker in server output and rejects it or
   any catalogued server-only name in client output.
 - Configuration errors use stable generic messages and do not serialize Zod issues, input values,
@@ -88,4 +91,6 @@ Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or 
 - [Task 5.3 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md)
 - [Task 5.6 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md)
 - [Task 5.7 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md)
+- [Task 5.14 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md)
+- [Stripe operations runbook](stripe-checkout-webhook-runbook.md)
 - [Technical-debt registry](../04-technical-debt/technical-debt-registry-v1.md)

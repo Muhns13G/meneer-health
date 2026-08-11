@@ -230,7 +230,7 @@ Sprint 05 Task 5.10 extends that command boundary with portable `audit.fact`,
 workflow state, receipt, hash-chained safe audit fact and minimum outbox event atomically; an
 idempotent fingerprint-only inbox and AAL2 purpose-bound audit review remain server-only. Browser
 roles and direct service-table access are denied. Scheduled monitoring, lifecycle/export, external
-providers and hosted activation remain Tasks 5.12–5.15.
+providers and hosted activation remain later Sprint 05 tasks and owner gates.
 
 Sprint 05 Task 5.11 establishes an inactive request-security boundary without publishing an API or
 form. The Worker admits only body-free reads, caps URLs and headers, rate-checks and denies every
@@ -249,6 +249,13 @@ recovery archives, private-R2 and payload-free heartbeat adapters, and a real is
 restore with count/checksum reconciliation. TD-016 is Verified at repository level. The owner must
 still provision/fail-test R2 and Better Stack and approve the named legal/provider application;
 none of this implies that a customer transaction or hosted database is active.
+
+Sprint 05 Task 5.14 adds the inactive payment implementation: strict provider-neutral checkout and
+provider-event contracts, immutable server price/line snapshots, one-time Stripe Checkout in test
+mode, raw-body signature verification, durable replay/audit/reconciliation, and explicit paid,
+failed, expired, refunded and disputed outcomes. Browser return is never payment evidence, and
+payment never implies clinical approval or fulfilment. No public route, hosted webhook, real key,
+production price, or charge is enabled; TD-010 and hosted monitoring remain activation gates.
 
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
