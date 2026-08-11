@@ -18,25 +18,26 @@ patient, clinical, payment, pharmacy, or fulfilment workflow exists.
 
 ## Test Layers
 
-| Layer                 | Command                                   | Scope                                                             |
-| --------------------- | ----------------------------------------- | ----------------------------------------------------------------- |
-| Formatting            | `bun run format:check`                    | Non-writing Prettier check                                        |
-| Static analysis       | `bun run lint`                            | ESLint and repository rules                                       |
-| Types                 | `bun run typecheck`                       | Strict TypeScript without output                                  |
-| Cloudflare types      | `bun run check:cloudflare-types`          | Rejects generated runtime/binding type drift                      |
-| Unit/integration      | `bun run test`                            | Vitest, jsdom, components, utilities, and redirects               |
-| Database              | `bun run db:reset`, `db:test`, `db:lint`  | Versioned schema, fixtures, RLS, privileges and database lint     |
-| Managed identity      | `bun run test:auth`                       | Synthetic passwordless, mapping, TOTP, sessions and revocation    |
-| Authorisation         | `bun run test:authz`                      | Synthetic role, tenant, assignment and service-scope boundaries   |
-| Workflow commands     | `bun run test:commands`                   | Atomic state, replay, concurrency and false-success boundaries    |
-| Audit/integration     | `bun run test:audit`                      | Audit chain, review access, inbox replay and outbox atomicity     |
-| Security evidence     | `bun run test:security-evidence`          | Server-only denial append and direct-browser rejection            |
-| Payment integration   | `bun run test:payments`                   | Server Checkout, signed webhook, replay and browser denial        |
-| Incident exercise     | `bun run exercise:incident`               | Alert thresholds, redaction and incident-stage rehearsal          |
-| Browser/accessibility | `bun run test:e2e`                        | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
-| Dependencies          | `bun run audit`, `bun run audit:prod`     | Full and production-filtered advisory policy                      |
-| Delivery              | `bun run build`, `bun run deploy:dry-run` | Production bundle and non-deploying Cloudflare upload validation  |
-| Generated routes      | `bun run check:generated`                 | Rejects a route-tree diff after build                             |
+| Layer                 | Command                                                           | Scope                                                             |
+| --------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Formatting            | `bun run format:check`                                            | Non-writing Prettier check                                        |
+| Static analysis       | `bun run lint`                                                    | ESLint and repository rules                                       |
+| Types                 | `bun run typecheck`                                               | Strict TypeScript without output                                  |
+| Cloudflare types      | `bun run check:cloudflare-types`                                  | Rejects generated runtime/binding type drift                      |
+| Unit/integration      | `bun run test`                                                    | Vitest, jsdom, components, utilities, and redirects               |
+| Database              | `bun run db:reset`, `db:test`, `db:lint`                          | Versioned schema, fixtures, RLS, privileges and database lint     |
+| Managed identity      | `bun run test:auth`                                               | Synthetic passwordless, mapping, TOTP, sessions and revocation    |
+| Authorisation         | `bun run test:authz`                                              | Synthetic role, tenant, assignment and service-scope boundaries   |
+| Workflow commands     | `bun run test:commands`                                           | Atomic state, replay, concurrency and false-success boundaries    |
+| Audit/integration     | `bun run test:audit`                                              | Audit chain, review access, inbox replay and outbox atomicity     |
+| Security evidence     | `bun run test:security-evidence`                                  | Server-only denial append and direct-browser rejection            |
+| Payment integration   | `bun run test:payments`                                           | Server Checkout, signed webhook, replay and browser denial        |
+| Stripe sandbox        | `bun --env-file=.env.production.local run test:payments:provider` | Explicit no-charge provider exercise; local only                  |
+| Incident exercise     | `bun run exercise:incident`                                       | Alert thresholds, redaction and incident-stage rehearsal          |
+| Browser/accessibility | `bun run test:e2e`                                                | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
+| Dependencies          | `bun run audit`, `bun run audit:prod`                             | Full and production-filtered advisory policy                      |
+| Delivery              | `bun run build`, `bun run deploy:dry-run`                         | Production bundle and non-deploying Cloudflare upload validation  |
+| Generated routes      | `bun run check:generated`                                         | Rejects a route-tree diff after build                             |
 
 Install Chromium once on a workstation with `bunx playwright install chromium`. Linux CI uses
 `bunx playwright install --with-deps chromium`.
@@ -111,6 +112,9 @@ remain absent from CI.
 Task 5.14 adds server-priced one-time Checkout, raw-body Stripe signature, replay, payment-state,
 refund/dispute/reconciliation and browser-denial tests. The integration uses an SDK-generated test
 signature and synthetic local Supabase; it makes no Stripe network request and uses no hosted key.
+For the explicit provider-backed sandbox exercise, load the ignored local configuration and run
+`bun --env-file=.env.production.local run test:payments:provider`. This creates no-charge test
+Checkout Sessions only and must never run in ordinary CI or against live credentials.
 
 Browser screenshots, traces, and HTML reports are uploaded only on failure and retained for seven
 days. Task 4.12 proves the complete sequence and one controlled lint failure from an isolated clone.

@@ -31,7 +31,7 @@ const order = paymentOrderSchema.parse({
       currency: "zar",
       taxTreatment: "synthetic_tax_treatment",
       priceVersion: "synthetic_prices_v1",
-      providerPriceId: "price_test_synthetic_consultation_01",
+      providerPriceId: "price_syntheticconsultation01",
     },
   ],
   replayed: false,
@@ -62,8 +62,9 @@ describe("StripePaymentProvider", () => {
     const [parameters, options] = create.mock.calls[0] as [Record<string, unknown>, unknown];
     expect(parameters).toMatchObject({
       mode: "payment",
+      integration_identifier: "meneer_health_checkout_kqtdvzmp",
       client_reference_id: order.orderId,
-      line_items: [{ price: "price_test_synthetic_consultation_01", quantity: 1 }],
+      line_items: [{ price: "price_syntheticconsultation01", quantity: 1 }],
       metadata: { orderId: order.orderId, tenantId: order.tenantId },
     });
     expect(parameters).not.toHaveProperty("payment_method_types");
@@ -95,7 +96,7 @@ describe("StripePaymentProvider", () => {
       request: { id: null, idempotency_key: null },
       type: "checkout.session.completed",
     });
-    const signature = stripe.webhooks.generateTestHeaderString({
+    const signature = await stripe.webhooks.generateTestHeaderStringAsync({
       payload,
       secret: signingSecret,
       timestamp: 1893456600,

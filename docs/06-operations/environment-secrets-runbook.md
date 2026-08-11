@@ -77,7 +77,7 @@ Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or 
 
 - `vite.config.ts` validates declared public configuration before either client or SSR compilation.
 - `src/server.ts` is the explicit Cloudflare Worker entry and validates the server-only schema at
-  isolate startup. The optional Supabase and Stripe pairs must each be complete or absent; partial,
+  isolate startup. The optional Supabase pair and Stripe configuration must each be complete or absent; partial,
   non-HTTPS, live/unrestricted Stripe, or undeclared input fails closed.
 - `scripts/check-client-bundle.ts` requires a synthetic marker in server output and rejects it or
   any catalogued server-only name in client output.
