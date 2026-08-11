@@ -1,7 +1,7 @@
 ---
 report_id: phase-01-sprint-05-completion
 title: Sprint 05 Data, Security, and Operational Foundations
-status: implementation-complete-owner-checkpoint
+status: activation-follow-through
 date: 2026-08-11
 owner: "@Muhns13G"
 ---
@@ -11,9 +11,10 @@ owner: "@Muhns13G"
 ## Mission and Outcome
 
 Sprint 05 implements the minimum portable server, data, identity, authorisation, audit, request
-security, observability, recovery, payment, fulfilment, and migration foundations for v1. All 17
-tasks are implemented locally and fail closed at inactive customer/provider boundaries. Final
-verified closure awaits the owner’s Task 5.17 commit/push and passing hosted CI at that exact commit.
+security, observability, recovery, payment, fulfilment, and migration foundations for v1. All 18
+tasks through the Better Stack public-uptime activation are implemented. Inactive customer/provider
+boundaries continue to fail closed. The Task 5.17 exact-commit hosted workflow passes; Task 5.18's
+documentation now awaits the normal owner-controlled commit and hosted workflow.
 
 ## Work and Decisions
 
@@ -29,6 +30,8 @@ verified closure awaits the owner’s Task 5.17 commit/push and passing hosted C
   failure behavior.
 - Added payload-free Worker telemetry, denial evidence, controlled incident/recovery exercises,
   encrypted logical archives, and current 125/125 restore reconciliation.
+- Provisioned Better Stack monitor `4799009` and proved confirmation, email delivery, 76-second
+  acknowledgement, healthy recovery, and automatic closure without application logs or private data.
 - Added inactive one-time Stripe Checkout and minimum-data partner/fulfilment boundaries. No charge,
   public mutation, production credential, patient data, or real partner callback was enabled.
 - Froze 14 capability records, 14 contract-major mappings, 20 portable fixtures, a CI drift check,
@@ -36,7 +39,7 @@ verified closure awaits the owner’s Task 5.17 commit/push and passing hosted C
 
 ## Deviations from the Plan
 
-- The Sprint was delivered as 17 owner-committed tasks rather than one change, preserving reviewable
+- The Sprint was delivered as 18 commit-sized tasks rather than one change, preserving reviewable
   boundaries and a buildable repository after each task.
 - Supabase, Stripe and Docker-backed proof went beyond the original scaffold expectation, but all
   exercises remained synthetic, test-mode, no-charge, and inactive in hosted environments.
@@ -46,7 +49,8 @@ verified closure awaits the owner’s Task 5.17 commit/push and passing hosted C
   `fulfilment_private` dependency. The dump boundary was extended before closure and now restores
   125/125 records.
 - Hosted Task 5.17 evidence is split: the current deployment is response-verified, while exact-commit
-  CI must follow the owner’s checkpoint commit because uncommitted source cannot run on GitHub.
+  CI followed the owner’s checkpoint commit and passed. Task 5.18 was added as explicit hosted
+  activation follow-through rather than overstating Task 5.12's repository-only monitor evidence.
 
 ## Lessons Learned
 
@@ -63,21 +67,22 @@ verified closure awaits the owner’s Task 5.17 commit/push and passing hosted C
 ## Technical Debt and Residual Risk
 
 No new technical-debt ID accrued. TD-014, TD-015, TD-016, TD-018, TD-019, and TD-055 are Verified.
+Task 5.18 completes the hosted Better Stack public-monitor and incident-response portion of TD-020.
 TD-013, TD-017, and TD-020 remain In progress only for future activation evidence: authenticated
 customer/workforce journeys and approved break glass; route-specific hosted abuse/WAF proof; and
-provisioned/fail-tested Better Stack, private EU R2, Stripe webhook, and partner callbacks. TD-007,
-TD-009, and TD-010 continue to gate real peptide, operating-party, commercial and fulfilment use.
+the backup heartbeat, private EU R2, Stripe webhook, and partner callbacks. TD-007, TD-009, and
+TD-010 continue to gate real peptide, operating-party, commercial and fulfilment use.
 
 ## Existing Files Modified
 
-| File or group                                                                           | Sprint change                                                                       |
-| --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `.env.example`, `.github/workflows/ci.yml`, `.prettierignore`, `AGENTS.md`, `README.md` | Added environment, CI, generated/test, and contributor contracts.                   |
-| `package.json`, `bun.lock`, TypeScript/ESLint/Vite/Vitest/Wrangler configuration        | Added bounded dependencies, scripts, runtime bindings, and strict validation.       |
-| `docs/00-blueprints/`, phase plan, debt registry, future considerations, decisions, RAG | Reconciled the selected architecture, delivery evidence, debt, and retrieval state. |
-| `docs/06-operations/cloudflare-environments-release-runbook.md`, `testing-ci-guide.md`  | Extended environment, provider, test and release operations.                        |
-| `e2e/boundaries.spec.ts`                                                                | Added security, inactive-endpoint and non-transactional boundary coverage.          |
-| `src/routes/peptides.tsx`, `poster.tsx`, `poster-thanks.tsx`, `src/routeTree.gen.ts`    | Routed public environment values and retained fail-closed presentation behavior.    |
+| File or group                                                                           | Sprint change                                                                                         |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `.env.example`, `.github/workflows/ci.yml`, `.prettierignore`, `AGENTS.md`, `README.md` | Added environment, CI, generated/test, and contributor contracts.                                     |
+| `package.json`, `bun.lock`, TypeScript/ESLint/Vite/Vitest/Wrangler configuration        | Added bounded dependencies, scripts, runtime bindings, and strict validation.                         |
+| `docs/00-blueprints/`, phase plan, debt registry, future considerations, decisions, RAG | Reconciled the selected architecture, delivery evidence, debt, and retrieval state through Task 5.18. |
+| `docs/06-operations/cloudflare-environments-release-runbook.md`, `testing-ci-guide.md`  | Extended environment, provider, test and release operations.                                          |
+| `e2e/boundaries.spec.ts`                                                                | Added security, inactive-endpoint and non-transactional boundary coverage.                            |
+| `src/routes/peptides.tsx`, `poster.tsx`, `poster-thanks.tsx`, `src/routeTree.gen.ts`    | Routed public environment values and retained fail-closed presentation behavior.                      |
 
 ## Existing Files Deleted
 
@@ -88,7 +93,7 @@ No existing file was deleted during Sprint 05.
 | File or group                                                                                                          | Purpose                                                                              |
 | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | `config/*`, `contracts/*`, `contracts/fixtures/*`                                                                      | Environment catalogue and portable runtime/domain contracts and fixtures.            |
-| `docs/02-implementation-plans/phase-01/annexures/sprint-05-*`                                                          | Task 5.1–5.17 implementation and verification evidence.                              |
+| `docs/02-implementation-plans/phase-01/annexures/sprint-05-*`                                                          | Task 5.1–5.18 implementation, activation, and verification evidence.                 |
 | `docs/06-operations/*` Sprint 05 runbooks and `DR-009`                                                                 | Operating procedures, provider decision, recovery and migration gates.               |
 | `scripts/check-*`, `scripts/run-*`, `scripts/test-*`                                                                   | Portability, incident, recovery and synthetic provider/integration exercises.        |
 | `src/domain/access/*`, `src/application/*`, `src/adapters/*`                                                           | Provider-neutral rules, services, ports and Supabase/Stripe adapters.                |
@@ -105,6 +110,8 @@ checks, nine-migration/293-assertion pgTAP suite, all synthetic integrations, in
 and encrypted 125/125 restore. The current canonical deployment preserves approved presentation,
 headers, caching, redirects, 404s, and inactive transaction boundaries.
 
-Sprint 05 is implementation-complete and ready for the owner checkpoint. It becomes fully verified
-and closed only after the Task 5.17 commit is pushed and its required hosted workflow passes. This
-status does not approve the pilot, real patient data, live payments, or provider activation.
+The Task 5.17 owner checkpoint is committed and its required hosted workflow passes. Task 5.18's
+Better Stack activation and controlled hosted incident also pass; its evidence now awaits the normal
+owner-controlled commit and hosted workflow. Sprint 05 remains in activation follow-through while
+TD-013, TD-017 and the remaining TD-020 heartbeat/R2/webhook/callback gates are open. This status
+does not approve the pilot, real patient data, live payments, or provider activation.
