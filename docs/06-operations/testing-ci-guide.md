@@ -13,31 +13,32 @@ sensitivity: internal
 ## Purpose
 
 This guide defines the local and GitHub validation contract for the TanStack v1 repository. Tests
-prove the current acquisition and containment boundaries; they do not prove that an unimplemented
-patient, clinical, payment, pharmacy, or fulfilment workflow exists.
+prove the current acquisition and inactive server boundaries; they do not prove that a functioning
+patient, clinical, payment, pharmacy, partner, or fulfilment journey is publicly available.
 
 ## Test Layers
 
-| Layer                 | Command                                                           | Scope                                                             |
-| --------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Formatting            | `bun run format:check`                                            | Non-writing Prettier check                                        |
-| Static analysis       | `bun run lint`                                                    | ESLint and repository rules                                       |
-| Types                 | `bun run typecheck`                                               | Strict TypeScript without output                                  |
-| Cloudflare types      | `bun run check:cloudflare-types`                                  | Rejects generated runtime/binding type drift                      |
-| Unit/integration      | `bun run test`                                                    | Vitest, jsdom, components, utilities, and redirects               |
-| Database              | `bun run db:reset`, `db:test`, `db:lint`                          | Versioned schema, fixtures, RLS, privileges and database lint     |
-| Managed identity      | `bun run test:auth`                                               | Synthetic passwordless, mapping, TOTP, sessions and revocation    |
-| Authorisation         | `bun run test:authz`                                              | Synthetic role, tenant, assignment and service-scope boundaries   |
-| Workflow commands     | `bun run test:commands`                                           | Atomic state, replay, concurrency and false-success boundaries    |
-| Audit/integration     | `bun run test:audit`                                              | Audit chain, review access, inbox replay and outbox atomicity     |
-| Security evidence     | `bun run test:security-evidence`                                  | Server-only denial append and direct-browser rejection            |
-| Payment integration   | `bun run test:payments`                                           | Server Checkout, signed webhook, replay and browser denial        |
-| Stripe sandbox        | `bun --env-file=.env.production.local run test:payments:provider` | Explicit no-charge provider exercise; local only                  |
-| Incident exercise     | `bun run exercise:incident`                                       | Alert thresholds, redaction and incident-stage rehearsal          |
-| Browser/accessibility | `bun run test:e2e`                                                | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
-| Dependencies          | `bun run audit`, `bun run audit:prod`                             | Full and production-filtered advisory policy                      |
-| Delivery              | `bun run build`, `bun run deploy:dry-run`                         | Production bundle and non-deploying Cloudflare upload validation  |
-| Generated routes      | `bun run check:generated`                                         | Rejects a route-tree diff after build                             |
+| Layer                  | Command                                                           | Scope                                                             |
+| ---------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Formatting             | `bun run format:check`                                            | Non-writing Prettier check                                        |
+| Static analysis        | `bun run lint`                                                    | ESLint and repository rules                                       |
+| Types                  | `bun run typecheck`                                               | Strict TypeScript without output                                  |
+| Cloudflare types       | `bun run check:cloudflare-types`                                  | Rejects generated runtime/binding type drift                      |
+| Unit/integration       | `bun run test`                                                    | Vitest, jsdom, components, utilities, and redirects               |
+| Database               | `bun run db:reset`, `db:test`, `db:lint`                          | Versioned schema, fixtures, RLS, privileges and database lint     |
+| Managed identity       | `bun run test:auth`                                               | Synthetic passwordless, mapping, TOTP, sessions and revocation    |
+| Authorisation          | `bun run test:authz`                                              | Synthetic role, tenant, assignment and service-scope boundaries   |
+| Workflow commands      | `bun run test:commands`                                           | Atomic state, replay, concurrency and false-success boundaries    |
+| Audit/integration      | `bun run test:audit`                                              | Audit chain, review access, inbox replay and outbox atomicity     |
+| Security evidence      | `bun run test:security-evidence`                                  | Server-only denial append and direct-browser rejection            |
+| Payment integration    | `bun run test:payments`                                           | Server Checkout, signed webhook, replay and browser denial        |
+| Fulfilment integration | `bun run test:fulfilment`                                         | Synthetic partner hand-offs, replay, RLS and reconciliation       |
+| Stripe sandbox         | `bun --env-file=.env.production.local run test:payments:provider` | Explicit no-charge provider exercise; local only                  |
+| Incident exercise      | `bun run exercise:incident`                                       | Alert thresholds, redaction and incident-stage rehearsal          |
+| Browser/accessibility  | `bun run test:e2e`                                                | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
+| Dependencies           | `bun run audit`, `bun run audit:prod`                             | Full and production-filtered advisory policy                      |
+| Delivery               | `bun run build`, `bun run deploy:dry-run`                         | Production bundle and non-deploying Cloudflare upload validation  |
+| Generated routes       | `bun run check:generated`                                         | Rejects a route-tree diff after build                             |
 
 Install Chromium once on a workstation with `bunx playwright install chromium`. Linux CI uses
 `bunx playwright install --with-deps chromium`.
@@ -64,6 +65,7 @@ bun run test:audit
 bun run test:security-evidence
 bun run test:lifecycle
 bun run test:payments
+bun run test:fulfilment
 bun run exercise:incident
 bun run exercise:recovery
 bun run db:stop
@@ -84,7 +86,7 @@ boundary evidence.
 `.github/workflows/ci.yml` runs for pull requests, manual dispatch, and pushes to `main`, `itws-I`,
 or `itws-I-preview`. The workflow has read-only repository permission and performs no deployment.
 It pins Bun 1.3.14, reads Node from `.node-version`, uses frozen installation, and executes the
-local scripts above with one Playwright worker. Tasks 5.6–5.11 start only the local PostgreSQL, Auth,
+local scripts above with one Playwright worker. Tasks 5.6–5.15 start only the local PostgreSQL, Auth,
 gateway and Data API services, reset synthetic migrations, run pgTAP/database lint, exercise the
 managed identity flow, and always stop the stack. Hosted Supabase credentials and data are never
 used by CI. The Task 5.7 proof binds and accepts an invitation, preserves the original session origin

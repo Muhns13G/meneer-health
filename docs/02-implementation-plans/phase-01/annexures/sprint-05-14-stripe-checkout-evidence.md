@@ -57,9 +57,9 @@ a payment. No customer-facing entry point, hosted webhook, production price, or 
 
 ## Debt Reconciliation
 
-Task 5.14 satisfies its repository-level Stripe implementation outcome. TD-014 and TD-015 remain
-**In progress** until Task 5.15 implements the partner/fulfilment commands and evidence required by
-their broader acceptance criteria. TD-020 remains **In progress** until a hosted test webhook,
+Task 5.14 satisfies its repository-level Stripe implementation outcome. Task 5.15 subsequently
+completed the partner/fulfilment command and evidence boundary, so TD-014 and TD-015 are now
+**Verified** at repository level. TD-020 remains **In progress** until a hosted test webhook,
 monitoring, alert, and reconciliation failure are provisioned and exercised. TD-010 still blocks
 activation until prices, tax and merchant roles, transactional terms, Stripe account settings, and
 release approvals are supplied.

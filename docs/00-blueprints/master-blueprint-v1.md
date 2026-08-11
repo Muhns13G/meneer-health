@@ -223,7 +223,8 @@ authorisation, optimistic versions and payload-bound idempotency feed one atomic
 function. Clinical, payment, supply, hub receipt, dispatch, delivery, cancellation and refund remain
 independent states; a committed receipt and state version succeed or fail together. Exact replay is
 safe, while changed replay, stale version, invalid transition, unmet prerequisite and browser/direct
-table mutation are rejected. Real payment and partner commands remain gated to Tasks 5.14–5.15.
+table mutation are rejected. Tasks 5.14–5.15 now implement inactive payment and partner commands;
+real provider activation remains gated by TD-007, TD-009, TD-010, and hosted TD-020 evidence.
 
 Sprint 05 Task 5.10 extends that command boundary with portable `audit.fact`,
 `workflow.transitioned`, and `integration.received` contract families. The Supabase adapter commits
@@ -258,6 +259,16 @@ payment never implies clinical approval or fulfilment. Exact local-only POST rou
 sandbox Prices, and an ignored restricted test key are verified without completing a payment. No
 customer-facing entry point, hosted webhook, production Price, live credential, or charge exists;
 TD-010 and hosted monitoring remain activation gates.
+
+Sprint 05 Task 5.15 adds the inactive minimum-data fulfilment implementation. A strict
+`fulfilment.partner` contract, server-only service and Supabase adapter accept only opaque workflow
+and event identifiers plus provider-reference and payload digests. Precise Wellness hand-off,
+pharmacy release, hub custody, courier dispatch/delivery, cancellation, refund, and reconciliation
+remain independent. Exact replay is safe; changed replay, provider/event mismatch, out-of-order
+evidence, browser access, and every preview/production provider gate fail closed. Local synthetic
+evidence verifies the complete hand-off chain without storing questionnaire, clinical, address,
+tracking, or raw provider payloads. TD-014 and TD-015 are Verified at repository level; named
+partner authority, commercial approval, hosted callbacks, monitoring, and release remain gated.
 
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 

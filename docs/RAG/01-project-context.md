@@ -163,8 +163,9 @@ authority.
 
 Only the public presentation exists as a customer-facing surface. Sprint 05 now adds portable
 contracts, a local/synthetic tenancy schema, server-only managed identity/session and contextual
-authorisation, an inactive validated workflow-command boundary, and a signed synthetic payment
-boundary; it still exposes no application API or authenticated journey. The request-security
+authorisation, an inactive validated workflow-command boundary, a signed synthetic payment
+boundary, and minimum-data partner/fulfilment reconciliation; it still exposes no customer-facing
+application API or authenticated journey. The request-security
 foundation protects and specifies that inactive boundary without registering a mutation. The former read-only Lovable MCP
 surface was removed in Sprint 02 Task 2.4. DR-003–DR-007 remain authoritative for the broader target
 application, clinical/operations workspaces, workflow state, lifecycle, permissions and recovery.
@@ -175,6 +176,12 @@ Stripe Checkout test mode. The owner has provisioned the empty London project, b
 credential, schema, or real data exists and the site remains non-transactional.
 Local/CI environments use local Supabase with synthetic data; Cloudflare branch previews keep real
 pilot providers disabled.
+
+Task 5.15 keeps that provider boundary explicit: Precise Wellness hand-off, pharmacy release, hub
+custody, courier dispatch/delivery, cancellation, and refund reconciliation use opaque identifiers
+and fingerprints only. Local provider gates are synthetic; preview and production are disabled.
+TD-014 and TD-015 are repository-Verified, while TD-007, TD-009, TD-010, and hosted TD-020 evidence
+still block real transactions.
 
 Task 3.8 validates DR-001–DR-008 as one coherent design across happy, rejection, urgent, payment,
 fulfilment, support, rights, incident, and migration scenarios. It approves the conservative v1

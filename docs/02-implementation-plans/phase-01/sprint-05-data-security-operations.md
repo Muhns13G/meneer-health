@@ -69,7 +69,7 @@ architecture and procedures.
 | 5.12 | Add privacy-safe structured logging, monitoring, uptime, objectives, alerts, escalation, redaction tests, and a controlled incident exercise.                        | TD-020                                        | Completed |
 | 5.13 | Implement lifecycle and data-subject workflows, backup monitoring, staging restore, reconciliation, legal holds, and synthetic deletion/export evidence.             | TD-016                                        | Completed |
 | 5.14 | Integrate one-time Stripe Checkout and signed idempotent webhooks for approved test-mode scenarios without health data in payment metadata.                          | TD-014, TD-015, TD-020; TD-010 gate           | Completed |
-| 5.15 | Implement minimum-data Precise Wellness, pharmacy, hub, courier, cancellation, refund, and fulfilment reconciliation behind inactive release gates.                  | TD-014, TD-015, TD-020; TD-007/009/010 gates  | Pending   |
+| 5.15 | Implement minimum-data Precise Wellness, pharmacy, hub, courier, cancellation, refund, and fulfilment reconciliation behind inactive release gates.                  | TD-014, TD-015, TD-020; TD-007/009/010 gates  | Completed |
 | 5.16 | Build the retained-capability catalogue, portable fixtures, contract suite, schema/version registry, and v1-to-v2 rehearsal/cutover/rollback template.               | TD-055                                        | Pending   |
 | 5.17 | Run local and hosted end-to-end validation, restore/incident exercises, reconcile debt/RAG, and issue the Sprint 05 completion report.                               | All Sprint 05 debt                            | Pending   |
 

@@ -11,6 +11,7 @@ import {
 import { contractDefinitionSchema } from "./catalogue";
 import { commandEnvelopeSchema, eventEnvelopeSchema } from "./envelopes";
 import { errorContractSchema, stableErrorCodes } from "./errors";
+import { fulfilmentPartnerEventContract, verifiedFulfilmentPartnerEventSchema } from "./fulfilment";
 import {
   dataSubjectRequestContract,
   dataSubjectRequestResultSchema,
@@ -247,6 +248,42 @@ describe("payment contracts", () => {
       verifiedPaymentProviderEventSchema.safeParse({
         ...event,
         questionnaireResponse: "prohibited",
+      }).success,
+    ).toBe(false);
+  });
+});
+
+describe("fulfilment partner contracts", () => {
+  const event = {
+    contract: "fulfilment.partner",
+    version: 1,
+    provider: "dispensing_pharmacy",
+    environment: "local",
+    externalEventId: "synthetic_pharmacy_event_01",
+    eventType: "pharmacy.release.confirmed",
+    workflowId: "a0000000-0000-4000-8000-000000000002",
+    providerReferenceDigest: "a".repeat(64),
+    payloadFingerprint: "b".repeat(64),
+    occurredAt: "2030-01-01T00:10:00Z",
+  } as const;
+
+  it("registers the minimum-data provider boundary", () => {
+    expect(contractDefinitionSchema.parse(fulfilmentPartnerEventContract)).toEqual(
+      fulfilmentPartnerEventContract,
+    );
+    expect(verifiedFulfilmentPartnerEventSchema.safeParse(event).success).toBe(true);
+  });
+
+  it("rejects mismatched providers and operational or health payloads", () => {
+    expect(
+      verifiedFulfilmentPartnerEventSchema.safeParse({ ...event, provider: "courier" }).success,
+    ).toBe(false);
+    expect(
+      verifiedFulfilmentPartnerEventSchema.safeParse({
+        ...event,
+        address: "prohibited",
+        questionnaireResponse: "prohibited",
+        trackingNumber: "prohibited",
       }).success,
     ).toBe(false);
   });
