@@ -31,6 +31,32 @@ test.describe("campaign redirects", () => {
   }
 });
 
+test("security and cache headers match each Worker response class", async ({
+  request,
+  baseURL,
+}) => {
+  const publicResponse = await request.get(`${baseURL}/`);
+  expect(publicResponse.status()).toBe(200);
+  expect(publicResponse.headers()["cache-control"]).toBe("public, max-age=0, must-revalidate");
+  expect(publicResponse.headers()["content-security-policy"]).toContain("frame-ancestors 'none'");
+  expect(publicResponse.headers()["permissions-policy"]).toContain("camera=()");
+  expect(publicResponse.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+  expect(publicResponse.headers()["x-content-type-options"]).toBe("nosniff");
+  expect(publicResponse.headers()["x-frame-options"]).toBe("DENY");
+
+  for (const path of ["/start", "/peptides"]) {
+    const sensitiveResponse = await request.get(`${baseURL}${path}`);
+    expect(sensitiveResponse.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+  }
+
+  const redirectResponse = await request.get(`${baseURL}/go/dads`, { maxRedirects: 0 });
+  expect(redirectResponse.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+
+  const errorResponse = await request.get(`${baseURL}/definitely-not-a-route`);
+  expect(errorResponse.status()).toBe(404);
+  expect(errorResponse.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+});
+
 test("active intake and campaign surfaces remain non-transactional", async ({ page }) => {
   await isolateExternalFonts(page);
 
