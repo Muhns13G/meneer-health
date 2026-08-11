@@ -106,8 +106,9 @@ and disabled break-glass alerts. Identified denials append through a server-only
 Task 5.13 adds verified export/erasure/hold workflows, complete processor/backup reconciliation,
 AES-256-GCM recovery archives, private-R2 and payload-free heartbeat adapters, and a passing real
 logical restore into an isolated synthetic database. TD-016 is Verified at repository level.
-Better Stack/R2 hosted provisioning, failure evidence, and final named-domain approvals remain
-external owner gates.
+Task 5.18 subsequently provisions and fail-tests the Better Stack public-homepage monitor with
+privacy-safe incident evidence. The payload-free backup heartbeat, private EU R2 recovery and final
+named-domain approvals remain external owner gates.
 
 Task 5.14 adds an inactive, test-mode Stripe boundary: governed server price snapshots, one-time
 Checkout, signed raw-body webhooks, durable replay/audit/reconciliation evidence, and independent

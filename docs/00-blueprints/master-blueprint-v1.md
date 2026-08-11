@@ -244,12 +244,13 @@ idempotency, authorisation and route-specific activation evidence remain authori
 Sprint 05 Task 5.12 adds a portable strict `telemetry.event` contract, privacy-safe Worker request
 correlation, explicit pilot objectives and alert ownership, append-only identified denial evidence,
 and a controlled dependency/break-glass incident exercise. Automatic transport-level invocation
-logs are disabled in favour of allowlisted custom events. Better Stack production monitoring and
-Task 5.13 then adds verified rights/export/erasure/hold workflows, encrypted application-schema
-recovery archives, private-R2 and payload-free heartbeat adapters, and a real isolated synthetic
-restore with count/checksum reconciliation. TD-016 is Verified at repository level. The owner must
-still provision/fail-test R2 and Better Stack and approve the named legal/provider application;
-none of this implies that a customer transaction or hosted database is active.
+logs are disabled in favour of allowlisted custom events. Task 5.13 adds verified rights/export/
+erasure/hold workflows, encrypted application-schema recovery archives, private-R2 and payload-free
+heartbeat adapters, and a real isolated synthetic restore with count/checksum reconciliation.
+Task 5.18 provisions and fail-tests the privacy-safe Better Stack public-homepage monitor. TD-016 is
+Verified at repository level. The owner must still provision/fail-test R2 and its Better Stack
+backup heartbeat and approve the named legal/provider application; none of this implies that a
+customer transaction or hosted database is active.
 
 Sprint 05 Task 5.14 adds the inactive payment implementation: strict provider-neutral checkout and
 provider-event contracts, immutable server price/line snapshots, one-time Stripe Checkout in test

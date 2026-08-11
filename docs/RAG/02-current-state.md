@@ -717,8 +717,10 @@ Evidence: [`sprint-05-11-request-security-evidence.md`](../02-implementation-pla
   denials to the existing hash chain. Browser calls, arbitrary actions and unapproved roles fail.
 - The synthetic exercise detects both critical scenarios, rejects prohibited fields, and completes
   detect, triage, contain, recover and review. Task 5.12 is complete as a repository foundation.
-- Better Stack was not provisioned/tested by Task 5.12. Task 5.13 subsequently supplies its
-  payload-free backup-heartbeat adapter and recovery proof; hosted activation remains outstanding.
+- Task 5.18 subsequently provisions Better Stack monitor `4799009` for the canonical homepage and
+  proves three-minute confirmation, email delivery, 76-second acknowledgement, recovery and
+  automatic closure through hosted incident `1000271634`. The payload-free backup heartbeat remains
+  outstanding under the Task 5.13 hosted follow-through.
 
 Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-12-observability-incident-evidence.md) and [`observability-incident-runbook.md`](../06-operations/observability-incident-runbook.md).
 
@@ -735,8 +737,9 @@ Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementati
 - The local exercise restored a real application-schema archive into an isolated temporary
   PostgreSQL database and reconciled 62/62 records with matching deterministic checksums in 13
   seconds. The temporary database and plaintext working file were removed.
-- Task 5.13 is complete and TD-016 is Verified at repository level. The hosted Supabase project is
-  still unmigrated; R2/Better Stack are not provisioned, so TD-020 and release gates remain open.
+- Task 5.13 is complete and TD-016 is Verified at repository level. Task 5.18 later activates the
+  public Better Stack monitor only. Hosted R2 and its payload-free Better Stack heartbeat are not
+  provisioned, so TD-020 and release gates remain open.
 
 Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-13-lifecycle-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).
 
@@ -808,12 +811,13 @@ Evidence: [`sprint-05-16-platform-portability-evidence.md`](../02-implementation
 - The operating model and logical backend/state boundaries are approved. Local persistence,
   identity, contextual authorisation, workflow-command, signed synthetic payment, and minimum-data
   fulfilment foundations now exist, but customer-facing writes, hosted provider callbacks,
-  hosted lifecycle scheduling, provider monitoring, recovery storage, and incident activation are
-  not provisioned. Local lifecycle, observability, incident and recovery foundations are verified.
+  hosted lifecycle scheduling, backup heartbeat, and recovery storage are not provisioned. Task
+  5.18 provisions and fail-tests the public uptime monitor; local lifecycle and recovery foundations
+  remain separately verified.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass locally. Sprint 04
-  proved required hosted CI with passing and controlled-failure runs; Task 5.17 still needs its own
-  exact-commit hosted pass after the owner checkpoint.
+  proved required hosted CI with passing and controlled-failure runs; the Task 5.17 exact-commit
+  hosted workflow also passes.
 
 Use the technical-debt registry for the complete IDs, priorities, and acceptance evidence. Do not infer that a gap has closed until its registry item is marked `Verified` with linked evidence.
 
@@ -829,8 +833,21 @@ Use the technical-debt registry for the complete IDs, priorities, and acceptance
   seconds.
 - Current canonical HTTPS checks confirm approved page titles, no forms, security headers, cache
   classes, campaign redirects, and fail-closed retired/payment endpoints.
-- Sprint 05 remains at owner checkpoint until this exact change is committed/pushed and required
-  hosted CI passes. TD-013, TD-017, and TD-020 retain activation-specific evidence; no transaction,
-  provider callback, patient-data collection, or pilot approval is implied.
+- The Task 5.17 owner checkpoint is committed and its required hosted CI passes. TD-013, TD-017, and
+  TD-020 retain activation-specific evidence; no transaction, provider callback, patient-data
+  collection, or pilot approval is implied.
 
 Evidence: [`sprint-05-17-verification-and-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-17-verification-and-closure-evidence.md) and [`sprint-05-data-security-operations.md`](../03-completion-reports/phase-01/sprint-05-data-security-operations.md).
+
+### Sprint 05.18 Better Stack public uptime activation — 11 August 2026
+
+- Monitor `4799009` requires explicit HTTP 200–208 responses from the canonical homepage at the
+  three-minute free-tier interval, with three-minute confirmation and recovery windows.
+- Email alert delivery, escalation, 76-second owner acknowledgement, healthy regional recovery and
+  automatic closure pass through controlled hosted incident `1000271634`.
+- Better Stack receives only the public URL, status and timing; no Meneer application-log source,
+  identity, contact, header, token, query string, request body or health/provider payload is connected.
+- The permanent policy is restored and the monitor is Up. TD-020 remains In progress only for its
+  backup heartbeat, private EU R2, hosted Stripe webhook, partner callback and future journey evidence.
+
+Evidence: [`sprint-05-18-better-stack-uptime-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-18-better-stack-uptime-evidence.md).

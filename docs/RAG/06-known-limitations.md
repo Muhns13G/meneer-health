@@ -154,10 +154,11 @@ Task 5.14 now supplies named local checkout and Stripe callback policies, but ho
 monitoring evidence remain absent.
 
 Task 5.12 adds strict custom Worker telemetry, local alert thresholds, a passing controlled incident
-exercise and append-only identified denial evidence. This is not a hosted monitoring claim.
-Automatic invocation logs are disabled; the owner has not yet recorded Better Stack production
-monitor activation/failure evidence. Task 5.13 supplies the backup heartbeat adapter and local
-restore proof, but owner-hosted R2/Better Stack activation is still absent.
+exercise and append-only identified denial evidence. Task 5.18 adds hosted Better Stack public
+monitor activation, email delivery, acknowledgement and recovery evidence without connecting an
+application-log source. Automatic invocation logs remain disabled. Task 5.13 supplies the backup
+heartbeat adapter and local restore proof, but owner-hosted R2 and backup-heartbeat activation are
+still absent.
 Therefore TD-020, TD-013 and TD-017 remain In progress despite the completed repository tasks;
 Task 5.15 subsequently Verified TD-015's repository audit boundary.
 
@@ -291,17 +292,14 @@ debts still in progress, with an exact external close-out pack.
 
 ## Sprint 05 Closure Boundary
 
-Sprint 05 is implementation-complete at the Task 5.17 owner checkpoint, not yet verified closed.
-The current local suite and canonical read-only boundary pass, including 125/125 encrypted restore
-reconciliation, but required hosted CI cannot test uncommitted source. The owner must commit/push
-the exact closure change and record its passing workflow.
+Sprint 05 repository implementation and Task 5.17 exact-commit hosted CI pass. Task 5.18 additionally
+completes the hosted public-uptime monitor and incident exercise. Its documentation change still
+requires the normal owner-controlled commit and hosted workflow.
 
-TD-013, TD-017, and TD-020 remain In progress for authenticated/approved break glass activation,
-route-specific hosted abuse/WAF proof, and provisioned/fail-tested monitoring, recovery storage,
-Stripe webhook and partner callbacks. These limits prohibit activation; they do not mean the
-inactive portable foundations are absent. The managed browser was unavailable after the Task 5.17
-restart, so current hosted evidence is HTTP/rendered-title inspection plus the complete local
-managed Chromium matrix.
+TD-013, TD-017, and TD-020 remain In progress for authenticated/approved break-glass activation,
+route-specific hosted abuse/WAF proof, and provisioned/fail-tested backup heartbeat, recovery
+storage, Stripe webhook and partner callbacks. These limits prohibit activation; they do not mean
+the inactive portable foundations or hosted public monitor are absent.
 
 ## Retrieval Response Pattern
 
