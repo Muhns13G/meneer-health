@@ -2,7 +2,7 @@
 document_id: meneer-testing-ci-guide
 title: Testing and CI Guide
 status: active
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 owner: "@Muhns13G"
 audience: contributors
 sensitivity: internal
@@ -35,6 +35,7 @@ patient, clinical, payment, pharmacy, partner, or fulfilment journey is publicly
 | Fulfilment integration | `bun run test:fulfilment`                                         | Synthetic partner hand-offs, replay, RLS and reconciliation       |
 | Stripe sandbox         | `bun --env-file=.env.production.local run test:payments:provider` | Explicit no-charge provider exercise; local only                  |
 | Incident exercise      | `bun run exercise:incident`                                       | Alert thresholds, redaction and incident-stage rehearsal          |
+| Hosted recovery        | `bun run recovery:hosted`                                         | Explicit configured encrypted R2 export; never ordinary CI        |
 | Browser/accessibility  | `bun run test:e2e`                                                | Desktop/mobile Chromium, routes, gates, 404s, navigation, and axe |
 | Dependencies           | `bun run audit`, `bun run audit:prod`                             | Full and production-filtered advisory policy                      |
 | Delivery               | `bun run build`, `bun run deploy:dry-run`                         | Production bundle and non-deploying Cloudflare upload validation  |
@@ -92,6 +93,13 @@ managed identity flow, and always stop the stack. Hosted Supabase credentials an
 used by CI. The Task 5.7 proof binds and accepts an invitation, preserves the original session origin
 through TOTP elevation, completes recovery only after revocation, and creates/scopes/revokes a
 synthetic service credential.
+
+`.github/workflows/recovery-export.yml` is a separate owner-controlled boundary. Manual dispatch
+defaults to a fixed synthetic payload. Scheduled dispatch selects the hosted PostgreSQL source but
+is skipped unless repository variable `RECOVERY_EXPORT_ENABLED` is exactly `true`. It requires AWS
+CLI and Docker on the GitHub runner, never runs for pull requests, never receives patient input, and
+must signal Better Stack only after a successful encrypted R2 write. Do not add its credentials to
+ordinary CI, Cloudflare Worker configuration, or `VITE_*` values.
 Task 5.8 then exercises own, assigned, cross-subject, cross-tenant, vertical-role,
 cross-environment-service and direct-browser-denial boundaries without hosted credentials. Task
 5.9 exercises validated server context, optimistic versions, exact and changed replays, concurrent

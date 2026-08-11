@@ -719,8 +719,9 @@ Evidence: [`sprint-05-11-request-security-evidence.md`](../02-implementation-pla
   detect, triage, contain, recover and review. Task 5.12 is complete as a repository foundation.
 - Task 5.18 subsequently provisions Better Stack monitor `4799009` for the canonical homepage and
   proves three-minute confirmation, email delivery, 76-second acknowledgement, recovery and
-  automatic closure through hosted incident `1000271634`. The payload-free backup heartbeat remains
-  outstanding under the Task 5.13 hosted follow-through.
+  automatic closure through hosted incident `1000271634`. Task 5.19 provisions the separate
+  payload-free backup heartbeat; its first success and controlled missed-heartbeat proof remain
+  pending.
 
 Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-12-observability-incident-evidence.md) and [`observability-incident-runbook.md`](../06-operations/observability-incident-runbook.md).
 
@@ -737,9 +738,10 @@ Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementati
 - The local exercise restored a real application-schema archive into an isolated temporary
   PostgreSQL database and reconciled 62/62 records with matching deterministic checksums in 13
   seconds. The temporary database and plaintext working file were removed.
-- Task 5.13 is complete and TD-016 is Verified at repository level. Task 5.18 later activates the
-  public Better Stack monitor only. Hosted R2 and its payload-free Better Stack heartbeat are not
-  provisioned, so TD-020 and release gates remain open.
+- Task 5.13 is complete and TD-016 is Verified at repository level. Tasks 5.18–5.19 later activate
+  public uptime and provision the hosted recovery destination/heartbeat boundary. The encrypted
+  upload, failed-write/no-heartbeat, missed-heartbeat alert/recovery, key-custody and isolated hosted
+  restore proofs remain open under TD-020.
 
 Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-13-lifecycle-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).
 
@@ -810,10 +812,10 @@ Evidence: [`sprint-05-16-platform-portability-evidence.md`](../02-implementation
 - Unresolved peptide offering and contradictory positioning.
 - The operating model and logical backend/state boundaries are approved. Local persistence,
   identity, contextual authorisation, workflow-command, signed synthetic payment, and minimum-data
-  fulfilment foundations now exist, but customer-facing writes, hosted provider callbacks,
-  hosted lifecycle scheduling, backup heartbeat, and recovery storage are not provisioned. Task
-  5.18 provisions and fail-tests the public uptime monitor; local lifecycle and recovery foundations
-  remain separately verified.
+  fulfilment foundations now exist, but customer-facing writes and hosted provider callbacks remain
+  inactive. Task 5.18 provisions and fail-tests public uptime. Task 5.19 provisions private EU R2,
+  lifecycle expiry, a bucket-only writer, disabled hourly runner and payload-free heartbeat, but its
+  hosted success/failure/alert/restore proof is not complete.
 - Final media/branding, campaign print-production QA, navigation defects, and accessibility gaps.
 - Unit/component/integration and controlled browser/accessibility tests pass locally. Sprint 04
   proved required hosted CI with passing and controlled-failure runs; the Task 5.17 exact-commit
@@ -848,6 +850,25 @@ Evidence: [`sprint-05-17-verification-and-closure-evidence.md`](../02-implementa
 - Better Stack receives only the public URL, status and timing; no Meneer application-log source,
   identity, contact, header, token, query string, request body or health/provider payload is connected.
 - The permanent policy is restored and the monitor is Up. TD-020 remains In progress only for its
-  backup heartbeat, private EU R2, hosted Stripe webhook, partner callback and future journey evidence.
+  hosted recovery proof, Stripe webhook, partner callback and future journey evidence.
 
 Evidence: [`sprint-05-18-better-stack-uptime-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-18-better-stack-uptime-evidence.md).
+
+### Sprint 05.19 hosted recovery provisioning — 11 August 2026
+
+- Private EU R2 bucket `meneer-health-recovery-production` uses Standard storage, has no public
+  access or Worker binding, and deletes objects after 35 days.
+- Credential `meneer-health-recovery-writer` can read, write and list objects in that bucket only;
+  broad existing Cloudflare credentials are not reused.
+- Better Stack heartbeat `481481` expects hourly payload-free success, allows 15 minutes of grace,
+  and uses the controlled email/team escalation path. It remains Pending before the first export.
+- A dedicated GitHub Actions workflow validates runner-only configuration, produces a PostgreSQL 17
+  custom-format export or fixed synthetic payload, encrypts before upload, and calls the heartbeat
+  only after durable storage. The hourly schedule is disabled with
+  `RECOVERY_EXPORT_ENABLED=false`.
+- Hosted Supabase still contains no application migrations. The encryption key, production
+  session-pooler URL, first synthetic upload, failed-write/no-heartbeat, missed-heartbeat alert and
+  isolated restore evidence remain owner-controlled acceptance gates. Task 5.19 and TD-020 remain
+  In progress.
+
+Evidence: [`sprint-05-19-hosted-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).
