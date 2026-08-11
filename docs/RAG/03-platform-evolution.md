@@ -95,9 +95,11 @@ contract fixtures and journey tests—not matching page appearance—prove cross
 
 Task 5.2 implements the first portable slice in top-level `contracts/`: strict common command,
 event, error, catalogue, and positive-integer-major schemas; synthetic fixtures; compatibility
-guards; and framework-independent tests. ESLint enforces the initial inward dependency rules. This
-foundation does not yet implement the required business contract families or prove behavioural
-equivalence across framework generations; those remain TD-014 and TD-055 work.
+guards; and framework-independent tests. Tasks 5.9–5.15 add the implemented business families.
+Task 5.16 then completes TD-055's repository preparation with a retained-capability catalogue,
+schema/version/migration registry, language-neutral acceptance fixtures, CI drift enforcement, and
+a mandatory rehearsal/cutover/rollback template. Actual equivalence remains a future release gate
+that can only pass against a real target generation.
 
 Task 5.9 adds the first portable business command: `workflow.transition` major version 1 plus a
 provider-neutral application service and Supabase transaction adapter. Its observable contract is
@@ -117,6 +119,12 @@ reconciliation behavior. Later generations must preserve provider/event ownershi
 evidence, exact replay, changed-replay rejection, out-of-order pending state, independent pathway,
 pharmacy, custody, courier, cancellation and refund states, and fail-closed activation gates. The
 Supabase tables, RPC, trigger, and local provider codes remain replaceable adapters.
+
+Task 5.16 freezes those behaviours without freezing their adapters. Next.js v2 must consume the
+same fixture catalogue and report exact or explicitly approved differences. Migration proceeds
+through inventory, compatible expansion, deterministic checkpointed movement, shadow comparison,
+one-authority cutover, observation, and contraction. Rollback restores compatible routing or
+adapters but never deletes accepted facts; incompatible new records require forward repair.
 
 Task 5.11 adds the portable `security.request-decision` contract and observable request boundary:
 bounded transport inputs, body-free public reads, origin/media/body/idempotency checks for protected

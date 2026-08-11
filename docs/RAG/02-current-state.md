@@ -780,6 +780,25 @@ Evidence: [`sprint-05-14-stripe-checkout-evidence.md`](../02-implementation-plan
 
 Evidence: [`sprint-05-15-fulfilment-partner-reconciliation-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-15-fulfilment-partner-reconciliation-evidence.md) and [`fulfilment-partner-reconciliation-runbook.md`](../06-operations/fulfilment-partner-reconciliation-runbook.md).
 
+### Sprint 05.16 platform portability and migration rehearsal — 11 August 2026
+
+- Fourteen current/retired capabilities now record owner, authority, v2/v3 disposition, surface,
+  activation, contract references, fixture ownership, and rollback class.
+- Fourteen supported contract majors map to exact runtime schema exports, source modules, compatible
+  generations, and originating database migrations. Unsupported majors remain fail-closed.
+- Twenty language-neutral fixtures freeze public/sensitive routes, redirects, stable acceptance and
+  rejection, tenant/identity/authorisation behavior, audit, payments, fulfilment, recovery,
+  telemetry, and the retired Lovable MCP boundary.
+- `bun run check:portability` and CI reject duplicate or missing capability, fixture, contract,
+  source, evidence, or migration links. The reusable equivalence comparator detects target drift.
+- The approved rehearsal template requires inventory freeze, deterministic migration,
+  shadow/reconciliation, one-authority cutover, observation, and non-destructive rollback/forward
+  repair. It is not evidence that a Next.js candidate or production migration exists.
+- Task 5.16 is complete and TD-055 is Verified for repository migration preparation. A future
+  framework migration must still run and sign the template against an actual candidate.
+
+Evidence: [`sprint-05-16-platform-portability-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-16-platform-portability-evidence.md) and [`v1-v2-migration-rehearsal-template.md`](../06-operations/v1-v2-migration-rehearsal-template.md).
+
 ## Highest-Risk Gaps
 
 - Durable account, consent, questionnaire, and completion capabilities are absent; their former

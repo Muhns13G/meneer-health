@@ -1,6 +1,18 @@
 import { z } from "zod";
 
-import { contractMajorSchema, opaqueIdentifierSchema } from "./shared";
+import type { ContractDefinition } from "./catalogue";
+import { opaqueIdentifierSchema } from "./shared";
+
+export const requestSecurityDecisionContract = {
+  name: "security.request-decision",
+  kind: "result",
+  owner: "Request security boundary",
+  consumers: ["Server request policy", "security evidence service"],
+  version: 1,
+  sensitivity: "internal",
+  idempotency: "not-applicable",
+  lifecycle: "active",
+} as const satisfies ContractDefinition;
 
 export const requestSecurityReasonSchema = z.enum([
   "ALLOWED",
@@ -30,7 +42,7 @@ export const requestRouteClassSchema = z.enum([
 export const requestSecurityDecisionSchema = z
   .object({
     contract: z.literal("security.request-decision"),
-    version: contractMajorSchema,
+    version: z.literal(1),
     correlationId: opaqueIdentifierSchema,
     outcome: z.enum(["allowed", "denied"]),
     reason: requestSecurityReasonSchema,

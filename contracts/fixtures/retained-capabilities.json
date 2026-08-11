@@ -1,0 +1,378 @@
+{
+  "revision": 1,
+  "generatedFrom": "v1-tanstack",
+  "fixtures": [
+    {
+      "id": "PORT-001",
+      "capabilityId": "CAP-001",
+      "kind": "http-boundary",
+      "request": { "method": "GET", "path": "/" },
+      "expected": {
+        "status": 200,
+        "cacheClass": "public-revalidate",
+        "markers": ["Back to your best", "The care you've quietly been wanting."],
+        "absentMarkers": ["patient account", "checkout completed"]
+      }
+    },
+    {
+      "id": "PORT-002",
+      "capabilityId": "CAP-001",
+      "kind": "http-boundary",
+      "request": { "method": "GET", "path": "/privacy" },
+      "expected": {
+        "status": 200,
+        "cacheClass": "public-revalidate",
+        "markers": ["Website Privacy Notice"],
+        "absentMarkers": ["patient portal"]
+      }
+    },
+    {
+      "id": "PORT-003",
+      "capabilityId": "CAP-002",
+      "kind": "http-boundary",
+      "request": { "method": "GET", "path": "/go/dads" },
+      "expected": {
+        "status": 307,
+        "cacheClass": "private-no-store",
+        "redirect": "/start?utm_source=offline&utm_medium=poster&utm_campaign=dads",
+        "markers": [],
+        "absentMarkers": []
+      }
+    },
+    {
+      "id": "PORT-004",
+      "capabilityId": "CAP-003",
+      "kind": "http-boundary",
+      "request": { "method": "GET", "path": "/start" },
+      "expected": {
+        "status": 200,
+        "cacheClass": "private-no-store",
+        "markers": ["Start your private consult"],
+        "absentMarkers": ["form", "You're in, meneer."]
+      }
+    },
+    {
+      "id": "PORT-005",
+      "capabilityId": "CAP-003",
+      "kind": "http-boundary",
+      "request": { "method": "GET", "path": "/peptides" },
+      "expected": {
+        "status": 200,
+        "cacheClass": "private-no-store",
+        "markers": ["Peptide access is currently gated."],
+        "absentMarkers": ["form", "questionnaire submitted"]
+      }
+    },
+    {
+      "id": "PORT-006",
+      "capabilityId": "CAP-004",
+      "kind": "contract-validation",
+      "contract": { "name": "security.request-decision", "version": 1 },
+      "message": {
+        "contract": "security.request-decision",
+        "version": 1,
+        "correlationId": "synthetic_trace_001",
+        "outcome": "denied",
+        "reason": "DIRECT_ENDPOINT_DENIED",
+        "routeClass": "protected-command"
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-007",
+      "capabilityId": "CAP-005",
+      "kind": "contract-validation",
+      "contract": { "name": "workflow.transition", "version": 1 },
+      "message": {
+        "contract": "workflow.transition",
+        "version": 1,
+        "requestId": "synthetic_request_001",
+        "idempotencyKey": "synthetic_retry_001",
+        "correlationId": "synthetic_trace_002",
+        "actor": {
+          "type": "workforce",
+          "id": "20000000-0000-4000-8000-000000000002"
+        },
+        "subjectId": "20000000-0000-4000-8000-000000000002",
+        "expectedVersion": 0,
+        "requestedAt": "2030-01-01T00:10:00Z",
+        "payload": {
+          "workflowId": "a0000000-0000-4000-8000-000000000002",
+          "transition": "supply.request"
+        }
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-008",
+      "capabilityId": "CAP-005",
+      "kind": "contract-validation",
+      "contract": { "name": "workflow.transition", "version": 1 },
+      "message": {
+        "contract": "workflow.transition",
+        "version": 2,
+        "requestId": "synthetic_request_002",
+        "idempotencyKey": "synthetic_retry_002",
+        "correlationId": "synthetic_trace_003",
+        "actor": {
+          "type": "workforce",
+          "id": "20000000-0000-4000-8000-000000000002"
+        },
+        "subjectId": "20000000-0000-4000-8000-000000000002",
+        "expectedVersion": 0,
+        "requestedAt": "2030-01-01T00:10:00Z",
+        "payload": {
+          "workflowId": "a0000000-0000-4000-8000-000000000002",
+          "transition": "supply.request"
+        }
+      },
+      "expected": { "accepted": false, "stableErrorCode": "UNSUPPORTED_CONTRACT_MAJOR" }
+    },
+    {
+      "id": "PORT-009",
+      "capabilityId": "CAP-006",
+      "kind": "behavioural-scenario",
+      "scenario": "contextual-authorisation-deny-default",
+      "input": {
+        "tenantMatch": false,
+        "role": "operations",
+        "action": "workflow.read",
+        "assurance": "aal2"
+      },
+      "expected": {
+        "allowed": false,
+        "reasonCode": "TENANT_SCOPE_MISMATCH",
+        "projection": "none"
+      },
+      "currentEvidence": [
+        "src/application/authorisation/authorisation-policy.test.ts",
+        "src/adapters/persistence/supabase/supabase-access-repository.test.ts"
+      ]
+    },
+    {
+      "id": "PORT-020",
+      "capabilityId": "CAP-014",
+      "kind": "contract-validation",
+      "contract": { "name": "audit.fact", "version": 1 },
+      "message": {
+        "contract": "audit.fact",
+        "version": 1,
+        "factId": "b0000000-0000-4000-8000-000000000001",
+        "sequence": 1,
+        "tenantId": "10000000-0000-4000-8000-000000000002",
+        "actor": {
+          "type": "workforce",
+          "id": "20000000-0000-4000-8000-000000000002",
+          "role": "operations",
+          "assurance": "aal2"
+        },
+        "action": "workflow.transition",
+        "subjectId": "20000000-0000-4000-8000-000000000002",
+        "resource": {
+          "type": "workflow",
+          "id": "a0000000-0000-4000-8000-000000000002"
+        },
+        "purpose": "operations",
+        "policyVersion": "authorisation.v1",
+        "outcome": "succeeded",
+        "reasonCode": "COMMAND_COMMITTED",
+        "correlationId": "synthetic_trace_004",
+        "causationId": "synthetic_request_003",
+        "occurredAt": "2030-01-01T00:10:00Z",
+        "recordedAt": "2030-01-01T00:10:01Z",
+        "metadata": { "transition": "supply.request", "aggregateVersion": 1 },
+        "previousHash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "eventHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-010",
+      "capabilityId": "CAP-007",
+      "kind": "contract-validation",
+      "contract": { "name": "payment.checkout", "version": 1 },
+      "message": {
+        "contract": "payment.checkout",
+        "version": 1,
+        "requestId": "synthetic_payment_request_001",
+        "idempotencyKey": "synthetic_payment_retry_001",
+        "correlationId": "synthetic_payment_trace_001",
+        "actor": {
+          "type": "patient",
+          "id": "20000000-0000-4000-8000-000000000001"
+        },
+        "subjectId": "20000000-0000-4000-8000-000000000001",
+        "expectedVersion": 0,
+        "requestedAt": "2030-01-01T00:10:00Z",
+        "payload": {
+          "workflowId": "a0000000-0000-4000-8000-000000000001",
+          "scenario": "consultation_only"
+        }
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-011",
+      "capabilityId": "CAP-007",
+      "kind": "contract-validation",
+      "contract": { "name": "payment.provider", "version": 1 },
+      "message": {
+        "contract": "payment.provider",
+        "version": 1,
+        "provider": "stripe",
+        "environment": "local",
+        "externalEventId": "evt_synthetic_0001",
+        "eventType": "checkout.session.completed",
+        "orderId": "b0000000-0000-4000-8000-000000000014",
+        "paymentStatus": "paid",
+        "occurredAt": "2030-01-01T00:10:00Z",
+        "payloadFingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "diagnosis": "prohibited"
+      },
+      "expected": { "accepted": false, "stableErrorCode": "VALIDATION_FAILED" }
+    },
+    {
+      "id": "PORT-012",
+      "capabilityId": "CAP-008",
+      "kind": "contract-validation",
+      "contract": { "name": "fulfilment.partner", "version": 1 },
+      "message": {
+        "contract": "fulfilment.partner",
+        "version": 1,
+        "provider": "dispensing_pharmacy",
+        "environment": "local",
+        "externalEventId": "synthetic_pharmacy_event_001",
+        "eventType": "pharmacy.release.confirmed",
+        "workflowId": "a0000000-0000-4000-8000-000000000002",
+        "providerReferenceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "payloadFingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "occurredAt": "2030-01-01T00:10:00Z"
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-013",
+      "capabilityId": "CAP-008",
+      "kind": "contract-validation",
+      "contract": { "name": "fulfilment.partner", "version": 1 },
+      "message": {
+        "contract": "fulfilment.partner",
+        "version": 1,
+        "provider": "courier",
+        "environment": "local",
+        "externalEventId": "synthetic_pharmacy_event_002",
+        "eventType": "pharmacy.release.confirmed",
+        "workflowId": "a0000000-0000-4000-8000-000000000002",
+        "providerReferenceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "payloadFingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "occurredAt": "2030-01-01T00:10:00Z"
+      },
+      "expected": { "accepted": false, "stableErrorCode": "VALIDATION_FAILED" }
+    },
+    {
+      "id": "PORT-014",
+      "capabilityId": "CAP-009",
+      "kind": "contract-validation",
+      "contract": { "name": "recovery.manifest", "version": 1 },
+      "message": {
+        "contract": "recovery.manifest",
+        "version": 1,
+        "createdAt": "2030-01-01T00:10:00.000Z",
+        "environment": "local",
+        "backupId": "b0000000-0000-4000-8000-000000000013",
+        "schemaVersion": "20260811113146",
+        "recordCounts": { "subjects": 3 },
+        "checksum": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-015",
+      "capabilityId": "CAP-010",
+      "kind": "contract-validation",
+      "contract": { "name": "telemetry.event", "version": 1 },
+      "message": {
+        "contract": "telemetry.event",
+        "version": 1,
+        "occurredAt": "2030-01-01T00:10:00.000Z",
+        "environment": "local",
+        "event": "request.completed",
+        "severity": "info",
+        "outcome": "succeeded",
+        "correlationId": "synthetic_trace_005",
+        "routeClass": "public-read",
+        "statusClass": "2xx",
+        "durationBucket": "under-250ms"
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-016",
+      "capabilityId": "CAP-010",
+      "kind": "contract-validation",
+      "contract": { "name": "error.response", "version": 1 },
+      "message": {
+        "contract": "error.response",
+        "version": 1,
+        "correlationId": "synthetic_trace_006",
+        "error": {
+          "code": "DEPENDENCY_UNAVAILABLE",
+          "message": "The service is temporarily unavailable.",
+          "retry": "after-delay"
+        }
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-017",
+      "capabilityId": "CAP-011",
+      "kind": "http-boundary",
+      "request": { "method": "GET", "path": "/mcp" },
+      "expected": {
+        "status": 404,
+        "cacheClass": "private-no-store",
+        "markers": ["404"],
+        "absentMarkers": ["MCP", "OAuth"]
+      }
+    },
+    {
+      "id": "PORT-018",
+      "capabilityId": "CAP-012",
+      "kind": "behavioural-scenario",
+      "scenario": "tenant-persistence-denies-browser-access",
+      "input": {
+        "databaseRole": "authenticated",
+        "tenantId": "10000000-0000-4000-8000-000000000002"
+      },
+      "expected": {
+        "read": "denied",
+        "write": "denied",
+        "serverPortRequired": true
+      },
+      "currentEvidence": [
+        "src/adapters/persistence/supabase/supabase-access-repository.test.ts",
+        "supabase/tests/database/tenancy_foundation.test.sql"
+      ]
+    },
+    {
+      "id": "PORT-019",
+      "capabilityId": "CAP-013",
+      "kind": "behavioural-scenario",
+      "scenario": "managed-session-and-service-scope",
+      "input": {
+        "subjectState": "active",
+        "sessionState": "expired",
+        "serviceScope": "fulfilment:update"
+      },
+      "expected": {
+        "patientSessionAllowed": false,
+        "serviceScopeEscalationAllowed": false,
+        "stableInternalSubject": true
+      },
+      "currentEvidence": [
+        "src/application/identity/managed-identity-governance-service.test.ts",
+        "src/adapters/identity/supabase/supabase-identity-governance-repository.test.ts"
+      ]
+    }
+  ]
+}
