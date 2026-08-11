@@ -113,12 +113,13 @@ transactional integration merely because the target architecture is approved.
 DR-004 approves the framework-neutral contract, compatibility, migration, reconciliation, cutover,
 and rollback rules. Task 5.2 now supplies strict common machine-readable envelopes, registry/error/
 version schemas, portable synthetic fixtures, contract tests, and initial dependency enforcement.
-Task 5.9 now supplies the first strict business command and Supabase transaction adapter. Task 5.10
-adds its first portable audit/domain-event/inbox contracts and durable local audit/outbox/inbox
-foundation. Tasks 5.14–5.15 subsequently complete the inactive payment/fulfilment payload and
-provider evidence required to Verify TD-014. The repository still has no delivery worker, retained-
-capability suite, or behavioural-equivalence rehearsal, so TD-055 remains In progress. TD-014
-verification must not be described as an enabled customer transaction.
+Task 5.9 supplies the first strict business command and Supabase transaction adapter. Task 5.10
+adds portable audit/domain-event/inbox contracts and durable local evidence. Tasks 5.14–5.15
+complete the inactive payment/fulfilment payload and provider evidence required to Verify TD-014.
+Task 5.16 adds the retained-capability suite, schema/version registry, portable fixtures, drift
+check, and migration rehearsal template, verifying TD-055's repository preparation. There is still
+no Next.js candidate or completed cross-generation rehearsal; TD-014/TD-055 verification must not
+be described as an enabled transaction or completed framework migration.
 
 DR-005 approves PostgreSQL, object-storage, logical schema, tenancy, lifecycle, migration, backup,
 and restore architecture; DR-006 approves vendor evaluation and exit criteria. DR-009 selects the

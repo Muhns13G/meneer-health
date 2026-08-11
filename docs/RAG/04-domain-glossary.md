@@ -65,6 +65,14 @@ sensitivity: internal
 - **Partner release gate:** provider/environment configuration that defaults to disabled. Task 5.15
   permits synthetic local evidence only; preview and production remain inactive until named
   authority, commercial, operational, data, security, monitoring, and release approvals pass.
+- **Retained-capability catalogue:** machine-validated inventory recording each v1 behaviour's
+  owner, authority, target disposition, contract references, fixtures, activation and rollback class.
+- **Portable fixture:** language-neutral synthetic input plus an expected HTTP, contract, or
+  behavioural observation that every retained target generation must reproduce or explicitly change.
+- **Schema/version registry:** the unique mapping from contract name and major to its runtime schema,
+  source, consumers, compatible generations, and originating database migration.
+- **Migration rehearsal:** synthetic execution of inventory, migration, shadow comparison,
+  reconciliation, cutover and rollback procedures before any production authority changes.
 
 ## Governance Terms
 

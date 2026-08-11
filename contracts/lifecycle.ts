@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { contractDefinitionSchema } from "./catalogue";
+import { commandEnvelopeSchema } from "./envelopes";
 
 export const dataSubjectRequestTypeSchema = z.enum(["access_export", "erasure"]);
 export const dataSubjectRequestStatusSchema = z.enum([
@@ -10,6 +11,18 @@ export const dataSubjectRequestStatusSchema = z.enum([
   "completed",
   "rejected",
 ]);
+
+export const dataSubjectRequestCommandSchema = commandEnvelopeSchema.extend({
+  contract: z.literal("lifecycle.request"),
+  version: z.literal(1),
+  actor: z.object({ type: z.literal("workforce"), id: z.uuid() }).strict(),
+  subjectId: z.uuid(),
+  payload: z
+    .object({
+      requestType: dataSubjectRequestTypeSchema,
+    })
+    .strict(),
+});
 
 export const dataSubjectRequestResultSchema = z
   .object({
@@ -42,6 +55,28 @@ export const recoveryArchiveContract = contractDefinitionSchema.parse({
   lifecycle: "active",
 });
 
+export const recoveryManifestContract = contractDefinitionSchema.parse({
+  name: "recovery.manifest",
+  kind: "recovery-artifact",
+  owner: "Recovery module",
+  consumers: ["Recovery archive adapter", "restore reconciliation suite"],
+  version: 1,
+  sensitivity: "confidential",
+  idempotency: "required",
+  lifecycle: "active",
+});
+
+export const encryptedRecoveryArchiveContract = contractDefinitionSchema.parse({
+  name: "recovery.encrypted-archive",
+  kind: "recovery-artifact",
+  owner: "Recovery module",
+  consumers: ["Off-site recovery writer", "staging restore exercise"],
+  version: 1,
+  sensitivity: "special-personal-information",
+  idempotency: "required",
+  lifecycle: "active",
+});
+
 export const recoveryManifestSchema = z
   .object({
     contract: z.literal("recovery.manifest"),
@@ -52,6 +87,16 @@ export const recoveryManifestSchema = z
     schemaVersion: z.string().regex(/^\d{14}$/),
     recordCounts: z.record(z.string().regex(/^[a-z][a-z0-9_]*$/), z.int().nonnegative()),
     checksum: z.string().regex(/^[a-f0-9]{64}$/),
+  })
+  .strict();
+
+export const recoveryArchiveReferenceSchema = z
+  .object({
+    contract: z.literal("recovery.archive"),
+    version: z.literal(1),
+    backupId: z.uuid(),
+    manifestChecksum: z.string().regex(/^[a-f0-9]{64}$/),
+    keyReference: z.string().regex(/^[a-z][a-z0-9_-]{2,63}$/),
   })
   .strict();
 
@@ -67,5 +112,7 @@ export const encryptedRecoveryArchiveSchema = z
   .strict();
 
 export type DataSubjectRequestResult = z.infer<typeof dataSubjectRequestResultSchema>;
+export type DataSubjectRequestCommand = z.infer<typeof dataSubjectRequestCommandSchema>;
 export type RecoveryManifest = z.infer<typeof recoveryManifestSchema>;
+export type RecoveryArchiveReference = z.infer<typeof recoveryArchiveReferenceSchema>;
 export type EncryptedRecoveryArchive = z.infer<typeof encryptedRecoveryArchiveSchema>;

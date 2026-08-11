@@ -270,6 +270,15 @@ evidence verifies the complete hand-off chain without storing questionnaire, cli
 tracking, or raw provider payloads. TD-014 and TD-015 are Verified at repository level; named
 partner authority, commercial approval, hosted callbacks, monitoring, and release remain gated.
 
+Sprint 05 Task 5.16 makes the v1-to-v2 absorption rule executable. A machine-validated catalogue
+now classifies 14 implemented or retired capabilities, maps 14 supported contract majors to their
+runtime schemas and originating database migrations, and supplies 20 language-neutral HTTP,
+contract, and behavioural fixtures. CI rejects missing ownership, evidence, schema, version,
+source, migration, or fixture links. The approved rehearsal template freezes the inventory, uses
+expand–migrate–shadow–reconcile sequencing, cuts over one authority at a time, and forbids
+destructive data rollback. This verifies TD-055's repository preparation; it does not implement
+Next.js, approve a migration date, or prove equivalence for a future v2 candidate.
+
 Passwords must never be managed as ordinary application fields. Use a proven identity provider or a deliberately designed authentication service. Sensitive values must not be logged, embedded in analytics, exposed to MCP tools, or sent to third parties without an approved purpose.
 
 ## Clinical and Content Governance

@@ -106,6 +106,18 @@ describe("stable errors", () => {
         },
       }).success,
     ).toBe(false);
+    expect(
+      errorContractSchema.safeParse({
+        contract: "error.response",
+        version: 2,
+        correlationId: "trace_01",
+        error: {
+          code: "INTERNAL_FAILURE",
+          message: "The request failed.",
+          retry: "never",
+        },
+      }).success,
+    ).toBe(false);
   });
 });
 
@@ -135,6 +147,16 @@ describe("request security evidence", () => {
         token: "must-not-be-recorded",
       }).success,
     ).toBe(false);
+    expect(
+      requestSecurityDecisionSchema.safeParse({
+        contract: "security.request-decision",
+        version: 2,
+        correlationId: "trace_request_01",
+        outcome: "denied",
+        reason: "DIRECT_ENDPOINT_DENIED",
+        routeClass: "protected-command",
+      }).success,
+    ).toBe(false);
   });
 });
 
@@ -156,6 +178,18 @@ describe("privacy-safe observability evidence", () => {
         durationBucket: "under-250ms",
       }).success,
     ).toBe(true);
+    expect(
+      telemetryEventSchema.safeParse({
+        contract: "telemetry.event",
+        version: 2,
+        occurredAt: "2030-01-01T00:00:00.000Z",
+        environment: "local",
+        event: "request.completed",
+        severity: "info",
+        outcome: "succeeded",
+        correlationId: "synthetic_trace_01",
+      }).success,
+    ).toBe(false);
   });
 });
 

@@ -1,11 +1,14 @@
 import { z } from "zod";
 
 const opaqueValuePattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
-const contractNamePattern = /^[a-z][a-z0-9]*(?:\.[a-z][a-z0-9]*)+$/;
+const contractNamePattern = /^[a-z](?:[a-z0-9-]*[a-z0-9])?(?:\.[a-z](?:[a-z0-9-]*[a-z0-9])?)+$/;
 
 export const contractNameSchema = z
   .string()
-  .regex(contractNamePattern, "Contract names must use lower-case dot notation.");
+  .regex(
+    contractNamePattern,
+    "Contract names must use lower-case dot notation with optional segment hyphens.",
+  );
 
 export const contractMajorSchema = z.number().int().positive();
 

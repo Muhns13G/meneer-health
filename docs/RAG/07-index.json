@@ -730,6 +730,19 @@
       "last_updated": "2026-08-11"
     },
     {
+      "id": "meneer-v1-v2-migration-rehearsal",
+      "path": "docs/06-operations/v1-v2-migration-rehearsal-template.md",
+      "status": "approved-template",
+      "authority_for": [
+        "retained capability inventory freeze",
+        "v1-to-v2 synthetic rehearsal",
+        "shadow and reconciliation gates",
+        "one-authority cutover",
+        "non-destructive rollback and forward repair"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
       "id": "phase-01-sprint-03-task-04",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-03-4-platform-boundary-evidence.md",
       "status": "verified-task-evidence",
@@ -1256,6 +1269,20 @@
       "last_updated": "2026-08-11"
     },
     {
+      "id": "phase-01-sprint-05-task-16",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-16-platform-portability-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.16 completion",
+        "retained capability catalogue",
+        "contract schema and version registry",
+        "portable behavioural fixtures and drift check",
+        "v1-to-v2 rehearsal cutover and rollback template",
+        "TD-055 repository verification"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
       "status": "planned",
@@ -1702,6 +1729,52 @@
         "src/adapters/payments/stripe/",
         "supabase/migrations/20260810231243_stripe_checkout_payments.sql",
         "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "fulfilment",
+        "precise-wellness",
+        "pharmacy",
+        "hub",
+        "courier",
+        "partner-reconciliation",
+        "task-5.15"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-15-fulfilment-partner-reconciliation-evidence.md",
+        "docs/06-operations/fulfilment-partner-reconciliation-runbook.md"
+      ],
+      "verify_against": [
+        "contracts/fulfilment.ts",
+        "src/application/fulfilment/",
+        "supabase/migrations/20260811113146_fulfilment_partner_reconciliation.sql",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "platform-portability",
+        "retained-capability",
+        "contract-registry",
+        "schema-version",
+        "nextjs-migration",
+        "behavioural-equivalence",
+        "cutover",
+        "rollback",
+        "td-055",
+        "task-5.16"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-16-platform-portability-evidence.md",
+        "docs/06-operations/v1-v2-migration-rehearsal-template.md"
+      ],
+      "verify_against": [
+        "contracts/capabilities.ts",
+        "contracts/registry.ts",
+        "contracts/fixtures/retained-capabilities.json",
+        "scripts/check-portability.ts",
+        "docs/07-decisions/DR-004-framework-neutral-contracts-migration.md"
       ]
     },
     {

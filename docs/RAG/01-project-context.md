@@ -183,6 +183,12 @@ and fingerprints only. Local provider gates are synthetic; preview and productio
 TD-014 and TD-015 are repository-Verified, while TD-007, TD-009, TD-010, and hosted TD-020 evidence
 still block real transactions.
 
+Task 5.16 adds the retained-capability catalogue, exact contract-major/schema/migration registry,
+portable HTTP/contract/behaviour fixtures, CI drift check, and v1-to-v2 rehearsal/cutover/rollback
+template. TD-055 is Verified for repository migration preparation. No Next.js candidate, migration
+window, production data move, or cross-generation sign-off exists yet; those require a future
+approved rehearsal using the recorded template and unchanged baselines.
+
 Task 3.8 validates DR-001–DR-008 as one coherent design across happy, rejection, urgent, payment,
 fulfilment, support, rights, incident, and migration scenarios. It approves the conservative v1
 lifecycle/recovery baseline while keeping named-party, provider, domain sign-off, and Sprint 05

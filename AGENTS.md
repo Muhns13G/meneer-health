@@ -42,6 +42,8 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   the same checks in managed Chromium.
 - `bun run test:all` runs Vitest followed by Playwright.
 - `bun run typecheck` runs strict TypeScript validation without emitting files.
+- `bun run check:portability` verifies retained capabilities, contract majors, portable fixtures,
+  and referenced schema migrations remain internally consistent.
 - `bun run check:cloudflare-types` rejects stale generated Worker binding/runtime types.
 - `bun run deploy:dry-run` builds and validates the Cloudflare upload without deploying.
 - `bun run lint` runs ESLint and Prettier checks.
