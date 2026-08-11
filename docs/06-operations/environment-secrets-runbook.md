@@ -2,7 +2,7 @@
 runbook_id: meneer-environment-secrets
 title: Environment Configuration and Secret Lifecycle Runbook
 status: active
-last_updated: 2026-08-10
+last_updated: 2026-08-11
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -16,19 +16,28 @@ This runbook governs application configuration without storing values in documen
 The machine-checked catalogue is `config/environment-catalogue.ts`; `.env.example` lists names only.
 Tasks 5.6–5.7 use one optional all-or-none Supabase pair for server-only persistence and managed
 identity administration. Task 5.14 adds an optional all-or-none restricted Stripe test-key and
-webhook-signing pair. Values remain uncommitted and every adapter stays disabled when absent.
+webhook-signing pair. Task 5.19 adds a separate GitHub Actions recovery-runner boundary. Values
+remain uncommitted and every adapter or scheduled job stays disabled when absent.
 
 ## Current Catalogue
 
-| Name                            | Exposure            | Required | Owner                      | Lifecycle                                                                   |
-| ------------------------------- | ------------------- | -------- | -------------------------- | --------------------------------------------------------------------------- |
-| `VITE_PEPTIDE_VIDEO_URL`        | Public client/build | No       | Content and release owner  | Replace with the approved media location.                                   |
-| `VITE_PEPTIDE_VIDEO_POSTER_URL` | Public client/build | No       | Content and release owner  | Replace with the associated approved release.                               |
-| `VITE_CAMPAIGN_PRINT_PROOF`     | Public client/build | No       | Campaign and release owner | Use exact `true` only for approved proofing; otherwise omit or use `false`. |
-| `SUPABASE_URL`                  | Server only         | No       | Data and release owner     | Change with the selected project/environment; HTTPS only.                   |
-| `SUPABASE_SECRET_KEY`           | Server secret       | No       | Data and security owner    | Rotate after exposure, role change, or project replacement.                 |
-| `STRIPE_RESTRICTED_KEY`         | Server secret       | No       | Payment and security owner | Restricted `rk_test_*` only; rotate after exposure or scope/account change. |
-| `STRIPE_WEBHOOK_SIGNING_SECRET` | Server secret       | No       | Payment and security owner | Test webhook secret; rotate after exposure or endpoint replacement.         |
+| Name                             | Exposure            | Required | Owner                      | Lifecycle                                                                   |
+| -------------------------------- | ------------------- | -------- | -------------------------- | --------------------------------------------------------------------------- |
+| `VITE_PEPTIDE_VIDEO_URL`         | Public client/build | No       | Content and release owner  | Replace with the approved media location.                                   |
+| `VITE_PEPTIDE_VIDEO_POSTER_URL`  | Public client/build | No       | Content and release owner  | Replace with the associated approved release.                               |
+| `VITE_CAMPAIGN_PRINT_PROOF`      | Public client/build | No       | Campaign and release owner | Use exact `true` only for approved proofing; otherwise omit or use `false`. |
+| `SUPABASE_URL`                   | Server only         | No       | Data and release owner     | Change with the selected project/environment; HTTPS only.                   |
+| `SUPABASE_SECRET_KEY`            | Server secret       | No       | Data and security owner    | Rotate after exposure, role change, or project replacement.                 |
+| `SUPABASE_DB_URL`                | Runner secret       | No       | Data and security owner    | Use the approved hosted session-pooler URL; rotate with database access.    |
+| `RECOVERY_EXPORT_SOURCE`         | Runner setting      | No       | Data and release owner     | Synthetic for proof; scheduled runs select production.                      |
+| `RECOVERY_R2_BUCKET`             | Runner setting      | No       | Operations/security owner  | Replace only through a tested recovery-store cutover.                       |
+| `CLOUDFLARE_ACCOUNT_ID`          | Runner setting      | No       | Operations/security owner  | Replace when the recovery bucket changes account.                           |
+| `R2_ACCESS_KEY_ID`               | Runner secret       | No       | Operations/security owner  | Bucket-only credential; rotate after exposure or annual review.             |
+| `R2_SECRET_ACCESS_KEY`           | Runner secret       | No       | Operations/security owner  | Bucket-only credential; rotate with its access-key identifier.              |
+| `RECOVERY_ENCRYPTION_KEY_BASE64` | Runner secret       | No       | Security and data owner    | Retain a separate secured recovery copy; rotate through restore proof.      |
+| `BACKUP_HEARTBEAT_URL`           | Runner secret       | No       | Operations/security owner  | Payload-free endpoint; rotate after exposure or monitor replacement.        |
+| `STRIPE_RESTRICTED_KEY`          | Server secret       | No       | Payment and security owner | Restricted `rk_test_*` only; rotate after exposure or scope/account change. |
+| `STRIPE_WEBHOOK_SIGNING_SECRET`  | Server secret       | No       | Payment and security owner | Test webhook secret; rotate after exposure or endpoint replacement.         |
 
 Public media must be root-relative or HTTPS. Unknown `VITE_*` names, invalid URLs, and non-boolean
 print-proof values fail the build with a safe message that does not echo the supplied value.
@@ -51,9 +60,13 @@ print-proof values fail the build with a safe message that does not echo the sup
   `.dev.vars`. Use synthetic data only and restrict file permissions.
 - **Preview:** Supabase is deliberately unconfigured. Never copy production credentials or patient
   data into a public preview.
-- **Production:** the owner provisions the approved value in Cloudflare only after release review.
-  Required configuration must fail at startup when missing or invalid; it must never fall back to a
-  preview, test, or developer credential.
+- **Production application:** the owner provisions approved runtime values in Cloudflare only after
+  release review. Required configuration must fail at startup when missing or invalid; it must
+  never fall back to a preview, test, or developer credential.
+- **Hosted recovery runner:** store sensitive Task 5.19 values as GitHub Actions secrets and the
+  bucket/account/activation identifiers as repository variables. Keep
+  `RECOVERY_EXPORT_ENABLED=false` until the hosted schema, encryption-key custody, synthetic
+  success/failure evidence, alert recovery, and isolated restore all pass.
 
 Record only the variable name, environment, owner, provisioning time, and verification outcome.
 Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or chat.
@@ -92,5 +105,6 @@ Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or 
 - [Task 5.6 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-6-persistence-tenancy-evidence.md)
 - [Task 5.7 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-7-managed-identity-evidence.md)
 - [Task 5.14 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md)
+- [Task 5.19 evidence](../02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md)
 - [Stripe operations runbook](stripe-checkout-webhook-runbook.md)
 - [Technical-debt registry](../04-technical-debt/technical-debt-registry-v1.md)

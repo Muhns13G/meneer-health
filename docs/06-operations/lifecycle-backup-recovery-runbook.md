@@ -49,8 +49,23 @@ pending processor reconciliations before releasing the environment.
 
 ## Hosted Owner Activation
 
-The repository owner must provision the private EU R2 bucket, lifecycle expiry, scoped binding,
-encryption key, hourly runner, and Better Stack heartbeat; then fail-test storage and heartbeat
-alerts. No hosted credential or endpoint belongs in Git. Record redacted IDs/timestamps and a real
-synthetic restore result before pilot activation. Supabase Free has no automatic backup/PITR, so a
-missed export pauses intake rather than silently weakening recovery controls.
+The private EU R2 bucket, 35-day lifecycle rule, bucket-only S3 credential, and Better Stack
+heartbeat are provisioned. The public Worker deliberately has no recovery binding. GitHub Actions
+owns the hourly runner because it can execute the PostgreSQL 17 dump image; the schedule remains
+fail-closed while repository variable `RECOVERY_EXPORT_ENABLED` is not the exact string `true`.
+
+Before the first controlled dispatch, the repository owner must:
+
+1. generate a 32-byte encryption key, store its base64 form as GitHub secret
+   `RECOVERY_ENCRYPTION_KEY_BASE64`, and retain an independently secured recovery copy;
+2. run the committed workflow manually with source `synthetic`, verify a private encrypted R2
+   object and the first Better Stack heartbeat, and retain only redacted evidence;
+3. deliberately fail the R2 write with a reversible invalid bucket configuration, verify that no
+   success heartbeat is emitted, then restore the configuration and prove alert recovery; and
+4. only after hosted migrations are approved, store an IPv4-compatible Supabase session-pooler
+   connection as `SUPABASE_DB_URL`, prove an isolated restore, then set
+   `RECOVERY_EXPORT_ENABLED=true`.
+
+No hosted credential or endpoint belongs in Git, Worker configuration, `VITE_*`, logs, command
+arguments, or screenshots. A missed export pauses intake rather than silently weakening recovery
+controls.

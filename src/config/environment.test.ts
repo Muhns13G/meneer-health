@@ -52,12 +52,18 @@ describe("environment catalogue", () => {
     }
   });
 
-  it("catalogues the server-only Supabase pair without enabling preview", () => {
+  it("catalogues server and runner values without enabling preview", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
       "SUPABASE_URL",
       "SUPABASE_SECRET_KEY",
+      "SUPABASE_DB_URL",
+      "RECOVERY_EXPORT_SOURCE",
+      "RECOVERY_R2_BUCKET",
+      "CLOUDFLARE_ACCOUNT_ID",
+      "R2_ACCESS_KEY_ID",
+      "R2_SECRET_ACCESS_KEY",
       "RECOVERY_ENCRYPTION_KEY_BASE64",
       "BACKUP_HEARTBEAT_URL",
       "STRIPE_RESTRICTED_KEY",

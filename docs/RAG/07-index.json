@@ -1026,7 +1026,7 @@
     {
       "id": "phase-01-sprint-05",
       "path": "docs/02-implementation-plans/phase-01/sprint-05-data-security-operations.md",
-      "status": "implementation-complete-owner-checkpoint",
+      "status": "activation-follow-through",
       "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"],
       "implementation_follow_through": ["TD-013", "TD-016"],
       "task_count": 17,
@@ -1293,6 +1293,33 @@
         "controlled incident exercise",
         "125-record encrypted restore reconciliation",
         "Sprint 05 debt reconciliation and owner checkpoint"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
+      "id": "phase-01-sprint-05-task-18",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-18-better-stack-uptime-evidence.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "Task 5.18 completion",
+        "Better Stack public uptime activation",
+        "hosted incident alert acknowledgement and recovery",
+        "privacy-safe external monitoring evidence",
+        "TD-020 public uptime follow-through"
+      ],
+      "last_updated": "2026-08-11"
+    },
+    {
+      "id": "phase-01-sprint-05-task-19",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md",
+      "status": "hosted-proof-pending",
+      "authority_for": [
+        "Task 5.19 current status",
+        "private EU R2 recovery provisioning",
+        "bucket-only recovery writer and 35-day expiry",
+        "payload-free Better Stack backup heartbeat",
+        "guarded GitHub hosted recovery runner",
+        "TD-020 hosted recovery residuals"
       ],
       "last_updated": "2026-08-11"
     },
@@ -1801,6 +1828,27 @@
         "contracts/fixtures/retained-capabilities.json",
         "scripts/check-portability.ts",
         "docs/07-decisions/DR-004-framework-neutral-contracts-migration.md"
+      ]
+    },
+    {
+      "query_topics": [
+        "hosted-recovery",
+        "r2-backup",
+        "backup-heartbeat",
+        "recovery-export",
+        "recovery-schedule",
+        "task-5.19",
+        "td-020"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md",
+        "docs/06-operations/lifecycle-backup-recovery-runbook.md"
+      ],
+      "verify_against": [
+        ".github/workflows/recovery-export.yml",
+        "scripts/run-hosted-recovery-export.ts",
+        "src/adapters/recovery/hosted-recovery-support.ts",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
       ]
     },
     {

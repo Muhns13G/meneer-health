@@ -43,6 +43,7 @@
     "test:fulfilment": "bun run scripts/test-supabase-fulfilment-integration.ts",
     "exercise:incident": "bun run scripts/run-controlled-incident-exercise.ts",
     "exercise:recovery": "bun run scripts/run-synthetic-recovery-exercise.ts",
+    "recovery:hosted": "bun run scripts/run-hosted-recovery-export.ts",
     "db:lint": "supabase db lint --local --level error",
     "lint": "eslint .",
     "format": "prettier --write .",

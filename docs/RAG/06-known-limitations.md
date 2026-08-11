@@ -19,6 +19,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-10-audit-integration-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-18-better-stack-uptime-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md
   - docs/06-operations/audit-integration-evidence-runbook.md
   - docs/06-operations/request-security-abuse-runbook.md
   - docs/06-operations/environment-secrets-runbook.md
@@ -156,9 +158,10 @@ monitoring evidence remain absent.
 Task 5.12 adds strict custom Worker telemetry, local alert thresholds, a passing controlled incident
 exercise and append-only identified denial evidence. Task 5.18 adds hosted Better Stack public
 monitor activation, email delivery, acknowledgement and recovery evidence without connecting an
-application-log source. Automatic invocation logs remain disabled. Task 5.13 supplies the backup
-heartbeat adapter and local restore proof, but owner-hosted R2 and backup-heartbeat activation are
-still absent.
+application-log source. Automatic invocation logs remain disabled. Task 5.19 provisions private EU
+R2, 35-day expiry, a bucket-only writer, a disabled GitHub runner, and the payload-free heartbeat.
+The first hosted encrypted upload, failed-write/no-heartbeat proof, missed-heartbeat alert/recovery,
+key custody, hosted schema, and isolated hosted restore remain absent.
 Therefore TD-020, TD-013 and TD-017 remain In progress despite the completed repository tasks;
 Task 5.15 subsequently Verified TD-015's repository audit boundary.
 
