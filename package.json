@@ -33,6 +33,7 @@
     "test:auth": "bun run scripts/test-supabase-auth-integration.ts",
     "test:authz": "bun run scripts/test-supabase-authorisation-integration.ts",
     "test:commands": "bun run scripts/test-supabase-workflow-commands-integration.ts",
+    "test:audit": "bun run scripts/test-supabase-audit-integration.ts",
     "db:lint": "supabase db lint --local --level error",
     "lint": "eslint .",
     "format": "prettier --write .",

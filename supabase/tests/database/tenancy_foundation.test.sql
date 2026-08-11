@@ -92,10 +92,10 @@ select is(
   'server service role has no non-read foundation-table privileges'
 );
 select is((select count(*) from public.tenants), 2::bigint, 'two synthetic tenants are seeded');
-select is((select count(*) from public.subjects), 2::bigint, 'two synthetic subjects are seeded');
+select is((select count(*) from public.subjects), 3::bigint, 'three synthetic subjects are seeded');
 select is(
   (select count(*) from public.tenant_memberships),
-  2::bigint,
+  3::bigint,
   'synthetic memberships do not cross tenants'
 );
 

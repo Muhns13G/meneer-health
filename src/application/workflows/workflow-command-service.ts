@@ -15,6 +15,7 @@ import {
   type ResourceWorkflowState,
 } from "@/domain/access/authorisation";
 import type { MembershipRole } from "@/domain/access/models";
+import type { AuthenticationAssurance } from "@/domain/access/identity";
 import {
   WorkflowRepositoryError,
   type WorkflowCommandRepository,
@@ -27,6 +28,7 @@ export type ServerWorkflowActor = Readonly<{
   subjectId: string;
   tenantId: string;
   role: MembershipRole;
+  assurance: AuthenticationAssurance;
   observedAtEpochMs: number;
   [serverActorMarker]: true;
 }>;
@@ -44,7 +46,7 @@ export function resolveServerWorkflowActor(
   });
 }
 
-function isServerWorkflowActor(value: unknown): value is ServerWorkflowActor {
+export function isServerWorkflowActor(value: unknown): value is ServerWorkflowActor {
   return Boolean(
     value && typeof value === "object" && serverActorMarker in value && value[serverActorMarker],
   );
@@ -224,6 +226,15 @@ export class WorkflowCommandService {
         expectedVersion: parsed.data.expectedVersion,
         transition: parsed.data.payload.transition,
         occurredAt: observedAt,
+        actorType: parsed.data.actor.type,
+        actorSubjectId: actor.subjectId,
+        actorRole: actor.role,
+        assurance: actor.assurance,
+        subjectId: workflow.subjectId,
+        purpose: access.purpose,
+        policyVersion: decision.policyVersion,
+        correlationId: parsed.data.correlationId,
+        causationId: parsed.data.requestId,
       });
 
       return { ok: true, result };
