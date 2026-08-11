@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { contractMajorSchema, opaqueIdentifierSchema } from "./shared";
+import { opaqueIdentifierSchema } from "./shared";
 import { requestRouteClassSchema, requestSecurityReasonSchema } from "./security";
 
 export const telemetryEventContract = {
@@ -40,7 +40,7 @@ export const telemetryReasonCodeSchema = z.union([
 export const telemetryEventSchema = z
   .object({
     contract: z.literal("telemetry.event"),
-    version: contractMajorSchema,
+    version: z.literal(1),
     occurredAt: z.iso.datetime({ offset: true }),
     environment: telemetryEnvironmentSchema,
     event: telemetryEventNameSchema,

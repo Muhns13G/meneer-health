@@ -1,4 +1,5 @@
 export * from "./audit";
+export * from "./capabilities";
 export * from "./catalogue";
 export * from "./envelopes";
 export * from "./errors";
@@ -6,6 +7,8 @@ export * from "./fulfilment";
 export * from "./observability";
 export * from "./lifecycle";
 export * from "./payments";
+export * from "./portability";
+export * from "./registry";
 export * from "./security";
 export * from "./shared";
 export * from "./versioning";

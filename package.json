@@ -26,6 +26,7 @@
     "check:client-bundle": "bun run scripts/check-client-bundle.ts",
     "check:cloudflare-types": "wrangler types --check",
     "check:generated": "git diff --exit-code -- src/routeTree.gen.ts",
+    "check:portability": "bun run scripts/check-portability.ts",
     "db:start": "supabase start",
     "db:start:test": "supabase start -x realtime,storage-api,imgproxy,mailpit,postgres-meta,studio,edge-runtime,logflare,vector,supavisor",
     "db:stop": "supabase stop",

@@ -1,6 +1,18 @@
 import { z } from "zod";
 
-import { contractMajorSchema, opaqueIdentifierSchema } from "./shared";
+import type { ContractDefinition } from "./catalogue";
+import { opaqueIdentifierSchema } from "./shared";
+
+export const errorResponseContract = {
+  name: "error.response",
+  kind: "error",
+  owner: "Application boundary",
+  consumers: ["Every framework and provider adapter"],
+  version: 1,
+  sensitivity: "internal",
+  idempotency: "not-applicable",
+  lifecycle: "active",
+} as const satisfies ContractDefinition;
 
 export const stableErrorCodes = [
   "VALIDATION_FAILED",
@@ -27,7 +39,7 @@ const safeErrorMessageSchema = z
 export const errorContractSchema = z
   .object({
     contract: z.literal("error.response"),
-    version: contractMajorSchema,
+    version: z.literal(1),
     correlationId: opaqueIdentifierSchema,
     error: z
       .object({
