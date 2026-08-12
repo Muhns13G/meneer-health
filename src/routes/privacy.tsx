@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
 import { supportChannels } from "@/lib/support-channels";
 
 export const Route = createFileRoute("/privacy")({
@@ -11,8 +12,9 @@ export const Route = createFileRoute("/privacy")({
         name: "description",
         content: "How the current Meneer website handles personal information.",
       },
+      { name: "robots", content: "index, follow" },
     ],
-    links: [{ rel: "canonical", href: "/privacy" }],
+    links: [{ rel: "canonical", href: getCanonicalPublicUrl("/privacy") }],
   }),
   component: PrivacyPage,
 });
