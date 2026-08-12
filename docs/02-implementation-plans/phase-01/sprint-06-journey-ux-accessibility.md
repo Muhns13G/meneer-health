@@ -56,7 +56,7 @@ Primary debt: TD-035–TD-039 and TD-042–TD-044.
 | 6.6  | Implement mobile disclosure semantics, focus behavior, Escape/outside handling, resize behavior, and route-change closure.               | TD-039                    | Completed |
 | 6.7  | Reconcile verified support and emergency surfaces; keep unverified clinical/privacy/complaint channels explicitly unavailable.           | TD-043; external input    | Completed |
 | 6.8  | Implement the route policy through absolute canonicals, robots and sitemap outputs, exclusion rules, and generated-output tests.         | TD-042                    | Completed |
-| 6.9  | Add approved favicon and social-card assets and verify metadata rendering; retain an explicit gate if assets remain unavailable.         | TD-042; approved assets   | Planned   |
+| 6.9  | Add approved favicon and social-card assets and verify metadata rendering; retain an explicit gate if assets remain unavailable.         | TD-042; approved assets   | Completed |
 | 6.10 | Decide and implement self-hosted or explicitly approved external fonts with CSP, fallback, privacy, resilience, and performance proof.   | TD-044; owner decision    | Planned   |
 | 6.11 | Run keyboard, zoom/reflow, reduced-motion, contrast, representative screen-reader, failure, and complete browser verification.           | TD-037–TD-039, TD-043–044 | Planned   |
 | 6.12 | Reconcile debt/RAG, record deviations and lessons, and issue the Sprint 06 completion report and exact-commit CI evidence.               | All Sprint 06 debt        | Planned   |
