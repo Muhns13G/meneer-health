@@ -11,7 +11,7 @@ test.describe("shared route-aware navigation", () => {
 
       const header = page.locator("header");
       if (testInfo.project.name === "mobile-chromium") {
-        await header.getByRole("button", { name: "Menu" }).click();
+        await header.getByRole("button", { name: "Open menu" }).click();
       }
 
       await expect(header.locator('a[href="/"]').first()).toHaveAttribute("href", "/");
@@ -50,12 +50,22 @@ test("primary navigation matches the active viewport", async ({ page }, testInfo
   await page.goto("/");
   await page.waitForLoadState("networkidle");
 
-  const menuButton = page.getByRole("button", { name: "Menu" });
+  const menuButton = page.getByRole("button", { name: "Open menu" });
   const desktopStart = page.locator("header > div").getByRole("link", { name: "Start privately" });
 
   if (testInfo.project.name === "mobile-chromium") {
     await expect(menuButton).toBeVisible();
     await expect(desktopStart).toBeHidden();
+
+    await menuButton.click();
+    const closeButton = page.getByRole("button", { name: "Close menu" });
+    await expect(closeButton).toHaveAttribute("aria-expanded", "true");
+    await expect(
+      page.locator("#mobile-primary-navigation").getByRole("link").first(),
+    ).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(menuButton).toBeFocused();
+    await expect(menuButton).toHaveAttribute("aria-expanded", "false");
 
     await menuButton.click();
     const mobileStart = page.locator("header").getByRole("link", { name: "Start privately" });
