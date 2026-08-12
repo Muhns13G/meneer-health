@@ -1,11 +1,11 @@
 ---
 plan_id: phase-01-sprint-06
 title: Journey, UX, Accessibility, and Discovery
-status: planned
+status: active
 primary_debt: [TD-035, TD-036, TD-037, TD-038, TD-039, TD-042, TD-043, TD-044]
-depends_on: [phase-01-sprint-01, phase-01-sprint-03, phase-01-sprint-04]
-last_updated: 2026-08-06
-owner: unassigned
+depends_on: [phase-01-sprint-01, phase-01-sprint-03, phase-01-sprint-04, phase-01-sprint-05]
+last_updated: 2026-08-12
+owner: "@Muhns13G"
 ---
 
 # Sprint 06 — Journey, UX, Accessibility, and Discovery
@@ -21,6 +21,48 @@ All retained desktop and mobile navigation reaches the intended destination; con
 ## Scope
 
 Primary debt: TD-035–TD-039 and TD-042–TD-044.
+
+## Reconciled Starting Point
+
+- Sprint 05 is closed. Its provider, security, recovery, observability, test, and fail-closed
+  foundations remain unchanged; Sprint 06 must not activate patient, payment, partner, or
+  fulfilment workflows.
+- The retained routes are `/`, `/contact`, `/privacy`, `/terms`, `/start`, `/peptides`, `/poster`,
+  `/poster-thanks`, two `/go/...` redirects, and inactive payment endpoints. Desktop/mobile
+  Playwright and axe checks already cover the public surface.
+- Shared navigation still uses page-local `#treatments` and `#how` targets from every route.
+  Treatment cards still send four distinct journeys to generic `/start` without preserving intent.
+- `/start`, `/peptides`, and campaign pages are deliberately restricted or non-indexable. The
+  canonical origin is `https://meneerhealth.co.za`; only `/`, `/contact`, `/privacy`, and `/terms`
+  are approved for indexing at this baseline.
+- General support uses the monitored `support@meneerhealth.co.za` mailbox. It is not an urgent
+  clinical service. Mobile emergency `112` and ambulance `10177` remain the only verified urgent
+  contacts; separate clinical, complaint, and privacy ownership remains an activation input.
+- Google Fonts remain externally loaded under the existing CSP. Cloudflare Fonts and automatic Web
+  Analytics remain disabled. No approved favicon or social-card image exists in the repository.
+- Health or treatment intent must not be placed in URLs, analytics, referrers, logs, payment
+  metadata, or third-party systems. Existing allowlisted campaign UTM attribution is non-clinical
+  and remains separate from treatment intent.
+
+## Commit-Sized Task Plan
+
+| Task | Commit-sized outcome                                                                                                                     | Primary debt / gate       | Status    |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------- |
+| 6.1  | Rebaseline the retained journey, freeze route/indexability and safe-intent contracts, and record the implementation sequence.            | All Sprint 06 debt        | Completed |
+| 6.2  | Replace page-local shared hashes with route-aware links and prove every shared destination across retained routes and viewports.         | TD-035                    | Planned   |
+| 6.3  | Implement typed, server-validated treatment intent without URL, analytics, referrer, log, or third-party leakage; fail closed otherwise. | TD-036; activation gates  | Planned   |
+| 6.4  | Correct form labels, descriptions, autocomplete/input modes, required state, validation, and accessible error summaries.                 | TD-037                    | Planned   |
+| 6.5  | Add stepped-flow focus management, progress semantics, live status/error announcements, and navigation-state preservation.               | TD-038                    | Planned   |
+| 6.6  | Implement mobile disclosure semantics, focus behavior, Escape/outside handling, resize behavior, and route-change closure.               | TD-039                    | Planned   |
+| 6.7  | Reconcile verified support and emergency surfaces; keep unverified clinical/privacy/complaint channels explicitly unavailable.           | TD-043; external input    | Planned   |
+| 6.8  | Implement the route policy through absolute canonicals, robots and sitemap outputs, exclusion rules, and generated-output tests.         | TD-042                    | Planned   |
+| 6.9  | Add approved favicon and social-card assets and verify metadata rendering; retain an explicit gate if assets remain unavailable.         | TD-042; approved assets   | Planned   |
+| 6.10 | Decide and implement self-hosted or explicitly approved external fonts with CSP, fallback, privacy, resilience, and performance proof.   | TD-044; owner decision    | Planned   |
+| 6.11 | Run keyboard, zoom/reflow, reduced-motion, contrast, representative screen-reader, failure, and complete browser verification.           | TD-037–TD-039, TD-043–044 | Planned   |
+| 6.12 | Reconcile debt/RAG, record deviations and lessons, and issue the Sprint 06 completion report and exact-commit CI evidence.               | All Sprint 06 debt        | Planned   |
+
+Tasks remain independently committable. Asset- or ownership-dependent work may retain an explicit
+activation gate, but it must not be represented as verified until its acceptance evidence exists.
 
 ### Workstream 1 — Route-aware navigation and intent
 
@@ -60,11 +102,15 @@ Primary debt: TD-035–TD-039 and TD-042–TD-044.
 
 ## Required Decisions and Inputs
 
-- Approved route-disposition and pilot scope from Sprint 01.
-- Canonical production domain and indexability policy.
-- Approved support, privacy, complaint, clinical, and urgent channels from Sprint 03.
-- Approved treatment identifiers and safe attribution rules.
-- Brand favicon/social assets and font-provider decision.
+- **Available:** retained pilot route disposition, canonical domain, current indexability baseline,
+  general-support mailbox, emergency numbers, campaign attribution, and prohibited intent-leakage
+  rule.
+- **Required before Task 6.3 activation:** approved treatment-intent identifiers and server-owned
+  persistence/expiry behavior. Human-readable health intent remains prohibited in URLs.
+- **Required before TD-043 closure:** accountable clinical, privacy, and complaint owners/channels
+  if they are to be published separately. Placeholder professional details remain prohibited.
+- **Required before Tasks 6.9–6.10 closure:** approved favicon/social assets and owner decision to
+  self-host fonts or formally retain Google Fonts.
 
 ## Acceptance Evidence
 
