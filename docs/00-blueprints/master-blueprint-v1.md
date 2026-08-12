@@ -251,7 +251,8 @@ Task 5.18 provisions and fail-tests the privacy-safe Better Stack public-homepag
 explicit heartbeat-failure path. TD-016 is Verified at repository level. Task 5.19 provisions
 private EU R2, 35-day expiry, a bucket-only writer, guarded GitHub runner and payload-free heartbeat.
 Its hosted encrypted upload, failed-write/no-heartbeat, missed-heartbeat acknowledgement and
-automatic recovery are verified; hosted download/decrypt/reconcile/delete remains open. Task 5.20
+automatic recovery are verified. Run `31551448469` additionally verifies hosted R2 read-after-write,
+decryption, isolated three-record restore/reconciliation, deletion and heartbeat ordering. Task 5.20
 owns hosted synthetic identity and request-security proof. None of this implies that a customer
 transaction or hosted application database is active.
 

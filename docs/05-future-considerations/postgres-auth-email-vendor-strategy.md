@@ -18,8 +18,9 @@ health-data processing or activate a transaction.
 
 - **Database, identity, and primary private files:** one Supabase Free project in London
   (`eu-west-2`) using PostgreSQL, Supabase Auth, and private Storage.
-- **Transactional email:** Brevo Free as Supabase custom SMTP, with tracking disabled and generic
-  message content.
+- **Transactional email:** Brevo Free as Supabase custom SMTP with generic message content. Brevo's
+  current SMTP tracking behaviour rewrites links; its anonymous-tracking option improves privacy but
+  does not disable rewriting. Token-bearing Auth links therefore remain activation-gated.
 - **Recovery exports:** encrypted PostgreSQL and object exports in a Cloudflare R2 bucket restricted
   to the EU jurisdiction. R2 is recovery storage, not the primary patient-data store.
 - **Runtime telemetry:** redacted Cloudflare Workers Logs, Metrics, and Traces.
@@ -94,6 +95,22 @@ data map and named-party roles, cross-border/privacy assessment, applicable cont
 rotation procedures, migrations, RLS and authorisation tests, lifecycle workflows, audit controls,
 monitoring and incident exercises, recovery proof, and domain approval. Stripe live mode also
 requires TD-010. Partner fulfilment remains gated by TD-007 and TD-009.
+
+## Future Auth-Link Hardening
+
+Before the first customer account, invitation, confirmation, recovery, or email-change journey is
+enabled, replace direct provider links with a Meneer-owned `/auth/confirm` boundary. Prefer a
+Supabase `TokenHash` flow, or an OTP `Token` flow where the user deliberately submits the code.
+The route must avoid logging secrets, validate the Auth flow type, accept only allowlisted relative
+destinations, and consume the credential only after an explicit user action. Brevo may remain the
+SMTP transport; anonymous tracking may be enabled for privacy, but it is not evidence that link
+rewriting is disabled.
+
+Acceptance requires delivered confirmation, invitation, recovery, and email-change exercises;
+mobile and desktop accessibility; generic templates; resend and rate controls; and denials for
+malformed, expired, replayed, and cross-flow credentials. Recovery must also prove the intended
+session-revocation outcome. Consider a dedicated authenticated Auth-sending subdomain or sender if
+reputation or operational separation becomes necessary.
 
 ## Authoritative Records
 

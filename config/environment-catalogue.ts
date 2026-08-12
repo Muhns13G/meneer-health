@@ -26,6 +26,16 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     rotation: "Review when the project or environment changes.",
   },
   {
+    name: "SUPABASE_PUBLISHABLE_KEY",
+    purpose: "Runner-only browser-role key for explicit local or hosted synthetic access proofs.",
+    owner: "Data and security owner",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation: "Review when the Supabase project or publishable key changes.",
+  },
+  {
     name: "SUPABASE_SECRET_KEY",
     purpose:
       "Server-only credential for the Supabase persistence and identity administration adapters.",

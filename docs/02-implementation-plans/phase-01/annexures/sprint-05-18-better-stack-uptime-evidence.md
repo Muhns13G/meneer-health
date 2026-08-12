@@ -56,5 +56,5 @@ one-hour interval and 15-minute grace policy were unchanged.
 ## Scope and Residual Gates
 
 Task 5.18 completes the hosted public-uptime-monitor and provider-native heartbeat-failure portions
-of TD-020. Task 5.19 owns the remaining hosted R2 round-trip recovery evidence. Hosted Stripe and
+of TD-020. Task 5.19 subsequently completes the hosted synthetic R2 round-trip recovery evidence. Hosted Stripe and
 partner callbacks, application-log drains, and customer journeys remain separate activation work.

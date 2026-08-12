@@ -53,11 +53,18 @@ rendered contributor templates, protected `main` and `develop` branches, and clo
 prove that required `Repository validation` succeeds for the approved baseline and blocks a
 controlled failure. TD-021–TD-024, TD-026, and TD-028–TD-031 are Verified.
 
-Sprint 05 is reopened against its original acceptance criteria. Tasks 5.1–5.18 are complete,
+Sprint 05 is reopened against its original acceptance criteria. Tasks 5.1–5.19 are complete,
 including the local 125/125 encrypted restore, Better Stack public monitor, controlled incidents,
-and explicit heartbeat-failure recovery. Task 5.19 still requires the hosted R2 download/decrypt/
-reconcile/delete round trip; Task 5.20 owns hosted synthetic identity/request-security proof; Task
-5.21 owns final validation and closure. TD-013, TD-017, and TD-020 remain In progress.
+explicit heartbeat-failure recovery, and hosted R2 download/decrypt/restore/reconcile/delete proof.
+Task 5.20 has applied and hardened the hosted schema; proved hosted Auth, contextual authorisation,
+disabled break-glass, anonymous/RPC and inactive-route boundaries; and configured Brevo custom SMTP
+with a verified sender and authenticated domain. Recovery delivery passes; the support invitation
+initially hard-bounced, but external inbox proof confirmed the new alias, the stale Brevo suppression
+was removed, and the final approved invitation was Delivered. Task 5.20 is complete with zero
+hosted Auth users remaining. Direct provider Auth links
+remain activation-gated behind FC-001's future first-party confirmation/OTP boundary. First-enabled-route WAF/rate proof
+remains an activation gate. Task 5.21 owns final validation and closure. TD-013, TD-017, and TD-020
+remain In progress.
 
 External decision preparation may begin early, but a sprint cannot claim completion until its prerequisites and acceptance evidence are satisfied.
 

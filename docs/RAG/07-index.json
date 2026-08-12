@@ -160,7 +160,7 @@
         "simulated-consent-containment",
         "simulated-account-containment"
       ],
-      "status": "hosted-round-trip-pending",
+      "status": "verified-task-evidence",
       "implementation_commit": "3c1ff01",
       "last_updated": "2026-08-06"
     },
@@ -1029,8 +1029,8 @@
       "status": "activation-follow-through",
       "primary_debt": ["TD-014", "TD-015", "TD-017", "TD-018", "TD-019", "TD-020", "TD-055"],
       "implementation_follow_through": ["TD-013", "TD-016"],
-      "task_count": 17,
-      "last_updated": "2026-08-11"
+      "task_count": 21,
+      "last_updated": "2026-08-12"
     },
     {
       "id": "phase-01-sprint-05-task-01",
@@ -1321,8 +1321,24 @@
         "guarded GitHub hosted recovery runner",
         "hosted encrypted upload and failed-write proof",
         "missed-heartbeat acknowledgement and automatic recovery",
-        "hosted download decrypt reconcile and cleanup residual",
-        "TD-020 recovery residuals"
+        "hosted download decrypt restore reconcile and cleanup proof",
+        "TD-020 hosted recovery evidence"
+      ],
+      "last_updated": "2026-08-12"
+    },
+    {
+      "id": "phase-01-sprint-05-task-20",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-20-hosted-identity-request-security-evidence.md",
+      "status": "completed",
+      "authority_for": [
+        "Task 5.20 current status",
+        "hosted Supabase schema and Auth hardening",
+        "hosted synthetic identity and contextual-authorisation proof",
+        "disabled break-glass and inactive request-security proof",
+        "Brevo custom SMTP configuration",
+        "Brevo delivery and support-mailbox reconciliation evidence",
+        "future first-party Auth confirmation activation gate",
+        "TD-013 TD-017 and TD-020 hosted follow-through"
       ],
       "last_updated": "2026-08-12"
     },
@@ -1372,6 +1388,10 @@
         "supabase",
         "neon",
         "authentication",
+        "first-party-auth-confirmation",
+        "token-hash",
+        "otp",
+        "link-rewriting",
         "brevo",
         "email",
         "cloudflare-r2",

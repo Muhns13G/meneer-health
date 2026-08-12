@@ -136,15 +136,15 @@ Task 4.10 declares it in CI, and Task 4.12 verifies hosted enforcement.
 
 ## Route Behaviour
 
-| Route or surface                 | Verified state                                                                                                                       |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `/`                              | Public responsive marketing homepage with established dark/gold messaging and a local placeholder mark.                              |
-| `/start`                         | Explicit non-transactional gate; preserved account, consent, and intake prototype is not rendered.                                   |
-| `/peptides`                      | Peptides-first marketing plus a non-transactional gate on `itws-I`; no questionnaire or partner submission is active.                |
-| `/poster`, `/poster-thanks`      | Explicit inactive campaign gates; no QR or confirmation action is exposed.                                                           |
-| `/privacy`, `/terms`, `/contact` | Website-only policies are owner-approved; the support mailbox exists, is owner-monitored daily, and has confirmed security controls. |
-| `/mcp`, `/.mcp/*`                | Removed; local development and production preview return the ordinary HTML `404`.                                                    |
-| OAuth metadata                   | Removed; `/.well-known/oauth-protected-resource` returns the ordinary HTML `404`.                                                    |
+| Route or surface                 | Verified state                                                                                                        |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `/`                              | Public responsive marketing homepage with established dark/gold messaging and a local placeholder mark.               |
+| `/start`                         | Explicit non-transactional gate; preserved account, consent, and intake prototype is not rendered.                    |
+| `/peptides`                      | Peptides-first marketing plus a non-transactional gate on `itws-I`; no questionnaire or partner submission is active. |
+| `/poster`, `/poster-thanks`      | Explicit inactive campaign gates; no QR or confirmation action is exposed.                                            |
+| `/privacy`, `/terms`, `/contact` | Website-only policies are owner-approved; external and Brevo delivery to the monitored support alias are verified.    |
+| `/mcp`, `/.mcp/*`                | Removed; local development and production preview return the ordinary HTML `404`.                                     |
+| OAuth metadata                   | Removed; `/.well-known/oauth-protected-resource` returns the ordinary HTML `404`.                                     |
 
 ## Verified Validation Snapshot
 
@@ -248,7 +248,9 @@ An owner-approved controlled-pilot charter defines a 30-day invite-only adult So
 peptide-only transactions, gated non-peptide journeys, operating roles, data boundaries, success
 measures, stop criteria, activation prerequisites, exit review, and a separate public-launch gate.
 The repository owner confirms that the general mailbox exists, is personally monitored every day,
-and has the required security controls. TD-005 and TD-056 are Verified.
+and has the required security controls. External inbox proof plus a final delivered Supabase/Brevo
+invitation verify the support alias after stale hard-bounce suppression was removed. TD-005 and
+TD-056 are Verified.
 
 ## Sprint 1.10 Claims and Peptide Close-out Audit
 
@@ -874,9 +876,62 @@ Evidence: [`sprint-05-18-better-stack-uptime-evidence.md`](../02-implementation-
 - The repository now implements R2 read-after-write, encrypted-body and checksum validation,
   decryption, isolated PostgreSQL restore/fingerprint reconciliation, synthetic-object deletion and
   heartbeat-after-verification ordering. The local Docker acceptance exercise restored all three
-  records with an identical fingerprint. Task 5.19 remains open only until this path passes in the
-  hosted workflow. Hosted Supabase still contains no application migrations, so production
+  records with an identical fingerprint. Run `31551448469` on commit `64b014d` passes this complete
+  hosted path, deletes the synthetic object and emits the zero-field heartbeat only afterward.
+  Better Stack recorded the heartbeat and remains Up. Task 5.19 is complete. Hosted Supabase still
+  contains no application migrations, so production
   scheduling remains disabled. Task 5.20 owns hosted synthetic identity/request-security proof.
   TD-020 remains In progress.
 
 Evidence: [`sprint-05-19-hosted-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).
+
+### Sprint 05.20 hosted security progress — 12 August 2026
+
+- All twelve application/hardening migrations are applied to hosted Supabase. All 33 public tables
+  have RLS enabled; anonymous table and auto-RLS RPC calls fail with `42501`.
+- The automatic-RLS SECURITY DEFINER helper is retained for future tables but is executable only by
+  `postgres`; its former browser-role advisor warnings are cleared.
+- A repeatable hosted exercise confirms the public site returns `200`, while unregistered mutation,
+  cross-origin preflight and disabled checkout requests remain hidden `404` responses with no CORS
+  allowance and no stored/logged payload.
+- Hosted Auth remains unactivated for product journeys, but its owner-approved restrictions are
+  saved: public signup/manual linking/anonymous sign-in are disabled; confirmation and hardened
+  password controls are enabled; the Site/redirect URL is `https://meneerhealth.co.za`; access
+  tokens expire after 900 seconds; refresh replay detection and TOTP/AAL2 remain enabled. The modern
+  server secret is kept only in ignored mode-`0600` local configuration. Hosted Auth,
+  authorisation, disabled-break-glass and inactive request-security exercises pass. Provider-side
+  session time-box/inactivity controls require a paid Supabase plan, so the application session
+  ledger remains authoritative.
+- Brevo custom SMTP is enabled in Supabase on port 587 with a verified
+  `sales@meneerhealth.co.za` sender and authenticated `meneerhealth.co.za` domain. Supabase accepted
+  an approved synthetic invitation and password-recovery request; Brevo delivered recovery to the
+  verified sender but hard-bounced the invitation to `support@meneerhealth.co.za` because that
+  recipient account did not exist. Both temporary Auth users were removed and hosted Auth user
+  count returned to zero.
+- After the owner added the mailbox aliases, Supabase accepted a second support invitation. Brevo
+  recorded it as Sent and briefly Delivered, then assigned the same final Hard bounce. The attempted
+  recovery repeat stopped at Supabase user creation, so the earlier delivered recovery remains the
+  recovery proof. Cleanup again returned Auth users to zero.
+- The owner then proved ordinary external delivery to the support alias. Brevo's resulting stale
+  hard-bounce suppression was removed, and the final approved Supabase invitation reached Delivered
+  at 12:40. Its temporary Auth user was deleted and hosted Auth users remained zero. Task 5.20 is
+  complete.
+- A subsequent recovery retry exposed retained-identity relinking: provider-account deletion keeps
+  the stable internal subject/contact, while Supabase recreates an Auth user before applying email
+  confirmation. Two repository/hosted migrations now relink during that initial insert. The hosted
+  retry created the returning identity, accepted recovery, reused one subject/contact and removed
+  the temporary Auth user. Exact guarded cleanup returned Auth users and all `sales@` synthetic
+  subject/contact/provider rows to zero. The remaining stale Brevo suppression on `sales@` was
+  removed, and the final approved recovery email reached Gmail at 13:12 without its token-bearing
+  link being opened or recorded. A clean local reset applied all twelve migrations and passed nine
+  pgTAP files / 296 assertions before Supabase was stopped cleanly.
+- Brevo rewrites token-bearing links and exposes only anonymous, not disabled, tracking. Direct
+  provider Auth links therefore remain activation-gated. A future Meneer-owned `/auth/confirm`
+  `TokenHash` or deliberate OTP boundary is recorded in FC-001; it is not required while all
+  customer identity journeys remain disabled.
+- Temporary synthetic database fixtures were removed by exact IDs. Hosted Auth users and all
+  non-audit workflow/identity fixtures are zero. One synthetic tenant and three synthetic subjects
+  remain only as foreign-key dependencies for immutable relationship-denial and disabled-break-glass
+  audit events; the 12 governed fulfilment gates also remain.
+
+Evidence: [`sprint-05-20-hosted-identity-request-security-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-20-hosted-identity-request-security-evidence.md).
