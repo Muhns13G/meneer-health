@@ -53,6 +53,12 @@ export const PUBLIC_ROUTE_POLICIES = [
   },
 ] as const satisfies readonly PublicRoutePolicy[];
 
+export const INDEXABLE_PUBLIC_ROUTES = PUBLIC_ROUTE_POLICIES.filter(
+  (route) => route.indexing === "index-follow",
+);
+
+const ROBOTS_DISALLOW_PATHS = ["/api/", "/go/", "/peptides", "/poster", "/start"] as const;
+
 const prohibitedIntentQueryKeys = new Set([
   "condition",
   "diagnosis",
@@ -77,4 +83,27 @@ export function getCanonicalPublicUrl(path: string): string {
     throw new Error("CANONICAL_PATH_INVALID");
   }
   return new URL(path, CANONICAL_PUBLIC_ORIGIN).toString();
+}
+
+export function isIndexablePublicPath(path: string): boolean {
+  return INDEXABLE_PUBLIC_ROUTES.some((route) => route.path === path);
+}
+
+export function renderRobotsTxt(): string {
+  return [
+    "User-agent: *",
+    "Allow: /",
+    ...ROBOTS_DISALLOW_PATHS.map((path) => `Disallow: ${path}`),
+    "",
+    `Sitemap: ${getCanonicalPublicUrl("/sitemap.xml")}`,
+    "",
+  ].join("\n");
+}
+
+export function renderSitemapXml(): string {
+  const urls = INDEXABLE_PUBLIC_ROUTES.map(
+    (route) => `  <url>\n    <loc>${getCanonicalPublicUrl(route.path)}</loc>\n  </url>`,
+  ).join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }

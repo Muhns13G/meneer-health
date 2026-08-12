@@ -44,6 +44,8 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run typecheck` runs strict TypeScript validation without emitting files.
 - `bun run check:portability` verifies retained capabilities, contract majors, portable fixtures,
   and referenced schema migrations remain internally consistent.
+- `bun run check:discovery` verifies committed robots and sitemap outputs match the approved route
+  policy.
 - `bun run check:cloudflare-types` rejects stale generated Worker binding/runtime types.
 - `bun run deploy:dry-run` builds and validates the Cloudflare upload without deploying.
 - `bun run lint` runs ESLint and Prettier checks.
