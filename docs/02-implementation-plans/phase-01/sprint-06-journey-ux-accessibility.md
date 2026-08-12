@@ -50,7 +50,7 @@ Primary debt: TD-035–TD-039 and TD-042–TD-044.
 | ---- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | --------- |
 | 6.1  | Rebaseline the retained journey, freeze route/indexability and safe-intent contracts, and record the implementation sequence.            | All Sprint 06 debt        | Completed |
 | 6.2  | Replace page-local shared hashes with route-aware links and prove every shared destination across retained routes and viewports.         | TD-035                    | Completed |
-| 6.3  | Implement typed, server-validated treatment intent without URL, analytics, referrer, log, or third-party leakage; fail closed otherwise. | TD-036; activation gates  | Planned   |
+| 6.3  | Implement typed, server-validated treatment intent without URL, analytics, referrer, log, or third-party leakage; fail closed otherwise. | TD-036; activation gates  | Completed |
 | 6.4  | Correct form labels, descriptions, autocomplete/input modes, required state, validation, and accessible error summaries.                 | TD-037                    | Planned   |
 | 6.5  | Add stepped-flow focus management, progress semantics, live status/error announcements, and navigation-state preservation.               | TD-038                    | Planned   |
 | 6.6  | Implement mobile disclosure semantics, focus behavior, Escape/outside handling, resize behavior, and route-change closure.               | TD-039                    | Planned   |
