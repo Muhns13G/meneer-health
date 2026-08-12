@@ -53,11 +53,11 @@ rendered contributor templates, protected `main` and `develop` branches, and clo
 prove that required `Repository validation` succeeds for the approved baseline and blocks a
 controlled failure. TD-021–TD-024, TD-026, and TD-028–TD-031 are Verified.
 
-Sprint 05 is implementation-complete through Task 5.17. The local suite, database integrations,
-incident exercise, 125/125 encrypted restore, Cloudflare dry run, desktop/mobile browser matrix,
-and current canonical response boundary pass. Final verified closure awaits the owner's Task 5.17
-commit/push and required hosted workflow at that exact commit. TD-013, TD-017, and TD-020 retain
-activation-specific evidence without negating the completed inactive foundations.
+Sprint 05 is reopened against its original acceptance criteria. Tasks 5.1–5.18 are complete,
+including the local 125/125 encrypted restore, Better Stack public monitor, controlled incidents,
+and explicit heartbeat-failure recovery. Task 5.19 still requires the hosted R2 download/decrypt/
+reconcile/delete round trip; Task 5.20 owns hosted synthetic identity/request-security proof; Task
+5.21 owns final validation and closure. TD-013, TD-017, and TD-020 remain In progress.
 
 External decision preparation may begin early, but a sprint cannot claim completion until its prerequisites and acceptance evidence are satisfied.
 

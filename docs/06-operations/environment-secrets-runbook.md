@@ -65,8 +65,9 @@ print-proof values fail the build with a safe message that does not echo the sup
   never fall back to a preview, test, or developer credential.
 - **Hosted recovery runner:** store sensitive Task 5.19 values as GitHub Actions secrets and the
   bucket/account/activation identifiers as repository variables. Keep
-  `RECOVERY_EXPORT_ENABLED=false` until the hosted schema, encryption-key custody, synthetic
-  success/failure evidence, alert recovery, and isolated restore all pass.
+  `RECOVERY_EXPORT_ENABLED=false` until the hosted schema, independent off-device encryption-key
+  custody, production database export, and isolated production-format restore pass. The synthetic
+  success/failure and alert/recovery evidence passed on 12 August 2026.
 
 Record only the variable name, environment, owner, provisioning time, and verification outcome.
 Never record its value in Git, RAG, issues, screenshots, CI artefacts, logs, or chat.

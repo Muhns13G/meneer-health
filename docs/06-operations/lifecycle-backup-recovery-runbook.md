@@ -54,16 +54,20 @@ heartbeat are provisioned. The public Worker deliberately has no recovery bindin
 owns the hourly runner because it can execute the PostgreSQL 17 dump image; the schedule remains
 fail-closed while repository variable `RECOVERY_EXPORT_ENABLED` is not the exact string `true`.
 
-Before the first controlled dispatch, the repository owner must:
+The Task 5.19 controlled synthetic dispatch, private-object inspection, failed-write/no-heartbeat
+exercise, missed-heartbeat acknowledgement, and automatic recovery passed on 12 August 2026. The
+permanent bucket variable and one-hour/15-minute heartbeat policy were restored after the exercise.
+
+Before production activation, the repository owner must:
 
 1. generate a 32-byte encryption key, store its base64 form as GitHub secret
    `RECOVERY_ENCRYPTION_KEY_BASE64`, and retain an independently secured recovery copy;
-2. run the committed workflow manually with source `synthetic`, verify a private encrypted R2
-   object and the first Better Stack heartbeat, and retain only redacted evidence;
-3. deliberately fail the R2 write with a reversible invalid bucket configuration, verify that no
-   success heartbeat is emitted, then restore the configuration and prove alert recovery; and
+2. retain the verified synthetic success/failure and alert/recovery evidence without exposing
+   secret values or encrypted object contents;
+3. retain an independently secured off-device copy of the encryption key and rehearse its recovery
+   with authorised custodians; and
 4. only after hosted migrations are approved, store an IPv4-compatible Supabase session-pooler
-   connection as `SUPABASE_DB_URL`, prove an isolated restore, then set
+   connection as `SUPABASE_DB_URL`, prove an isolated production-format restore, then set
    `RECOVERY_EXPORT_ENABLED=true`.
 
 No hosted credential or endpoint belongs in Git, Worker configuration, `VITE_*`, logs, command

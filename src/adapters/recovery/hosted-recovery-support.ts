@@ -67,15 +67,142 @@ export type CommandRunner = (
   executable: string,
   args: readonly string[],
   options: { env?: NodeJS.ProcessEnv; maxBuffer?: number },
-) => void;
+) => string;
 
 const defaultCommandRunner: CommandRunner = (executable, args, options) => {
-  execFileSync(executable, [...args], {
+  return execFileSync(executable, [...args], {
+    encoding: "utf8",
     env: options.env,
     maxBuffer: options.maxBuffer,
-    stdio: ["ignore", "ignore", "pipe"],
+    stdio: ["ignore", "pipe", "pipe"],
   });
 };
+
+export type SyntheticLogicalDump = Readonly<{
+  payload: Uint8Array<ArrayBuffer>;
+  recordCount: number;
+  fingerprint: string;
+}>;
+
+const syntheticDatabaseScript = String.raw`
+export PGDATA=/tmp/meneer-source
+mkdir -p "$PGDATA"
+chown postgres:postgres "$PGDATA"
+chmod 644 /recovery/seed.sql
+gosu postgres initdb --username=postgres --auth=trust >/dev/null
+gosu postgres pg_ctl -w start >/dev/null
+gosu postgres createdb --username=postgres recovery_source
+gosu postgres psql --username=postgres --dbname=recovery_source --set=ON_ERROR_STOP=1 --file=/recovery/seed.sql >/dev/null
+gosu postgres psql --username=postgres --dbname=recovery_source --tuples-only --no-align --command="select count(*)::text || ':' || md5(string_agg(id::text || ':' || marker, '|' order by id)) from public.recovery_probe" > /recovery/source.fingerprint
+gosu postgres pg_dump --username=postgres --dbname=recovery_source -Fc --no-owner --no-acl --table=public.recovery_probe > /recovery/recovery.dump
+gosu postgres pg_ctl -m fast -w stop >/dev/null
+`;
+
+const syntheticRestoreScript = String.raw`
+export PGDATA=/tmp/meneer-restore
+mkdir -p "$PGDATA"
+chown postgres:postgres "$PGDATA"
+chmod 644 /recovery/downloaded.dump
+gosu postgres initdb --username=postgres --auth=trust >/dev/null
+gosu postgres pg_ctl -w start >/dev/null
+gosu postgres createdb --username=postgres recovery_restore
+gosu postgres pg_restore --username=postgres --dbname=recovery_restore --no-owner --no-acl --exit-on-error /recovery/downloaded.dump
+gosu postgres psql --username=postgres --dbname=recovery_restore --tuples-only --no-align --command="select count(*)::text || ':' || md5(string_agg(id::text || ':' || marker, '|' order by id)) from public.recovery_probe" > /recovery/restored.fingerprint
+gosu postgres pg_ctl -m fast -w stop >/dev/null
+`;
+
+const syntheticSeedSql = `
+create table public.recovery_probe (
+  id integer primary key,
+  marker text not null
+);
+insert into public.recovery_probe (id, marker) values
+  (1, 'synthetic-alpha'),
+  (2, 'synthetic-beta'),
+  (3, 'synthetic-gamma');
+`;
+
+export function createSyntheticLogicalDump(
+  outputDirectory: string,
+  command: CommandRunner = defaultCommandRunner,
+): SyntheticLogicalDump {
+  const dumpPath = join(outputDirectory, "recovery.dump");
+  const fingerprintPath = join(outputDirectory, "source.fingerprint");
+  try {
+    writeFileSync(join(outputDirectory, "seed.sql"), syntheticSeedSql, { mode: 0o600 });
+    command(
+      "docker",
+      [
+        "run",
+        "--rm",
+        "-v",
+        `${outputDirectory}:/recovery`,
+        "postgres:17.6-alpine",
+        "sh",
+        "-ceu",
+        syntheticDatabaseScript,
+      ],
+      { maxBuffer: 16 * 1024 * 1024 },
+    );
+    const fingerprint = readFileSync(fingerprintPath, "utf8").trim();
+    const recordCount = Number.parseInt(fingerprint.split(":", 1)[0] ?? "", 10);
+    if (!/^3:[a-f0-9]{32}$/.test(fingerprint) || recordCount !== 3) {
+      throw new Error("HOSTED_RECOVERY_SYNTHETIC_FINGERPRINT_INVALID");
+    }
+    return {
+      payload: Uint8Array.from(readFileSync(dumpPath)),
+      recordCount,
+      fingerprint,
+    };
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "HOSTED_RECOVERY_SYNTHETIC_FINGERPRINT_INVALID"
+    ) {
+      throw error;
+    }
+    throw new Error("HOSTED_RECOVERY_SYNTHETIC_DUMP_FAILED", { cause: error });
+  }
+}
+
+export function restoreAndReconcileSyntheticLogicalDump(
+  payload: Uint8Array<ArrayBuffer>,
+  expectedFingerprint: string,
+  outputDirectory: string,
+  command: CommandRunner = defaultCommandRunner,
+): { recordCount: number; fingerprint: string } {
+  const restoredFingerprintPath = join(outputDirectory, "restored.fingerprint");
+  try {
+    writeFileSync(join(outputDirectory, "downloaded.dump"), payload, { mode: 0o600 });
+    command(
+      "docker",
+      [
+        "run",
+        "--rm",
+        "-v",
+        `${outputDirectory}:/recovery`,
+        "postgres:17.6-alpine",
+        "sh",
+        "-ceu",
+        syntheticRestoreScript,
+      ],
+      { maxBuffer: 16 * 1024 * 1024 },
+    );
+    const fingerprint = readFileSync(restoredFingerprintPath, "utf8").trim();
+    if (fingerprint !== expectedFingerprint) {
+      throw new Error("HOSTED_RECOVERY_RECONCILIATION_FAILED");
+    }
+    return {
+      recordCount: Number.parseInt(fingerprint.split(":", 1)[0] ?? "", 10),
+      fingerprint,
+    };
+  } catch (error) {
+    if (error instanceof Error && error.message === "HOSTED_RECOVERY_RECONCILIATION_FAILED") {
+      throw error;
+    }
+    throw new Error("HOSTED_RECOVERY_SYNTHETIC_RESTORE_FAILED", { cause: error });
+  }
+}
 
 export function createProductionLogicalDump(
   databaseUrl: string,
@@ -135,9 +262,7 @@ export class S3R2RecoveryArchiveStore implements RecoveryArchiveStore {
   }
 
   async put(objectKey: string, body: string): Promise<void> {
-    if (!/^\d{4}-\d{2}-\d{2}\/[a-f0-9-]{36}\.json\.enc$/.test(objectKey)) {
-      throw new Error("RECOVERY_OBJECT_KEY_INVALID");
-    }
+    this.assertObjectKey(objectKey);
     const directory = mkdtempSync(join(tmpdir(), "meneer-r2-recovery-"));
     const encryptedPath = join(directory, "archive.json.enc");
     try {
@@ -175,5 +300,70 @@ export class S3R2RecoveryArchiveStore implements RecoveryArchiveStore {
     } finally {
       rmSync(directory, { recursive: true, force: true });
     }
+  }
+
+  async get(objectKey: string): Promise<string> {
+    this.assertObjectKey(objectKey);
+    const directory = mkdtempSync(join(tmpdir(), "meneer-r2-recovery-read-"));
+    const encryptedPath = join(directory, "archive.json.enc");
+    try {
+      this.command(
+        "aws",
+        [
+          "s3api",
+          "get-object",
+          "--endpoint-url",
+          `https://${this.accountId}.eu.r2.cloudflarestorage.com`,
+          "--bucket",
+          this.bucket,
+          "--key",
+          objectKey,
+          encryptedPath,
+        ],
+        { env: this.awsEnvironment(), maxBuffer: 16 * 1024 * 1024 },
+      );
+      return readFileSync(encryptedPath, "utf8");
+    } catch {
+      throw new Error("RECOVERY_DURABLE_READ_FAILED");
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  }
+
+  async delete(objectKey: string): Promise<void> {
+    this.assertObjectKey(objectKey);
+    try {
+      this.command(
+        "aws",
+        [
+          "s3api",
+          "delete-object",
+          "--endpoint-url",
+          `https://${this.accountId}.eu.r2.cloudflarestorage.com`,
+          "--bucket",
+          this.bucket,
+          "--key",
+          objectKey,
+        ],
+        { env: this.awsEnvironment(), maxBuffer: 16 * 1024 * 1024 },
+      );
+    } catch {
+      throw new Error("RECOVERY_SYNTHETIC_CLEANUP_FAILED");
+    }
+  }
+
+  private assertObjectKey(objectKey: string): void {
+    if (!/^\d{4}-\d{2}-\d{2}\/[a-f0-9-]{36}\.json\.enc$/.test(objectKey)) {
+      throw new Error("RECOVERY_OBJECT_KEY_INVALID");
+    }
+  }
+
+  private awsEnvironment(): NodeJS.ProcessEnv {
+    return {
+      ...process.env,
+      AWS_ACCESS_KEY_ID: this.accessKeyId,
+      AWS_SECRET_ACCESS_KEY: this.secretAccessKey,
+      AWS_DEFAULT_REGION: "auto",
+    };
   }
 }

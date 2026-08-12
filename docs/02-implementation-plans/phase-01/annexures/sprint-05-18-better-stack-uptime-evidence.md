@@ -44,9 +44,17 @@ Provider incident `1000271634` remains as the durable Better Stack record. The u
 `octothorp.co.za` sample incident and onboarding telemetry are provider demonstration content and
 are not Meneer evidence.
 
+## Explicit Heartbeat Failure Evidence
+
+The backup heartbeat's provider-native `/fail` endpoint was exercised on 12 August 2026 without a
+payload, output, query parameter, or Meneer identifier. Better Stack immediately marked the
+heartbeat Down and opened incident `1000427137`. The owner acknowledged the incident, then encrypted
+recovery run `31547525522` completed successfully and emitted the ordinary payload-free heartbeat.
+Better Stack resolved the incident automatically and returned the heartbeat to Up. The permanent
+one-hour interval and 15-minute grace policy were unchanged.
+
 ## Scope and Residual Gates
 
-Task 5.18 completes the hosted public-uptime-monitor and incident-response portion of TD-020. It
-does not create a Better Stack backup heartbeat, private EU R2 bucket, hosted Stripe webhook,
-partner callback, application-log drain or customer journey. TD-020 therefore remains **In
-progress** until those separately assigned hosted integrations are provisioned and fail-tested.
+Task 5.18 completes the hosted public-uptime-monitor and provider-native heartbeat-failure portions
+of TD-020. Task 5.19 owns the remaining hosted R2 round-trip recovery evidence. Hosted Stripe and
+partner callbacks, application-log drains, and customer journeys remain separate activation work.

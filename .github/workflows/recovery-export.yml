@@ -55,5 +55,5 @@ jobs:
           aws --version
           docker --version
 
-      - name: Create encrypted off-site recovery export
+      - name: Create and verify encrypted off-site recovery export
         run: bun run recovery:hosted
