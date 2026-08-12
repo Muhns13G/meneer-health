@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { supportChannels } from "@/lib/support-channels";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -64,9 +65,9 @@ function PrivacyPage() {
                 Information you choose to include when emailing{" "}
                 <a
                   className="text-gold underline underline-offset-4"
-                  href="mailto:support@meneerhealth.co.za"
+                  href={supportChannels.general.href}
                 >
-                  support@meneerhealth.co.za
+                  {supportChannels.general.email}
                 </a>
                 . Please do not send symptoms, medical records, identity documents, prescriptions,
                 payment details, or other sensitive information to this general inbox.
@@ -98,14 +99,17 @@ function PrivacyPage() {
             </h2>
             <p className="mt-3">
               Subject to applicable law, you may ask whether we hold your personal information and
-              request access, correction, deletion, or an objection to processing. Send a request to{" "}
+              request access, correction, deletion, or an objection to processing. A dedicated
+              privacy channel and accountable privacy contact are not yet published. Email{" "}
               <a
                 className="text-gold underline underline-offset-4"
-                href="mailto:support@meneerhealth.co.za"
+                href={supportChannels.general.href}
               >
-                support@meneerhealth.co.za
-              </a>
-              . You may also submit a complaint through the{" "}
+                {supportChannels.general.email}
+              </a>{" "}
+              only to request secure follow-up; do not include identifiers, documents, health
+              information, or request details in ordinary email. You may also submit a complaint
+              through the{" "}
               <a
                 className="text-gold underline underline-offset-4"
                 href="https://inforegulator.org.za/popia/"
