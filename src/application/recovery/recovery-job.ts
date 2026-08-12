@@ -16,10 +16,18 @@ export type RecoveryJobInput = Readonly<{
   keyReference: string;
 }>;
 
+export type StoredRecoveryArchive = Readonly<{
+  objectKey: string;
+  serializedArchive: string;
+}>;
+
+export type StoredRecoveryArchiveVerifier = (archive: StoredRecoveryArchive) => Promise<void>;
+
 export async function runRecoveryExportJob(
   input: RecoveryJobInput,
   store: RecoveryArchiveStore,
   heartbeat: BackupHeartbeat,
+  verifyStoredArchive?: StoredRecoveryArchiveVerifier,
 ): Promise<{ backupId: string; heartbeatDelivered: true }> {
   const archive = await encryptRecoveryArchive(
     input.manifest,
@@ -28,7 +36,9 @@ export async function runRecoveryExportJob(
     input.keyReference,
   );
   const objectKey = `${input.manifest.createdAt.slice(0, 10)}/${input.manifest.backupId}.json.enc`;
-  await store.put(objectKey, JSON.stringify(archive));
+  const serializedArchive = JSON.stringify(archive);
+  await store.put(objectKey, serializedArchive);
+  await verifyStoredArchive?.({ objectKey, serializedArchive });
   await heartbeat.success();
   return { backupId: input.manifest.backupId, heartbeatDelivered: true };
 }
