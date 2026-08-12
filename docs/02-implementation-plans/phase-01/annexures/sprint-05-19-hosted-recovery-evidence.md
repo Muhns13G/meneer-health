@@ -81,11 +81,20 @@ remains a production-activation control.
   heartbeat.
 - The permanent heartbeat policy was restored and verified as Up with a one-hour interval,
   15-minute grace period, controlled email notification, and three-minute team escalation.
-- The corrected local acceptance exercise created a 3,349-byte PostgreSQL 17.6 custom-format dump,
-  restored all three synthetic records into a fresh isolated database, and matched the source and
-  restored fingerprints. Unit coverage also proves read-after-write ordering, decryption and
+- The corrected local acceptance exercise created a PostgreSQL 17.6 custom-format dump, restored
+  all three synthetic records into a fresh isolated database, and matched the source and restored
+  fingerprints. Unit coverage also proves read-after-write ordering, decryption and
   reconciliation failures suppress the success heartbeat, and synthetic object deletion is
   attempted through the verification cleanup boundary.
+- Hosted run `31550028743` on commit `306ac89` correctly failed before storage or heartbeat because
+  GitHub's owner-only temporary directory prevented the container's `postgres` user from traversing
+  the bind mount. The follow-up correction keeps host files private, copies the synthetic input into
+  the container as root, performs database work under `postgres`, and copies only the resulting dump
+  and fingerprint back as root. Run `31550818439` on commit `6f0a837` then advanced through database
+  creation and dump generation but failed when the runner could not read those root-owned synthetic
+  outputs at mode `0600`. The follow-up limits runner-readable mode `0644` to the non-sensitive fixed
+  synthetic dump and fingerprints; real production dumps, keys and encrypted objects are unchanged.
+  The corrected local Docker round trip passes; a new hosted run is still required.
 
 Task 5.19 remains open against its original acceptance criteria until a provider-backed exercise
 successfully exercises the newly implemented upload/download/decrypt/restore/reconcile/delete path
