@@ -36,6 +36,24 @@ gates remain governed by TD-006, TD-007, TD-009, TD-010, FC-001, and the release
 | Hosted request security         | Public read 200; unregistered mutation, preflight and disabled checkout remain 404 with no CORS or logged payload |
 | Hosted Supabase                 | Active/healthy; 12 migrations; no new security warning/error; intended deny-all RLS notices only                  |
 
+## Preview-Branch CI Reconciliation
+
+Preview CI initially exposed two separate test-contract gaps on `/peptides`. Run `31594260427`
+failed because the shared fixture expected only the permanent branch's fail-closed heading, while
+the preview branch intentionally renders the approved draft-video heading. After that heading
+contract was reconciled, run `31596653547` exposed Chromium's normal media-preload cancellation:
+Vite returned the 6.7 MB MP4 correctly as `206 Partial Content` and `video/mp4`, but Chromium stopped
+the remaining transfer after reading metadata and reported `net::ERR_ABORTED`.
+
+The final test contract accepts exactly the two approved headings, ignores only an aborted request
+whose resource type is `media` and failure reason is `net::ERR_ABORTED`, and independently requests
+each configured video source. A video must return `200` or `206` with a `video/mp4` content type;
+a deliberate missing-media control correctly failed with `404`.
+
+GitHub Actions run `31600466333` passed on `itws-I-preview` at commit
+`2f0574bce488915252bcd344501bd6bcacbe9e44`. No route logic, video behavior, or customer-facing
+wording changed during this correction.
+
 ## Hosted Cleanup and Advisor Review
 
 The final read-only inventory found five orphaned synthetic provider identities created during the
@@ -53,6 +71,7 @@ exists and do not block the inactive pilot foundation.
 ## Closure Boundary
 
 No production data, live payment, customer Auth link, provider callback, or public mutation was
-enabled or exercised. The repository owner must commit and push Task 5.21 and confirm the required
-hosted repository workflow at that exact commit. A failed workflow reopens only the failed closure
-check, not the already verified hosted provider evidence.
+enabled or exercised. The preview branch's required repository workflow passes at the recorded
+commit. The same correction must be present in the permanent branch before its production merge;
+a later failed workflow reopens only the failed closure check, not the already verified hosted
+provider evidence.
