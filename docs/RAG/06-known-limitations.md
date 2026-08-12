@@ -158,12 +158,15 @@ monitoring evidence remain absent.
 Task 5.12 adds strict custom Worker telemetry, local alert thresholds, a passing controlled incident
 exercise and append-only identified denial evidence. Task 5.18 adds hosted Better Stack public
 monitor activation, email delivery, acknowledgement and recovery evidence without connecting an
-application-log source. Automatic invocation logs remain disabled. Task 5.19 provisions private EU
-R2, 35-day expiry, a bucket-only writer, a disabled GitHub runner, and the payload-free heartbeat.
-The first hosted encrypted upload, failed-write/no-heartbeat proof, missed-heartbeat alert/recovery,
-key custody, hosted schema, and isolated hosted restore remain absent.
-Therefore TD-020, TD-013 and TD-017 remain In progress despite the completed repository tasks;
-Task 5.15 subsequently Verified TD-015's repository audit boundary.
+application-log source. Automatic invocation logs remain disabled. Task 5.19 verifies private EU
+R2 encrypted upload, 35-day expiry, durable-write failure without a false heartbeat, and a
+missed-heartbeat acknowledgement/automatic-recovery exercise. Provider-backed download, decryption,
+reconciliation/restore and synthetic-object deletion are implemented and pass the local Docker
+acceptance exercise, but still require one successful hosted workflow run. Its hourly production runner
+remains disabled because hosted schema, production database access, independent off-device key
+custody and an isolated production-format restore are absent. Task 5.20's hosted identity and
+request-security proof is also open. Therefore Sprint 05 and TD-020, TD-013 and TD-017 remain In
+progress; Task 5.15 subsequently Verified TD-015's repository audit boundary.
 
 Task 5.9 implements the shared inactive workflow command boundary. Tasks 5.14–5.15 extend it through
 Stripe test-mode payment and minimum-data partner fulfilment. The latter verifies Precise hand-off,

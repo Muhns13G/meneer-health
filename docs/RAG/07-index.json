@@ -160,7 +160,7 @@
         "simulated-consent-containment",
         "simulated-account-containment"
       ],
-      "status": "verified-task-evidence",
+      "status": "hosted-round-trip-pending",
       "implementation_commit": "3c1ff01",
       "last_updated": "2026-08-06"
     },
@@ -1312,28 +1312,31 @@
     {
       "id": "phase-01-sprint-05-task-19",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md",
-      "status": "hosted-proof-pending",
+      "status": "verified-task-evidence",
       "authority_for": [
         "Task 5.19 current status",
         "private EU R2 recovery provisioning",
         "bucket-only recovery writer and 35-day expiry",
         "payload-free Better Stack backup heartbeat",
         "guarded GitHub hosted recovery runner",
-        "TD-020 hosted recovery residuals"
+        "hosted encrypted upload and failed-write proof",
+        "missed-heartbeat acknowledgement and automatic recovery",
+        "hosted download decrypt reconcile and cleanup residual",
+        "TD-020 recovery residuals"
       ],
-      "last_updated": "2026-08-11"
+      "last_updated": "2026-08-12"
     },
     {
       "id": "phase-01-sprint-05-completion",
       "path": "docs/03-completion-reports/phase-01/sprint-05-data-security-operations.md",
-      "status": "implementation-complete-owner-checkpoint",
+      "status": "reopened-for-original-acceptance",
       "authority_for": [
         "Sprint 05 mission and delivered work",
         "Sprint 05 deviations and lessons",
         "Sprint 05 file inventory",
         "Sprint 05 residual debt and closure boundary"
       ],
-      "last_updated": "2026-08-11"
+      "last_updated": "2026-08-12"
     },
     {
       "id": "phase-01-sprint-06",

@@ -720,8 +720,8 @@ Evidence: [`sprint-05-11-request-security-evidence.md`](../02-implementation-pla
 - Task 5.18 subsequently provisions Better Stack monitor `4799009` for the canonical homepage and
   proves three-minute confirmation, email delivery, 76-second acknowledgement, recovery and
   automatic closure through hosted incident `1000271634`. Task 5.19 provisions the separate
-  payload-free backup heartbeat; its first success and controlled missed-heartbeat proof remain
-  pending.
+  payload-free backup heartbeat and later proves encrypted upload, failed write without false
+  success, missed-heartbeat acknowledgement, and automatic recovery.
 
 Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-12-observability-incident-evidence.md) and [`observability-incident-runbook.md`](../06-operations/observability-incident-runbook.md).
 
@@ -735,13 +735,13 @@ Evidence: [`sprint-05-12-observability-incident-evidence.md`](../02-implementati
 - Complete logical archives are encrypted with AES-256-GCM before durable storage. Private R2 and
   payload-free HTTPS heartbeat adapters enforce storage-before-success ordering and reject unsafe
   keys/URLs or false-success behavior.
-- The local exercise restored a real application-schema archive into an isolated temporary
-  PostgreSQL database and reconciled 62/62 records with matching deterministic checksums in 13
-  seconds. The temporary database and plaintext working file were removed.
+- The final local exercise restored a real application-schema archive into an isolated temporary
+  PostgreSQL database and reconciled 125/125 records with matching deterministic checksums. The
+  temporary database and plaintext working file were removed.
 - Task 5.13 is complete and TD-016 is Verified at repository level. Tasks 5.18–5.19 later activate
-  public uptime and provision the hosted recovery destination/heartbeat boundary. The encrypted
-  upload, failed-write/no-heartbeat, missed-heartbeat alert/recovery, key-custody and isolated hosted
-  restore proofs remain open under TD-020.
+  public uptime and verify the synthetic hosted recovery destination/heartbeat boundary. Production
+  scheduling, independent off-device key custody, hosted database export and isolated
+  production-format restore remain open under TD-020.
 
 Evidence: [`sprint-05-13-lifecycle-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-13-lifecycle-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).
 
@@ -849,26 +849,34 @@ Evidence: [`sprint-05-17-verification-and-closure-evidence.md`](../02-implementa
   automatic closure pass through controlled hosted incident `1000271634`.
 - Better Stack receives only the public URL, status and timing; no Meneer application-log source,
   identity, contact, header, token, query string, request body or health/provider payload is connected.
-- The permanent policy is restored and the monitor is Up. TD-020 remains In progress only for its
-  hosted recovery proof, Stripe webhook, partner callback and future journey evidence.
+- The permanent policy is restored and the monitor is Up. TD-020 remains In progress for hosted
+  recovery, Stripe webhook, partner callback and future journey evidence.
 
 Evidence: [`sprint-05-18-better-stack-uptime-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-18-better-stack-uptime-evidence.md).
 
-### Sprint 05.19 hosted recovery provisioning — 11 August 2026
+### Sprint 05.19 hosted recovery verification — 12 August 2026
 
 - Private EU R2 bucket `meneer-health-recovery-production` uses Standard storage, has no public
   access or Worker binding, and deletes objects after 35 days.
 - Credential `meneer-health-recovery-writer` can read, write and list objects in that bucket only;
   broad existing Cloudflare credentials are not reused.
 - Better Stack heartbeat `481481` expects hourly payload-free success, allows 15 minutes of grace,
-  and uses the controlled email/team escalation path. It remains Pending before the first export.
+  and uses the controlled email/team escalation path. It is Up after the hosted exercise.
 - A dedicated GitHub Actions workflow validates runner-only configuration, produces a PostgreSQL 17
-  custom-format export or fixed synthetic payload, encrypts before upload, and calls the heartbeat
-  only after durable storage. The hourly schedule is disabled with
+  custom-format export from either the governed schemas or a real three-record synthetic database,
+  encrypts before upload, and calls the heartbeat only after the applicable storage and verification
+  path succeeds. The hourly schedule is disabled with
   `RECOVERY_EXPORT_ENABLED=false`.
-- Hosted Supabase still contains no application migrations. The encryption key, production
-  session-pooler URL, first synthetic upload, failed-write/no-heartbeat, missed-heartbeat alert and
-  isolated restore evidence remain owner-controlled acceptance gates. Task 5.19 and TD-020 remain
-  In progress.
+- Successful runs `31545210677` and `31545772038` stored encrypted private objects. Controlled run
+  `31545509397` failed at durable storage without advancing the heartbeat. Missed-heartbeat incident
+  `1000419671` opened, was owner-acknowledged, and resolved automatically after the recovery run.
+  The bucket variable and permanent one-hour/15-minute heartbeat policy were restored and verified.
+- The repository now implements R2 read-after-write, encrypted-body and checksum validation,
+  decryption, isolated PostgreSQL restore/fingerprint reconciliation, synthetic-object deletion and
+  heartbeat-after-verification ordering. The local Docker acceptance exercise restored all three
+  records with an identical fingerprint. Task 5.19 remains open only until this path passes in the
+  hosted workflow. Hosted Supabase still contains no application migrations, so production
+  scheduling remains disabled. Task 5.20 owns hosted synthetic identity/request-security proof.
+  TD-020 remains In progress.
 
 Evidence: [`sprint-05-19-hosted-recovery-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-19-hosted-recovery-evidence.md) and [`lifecycle-backup-recovery-runbook.md`](../06-operations/lifecycle-backup-recovery-runbook.md).

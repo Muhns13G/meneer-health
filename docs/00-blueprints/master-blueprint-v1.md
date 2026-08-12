@@ -247,11 +247,12 @@ and a controlled dependency/break-glass incident exercise. Automatic transport-l
 logs are disabled in favour of allowlisted custom events. Task 5.13 adds verified rights/export/
 erasure/hold workflows, encrypted application-schema recovery archives, private-R2 and payload-free
 heartbeat adapters, and a real isolated synthetic restore with count/checksum reconciliation.
-Task 5.18 provisions and fail-tests the privacy-safe Better Stack public-homepage monitor. TD-016 is
-Verified at repository level. Task 5.19 provisions private EU R2, 35-day expiry, a bucket-only
-writer, guarded GitHub runner and payload-free heartbeat. Hosted encrypted-upload,
-failed-write/no-heartbeat, missed-heartbeat alert/recovery, key-custody and isolated-restore proof
-remain open, as does named legal/provider approval; none of this implies that a customer
+Task 5.18 provisions and fail-tests the privacy-safe Better Stack public-homepage monitor and
+explicit heartbeat-failure path. TD-016 is Verified at repository level. Task 5.19 provisions
+private EU R2, 35-day expiry, a bucket-only writer, guarded GitHub runner and payload-free heartbeat.
+Its hosted encrypted upload, failed-write/no-heartbeat, missed-heartbeat acknowledgement and
+automatic recovery are verified; hosted download/decrypt/reconcile/delete remains open. Task 5.20
+owns hosted synthetic identity and request-security proof. None of this implies that a customer
 transaction or hosted application database is active.
 
 Sprint 05 Task 5.14 adds the inactive payment implementation: strict provider-neutral checkout and

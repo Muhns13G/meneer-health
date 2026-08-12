@@ -6,7 +6,9 @@ import { describe, expect, it, vi } from "vitest";
 
 import {
   createProductionLogicalDump,
+  createSyntheticLogicalDump,
   readHostedRecoveryEnvironment,
+  restoreAndReconcileSyntheticLogicalDump,
   S3R2RecoveryArchiveStore,
   type CommandRunner,
 } from "./hosted-recovery-support";
@@ -52,10 +54,11 @@ describe("hosted recovery support", () => {
 
   it("runs a PostgreSQL 17 custom-format dump without placing the URL in arguments", () => {
     const directory = mkdtempSync(join(tmpdir(), "meneer-dump-test-"));
-    const command: CommandRunner = vi.fn((_executable, args, options) => {
+    const command = vi.fn<CommandRunner>((_executable, args, options) => {
       expect(args).not.toContain("postgresql://secret.invalid/database");
       expect(options.env?.PGDATABASE).toBe("postgresql://secret.invalid/database");
       writeFileSync(join(directory, "recovery.dump"), "synthetic dump");
+      return "";
     });
     try {
       expect(
@@ -69,10 +72,62 @@ describe("hosted recovery support", () => {
     }
   });
 
+  it("creates and restores a deterministic PostgreSQL custom-format synthetic dump", () => {
+    const directory = mkdtempSync(join(tmpdir(), "meneer-hosted-round-trip-test-"));
+    const command = vi.fn<CommandRunner>((_executable, args) => {
+      const script = args.at(-1) ?? "";
+      if (script.includes("recovery_source")) {
+        writeFileSync(join(directory, "recovery.dump"), "custom-format-dump");
+        writeFileSync(join(directory, "source.fingerprint"), `${3}:${"a".repeat(32)}\n`);
+      } else if (script.includes("recovery_restore")) {
+        writeFileSync(join(directory, "restored.fingerprint"), `${3}:${"a".repeat(32)}\n`);
+      }
+      return "";
+    });
+    try {
+      const source = createSyntheticLogicalDump(directory, command);
+      expect(source.recordCount).toBe(3);
+      expect(new TextDecoder().decode(source.payload)).toBe("custom-format-dump");
+      expect(
+        restoreAndReconcileSyntheticLogicalDump(
+          source.payload,
+          source.fingerprint,
+          directory,
+          command,
+        ),
+      ).toEqual({ recordCount: 3, fingerprint: `${3}:${"a".repeat(32)}` });
+      expect(command).toHaveBeenCalledTimes(2);
+      expect(command.mock.calls[0]?.[1]).toContain("postgres:17.6-alpine");
+      expect(command.mock.calls[1]?.[1]).toContain("postgres:17.6-alpine");
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
+  it("fails reconciliation when the restored fingerprint changes", () => {
+    const directory = mkdtempSync(join(tmpdir(), "meneer-hosted-mismatch-test-"));
+    const command = vi.fn<CommandRunner>(() => {
+      writeFileSync(join(directory, "restored.fingerprint"), `${2}:${"b".repeat(32)}\n`);
+      return "";
+    });
+    try {
+      expect(() =>
+        restoreAndReconcileSyntheticLogicalDump(
+          new TextEncoder().encode("dump"),
+          `${3}:${"a".repeat(32)}`,
+          directory,
+          command,
+        ),
+      ).toThrow("HOSTED_RECOVERY_RECONCILIATION_FAILED");
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
+  });
+
   it("uploads only an encrypted recovery key to the EU bucket and removes its staging file", async () => {
     let stagedPath = "";
-    const command: CommandRunner = vi.fn((_executable, args) => {
-      stagedPath = args[args.indexOf("--body") + 1] ?? "";
+    const command = vi.fn<CommandRunner>((_executable, args) => {
+      const operation = args[1];
       expect(args[0]).toBe("s3api");
       expect(args).toContain(
         "https://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.eu.r2.cloudflarestorage.com",
@@ -81,6 +136,13 @@ describe("hosted recovery support", () => {
       expect(args[args.indexOf("--key") + 1]).toBe(
         "2030-01-01/b0000000-0000-4000-8000-000000000019.json.enc",
       );
+      if (operation === "put-object") {
+        stagedPath = args[args.indexOf("--body") + 1] ?? "";
+      }
+      if (operation === "get-object") {
+        writeFileSync(args.at(-1) ?? "", "encrypted");
+      }
+      return "";
     });
     const store = new S3R2RecoveryArchiveStore(
       "meneer-health-recovery-production",
@@ -90,7 +152,16 @@ describe("hosted recovery support", () => {
       command,
     );
     await store.put("2030-01-01/b0000000-0000-4000-8000-000000000019.json.enc", "encrypted");
-    expect(command).toHaveBeenCalledOnce();
+    await expect(
+      store.get("2030-01-01/b0000000-0000-4000-8000-000000000019.json.enc"),
+    ).resolves.toBe("encrypted");
+    await store.delete("2030-01-01/b0000000-0000-4000-8000-000000000019.json.enc");
+    expect(command).toHaveBeenCalledTimes(3);
+    expect(command.mock.calls.map((call) => call[1][1])).toEqual([
+      "put-object",
+      "get-object",
+      "delete-object",
+    ]);
     expect(() => writeFileSync(stagedPath, "gone", { flag: "r+" })).toThrow();
     await expect(store.put("unsafe/plaintext.sql", "plaintext")).rejects.toThrow(
       "RECOVERY_OBJECT_KEY_INVALID",

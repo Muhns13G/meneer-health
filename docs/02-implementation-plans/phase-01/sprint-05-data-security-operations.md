@@ -73,7 +73,9 @@ architecture and procedures.
 | 5.16 | Build the retained-capability catalogue, portable fixtures, contract suite, schema/version registry, and v1-to-v2 rehearsal/cutover/rollback template.               | TD-055                                        | Completed   |
 | 5.17 | Run local and hosted end-to-end validation, restore/incident exercises, reconcile debt/RAG, and issue the Sprint 05 completion report.                               | All Sprint 05 debt                            | Completed   |
 | 5.18 | Provision and fail-test the Better Stack public monitor, alert delivery, acknowledgement, recovery, and privacy-safe hosted evidence.                                | TD-020 hosted follow-through                  | Completed   |
-| 5.19 | Provision private EU R2 recovery storage and a guarded free-tier runner for encrypted logical exports, 35-day expiry, and payload-free backup heartbeat proof.       | TD-020 hosted recovery follow-through         | In progress |
+| 5.19 | Complete the private EU R2 recovery round trip: upload, download, decrypt, restore/reconcile, safe synthetic-object deletion, and failed-storage/no-heartbeat proof. | TD-020 hosted recovery follow-through         | In progress |
+| 5.20 | Apply hosted Supabase migrations and prove synthetic identity, authorisation, break-glass disposition, request-security, WAF/rate, and custom-SMTP boundaries.       | TD-013, TD-017; TD-020 hosted evidence        | Pending     |
+| 5.21 | Run the complete local and hosted validation matrix, reconcile TD-013/017/020, and issue the final Sprint 05 closure record.                                         | All remaining Sprint 05 evidence              | Pending     |
 
 Tasks 5.2–5.4 are provider-neutral and may proceed after Task 5.1. Task 5.5 closes the DR-006
 selection checkpoint through DR-009 and its evidence annexure; it does not prove provisioning,
@@ -83,9 +85,15 @@ require the recorded TD-007, TD-009, and TD-010 particulars. All transactional r
 default disabled until their full activation gate passes.
 
 Task 5.17's owner checkpoint and exact-commit hosted workflow pass. Task 5.18 subsequently completes
-the Better Stack public-uptime activation and controlled incident evidence without activating a
-customer transaction. Evidence: [`sprint-05-17-verification-and-closure-evidence.md`](annexures/sprint-05-17-verification-and-closure-evidence.md)
-and [`sprint-05-18-better-stack-uptime-evidence.md`](annexures/sprint-05-18-better-stack-uptime-evidence.md).
+the Better Stack public-uptime, controlled incident, and explicit heartbeat-failure evidence without
+activating a customer transaction. Task 5.19 has proved hosted encrypted upload, failed storage
+without a false heartbeat, and heartbeat alert/recovery. Its download/decrypt/restore/reconcile/
+delete implementation and local PostgreSQL acceptance pass; one hosted round-trip run remains.
+Tasks 5.20–5.21 retain the original hosted
+identity/request-security and final-closure acceptance work. Evidence:
+[`sprint-05-17-verification-and-closure-evidence.md`](annexures/sprint-05-17-verification-and-closure-evidence.md),
+[`sprint-05-18-better-stack-uptime-evidence.md`](annexures/sprint-05-18-better-stack-uptime-evidence.md),
+and [`sprint-05-19-hosted-recovery-evidence.md`](annexures/sprint-05-19-hosted-recovery-evidence.md).
 
 ### Workstream 1 — Validated commands and workflow state
 

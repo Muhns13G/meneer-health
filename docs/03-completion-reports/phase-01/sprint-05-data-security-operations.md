@@ -1,8 +1,8 @@
 ---
 report_id: phase-01-sprint-05-completion
 title: Sprint 05 Data, Security, and Operational Foundations
-status: activation-follow-through
-date: 2026-08-11
+status: reopened-for-original-acceptance
+date: 2026-08-12
 owner: "@Muhns13G"
 ---
 
@@ -11,10 +11,10 @@ owner: "@Muhns13G"
 ## Mission and Outcome
 
 Sprint 05 implements the minimum portable server, data, identity, authorisation, audit, request
-security, observability, recovery, payment, fulfilment, and migration foundations for v1. All 18
-tasks through Better Stack public-uptime activation are implemented and owner-committed. Inactive
-customer/provider boundaries continue to fail closed. Task 5.19 is an in-progress hosted-recovery
-follow-through; it does not reopen those completed foundations.
+security, observability, recovery, payment, fulfilment, and migration foundations for v1. Tasks
+5.1–5.18 are complete. The sprint is reopened against its original acceptance criteria for Tasks
+5.19–5.21: hosted recovery round trip, hosted identity/request-security proof, and final closure.
+Inactive customer and provider boundaries continue to fail closed.
 
 ## Work and Decisions
 
@@ -33,7 +33,8 @@ follow-through; it does not reopen those completed foundations.
 - Provisioned Better Stack monitor `4799009` and proved confirmation, email delivery, 76-second
   acknowledgement, healthy recovery, and automatic closure without application logs or private data.
 - Provisioned Task 5.19's private EU R2 bucket, bucket-only writer, 35-day expiry, and payload-free
-  heartbeat while keeping its guarded hourly runner disabled pending hosted acceptance evidence.
+  heartbeat; proved encrypted upload, durable-write failure without a false heartbeat, missed-alert
+  acknowledgement, automatic recovery, and restoration of the permanent monitoring policy.
 - Added inactive one-time Stripe Checkout and minimum-data partner/fulfilment boundaries. No charge,
   public mutation, production credential, patient data, or real partner callback was enabled.
 - Froze 14 capability records, 14 contract-major mappings, 20 portable fixtures, a CI drift check,
@@ -41,8 +42,9 @@ follow-through; it does not reopen those completed foundations.
 
 ## Deviations from the Plan
 
-- The Sprint was delivered as 18 completed commit-sized tasks plus Task 5.19 hosted-recovery
-  follow-through, preserving reviewable boundaries and a buildable repository after each task.
+- The Sprint was initially recorded as 19 completed commit-sized tasks, but Task 5.19 had been
+  narrowed without reconciling its original hosted round-trip requirements. Tasks 5.19–5.21 now
+  preserve those requirements as explicit commit-sized follow-through.
 - Supabase, Stripe and Docker-backed proof went beyond the original scaffold expectation, but all
   exercises remained synthetic, test-mode, no-charge, and inactive in hosted environments.
 - Free-tier constraints produced compensating controls: application-managed session limits,
@@ -65,26 +67,28 @@ follow-through; it does not reopen those completed foundations.
 - Audit, payment, clinical and fulfilment states must remain independent; provider success alone is
   never workflow completion.
 - Hosted response checks and hosted CI prove different things and must be recorded separately.
+- A CI secret that is optional for one dispatch mode may arrive as an empty string; environment
+  validation must normalise that case without weakening the production-required rule.
 
 ## Technical Debt and Residual Risk
 
 No new technical-debt ID accrued. TD-014, TD-015, TD-016, TD-018, TD-019, and TD-055 are Verified.
-Task 5.18 completes the hosted Better Stack public-monitor and incident-response portion of TD-020.
-Task 5.19 provisions the R2/heartbeat boundary but remains open for hosted success, failure, alert,
-key-custody and restore evidence. TD-013, TD-017, and TD-020 therefore remain In progress for
-activation evidence; TD-007, TD-009, and TD-010 continue to gate real peptide, operating-party,
-commercial and fulfilment use.
+Task 5.18 completes public uptime and explicit heartbeat-failure evidence. Task 5.19 still owes the
+provider-backed R2 download/decrypt/reconcile/delete round trip. TD-013 and TD-017 still owe the
+hosted synthetic identity, authorisation and request-security evidence assigned to Task 5.20.
+TD-020 therefore remains In progress. TD-007, TD-009, and TD-010 continue to gate real peptide,
+operating-party, commercial and fulfilment use.
 
 ## Existing Files Modified
 
-| File or group                                                                           | Sprint change                                                                                                              |
-| --------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `.env.example`, `.github/workflows/ci.yml`, `.prettierignore`, `AGENTS.md`, `README.md` | Added environment, CI, generated/test, and contributor contracts.                                                          |
-| `package.json`, `bun.lock`, TypeScript/ESLint/Vite/Vitest/Wrangler configuration        | Added bounded dependencies, scripts, runtime bindings, and strict validation.                                              |
-| `docs/00-blueprints/`, phase plan, debt registry, future considerations, decisions, RAG | Reconciled the selected architecture, delivery evidence, debt, and retrieval state through the Task 5.19 pending boundary. |
-| `docs/06-operations/cloudflare-environments-release-runbook.md`, `testing-ci-guide.md`  | Extended environment, provider, test and release operations.                                                               |
-| `e2e/boundaries.spec.ts`                                                                | Added security, inactive-endpoint and non-transactional boundary coverage.                                                 |
-| `src/routes/peptides.tsx`, `poster.tsx`, `poster-thanks.tsx`, `src/routeTree.gen.ts`    | Routed public environment values and retained fail-closed presentation behavior.                                           |
+| File or group                                                                           | Sprint change                                                                                                          |
+| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `.env.example`, `.github/workflows/ci.yml`, `.prettierignore`, `AGENTS.md`, `README.md` | Added environment, CI, generated/test, and contributor contracts.                                                      |
+| `package.json`, `bun.lock`, TypeScript/ESLint/Vite/Vitest/Wrangler configuration        | Added bounded dependencies, scripts, runtime bindings, and strict validation.                                          |
+| `docs/00-blueprints/`, phase plan, debt registry, future considerations, decisions, RAG | Reconciled the selected architecture, delivery evidence, debt, and retrieval state through verified Task 5.19 closure. |
+| `docs/06-operations/cloudflare-environments-release-runbook.md`, `testing-ci-guide.md`  | Extended environment, provider, test and release operations.                                                           |
+| `e2e/boundaries.spec.ts`                                                                | Added security, inactive-endpoint and non-transactional boundary coverage.                                             |
+| `src/routes/peptides.tsx`, `poster.tsx`, `poster-thanks.tsx`, `src/routeTree.gen.ts`    | Routed public environment values and retained fail-closed presentation behavior.                                       |
 
 ## Existing Files Deleted
 
@@ -112,8 +116,8 @@ checks, nine-migration/293-assertion pgTAP suite, all synthetic integrations, in
 and encrypted 125/125 restore. The current canonical deployment preserves approved presentation,
 headers, caching, redirects, 404s, and inactive transaction boundaries.
 
-The Task 5.17 owner checkpoint is committed and its required hosted workflow passes. Task 5.18's
-Better Stack activation and controlled hosted incident also pass and are owner-committed. Sprint 05
-remains in activation follow-through while Task 5.19 hosted recovery and the remaining TD-013,
-TD-017 and TD-020 webhook/callback gates are open. This status does not approve the pilot, real
-patient data, live payments, or provider activation.
+The Task 5.17 owner checkpoint and required hosted workflow pass. Task 5.18's public monitor,
+controlled incident and explicit heartbeat-failure/recovery exercises also pass. Sprint 05 remains
+open for Tasks 5.19–5.21 and must not be described as fully implemented or closed before their
+acceptance evidence passes. This status does not approve the pilot, real patient data, live
+payments, or provider activation.

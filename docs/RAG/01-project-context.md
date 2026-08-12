@@ -200,11 +200,12 @@ TD-054 and (after Task 5.13) TD-016 are Verified; TD-009, TD-010, and TD-013 rem
 operational or implementation gates. Closure neither activates the pilot nor changes the observed
 non-transactional runtime.
 
-Sprint 05 is implementation-complete at the Task 5.17 owner checkpoint. Portable data, identity,
-authorisation, command, audit, security, recovery, test-mode payment, fulfilment, and migration
-foundations pass locally while customer/provider mutations remain inactive. The current canonical
-site preserves the approved non-transactional boundary. Final Sprint closure requires the owner's
-commit/push and passing hosted CI at that exact commit; this is not pilot activation.
+Sprint 05's portable data, identity, authorisation, command, audit, security, recovery, test-mode
+payment, fulfilment, and migration foundations pass locally while customer/provider mutations
+remain inactive. The sprint is reopened against its original hosted acceptance criteria for the R2
+round trip, synthetic identity/request-security proof, and final closure in Tasks 5.19–5.21. The
+current canonical site preserves the approved non-transactional boundary; this work is not pilot
+activation.
 
 ## Authoritative References
 

@@ -46,4 +46,36 @@ describe("recovery export job", () => {
     ).rejects.toThrow("unavailable");
     expect(heartbeat.success).not.toHaveBeenCalled();
   });
+
+  it("verifies a stored archive before reporting success", async () => {
+    const calls: string[] = [];
+    const verifyStoredArchive = vi.fn(async () => void calls.push("verified"));
+    const heartbeat = { success: vi.fn(async () => void calls.push("heartbeat")) };
+
+    await runRecoveryExportJob(
+      input,
+      { put: vi.fn(async () => void calls.push("stored")) },
+      heartbeat,
+      verifyStoredArchive,
+    );
+
+    expect(calls).toEqual(["stored", "verified", "heartbeat"]);
+    expect(verifyStoredArchive).toHaveBeenCalledWith({
+      objectKey: "2030-01-01/b0000000-0000-4000-8000-000000000013.json.enc",
+      serializedArchive: expect.not.stringContaining("synthetic pg dump"),
+    });
+  });
+
+  it("never reports success when stored-archive verification fails", async () => {
+    const heartbeat = { success: vi.fn() };
+    await expect(
+      runRecoveryExportJob(
+        input,
+        { put: vi.fn() },
+        heartbeat,
+        vi.fn().mockRejectedValue(new Error("restore mismatch")),
+      ),
+    ).rejects.toThrow("restore mismatch");
+    expect(heartbeat.success).not.toHaveBeenCalled();
+  });
 });
