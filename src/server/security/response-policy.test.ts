@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { GOOGLE_FONTS_FILE_ORIGIN, GOOGLE_FONTS_STYLESHEET_ORIGIN } from "@/lib/public-font-policy";
 import { applyResponsePolicy, classifyResponse } from "./response-policy";
 
 const BASE_URL = "https://meneerhealth.co.za";
@@ -19,7 +20,10 @@ describe("response security policy", () => {
     expect(secured.headers.get("Cache-Control")).toBe("public, max-age=0, must-revalidate");
     expect(secured.headers.get("Content-Security-Policy")).toContain("frame-ancestors 'none'");
     expect(secured.headers.get("Content-Security-Policy")).toContain(
-      "https://fonts.googleapis.com",
+      `style-src 'self' 'unsafe-inline' ${GOOGLE_FONTS_STYLESHEET_ORIGIN}`,
+    );
+    expect(secured.headers.get("Content-Security-Policy")).toContain(
+      `font-src 'self' ${GOOGLE_FONTS_FILE_ORIGIN}`,
     );
     expect(secured.headers.get("Content-Security-Policy")).toContain("upgrade-insecure-requests");
     expect(secured.headers.get("Content-Security-Policy")).toContain(

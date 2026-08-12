@@ -28,7 +28,7 @@ function PrivacyPage() {
         <h1 className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground">
           Website Privacy Notice
         </h1>
-        <p className="mt-5 text-sm text-muted-foreground">Effective 7 August 2026 · Version 1.0</p>
+        <p className="mt-5 text-sm text-muted-foreground">Effective 13 August 2026 · Version 1.1</p>
 
         <div className="mt-10 space-y-10 text-muted-foreground leading-relaxed">
           <section aria-labelledby="privacy-operator">
@@ -78,7 +78,9 @@ function PrivacyPage() {
             <p className="mt-3">
               The application does not currently configure analytics or advertising trackers. A
               selected hosting provider may process limited technical information to deliver and
-              secure the website; this notice must be updated when that provider is approved.
+              secure the website. The site also requests its display fonts from Google Fonts, so
+              Google may receive the technical connection information required to serve those font
+              files. No health questionnaire or form data is sent with that request.
             </p>
           </section>
 
