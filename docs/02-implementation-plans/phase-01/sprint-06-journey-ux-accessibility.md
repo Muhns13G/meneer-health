@@ -38,8 +38,10 @@ Primary debt: TD-035–TD-039 and TD-042–TD-044.
 - General support uses the monitored `support@meneerhealth.co.za` mailbox. It is not an urgent
   clinical service. Mobile emergency `112` and ambulance `10177` remain the only verified urgent
   contacts; separate clinical, complaint, and privacy ownership remains an activation input.
-- Google Fonts remain externally loaded under the existing CSP. Cloudflare Fonts and automatic Web
-  Analytics remain disabled. No approved favicon or social-card image exists in the repository.
+- Google Fonts are formally approved for the v1 pilot under the typed provider, fallback, CSP,
+  privacy, resilience, and performance contract completed in Task 6.10. Cloudflare Fonts and
+  automatic Web Analytics remain disabled. Task 6.9 uses the approved placeholder mark for favicon
+  and social metadata; final brand artwork remains deferred under FC-002.
 - Health or treatment intent must not be placed in URLs, analytics, referrers, logs, payment
   metadata, or third-party systems. Existing allowlisted campaign UTM attribution is non-clinical
   and remains separate from treatment intent.
@@ -57,7 +59,7 @@ Primary debt: TD-035–TD-039 and TD-042–TD-044.
 | 6.7  | Reconcile verified support and emergency surfaces; keep unverified clinical/privacy/complaint channels explicitly unavailable.           | TD-043; external input    | Completed |
 | 6.8  | Implement the route policy through absolute canonicals, robots and sitemap outputs, exclusion rules, and generated-output tests.         | TD-042                    | Completed |
 | 6.9  | Add approved favicon and social-card assets and verify metadata rendering; retain an explicit gate if assets remain unavailable.         | TD-042; approved assets   | Completed |
-| 6.10 | Decide and implement self-hosted or explicitly approved external fonts with CSP, fallback, privacy, resilience, and performance proof.   | TD-044; owner decision    | Planned   |
+| 6.10 | Decide and implement self-hosted or explicitly approved external fonts with CSP, fallback, privacy, resilience, and performance proof.   | TD-044; owner decision    | Completed |
 | 6.11 | Run keyboard, zoom/reflow, reduced-motion, contrast, representative screen-reader, failure, and complete browser verification.           | TD-037–TD-039, TD-043–044 | Planned   |
 | 6.12 | Reconcile debt/RAG, record deviations and lessons, and issue the Sprint 06 completion report and exact-commit CI evidence.               | All Sprint 06 debt        | Planned   |
 

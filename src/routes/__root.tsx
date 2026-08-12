@@ -1,5 +1,10 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
+import {
+  GOOGLE_FONTS_FILE_ORIGIN,
+  GOOGLE_FONTS_STYLESHEET_ORIGIN,
+  GOOGLE_FONTS_STYLESHEET_URL,
+} from "@/lib/public-font-policy";
 import { PUBLIC_FAVICON, PUBLIC_SOCIAL_IMAGE } from "@/lib/public-metadata";
 import appCss from "../styles.css?url";
 
@@ -61,11 +66,11 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "icon", href: PUBLIC_FAVICON.href, type: PUBLIC_FAVICON.type },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: GOOGLE_FONTS_STYLESHEET_ORIGIN },
+      { rel: "preconnect", href: GOOGLE_FONTS_FILE_ORIGIN, crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap",
+        href: GOOGLE_FONTS_STYLESHEET_URL,
       },
       {
         rel: "stylesheet",
