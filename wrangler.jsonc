@@ -3,13 +3,23 @@
   "name": "meneer-health",
   "compatibility_date": "2026-08-07",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  "main": "src/server.ts",
   "preview_urls": true,
+  "ratelimits": [
+    {
+      "name": "REQUEST_RATE_LIMITER",
+      "namespace_id": "51101",
+      "simple": {
+        "limit": 60,
+        "period": 60,
+      },
+    },
+  ],
   "observability": {
     "enabled": true,
     "logs": {
       "enabled": true,
-      "invocation_logs": true,
+      "invocation_logs": false,
       "persist": true,
     },
   },

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - develop
       - itws-I
       - itws-I-preview
   pull_request:
@@ -51,8 +52,41 @@ jobs:
       - name: Typecheck
         run: bun run typecheck
 
+      - name: Check Cloudflare binding types
+        run: bun run check:cloudflare-types
+
       - name: Run unit and integration tests
         run: bun run test
+
+      - name: Check retained capability and contract portability
+        run: bun run check:portability
+
+      - name: Start synthetic local database and identity services
+        run: bun run db:start:test
+
+      - name: Validate database and managed identity security
+        run: |
+          bun run db:reset
+          bun run db:test
+          bun run db:lint
+          bun run test:auth
+          bun run test:authz
+          bun run test:commands
+          bun run test:audit
+          bun run test:security-evidence
+          bun run test:lifecycle
+          bun run test:payments
+          bun run test:fulfilment
+
+      - name: Exercise privacy-safe incident controls
+        run: bun run exercise:incident
+
+      - name: Exercise encrypted synthetic recovery
+        run: bun run exercise:recovery
+
+      - name: Stop synthetic local database and identity services
+        if: always()
+        run: bun run db:stop
 
       - name: Audit all dependencies
         run: bun run audit

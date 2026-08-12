@@ -25,7 +25,9 @@ bun run dev
 ```
 
 The optional public `VITE_*` values are documented in [`.env.example`](.env.example). Never place a
-secret or patient information in a `VITE_*` variable.
+secret or patient information in a `VITE_*` variable. Follow the
+[environment and secret runbook](docs/06-operations/environment-secrets-runbook.md) before adding,
+rotating, or revoking configuration.
 
 ## Validation
 
