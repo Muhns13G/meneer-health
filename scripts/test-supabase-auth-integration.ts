@@ -1,4 +1,3 @@
-import { execFileSync } from "node:child_process";
 import { createHash, createHmac } from "node:crypto";
 
 import { createClient } from "@supabase/supabase-js";
@@ -7,12 +6,7 @@ import { SupabaseIdentitySessionRepository } from "../src/adapters/identity/supa
 import { SupabaseIdentityGovernanceRepository } from "../src/adapters/identity/supabase/supabase-identity-governance-repository";
 import { createSupabaseManagedIdentityProvider } from "../src/adapters/identity/supabase/supabase-managed-identity-provider";
 import { SupabaseAccessRepository } from "../src/adapters/persistence/supabase/supabase-access-repository";
-
-type LocalStatus = Readonly<{
-  API_URL: string;
-  PUBLISHABLE_KEY: string;
-  SECRET_KEY: string;
-}>;
+import { readSupabaseIntegrationEnvironment } from "./lib/supabase-integration-environment";
 
 function invariant(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -48,22 +42,8 @@ function currentTotp(secret: string): string {
   return (binary % 1_000_000).toString().padStart(6, "0");
 }
 
-async function localStatus(): Promise<LocalStatus> {
-  const stdout = execFileSync("bunx", ["supabase", "status", "-o", "json"], {
-    encoding: "utf8",
-  });
-  const jsonStart = stdout.indexOf("{");
-  invariant(jsonStart >= 0, "Local Supabase status did not return JSON.");
-  const status = JSON.parse(stdout.slice(jsonStart)) as Partial<LocalStatus>;
-  invariant(
-    status.API_URL && status.PUBLISHABLE_KEY && status.SECRET_KEY,
-    "Local Auth is not running.",
-  );
-  return status as LocalStatus;
-}
-
 async function run(): Promise<void> {
-  const status = await localStatus();
+  const status = readSupabaseIntegrationEnvironment();
   const options = {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
   };
@@ -173,7 +153,7 @@ async function run(): Promise<void> {
     const serviceIdentity = await governanceRepository.createServiceIdentity({
       tenantId: "10000000-0000-4000-8000-000000000001",
       name: `synthetic-auth-proof-${crypto.randomUUID()}`,
-      environment: "local",
+      environment: status.target === "local" ? "local" : "production",
       purpose: "prove scoped identity lifecycle",
       expiresAt: new Date(Date.now() + 60 * 60 * 1_000),
     });
