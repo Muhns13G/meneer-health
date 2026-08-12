@@ -1,7 +1,7 @@
 ---
 plan_id: phase-01-sprint-05
 title: Data, Security, and Operational Foundations
-status: activation-follow-through
+status: completed
 primary_debt: [TD-014, TD-015, TD-017, TD-018, TD-019, TD-020, TD-055]
 implementation_follow_through: [TD-013, TD-016]
 depends_on: [phase-01-sprint-03, phase-01-sprint-04]
@@ -75,7 +75,7 @@ architecture and procedures.
 | 5.18 | Provision and fail-test the Better Stack public monitor, alert delivery, acknowledgement, recovery, and privacy-safe hosted evidence.                                | TD-020 hosted follow-through                  | Completed |
 | 5.19 | Complete the private EU R2 recovery round trip: upload, download, decrypt, restore/reconcile, safe synthetic-object deletion, and failed-storage/no-heartbeat proof. | TD-020 hosted recovery follow-through         | Completed |
 | 5.20 | Apply hosted Supabase migrations and prove synthetic identity, authorisation, break-glass disposition, request-security, WAF/rate, and custom-SMTP boundaries.       | TD-013, TD-017; TD-020 hosted evidence        | Completed |
-| 5.21 | Run the complete local and hosted validation matrix, reconcile TD-013/017/020, and issue the final Sprint 05 closure record.                                         | All remaining Sprint 05 evidence              | Pending   |
+| 5.21 | Run the complete local and hosted validation matrix, reconcile TD-013/017/020, and issue the final Sprint 05 closure record.                                         | All remaining Sprint 05 evidence              | Completed |
 
 Tasks 5.2–5.4 are provider-neutral and may proceed after Task 5.1. Task 5.5 closes the DR-006
 selection checkpoint through DR-009 and its evidence annexure; it does not prove provisioning,
@@ -89,12 +89,14 @@ the Better Stack public-uptime, controlled incident, and explicit heartbeat-fail
 activating a customer transaction. Task 5.19 has proved hosted encrypted upload, failed storage
 without a false heartbeat, and heartbeat alert/recovery. Its download/decrypt/restore/reconcile/
 delete implementation, local PostgreSQL acceptance and hosted run `31551448469` pass. Tasks
-5.20–5.21 retain the original hosted
-identity/request-security and final-closure acceptance work. Evidence:
+5.20–5.21 complete the original hosted identity/request-security and final-closure acceptance
+work. The final matrix passes and TD-013, TD-017, and TD-020 are Verified for the implemented,
+deliberately inactive boundary; first-route activation remains separately gated. Evidence:
 [`sprint-05-17-verification-and-closure-evidence.md`](annexures/sprint-05-17-verification-and-closure-evidence.md),
 [`sprint-05-18-better-stack-uptime-evidence.md`](annexures/sprint-05-18-better-stack-uptime-evidence.md),
-[`sprint-05-19-hosted-recovery-evidence.md`](annexures/sprint-05-19-hosted-recovery-evidence.md), and
-[`sprint-05-20-hosted-identity-request-security-evidence.md`](annexures/sprint-05-20-hosted-identity-request-security-evidence.md).
+[`sprint-05-19-hosted-recovery-evidence.md`](annexures/sprint-05-19-hosted-recovery-evidence.md),
+[`sprint-05-20-hosted-identity-request-security-evidence.md`](annexures/sprint-05-20-hosted-identity-request-security-evidence.md), and
+[`sprint-05-21-final-closure-evidence.md`](annexures/sprint-05-21-final-closure-evidence.md).
 
 ### Workstream 1 — Validated commands and workflow state
 

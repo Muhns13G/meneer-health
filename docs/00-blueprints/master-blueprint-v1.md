@@ -4,7 +4,7 @@
 
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05
-- **Last amended:** 2026-08-10
+- **Last amended:** 2026-08-12
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
 - **Current implementation:** Lovable-origin TanStack Start v1 MVP with repository-owned Cloudflare
   configuration; `itws-I-preview` temporarily remains the Cloudflare production branch serving
@@ -224,7 +224,8 @@ function. Clinical, payment, supply, hub receipt, dispatch, delivery, cancellati
 independent states; a committed receipt and state version succeed or fail together. Exact replay is
 safe, while changed replay, stale version, invalid transition, unmet prerequisite and browser/direct
 table mutation are rejected. Tasks 5.14–5.15 now implement inactive payment and partner commands;
-real provider activation remains gated by TD-007, TD-009, TD-010, and hosted TD-020 evidence.
+real provider activation remains gated by TD-007, TD-009, TD-010, and capability-specific hosted
+activation evidence. Sprint 05 Verified TD-020 for the currently implemented inactive boundary.
 
 Sprint 05 Task 5.10 extends that command boundary with portable `audit.fact`,
 `workflow.transitioned`, and `integration.received` contract families. The Supabase adapter commits

@@ -3,7 +3,7 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 audience: internal
 sensitivity: internal
 source_baseline: f3b2187
@@ -935,3 +935,24 @@ Evidence: [`sprint-05-19-hosted-recovery-evidence.md`](../02-implementation-plan
   audit events; the 12 governed fulfilment gates also remain.
 
 Evidence: [`sprint-05-20-hosted-identity-request-security-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-20-hosted-identity-request-security-evidence.md).
+
+### Sprint 05.21 final validation and closure — 12 August 2026
+
+- The final matrix passes format, lint, strict TypeScript, 41 Vitest files / 245 tests, both
+  zero-finding dependency audits, production build, route/client/portability checks, Cloudflare
+  types and dry run, and all 54 desktop/mobile Playwright checks.
+- All twelve migrations reset cleanly. Error-level database lint, nine pgTAP files / 296 assertions,
+  every synthetic integration, controlled incident, and encrypted 125/125 restore pass; local
+  Supabase is stopped after verification.
+- Hosted Supabase is healthy with the same twelve migrations. Current hosted requests preserve the
+  200 public read and payload-free/no-CORS 404 mutation boundary. Security Advisor reports only the
+  intended INFO-level deny-all RLS notices; performance observations remain measurement gates.
+- Five orphaned synthetic provider identities were found after Task 5.20. Exact dependency checks
+  proved no audit/workflow references; their contact, mappings, and subjects were deleted
+  transactionally. Hosted state is zero Auth users/provider identities/contacts and three retained
+  immutable-audit fixture subjects.
+- Sprint 05 is closed. TD-013, TD-017, and TD-020 are Verified for the implemented inactive
+  boundary. First-route identity, form, webhook, partner, monitoring, WAF/rate, and recovery proof
+  remains mandatory before that capability can be enabled.
+
+Evidence: [`sprint-05-21-final-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-21-final-closure-evidence.md).
