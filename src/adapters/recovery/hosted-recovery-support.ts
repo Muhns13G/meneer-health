@@ -88,27 +88,30 @@ const syntheticDatabaseScript = String.raw`
 export PGDATA=/tmp/meneer-source
 mkdir -p "$PGDATA"
 chown postgres:postgres "$PGDATA"
-chmod 644 /recovery/seed.sql
+install -o postgres -g postgres -m 600 /recovery/seed.sql /tmp/recovery-seed.sql
 gosu postgres initdb --username=postgres --auth=trust >/dev/null
 gosu postgres pg_ctl -w start >/dev/null
 gosu postgres createdb --username=postgres recovery_source
-gosu postgres psql --username=postgres --dbname=recovery_source --set=ON_ERROR_STOP=1 --file=/recovery/seed.sql >/dev/null
-gosu postgres psql --username=postgres --dbname=recovery_source --tuples-only --no-align --command="select count(*)::text || ':' || md5(string_agg(id::text || ':' || marker, '|' order by id)) from public.recovery_probe" > /recovery/source.fingerprint
-gosu postgres pg_dump --username=postgres --dbname=recovery_source -Fc --no-owner --no-acl --table=public.recovery_probe > /recovery/recovery.dump
+gosu postgres psql --username=postgres --dbname=recovery_source --set=ON_ERROR_STOP=1 --file=/tmp/recovery-seed.sql >/dev/null
+gosu postgres psql --username=postgres --dbname=recovery_source --tuples-only --no-align --output="$PGDATA/source.fingerprint" --command="select count(*)::text || ':' || md5(string_agg(id::text || ':' || marker, '|' order by id)) from public.recovery_probe"
+gosu postgres pg_dump --username=postgres --dbname=recovery_source -Fc --no-owner --no-acl --table=public.recovery_probe --file="$PGDATA/recovery.dump"
 gosu postgres pg_ctl -m fast -w stop >/dev/null
+install -m 644 "$PGDATA/source.fingerprint" /recovery/source.fingerprint
+install -m 644 "$PGDATA/recovery.dump" /recovery/recovery.dump
 `;
 
 const syntheticRestoreScript = String.raw`
 export PGDATA=/tmp/meneer-restore
 mkdir -p "$PGDATA"
 chown postgres:postgres "$PGDATA"
-chmod 644 /recovery/downloaded.dump
+install -o postgres -g postgres -m 600 /recovery/downloaded.dump /tmp/downloaded.dump
 gosu postgres initdb --username=postgres --auth=trust >/dev/null
 gosu postgres pg_ctl -w start >/dev/null
 gosu postgres createdb --username=postgres recovery_restore
-gosu postgres pg_restore --username=postgres --dbname=recovery_restore --no-owner --no-acl --exit-on-error /recovery/downloaded.dump
-gosu postgres psql --username=postgres --dbname=recovery_restore --tuples-only --no-align --command="select count(*)::text || ':' || md5(string_agg(id::text || ':' || marker, '|' order by id)) from public.recovery_probe" > /recovery/restored.fingerprint
+gosu postgres pg_restore --username=postgres --dbname=recovery_restore --no-owner --no-acl --exit-on-error /tmp/downloaded.dump
+gosu postgres psql --username=postgres --dbname=recovery_restore --tuples-only --no-align --output="$PGDATA/restored.fingerprint" --command="select count(*)::text || ':' || md5(string_agg(id::text || ':' || marker, '|' order by id)) from public.recovery_probe"
 gosu postgres pg_ctl -m fast -w stop >/dev/null
+install -m 644 "$PGDATA/restored.fingerprint" /recovery/restored.fingerprint
 `;
 
 const syntheticSeedSql = `
