@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { ProfileErrorSummary, ProfileFields } from "@/components/ProfileFields";
+import { StepProgress } from "@/components/SteppedFlow";
 import {
   validateProfileDraft,
   type ProfileDraft,
@@ -9,6 +10,7 @@ import {
   type ProfileField,
 } from "@/domain/journey/profile-form";
 import { SafetyEntryGate } from "@/components/SafetyEntryGate";
+import { useSteppedFlowFocus } from "@/hooks/use-stepped-flow-focus";
 
 export const Route = createFileRoute("/start")({
   head: () => ({
@@ -55,10 +57,8 @@ const conditions: { id: Condition; label: string; body: string }[] = [
 
 const phaseLabels = ["Choose condition", "Consent", "Create account", "Questionnaire"];
 
-// Preserved prototype: keep inaccessible until an approved replacement is verified and cut over.
-// @ts-expect-error TS6133 -- intentionally unreachable while the fail-closed gate is active.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- preserved replacement reference.
-function StartFlow() {
+// Preserved prototype: exported for controlled tests but not routed until activation is approved.
+export function PreservedStartFlow() {
   // step: 0 = condition, 1 = consent, 2 = account, 3 = questionnaire, 4 = confirmation
   const [step, setStep] = useState(0);
   const [condition, setCondition] = useState<Condition | null>(null);
@@ -72,8 +72,10 @@ function StartFlow() {
   const [accountErrors, setAccountErrors] = useState<ProfileErrors>({});
 
   const totalSteps = 4; // 4 interactive steps; step 5 (index 4) is the confirmation state
-  const currentProgress =
-    step >= totalSteps ? 100 : Math.round(((step + 1) / (totalSteps + 1)) * 100);
+  const { headingRef, errorSummaryRef } = useSteppedFlowFocus(
+    step,
+    Object.keys(accountErrors).length,
+  );
 
   const canNext = useMemo(() => {
     if (step === 0) return !!condition;
@@ -98,7 +100,7 @@ function StartFlow() {
   };
 
   if (step === totalSteps) {
-    return <Confirmation />;
+    return <Confirmation headingRef={headingRef} />;
   }
 
   return (
@@ -113,25 +115,30 @@ function StartFlow() {
             Step {step + 1} of 5 · {phaseLabels[step]}
           </span>
         </div>
-        <div className="h-1 bg-surface">
-          <div
-            className="h-full bg-gold transition-all duration-500"
-            style={{ width: `${currentProgress}%` }}
-          />
-        </div>
+        <StepProgress current={step + 1} total={5} label={phaseLabels[step] ?? "Confirmation"} />
       </header>
 
       <main className="flex-1 flex items-center justify-center py-12 px-5">
         <div className="w-full max-w-2xl">
-          {step === 0 && <ConditionStep condition={condition} onSelect={setCondition} />}
-
-          {step === 1 && <ConsentStep consent={consent} setConsent={setConsent} />}
-
-          {step === 2 && (
-            <AccountStep account={account} errors={accountErrors} onChange={updateAccount} />
+          {step === 0 && (
+            <ConditionStep condition={condition} onSelect={setCondition} headingRef={headingRef} />
           )}
 
-          {step === 3 && <QuestionnaireStep />}
+          {step === 1 && (
+            <ConsentStep consent={consent} setConsent={setConsent} headingRef={headingRef} />
+          )}
+
+          {step === 2 && (
+            <AccountStep
+              account={account}
+              errors={accountErrors}
+              onChange={updateAccount}
+              headingRef={headingRef}
+              errorSummaryRef={errorSummaryRef}
+            />
+          )}
+
+          {step === 3 && <QuestionnaireStep headingRef={headingRef} />}
 
           <div className="mt-10 flex items-center justify-between">
             <button
@@ -160,14 +167,18 @@ function StartFlow() {
 function ConditionStep({
   condition,
   onSelect,
+  headingRef,
 }: {
   condition: Condition | null;
   onSelect: (c: Condition) => void;
+  headingRef: RefObject<HTMLHeadingElement | null>;
 }) {
   return (
     <div>
       <p className="label-caps">Step 01</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">What would you like help with?</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        What would you like help with?
+      </h1>
       <p className="mt-3 text-muted-foreground">Pick one. You can always change later.</p>
 
       <div className="mt-10 grid sm:grid-cols-2 gap-3">
@@ -203,14 +214,18 @@ function ConditionStep({
 function ConsentStep({
   consent,
   setConsent,
+  headingRef,
 }: {
   consent: boolean;
   setConsent: (v: boolean) => void;
+  headingRef: RefObject<HTMLHeadingElement | null>;
 }) {
   return (
     <div>
       <p className="label-caps">Step 02</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">POPIA & informed consent.</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        POPIA & informed consent.
+      </h1>
       <p className="mt-3 text-muted-foreground">
         Before we go further, we need your explicit consent to process your health information and
         provide care.
@@ -253,30 +268,38 @@ function AccountStep({
   account,
   errors,
   onChange,
+  headingRef,
+  errorSummaryRef,
 }: {
   account: ProfileDraft;
   errors: ProfileErrors;
   onChange: (field: ProfileField, value: string) => void;
+  headingRef: RefObject<HTMLHeadingElement | null>;
+  errorSummaryRef: RefObject<HTMLDivElement | null>;
 }) {
   return (
     <div>
       <p className="label-caps">Step 03</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">Create your private account.</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        Create your private account.
+      </h1>
       <p className="mt-3 text-muted-foreground">
         We'll use this to send your consult details and keep your records locked down.
       </p>
 
-      <ProfileErrorSummary errors={errors} />
+      <ProfileErrorSummary ref={errorSummaryRef} errors={errors} />
       <ProfileFields profile={account} errors={errors} onChange={onChange} />
     </div>
   );
 }
 
-function QuestionnaireStep() {
+function QuestionnaireStep({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null> }) {
   return (
     <div>
       <p className="label-caps">Step 04</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">A few questions about you.</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        A few questions about you.
+      </h1>
       <p className="mt-3 text-muted-foreground">
         Your doctor will use your answers to prepare for your consultation.
       </p>
@@ -302,7 +325,7 @@ const confirmationTimeline = [
   { title: "Medication delivered to your door", when: "2–3 business days" },
 ];
 
-function Confirmation() {
+function Confirmation({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null> }) {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-border/50">
@@ -319,7 +342,13 @@ function Confirmation() {
           <div className="w-14 h-14 rounded-full bg-gold/15 flex items-center justify-center mb-8">
             <Check size={26} className="text-gold" />
           </div>
-          <h1 className="font-serif text-4xl sm:text-5xl leading-tight">You're in, meneer.</h1>
+          <h1
+            ref={headingRef}
+            tabIndex={-1}
+            className="font-serif text-4xl sm:text-5xl leading-tight"
+          >
+            You're in, meneer.
+          </h1>
           <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
             One of our doctors will be in touch within 48 hours to schedule your virtual
             consultation. We'll reach out via WhatsApp — keep an eye out.

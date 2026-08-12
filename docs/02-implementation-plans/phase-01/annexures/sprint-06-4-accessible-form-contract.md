@@ -35,6 +35,6 @@ descriptions, invalid state, field errors, summary links, and valid/invalid outc
 and full route axe tests continue to prove the active public surface remains non-transactional and
 free of detected WCAG A/AA violations.
 
-Task 6.5 owns focus movement, progress semantics, and live announcements. Task 6.11 must complete
-manual keyboard and representative screen-reader verification before TD-037 can be marked Verified
-or either preserved form can be considered activation-ready.
+Task 6.5 completes the automated focus, progress, announcement, and Back-navigation contract. Task
+6.11 must complete manual keyboard and representative screen-reader verification before TD-037 can
+be marked Verified or either preserved form can be considered activation-ready.

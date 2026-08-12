@@ -1,3 +1,4 @@
+import { forwardRef } from "react";
 import {
   profileFieldOrder,
   type ProfileDraft,
@@ -5,33 +6,38 @@ import {
   type ProfileField,
 } from "@/domain/journey/profile-form";
 
-export function ProfileErrorSummary({ errors }: { errors: ProfileErrors }) {
-  const entries = profileFieldOrder.flatMap((field) =>
-    errors[field] ? [{ field, message: errors[field] }] : [],
-  );
-  if (entries.length === 0) return null;
+export const ProfileErrorSummary = forwardRef<HTMLDivElement, { errors: ProfileErrors }>(
+  function ProfileErrorSummary({ errors }, ref) {
+    const entries = profileFieldOrder.flatMap((field) =>
+      errors[field] ? [{ field, message: errors[field] }] : [],
+    );
+    if (entries.length === 0) return null;
 
-  return (
-    <div
-      role="alert"
-      aria-labelledby="profile-error-title"
-      className="mt-6 rounded-xl border border-red-400/40 bg-red-950/20 p-4"
-    >
-      <h3 id="profile-error-title" className="font-medium text-foreground">
-        Check the highlighted details
-      </h3>
-      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-red-100">
-        {entries.map(({ field, message }) => (
-          <li key={field}>
-            <a href={`#profile-${field}`} className="underline underline-offset-2">
-              {message}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+    return (
+      <div
+        ref={ref}
+        id="profile-error-summary"
+        role="alert"
+        tabIndex={-1}
+        aria-labelledby="profile-error-title"
+        className="mt-6 rounded-xl border border-red-400/40 bg-red-950/20 p-4 outline-none focus-visible:ring-2 focus-visible:ring-gold"
+      >
+        <h3 id="profile-error-title" className="font-medium text-foreground">
+          Check the highlighted details
+        </h3>
+        <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-red-100">
+          {entries.map(({ field, message }) => (
+            <li key={field}>
+              <a href={`#profile-${field}`} className="underline underline-offset-2">
+                {message}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  },
+);
 
 export function ProfileFields({
   profile,
