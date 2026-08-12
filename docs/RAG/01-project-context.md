@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 audience: internal
 sensitivity: internal
 sources:
@@ -176,16 +176,17 @@ application, clinical/operations workspaces, workflow state, lifecycle, permissi
 DR-009 selects the free-tier-first v1 stack: Supabase Free in
 London for PostgreSQL, Auth, and private Storage; Brevo Free custom SMTP; Cloudflare Workers
 telemetry; Better Stack uptime/backup heartbeats; EU-jurisdiction R2 encrypted recovery exports; and
-Stripe Checkout test mode. The owner has provisioned the empty London project, but no application
-credential, schema, or real data exists and the site remains non-transactional.
+Stripe Checkout test mode. The owner has provisioned the London project and applied all twelve
+synthetic-only application migrations. No real data or customer/provider transaction is active and
+the site remains non-transactional.
 Local/CI environments use local Supabase with synthetic data; Cloudflare branch previews keep real
 pilot providers disabled.
 
 Task 5.15 keeps that provider boundary explicit: Precise Wellness hand-off, pharmacy release, hub
 custody, courier dispatch/delivery, cancellation, and refund reconciliation use opaque identifiers
 and fingerprints only. Local provider gates are synthetic; preview and production are disabled.
-TD-014 and TD-015 are repository-Verified, while TD-007, TD-009, TD-010, and hosted TD-020 evidence
-still block real transactions.
+TD-014, TD-015, and TD-020 are Verified for the inactive foundation, while TD-007, TD-009, TD-010,
+and route-specific activation evidence still block real transactions.
 
 Task 5.16 adds the retained-capability catalogue, exact contract-major/schema/migration registry,
 portable HTTP/contract/behaviour fixtures, CI drift check, and v1-to-v2 rehearsal/cutover/rollback
@@ -199,17 +200,16 @@ lifecycle/recovery baseline while keeping named-party, provider, domain sign-off
 runtime evidence as explicit gates.
 
 Sprint 03 is closed as an approved architecture-and-decision boundary. TD-011, TD-012, TD-050, and
-TD-054 and (after Task 5.13) TD-016 are Verified; TD-009, TD-010, and TD-013 remain In progress under their recorded
-operational or implementation gates. Closure neither activates the pilot nor changes the observed
-non-transactional runtime.
+TD-054 and (after Task 5.13) TD-016 are Verified; TD-013 was subsequently Verified by Tasks
+5.20–5.21. TD-009 and TD-010 retain their recorded operating/commercial gates. Closure neither
+activates the pilot nor changes the observed non-transactional runtime.
 
 Sprint 05's portable data, identity, authorisation, command, audit, security, recovery, test-mode
-payment, fulfilment, and migration foundations pass locally while customer/provider mutations
-remain inactive. Task 5.19's hosted synthetic R2 round trip passes. The sprint remains open against
-its original hosted acceptance criteria for synthetic identity/request-security proof and final
-closure in Tasks 5.20–5.21. The
-current canonical site preserves the approved non-transactional boundary; this work is not pilot
-activation.
+payment, fulfilment, and migration foundations pass locally and at their applicable hosted
+boundaries while customer/provider mutations remain inactive. Tasks 5.19–5.21 complete hosted R2,
+Supabase identity/request-security, advisor, cleanup, and final validation evidence. Sprint 05 is
+closed; the canonical site preserves the approved non-transactional boundary and this work is not
+pilot activation.
 
 ## Authoritative References
 

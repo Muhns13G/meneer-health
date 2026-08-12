@@ -3,7 +3,7 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-direction
 authority: strategic
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 audience: internal
 sensitivity: internal
 sources:
@@ -200,17 +200,19 @@ automatic approval.
 
 This selection remains migration-safe only while ordinary PostgreSQL migrations and dumps,
 storage/identity exports, provider-neutral contracts, and tested restore/exit procedures remain
-authoritative. Task 5.13 supplies the first application-schema restore proof; hosted identity/object
-exports still require activation evidence. Local and CI use local Supabase with synthetic data; Cloudflare branch previews do
-not connect to the pilot store. Next.js and Laravel must absorb the proven records and behaviour,
-not Supabase-specific UI or workflow logic.
+authoritative. Tasks 5.13 and 5.19 supply local and hosted synthetic recovery proof; Tasks 5.20–5.21
+apply and verify the hosted schema/identity boundary. Real-data exports remain activation evidence.
+Local and CI use local Supabase with synthetic data; Cloudflare branch previews do not connect to
+the pilot store. Next.js and Laravel must absorb the proven records and behaviour, not
+Supabase-specific UI or workflow logic.
 
 Sprint 03 completes the decision layer for this evolution. Implementation must now demonstrate the
 approved contracts and boundaries rather than reinterpret them inside a framework or provider.
-Sprint 05 owns the first runtime proof for identity, authorisation, lifecycle, restore, rights, and
-portable data operations. Tasks 5.6–5.9 now prove portable tenancy, identity/session,
-contextual-authorisation and command/state boundaries locally; provider activation, persistent audit, break glass and
-abuse controls remain separate gates.
+Sprint 05 supplies the first runtime proof for identity, authorisation, lifecycle, restore, rights,
+and portable data operations. Tasks 5.6–5.21 prove the portable tenancy, identity/session,
+contextual-authorisation, command/state, audit, security, and recovery boundaries locally and at
+their applicable hosted synthetic edges. Provider activation and route-specific evidence remain
+separate gates.
 
 DR-007 keeps identity portable by mapping provider authentication to opaque internal subjects and
 server-owned permissions. Tenant, role, resource, assignment, purpose, state, assurance, session,
@@ -227,5 +229,7 @@ critical one-hour RPO/four-hour RTO rather than resetting lifecycle clocks.
 Task 5.16 freezes 14 retained/retired capabilities, 14 supported contract majors and 20
 language-neutral fixtures plus a mandatory rehearsal/cutover/rollback template. Task 5.17 verifies
 that this portability check runs alongside the current data, security, browser, incident and
-125-record recovery suites. This is the migration baseline for a future Next.js candidate; it is
-not approval to migrate, cut over authority, or remove the TanStack v1 rollback path.
+125-record recovery suites. Task 5.21 re-runs the complete matrix and closes Sprint 05 with all 14
+capabilities and 20 fixtures unchanged. This is the migration baseline for a future Next.js
+candidate; it is not approval to migrate, cut over authority, or remove the TanStack v1 rollback
+path.

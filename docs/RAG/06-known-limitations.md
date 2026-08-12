@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 audience: internal
 sensitivity: internal
 sources:
@@ -144,16 +144,16 @@ The corrected database/Auth lifecycle proof passed on 2026-08-10, closing Task 5
 implements and locally verifies the ordinary deny-default contextual matrix, horizontal/vertical
 isolation, minimum projections and exact service scope. This remains an inactive server foundation,
 not an account journey. Tasks 5.10–5.11 now add successful-command audit/review and shared
-request-abuse foundations. TD-013 remains In progress while Task 5.12 owns denial evidence,
-monitored break glass, abuse alerts and activation evidence.
+request-abuse foundations. Tasks 5.12 and 5.20–5.21 subsequently verify denial evidence, the
+monitored disabled-break-glass disposition, hosted synthetic Auth, and final cleanup. TD-013 is
+Verified for the inactive identity foundation.
 
 Task 5.11 adds a locally verified inactive request-security foundation. It protects current reads,
 denies and rate-checks unregistered mutations, and defines reusable protected-JSON controls, but it
-does not provision Turnstile, configure a hosted WAF rule, publish a command/callback, or prove
-route-specific monitoring. Do not describe TD-017 as Verified: every enabled form, identity action,
-future form or provider callback still needs its own policy and local/preview/hosted bypass evidence.
-Task 5.14 now supplies named local checkout and Stripe callback policies, but hosted bypass and
-monitoring evidence remain absent.
+does not provision Turnstile, configure a hosted WAF rule, or publish a command/callback because no
+public mutation exists. Task 5.20–5.21 hosted checks prove the inactive boundary, so TD-017 is
+Verified for current routes. Every enabled form, identity action, future form, or provider callback
+still needs its own policy, monitoring, WAF/rate decision, and local/preview/hosted bypass evidence.
 
 Task 5.12 adds strict custom Worker telemetry, local alert thresholds, a passing controlled incident
 exercise and append-only identified denial evidence. Task 5.18 adds hosted Better Stack public
@@ -163,12 +163,12 @@ R2 encrypted upload, 35-day expiry, durable-write failure without a false heartb
 missed-heartbeat acknowledgement/automatic-recovery exercise. Provider-backed download, decryption,
 reconciliation/restore and synthetic-object deletion pass hosted run `31551448469`; the zero-field
 heartbeat was emitted only afterward. Its hourly production runner
-remains disabled because hosted schema, production database access, independent off-device key
-custody and an isolated production-format restore are absent. Task 5.20's hosted identity and
-request-security proof is partially complete: the hosted schema, RLS/RPC hardening, inactive-route
-denials and conservative Auth restrictions pass, while custom SMTP, synthetic provider lifecycle
-and first-enabled-route WAF/rate proof remain open. Therefore Sprint 05 and TD-020, TD-013 and TD-017 remain In
-progress; Task 5.15 subsequently Verified TD-015's repository audit boundary.
+remains disabled because no real intake exists and scheduled production export has not passed its
+activation gate. Task 5.20 completes hosted schema, RLS/RPC hardening, inactive-route denials,
+conservative Auth, custom SMTP, and synthetic provider-lifecycle proof. Task 5.21's final matrix and
+advisor review pass. Sprint 05 and TD-013, TD-017, and TD-020 are therefore closed/Verified for the
+implemented inactive boundary. First-route WAF/rate, callback, monitoring, and recovery proof remain
+mandatory activation gates for any future capability.
 
 Task 5.9 implements the shared inactive workflow command boundary. Tasks 5.14–5.15 extend it through
 Stripe test-mode payment and minimum-data partner fulfilment. The latter verifies Precise hand-off,
@@ -300,22 +300,23 @@ debts still in progress, with an exact external close-out pack.
 
 ## Sprint 05 Closure Boundary
 
-Sprint 05 repository implementation and Task 5.17 exact-commit hosted CI pass. Task 5.18 additionally
-completes the hosted public-uptime monitor and incident exercise. Its documentation change still
-requires the normal owner-controlled commit and hosted workflow.
+Sprint 05 repository implementation and Task 5.17 exact-commit hosted CI pass. Tasks 5.18–5.20 add
+the hosted public monitor, incident, R2 recovery, Supabase identity/request-security, and custom-SMTP
+evidence. Task 5.21 completes the final matrix, advisor review, and exact synthetic cleanup.
 
-TD-013, TD-017, and TD-020 remain In progress. Hosted synthetic Auth, contextual authorisation,
+TD-013, TD-017, and TD-020 are Verified for the implemented inactive boundary. Hosted synthetic Auth, contextual authorisation,
 disabled break-glass, inactive request-security, public uptime, backup heartbeat, and private R2
 recovery exercises pass. Brevo custom SMTP is configured with a verified sender and authenticated
 domain. Recovery delivery passes. The support invitation initially hard-bounced and was then blocked
 by stale suppression; external inbox proof, suppression removal, and a final Delivered invitation
-close that transport gap with hosted Auth users returned to zero. Task 5.20 is complete.
+close that transport gap. Task 5.21 found and safely removed five unreferenced synthetic internal
+identity remnants; hosted Auth users, provider identities, and contacts are now zero.
 Brevo link rewriting means direct token-bearing links remain
 activation-gated behind the future Meneer-owned confirmation/OTP boundary recorded in FC-001.
 Route-specific WAF/rate evidence, Stripe
 webhooks, partner callbacks, and any governed
-break-glass grant remain activation gates for the first enabled route; these limits do not mean the
-inactive foundations are absent.
+break-glass grant remain activation gates for the first enabled route; Sprint closure does not
+activate those capabilities.
 
 ## Retrieval Response Pattern
 

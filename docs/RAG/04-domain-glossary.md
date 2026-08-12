@@ -3,7 +3,7 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-08-11
+last_updated: 2026-08-12
 audience: internal
 sensitivity: internal
 ---
@@ -239,3 +239,6 @@ support owner are not interchangeable.
   source and controlled tests; it does not imply provider activation or launch approval.
 - **Activation evidence:** environment-specific proof required before a dormant route, identity,
   data, payment, monitoring or partner capability may process real use.
+- **Sprint-closed inactive boundary:** the planned implementation and verification are complete
+  while customer/provider mutations remain disabled; enabling one later requires its own activation
+  evidence and does not reopen the completed foundation unless that foundation regresses.
