@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(41);
+select plan(44);
 
 select has_table('public', 'subject_contacts', 'verified contacts table exists');
 select has_table('public', 'identity_invitations', 'cohort invitations table exists');
@@ -185,6 +185,47 @@ select is(
   ),
   1::bigint,
   'verified provider contact is linked without becoming an authority claim'
+);
+
+delete from auth.users
+where id = 'a0000000-0000-4000-8000-000000000001';
+
+select lives_ok(
+  $$
+    insert into auth.users (id, email, email_confirmed_at, is_sso_user, is_anonymous)
+    values (
+      'a0000000-0000-4000-8000-000000000002',
+      'synthetic.auth@example.invalid',
+      '2030-01-02T00:00:00Z',
+      false,
+      false
+    )
+  $$,
+  'a returning verified managed-auth user can be synchronised'
+);
+select is(
+  (
+    select count(distinct identity.subject_id)
+    from public.external_identities as identity
+    where identity.provider = 'supabase'
+      and identity.provider_subject in (
+        'a0000000-0000-4000-8000-000000000001',
+        'a0000000-0000-4000-8000-000000000002'
+      )
+  ),
+  1::bigint,
+  'a returning provider identity relinks to the stable internal subject'
+);
+select is(
+  (
+    select count(*)
+    from public.subject_contacts
+    where provider = 'supabase'
+      and kind = 'email'
+      and normalized_value = 'synthetic.auth@example.invalid'
+  ),
+  1::bigint,
+  'a returning provider identity retains one verified contact record'
 );
 
 select lives_ok(

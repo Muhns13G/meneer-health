@@ -1,5 +1,3 @@
-import { execFileSync } from "node:child_process";
-
 import { createClient } from "@supabase/supabase-js";
 
 import { AuthorisationService } from "../src/application/authorisation/authorisation-service";
@@ -8,12 +6,7 @@ import {
   resolveServerAuthorisationResource,
   type AuthorisationRequest,
 } from "../src/domain/access/authorisation";
-
-type LocalStatus = Readonly<{
-  API_URL: string;
-  PUBLISHABLE_KEY: string;
-  SECRET_KEY: string;
-}>;
+import { readSupabaseIntegrationEnvironment } from "./lib/supabase-integration-environment";
 
 const alphaTenant = "10000000-0000-4000-8000-000000000001";
 const betaTenant = "10000000-0000-4000-8000-000000000002";
@@ -25,20 +18,6 @@ const observedAt = new Date("2030-01-01T00:10:00Z");
 
 function invariant(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
-}
-
-function localStatus(): LocalStatus {
-  const stdout = execFileSync("bunx", ["supabase", "status", "-o", "json"], {
-    encoding: "utf8",
-  });
-  const jsonStart = stdout.indexOf("{");
-  invariant(jsonStart >= 0, "Local Supabase status did not return JSON.");
-  const status = JSON.parse(stdout.slice(jsonStart)) as Partial<LocalStatus>;
-  invariant(
-    status.API_URL && status.PUBLISHABLE_KEY && status.SECRET_KEY,
-    "Local authorisation services are not running.",
-  );
-  return status as LocalStatus;
 }
 
 function request(
@@ -66,7 +45,7 @@ function request(
 }
 
 async function run(): Promise<void> {
-  const status = localStatus();
+  const status = readSupabaseIntegrationEnvironment();
   const options = {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
   };
@@ -169,7 +148,7 @@ async function run(): Promise<void> {
   const serviceAllowed = await service.authoriseService(
     "80000000-0000-4000-8000-000000000001",
     new Uint8Array(32).fill(0xab),
-    "local",
+    status.target === "local" ? "local" : "production",
     request(betaTenant, "fulfilment", assignedFulfilment, "operations", "update"),
   );
   invariant(serviceAllowed.allowed, "Exact service scope was denied.");
@@ -177,7 +156,7 @@ async function run(): Promise<void> {
   const serviceCrossEnvironment = await service.authoriseService(
     "80000000-0000-4000-8000-000000000001",
     new Uint8Array(32).fill(0xab),
-    "preview",
+    status.target === "local" ? "preview" : "local",
     request(betaTenant, "fulfilment", assignedFulfilment, "operations", "update"),
   );
   invariant(

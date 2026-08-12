@@ -1,6 +1,6 @@
 ---
 task: 5.19
-status: hosted-round-trip-pending
+status: verified-task-evidence
 date: 2026-08-12
 related_debt: [TD-020]
 ---
@@ -9,10 +9,8 @@ related_debt: [TD-020]
 
 ## Outcome
 
-The hosted recovery boundary is provisioned and its upload, durable-write failure, and
-alert/recovery paths are verified. The repository now implements the complete provider-backed
-download/decrypt/restore/reconcile/delete round trip; a successful hosted workflow run remains the
-final acceptance step. Cloudflare R2 bucket
+The hosted recovery boundary and its complete provider-backed upload/download/decrypt/restore/
+reconcile/delete round trip are verified. Cloudflare R2 bucket
 `meneer-health-recovery-production` is private, uses EU jurisdiction and Standard storage, exposes
 no public URL, custom domain or CORS policy, and deletes objects after 35 days. Credential
 `meneer-health-recovery-writer` has Object Read & Write access to this bucket only; existing broad
@@ -62,9 +60,9 @@ remains a production-activation control.
 | Hosted synthetic export         | Runs `31545210677` and `31545772038`; private encrypted R2 objects | Pass                  |
 | Failed-write/no-heartbeat proof | Run `31545509397`; durable-write failure and unchanged heartbeat   | Pass                  |
 | Missed-heartbeat alert/recovery | Incident `1000419671`; acknowledged and automatically resolved     | Pass                  |
-| Hosted download and decryption  | Implemented and unit tested; hosted workflow acceptance run needed | Awaiting hosted run   |
-| Restore and reconciliation      | Real local PostgreSQL dump/restore passes; hosted run needed       | Awaiting hosted run   |
-| Synthetic-object cleanup        | Explicit delete implemented in a `finally` boundary; run needed    | Awaiting hosted run   |
+| Hosted download and decryption  | Run `31551448469`; exact body, decrypt and checksum pass           | Pass                  |
+| Restore and reconciliation      | Run `31551448469`; three records and fingerprint reconcile         | Pass                  |
+| Synthetic-object cleanup        | Run `31551448469`; uploaded synthetic object deleted               | Pass                  |
 | Production export               | Hosted Supabase has no application migrations and no runner DB URL | Blocked by activation |
 
 ## Hosted Exercise Evidence
@@ -94,11 +92,13 @@ remains a production-activation control.
   creation and dump generation but failed when the runner could not read those root-owned synthetic
   outputs at mode `0600`. The follow-up limits runner-readable mode `0644` to the non-sensitive fixed
   synthetic dump and fingerprints; real production dumps, keys and encrypted objects are unchanged.
-  The corrected local Docker round trip passes; a new hosted run is still required.
+  The corrected local Docker round trip passes.
+- Run `31551448469` on commit `64b014d` completed the provider-backed acceptance path. Its safe
+  output reports encrypted durable storage, verified R2 read-after-write, successful decryption and
+  checksum validation, three restored records with matching fingerprint, explicit synthetic-object
+  deletion, and a payload-free heartbeat containing zero fields. Better Stack recorded that
+  heartbeat and remains Up under the permanent one-hour interval and 15-minute grace policy.
 
-Task 5.19 remains open against its original acceptance criteria until a provider-backed exercise
-successfully exercises the newly implemented upload/download/decrypt/restore/reconcile/delete path
-and confirms the success heartbeat advances only afterward. Production scheduling remains disabled
-and still requires hosted migrations, an IPv4-compatible
-session-pooler URL, independent off-device key custody, and a successful isolated production-format
-restore.
+Task 5.19 is complete against its synthetic hosted acceptance criteria. Production scheduling
+remains disabled and still requires hosted migrations, an IPv4-compatible session-pooler URL,
+independent off-device key custody, and a successful isolated production-format restore.

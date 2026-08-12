@@ -78,7 +78,10 @@ An owner-approved controlled-pilot charter now defines the 30-day invite-only, p
 scope, operating roles, measures, stop criteria, activation gate, exit review, and distinct
 public-launch threshold. Versioned website-only privacy and terms notices replace the earlier
 placeholders and are approved for publication as version 1.0. The support mailbox exists, is
-owner-monitored daily, and has owner-confirmed security controls. TD-005 and TD-056 are Verified.
+owner-monitored daily, and has owner-confirmed security controls. Hosted proof initially exposed an
+inactive alias and subsequent stale Brevo suppression; after alias verification and suppression
+removal, the final synthetic invitation was Delivered and cleanup returned Auth users to zero.
+TD-005 and TD-056 are Verified.
 Hosted canonical-domain checks and owner-confirmed QR scans also close TD-032 and TD-034. TD-006
 and TD-007 are the only original Sprint 01 debts carried forward for external claim and peptide
 pathway evidence.
@@ -202,8 +205,9 @@ non-transactional runtime.
 
 Sprint 05's portable data, identity, authorisation, command, audit, security, recovery, test-mode
 payment, fulfilment, and migration foundations pass locally while customer/provider mutations
-remain inactive. The sprint is reopened against its original hosted acceptance criteria for the R2
-round trip, synthetic identity/request-security proof, and final closure in Tasks 5.19–5.21. The
+remain inactive. Task 5.19's hosted synthetic R2 round trip passes. The sprint remains open against
+its original hosted acceptance criteria for synthetic identity/request-security proof and final
+closure in Tasks 5.20–5.21. The
 current canonical site preserves the approved non-transactional boundary; this work is not pilot
 activation.
 

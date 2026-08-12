@@ -57,6 +57,7 @@ describe("environment catalogue", () => {
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
       "SUPABASE_URL",
+      "SUPABASE_PUBLISHABLE_KEY",
       "SUPABASE_SECRET_KEY",
       "SUPABASE_DB_URL",
       "RECOVERY_EXPORT_SOURCE",

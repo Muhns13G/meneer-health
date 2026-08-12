@@ -12,8 +12,8 @@ owner: "@Muhns13G"
 
 Sprint 05 implements the minimum portable server, data, identity, authorisation, audit, request
 security, observability, recovery, payment, fulfilment, and migration foundations for v1. Tasks
-5.1–5.18 are complete. The sprint is reopened against its original acceptance criteria for Tasks
-5.19–5.21: hosted recovery round trip, hosted identity/request-security proof, and final closure.
+5.1–5.19 are complete. The sprint is reopened against its original acceptance criteria for Tasks
+5.20–5.21: hosted identity/request-security proof and final closure.
 Inactive customer and provider boundaries continue to fail closed.
 
 ## Work and Decisions
@@ -34,7 +34,9 @@ Inactive customer and provider boundaries continue to fail closed.
   acknowledgement, healthy recovery, and automatic closure without application logs or private data.
 - Provisioned Task 5.19's private EU R2 bucket, bucket-only writer, 35-day expiry, and payload-free
   heartbeat; proved encrypted upload, durable-write failure without a false heartbeat, missed-alert
-  acknowledgement, automatic recovery, and restoration of the permanent monitoring policy.
+  acknowledgement, automatic recovery, R2 read-after-write, decryption, isolated three-record
+  restore/reconciliation, synthetic-object deletion, heartbeat ordering, and restoration of the
+  permanent monitoring policy.
 - Added inactive one-time Stripe Checkout and minimum-data partner/fulfilment boundaries. No charge,
   public mutation, production credential, patient data, or real partner callback was enabled.
 - Froze 14 capability records, 14 contract-major mappings, 20 portable fixtures, a CI drift check,
@@ -43,8 +45,8 @@ Inactive customer and provider boundaries continue to fail closed.
 ## Deviations from the Plan
 
 - The Sprint was initially recorded as 19 completed commit-sized tasks, but Task 5.19 had been
-  narrowed without reconciling its original hosted round-trip requirements. Tasks 5.19–5.21 now
-  preserve those requirements as explicit commit-sized follow-through.
+  narrowed without reconciling its original hosted round-trip requirements. Tasks 5.19–5.21 were
+  restored as explicit commit-sized follow-through; Task 5.19 has since passed its hosted proof.
 - Supabase, Stripe and Docker-backed proof went beyond the original scaffold expectation, but all
   exercises remained synthetic, test-mode, no-charge, and inactive in hosted environments.
 - Free-tier constraints produced compensating controls: application-managed session limits,
@@ -73,11 +75,27 @@ Inactive customer and provider boundaries continue to fail closed.
 ## Technical Debt and Residual Risk
 
 No new technical-debt ID accrued. TD-014, TD-015, TD-016, TD-018, TD-019, and TD-055 are Verified.
-Task 5.18 completes public uptime and explicit heartbeat-failure evidence. Task 5.19 still owes the
-provider-backed R2 download/decrypt/reconcile/delete round trip. TD-013 and TD-017 still owe the
-hosted synthetic identity, authorisation and request-security evidence assigned to Task 5.20.
-TD-020 therefore remains In progress. TD-007, TD-009, and TD-010 continue to gate real peptide,
-operating-party, commercial and fulfilment use.
+Tasks 5.18–5.19 complete public uptime, heartbeat-failure and provider-backed synthetic R2 recovery
+evidence. Task 5.20 now passes hosted identity, contextual-authorisation, disabled-break-glass and
+inactive request-security exercises and has configured a verified Brevo SMTP sender/domain.
+Recovery delivery passes, while the invitation to the published support address hard-bounced
+because the recipient account did not exist. A post-alias retry was accepted by Supabase but again
+ended in a Brevo block caused by stale hard-bounce suppression. External inbox proof confirmed the
+alias, the suppression was removed, and the final approved invitation reached Delivered with Auth
+users returned to zero. TD-005 is Verified. Task 5.20 is complete; TD-013, TD-017, and TD-020 remain
+In progress until Task 5.21 performs final reconciliation. Direct provider Auth links remain activation-gated behind
+FC-001's future first-party confirmation/OTP boundary. TD-007,
+TD-009, and TD-010 continue to gate real peptide, operating-party, commercial and fulfilment use.
+
+The final recovery retry also found that provider-user deletion retained the intended stable
+subject/contact but recreation did not relink it during Supabase's insert-before-confirmation
+sequence. Two migrations and a pgTAP regression now cover returning identities. Hosted proof
+created the returning identity, accepted recovery, preserved one stable subject/contact, removed
+the temporary Auth user and then removed the exact synthetic retained identity fixture. Final
+delivery initially remained blocked by stale Brevo suppression on `sales@`; after exact unblocking,
+the final approved recovery email reached Gmail at 13:12 without its token-bearing link being
+opened or recorded. A clean local reset applied all twelve migrations and passed nine pgTAP files /
+296 assertions before Supabase was stopped cleanly.
 
 ## Existing Files Modified
 
@@ -118,6 +136,6 @@ headers, caching, redirects, 404s, and inactive transaction boundaries.
 
 The Task 5.17 owner checkpoint and required hosted workflow pass. Task 5.18's public monitor,
 controlled incident and explicit heartbeat-failure/recovery exercises also pass. Sprint 05 remains
-open for Tasks 5.19–5.21 and must not be described as fully implemented or closed before their
+open for Tasks 5.20–5.21 and must not be described as fully implemented or closed before their
 acceptance evidence passes. This status does not approve the pilot, real patient data, live
 payments, or provider activation.

@@ -72,6 +72,12 @@ support@meneerhealth.co.za exists, is personally monitored every day, and has th
 least-privilege security controls. TD-005 is Verified through containment for the current
 non-transactional website.
 
+Later evidence supersedes the mailbox portion of this closure: a 12 August 2026 Brevo delivery
+exercise hard-bounced because the recipient account did not exist, and a post-alias retry was
+blocked by Brevo's stale suppression. The owner then proved external inbox delivery, the suppression
+was removed, and a final Supabase/Brevo invitation reached Delivered with Auth users returned to
+zero. TD-005 is therefore Verified. See the Task 5.20 hosted evidence.
+
 Before any health-data or transactional journey is enabled, replace this boundary with
 domain-approved transactional privacy, terms, consent, operator/responsible-party, retention,
 vendor, secure-support, incident, and data-subject-rights procedures.

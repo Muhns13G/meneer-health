@@ -1,33 +1,16 @@
-import { execFileSync } from "node:child_process";
-
 import { createClient } from "@supabase/supabase-js";
 
 import { SupabaseSecurityEvidenceRepository } from "../src/adapters/persistence/supabase/supabase-security-evidence-repository";
 import { SecurityEvidenceService } from "../src/application/observability/security-evidence-service";
 import { authorisationPolicyVersion } from "../src/domain/access/authorisation";
-
-type LocalStatus = Readonly<{ API_URL: string; PUBLISHABLE_KEY: string; SECRET_KEY: string }>;
+import { readSupabaseIntegrationEnvironment } from "./lib/supabase-integration-environment";
 
 function invariant(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
 }
 
-function localStatus(): LocalStatus {
-  const stdout = execFileSync("bunx", ["supabase", "status", "-o", "json"], {
-    encoding: "utf8",
-  });
-  const jsonStart = stdout.indexOf("{");
-  invariant(jsonStart >= 0, "Local Supabase status did not return JSON.");
-  const status = JSON.parse(stdout.slice(jsonStart)) as Partial<LocalStatus>;
-  invariant(
-    status.API_URL && status.PUBLISHABLE_KEY && status.SECRET_KEY,
-    "Local security evidence services are not running.",
-  );
-  return status as LocalStatus;
-}
-
 async function run(): Promise<void> {
-  const status = localStatus();
+  const status = readSupabaseIntegrationEnvironment();
   const options = {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
   };

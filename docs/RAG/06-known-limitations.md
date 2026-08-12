@@ -161,11 +161,13 @@ monitor activation, email delivery, acknowledgement and recovery evidence withou
 application-log source. Automatic invocation logs remain disabled. Task 5.19 verifies private EU
 R2 encrypted upload, 35-day expiry, durable-write failure without a false heartbeat, and a
 missed-heartbeat acknowledgement/automatic-recovery exercise. Provider-backed download, decryption,
-reconciliation/restore and synthetic-object deletion are implemented and pass the local Docker
-acceptance exercise, but still require one successful hosted workflow run. Its hourly production runner
+reconciliation/restore and synthetic-object deletion pass hosted run `31551448469`; the zero-field
+heartbeat was emitted only afterward. Its hourly production runner
 remains disabled because hosted schema, production database access, independent off-device key
 custody and an isolated production-format restore are absent. Task 5.20's hosted identity and
-request-security proof is also open. Therefore Sprint 05 and TD-020, TD-013 and TD-017 remain In
+request-security proof is partially complete: the hosted schema, RLS/RPC hardening, inactive-route
+denials and conservative Auth restrictions pass, while custom SMTP, synthetic provider lifecycle
+and first-enabled-route WAF/rate proof remain open. Therefore Sprint 05 and TD-020, TD-013 and TD-017 remain In
 progress; Task 5.15 subsequently Verified TD-015's repository audit boundary.
 
 Task 5.9 implements the shared inactive workflow command boundary. Tasks 5.14–5.15 extend it through
@@ -290,8 +292,8 @@ Technical debt is authoritative for outstanding obligations. An item is not reso
 Sprint 01 is closed as an engineering containment boundary, not as pilot activation approval.
 TD-008 is Verified only through the current disabled-capability outcome; enabling any condition
 transaction requires its approved clinical rules, verified accountable parties, server enforcement,
-and renewed evidence. TD-005 is Verified through the current website-only policy/support
-containment, TD-033 is Verified through isolated-preview containment, and TD-056 is Verified through
+and renewed evidence. TD-005 is Verified after external inbox and final Supabase/Brevo delivery
+proof, TD-033 is Verified through isolated-preview containment, and TD-056 is Verified through
 the approved charter. TD-032 and TD-034 are Verified through canonical hosted asset, redirect,
 destination, and owner-confirmed QR-scan evidence. TD-006–TD-007 are the only original Sprint 01
 debts still in progress, with an exact external close-out pack.
@@ -302,10 +304,18 @@ Sprint 05 repository implementation and Task 5.17 exact-commit hosted CI pass. T
 completes the hosted public-uptime monitor and incident exercise. Its documentation change still
 requires the normal owner-controlled commit and hosted workflow.
 
-TD-013, TD-017, and TD-020 remain In progress for authenticated/approved break-glass activation,
-route-specific hosted abuse/WAF proof, and provisioned/fail-tested backup heartbeat, recovery
-storage, Stripe webhook and partner callbacks. These limits prohibit activation; they do not mean
-the inactive portable foundations or hosted public monitor are absent.
+TD-013, TD-017, and TD-020 remain In progress. Hosted synthetic Auth, contextual authorisation,
+disabled break-glass, inactive request-security, public uptime, backup heartbeat, and private R2
+recovery exercises pass. Brevo custom SMTP is configured with a verified sender and authenticated
+domain. Recovery delivery passes. The support invitation initially hard-bounced and was then blocked
+by stale suppression; external inbox proof, suppression removal, and a final Delivered invitation
+close that transport gap with hosted Auth users returned to zero. Task 5.20 is complete.
+Brevo link rewriting means direct token-bearing links remain
+activation-gated behind the future Meneer-owned confirmation/OTP boundary recorded in FC-001.
+Route-specific WAF/rate evidence, Stripe
+webhooks, partner callbacks, and any governed
+break-glass grant remain activation gates for the first enabled route; these limits do not mean the
+inactive foundations are absent.
 
 ## Retrieval Response Pattern
 
