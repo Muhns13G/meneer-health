@@ -62,6 +62,10 @@ Inactive customer and provider boundaries continue to fail closed.
   activation follow-through rather than overstating Task 5.12's repository-only monitor evidence.
 - Final cleanup found five orphaned provider identities left by hosted lifecycle exercises. They had
   no immutable-audit or workflow dependencies and were deleted by exact identifier before closure.
+- Preview CI initially expected only the permanent `/peptides` heading, then treated Chromium's
+  intentional MP4 metadata-preload cancellation as a failed asset. The test contract was corrected
+  to recognize the two approved branch states, ignore only `media` plus `net::ERR_ABORTED`, and
+  independently require configured video sources to return `200`/`206` with `video/mp4`.
 
 ## Lessons Learned
 
@@ -115,6 +119,7 @@ opened or recorded. A clean local reset applied all twelve migrations and passed
 | `docs/00-blueprints/`, phase plan, debt registry, future considerations, decisions, RAG | Reconciled the selected architecture, delivery evidence, debt, and retrieval state through final Sprint 5 closure. |
 | `docs/06-operations/cloudflare-environments-release-runbook.md`, `testing-ci-guide.md`  | Extended environment, provider, test and release operations.                                                       |
 | `e2e/boundaries.spec.ts`                                                                | Added security, inactive-endpoint and non-transactional boundary coverage.                                         |
+| `e2e/fixtures.ts`, `e2e/helpers.ts`, `e2e/site-health.spec.ts`                          | Reconciled permanent/preview peptide states and added explicit MP4 availability proof.                             |
 | `src/routes/peptides.tsx`, `poster.tsx`, `poster-thanks.tsx`, `src/routeTree.gen.ts`    | Routed public environment values and retained fail-closed presentation behavior.                                   |
 
 ## Existing Files Deleted
@@ -142,6 +147,11 @@ audits, production build, generated checks, Cloudflare dry run, 54 Playwright ch
 twelve-migration/296-assertion pgTAP suite, every synthetic integration, incident rehearsal, and an
 encrypted 125/125 restore in seven seconds. The current canonical deployment preserves approved
 presentation, headers, caching, redirects, 404s, and inactive transaction boundaries.
+
+The final peptide correction passes the complete 54-check permanent-branch Playwright/axe matrix,
+the exact failed preview tree on desktop and mobile, and a negative control that rejects a missing
+MP4. Preview GitHub Actions run `31600466333` passes at commit
+`2f0574bce488915252bcd344501bd6bcacbe9e44`.
 
 The Task 5.17 owner checkpoint and required hosted workflow pass. Tasks 5.18–5.20 add public
 monitoring, hosted recovery, identity, request-security, and SMTP evidence. Task 5.21 completes the

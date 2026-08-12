@@ -4,7 +4,11 @@ export const activeRoutes = [
     title: "Meneer — Back to your best. Men's health, delivered in ZA",
     heading: "The care you've quietly been wanting.",
   },
-  { path: "/peptides", title: "Peptides — Meneer", heading: "Peptide access is currently gated." },
+  {
+    path: "/peptides",
+    title: "Peptides — Meneer",
+    heading: /^(Peptide access is currently gated\.|Peptide treatment, medically guided\.)$/,
+  },
   {
     path: "/start",
     title: "Start your private consult — Meneer",

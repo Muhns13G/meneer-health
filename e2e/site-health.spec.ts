@@ -1,6 +1,11 @@
 import { expect, test } from "@playwright/test";
 import { activeRoutes } from "./fixtures";
-import { expectHealthyRendering, isolateExternalFonts, monitorPage } from "./helpers";
+import {
+  expectConfiguredMediaAvailable,
+  expectHealthyRendering,
+  isolateExternalFonts,
+  monitorPage,
+} from "./helpers";
 
 test.describe("active route health", () => {
   for (const route of activeRoutes) {
@@ -13,6 +18,7 @@ test.describe("active route health", () => {
       expect(response?.status()).toBe(200);
       await expect(page).toHaveTitle(route.title);
       await expect(page.getByRole("heading", { level: 1, name: route.heading })).toBeVisible();
+      await expectConfiguredMediaAvailable(page);
       await expectHealthyRendering(page, findings);
     });
   }
