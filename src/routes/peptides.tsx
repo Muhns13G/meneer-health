@@ -3,6 +3,13 @@ import { useState } from "react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
+import { ProfileErrorSummary, ProfileFields } from "@/components/ProfileFields";
+import {
+  validateProfileDraft,
+  type ProfileDraft,
+  type ProfileErrors,
+  type ProfileField,
+} from "@/domain/journey/profile-form";
 import { publicEnvironment } from "@/config/public-environment";
 
 // TODO: Replace with real Precise Wellness questionnaire URL once confirmed.
@@ -137,16 +144,22 @@ type Step = "intro" | "profile" | "acknowledge";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- preserved replacement reference.
 function PeptidesPage() {
   const [step, setStep] = useState<Step>("intro");
-  const [profile, setProfile] = useState({
-    name: "",
+  const [profile, setProfile] = useState<ProfileDraft>({
+    firstName: "",
     email: "",
     whatsapp: "",
     password: "",
   });
+  const [profileErrors, setProfileErrors] = useState<ProfileErrors>({});
   const [acknowledged, setAcknowledged] = useState(false);
 
   const goToQuestionnaire = () => {
     window.location.href = PW_QUESTIONNAIRE_URL;
+  };
+
+  const updateProfile = (field: ProfileField, value: string) => {
+    setProfile((current) => ({ ...current, [field]: value }));
+    setProfileErrors((current) => ({ ...current, [field]: undefined }));
   };
 
   return (
@@ -221,29 +234,24 @@ function PeptidesPage() {
             </p>
 
             <form
+              noValidate
               className="mt-8 space-y-5"
               onSubmit={(e) => {
                 e.preventDefault();
+                const errors = validateProfileDraft(profile);
+                setProfileErrors(errors);
+                if (Object.keys(errors).length > 0) return;
                 setStep("acknowledge");
               }}
             >
-              {[
-                { key: "name", label: "Full name", type: "text" },
-                { key: "email", label: "Email", type: "email" },
-                { key: "whatsapp", label: "WhatsApp number", type: "tel" },
-                { key: "password", label: "Password", type: "password" },
-              ].map((f) => (
-                <div key={f.key}>
-                  <label className="label-caps text-muted-foreground">{f.label}</label>
-                  <input
-                    required
-                    type={f.type}
-                    value={profile[f.key as keyof typeof profile]}
-                    onChange={(e) => setProfile({ ...profile, [f.key]: e.target.value })}
-                    className="mt-2 w-full rounded-xl bg-surface border border-border/60 px-4 py-3 text-foreground focus:outline-none focus:border-gold/60"
-                  />
-                </div>
-              ))}
+              <ProfileErrorSummary errors={profileErrors} />
+              <ProfileFields
+                profile={profile}
+                errors={profileErrors}
+                onChange={updateProfile}
+                nameLabel="Full name"
+                nameAutocomplete="name"
+              />
 
               <div className="flex flex-wrap gap-4 pt-4">
                 <button
@@ -291,7 +299,10 @@ function PeptidesPage() {
 
             <label className="mt-8 flex items-start gap-3 cursor-pointer">
               <input
+                id="peptide-acknowledgement"
+                name="acknowledgement"
                 type="checkbox"
+                required
                 checked={acknowledged}
                 onChange={(e) => setAcknowledged(e.target.checked)}
                 className="mt-1 h-5 w-5 accent-[color:var(--gold)]"
