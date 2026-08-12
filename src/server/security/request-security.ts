@@ -13,6 +13,7 @@ const correlationPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 const idempotencyPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$/;
 const directEndpointPrefixes = ["/api", "/.mcp"] as const;
 const registeredPostRoutes = new Map<string, RequestRouteClass>([
+  ["/api/journey/intent", "protected-command"],
   ["/api/payments/checkout", "protected-command"],
   ["/api/payments/stripe/webhook", "provider-callback"],
 ]);
@@ -65,6 +66,10 @@ export type PublicRequestDecision = RequestSecurityFailure | RequestSecurityAllo
 export type ProtectedJsonDecision =
   | RequestSecurityFailure
   | RequestSecurityAllowance<Readonly<{ body: Record<string, unknown>; idempotencyKey?: string }>>;
+
+export type ProtectedFormDecision =
+  | RequestSecurityFailure
+  | RequestSecurityAllowance<URLSearchParams>;
 
 function correlationId(request: Request): string {
   const supplied = request.headers.get("x-correlation-id")?.trim();
@@ -329,6 +334,42 @@ function isSameOriginBrowserRequest(request: Request): boolean {
   if (!origin || origin !== new URL(request.url).origin) return false;
   const fetchSite = request.headers.get("sec-fetch-site");
   return fetchSite === null || fetchSite === "same-origin";
+}
+
+export async function inspectProtectedFormRequest(
+  request: Request,
+  policy: Readonly<{
+    action: string;
+    rateLimiter: RateLimitPort;
+    maximumBytes: number;
+  }>,
+): Promise<ProtectedFormDecision> {
+  if (request.method !== "POST")
+    return rejection(request, "METHOD_NOT_ALLOWED", "protected-command");
+  if (!isSameOriginBrowserRequest(request)) {
+    return rejection(request, "ORIGIN_REJECTED", "protected-command");
+  }
+  const mediaType = request.headers.get("content-type")?.split(";", 1)[0]?.trim().toLowerCase();
+  if (mediaType !== "application/x-www-form-urlencoded") {
+    return rejection(request, "CONTENT_TYPE_REJECTED", "protected-command");
+  }
+  const body = await readBoundedTextRequest(request, policy.maximumBytes);
+  if (body === "too-large") return rejection(request, "BODY_TOO_LARGE", "protected-command");
+  if (body === "malformed") return rejection(request, "MALFORMED_BODY", "protected-command");
+  try {
+    const rateKey = request.headers.get("cf-connecting-ip")?.trim() || "unattributed";
+    const limited = await policy.rateLimiter.limit({
+      key: `${policy.action}:${await sha256(rateKey)}`,
+    });
+    if (!limited.success) return rejection(request, "RATE_LIMITED", "protected-command");
+  } catch {
+    return rejection(request, "DEPENDENCY_UNAVAILABLE", "protected-command");
+  }
+  return {
+    allowed: true,
+    decision: decision(request, "allowed", "ALLOWED", "protected-command"),
+    value: new URLSearchParams(body),
+  };
 }
 
 async function readBoundedJson(

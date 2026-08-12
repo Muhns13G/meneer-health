@@ -4,6 +4,7 @@ import {
   applyCorrelationHeader,
   executeWithRequestTimeout,
   inspectProtectedJsonRequest,
+  inspectProtectedFormRequest,
   inspectPublicRequest,
   readBoundedTextRequest,
   requestSecurityLimits,
@@ -118,7 +119,11 @@ describe("current public request boundary", () => {
     }
   });
 
-  it("admits only the registered payment POST routes to their route-level controls", async () => {
+  it("admits only registered POST routes to their route-level controls", async () => {
+    const journey = await inspectPublicRequest(
+      request("/api/journey/intent", { method: "POST" }),
+      allowRate,
+    );
     const checkout = await inspectPublicRequest(
       request("/api/payments/checkout", { method: "POST" }),
       allowRate,
@@ -132,6 +137,7 @@ describe("current public request boundary", () => {
       allowRate,
     );
 
+    expect(journey.allowed && journey.decision.routeClass).toBe("protected-command");
     expect(checkout.allowed && checkout.decision.routeClass).toBe("protected-command");
     expect(webhook.allowed && webhook.decision.routeClass).toBe("provider-callback");
     expect(hiddenRead.allowed).toBe(false);
@@ -168,6 +174,67 @@ describe("current public request boundary", () => {
 
     expect(retained.decision.correlationId).toBe("trace_safe_01");
     expect(replaced.decision.correlationId).not.toBe("unsafe trace");
+  });
+});
+
+describe("protected form boundary", () => {
+  it("accepts a bounded same-origin form without exposing its contents in the URL", async () => {
+    const protectedForm = request("/api/journey/intent", {
+      method: "POST",
+      body: new URLSearchParams({ selection: "opaque-synthetic" }),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Origin: BASE_URL,
+        "Sec-Fetch-Site": "same-origin",
+      },
+    });
+    const result = await inspectProtectedFormRequest(protectedForm, {
+      action: "journey-intent",
+      rateLimiter: allowRate,
+      maximumBytes: 128,
+    });
+
+    expect(result.allowed).toBe(true);
+    if (result.allowed) expect(result.value.get("selection")).toBe("opaque-synthetic");
+    expect(protectedForm.url).toBe(`${BASE_URL}/api/journey/intent`);
+  });
+
+  it("rejects cross-origin, wrong-content-type, oversized, and limited requests", async () => {
+    const makeRequest = (headers?: HeadersInit, body = "selection=opaque") =>
+      request("/api/journey/intent", {
+        method: "POST",
+        body,
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Origin: BASE_URL,
+          "Sec-Fetch-Site": "same-origin",
+          ...headers,
+        },
+      });
+    const policy = { action: "journey-intent", rateLimiter: allowRate, maximumBytes: 16 };
+
+    const crossOrigin = await inspectProtectedFormRequest(
+      makeRequest({ Origin: "https://example.invalid", "Sec-Fetch-Site": "cross-site" }),
+      policy,
+    );
+    const wrongType = await inspectProtectedFormRequest(
+      makeRequest({ "Content-Type": "application/json" }),
+      policy,
+    );
+    const oversized = await inspectProtectedFormRequest(
+      makeRequest(undefined, "x".repeat(17)),
+      policy,
+    );
+    const limited = await inspectProtectedFormRequest(makeRequest(), {
+      ...policy,
+      maximumBytes: 128,
+      rateLimiter: denyRate,
+    });
+
+    expect(!crossOrigin.allowed && crossOrigin.response.status).toBe(403);
+    expect(!wrongType.allowed && wrongType.response.status).toBe(400);
+    expect(!oversized.allowed && oversized.response.status).toBe(413);
+    expect(!limited.allowed && limited.response.status).toBe(429);
   });
 });
 
