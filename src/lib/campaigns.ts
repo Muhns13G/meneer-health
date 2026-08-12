@@ -1,4 +1,4 @@
-const CANONICAL_PUBLIC_ORIGIN = "https://meneerhealth.co.za";
+import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
 
 export const CAMPAIGNS = {
   dads: {
@@ -16,5 +16,5 @@ export const CAMPAIGNS = {
 } as const;
 
 export function getCanonicalCampaignUrl(shortPath: string) {
-  return `${CANONICAL_PUBLIC_ORIGIN}${shortPath}`;
+  return getCanonicalPublicUrl(shortPath);
 }
