@@ -53,7 +53,7 @@ Primary debt: TD-035–TD-039 and TD-042–TD-044.
 | 6.3  | Implement typed, server-validated treatment intent without URL, analytics, referrer, log, or third-party leakage; fail closed otherwise. | TD-036; activation gates  | Completed |
 | 6.4  | Correct form labels, descriptions, autocomplete/input modes, required state, validation, and accessible error summaries.                 | TD-037                    | Completed |
 | 6.5  | Add stepped-flow focus management, progress semantics, live status/error announcements, and navigation-state preservation.               | TD-038                    | Completed |
-| 6.6  | Implement mobile disclosure semantics, focus behavior, Escape/outside handling, resize behavior, and route-change closure.               | TD-039                    | Planned   |
+| 6.6  | Implement mobile disclosure semantics, focus behavior, Escape/outside handling, resize behavior, and route-change closure.               | TD-039                    | Completed |
 | 6.7  | Reconcile verified support and emergency surfaces; keep unverified clinical/privacy/complaint channels explicitly unavailable.           | TD-043; external input    | Planned   |
 | 6.8  | Implement the route policy through absolute canonicals, robots and sitemap outputs, exclusion rules, and generated-output tests.         | TD-042                    | Planned   |
 | 6.9  | Add approved favicon and social-card assets and verify metadata rendering; retain an explicit gate if assets remain unavailable.         | TD-042; approved assets   | Planned   |
