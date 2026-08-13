@@ -339,30 +339,29 @@ TD-045 remains Sprint 07 scope.
 
 ## Sprint 07 Journey Decision Boundary
 
-Task 7.2 approves five canonical public phases and the rules for shorter channel projections. This
-is a content-governance decision, not a claim that current components already derive from one
-source. TD-040 remains In progress until Tasks 7.3–7.6 implement the schema, claim lifecycle,
-migration, consistency checks, withdrawal, and rollback.
+Task 7.2 approves five canonical public phases and the rules for shorter channel projections. Task
+7.5 now migrates 22 website, metadata, campaign, support and preserved-prototype consumers to the
+framework-neutral runtime source. TD-040 remains In progress until Task 7.6 proves exhaustive
+consistency, withdrawal, version and rollback behaviour.
 
 Do not interpret five minutes as total service time, 48 hours as guaranteed dosing/delivery, or the
 provisional three-to-five-business-day delivery target as starting at the first website visit. The
-current stronger 48-hour, weekend-treatment, and two-to-three-day variants remain preserved in the
-UI but are rejected by the Task 7.4 register; they are not approved timing semantics merely because
-they remain in gated or public source. Task 7.5 owns deliberate replacement. No transaction or
-analytics capability was activated.
+former stronger 48-hour, weekend-treatment and two-to-three-day variants remain rejected historical
+records. Task 7.5 replaces only those three runtime representations with owner-approved qualified
+wording. The replacements remain pending evidence; no transaction or analytics capability was
+activated.
 
-Task 7.3 adds the portable public-content catalogue and fail-closed lifecycle resolver, but no
-existing route or component consumes it yet. Do not describe the current website as centrally
-generated or drift-proof until Tasks 7.5–7.6 complete migration, consistency, withdrawal, and
-rollback evidence. The catalogue is version-controlled code, not a live CMS or database, and it
-contains no patient/private workflow state.
+Task 7.3 adds the portable public-content catalogue and fail-closed lifecycle resolver. Task 7.5
+adds the framework-neutral runtime source and migrates the identified consumers, but do not describe
+the website as exhaustively drift-proof until Task 7.6 completes cross-channel, withdrawal, version
+and rollback evidence. The catalogue/source is version-controlled code, not a live CMS or database,
+and contains no patient/private workflow state.
 
-Task 7.4 completes the portable claim register and fail-closed claim publication validator, but it
-does not provide missing domain evidence or migrate current components. Of 28 observed variants, 25
-remain pending evidence and three timing variants are rejected. Do not describe retained wording as
-domain-approved or the current website as enforcing the register until Task 7.5 migration and Task
-7.6 cross-channel tests complete. TD-006, TD-007, TD-040, and TD-046 remain In progress; TD-047
-remains Verified because MCP stays absent.
+Task 7.4 completes the portable claim register and fail-closed claim publication validator; Task 7.5
+binds the runtime source and three replacements. Of 31 variants, 28 remain pending evidence and three
+are rejected history. Do not describe retained wording as domain-approved or the current website as
+fully drift-proof until Task 7.6 cross-channel tests complete. TD-006, TD-007, TD-040 and TD-046
+remain In progress; TD-047 remains Verified because MCP stays absent.
 
 ## Retrieval Response Pattern
 

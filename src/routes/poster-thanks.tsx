@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { publicContent } from "@content/public-content";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
 import meneerMark from "@/assets/brand/meneer-mark.png";
 import { CAMPAIGNS, getCanonicalCampaignUrl } from "@/lib/campaigns";
@@ -10,8 +11,8 @@ export const Route = createFileRoute("/poster-thanks")({
   component: PosterThanksRoute,
   head: () => ({
     meta: [
-      { title: "Meneer — Thanks for being a great dad." },
-      { name: "description", content: "Meneer poster — Sorted, sir." },
+      { title: publicContent.metadata.posterThanks.title },
+      { name: "description", content: publicContent.metadata.posterThanks.description },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -24,10 +25,10 @@ function PosterThanksRoute() {
 
   return (
     <PilotRouteGate
-      eyebrow="Campaign inactive"
-      title="This campaign is not currently active."
-      description="The campaign will be made available only after its destination, QR asset, claims, and print behaviour are approved and tested."
-      assurance="No scan, attribution, registration, or submission occurs from this page."
+      eyebrow={publicContent.routeGates.campaign.eyebrow}
+      title={publicContent.routeGates.campaign.title}
+      description={publicContent.routeGates.campaign.description}
+      assurance={publicContent.routeGates.campaign.assurance}
     />
   );
 }
@@ -82,7 +83,7 @@ function PosterThanksPage() {
               fontWeight: 500,
             }}
           >
-            MENEER
+            {publicContent.campaigns.shared.brand}
           </span>
         </header>
 
@@ -98,9 +99,13 @@ function PosterThanksPage() {
               margin: 0,
             }}
           >
-            <span style={{ color: "#E8E6E1" }}>Thanks for being</span>
+            <span style={{ color: "#E8E6E1" }}>
+              {publicContent.campaigns.thanksDad.headlineLead}
+            </span>
             <br />
-            <span style={{ color: "#C8A96E", fontStyle: "italic" }}>a great dad.</span>
+            <span style={{ color: "#C8A96E", fontStyle: "italic" }}>
+              {publicContent.campaigns.thanksDad.headlineEnd}
+            </span>
           </h1>
 
           <p
@@ -114,7 +119,7 @@ function PosterThanksPage() {
               fontWeight: 400,
             }}
           >
-            Now, this one is for you.
+            {publicContent.campaigns.thanksDad.subheading}
           </p>
 
           <div
@@ -126,8 +131,11 @@ function PosterThanksPage() {
               maxWidth: "62ch",
             }}
           >
-            <p style={{ margin: 0 }}>Energy. Performance. Hair. Weight. Hormones.</p>
-            <p style={{ margin: 0 }}>Doctor-led men&rsquo;s health, delivered to your door.</p>
+            {publicContent.campaigns.thanksDad.body.map((line) => (
+              <p key={line} style={{ margin: 0 }}>
+                {line}
+              </p>
+            ))}
           </div>
 
           {/* QR + URL */}
@@ -154,7 +162,7 @@ function PosterThanksPage() {
                 margin: "12px 0 0",
               }}
             >
-              Scan to start
+              {publicContent.campaigns.shared.scanAction}
             </p>
             <p
               style={{
@@ -165,7 +173,7 @@ function PosterThanksPage() {
                 fontWeight: 500,
               }}
             >
-              meneerhealth.co.za/go/thanks-dad
+              {publicContent.campaigns.thanksDad.canonicalLabel}
             </p>
           </div>
         </main>
@@ -182,9 +190,9 @@ function PosterThanksPage() {
               letterSpacing: "0.05em",
             }}
           >
-            <div>HPCSA-registered doctors · Discreet delivery · POPIA-compliant</div>
+            <div>{publicContent.campaigns.shared.trustLine}</div>
             <div style={{ marginTop: 4, opacity: 0.7 }}>
-              © 2026 Meneer · Operated by OCTOTHORP ZA · K2024185008
+              {publicContent.campaigns.shared.operatorLine}
             </div>
           </div>
           <div
@@ -195,7 +203,7 @@ function PosterThanksPage() {
               fontSize: "clamp(16px, 1.6vw, 30px)",
             }}
           >
-            Sorted, sir.
+            {publicContent.campaigns.shared.signoff}
           </div>
         </footer>
       </div>

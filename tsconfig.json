@@ -1,6 +1,7 @@
 {
   "include": [
     "config/**/*.ts",
+    "content/**/*.ts",
     "contracts/**/*.ts",
     "scripts/**/*.ts",
     "src/**/*.ts",
@@ -33,7 +34,8 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@content/*": ["./content/*"]
     }
   }
 }

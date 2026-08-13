@@ -1,16 +1,17 @@
-const events = [
-  { title: "Complete intake" },
-  { title: "Consult with your doctor" },
-  { title: "Prescription sent to pharmacy" },
-  { title: "Treatment at your door" },
-];
+import { publicContent } from "@content/public-content";
 
-export function Timeline({ events: items = events }: { events?: typeof events }) {
+export function Timeline({
+  events: items = publicContent.homepage.timeline.events,
+}: {
+  events?: ReadonlyArray<{ title: string }>;
+}) {
   return (
     <section className="py-20 border-t border-border/50">
       <div className="container-x max-w-3xl">
-        <p className="label-caps mb-4">The timeline</p>
-        <h2 className="font-serif text-3xl sm:text-4xl mb-12">From tap to treatment.</h2>
+        <p className="label-caps mb-4">{publicContent.homepage.timeline.eyebrow}</p>
+        <h2 className="font-serif text-3xl sm:text-4xl mb-12">
+          {publicContent.homepage.timeline.title}
+        </h2>
 
         <ol className="relative border-l border-border/70 pl-8 space-y-10">
           {items.map((e, i) => (

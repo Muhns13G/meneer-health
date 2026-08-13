@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { publicContent } from "@content/public-content";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import { TrustStrip } from "@/components/TrustStrip";
@@ -15,16 +16,15 @@ import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Meneer — Back to your best. Men's health, delivered in ZA" },
+      { title: publicContent.metadata.homepage.title },
       {
         name: "description",
-        content:
-          "Back to your best. South African men's telehealth with real HPCSA-registered doctors. Hair loss, ED, weight, TRT — discreetly delivered to your door.",
+        content: publicContent.metadata.homepage.description,
       },
-      { property: "og:title", content: "Meneer — Back to your best." },
+      { property: "og:title", content: publicContent.metadata.homepage.socialTitle },
       {
         property: "og:description",
-        content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
+        content: publicContent.metadata.homepage.socialDescription,
       },
       { property: "og:type", content: "website" },
       { name: "robots", content: "index, follow" },
