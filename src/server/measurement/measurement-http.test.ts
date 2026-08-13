@@ -132,4 +132,40 @@ describe("measurement HTTP boundary", () => {
     expect(response.status).toBe(403);
     expect(service.grant).not.toHaveBeenCalled();
   });
+
+  it("does not persist, echo, or log URL, referrer, replay, identity, or health canaries", async () => {
+    const canary = "synthetic-prohibited-canary.invalid";
+    const service = measurement();
+    const consoleLog = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    const handler = createMeasurementEventHttpHandler({
+      measurement: service,
+      rateLimiter: allowRate,
+    });
+    const response = await handler(
+      post(
+        "/api/measurement/events",
+        {
+          name: "journey_started",
+          email: `patient@${canary}`,
+          treatment: "synthetic-health-canary",
+          url: `https://${canary}/start?answer=private`,
+          referrer: `https://${canary}/referrer`,
+          sessionReplay: "synthetic-replay-canary",
+        },
+        {
+          Cookie: `${measurementFlowCookieName}=${flowId}.${receiptId}`,
+          Referer: `https://${canary}/transport-referrer`,
+        },
+      ),
+    );
+    const responseText = await response.text();
+
+    expect([413, 422]).toContain(response.status);
+    expect(service.record).not.toHaveBeenCalled();
+    expect(responseText).not.toContain(canary);
+    expect(responseText).not.toContain("synthetic-health-canary");
+    expect(responseText).not.toContain("synthetic-replay-canary");
+    expect(consoleLog).not.toHaveBeenCalled();
+    consoleLog.mockRestore();
+  });
 });

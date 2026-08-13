@@ -40,6 +40,8 @@
     "test:security-evidence": "bun run scripts/test-supabase-security-evidence-integration.ts",
     "test:security:hosted": "bun run scripts/test-hosted-request-security.ts",
     "test:intent:hosted": "bun run scripts/test-hosted-treatment-intent.ts",
+    "test:measurement": "bun run scripts/test-supabase-measurement-integration.ts",
+    "test:measurement:hosted": "bun run scripts/test-hosted-measurement-network.ts",
     "test:lifecycle": "bun run scripts/test-supabase-lifecycle-integration.ts",
     "test:payments": "bun run scripts/test-supabase-payments-integration.ts",
     "test:payments:provider": "bun run scripts/test-stripe-payments-provider-integration.ts",

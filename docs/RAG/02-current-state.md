@@ -59,6 +59,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-3-public-content-governance-contract.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-7-pilot-measurement-specification.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-8-default-off-measurement-boundary.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-07-9-measurement-governance-evidence.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
@@ -120,9 +121,13 @@ Task 7.8 implements the default-off boundary through versioned strict contracts,
 application ports, server-only consent/event routes and private forced-RLS Supabase persistence.
 The flow is an independent host-only 30-minute cookie; successful responses disclose no payload,
 withdrawal stops later events and schedules deletion within seven days, and browser roles cannot
-access the storage or RPCs. The default environment exposes neither route capability nor a public
-caller, so no collection is active. TD-045 remains In progress until Task 7.9 proves prohibited-
-data leakage controls, access, retention, purge, export/deletion and hosted network behaviour.
+access the storage or RPCs. Task 7.9 adds daily deidentified aggregation, 30-day raw and 12-month
+evidence limits, scheduled purge, purpose/AAL2-governed export, synthetic deletion and exhaustive
+identity/transport/replay/clinical canaries. The boundary, governance and role-purpose hardening
+migrations plus a disposable synthetic exercise pass on hosted Supabase; canonical network proof
+confirms both routes remain hidden without cookies, CORS or echoed canaries. TD-045 is Verified,
+but no collection is active: an approved consent UI and explicit privacy/security release approval
+remain activation gates.
 
 ## Sprint 06 Closure — 13 August 2026
 

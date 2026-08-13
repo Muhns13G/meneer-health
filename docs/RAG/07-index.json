@@ -1612,8 +1612,30 @@
         "src/application/measurement/measurement-service.ts",
         "src/server/measurement/measurement-http.ts",
         "src/adapters/persistence/supabase/supabase-measurement-repository.ts",
-        "supabase/migrations/20260813170247_pilot_measurement_boundary.sql",
+        "supabase/migrations/20260813193459_pilot_measurement_boundary.sql",
         "supabase/tests/database/pilot_measurement_boundary.test.sql"
+      ],
+      "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-09",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-9-measurement-governance-evidence.md",
+      "status": "completed",
+      "authority_for": [
+        "measurement prohibited-data canary evidence",
+        "measurement retention aggregation export and deletion controls",
+        "hosted synthetic measurement governance proof",
+        "default-off hosted measurement network proof",
+        "TD-045 verification evidence"
+      ],
+      "verify_against": [
+        "supabase/migrations/20260813193459_pilot_measurement_boundary.sql",
+        "supabase/migrations/20260813193511_pilot_measurement_governance_evidence.sql",
+        "supabase/migrations/20260813195027_measurement_export_role_purpose_matrix.sql",
+        "supabase/tests/database/pilot_measurement_governance_evidence.test.sql",
+        "scripts/test-supabase-measurement-integration.ts",
+        "scripts/test-hosted-measurement-network.ts",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
       ],
       "last_updated": "2026-08-13"
     }

@@ -337,11 +337,11 @@ eligibility, diagnosis, intake, prescription, or a durable health record. It mus
 analytics, referrers, logs, payment metadata, or third-party systems. Sprint 06 adds no analytics;
 TD-045 remains Sprint 07 scope.
 
-Task 7.8 implements the measurement contracts, private persistence and inactive server boundary,
-but collection remains absent and default-off. No public consent control or event caller exists.
-Do not describe analytics, a measurable pilot funnel or longitudinal-outcome collection as active
-until Task 7.9 proves prohibited-data canaries, private access, retention, purge, export/deletion
-and hosted network behaviour and the final privacy/security activation approval is recorded.
+Tasks 7.8–7.9 implement and prove the measurement contracts, private persistence, governed
+aggregation/export/deletion and inactive server boundary locally and on hosted Supabase. Collection
+remains absent and default-off; no public consent control or event caller exists. Do not describe
+analytics, a measurable pilot funnel or longitudinal-outcome collection as active until an approved
+consent interface and explicit privacy/security release approval are recorded.
 The approved first-party plan does not authorise health data, treatment intent, identity joins,
 free text, full URLs/referrers, fingerprints, advertising pixels or session replay in analytics.
 
