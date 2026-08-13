@@ -3,14 +3,20 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logoAsset from "@/assets/brand/meneer-mark.png";
 
+type PrimaryNavLink = Readonly<{
+  label: string;
+  to: "/" | "/peptides";
+  hash?: "treatments" | "how";
+}>;
+
 const links = [
-  { label: "Hair Loss", href: "#treatments" },
-  { label: "ED", href: "#treatments" },
-  { label: "Weight", href: "#treatments" },
-  { label: "Testosterone", href: "#treatments" },
-  { label: "Peptides", href: "/peptides" },
-  { label: "How It Works", href: "#how" },
-];
+  { label: "Hair Loss", to: "/", hash: "treatments" },
+  { label: "ED", to: "/", hash: "treatments" },
+  { label: "Weight", to: "/", hash: "treatments" },
+  { label: "Testosterone", to: "/", hash: "treatments" },
+  { label: "Peptides", to: "/peptides" },
+  { label: "How It Works", to: "/", hash: "how" },
+] as const satisfies readonly PrimaryNavLink[];
 
 export function Nav() {
   const [open, setOpen] = useState(false);
@@ -30,13 +36,14 @@ export function Nav() {
 
         <nav className="hidden md:flex items-center gap-8">
           {links.map((l) => (
-            <a
+            <Link
               key={l.label}
-              href={l.href}
+              to={l.to}
+              hash={"hash" in l ? l.hash : undefined}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -62,14 +69,15 @@ export function Nav() {
         <div className="md:hidden border-t border-border/50 bg-background">
           <div className="container-x flex flex-col py-4 gap-4">
             {links.map((l) => (
-              <a
+              <Link
                 key={l.label}
-                href={l.href}
+                to={l.to}
+                hash={"hash" in l ? l.hash : undefined}
                 onClick={() => setOpen(false)}
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
             <Link
               to="/start"

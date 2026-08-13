@@ -50,3 +50,14 @@ export const campaignRedirects = [
     destination: "/start?utm_source=offline&utm_medium=poster&utm_campaign=thanks_dad",
   },
 ] as const;
+
+export const sharedChromeRoutes = ["/", "/contact", "/privacy", "/terms"] as const;
+
+export const sharedNavigationTargets = [
+  { label: "Hair Loss", href: "/#treatments" },
+  { label: "ED", href: "/#treatments" },
+  { label: "Weight", href: "/#treatments" },
+  { label: "Testosterone", href: "/#treatments" },
+  { label: "Peptides", href: "/peptides" },
+  { label: "How It Works", href: "/#how" },
+] as const;
