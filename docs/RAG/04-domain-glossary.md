@@ -63,6 +63,15 @@ sensitivity: internal
 - **Emergency content withdrawal:** a typed, accountable transition that makes a selected revision
   immediately ineligible because its evidence, clinical safety, legal/privacy, commercial/
   operational, security, or release basis failed.
+- **Public claim register:** portable `public-claims.register@1`, which binds each exact retained
+  claim variant to its family, observed sources, allowed channels/audiences, accountable owner,
+  required evidence/approvers, lifecycle, and disposition.
+- **Pending-evidence claim:** owner-directed wording that is inventoried but not eligible for
+  governed publication until every domain requirement and approval is supplied and current.
+- **Claim-bearing publication:** a selected public-content revision plus one or more exact claim
+  references; both content and every claim must be eligible at the requested time/channel/audience.
+- **Exact-text binding:** the publication check requiring referenced wording to equal the governed
+  claim variant, preventing unrelated copy from borrowing an approved claim ID.
 
 ## Product Terms
 

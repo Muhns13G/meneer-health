@@ -1517,6 +1517,27 @@
         "contracts/fixtures/retained-capabilities.json"
       ],
       "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-4-claim-register-publication-validation.md",
+      "status": "completed",
+      "authority_for": [
+        "retained public claim register",
+        "claim evidence and approval requirements",
+        "fail-closed claim publication validation",
+        "Task 7.2 timing-variant disposition",
+        "TD-006 and TD-046 implementation progress",
+        "TD-047 regression assurance"
+      ],
+      "verify_against": [
+        "contracts/public-claims.ts",
+        "contracts/retained-public-claims.ts",
+        "contracts/public-claims.test.ts",
+        "contracts/registry.ts",
+        "contracts/fixtures/retained-capabilities.json"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [

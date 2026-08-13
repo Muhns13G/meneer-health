@@ -77,9 +77,9 @@ state.
 The timing semantics are now explicit: five minutes estimates initial intake only; 48 hours targets
 initial clinical contact/review after complete information; and the provisional three-to-five-day
 delivery clock begins at `eligible_for_fulfilment_at`. Existing stronger variants remain unchanged
-pending Task 7.4 claim disposition. TD-040 is In progress until Tasks 7.3–7.6 implement and verify
-the governed source and migration. No public wording, route, transaction, analytics, or MCP surface
-changed in Tasks 7.1–7.2.
+in the UI, while Task 7.4 now records their fail-closed disposition. TD-040 is In progress until
+Tasks 7.5–7.6 migrate and verify the governed source. No public wording, route, transaction,
+analytics, or MCP surface changed in Tasks 7.1–7.4.
 
 Task 7.3 implements and registers `public-content.catalogue@1` as the framework-neutral content
 boundary. It validates typed public values, revision history, selected releases, localisation,
@@ -87,9 +87,19 @@ channel scope, accountable/required approval roles, effective/review/expiry date
 emergency withdrawal. Resolution fails closed for any ineligible state. CAP-001 and synthetic
 PORT-021 require v2/v3 to preserve the same contract.
 
-The implementation does not yet centralise the rendered website: Tasks 7.4–7.6 still own claim
-governance, migration, and drift/rollback evidence. TD-046 and TD-040 remain In progress. No public
-copy, route, transaction, provider, analytics, MCP, CMS, or database capability changed.
+Task 7.4 implements and registers `public-claims.register@1`. It translates the nine retained
+families into 28 exact variants with source/channel/audience locations, accountable owners,
+required approvers/evidence, lifecycle, and disposition. Twenty-five variants are retained pending
+domain evidence; the current dosing-inside-48-hours, treatment-by-weekend, and two-to-three-day
+delivery variants are rejected under Task 7.2 semantics. No variant is represented as approved.
+Claim publication fails closed for missing or invalid evidence/approval, channel/audience,
+effective/review/expiry state, evidence expiry, claim reference, or exact-text binding.
+
+The implementation does not yet centralise the rendered website: Tasks 7.5–7.6 still own migration
+and drift/rollback evidence. Existing UI continues using local copy until that deliberate migration,
+so Task 7.4 does not silently withdraw or rewrite public wording. TD-006, TD-007, TD-040, and TD-046
+remain In progress. No route, transaction, provider, analytics, MCP, CMS, or database capability
+changed.
 
 ## Sprint 06 Closure — 13 August 2026
 
