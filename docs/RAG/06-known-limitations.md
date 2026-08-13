@@ -372,6 +372,20 @@ are rejected history. Do not describe retained wording as domain-approved: all 2
 variants remain pending evidence even though the source is now drift-tested. TD-006 and TD-007
 remain In progress; TD-040, TD-046 and TD-047 are Verified at their repository boundaries.
 
+## Sprint 07 MCP Boundary
+
+Task 7.10 re-proves that MCP remains absent from deployable files, dependencies, generated routes,
+production output and local/hosted protocol paths. The retained `/.mcp` security prefix is only a
+defensive denial rule, and `future-public-mcp` is only an inactive content-governance channel.
+Neither is an MCP implementation.
+
+Do not describe an MCP server, AI assistant, public tool, private tool or clinical agent as present
+or approved. A future public proposal is limited initially to separately approved read-only
+canonical public content. Account, intake, support, clinical, payment, order, fulfilment and
+workforce tools require a distinct threat model and scoped identity/authorisation, consent or other
+authority, audit, monitoring, data-lifecycle, human-review, domain-approval and release evidence
+before any implementation begins. TD-047 and TD-048 remain Verified absence decisions.
+
 ## Retrieval Response Pattern
 
 When answering a question that touches an unresolved area:

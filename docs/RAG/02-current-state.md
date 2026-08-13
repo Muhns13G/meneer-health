@@ -428,6 +428,24 @@ Evidence: [`sprint-02-3-cloudflare-runtime-ownership-evidence.md`](../02-impleme
 
 Evidence: [`sprint-02-4-mcp-removal-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-02-4-mcp-removal-evidence.md).
 
+### Sprint 07.10 MCP absence and future boundary — 13 August 2026
+
+- `bun run build` now fails if the retired MCP files, SDKs, handler/plugin calls, tool names,
+  generated routes or production-build markers reappear.
+- Browser coverage includes all former GET paths and former POST protocol paths. The explicitly
+  guarded hosted exercise repeats five probes against the canonical origin. GET paths require the
+  ordinary HTML 404; POST paths require only the established generic request-security denial. No
+  probe may return an MCP/OAuth payload, CORS permission or persistent cookie.
+- MCP remains absent. The retained `/.mcp` request-security prefix is a denial rule and the
+  `future-public-mcp` channel is inactive governance metadata, not runtime functionality.
+- DIR-079 prohibits even proof-of-concept implementation before a named, owner-approved use case,
+  vendor-neutral boundary and threat model. Public proposals are initially read-only canonical
+  content; every private/account/clinical proposal requires separately scoped identity,
+  authorisation, consent/authority, audit, monitoring, human oversight, domain review and release
+  evidence.
+
+Evidence: [`sprint-07-10-mcp-absence-boundary-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-07-10-mcp-absence-boundary-evidence.md).
+
 ### Sprint 02 telemetry and dependency normalization — 7 August 2026
 
 - Task 2.5 removed Lovable package-install exceptions, environment references, the SDK, telemetry

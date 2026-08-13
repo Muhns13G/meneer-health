@@ -49,6 +49,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   and referenced schema migrations remain internally consistent.
 - `bun run check:discovery` verifies committed robots and sitemap outputs match the approved route
   policy.
+- `bun run check:mcp-absence` verifies the retired MCP files, dependencies, generated routes, and
+  production-build markers remain absent; `bun run build` invokes it automatically.
+- `bun run test:mcp:hosted` performs the explicitly guarded negative-path check against a hosted
+  HTTPS origin; set only the documented base URL and confirmation value.
 - `bun run check:cloudflare-types` rejects stale generated Worker binding/runtime types.
 - `bun run deploy:dry-run` builds and validates the Cloudflare upload without deploying.
 - `bun run lint` runs ESLint and Prettier checks.

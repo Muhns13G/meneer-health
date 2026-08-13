@@ -1638,6 +1638,27 @@
         "docs/04-technical-debt/technical-debt-registry-v1.md"
       ],
       "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-10",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-10-mcp-absence-boundary-evidence.md",
+      "status": "completed",
+      "authority_for": [
+        "local build and hosted MCP absence evidence",
+        "future public MCP read-only boundary",
+        "future private MCP threat-model boundary",
+        "MCP reintroduction prohibition",
+        "TD-047 and TD-048 regression assurance"
+      ],
+      "verify_against": [
+        "scripts/check-mcp-absence.ts",
+        "scripts/test-hosted-mcp-absence.ts",
+        "e2e/boundaries.spec.ts",
+        "contracts/capabilities.ts",
+        "contracts/fixtures/retained-capabilities.json",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [

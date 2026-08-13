@@ -55,8 +55,11 @@ A newer document does not automatically outrank a domain-approved source. When s
 - Do not expose secrets, credentials, tokens, patient data, health submissions, or private operational records.
 - Do not use internal debt, incidents, or deliberations in a public response.
 - Do not recommend `LOVABLE_API_KEY`; it is not a Meneer runtime requirement.
-- MCP is absent from v1. Require a named use case and a separately approved, vendor-neutral,
-  public-information-only boundary before reintroducing it.
+- MCP is absent from v1. Any future public proposal requires a named use case and a separately
+  approved, vendor-neutral, canonical-content-only read boundary. Any account, intake, support,
+  clinical, payment, order or workforce tool requires its own threat model, scoped authentication
+  and authorisation, consent/authority, audit, monitoring, domain review and release approval before
+  code, dependencies, routes, metadata or hosted configuration are introduced.
 - Cite the source path and its date/status when an answer affects safety, compliance, architecture, or release readiness.
 
 ## Internal and Public Collections
