@@ -12,6 +12,7 @@ export const contractKindSchema = z.enum([
   "audit-fact",
   "telemetry-event",
   "recovery-artifact",
+  "content-catalogue",
 ]);
 
 export const sensitivitySchema = z.enum([
