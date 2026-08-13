@@ -17,8 +17,9 @@ routes fail closed. Task 7.11 is ready for the repository-owner checkpoint; it i
 activation-approved yet.
 
 No clinical, legal, privacy, security, or release approval has been inferred. Existing pending
-claim evidence and inactive measurement remain gated. The local branch is two commits ahead of
-`origin/itws-I`, so the exact Sprint 07.9–7.11 state has not yet received hosted GitHub CI evidence.
+claim evidence and inactive measurement remain gated. The owner subsequently pushed the exact Task
+7.11 commit, confirmed GitHub CI passes, and updated the Cloudflare deployment. Hosted intent
+runtime-secret proof remains the final Task 7.11 owner checkpoint.
 
 ## Complete Technical Evidence
 
@@ -44,33 +45,34 @@ continue to prove MCP absence.
 
 | Authority                 | Recorded position                                                                                                                                | Remaining gate                                                                                                                            |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Repository/business owner | Canonical journey, preserved-copy replacements, first-party measurement specification, default-off implementation, and MCP absence are approved. | Review and commit this checkpoint; then obtain exact-commit GitHub CI evidence.                                                           |
+| Repository/business owner | Canonical journey, preserved-copy replacements, first-party measurement specification, default-off implementation, and MCP absence are approved. | Review and commit the runtime-secret correction.                                                                                          |
 | Content governance        | One versioned source, lifecycle, mappings, and rollback boundary are verified.                                                                   | Twenty-eight retained claim variants remain pending domain evidence; rejected variants remain unpublished history.                        |
 | Clinical/legal/pharmacy   | No named role-holder approval is recorded by this task.                                                                                          | Required evidence and approvals must be attached before affected claims or transactional pathways activate under TD-006/TD-007.           |
 | Privacy/security          | Inactive controls and synthetic proofs pass; no collection is active.                                                                            | Measurement requires an approved public consent interface and explicit privacy/security release approval before `MEASUREMENT_MODE=pilot`. |
 | MCP                       | Absence and future reintroduction gates are owner-approved and technically verified.                                                             | Any implementation requires a new use case, threat model, privacy/security review, domain review where applicable, and release decision.  |
-| Release                   | Local CI-equivalent validation, build, dry-run, browser matrix, and current hosted negative boundaries pass.                                     | The exact commit must pass required GitHub checks and be deployed/verified by the repository owner.                                       |
+| Release                   | Local CI-equivalent validation, build, dry-run, browser matrix, exact-commit GitHub CI, deployment, and hosted negative boundaries pass.         | The required runtime secret must be deployed to the active Worker and the hosted intent exercise must pass.                               |
 
 ## Configuration Finding
 
-The guarded hosted treatment-intent exercise confirmed that the Worker still issues a secure opaque
-cookie, but the cookie could not be opened with the key in ignored `.env.production.local`. This
-means the deployed Worker and local verification environment currently use different
-`JOURNEY_INTENT_ENCRYPTION_KEY_BASE64` values. No secret value was printed or written to the
-repository.
+After the owner pushed the exact Task 7.11 commit and GitHub CI passed, the guarded hosted exercise
+received the safe `303 /start` redirect without a `Set-Cookie` header. The route, origin, payload,
+request-security and redirect boundaries therefore pass; the active Worker does not receive a
+usable `JOURNEY_INTENT_ENCRYPTION_KEY_BASE64` runtime binding. The owner reports the intended
+Cloudflare and ignored local values are the same, but secret values cannot and were not read back.
 
-Before exact-release verification, the owner must choose the intended production key, align the
-Cloudflare secret and ignored local verification record, deploy the exact approved commit, and rerun
-`test:intent:hosted`. Rotating the key invalidates only the short-lived 30-minute navigation cookie;
-it does not affect identity, consent, intake, or clinical records.
+`wrangler.jsonc` now declares the binding as a required secret and generated Worker types include
+it. This prevents a future Worker upload from silently omitting the runtime dependency. The owner
+must confirm it exists under the Worker's runtime **Variables and Secrets**, deploy that binding to
+the active version, and rerun `test:intent:hosted`. A build-only secret or an undeployed saved
+version is insufficient. No secret value was printed or written to the repository.
 
 ## Owner Checkpoint
 
-1. Review and commit Task 7.11 without secrets or generated test artefacts.
-2. Push the chosen engineering branch and confirm the required GitHub workflow passes at the exact
-   commit.
-3. Align the journey-intent key through the approved secret-management process, deploy, and rerun
-   the guarded hosted intent exercise successfully.
-4. Keep measurement disabled and claims/pathways gated unless the missing named approvals are
+1. Review and commit the required-runtime-secret correction without secrets or generated test
+   artefacts.
+2. Confirm the key is a runtime Worker secret, deploy the binding, and rerun the guarded hosted
+   intent exercise successfully.
+3. Keep measurement disabled and claims/pathways gated unless the missing named approvals are
    separately supplied.
-5. Record the commit, workflow, deployment, and hosted-intent result during Task 7.12 closure.
+4. Record the correction commit, workflow, deployment, and hosted-intent result during Task 7.12
+   closure.

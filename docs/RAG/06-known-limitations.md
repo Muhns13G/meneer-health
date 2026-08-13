@@ -395,11 +395,12 @@ privacy/security, or production-release approval.
 
 Twenty-eight retained claim variants still require their named domain evidence and approvals.
 Measurement remains disabled until an approved public consent interface and explicit
-privacy/security release approval exist. The exact Task 7.11 commit still needs required GitHub CI
-and deployment evidence. Hosted intent encryption currently uses a different key from the ignored
-local verification record; align the approved Cloudflare/local secret and rerun the guarded hosted
-intent proof before Sprint 07 closes. Never record either key in source, documentation, logs, or
-workflow output.
+privacy/security release approval exist. The owner has pushed the exact Task 7.11 commit, confirmed
+GitHub CI, and updated the deployment, but the active Worker still returns the safe intent redirect
+without a cookie because the required journey-intent runtime binding is not usable. The repository
+now declares the secret as required. Deploy it under Worker **Variables and Secrets**, not only the
+build environment, and rerun the guarded hosted intent proof before Sprint 07 closes. Never record
+the key in source, documentation, logs, or workflow output.
 
 ## Retrieval Response Pattern
 
