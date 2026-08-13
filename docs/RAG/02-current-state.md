@@ -3,11 +3,11 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-13
+last_updated: 2026-08-14
 audience: internal
 sensitivity: internal
-source_baseline: 6b99460
-runtime_baseline: 0838c2d
+source_baseline: 8077a9a
+runtime_baseline: b5389b3
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
@@ -62,12 +62,13 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-9-measurement-governance-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-10-mcp-absence-boundary-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-11-validation-approval-evidence.md
+  - docs/03-completion-reports/phase-01/sprint-07-content-measurement-mcp.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
 # Meneer v1 Verified Current State
 
-## Sprint 07 Content-Governance Progress — 13 August 2026
+## Sprint 07 Closure — 14 August 2026
 
 Task 7.1 inventories the distributed public content, nine retained claim families, absent analytics,
 and retired MCP boundary without changing runtime behaviour. Task 7.2 records the owner's approved
@@ -83,8 +84,8 @@ The timing semantics are now explicit: five minutes estimates initial intake onl
 initial clinical contact/review after complete information; and the provisional three-to-five-day
 delivery clock begins after fulfilment approval. Task 7.5 replaces only the three rejected timing
 representations with owner-approved qualified wording; the established voice and all other migrated
-copy remain unchanged. TD-040 is In progress until Task 7.6 completes cross-channel proof. No route,
-transaction, analytics, provider or MCP surface changed.
+copy remain unchanged. Task 7.6 subsequently completed cross-channel proof and Verified TD-040. No
+transaction, provider or MCP surface was activated.
 
 Task 7.3 implements and registers `public-content.catalogue@1` as the framework-neutral content
 boundary. It validates typed public values, revision history, selected releases, localisation,
