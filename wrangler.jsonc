@@ -5,6 +5,9 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
   "preview_urls": true,
+  "secrets": {
+    "required": ["JOURNEY_INTENT_ENCRYPTION_KEY_BASE64"],
+  },
   "ratelimits": [
     {
       "name": "REQUEST_RATE_LIMITER",

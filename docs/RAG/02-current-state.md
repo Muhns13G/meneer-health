@@ -136,9 +136,11 @@ files/336 assertions, 118 desktop/mobile Playwright/axe checks, all synthetic in
 incident/recovery exercises, both audits, build, portability, generated-route/client canaries, MCP
 absence and Worker dry-run pass. Hosted probes confirm default-off measurement, absent MCP, and
 inactive request routes still fail closed. The task remains at owner checkpoint because the branch
-is ahead of its remote baseline, exact-commit GitHub/deployment evidence is pending, and the hosted
-journey-intent key does not match the ignored local verification key. No missing domain or release
-approval is inferred.
+is now pushed and its exact-commit GitHub CI passes, but the active Worker returns the safe intent
+redirect without a cookie because it does not receive a usable journey-intent runtime secret.
+Wrangler now declares that secret as required so future uploads fail instead of silently omitting
+it. Hosted success still requires a runtime binding deployment and guarded retest. No missing domain
+or release approval is inferred.
 
 ## Sprint 06 Closure — 13 August 2026
 
