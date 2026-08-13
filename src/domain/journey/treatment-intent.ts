@@ -6,6 +6,8 @@ export { treatmentIntentWireIds, type TreatmentIntent } from "./treatment-intent
 export const treatmentIntentTtlSeconds = 30 * 60;
 export const treatmentIntentCookieName = "__Host-meneer-journey";
 
+const treatmentIntentClockSkewToleranceMs = 60 * 1_000;
+
 export const treatmentIntentSchema = z.enum(["hair", "ed", "weight", "trt"]);
 
 const treatmentIntentWireSchema = z.enum([
@@ -108,7 +110,11 @@ export async function openTreatmentIntent(
     const stored = storedTreatmentIntentSchema.safeParse(
       JSON.parse(new TextDecoder().decode(plaintext)),
     );
-    if (!stored.success || stored.data.issuedAt > now || stored.data.expiresAt <= now) {
+    if (
+      !stored.success ||
+      stored.data.issuedAt > now + treatmentIntentClockSkewToleranceMs ||
+      stored.data.expiresAt <= now
+    ) {
       return undefined;
     }
     return stored.data.intent;
