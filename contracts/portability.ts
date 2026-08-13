@@ -16,6 +16,7 @@ import {
 } from "./lifecycle";
 import { telemetryEventSchema } from "./observability";
 import { paymentCheckoutCommandSchema, verifiedPaymentProviderEventSchema } from "./payments";
+import { publicClaimRegisterSchema } from "./public-claims";
 import { publicContentCatalogueSchema } from "./public-content";
 import { contractSchemaRegistry, supportedContractMajors } from "./registry";
 import { requestSecurityDecisionSchema } from "./security";
@@ -30,6 +31,7 @@ const registeredSchemas: Readonly<Record<string, z.ZodType>> = {
   "lifecycle.request": dataSubjectRequestCommandSchema,
   "payment.checkout": paymentCheckoutCommandSchema,
   "payment.provider": verifiedPaymentProviderEventSchema,
+  "public-claims.register": publicClaimRegisterSchema,
   "public-content.catalogue": publicContentCatalogueSchema,
   "recovery.archive": recoveryArchiveReferenceSchema,
   "recovery.encrypted-archive": encryptedRecoveryArchiveSchema,

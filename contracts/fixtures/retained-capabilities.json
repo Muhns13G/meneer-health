@@ -1,5 +1,5 @@
 {
-  "revision": 2,
+  "revision": 3,
   "generatedFrom": "v1-tanstack",
   "fixtures": [
     {
@@ -422,6 +422,70 @@
                   "withdrawal": null,
                   "archive": null
                 }
+              }
+            ]
+          }
+        ]
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-022",
+      "capabilityId": "CAP-001",
+      "kind": "contract-validation",
+      "contract": { "name": "public-claims.register", "version": 1 },
+      "message": {
+        "contract": "public-claims.register",
+        "version": 1,
+        "registerVersion": "2030.01.01.1",
+        "generatedAt": "2030-01-01T00:00:00Z",
+        "claims": [
+          {
+            "claimId": "claim.synthetic",
+            "family": "practitioner-registration",
+            "accountableOwner": "clinical-owner",
+            "requiredApprovers": ["clinical-owner", "release-owner"],
+            "evidenceRequirements": [
+              {
+                "requirementId": "synthetic.claim-source",
+                "kind": "clinical-approval",
+                "description": "Synthetic portable evidence requirement."
+              }
+            ],
+            "variants": [
+              {
+                "variantId": "synthetic.approved",
+                "exactText": "Synthetic approved public claim.",
+                "sources": [
+                  {
+                    "path": "src/components/Synthetic.tsx",
+                    "locator": "synthetic fixture",
+                    "channel": "website-homepage"
+                  }
+                ],
+                "allowedChannels": ["website-homepage"],
+                "audiences": ["public"],
+                "status": "approved",
+                "ownerDirection": "retain",
+                "effectiveFrom": "2030-01-01T00:00:00Z",
+                "reviewAt": "2031-01-01T00:00:00Z",
+                "expiresAt": null,
+                "approvals": [
+                  { "role": "clinical-owner", "approvedAt": "2029-12-01T00:00:00Z" },
+                  { "role": "release-owner", "approvedAt": "2029-12-02T00:00:00Z" }
+                ],
+                "evidence": [
+                  {
+                    "requirementId": "synthetic.claim-source",
+                    "reference": "docs/synthetic-evidence.invalid",
+                    "verifiedAt": "2029-12-01T00:00:00Z",
+                    "validUntil": "2030-12-01T00:00:00Z",
+                    "verifiedBy": "clinical-owner"
+                  }
+                ],
+                "withdrawal": null,
+                "archive": null,
+                "dispositionReason": "Synthetic portable approved fixture."
               }
             ]
           }
