@@ -117,6 +117,15 @@ sensitivity: internal
 - **Opaque treatment intent:** an allowlisted non-semantic identifier submitted by same-origin POST
   and stored only as short-lived authenticated encryption. It is not a diagnosis, eligibility
   result, clinical record, URL parameter, analytics property, or workflow authority.
+- **Product measurement:** explicitly opted-in first-party evidence about generic acquisition,
+  funnel progression, hand-off and reliability. It excludes health content, identity joins,
+  advertising profiles and authoritative workflow state.
+- **Measurement-flow reference:** a short-lived pseudonymous reference used only to reconcile the
+  approved pilot event funnel. It rotates after 30 minutes and must not join to Auth, treatment
+  intent, patient, payment, provider or clinical records.
+- **Longitudinal intelligence:** structured patient goals, outcomes, adherence, satisfaction and
+  retention evidence collected only under a separately approved purpose, field set, notice,
+  access model and consent/justification; it is not enabled by the pilot analytics contract.
 - **Public route policy:** the single repository contract classifying routes as indexable public,
   restricted, campaign-only, or internal and deriving canonical, robots, sitemap, metadata, and
   response-exclusion expectations.
