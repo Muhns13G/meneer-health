@@ -54,6 +54,15 @@ sensitivity: internal
 - **Cross-cutting journey concern:** support, cancellation, refund, escalation, privacy, complaint,
   or exception handling that attaches to the relevant authoritative state rather than becoming a
   numbered journey phase.
+- **Public-content catalogue:** portable `public-content.catalogue@1`, containing only serialisable
+  governed public records and revision history. It is not a CMS, patient record, internal RAG
+  collection, or authoritative workflow store.
+- **Selected content revision:** the revision proposed for a channel adapter. Selection alone does
+  not publish content; its status, approvals, channel, locale, effective date, review deadline, and
+  expiry must all remain eligible.
+- **Emergency content withdrawal:** a typed, accountable transition that makes a selected revision
+  immediately ineligible because its evidence, clinical safety, legal/privacy, commercial/
+  operational, security, or release basis failed.
 
 ## Product Terms
 

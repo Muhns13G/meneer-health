@@ -1,5 +1,5 @@
 {
-  "revision": 1,
+  "revision": 2,
   "generatedFrom": "v1-tanstack",
   "fixtures": [
     {
@@ -373,6 +373,61 @@
         "src/application/identity/managed-identity-governance-service.test.ts",
         "src/adapters/identity/supabase/supabase-identity-governance-repository.test.ts"
       ]
+    },
+    {
+      "id": "PORT-021",
+      "capabilityId": "CAP-001",
+      "kind": "contract-validation",
+      "contract": { "name": "public-content.catalogue", "version": 1 },
+      "message": {
+        "contract": "public-content.catalogue",
+        "version": 1,
+        "catalogueVersion": "2030.01.01.1",
+        "generatedAt": "2030-01-01T00:00:00Z",
+        "defaultLocale": "en-ZA",
+        "records": [
+          {
+            "contentId": "journey.pathway-and-intake",
+            "selectedRevision": 1,
+            "revisions": [
+              {
+                "revision": 1,
+                "supersedesRevision": null,
+                "kind": "journey-phase",
+                "accountableOwner": "content-owner",
+                "requiredApprovers": ["content-owner", "release-owner"],
+                "channels": ["website-route"],
+                "localisations": [
+                  {
+                    "locale": "en-ZA",
+                    "value": {
+                      "kind": "journey-phase",
+                      "phaseId": "pathway-and-intake",
+                      "position": 1,
+                      "title": "Synthetic pathway and intake",
+                      "summary": "Synthetic portable public-content fixture.",
+                      "conditional": false
+                    }
+                  }
+                ],
+                "lifecycle": {
+                  "status": "approved",
+                  "effectiveFrom": "2030-01-01T00:00:00Z",
+                  "reviewAt": "2031-01-01T00:00:00Z",
+                  "expiresAt": null,
+                  "approvals": [
+                    { "role": "content-owner", "approvedAt": "2029-12-01T00:00:00Z" },
+                    { "role": "release-owner", "approvedAt": "2029-12-02T00:00:00Z" }
+                  ],
+                  "withdrawal": null,
+                  "archive": null
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
     }
   ]
 }
