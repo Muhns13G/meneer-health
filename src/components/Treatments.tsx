@@ -1,18 +1,23 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
+import {
+  treatmentIntentWireIds,
+  type TreatmentIntent,
+} from "@/domain/journey/treatment-intent-catalogue";
 
 type Treatment = {
   tag: string;
   title: string;
   to: "/start" | "/peptides";
+  intent?: TreatmentIntent;
   isNew?: boolean;
 };
 
 const treatments: Treatment[] = [
-  { tag: "Hair loss", title: "Hair today. Still here tomorrow.", to: "/start" },
-  { tag: "Erectile dysfunction", title: "Hard, made easy.", to: "/start" },
-  { tag: "Weight management", title: "Less of you, more of you.", to: "/start" },
-  { tag: "Testosterone / TRT", title: "Energy you forgot you had.", to: "/start" },
+  { tag: "Hair loss", title: "Hair today. Still here tomorrow.", to: "/start", intent: "hair" },
+  { tag: "Erectile dysfunction", title: "Hard, made easy.", to: "/start", intent: "ed" },
+  { tag: "Weight management", title: "Less of you, more of you.", to: "/start", intent: "weight" },
+  { tag: "Testosterone / TRT", title: "Energy you forgot you had.", to: "/start", intent: "trt" },
   { tag: "Peptides", title: "Precision, at a cellular level.", to: "/peptides", isNew: true },
 ];
 
@@ -33,16 +38,8 @@ export function Treatments() {
           {treatments.map((t, i) => {
             // On lg: first 4 span 3 cols each (2x2), 5th spans all 6 as a feature row
             const lgSpan = i < 4 ? "lg:col-span-3" : "lg:col-span-6";
-            return (
-              <Link
-                key={t.tag}
-                to={t.to}
-                className={`group relative p-8 rounded-2xl bg-surface border transition-colors ${lgSpan} ${
-                  t.isNew
-                    ? "border-gold/40 hover:border-gold/70 bg-gradient-to-br from-surface to-surface/60"
-                    : "border-border/60 hover:border-gold/50"
-                }`}
-              >
+            const content = (
+              <>
                 <div className="flex items-center gap-3">
                   <p className="label-caps text-muted-foreground">{t.tag}</p>
                   {t.isNew && (
@@ -58,6 +55,24 @@ export function Treatments() {
                     className="text-muted-foreground group-hover:text-gold group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all"
                   />
                 </div>
+              </>
+            );
+            const className = `group relative w-full p-8 rounded-2xl bg-surface border text-left transition-colors ${lgSpan} ${
+              t.isNew
+                ? "border-gold/40 hover:border-gold/70 bg-gradient-to-br from-surface to-surface/60"
+                : "border-border/60 hover:border-gold/50"
+            }`;
+
+            return t.intent ? (
+              <form key={t.tag} action="/api/journey/intent" method="post" className={lgSpan}>
+                <input type="hidden" name="selection" value={treatmentIntentWireIds[t.intent]} />
+                <button type="submit" className={className}>
+                  {content}
+                </button>
+              </form>
+            ) : (
+              <Link key={t.tag} to={t.to} className={className}>
+                {content}
               </Link>
             );
           })}

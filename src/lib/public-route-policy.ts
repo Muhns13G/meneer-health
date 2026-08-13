@@ -37,6 +37,11 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/go/dads", routeClass: "redirect", indexing: "noindex-nofollow" },
   { path: "/go/thanks-dad", routeClass: "redirect", indexing: "noindex-nofollow" },
   {
+    path: "/api/journey/intent",
+    routeClass: "internal",
+    indexing: "noindex-nofollow",
+  },
+  {
     path: "/api/payments/checkout",
     routeClass: "internal",
     indexing: "noindex-nofollow",

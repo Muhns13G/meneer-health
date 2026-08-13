@@ -60,6 +60,7 @@ describe("environment catalogue", () => {
       "SUPABASE_PUBLISHABLE_KEY",
       "SUPABASE_SECRET_KEY",
       "SUPABASE_DB_URL",
+      "JOURNEY_INTENT_ENCRYPTION_KEY_BASE64",
       "RECOVERY_EXPORT_SOURCE",
       "RECOVERY_R2_BUCKET",
       "CLOUDFLARE_ACCOUNT_ID",
