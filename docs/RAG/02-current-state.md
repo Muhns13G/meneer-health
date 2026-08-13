@@ -60,6 +60,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-7-pilot-measurement-specification.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-8-default-off-measurement-boundary.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-9-measurement-governance-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-07-10-mcp-absence-boundary-evidence.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-07-11-validation-approval-evidence.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
@@ -128,6 +130,15 @@ migrations plus a disposable synthetic exercise pass on hosted Supabase; canonic
 confirms both routes remain hidden without cookies, CORS or echoed canaries. TD-045 is Verified,
 but no collection is active: an approved consent UI and explicit privacy/security release approval
 remain activation gates.
+
+Task 7.11 completes the local Sprint 07 technical matrix: 58 Vitest files/323 tests, 11 pgTAP
+files/336 assertions, 118 desktop/mobile Playwright/axe checks, all synthetic integrations,
+incident/recovery exercises, both audits, build, portability, generated-route/client canaries, MCP
+absence and Worker dry-run pass. Hosted probes confirm default-off measurement, absent MCP, and
+inactive request routes still fail closed. The task remains at owner checkpoint because the branch
+is ahead of its remote baseline, exact-commit GitHub/deployment evidence is pending, and the hosted
+journey-intent key does not match the ignored local verification key. No missing domain or release
+approval is inferred.
 
 ## Sprint 06 Closure — 13 August 2026
 

@@ -1659,6 +1659,28 @@
         "docs/04-technical-debt/technical-debt-registry-v1.md"
       ],
       "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-11",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-11-validation-approval-evidence.md",
+      "status": "owner-checkpoint",
+      "authority_for": [
+        "Sprint 07 complete local validation matrix",
+        "Sprint 07 hosted inactive-boundary evidence",
+        "content clinical legal privacy security and release approval inventory",
+        "journey-intent key-alignment release gate",
+        "Task 7.11 owner checkpoint"
+      ],
+      "verify_against": [
+        ".github/workflows/ci.yml",
+        "docs/02-implementation-plans/phase-01/sprint-07-content-measurement-mcp.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "scripts/test-hosted-treatment-intent.ts",
+        "scripts/test-hosted-measurement-network.ts",
+        "scripts/test-hosted-mcp-absence.ts",
+        "scripts/test-hosted-request-security.ts"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [
