@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, CircleAlert, LockKeyhole, Phone } from "lucide-react";
 import { pilotActivationBlockers } from "@/lib/compliance/pilot-profile";
+import { supportChannels } from "@/lib/support-channels";
 
 export function SafetyEntryGate() {
   return (
@@ -39,14 +40,14 @@ export function SafetyEntryGate() {
                 </p>
                 <div className="mt-4 flex flex-wrap gap-3">
                   <a
-                    href="tel:112"
+                    href={supportChannels.emergency.mobile.href}
                     className="inline-flex items-center rounded-full bg-red-300 px-4 py-2 text-sm font-semibold text-red-950"
                   >
                     <Phone aria-hidden className="mr-2" size={15} />
                     Mobile emergency: 112
                   </a>
                   <a
-                    href="tel:10177"
+                    href={supportChannels.emergency.ambulance.href}
                     className="inline-flex items-center rounded-full border border-red-300/40 px-4 py-2 text-sm font-medium text-red-100"
                   >
                     Ambulance: 10177
@@ -82,7 +83,7 @@ export function SafetyEntryGate() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href="mailto:support@meneerhealth.co.za"
+              href={supportChannels.general.href}
               className="inline-flex items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground"
             >
               General support
