@@ -337,6 +337,19 @@ eligibility, diagnosis, intake, prescription, or a durable health record. It mus
 analytics, referrers, logs, payment metadata, or third-party systems. Sprint 06 adds no analytics;
 TD-045 remains Sprint 07 scope.
 
+## Sprint 07 Journey Decision Boundary
+
+Task 7.2 approves five canonical public phases and the rules for shorter channel projections. This
+is a content-governance decision, not a claim that current components already derive from one
+source. TD-040 remains In progress until Tasks 7.3–7.6 implement the schema, claim lifecycle,
+migration, consistency checks, withdrawal, and rollback.
+
+Do not interpret five minutes as total service time, 48 hours as guaranteed dosing/delivery, or the
+provisional three-to-five-business-day delivery target as starting at the first website visit. The
+current stronger 48-hour and two-to-three-day variants remain preserved pending Task 7.4 claim
+disposition; they are not approved timing semantics merely because they remain in gated or public
+source. No transaction or analytics capability was activated.
+
 ## Retrieval Response Pattern
 
 When answering a question that touches an unresolved area:

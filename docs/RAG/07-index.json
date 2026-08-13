@@ -1474,8 +1474,31 @@
     {
       "id": "phase-01-sprint-07",
       "path": "docs/02-implementation-plans/phase-01/sprint-07-content-measurement-mcp.md",
-      "status": "planned",
+      "status": "active",
       "primary_debt": ["TD-040", "TD-045", "TD-046", "TD-047", "TD-048"]
+    },
+    {
+      "id": "phase-01-sprint-07-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-1-content-measurement-mcp-baseline.md",
+      "status": "completed",
+      "authority_for": [
+        "Sprint 07 baseline",
+        "content and claim inventory",
+        "measurement absence",
+        "retired MCP boundary"
+      ]
+    },
+    {
+      "id": "phase-01-sprint-07-task-02",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-2-canonical-journey-model.md",
+      "status": "owner-approved",
+      "authority_for": [
+        "canonical five-phase public journey",
+        "channel projection rules",
+        "journey timing semantics",
+        "TD-040 implementation decision"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [
