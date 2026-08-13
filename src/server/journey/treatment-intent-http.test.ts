@@ -37,8 +37,9 @@ describe("treatment intent endpoint", () => {
     expect(cookie).toContain("HttpOnly");
     expect(cookie).toContain("Secure");
     expect(cookie).toContain("SameSite=Strict");
-    expect(cookie).not.toContain("ed");
     const token = cookie.match(/^[^=]+=([^;]+)/)?.[1];
+    expect(token).toBeDefined();
+    expect(token).not.toBe(treatmentIntentWireIds.ed);
     await expect(openTreatmentIntent(token, key)).resolves.toBe("ed");
   });
 
