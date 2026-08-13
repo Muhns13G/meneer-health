@@ -8,6 +8,7 @@ export * from "./observability";
 export * from "./lifecycle";
 export * from "./payments";
 export * from "./portability";
+export * from "./public-content";
 export * from "./registry";
 export * from "./security";
 export * from "./shared";

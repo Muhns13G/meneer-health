@@ -16,6 +16,7 @@ import {
 } from "./lifecycle";
 import { telemetryEventContract } from "./observability";
 import { paymentCheckoutContract, paymentProviderEventContract } from "./payments";
+import { publicContentCatalogueContract } from "./public-content";
 import { requestSecurityDecisionContract } from "./security";
 import { workflowTransitionContract } from "./workflows";
 
@@ -39,6 +40,14 @@ export type ContractSchemaRegistryEntry = z.infer<typeof contractSchemaRegistryE
 const allGenerations = ["v1-tanstack", "v2-nextjs", "v3-laravel-react"] as const;
 
 export const contractSchemaRegistry = [
+  {
+    definition: publicContentCatalogueContract,
+    schemaExport: "publicContentCatalogueSchema",
+    source: "contracts/public-content.ts",
+    databaseMigration: null,
+    supportedGenerations: allGenerations,
+    compatibility: "strict-major",
+  },
   {
     definition: errorResponseContract,
     schemaExport: "errorContractSchema",

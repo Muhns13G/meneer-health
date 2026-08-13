@@ -350,6 +350,12 @@ current stronger 48-hour and two-to-three-day variants remain preserved pending 
 disposition; they are not approved timing semantics merely because they remain in gated or public
 source. No transaction or analytics capability was activated.
 
+Task 7.3 adds the portable public-content catalogue and fail-closed lifecycle resolver, but no
+existing route or component consumes it yet. Do not describe the current website as centrally
+generated or drift-proof until Tasks 7.4–7.6 complete claim governance, migration, consistency,
+withdrawal, and rollback evidence. The catalogue is version-controlled code, not a live CMS or
+database, and it contains no patient/private workflow state.
+
 ## Retrieval Response Pattern
 
 When answering a question that touches an unresolved area:

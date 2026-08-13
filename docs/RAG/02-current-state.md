@@ -56,6 +56,7 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-1-content-measurement-mcp-baseline.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-2-canonical-journey-model.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-07-3-public-content-governance-contract.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
@@ -79,6 +80,16 @@ delivery clock begins at `eligible_for_fulfilment_at`. Existing stronger variant
 pending Task 7.4 claim disposition. TD-040 is In progress until Tasks 7.3–7.6 implement and verify
 the governed source and migration. No public wording, route, transaction, analytics, or MCP surface
 changed in Tasks 7.1–7.2.
+
+Task 7.3 implements and registers `public-content.catalogue@1` as the framework-neutral content
+boundary. It validates typed public values, revision history, selected releases, localisation,
+channel scope, accountable/required approval roles, effective/review/expiry dates, archive and
+emergency withdrawal. Resolution fails closed for any ineligible state. CAP-001 and synthetic
+PORT-021 require v2/v3 to preserve the same contract.
+
+The implementation does not yet centralise the rendered website: Tasks 7.4–7.6 still own claim
+governance, migration, and drift/rollback evidence. TD-046 and TD-040 remain In progress. No public
+copy, route, transaction, provider, analytics, MCP, CMS, or database capability changed.
 
 ## Sprint 06 Closure — 13 August 2026
 

@@ -1499,6 +1499,24 @@
         "TD-040 implementation decision"
       ],
       "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-3-public-content-governance-contract.md",
+      "status": "completed",
+      "authority_for": [
+        "public-content catalogue contract",
+        "content revision and release lifecycle",
+        "archive and emergency withdrawal",
+        "TD-046 implementation progress"
+      ],
+      "verify_against": [
+        "contracts/public-content.ts",
+        "contracts/public-content.test.ts",
+        "contracts/registry.ts",
+        "contracts/fixtures/retained-capabilities.json"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [
