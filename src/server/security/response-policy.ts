@@ -1,3 +1,5 @@
+import { isIndexablePublicPath } from "@/lib/public-route-policy";
+
 const ONE_YEAR_SECONDS = 31_536_000;
 const ONE_HOUR_SECONDS = 3_600;
 
@@ -140,6 +142,16 @@ export function applyResponsePolicy(
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Frame-Options", "DENY");
+
+  const isIndexableDocument =
+    responseClass === "public-document" && isIndexablePublicPath(requestUrl.pathname);
+  const isAsset = responseClass === "fingerprinted-asset" || responseClass === "public-asset";
+
+  if (!isIndexableDocument && !isAsset) {
+    headers.set("X-Robots-Tag", "noindex, nofollow");
+  } else {
+    headers.delete("X-Robots-Tag");
+  }
 
   if (requestUrl.protocol === "https:") {
     headers.set("Strict-Transport-Security", `max-age=${ONE_YEAR_SECONDS}`);

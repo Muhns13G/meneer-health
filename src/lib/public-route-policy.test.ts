@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
   getCanonicalPublicUrl,
+  isIndexablePublicPath,
   isProhibitedIntentQueryKey,
+  INDEXABLE_PUBLIC_ROUTES,
   PUBLIC_ROUTE_POLICIES,
+  renderRobotsTxt,
+  renderSitemapXml,
   SAFE_INTENT_POLICY,
 } from "@/lib/public-route-policy";
 
@@ -13,6 +17,9 @@ describe("public route policy", () => {
     ).map((route) => route.path);
 
     expect(indexablePaths).toEqual(["/", "/contact", "/privacy", "/terms"]);
+    expect(INDEXABLE_PUBLIC_ROUTES.map((route) => route.path)).toEqual(indexablePaths);
+    expect(indexablePaths.every(isIndexablePublicPath)).toBe(true);
+    expect(isIndexablePublicPath("/start")).toBe(false);
     expect(
       PUBLIC_ROUTE_POLICIES.filter((route) => route.indexing === "index-follow").every(
         (route) => route.routeClass === "public" && route.canonicalPath === route.path,
@@ -48,5 +55,29 @@ describe("public route policy", () => {
     expect(() => getCanonicalPublicUrl("https://example.invalid/privacy")).toThrow(
       "CANONICAL_PATH_INVALID",
     );
+  });
+
+  it("renders robots exclusions from the approved route classes", () => {
+    const robots = renderRobotsTxt();
+
+    expect(robots).toContain("Disallow: /api/");
+    expect(robots).toContain("Disallow: /go/");
+    expect(robots).toContain("Disallow: /peptides");
+    expect(robots).toContain("Disallow: /poster");
+    expect(robots).toContain("Disallow: /start");
+    expect(robots).toContain("Sitemap: https://meneerhealth.co.za/sitemap.xml");
+  });
+
+  it("renders a sitemap containing only absolute approved public URLs", () => {
+    const sitemap = renderSitemapXml();
+    const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+
+    expect(locations).toEqual([
+      "https://meneerhealth.co.za/",
+      "https://meneerhealth.co.za/contact",
+      "https://meneerhealth.co.za/privacy",
+      "https://meneerhealth.co.za/terms",
+    ]);
+    expect(sitemap).not.toMatch(/start|peptides|poster|\/go\/|\/api\//);
   });
 });

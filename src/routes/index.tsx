@@ -10,6 +10,7 @@ import { Doctor } from "@/components/Doctor";
 import { Discretion } from "@/components/Discretion";
 import { CtaSection } from "@/components/CtaSection";
 import { Footer } from "@/components/Footer";
+import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,7 +27,9 @@ export const Route = createFileRoute("/")({
         content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
       },
       { property: "og:type", content: "website" },
+      { name: "robots", content: "index, follow" },
     ],
+    links: [{ rel: "canonical", href: getCanonicalPublicUrl("/") }],
   }),
   component: Index,
 });
