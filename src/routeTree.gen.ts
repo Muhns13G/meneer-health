@@ -20,6 +20,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
 import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
+import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
 import { Route as ApiPaymentsStripeWebhookRouteImport } from './routes/api/payments/stripe/webhook'
 
 const TermsRoute = TermsRouteImport.update({
@@ -77,6 +78,11 @@ const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
   path: '/api/payments/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiJourneyIntentRoute = ApiJourneyIntentRouteImport.update({
+  id: '/api/journey/intent',
+  path: '/api/journey/intent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPaymentsStripeWebhookRoute =
   ApiPaymentsStripeWebhookRouteImport.update({
     id: '/api/payments/stripe/webhook',
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
   '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
   '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
   '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/api/journey/intent'
     | '/api/payments/checkout'
     | '/api/payments/stripe/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/api/journey/intent'
     | '/api/payments/checkout'
     | '/api/payments/stripe/webhook'
   id:
@@ -168,6 +179,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/api/journey/intent'
     | '/api/payments/checkout'
     | '/api/payments/stripe/webhook'
   fileRoutesById: FileRoutesById
@@ -183,6 +195,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
+  ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
   ApiPaymentsCheckoutRoute: typeof ApiPaymentsCheckoutRoute
   ApiPaymentsStripeWebhookRoute: typeof ApiPaymentsStripeWebhookRoute
 }
@@ -266,6 +279,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPaymentsCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/journey/intent': {
+      id: '/api/journey/intent'
+      path: '/api/journey/intent'
+      fullPath: '/api/journey/intent'
+      preLoaderRoute: typeof ApiJourneyIntentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/payments/stripe/webhook': {
       id: '/api/payments/stripe/webhook'
       path: '/api/payments/stripe/webhook'
@@ -287,6 +307,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
+  ApiJourneyIntentRoute: ApiJourneyIntentRoute,
   ApiPaymentsCheckoutRoute: ApiPaymentsCheckoutRoute,
   ApiPaymentsStripeWebhookRoute: ApiPaymentsStripeWebhookRoute,
 }

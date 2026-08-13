@@ -3,7 +3,16 @@ import { useState } from "react";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
+import { ProfileErrorSummary, ProfileFields } from "@/components/ProfileFields";
+import { StepProgress } from "@/components/SteppedFlow";
+import {
+  validateProfileDraft,
+  type ProfileDraft,
+  type ProfileErrors,
+  type ProfileField,
+} from "@/domain/journey/profile-form";
 import { publicEnvironment } from "@/config/public-environment";
+import { useSteppedFlowFocus } from "@/hooks/use-stepped-flow-focus";
 
 // TODO: Replace with real Precise Wellness questionnaire URL once confirmed.
 const PW_QUESTIONNAIRE_URL = "https://precisewellness.example.com/questionnaire";
@@ -130,31 +139,50 @@ function PeptideVideoPreview({ videoUrl, posterUrl }: PeptideVideoPreviewProps) 
 
 type Step = "intro" | "profile" | "acknowledge";
 
-// Preserved prototype: keep inaccessible until an approved replacement is verified and cut over.
-// @ts-expect-error TS6133 -- intentionally unreachable while the fail-closed gate is active.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- preserved replacement reference.
-function PeptidesPage() {
+// Preserved prototype: exported for controlled tests but not routed until activation is approved.
+export function PreservedPeptidesPage() {
   const [step, setStep] = useState<Step>("intro");
-  const [profile, setProfile] = useState({
-    name: "",
+  const [profile, setProfile] = useState<ProfileDraft>({
+    firstName: "",
     email: "",
     whatsapp: "",
     password: "",
   });
+  const [profileErrors, setProfileErrors] = useState<ProfileErrors>({});
   const [acknowledged, setAcknowledged] = useState(false);
+  const { headingRef, errorSummaryRef } = useSteppedFlowFocus(
+    step,
+    Object.keys(profileErrors).length,
+  );
 
   const goToQuestionnaire = () => {
     window.location.href = PW_QUESTIONNAIRE_URL;
   };
 
+  const updateProfile = (field: ProfileField, value: string) => {
+    setProfile((current) => ({ ...current, [field]: value }));
+    setProfileErrors((current) => ({ ...current, [field]: undefined }));
+  };
+
   return (
     <div className="relative">
       <Nav />
+      {step !== "intro" && (
+        <StepProgress
+          current={step === "profile" ? 1 : 2}
+          total={2}
+          label={step === "profile" ? "Create your profile" : "Acknowledgement"}
+        />
+      )}
       <main className="container-x py-16 lg:py-24 max-w-4xl">
         {step === "intro" && (
           <section>
             <p className="label-caps text-gold">Peptide therapy</p>
-            <h1 className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground">
+            <h1
+              ref={headingRef}
+              tabIndex={-1}
+              className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground"
+            >
               Peptide treatment, medically guided.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl">
@@ -211,7 +239,11 @@ function PeptidesPage() {
         {step === "profile" && (
           <section className="max-w-xl">
             <p className="label-caps text-gold">Step 1 of 2</p>
-            <h2 className="mt-4 font-serif text-3xl sm:text-4xl text-foreground">
+            <h2
+              ref={headingRef}
+              tabIndex={-1}
+              className="mt-4 font-serif text-3xl sm:text-4xl text-foreground"
+            >
               Create your profile
             </h2>
             <p className="mt-3 text-muted-foreground">
@@ -219,29 +251,24 @@ function PeptidesPage() {
             </p>
 
             <form
+              noValidate
               className="mt-8 space-y-5"
               onSubmit={(e) => {
                 e.preventDefault();
+                const errors = validateProfileDraft(profile);
+                setProfileErrors(errors);
+                if (Object.keys(errors).length > 0) return;
                 setStep("acknowledge");
               }}
             >
-              {[
-                { key: "name", label: "Full name", type: "text" },
-                { key: "email", label: "Email", type: "email" },
-                { key: "whatsapp", label: "WhatsApp number", type: "tel" },
-                { key: "password", label: "Password", type: "password" },
-              ].map((f) => (
-                <div key={f.key}>
-                  <label className="label-caps text-muted-foreground">{f.label}</label>
-                  <input
-                    required
-                    type={f.type}
-                    value={profile[f.key as keyof typeof profile]}
-                    onChange={(e) => setProfile({ ...profile, [f.key]: e.target.value })}
-                    className="mt-2 w-full rounded-xl bg-surface border border-border/60 px-4 py-3 text-foreground focus:outline-none focus:border-gold/60"
-                  />
-                </div>
-              ))}
+              <ProfileErrorSummary ref={errorSummaryRef} errors={profileErrors} />
+              <ProfileFields
+                profile={profile}
+                errors={profileErrors}
+                onChange={updateProfile}
+                nameLabel="Full name"
+                nameAutocomplete="name"
+              />
 
               <div className="flex flex-wrap gap-4 pt-4">
                 <button
@@ -265,7 +292,11 @@ function PeptidesPage() {
         {step === "acknowledge" && (
           <section className="max-w-2xl">
             <p className="label-caps text-gold">Step 2 of 2</p>
-            <h2 className="mt-4 font-serif text-3xl sm:text-4xl text-foreground">
+            <h2
+              ref={headingRef}
+              tabIndex={-1}
+              className="mt-4 font-serif text-3xl sm:text-4xl text-foreground"
+            >
               Before you continue.
             </h2>
 
@@ -289,7 +320,10 @@ function PeptidesPage() {
 
             <label className="mt-8 flex items-start gap-3 cursor-pointer">
               <input
+                id="peptide-acknowledgement"
+                name="acknowledgement"
                 type="checkbox"
+                required
                 checked={acknowledged}
                 onChange={(e) => setAcknowledged(e.target.checked)}
                 className="mt-1 h-5 w-5 accent-[color:var(--gold)]"

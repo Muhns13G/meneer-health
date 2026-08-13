@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
+import { supportChannels } from "@/lib/support-channels";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -10,8 +12,9 @@ export const Route = createFileRoute("/privacy")({
         name: "description",
         content: "How the current Meneer website handles personal information.",
       },
+      { name: "robots", content: "index, follow" },
     ],
-    links: [{ rel: "canonical", href: "/privacy" }],
+    links: [{ rel: "canonical", href: getCanonicalPublicUrl("/privacy") }],
   }),
   component: PrivacyPage,
 });
@@ -25,7 +28,7 @@ function PrivacyPage() {
         <h1 className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground">
           Website Privacy Notice
         </h1>
-        <p className="mt-5 text-sm text-muted-foreground">Effective 7 August 2026 · Version 1.0</p>
+        <p className="mt-5 text-sm text-muted-foreground">Effective 13 August 2026 · Version 1.1</p>
 
         <div className="mt-10 space-y-10 text-muted-foreground leading-relaxed">
           <section aria-labelledby="privacy-operator">
@@ -64,9 +67,9 @@ function PrivacyPage() {
                 Information you choose to include when emailing{" "}
                 <a
                   className="text-gold underline underline-offset-4"
-                  href="mailto:support@meneerhealth.co.za"
+                  href={supportChannels.general.href}
                 >
-                  support@meneerhealth.co.za
+                  {supportChannels.general.email}
                 </a>
                 . Please do not send symptoms, medical records, identity documents, prescriptions,
                 payment details, or other sensitive information to this general inbox.
@@ -75,7 +78,9 @@ function PrivacyPage() {
             <p className="mt-3">
               The application does not currently configure analytics or advertising trackers. A
               selected hosting provider may process limited technical information to deliver and
-              secure the website; this notice must be updated when that provider is approved.
+              secure the website. The site also requests its display fonts from Google Fonts, so
+              Google may receive the technical connection information required to serve those font
+              files. No health questionnaire or form data is sent with that request.
             </p>
           </section>
 
@@ -98,14 +103,17 @@ function PrivacyPage() {
             </h2>
             <p className="mt-3">
               Subject to applicable law, you may ask whether we hold your personal information and
-              request access, correction, deletion, or an objection to processing. Send a request to{" "}
+              request access, correction, deletion, or an objection to processing. A dedicated
+              privacy channel and accountable privacy contact are not yet published. Email{" "}
               <a
                 className="text-gold underline underline-offset-4"
-                href="mailto:support@meneerhealth.co.za"
+                href={supportChannels.general.href}
               >
-                support@meneerhealth.co.za
-              </a>
-              . You may also submit a complaint through the{" "}
+                {supportChannels.general.email}
+              </a>{" "}
+              only to request secure follow-up; do not include identifiers, documents, health
+              information, or request details in ordinary email. You may also submit a complaint
+              through the{" "}
               <a
                 className="text-gold underline underline-offset-4"
                 href="https://inforegulator.org.za/popia/"

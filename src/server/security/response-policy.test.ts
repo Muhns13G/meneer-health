@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { GOOGLE_FONTS_FILE_ORIGIN, GOOGLE_FONTS_STYLESHEET_ORIGIN } from "@/lib/public-font-policy";
 import { applyResponsePolicy, classifyResponse } from "./response-policy";
 
 const BASE_URL = "https://meneerhealth.co.za";
@@ -19,7 +20,10 @@ describe("response security policy", () => {
     expect(secured.headers.get("Cache-Control")).toBe("public, max-age=0, must-revalidate");
     expect(secured.headers.get("Content-Security-Policy")).toContain("frame-ancestors 'none'");
     expect(secured.headers.get("Content-Security-Policy")).toContain(
-      "https://fonts.googleapis.com",
+      `style-src 'self' 'unsafe-inline' ${GOOGLE_FONTS_STYLESHEET_ORIGIN}`,
+    );
+    expect(secured.headers.get("Content-Security-Policy")).toContain(
+      `font-src 'self' ${GOOGLE_FONTS_FILE_ORIGIN}`,
     );
     expect(secured.headers.get("Content-Security-Policy")).toContain("upgrade-insecure-requests");
     expect(secured.headers.get("Content-Security-Policy")).toContain(
@@ -33,6 +37,7 @@ describe("response security policy", () => {
     expect(secured.headers.get("Strict-Transport-Security")).toBe("max-age=31536000");
     expect(secured.headers.get("X-Content-Type-Options")).toBe("nosniff");
     expect(secured.headers.get("X-Frame-Options")).toBe("DENY");
+    expect(secured.headers.has("X-Robots-Tag")).toBe(false);
     expect(secured.headers.get("X-Existing")).toBe("retained");
     expect(await secured.text()).toBe("home");
   });
@@ -45,6 +50,7 @@ describe("response security policy", () => {
 
       expect(classifyResponse(request(pathname), original)).toBe("sensitive");
       expect(secured.headers.get("Cache-Control")).toBe("private, no-store, max-age=0");
+      expect(secured.headers.get("X-Robots-Tag")).toBe("noindex, nofollow");
     },
   );
 
@@ -55,6 +61,7 @@ describe("response security policy", () => {
 
     expect(classifyResponse(futureRequest, original)).toBe("sensitive");
     expect(secured.headers.get("Cache-Control")).toBe("private, no-store, max-age=0");
+    expect(secured.headers.get("X-Robots-Tag")).toBe("noindex, nofollow");
   });
 
   it("gives fingerprinted build assets a long immutable lifetime", () => {
@@ -77,12 +84,14 @@ describe("response security policy", () => {
 
   it.each([
     ["error", "/missing", new Response("missing", { status: 404 })],
+    ["error", "/", new Response("failed public document", { status: 503 })],
     ["redirect", "/go/dads", new Response(null, { status: 307 })],
   ] as const)("prevents storage of %s responses", (responseClass, pathname, original) => {
     const secured = applyResponsePolicy(request(pathname), original);
 
     expect(classifyResponse(request(pathname), original)).toBe(responseClass);
     expect(secured.headers.get("Cache-Control")).toBe("private, no-store, max-age=0");
+    expect(secured.headers.get("X-Robots-Tag")).toBe("noindex, nofollow");
   });
 
   it("prevents storage of cookie-bearing and non-read responses", () => {

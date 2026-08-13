@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /go/
+Disallow: /peptides
+Disallow: /poster
+Disallow: /start
+
+Sitemap: https://meneerhealth.co.za/sitemap.xml

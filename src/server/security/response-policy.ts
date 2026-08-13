@@ -1,3 +1,6 @@
+import { isIndexablePublicPath } from "@/lib/public-route-policy";
+import { GOOGLE_FONTS_FILE_ORIGIN, GOOGLE_FONTS_STYLESHEET_ORIGIN } from "@/lib/public-font-policy";
+
 const ONE_YEAR_SECONDS = 31_536_000;
 const ONE_HOUR_SECONDS = 3_600;
 
@@ -17,8 +20,8 @@ const BASE_CONTENT_SECURITY_POLICY = [
   "form-action 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  `style-src 'self' 'unsafe-inline' ${GOOGLE_FONTS_STYLESHEET_ORIGIN}`,
+  `font-src 'self' ${GOOGLE_FONTS_FILE_ORIGIN}`,
   "img-src 'self' data: https:",
   "media-src 'self' https:",
   "connect-src 'self'",
@@ -140,6 +143,16 @@ export function applyResponsePolicy(
   headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Frame-Options", "DENY");
+
+  const isIndexableDocument =
+    responseClass === "public-document" && isIndexablePublicPath(requestUrl.pathname);
+  const isAsset = responseClass === "fingerprinted-asset" || responseClass === "public-asset";
+
+  if (!isIndexableDocument && !isAsset) {
+    headers.set("X-Robots-Tag", "noindex, nofollow");
+  } else {
+    headers.delete("X-Robots-Tag");
+  }
 
   if (requestUrl.protocol === "https:") {
     headers.set("Strict-Transport-Security", `max-age=${ONE_YEAR_SECONDS}`);

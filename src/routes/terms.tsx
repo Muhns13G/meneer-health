@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
+import { supportChannels } from "@/lib/support-channels";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
       { title: "Website Terms — Meneer" },
       { name: "description", content: "Terms governing use of the current Meneer website." },
+      { name: "robots", content: "index, follow" },
     ],
-    links: [{ rel: "canonical", href: "/terms" }],
+    links: [{ rel: "canonical", href: getCanonicalPublicUrl("/terms") }],
   }),
   component: TermsPage,
 });
@@ -55,8 +58,21 @@ function TermsPage() {
               Website content is general information and is not a diagnosis, prescription, or
               substitute for professional medical advice. Treatment suitability can be determined
               only through an approved clinical process. Do not use the website or general support
-              inbox for an emergency; call emergency services or go to the nearest emergency
-              facility.
+              inbox for an emergency; call{" "}
+              <a
+                className="text-gold underline underline-offset-4"
+                href={supportChannels.emergency.mobile.href}
+              >
+                112 from a mobile
+              </a>{" "}
+              or{" "}
+              <a
+                className="text-gold underline underline-offset-4"
+                href={supportChannels.emergency.ambulance.href}
+              >
+                10177 for an ambulance
+              </a>
+              , or go to the nearest emergency facility.
             </p>
           </section>
 
@@ -104,9 +120,9 @@ function TermsPage() {
               a new effective date and version. Questions about the website may be sent to{" "}
               <a
                 className="text-gold underline underline-offset-4"
-                href="mailto:support@meneerhealth.co.za"
+                href={supportChannels.general.href}
               >
-                support@meneerhealth.co.za
+                {supportChannels.general.email}
               </a>
               . Separate approved transactional terms must be published before any consultation,
               payment, prescription, order, cancellation, refund, or delivery journey opens.

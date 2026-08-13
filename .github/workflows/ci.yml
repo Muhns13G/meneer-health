@@ -61,6 +61,9 @@ jobs:
       - name: Check retained capability and contract portability
         run: bun run check:portability
 
+      - name: Check public discovery outputs
+        run: bun run check:discovery
+
       - name: Start synthetic local database and identity services
         run: bun run db:start:test
 

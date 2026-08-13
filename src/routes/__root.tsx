@@ -1,5 +1,11 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
+import {
+  GOOGLE_FONTS_FILE_ORIGIN,
+  GOOGLE_FONTS_STYLESHEET_ORIGIN,
+  GOOGLE_FONTS_STYLESHEET_URL,
+} from "@/lib/public-font-policy";
+import { PUBLIC_FAVICON, PUBLIC_SOCIAL_IMAGE } from "@/lib/public-metadata";
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -43,19 +49,28 @@ export const Route = createRootRoute({
         content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: PUBLIC_SOCIAL_IMAGE.url },
+      { property: "og:image:secure_url", content: PUBLIC_SOCIAL_IMAGE.secureUrl },
+      { property: "og:image:type", content: PUBLIC_SOCIAL_IMAGE.type },
+      { property: "og:image:width", content: PUBLIC_SOCIAL_IMAGE.width },
+      { property: "og:image:height", content: PUBLIC_SOCIAL_IMAGE.height },
+      { property: "og:image:alt", content: PUBLIC_SOCIAL_IMAGE.alt },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "Meneer — Back to your best." },
       {
         name: "twitter:description",
         content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
       },
+      { name: "twitter:image", content: PUBLIC_SOCIAL_IMAGE.url },
+      { name: "twitter:image:alt", content: PUBLIC_SOCIAL_IMAGE.alt },
     ],
     links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "icon", href: PUBLIC_FAVICON.href, type: PUBLIC_FAVICON.type },
+      { rel: "preconnect", href: GOOGLE_FONTS_STYLESHEET_ORIGIN },
+      { rel: "preconnect", href: GOOGLE_FONTS_FILE_ORIGIN, crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap",
+        href: GOOGLE_FONTS_STYLESHEET_URL,
       },
       {
         rel: "stylesheet",

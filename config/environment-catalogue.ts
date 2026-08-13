@@ -57,6 +57,16 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     rotation: "Rotate after exposure, database password change, or project replacement.",
   },
   {
+    name: "JOURNEY_INTENT_ENCRYPTION_KEY_BASE64",
+    purpose: "Server-only AES-256-GCM key for encrypted, short-lived treatment-intent state.",
+    owner: "Product security and release owner",
+    sensitivity: "secret",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation: "Rotate after suspected exposure and invalidate all outstanding intent cookies.",
+  },
+  {
     name: "RECOVERY_EXPORT_SOURCE",
     purpose: "Runner-only selector that permits synthetic or explicitly gated production exports.",
     owner: "Data and release owner",

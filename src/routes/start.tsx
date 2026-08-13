@@ -1,7 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ProfileErrorSummary, ProfileFields } from "@/components/ProfileFields";
+import { StepProgress } from "@/components/SteppedFlow";
+import {
+  validateProfileDraft,
+  type ProfileDraft,
+  type ProfileErrors,
+  type ProfileField,
+} from "@/domain/journey/profile-form";
 import { SafetyEntryGate } from "@/components/SafetyEntryGate";
+import { useSteppedFlowFocus } from "@/hooks/use-stepped-flow-focus";
 
 export const Route = createFileRoute("/start")({
   head: () => ({
@@ -48,37 +57,50 @@ const conditions: { id: Condition; label: string; body: string }[] = [
 
 const phaseLabels = ["Choose condition", "Consent", "Create account", "Questionnaire"];
 
-// Preserved prototype: keep inaccessible until an approved replacement is verified and cut over.
-// @ts-expect-error TS6133 -- intentionally unreachable while the fail-closed gate is active.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- preserved replacement reference.
-function StartFlow() {
+// Preserved prototype: exported for controlled tests but not routed until activation is approved.
+export function PreservedStartFlow() {
   // step: 0 = condition, 1 = consent, 2 = account, 3 = questionnaire, 4 = confirmation
   const [step, setStep] = useState(0);
   const [condition, setCondition] = useState<Condition | null>(null);
   const [consent, setConsent] = useState(false);
-  const [account, setAccount] = useState({ firstName: "", email: "", whatsapp: "", password: "" });
+  const [account, setAccount] = useState<ProfileDraft>({
+    firstName: "",
+    email: "",
+    whatsapp: "",
+    password: "",
+  });
+  const [accountErrors, setAccountErrors] = useState<ProfileErrors>({});
 
   const totalSteps = 4; // 4 interactive steps; step 5 (index 4) is the confirmation state
-  const currentProgress =
-    step >= totalSteps ? 100 : Math.round(((step + 1) / (totalSteps + 1)) * 100);
+  const { headingRef, errorSummaryRef } = useSteppedFlowFocus(
+    step,
+    Object.keys(accountErrors).length,
+  );
 
   const canNext = useMemo(() => {
     if (step === 0) return !!condition;
     if (step === 1) return consent;
-    if (step === 2) {
-      return (
-        account.firstName.trim() &&
-        account.email.includes("@") &&
-        account.whatsapp.length >= 7 &&
-        account.password.length >= 6
-      );
-    }
+    if (step === 2) return true;
     if (step === 3) return true;
     return false;
-  }, [step, condition, consent, account]);
+  }, [step, condition, consent]);
+
+  const updateAccount = (field: ProfileField, value: string) => {
+    setAccount((current) => ({ ...current, [field]: value }));
+    setAccountErrors((current) => ({ ...current, [field]: undefined }));
+  };
+
+  const continueFlow = () => {
+    if (step === 2) {
+      const errors = validateProfileDraft(account);
+      setAccountErrors(errors);
+      if (Object.keys(errors).length > 0) return;
+    }
+    setStep((current) => current + 1);
+  };
 
   if (step === totalSteps) {
-    return <Confirmation />;
+    return <Confirmation headingRef={headingRef} />;
   }
 
   return (
@@ -93,23 +115,30 @@ function StartFlow() {
             Step {step + 1} of 5 · {phaseLabels[step]}
           </span>
         </div>
-        <div className="h-1 bg-surface">
-          <div
-            className="h-full bg-gold transition-all duration-500"
-            style={{ width: `${currentProgress}%` }}
-          />
-        </div>
+        <StepProgress current={step + 1} total={5} label={phaseLabels[step] ?? "Confirmation"} />
       </header>
 
       <main className="flex-1 flex items-center justify-center py-12 px-5">
         <div className="w-full max-w-2xl">
-          {step === 0 && <ConditionStep condition={condition} onSelect={setCondition} />}
+          {step === 0 && (
+            <ConditionStep condition={condition} onSelect={setCondition} headingRef={headingRef} />
+          )}
 
-          {step === 1 && <ConsentStep consent={consent} setConsent={setConsent} />}
+          {step === 1 && (
+            <ConsentStep consent={consent} setConsent={setConsent} headingRef={headingRef} />
+          )}
 
-          {step === 2 && <AccountStep account={account} setAccount={setAccount} />}
+          {step === 2 && (
+            <AccountStep
+              account={account}
+              errors={accountErrors}
+              onChange={updateAccount}
+              headingRef={headingRef}
+              errorSummaryRef={errorSummaryRef}
+            />
+          )}
 
-          {step === 3 && <QuestionnaireStep />}
+          {step === 3 && <QuestionnaireStep headingRef={headingRef} />}
 
           <div className="mt-10 flex items-center justify-between">
             <button
@@ -121,7 +150,7 @@ function StartFlow() {
             </button>
 
             <button
-              onClick={() => setStep((s) => s + 1)}
+              onClick={continueFlow}
               disabled={!canNext}
               className="inline-flex items-center gap-2 rounded-full bg-gold text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-gold-soft transition-colors disabled:opacity-40 disabled:pointer-events-none"
             >
@@ -138,14 +167,18 @@ function StartFlow() {
 function ConditionStep({
   condition,
   onSelect,
+  headingRef,
 }: {
   condition: Condition | null;
   onSelect: (c: Condition) => void;
+  headingRef: RefObject<HTMLHeadingElement | null>;
 }) {
   return (
     <div>
       <p className="label-caps">Step 01</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">What would you like help with?</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        What would you like help with?
+      </h1>
       <p className="mt-3 text-muted-foreground">Pick one. You can always change later.</p>
 
       <div className="mt-10 grid sm:grid-cols-2 gap-3">
@@ -154,6 +187,8 @@ function ConditionStep({
           return (
             <button
               key={c.id}
+              type="button"
+              aria-pressed={selected}
               onClick={() => onSelect(c.id)}
               className={`text-left p-6 rounded-2xl border transition-colors ${
                 selected ? "border-gold bg-gold/5" : "border-border bg-surface hover:border-gold/50"
@@ -179,14 +214,18 @@ function ConditionStep({
 function ConsentStep({
   consent,
   setConsent,
+  headingRef,
 }: {
   consent: boolean;
   setConsent: (v: boolean) => void;
+  headingRef: RefObject<HTMLHeadingElement | null>;
 }) {
   return (
     <div>
       <p className="label-caps">Step 02</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">POPIA & informed consent.</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        POPIA & informed consent.
+      </h1>
       <p className="mt-3 text-muted-foreground">
         Before we go further, we need your explicit consent to process your health information and
         provide care.
@@ -208,7 +247,10 @@ function ConsentStep({
 
       <label className="mt-6 flex items-start gap-3 cursor-pointer select-none">
         <input
+          id="start-consent"
+          name="consent"
           type="checkbox"
+          required
           checked={consent}
           onChange={(e) => setConsent(e.target.checked)}
           className="mt-1 h-5 w-5 rounded border-border bg-surface accent-[color:var(--gold,#c9a961)] cursor-pointer"
@@ -224,79 +266,40 @@ function ConsentStep({
 
 function AccountStep({
   account,
-  setAccount,
+  errors,
+  onChange,
+  headingRef,
+  errorSummaryRef,
 }: {
-  account: { firstName: string; email: string; whatsapp: string; password: string };
-  setAccount: React.Dispatch<
-    React.SetStateAction<{ firstName: string; email: string; whatsapp: string; password: string }>
-  >;
+  account: ProfileDraft;
+  errors: ProfileErrors;
+  onChange: (field: ProfileField, value: string) => void;
+  headingRef: RefObject<HTMLHeadingElement | null>;
+  errorSummaryRef: RefObject<HTMLDivElement | null>;
 }) {
-  const inputCls =
-    "w-full bg-surface border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-gold transition-colors";
-
   return (
     <div>
       <p className="label-caps">Step 03</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">Create your private account.</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        Create your private account.
+      </h1>
       <p className="mt-3 text-muted-foreground">
         We'll use this to send your consult details and keep your records locked down.
       </p>
 
-      <div className="mt-8 grid gap-4">
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">First name</label>
-          <input
-            type="text"
-            value={account.firstName}
-            maxLength={50}
-            onChange={(e) => setAccount((a) => ({ ...a, firstName: e.target.value }))}
-            className={inputCls}
-            placeholder="Themba"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">Email</label>
-          <input
-            type="email"
-            value={account.email}
-            maxLength={255}
-            onChange={(e) => setAccount((a) => ({ ...a, email: e.target.value }))}
-            className={inputCls}
-            placeholder="you@private.co.za"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">WhatsApp number</label>
-          <input
-            type="tel"
-            value={account.whatsapp}
-            maxLength={20}
-            onChange={(e) => setAccount((a) => ({ ...a, whatsapp: e.target.value }))}
-            className={inputCls}
-            placeholder="+27 82 000 0000"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">Password</label>
-          <input
-            type="password"
-            value={account.password}
-            maxLength={100}
-            onChange={(e) => setAccount((a) => ({ ...a, password: e.target.value }))}
-            className={inputCls}
-            placeholder="At least 6 characters"
-          />
-        </div>
-      </div>
+      <ProfileErrorSummary ref={errorSummaryRef} errors={errors} />
+      <ProfileFields profile={account} errors={errors} onChange={onChange} />
     </div>
   );
 }
 
-function QuestionnaireStep() {
+function QuestionnaireStep({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null> }) {
   return (
     <div>
       <p className="label-caps">Step 04</p>
-      <h1 className="mt-4 font-serif text-3xl sm:text-4xl">A few questions about you.</h1>
+      <h1 ref={headingRef} tabIndex={-1} className="mt-4 font-serif text-3xl sm:text-4xl">
+        A few questions about you.
+      </h1>
       <p className="mt-3 text-muted-foreground">
         Your doctor will use your answers to prepare for your consultation.
       </p>
@@ -322,7 +325,7 @@ const confirmationTimeline = [
   { title: "Medication delivered to your door", when: "2–3 business days" },
 ];
 
-function Confirmation() {
+function Confirmation({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null> }) {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-border/50">
@@ -339,7 +342,13 @@ function Confirmation() {
           <div className="w-14 h-14 rounded-full bg-gold/15 flex items-center justify-center mb-8">
             <Check size={26} className="text-gold" />
           </div>
-          <h1 className="font-serif text-4xl sm:text-5xl leading-tight">You're in, meneer.</h1>
+          <h1
+            ref={headingRef}
+            tabIndex={-1}
+            className="font-serif text-4xl sm:text-5xl leading-tight"
+          >
+            You're in, meneer.
+          </h1>
           <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
             One of our doctors will be in touch within 48 hours to schedule your virtual
             consultation. We'll reach out via WhatsApp — keep an eye out.
