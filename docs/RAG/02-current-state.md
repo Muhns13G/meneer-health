@@ -3,10 +3,10 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-12
+last_updated: 2026-08-13
 audience: internal
 sensitivity: internal
-source_baseline: f3b2187
+source_baseline: fd6863f
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -53,10 +53,37 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-11-request-security-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md
   - docs/06-operations/request-security-abuse-runbook.md
+  - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 06 Closure — 13 August 2026
+
+Sprint 06 is closed at implementation checkpoint `fd6863f5bc87e7d234ce4e06f8efe01c2ac3df97`.
+GitHub Actions run `31700802588` passed the complete repository matrix: 50 Vitest files/277 tests,
+9 pgTAP files/296 assertions, 110 Playwright/axe checks, both audits, production build, Worker
+dry-run, portability, discovery, incident, recovery, and all synthetic integrations.
+
+The active v1 surface now has route-aware shared navigation, an accessible mobile disclosure,
+absolute canonical/discovery policy, committed robots/sitemap outputs, approved placeholder
+favicon/social metadata, approved Google Fonts policy with system fallbacks, reduced-motion and
+forced-colour behavior, and centralised verified general-support/emergency routing. TD-035, TD-039,
+TD-042, and TD-044 are Verified.
+
+The owner approved four opaque treatment identifiers and a 30-minute expiry, provisioned the
+server-only Worker key, and passed the canonical `test:intent:hosted` exercise. Valid selection is
+encrypted in a host-only `HttpOnly`, `Secure`, `SameSite=Strict` cookie; invalid, stale, malformed,
+tampered, or unconfigured state fails closed. Strict telemetry and clean redirects prevent intent
+from entering URLs, response bodies, analytics, referrers, logs, or third-party requests. TD-036 is
+Verified.
+
+TD-037 and TD-038 remain activation gates because the accessible profile and stepped-flow
+prototypes are deliberately unrouted. TD-043 remains an external-input gate because only general
+support and emergency contacts are verified; dedicated privacy, complaint, and clinical/adverse-
+event owners and channels have not been approved. No account, questionnaire, consultation,
+payment, prescription, partner, fulfilment, analytics, or public-launch capability was activated.
 
 ## Classification
 

@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-12
+last_updated: 2026-08-13
 audience: internal
 sensitivity: internal
 sources:
@@ -37,6 +37,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
+  - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
 ---
 
 # Meneer Project Context
@@ -211,6 +212,14 @@ Supabase identity/request-security, advisor, cleanup, and final validation evide
 closed; the canonical site preserves the approved non-transactional boundary and this work is not
 pilot activation.
 
+Sprint 06 is closed as the journey, accessibility, navigation, support-surface, and public-discovery
+baseline. Shared navigation is route-aware; four non-peptide selections use encrypted server-owned
+opaque intent without URL/analytics/referrer leakage; mobile disclosure and metadata/indexing/font
+policies are verified; and the active public surface passes the desktop/mobile accessibility
+matrix. Preserved profile and stepped-flow prototypes remain unrouted, and dedicated privacy,
+complaints, and clinical channels remain unavailable pending accountable owners. Sprint closure is
+not transactional or pilot activation.
+
 ## Authoritative References
 
 - Target direction and delivery gates: [`master-blueprint-v1.md`](../00-blueprints/master-blueprint-v1.md)
@@ -218,3 +227,4 @@ pilot activation.
 - Remediation obligations: [`technical-debt-registry-v1.md`](../04-technical-debt/technical-debt-registry-v1.md)
 - Claims and peptide close-out pack: [`sprint-01-10-claims-peptide-closeout-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-01-10-claims-peptide-closeout-evidence.md)
 - Sprint 05 closure checkpoint: [`sprint-05-17-verification-and-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-17-verification-and-closure-evidence.md)
+- Sprint 06 closure: [`sprint-06-journey-ux-accessibility.md`](../03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md)

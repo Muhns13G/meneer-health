@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "foundation",
     "status": "active",
-    "last_updated": "2026-08-11",
+    "last_updated": "2026-08-13",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -1370,7 +1370,7 @@
     {
       "id": "phase-01-sprint-06",
       "path": "docs/02-implementation-plans/phase-01/sprint-06-journey-ux-accessibility.md",
-      "status": "planned",
+      "status": "completed",
       "primary_debt": [
         "TD-035",
         "TD-036",
@@ -1380,7 +1380,96 @@
         "TD-042",
         "TD-043",
         "TD-044"
+      ],
+      "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-06-task-01",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-1-baseline-and-sequence.md",
+      "status": "completed",
+      "authority_for": ["Sprint 06 baseline", "route and intent constraints", "task sequence"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-02",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-2-route-aware-navigation.md",
+      "status": "verified-task-evidence",
+      "authority_for": ["route-aware shared navigation", "TD-035 verification"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-03",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-3-private-treatment-intent.md",
+      "status": "verified-task-evidence",
+      "authority_for": [
+        "opaque treatment intent",
+        "30-minute encrypted cookie policy",
+        "hosted intent verification",
+        "TD-036 verification"
+      ],
+      "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-06-task-04",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-4-accessible-form-contract.md",
+      "status": "completed-activation-gated",
+      "authority_for": ["accessible profile fields", "validation and error summary", "TD-037 gate"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-5-stepped-flow-accessibility.md",
+      "status": "completed-activation-gated",
+      "authority_for": ["stepped-flow focus", "progress and live status", "TD-038 gate"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-6-mobile-navigation-disclosure.md",
+      "status": "verified-task-evidence",
+      "authority_for": ["mobile disclosure behavior", "TD-039 verification"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-07",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-7-support-emergency-routing.md",
+      "status": "completed-external-input-gated",
+      "authority_for": ["general support routing", "emergency contacts", "TD-043 gate"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-08",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-8-discovery-route-policy.md",
+      "status": "completed",
+      "authority_for": ["route indexability", "canonicals", "robots and sitemap"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-09",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-9-favicon-social-metadata.md",
+      "status": "verified-task-evidence",
+      "authority_for": ["favicon and social metadata", "TD-042 verification"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-10",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-10-external-font-policy.md",
+      "status": "verified-task-evidence",
+      "authority_for": ["v1 Google Fonts decision", "font fallback and CSP", "TD-044 verification"]
+    },
+    {
+      "id": "phase-01-sprint-06-task-11",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-06-11-accessibility-verification.md",
+      "status": "completed",
+      "authority_for": [
+        "active accessibility verification",
+        "display-preference evidence",
+        "TD-037 TD-038 TD-043 residual gates"
       ]
+    },
+    {
+      "id": "phase-01-sprint-06-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md",
+      "status": "completed",
+      "authority_for": [
+        "Sprint 06 mission and delivered work",
+        "Sprint 06 deviations and lessons",
+        "Sprint 06 file inventory",
+        "Sprint 06 debt and closure boundary"
+      ],
+      "last_updated": "2026-08-13"
     },
     {
       "id": "phase-01-sprint-07",
@@ -1444,6 +1533,15 @@
         "nitro",
         "lovable-exit"
       ]
+    },
+    {
+      "id": "FC-004",
+      "path": "docs/05-future-considerations/font-delivery-reassessment.md",
+      "title": "Font Delivery Reassessment",
+      "status": "tracked",
+      "decision_due": "before-public-launch-or-nextjs-migration",
+      "last_updated": "2026-08-12",
+      "topics": ["fonts", "google-fonts", "self-hosting", "privacy", "csp", "performance", "nextjs"]
     }
   ],
   "routing": [
