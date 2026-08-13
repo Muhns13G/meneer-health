@@ -40,11 +40,19 @@ describe("pilot measurement contracts", () => {
     expect(measurementEventInputSchema.options).toHaveLength(9);
   });
 
-  it("rejects treatment intent, identity, URLs, free text, and arbitrary metadata", () => {
+  it("rejects every prohibited identity, transport, replay, clinical, and free-text canary", () => {
     for (const prohibited of [
       { treatment: "peptides" },
       { email: "patient@example.invalid" },
+      { phone: "+27000000000" },
+      { ipAddress: "192.0.2.1" },
+      { userAgent: "synthetic-browser-canary" },
       { url: "https://example.invalid/start?condition=peptides" },
+      { query: "condition=peptides" },
+      { referrer: "https://example.invalid/private-canary" },
+      { sessionReplay: "synthetic-replay-canary" },
+      { cookie: "synthetic-cookie-canary" },
+      { paymentReference: "synthetic-payment-canary" },
       { notes: "free text" },
       { metadata: { arbitrary: true } },
     ]) {
