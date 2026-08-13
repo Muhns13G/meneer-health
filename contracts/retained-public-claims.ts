@@ -1,4 +1,5 @@
 import { publicClaimRegisterSchema } from "./public-claims";
+import { publicContent } from "../content/public-content";
 
 const pending = (input: {
   variantId: string;
@@ -67,7 +68,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
       variants: [
         pending({
           variantId: "practitioner.metadata-real-doctors",
-          exactText: "South African men's telehealth with real HPCSA-registered doctors.",
+          exactText: publicContent.metadata.root.description,
           sources: [
             { path: "src/routes/__root.tsx", locator: "root description", channel: "metadata" },
             { path: "src/routes/index.tsx", locator: "homepage description", channel: "metadata" },
@@ -77,7 +78,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "practitioner.truststrip",
-          exactText: "HPCSA-registered. Real doctors. No bots.",
+          exactText: publicContent.homepage.trust[0],
           sources: [
             {
               path: "src/components/TrustStrip.tsx",
@@ -90,8 +91,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "practitioner.homepage-doctor",
-          exactText:
-            "Every Meneer prescription is reviewed and signed by a qualified HPCSA-registered doctor practising in South Africa.",
+          exactText: publicContent.homepage.doctor.assurance,
           sources: [
             {
               path: "src/components/Doctor.tsx",
@@ -119,7 +119,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "practitioner.how-it-works",
-          exactText: "HPCSA-registered SA doctors.",
+          exactText: publicContent.homepage.howItWorks.steps[1].body,
           sources: [
             {
               path: "src/components/HowItWorks.tsx",
@@ -155,7 +155,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
       variants: [
         pending({
           variantId: "privacy.truststrip",
-          exactText: "POPIA-tight. Your business stays your business.",
+          exactText: publicContent.homepage.trust[2],
           sources: [
             {
               path: "src/components/TrustStrip.tsx",
@@ -217,8 +217,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
       variants: [
         pending({
           variantId: "security.discretion-encrypted",
-          exactText:
-            "Encrypted. Shared with absolutely nobody — not even your medical aid, unless you say so.",
+          exactText: publicContent.homepage.discretion.cards[2].body,
           sources: [
             {
               path: "src/components/Discretion.tsx",
@@ -292,8 +291,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
       variants: [
         pending({
           variantId: "pricing.free-unsuitable-consult",
-          exactText:
-            "If a treatment isn't right for you, they'll say so — and you won't pay a cent for the consult.",
+          exactText: publicContent.homepage.doctor.unsuitable,
           sources: [
             {
               path: "src/components/Doctor.tsx",
@@ -333,7 +331,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
       variants: [
         pending({
           variantId: "cancellation.homepage-no-call",
-          exactText: "Cancel whenever — no awkward call",
+          exactText: publicContent.homepage.benefits[3],
           sources: [
             {
               path: "src/components/Benefits.tsx",
@@ -373,7 +371,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
       variants: [
         pending({
           variantId: "timing.intake-five-minutes",
-          exactText: "Five minutes of honesty.",
+          exactText: publicContent.homepage.cta.body,
           sources: [
             {
               path: "src/components/CtaSection.tsx",
@@ -387,7 +385,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "timing.evenings-weekends",
-          exactText: "Evenings, weekends, in your kitchen.",
+          exactText: publicContent.homepage.howItWorks.steps[1].body,
           sources: [
             {
               path: "src/components/HowItWorks.tsx",
@@ -413,6 +411,20 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
           dispositionReason:
             "Rejected by the approved 7.2 semantics because 48 hours may describe initial contact or review, not guaranteed dosing.",
         }),
+        pending({
+          variantId: "timing.initial-review-48-hours",
+          exactText: publicContent.homepage.trust[3],
+          sources: [
+            {
+              path: "src/components/TrustStrip.tsx",
+              locator: "timing trust item",
+              channel: "website-homepage",
+            },
+          ],
+          allowedChannels: ["website-homepage"],
+          dispositionReason:
+            "Owner-approved replacement aligned to Task 7.2; operational evidence remains pending.",
+        }),
         rejected({
           variantId: "timing.weekend-treatment",
           exactText: "Treatment in the post by the weekend.",
@@ -426,6 +438,20 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
           allowedChannels: ["website-homepage"],
           dispositionReason:
             "Rejected because it lacks defined intake, approval, pharmacy, stock, dispatch, delivery, and exception conditions.",
+        }),
+        pending({
+          variantId: "timing.conditional-pharmacy-delivery",
+          exactText: publicContent.homepage.cta.body,
+          sources: [
+            {
+              path: "src/components/CtaSection.tsx",
+              locator: "homepage closing proposition",
+              channel: "website-homepage",
+            },
+          ],
+          allowedChannels: ["website-homepage"],
+          dispositionReason:
+            "Owner-approved replacement aligned to Task 7.2; fulfilment evidence remains pending.",
         }),
         pending({
           variantId: "timing.contact-within-48-hours",
@@ -456,6 +482,20 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
           dispositionReason:
             "Rejected because the approved provisional target is 3–5 business days from eligibility for fulfilment, subject to evidence and exceptions.",
         }),
+        pending({
+          variantId: "timing.delivery-three-five-days",
+          exactText: publicContent.journey.confirmation[4].when,
+          sources: [
+            {
+              path: "src/routes/start.tsx",
+              locator: "preserved confirmation timeline",
+              channel: "website-route",
+            },
+          ],
+          allowedChannels: ["website-route"],
+          dispositionReason:
+            "Owner-approved replacement aligned to Task 7.2; measured fulfilment evidence remains pending.",
+        }),
       ],
     },
     {
@@ -484,7 +524,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "fulfilment.truststrip-plain-box",
-          exactText: "Plain box. Neutral sender. Nobody's the wiser.",
+          exactText: publicContent.homepage.trust[1],
           sources: [
             {
               path: "src/components/TrustStrip.tsx",
@@ -497,8 +537,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "fulfilment.discretion-unmarked",
-          exactText:
-            "Unmarked box. Neutral sender. No 'CONFIDENTIAL' stickers screaming the opposite.",
+          exactText: publicContent.homepage.discretion.cards[1].body,
           sources: [
             {
               path: "src/components/Discretion.tsx",
@@ -511,7 +550,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "fulfilment.hero-door",
-          exactText: "dropped at your door — wrapped in absolutely nothing interesting.",
+          exactText: publicContent.homepage.hero.body,
           sources: [
             {
               path: "src/components/Hero.tsx",
@@ -524,7 +563,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "fulfilment.benefit-beige-door",
-          exactText: "Boxed in beige, dropped at your door",
+          exactText: publicContent.homepage.benefits[2],
           sources: [
             {
               path: "src/components/Benefits.tsx",
@@ -537,7 +576,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "fulfilment.how-it-works-beige",
-          exactText: "Boxed in nondescript beige. Even your nosy neighbour won't crack the case.",
+          exactText: publicContent.homepage.howItWorks.steps[2].body,
           sources: [
             {
               path: "src/components/HowItWorks.tsx",
@@ -597,7 +636,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
       variants: [
         pending({
           variantId: "peptide.treatment-card",
-          exactText: "Precision, at a cellular level.",
+          exactText: publicContent.homepage.treatments.items[4].title,
           sources: [
             {
               path: "src/components/Treatments.tsx",
@@ -611,7 +650,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "peptide.route-headline",
-          exactText: "Peptide treatment, medically guided.",
+          exactText: publicContent.peptides.headline,
           sources: [
             {
               path: "src/routes/peptides.tsx",
@@ -625,8 +664,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "peptide.metadata-benefits",
-          exactText:
-            "Doctor-led peptide therapy for recovery, performance, and longevity — delivered across South Africa.",
+          exactText: publicContent.metadata.peptides.description,
           sources: [
             {
               path: "src/routes/peptides.tsx",

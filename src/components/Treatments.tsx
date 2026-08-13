@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
+import { publicContent } from "@content/public-content";
 import {
   treatmentIntentWireIds,
   type TreatmentIntent,
@@ -13,13 +14,7 @@ type Treatment = {
   isNew?: boolean;
 };
 
-const treatments: Treatment[] = [
-  { tag: "Hair loss", title: "Hair today. Still here tomorrow.", to: "/start", intent: "hair" },
-  { tag: "Erectile dysfunction", title: "Hard, made easy.", to: "/start", intent: "ed" },
-  { tag: "Weight management", title: "Less of you, more of you.", to: "/start", intent: "weight" },
-  { tag: "Testosterone / TRT", title: "Energy you forgot you had.", to: "/start", intent: "trt" },
-  { tag: "Peptides", title: "Precision, at a cellular level.", to: "/peptides", isNew: true },
-];
+const treatments = publicContent.homepage.treatments.items as readonly Treatment[];
 
 export function Treatments() {
   return (
@@ -27,10 +22,10 @@ export function Treatments() {
       <div className="container-x">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-12">
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl max-w-2xl leading-tight">
-            The care you've always deserved.
+            {publicContent.homepage.treatments.title}
           </h2>
           <Link to="/start" className="text-sm text-gold hover:underline underline-offset-4">
-            Find your match →
+            {publicContent.homepage.treatments.action}
           </Link>
         </div>
 
