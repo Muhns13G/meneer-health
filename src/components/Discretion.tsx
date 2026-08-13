@@ -1,20 +1,18 @@
 import { Eye, Package, Lock } from "lucide-react";
+import { publicContent } from "@content/public-content";
 
 const cards = [
   {
     Icon: Eye,
-    title: "Browse like a ghost",
-    body: "No login to look around. Your search history doesn't follow you home until you decide it should.",
+    ...publicContent.homepage.discretion.cards[0],
   },
   {
     Icon: Package,
-    title: "Boxed in beige",
-    body: "Unmarked box. Neutral sender. No 'CONFIDENTIAL' stickers screaming the opposite.",
+    ...publicContent.homepage.discretion.cards[1],
   },
   {
     Icon: Lock,
-    title: "Locked-down records",
-    body: "POPIA-compliant. Encrypted. Shared with absolutely nobody — not even your medical aid, unless you say so.",
+    ...publicContent.homepage.discretion.cards[2],
   },
 ];
 
@@ -23,7 +21,7 @@ export function Discretion() {
     <section className="py-20 border-t border-border/50">
       <div className="container-x">
         <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl max-w-3xl leading-tight mb-14">
-          Built so quietly, even your group chat won't know.
+          {publicContent.homepage.discretion.title}
         </h2>
 
         <div className="grid md:grid-cols-3 gap-4">

@@ -1,4 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { publicContent } from "@content/public-content";
 
 import {
   GOOGLE_FONTS_FILE_ORIGIN,
@@ -35,18 +36,17 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Meneer — Back to your best." },
+      { title: publicContent.metadata.root.title },
       {
         name: "description",
-        content:
-          "Back to your best. South African men's telehealth with real HPCSA-registered doctors. Hair loss, ED, weight, TRT — discreetly delivered to your door.",
+        content: publicContent.metadata.root.description,
       },
       { name: "application-name", content: "Meneer" },
       { name: "author", content: "Meneer" },
-      { property: "og:title", content: "Meneer — Back to your best." },
+      { property: "og:title", content: publicContent.metadata.root.socialTitle },
       {
         property: "og:description",
-        content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
+        content: publicContent.metadata.root.socialDescription,
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: PUBLIC_SOCIAL_IMAGE.url },
@@ -56,10 +56,10 @@ export const Route = createRootRoute({
       { property: "og:image:height", content: PUBLIC_SOCIAL_IMAGE.height },
       { property: "og:image:alt", content: PUBLIC_SOCIAL_IMAGE.alt },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "Meneer — Back to your best." },
+      { name: "twitter:title", content: publicContent.metadata.root.socialTitle },
       {
         name: "twitter:description",
-        content: "Real doctors, real prescriptions, dropped at your door. Back to your best.",
+        content: publicContent.metadata.root.socialDescription,
       },
       { name: "twitter:image", content: PUBLIC_SOCIAL_IMAGE.url },
       { name: "twitter:image:alt", content: PUBLIC_SOCIAL_IMAGE.alt },

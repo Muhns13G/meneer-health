@@ -1538,6 +1538,24 @@
         "contracts/fixtures/retained-capabilities.json"
       ],
       "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-05",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-5-canonical-public-content-migration.md",
+      "status": "completed",
+      "authority_for": [
+        "canonical runtime public-content source",
+        "website metadata campaign support and prototype migration",
+        "owner-approved timing replacements",
+        "TD-040 and TD-046 implementation progress"
+      ],
+      "verify_against": [
+        "content/public-content.ts",
+        "content/public-content.test.ts",
+        "contracts/retained-public-claims.ts",
+        "contracts/public-claims.test.ts"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { publicContent } from "@content/public-content";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
 import meneerMark from "@/assets/brand/meneer-mark.png";
 import { CAMPAIGNS, getCanonicalCampaignUrl } from "@/lib/campaigns";
@@ -10,8 +11,8 @@ export const Route = createFileRoute("/poster")({
   component: PosterRoute,
   head: () => ({
     meta: [
-      { title: "Meneer — Dads, this one is for you." },
-      { name: "description", content: "Meneer poster — Back to your best." },
+      { title: publicContent.metadata.poster.title },
+      { name: "description", content: publicContent.metadata.poster.description },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -24,10 +25,10 @@ function PosterRoute() {
 
   return (
     <PilotRouteGate
-      eyebrow="Campaign inactive"
-      title="This campaign is not currently active."
-      description="The campaign will be made available only after its destination, QR asset, claims, and print behaviour are approved and tested."
-      assurance="No scan, attribution, registration, or submission occurs from this page."
+      eyebrow={publicContent.routeGates.campaign.eyebrow}
+      title={publicContent.routeGates.campaign.title}
+      description={publicContent.routeGates.campaign.description}
+      assurance={publicContent.routeGates.campaign.assurance}
     />
   );
 }
@@ -82,7 +83,7 @@ function PosterPage() {
               fontWeight: 500,
             }}
           >
-            MENEER
+            {publicContent.campaigns.shared.brand}
           </span>
         </header>
 
@@ -98,9 +99,11 @@ function PosterPage() {
               margin: 0,
             }}
           >
-            <span style={{ color: "#C8A96E", fontStyle: "italic" }}>Dads,</span>
+            <span style={{ color: "#C8A96E", fontStyle: "italic" }}>
+              {publicContent.campaigns.dads.headlineLead}
+            </span>
             <br />
-            <span style={{ color: "#E8E6E1" }}>this one is for you.</span>
+            <span style={{ color: "#E8E6E1" }}>{publicContent.campaigns.dads.headlineEnd}</span>
           </h1>
 
           <div
@@ -112,8 +115,11 @@ function PosterPage() {
               maxWidth: "60ch",
             }}
           >
-            <p style={{ margin: 0 }}>Low energy. No drive. Not recovering like you used to.</p>
-            <p style={{ margin: 0 }}>It doesn&rsquo;t have to stay that way.</p>
+            {publicContent.campaigns.dads.body.map((line) => (
+              <p key={line} style={{ margin: 0 }}>
+                {line}
+              </p>
+            ))}
           </div>
 
           {/* QR + URL */}
@@ -141,7 +147,7 @@ function PosterPage() {
                 margin: "12px 0 0",
               }}
             >
-              Scan to start
+              {publicContent.campaigns.shared.scanAction}
             </p>
             <p
               style={{
@@ -152,7 +158,7 @@ function PosterPage() {
                 fontWeight: 500,
               }}
             >
-              meneerhealth.co.za/go/dads
+              {publicContent.campaigns.dads.canonicalLabel}
             </p>
           </div>
         </main>
@@ -169,9 +175,9 @@ function PosterPage() {
               letterSpacing: "0.05em",
             }}
           >
-            <div>HPCSA-registered doctors · Discreet delivery · POPIA-compliant</div>
+            <div>{publicContent.campaigns.shared.trustLine}</div>
             <div style={{ marginTop: 4, opacity: 0.7 }}>
-              © 2026 Meneer · Operated by OCTOTHORP ZA · K2024185008
+              {publicContent.campaigns.shared.operatorLine}
             </div>
           </div>
           <div
@@ -182,7 +188,7 @@ function PosterPage() {
               fontSize: "clamp(16px, 1.6vw, 30px)",
             }}
           >
-            Sorted, sir.
+            {publicContent.campaigns.shared.signoff}
           </div>
         </footer>
       </div>

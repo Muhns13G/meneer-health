@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { publicContent } from "@content/public-content";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
@@ -7,10 +8,10 @@ import { supportChannels } from "@/lib/support-channels";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Website Privacy Notice — Meneer" },
+      { title: publicContent.metadata.privacy.title },
       {
         name: "description",
-        content: "How the current Meneer website handles personal information.",
+        content: publicContent.metadata.privacy.description,
       },
       { name: "robots", content: "index, follow" },
     ],

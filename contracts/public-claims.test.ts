@@ -146,8 +146,8 @@ describe("public claim register", () => {
       "peptide-positioning",
     ]);
     const variants = retainedPublicClaimRegister.claims.flatMap(({ variants }) => variants);
-    expect(variants).toHaveLength(28);
-    expect(variants.filter(({ status }) => status === "pending-evidence")).toHaveLength(25);
+    expect(variants).toHaveLength(31);
+    expect(variants.filter(({ status }) => status === "pending-evidence")).toHaveLength(28);
     expect(variants.filter(({ status }) => status === "rejected")).toHaveLength(3);
     expect(variants).not.toContainEqual(expect.objectContaining({ status: "approved" }));
   });

@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { publicContent } from "@content/public-content";
 import logoAsset from "@/assets/brand/meneer-mark.png";
 
 type PrimaryNavLink = Readonly<{
@@ -9,14 +10,7 @@ type PrimaryNavLink = Readonly<{
   hash?: "treatments" | "how";
 }>;
 
-const links = [
-  { label: "Hair Loss", to: "/", hash: "treatments" },
-  { label: "ED", to: "/", hash: "treatments" },
-  { label: "Weight", to: "/", hash: "treatments" },
-  { label: "Testosterone", to: "/", hash: "treatments" },
-  { label: "Peptides", to: "/peptides" },
-  { label: "How It Works", to: "/", hash: "how" },
-] as const satisfies readonly PrimaryNavLink[];
+const links = publicContent.navigation.primary satisfies readonly PrimaryNavLink[];
 
 export function Nav() {
   const [open, setOpen] = useState(false);
@@ -101,7 +95,7 @@ export function Nav() {
             to="/start"
             className="inline-flex items-center justify-center rounded-full bg-gold text-primary-foreground px-5 py-2 text-sm font-medium hover:bg-gold-soft transition-colors"
           >
-            Start privately
+            {publicContent.navigation.startLabel}
           </Link>
         </div>
 
@@ -142,7 +136,7 @@ export function Nav() {
               onClick={() => closeMenu()}
               className="inline-flex items-center justify-center rounded-full bg-gold text-primary-foreground px-5 py-2.5 text-sm font-medium"
             >
-              Start privately
+              {publicContent.navigation.startLabel}
             </Link>
           </div>
         </nav>

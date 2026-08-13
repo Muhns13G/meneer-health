@@ -76,10 +76,10 @@ state.
 
 The timing semantics are now explicit: five minutes estimates initial intake only; 48 hours targets
 initial clinical contact/review after complete information; and the provisional three-to-five-day
-delivery clock begins at `eligible_for_fulfilment_at`. Existing stronger variants remain unchanged
-in the UI, while Task 7.4 now records their fail-closed disposition. TD-040 is In progress until
-Tasks 7.5–7.6 migrate and verify the governed source. No public wording, route, transaction,
-analytics, or MCP surface changed in Tasks 7.1–7.4.
+delivery clock begins after fulfilment approval. Task 7.5 replaces only the three rejected timing
+representations with owner-approved qualified wording; the established voice and all other migrated
+copy remain unchanged. TD-040 is In progress until Task 7.6 completes cross-channel proof. No route,
+transaction, analytics, provider or MCP surface changed.
 
 Task 7.3 implements and registers `public-content.catalogue@1` as the framework-neutral content
 boundary. It validates typed public values, revision history, selected releases, localisation,
@@ -87,19 +87,20 @@ channel scope, accountable/required approval roles, effective/review/expiry date
 emergency withdrawal. Resolution fails closed for any ineligible state. CAP-001 and synthetic
 PORT-021 require v2/v3 to preserve the same contract.
 
-Task 7.4 implements and registers `public-claims.register@1`. It translates the nine retained
-families into 28 exact variants with source/channel/audience locations, accountable owners,
-required approvers/evidence, lifecycle, and disposition. Twenty-five variants are retained pending
-domain evidence; the current dosing-inside-48-hours, treatment-by-weekend, and two-to-three-day
-delivery variants are rejected under Task 7.2 semantics. No variant is represented as approved.
+Task 7.4 implements and registers `public-claims.register@1`. After Task 7.5 replacement binding,
+it contains 31 exact variants with source/channel/audience locations, accountable owners, required
+approvers/evidence, lifecycle and disposition. Twenty-eight variants remain pending domain evidence;
+the displaced dosing-inside-48-hours, treatment-by-weekend and two-to-three-day delivery variants
+remain rejected history. No variant is represented as domain-approved.
 Claim publication fails closed for missing or invalid evidence/approval, channel/audience,
 effective/review/expiry state, evidence expiry, claim reference, or exact-text binding.
 
-The implementation does not yet centralise the rendered website: Tasks 7.5–7.6 still own migration
-and drift/rollback evidence. Existing UI continues using local copy until that deliberate migration,
-so Task 7.4 does not silently withdraw or rewrite public wording. TD-006, TD-007, TD-040, and TD-046
-remain In progress. No route, transaction, provider, analytics, MCP, CMS, or database capability
-changed.
+Task 7.5 adds framework-neutral `content/public-content.ts` and migrates 22 active website,
+metadata, campaign, support and preserved-prototype consumers to it. Dedicated tests pin the
+established proposition, exact replacements, consumer imports, campaign destinations and support
+channels. Task 7.6 still owns exhaustive drift, duplicate, expiry, withdrawal, version and rollback
+evidence. TD-006, TD-007, TD-040 and TD-046 remain In progress. No transaction, provider,
+analytics, MCP, CMS or database capability changed.
 
 ## Sprint 06 Closure — 13 August 2026
 

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { publicContent } from "@content/public-content";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PilotRouteGate } from "@/components/PilotRouteGate";
@@ -25,16 +26,15 @@ const PEPTIDE_VIDEO_POSTER_URL = publicEnvironment.peptideVideoPosterUrl;
 export const Route = createFileRoute("/peptides")({
   head: () => ({
     meta: [
-      { title: "Peptides — Meneer" },
+      { title: publicContent.metadata.peptides.title },
       {
         name: "description",
-        content:
-          "Peptide treatment, medically guided. Doctor-led peptide therapy for recovery, performance, and longevity — delivered across South Africa.",
+        content: publicContent.metadata.peptides.description,
       },
-      { property: "og:title", content: "Peptides — Meneer" },
+      { property: "og:title", content: publicContent.metadata.peptides.socialTitle },
       {
         property: "og:description",
-        content: "Peptide treatment, medically guided. Doctor-led. Delivered.",
+        content: publicContent.metadata.peptides.socialDescription,
       },
       { property: "og:type", content: "website" },
       { name: "robots", content: "noindex, nofollow" },
@@ -52,10 +52,10 @@ function PeptidesRoute() {
 
   return (
     <PilotRouteGate
-      eyebrow="Peptide pathway"
-      title="Peptide access is currently gated."
-      description="This pathway will open only after its partner questionnaire, dispensing basis, data hand-off, and escalation controls are approved."
-      assurance="No profile, password, acknowledgement, health information, or questionnaire response is collected from this page."
+      eyebrow={publicContent.routeGates.peptides.eyebrow}
+      title={publicContent.routeGates.peptides.title}
+      description={publicContent.routeGates.peptides.description}
+      assurance={publicContent.routeGates.peptides.assurance}
     />
   );
 }
@@ -71,13 +71,12 @@ function PeptideVideoPreview({ videoUrl, posterUrl }: PeptideVideoPreviewProps) 
       <Nav />
       <main className="container-x py-16 lg:py-24 max-w-4xl">
         <section>
-          <p className="label-caps text-gold">Peptide therapy</p>
+          <p className="label-caps text-gold">{publicContent.peptides.eyebrow}</p>
           <h1 className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground">
-            Peptide treatment, medically guided.
+            {publicContent.peptides.headline}
           </h1>
           <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl">
-            Two short films before you begin — a little context on where peptides come from, and how
-            they actually work in the body.
+            {publicContent.peptides.introduction}
           </p>
 
           <div className="mt-12 grid md:grid-cols-2 gap-6">
@@ -100,7 +99,9 @@ function PeptideVideoPreview({ videoUrl, posterUrl }: PeptideVideoPreviewProps) 
                   <p className="label-caps text-muted-foreground">Film 01</p>
                   <p className="label-caps text-gold">Draft preview</p>
                 </div>
-                <h2 className="mt-2 font-serif text-xl text-foreground">The history of peptides</h2>
+                <h2 className="mt-2 font-serif text-xl text-foreground">
+                  {publicContent.peptides.firstFilm}
+                </h2>
               </div>
             </div>
 
@@ -111,7 +112,7 @@ function PeptideVideoPreview({ videoUrl, posterUrl }: PeptideVideoPreviewProps) 
               <div className="p-5">
                 <p className="label-caps text-muted-foreground">Film 02</p>
                 <h2 className="mt-2 font-serif text-xl text-foreground">
-                  How peptides work in the body
+                  {publicContent.peptides.secondFilm}
                 </h2>
               </div>
             </div>
@@ -179,17 +180,16 @@ export function PreservedPeptidesPage() {
       <main className="container-x py-16 lg:py-24 max-w-4xl">
         {step === "intro" && (
           <section>
-            <p className="label-caps text-gold">Peptide therapy</p>
+            <p className="label-caps text-gold">{publicContent.peptides.eyebrow}</p>
             <h1
               ref={headingRef}
               tabIndex={-1}
               className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground"
             >
-              Peptide treatment, medically guided.
+              {publicContent.peptides.headline}
             </h1>
             <p className="mt-6 text-lg text-muted-foreground leading-relaxed max-w-2xl">
-              Two short films before you begin — a little context on where peptides come from, and
-              how they actually work in the body.
+              {publicContent.peptides.introduction}
             </p>
 
             <div className="mt-12 grid md:grid-cols-2 gap-6">
@@ -200,7 +200,7 @@ export function PreservedPeptidesPage() {
                 <div className="p-5">
                   <p className="label-caps text-muted-foreground">Film 01</p>
                   <h3 className="mt-2 font-serif text-xl text-foreground">
-                    The history of peptides
+                    {publicContent.peptides.firstFilm}
                   </h3>
                 </div>
               </div>
@@ -215,7 +215,7 @@ export function PreservedPeptidesPage() {
                 <div className="p-5">
                   <p className="label-caps text-muted-foreground">Film 02</p>
                   <h3 className="mt-2 font-serif text-xl text-foreground">
-                    How peptides work in the body — coming soon
+                    {publicContent.peptides.secondFilm} — coming soon
                   </h3>
                 </div>
               </div>

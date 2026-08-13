@@ -57,6 +57,9 @@ sensitivity: internal
 - **Public-content catalogue:** portable `public-content.catalogue@1`, containing only serialisable
   governed public records and revision history. It is not a CMS, patient record, internal RAG
   collection, or authoritative workflow store.
+- **Canonical runtime content source:** framework-neutral `content/public-content.ts`, consumed by
+  active website, metadata, campaign, support and preserved-prototype adapters. It carries approved
+  wording selection but does not itself make pending claims domain-approved.
 - **Selected content revision:** the revision proposed for a channel adapter. Selection alone does
   not publish content; its status, approvals, channel, locale, effective date, review deadline, and
   expiry must all remain eligible.
