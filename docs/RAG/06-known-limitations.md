@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-12
+last_updated: 2026-08-13
 audience: internal
 sensitivity: internal
 sources:
@@ -47,6 +47,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-3-ui-surface-reduction-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md
+  - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -317,6 +318,24 @@ Route-specific WAF/rate evidence, Stripe
 webhooks, partner callbacks, and any governed
 break-glass grant remain activation gates for the first enabled route; Sprint closure does not
 activate those capabilities.
+
+## Sprint 06 Closure Boundary
+
+Sprint 06 verifies route-aware navigation, encrypted opaque treatment intent, mobile disclosure,
+public discovery/metadata, the approved external-font policy, and the active desktop/mobile
+accessibility baseline. Do not infer that the preserved profile or stepped-flow prototypes are
+live. TD-037 and TD-038 remain activation gates until an approved routed asynchronous flow receives
+live keyboard and assistive-technology verification.
+
+General support at `support@meneerhealth.co.za` and mobile `112`/ambulance `10177` are the verified
+published routes. Do not invent or imply a dedicated privacy, complaint, clinical, or adverse-event
+service; TD-043 remains open until accountable owners, channels, hours, and fallback paths are
+approved and tested. The general mailbox is not an urgent clinical service.
+
+The treatment-intent cookie is a 30-minute navigation aid only. It is not identity, consent,
+eligibility, diagnosis, intake, prescription, or a durable health record. It must never enter URLs,
+analytics, referrers, logs, payment metadata, or third-party systems. Sprint 06 adds no analytics;
+TD-045 remains Sprint 07 scope.
 
 ## Retrieval Response Pattern
 

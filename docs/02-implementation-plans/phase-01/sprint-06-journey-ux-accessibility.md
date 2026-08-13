@@ -1,10 +1,10 @@
 ---
 plan_id: phase-01-sprint-06
 title: Journey, UX, Accessibility, and Discovery
-status: active
+status: completed
 primary_debt: [TD-035, TD-036, TD-037, TD-038, TD-039, TD-042, TD-043, TD-044]
 depends_on: [phase-01-sprint-01, phase-01-sprint-03, phase-01-sprint-04, phase-01-sprint-05]
-last_updated: 2026-08-12
+last_updated: 2026-08-13
 owner: "@Muhns13G"
 ---
 
@@ -61,7 +61,7 @@ Primary debt: TD-035–TD-039 and TD-042–TD-044.
 | 6.9  | Add approved favicon and social-card assets and verify metadata rendering; retain an explicit gate if assets remain unavailable.         | TD-042; approved assets   | Completed |
 | 6.10 | Decide and implement self-hosted or explicitly approved external fonts with CSP, fallback, privacy, resilience, and performance proof.   | TD-044; owner decision    | Completed |
 | 6.11 | Run keyboard, zoom/reflow, reduced-motion, contrast, representative screen-reader, failure, and complete browser verification.           | TD-037–TD-039, TD-043–044 | Completed |
-| 6.12 | Reconcile debt/RAG, record deviations and lessons, and issue the Sprint 06 completion report and exact-commit CI evidence.               | All Sprint 06 debt        | Planned   |
+| 6.12 | Reconcile debt/RAG, record deviations and lessons, and issue the Sprint 06 completion report and exact-commit CI evidence.               | All Sprint 06 debt        | Completed |
 
 Tasks remain independently committable. Asset- or ownership-dependent work may retain an explicit
 activation gate, but it must not be represented as verified until its acceptance evidence exists.
