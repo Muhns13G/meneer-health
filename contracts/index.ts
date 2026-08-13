@@ -6,6 +6,7 @@ export * from "./errors";
 export * from "./fulfilment";
 export * from "./observability";
 export * from "./lifecycle";
+export * from "./measurement";
 export * from "./payments";
 export * from "./portability";
 export * from "./public-claims";

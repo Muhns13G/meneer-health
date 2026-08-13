@@ -14,6 +14,7 @@ import {
   recoveryArchiveContract,
   recoveryManifestContract,
 } from "./lifecycle";
+import { measurementConsentContract, measurementEventContract } from "./measurement";
 import { telemetryEventContract } from "./observability";
 import { paymentCheckoutContract, paymentProviderEventContract } from "./payments";
 import { publicClaimRegisterContract } from "./public-claims";
@@ -41,6 +42,22 @@ export type ContractSchemaRegistryEntry = z.infer<typeof contractSchemaRegistryE
 const allGenerations = ["v1-tanstack", "v2-nextjs", "v3-laravel-react"] as const;
 
 export const contractSchemaRegistry = [
+  {
+    definition: measurementConsentContract,
+    schemaExport: "measurementConsentCommandSchema",
+    source: "contracts/measurement.ts",
+    databaseMigration: "20260813170247",
+    supportedGenerations: allGenerations,
+    compatibility: "strict-major",
+  },
+  {
+    definition: measurementEventContract,
+    schemaExport: "measurementEventSchema",
+    source: "contracts/measurement.ts",
+    databaseMigration: "20260813170247",
+    supportedGenerations: allGenerations,
+    compatibility: "strict-major",
+  },
   {
     definition: publicClaimRegisterContract,
     schemaExport: "publicClaimRegisterSchema",
