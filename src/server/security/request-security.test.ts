@@ -132,6 +132,14 @@ describe("current public request boundary", () => {
       request("/api/payments/stripe/webhook", { method: "POST" }),
       allowRate,
     );
+    const measurementConsent = await inspectPublicRequest(
+      request("/api/measurement/consent", { method: "POST" }),
+      allowRate,
+    );
+    const measurementEvent = await inspectPublicRequest(
+      request("/api/measurement/events", { method: "POST" }),
+      allowRate,
+    );
     const hiddenRead = await inspectPublicRequest(
       request("/api/payments/checkout", { method: "GET" }),
       allowRate,
@@ -140,6 +148,12 @@ describe("current public request boundary", () => {
     expect(journey.allowed && journey.decision.routeClass).toBe("protected-command");
     expect(checkout.allowed && checkout.decision.routeClass).toBe("protected-command");
     expect(webhook.allowed && webhook.decision.routeClass).toBe("provider-callback");
+    expect(measurementConsent.allowed && measurementConsent.decision.routeClass).toBe(
+      "protected-command",
+    );
+    expect(measurementEvent.allowed && measurementEvent.decision.routeClass).toBe(
+      "protected-command",
+    );
     expect(hiddenRead.allowed).toBe(false);
     if (!hiddenRead.allowed) expect(hiddenRead.response.status).toBe(404);
   });

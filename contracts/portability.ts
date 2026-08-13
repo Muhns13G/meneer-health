@@ -15,6 +15,7 @@ import {
   recoveryManifestSchema,
 } from "./lifecycle";
 import { telemetryEventSchema } from "./observability";
+import { measurementConsentCommandSchema, measurementEventSchema } from "./measurement";
 import { paymentCheckoutCommandSchema, verifiedPaymentProviderEventSchema } from "./payments";
 import { publicClaimRegisterSchema } from "./public-claims";
 import { publicContentCatalogueSchema } from "./public-content";
@@ -29,6 +30,8 @@ const registeredSchemas: Readonly<Record<string, z.ZodType>> = {
   "fulfilment.partner": verifiedFulfilmentPartnerEventSchema,
   "integration.received": integrationInboxReceiptSchema,
   "lifecycle.request": dataSubjectRequestCommandSchema,
+  "measurement.consent": measurementConsentCommandSchema,
+  "measurement.event": measurementEventSchema,
   "payment.checkout": paymentCheckoutCommandSchema,
   "payment.provider": verifiedPaymentProviderEventSchema,
   "public-claims.register": publicClaimRegisterSchema,

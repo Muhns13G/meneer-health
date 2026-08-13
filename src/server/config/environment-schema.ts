@@ -12,6 +12,7 @@ const optionalSupabaseEnvironmentSchema = z
   .object({
     SUPABASE_URL: supabaseServerUrlSchema.optional(),
     SUPABASE_SECRET_KEY: z.string().min(1).optional(),
+    MEASUREMENT_MODE: z.enum(["disabled", "pilot"]).default("disabled"),
     RECOVERY_ENCRYPTION_KEY_BASE64: z
       .string()
       .regex(/^[A-Za-z0-9+/]{43}=$/)
@@ -36,6 +37,12 @@ const optionalSupabaseEnvironmentSchema = z
       context.addIssue({
         code: "custom",
         message: "Supabase server configuration must be complete or absent.",
+      });
+    }
+    if (environment.MEASUREMENT_MODE === "pilot" && (!hasUrl || !hasSecret)) {
+      context.addIssue({
+        code: "custom",
+        message: "Pilot measurement requires complete Supabase server configuration.",
       });
     }
 
@@ -96,6 +103,7 @@ export const serverEnvironmentSchema = optionalSupabaseEnvironmentSchema.transfo
             mode: "test" as const,
           }
         : undefined,
+    measurement: { enabled: environment.MEASUREMENT_MODE === "pilot" },
   }),
 );
 

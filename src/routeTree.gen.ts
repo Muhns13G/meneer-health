@@ -20,6 +20,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
 import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
+import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
+import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
 import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
 import { Route as ApiPaymentsStripeWebhookRouteImport } from './routes/api/payments/stripe/webhook'
 
@@ -78,6 +80,16 @@ const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
   path: '/api/payments/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiMeasurementEventsRoute = ApiMeasurementEventsRouteImport.update({
+  id: '/api/measurement/events',
+  path: '/api/measurement/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiMeasurementConsentRoute = ApiMeasurementConsentRouteImport.update({
+  id: '/api/measurement/consent',
+  path: '/api/measurement/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiJourneyIntentRoute = ApiJourneyIntentRouteImport.update({
   id: '/api/journey/intent',
   path: '/api/journey/intent',
@@ -102,6 +114,8 @@ export interface FileRoutesByFullPath {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
+  '/api/measurement/consent': typeof ApiMeasurementConsentRoute
+  '/api/measurement/events': typeof ApiMeasurementEventsRoute
   '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
   '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
@@ -117,6 +131,8 @@ export interface FileRoutesByTo {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
+  '/api/measurement/consent': typeof ApiMeasurementConsentRoute
+  '/api/measurement/events': typeof ApiMeasurementEventsRoute
   '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
   '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
@@ -133,6 +149,8 @@ export interface FileRoutesById {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
+  '/api/measurement/consent': typeof ApiMeasurementConsentRoute
+  '/api/measurement/events': typeof ApiMeasurementEventsRoute
   '/api/payments/checkout': typeof ApiPaymentsCheckoutRoute
   '/api/payments/stripe/webhook': typeof ApiPaymentsStripeWebhookRoute
 }
@@ -150,6 +168,8 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/api/journey/intent'
+    | '/api/measurement/consent'
+    | '/api/measurement/events'
     | '/api/payments/checkout'
     | '/api/payments/stripe/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -165,6 +185,8 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/api/journey/intent'
+    | '/api/measurement/consent'
+    | '/api/measurement/events'
     | '/api/payments/checkout'
     | '/api/payments/stripe/webhook'
   id:
@@ -180,6 +202,8 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/api/journey/intent'
+    | '/api/measurement/consent'
+    | '/api/measurement/events'
     | '/api/payments/checkout'
     | '/api/payments/stripe/webhook'
   fileRoutesById: FileRoutesById
@@ -196,6 +220,8 @@ export interface RootRouteChildren {
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
+  ApiMeasurementConsentRoute: typeof ApiMeasurementConsentRoute
+  ApiMeasurementEventsRoute: typeof ApiMeasurementEventsRoute
   ApiPaymentsCheckoutRoute: typeof ApiPaymentsCheckoutRoute
   ApiPaymentsStripeWebhookRoute: typeof ApiPaymentsStripeWebhookRoute
 }
@@ -279,6 +305,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPaymentsCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/measurement/events': {
+      id: '/api/measurement/events'
+      path: '/api/measurement/events'
+      fullPath: '/api/measurement/events'
+      preLoaderRoute: typeof ApiMeasurementEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/measurement/consent': {
+      id: '/api/measurement/consent'
+      path: '/api/measurement/consent'
+      fullPath: '/api/measurement/consent'
+      preLoaderRoute: typeof ApiMeasurementConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/journey/intent': {
       id: '/api/journey/intent'
       path: '/api/journey/intent'
@@ -308,6 +348,8 @@ const rootRouteChildren: RootRouteChildren = {
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,
+  ApiMeasurementConsentRoute: ApiMeasurementConsentRoute,
+  ApiMeasurementEventsRoute: ApiMeasurementEventsRoute,
   ApiPaymentsCheckoutRoute: ApiPaymentsCheckoutRoute,
   ApiPaymentsStripeWebhookRoute: ApiPaymentsStripeWebhookRoute,
 }
