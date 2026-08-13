@@ -1,6 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { ProfileErrorSummary, ProfileFields } from "@/components/ProfileFields";
+import {
+  validateProfileDraft,
+  type ProfileDraft,
+  type ProfileErrors,
+  type ProfileField,
+} from "@/domain/journey/profile-form";
 import { SafetyEntryGate } from "@/components/SafetyEntryGate";
 
 export const Route = createFileRoute("/start")({
@@ -56,7 +63,13 @@ function StartFlow() {
   const [step, setStep] = useState(0);
   const [condition, setCondition] = useState<Condition | null>(null);
   const [consent, setConsent] = useState(false);
-  const [account, setAccount] = useState({ firstName: "", email: "", whatsapp: "", password: "" });
+  const [account, setAccount] = useState<ProfileDraft>({
+    firstName: "",
+    email: "",
+    whatsapp: "",
+    password: "",
+  });
+  const [accountErrors, setAccountErrors] = useState<ProfileErrors>({});
 
   const totalSteps = 4; // 4 interactive steps; step 5 (index 4) is the confirmation state
   const currentProgress =
@@ -65,17 +78,24 @@ function StartFlow() {
   const canNext = useMemo(() => {
     if (step === 0) return !!condition;
     if (step === 1) return consent;
-    if (step === 2) {
-      return (
-        account.firstName.trim() &&
-        account.email.includes("@") &&
-        account.whatsapp.length >= 7 &&
-        account.password.length >= 6
-      );
-    }
+    if (step === 2) return true;
     if (step === 3) return true;
     return false;
-  }, [step, condition, consent, account]);
+  }, [step, condition, consent]);
+
+  const updateAccount = (field: ProfileField, value: string) => {
+    setAccount((current) => ({ ...current, [field]: value }));
+    setAccountErrors((current) => ({ ...current, [field]: undefined }));
+  };
+
+  const continueFlow = () => {
+    if (step === 2) {
+      const errors = validateProfileDraft(account);
+      setAccountErrors(errors);
+      if (Object.keys(errors).length > 0) return;
+    }
+    setStep((current) => current + 1);
+  };
 
   if (step === totalSteps) {
     return <Confirmation />;
@@ -107,7 +127,9 @@ function StartFlow() {
 
           {step === 1 && <ConsentStep consent={consent} setConsent={setConsent} />}
 
-          {step === 2 && <AccountStep account={account} setAccount={setAccount} />}
+          {step === 2 && (
+            <AccountStep account={account} errors={accountErrors} onChange={updateAccount} />
+          )}
 
           {step === 3 && <QuestionnaireStep />}
 
@@ -121,7 +143,7 @@ function StartFlow() {
             </button>
 
             <button
-              onClick={() => setStep((s) => s + 1)}
+              onClick={continueFlow}
               disabled={!canNext}
               className="inline-flex items-center gap-2 rounded-full bg-gold text-primary-foreground px-6 py-3 text-sm font-medium hover:bg-gold-soft transition-colors disabled:opacity-40 disabled:pointer-events-none"
             >
@@ -154,6 +176,8 @@ function ConditionStep({
           return (
             <button
               key={c.id}
+              type="button"
+              aria-pressed={selected}
               onClick={() => onSelect(c.id)}
               className={`text-left p-6 rounded-2xl border transition-colors ${
                 selected ? "border-gold bg-gold/5" : "border-border bg-surface hover:border-gold/50"
@@ -208,7 +232,10 @@ function ConsentStep({
 
       <label className="mt-6 flex items-start gap-3 cursor-pointer select-none">
         <input
+          id="start-consent"
+          name="consent"
           type="checkbox"
+          required
           checked={consent}
           onChange={(e) => setConsent(e.target.checked)}
           className="mt-1 h-5 w-5 rounded border-border bg-surface accent-[color:var(--gold,#c9a961)] cursor-pointer"
@@ -224,16 +251,13 @@ function ConsentStep({
 
 function AccountStep({
   account,
-  setAccount,
+  errors,
+  onChange,
 }: {
-  account: { firstName: string; email: string; whatsapp: string; password: string };
-  setAccount: React.Dispatch<
-    React.SetStateAction<{ firstName: string; email: string; whatsapp: string; password: string }>
-  >;
+  account: ProfileDraft;
+  errors: ProfileErrors;
+  onChange: (field: ProfileField, value: string) => void;
 }) {
-  const inputCls =
-    "w-full bg-surface border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-gold transition-colors";
-
   return (
     <div>
       <p className="label-caps">Step 03</p>
@@ -242,52 +266,8 @@ function AccountStep({
         We'll use this to send your consult details and keep your records locked down.
       </p>
 
-      <div className="mt-8 grid gap-4">
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">First name</label>
-          <input
-            type="text"
-            value={account.firstName}
-            maxLength={50}
-            onChange={(e) => setAccount((a) => ({ ...a, firstName: e.target.value }))}
-            className={inputCls}
-            placeholder="Themba"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">Email</label>
-          <input
-            type="email"
-            value={account.email}
-            maxLength={255}
-            onChange={(e) => setAccount((a) => ({ ...a, email: e.target.value }))}
-            className={inputCls}
-            placeholder="you@private.co.za"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">WhatsApp number</label>
-          <input
-            type="tel"
-            value={account.whatsapp}
-            maxLength={20}
-            onChange={(e) => setAccount((a) => ({ ...a, whatsapp: e.target.value }))}
-            className={inputCls}
-            placeholder="+27 82 000 0000"
-          />
-        </div>
-        <div>
-          <label className="block text-sm text-muted-foreground mb-2">Password</label>
-          <input
-            type="password"
-            value={account.password}
-            maxLength={100}
-            onChange={(e) => setAccount((a) => ({ ...a, password: e.target.value }))}
-            className={inputCls}
-            placeholder="At least 6 characters"
-          />
-        </div>
-      </div>
+      <ProfileErrorSummary errors={errors} />
+      <ProfileFields profile={account} errors={errors} onChange={onChange} />
     </div>
   );
 }
