@@ -29,11 +29,25 @@ the generic “Find your match” link remains `/start` without inferred intent.
 
 ## Activation Gate
 
-TD-036 remains Open until the owner approves the opaque identifiers and 30-minute expiry, provisions
-`JOURNEY_INTENT_ENCRYPTION_KEY_BASE64` as a server-only hosted secret, and a hosted exercise proves
+The owner approved the four existing opaque identifiers and 30-minute expiry on 13 August 2026.
+TD-036 remains Open until the deployment branch contains Sprint 6, a server-only hosted
+`JOURNEY_INTENT_ENCRYPTION_KEY_BASE64` secret is provisioned, and the hosted exercise proves
 selection, expiry, tamper rejection, and absence from URLs, referrers, logs, analytics, and
 third-party traffic. The code and local evidence are complete; production persistence is not
 represented as active.
+
+Run the bounded exercise only after the same 32-byte base64 key is stored in the Worker and ignored
+`.env.production.local` file:
+
+```sh
+HOSTED_TREATMENT_INTENT_BASE_URL=https://meneerhealth.co.za \
+HOSTED_TREATMENT_INTENT_EXERCISE_CONFIRM=synthetic-opaque-only \
+bun --env-file=.env.production.local run test:intent:hosted
+```
+
+The exercise submits one allowlisted opaque identifier and one rejected human-readable value. It
+does not create an account, patient, clinical, partner, or payment record and does not print the
+identifier, cookie, encryption key, or resolved treatment intent.
 
 ## Evidence
 
