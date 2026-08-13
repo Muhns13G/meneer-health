@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "foundation",
     "status": "active",
-    "last_updated": "2026-08-13",
+    "last_updated": "2026-08-14",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -1474,7 +1474,7 @@
     {
       "id": "phase-01-sprint-07",
       "path": "docs/02-implementation-plans/phase-01/sprint-07-content-measurement-mcp.md",
-      "status": "active",
+      "status": "completed",
       "primary_debt": ["TD-040", "TD-045", "TD-046", "TD-047", "TD-048"]
     },
     {
@@ -1679,6 +1679,18 @@
         "scripts/test-hosted-measurement-network.ts",
         "scripts/test-hosted-mcp-absence.ts",
         "scripts/test-hosted-request-security.ts"
+      ],
+      "last_updated": "2026-08-14"
+    },
+    {
+      "id": "phase-01-sprint-07-completion",
+      "path": "docs/03-completion-reports/phase-01/sprint-07-content-measurement-mcp.md",
+      "status": "completed",
+      "authority_for": [
+        "Sprint 07 mission and delivered work",
+        "Sprint 07 deviations and lessons",
+        "Sprint 07 file inventory",
+        "Sprint 07 debt and closure boundary"
       ],
       "last_updated": "2026-08-14"
     }

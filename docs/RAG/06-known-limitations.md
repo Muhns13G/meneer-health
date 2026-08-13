@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-13
+last_updated: 2026-08-14
 audience: internal
 sensitivity: internal
 sources:
@@ -12,6 +12,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-01-pilot-risk-containment.md
+  - docs/03-completion-reports/phase-01/sprint-07-content-measurement-mcp.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-02-6-meneer-metadata-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-2-contract-foundation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-3-environment-security-evidence.md

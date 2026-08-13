@@ -1,7 +1,7 @@
 ---
 plan_id: phase-01-sprint-07
 title: Content Governance, Measurement, and MCP Boundaries
-status: active
+status: completed
 primary_debt: [TD-040, TD-045, TD-046, TD-047, TD-048]
 depends_on: [phase-01-sprint-02, phase-01-sprint-03, phase-01-sprint-05, phase-01-sprint-06]
 last_updated: 2026-08-14
@@ -67,7 +67,7 @@ Sprint 07 does not reintroduce MCP or reopen those debts without a separate owne
 | 7.9  | Prove synthetic payload, URL/referrer/log/replay, retention, export, deletion, opt-out, and hosted network behaviour using prohibited-data canaries. | TD-045; hosted/privacy evidence        | Completed |
 | 7.10 | Re-prove local and hosted MCP absence and document the future public/private MCP boundary, threat model trigger, and reintroduction prohibition.     | TD-047, TD-048 regression assurance    | Completed |
 | 7.11 | Run complete CI/browser checks and obtain the required content, clinical/legal, privacy/security, and release evidence for implemented scope.        | All Sprint 07 debt; external approvals | Completed |
-| 7.12 | Reconcile debt and RAG documents, record deviations/lessons/new debt and file inventories, and issue the Sprint 07 completion report.                | Sprint closure                         | Planned   |
+| 7.12 | Reconcile debt and RAG documents, record deviations/lessons/new debt and file inventories, and issue the Sprint 07 completion report.                | Sprint closure                         | Completed |
 
 Each task remains independently committable. A missing domain approval must retain a documented
 activation gate; it must not be replaced with invented evidence, silent copy changes, or a claim of
