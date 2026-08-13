@@ -57,6 +57,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-1-content-measurement-mcp-baseline.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-2-canonical-journey-model.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-3-public-content-governance-contract.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-07-7-pilot-measurement-specification.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
@@ -104,6 +105,16 @@ attachment, expiry, emergency withdrawal and eligible historical rollback. TD-04
 Verified at the repository content-model boundary. TD-006 and TD-007 remain In progress because
 centralisation does not supply domain evidence or activate a pathway. No transaction, provider,
 analytics, MCP, CMS or database capability changed.
+
+Task 7.7 approves a tiered first-party data strategy. The initial implementation is limited to nine
+strict events answering six acquisition, generic funnel, hand-off, reliability and aggregate
+operating questions. Product measurement remains default-off and requires distinct opt-in; raw
+pseudonymous events have a 30-day rolling window, consent evidence and irreversibly de-identified
+aggregates have a 12-month maximum, and withdrawal stops collection plus queues deletion. Identity,
+contact, treatment intent, health/clinical content, payment/provider payloads, full URLs/referrers,
+free text, fingerprints and session replay are prohibited from analytics. Rich clinical and
+longitudinal records may exist only in their separately approved authoritative workflow. TD-045 is
+In progress until Tasks 7.8–7.9 implement and prove this boundary; no collection is active.
 
 ## Sprint 06 Closure — 13 August 2026
 
