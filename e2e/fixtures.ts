@@ -36,8 +36,14 @@ export const activeRoutes = [
 export const retiredRoutes = [
   "/mcp",
   "/.mcp/list-tools",
+  "/.mcp/invoke-tool/about_meneer",
   "/.well-known/oauth-protected-resource",
   "/definitely-not-a-route",
+] as const;
+
+export const retiredMcpMutationRoutes = [
+  { path: "/mcp", status: 405, errorCode: "VALIDATION_FAILED" },
+  { path: "/.mcp/invoke-tool/about_meneer", status: 404, errorCode: "NOT_FOUND" },
 ] as const;
 
 export const campaignRedirects = [
