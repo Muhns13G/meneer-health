@@ -386,6 +386,21 @@ workforce tools require a distinct threat model and scoped identity/authorisatio
 authority, audit, monitoring, data-lifecycle, human-review, domain-approval and release evidence
 before any implementation begins. TD-047 and TD-048 remain Verified absence decisions.
 
+## Sprint 07 Validation and Approval Boundary
+
+Task 7.11 passes the complete local CI-equivalent, database, browser, audit, build, dry-run,
+measurement, request-security, and MCP-absence matrix. This proves the implemented inactive
+boundaries; it does not convert repository-owner decisions into clinical, legal, pharmacy,
+privacy/security, or production-release approval.
+
+Twenty-eight retained claim variants still require their named domain evidence and approvals.
+Measurement remains disabled until an approved public consent interface and explicit
+privacy/security release approval exist. The exact Task 7.11 commit still needs required GitHub CI
+and deployment evidence. Hosted intent encryption currently uses a different key from the ignored
+local verification record; align the approved Cloudflare/local secret and rerun the guarded hosted
+intent proof before Sprint 07 closes. Never record either key in source, documentation, logs, or
+workflow output.
+
 ## Retrieval Response Pattern
 
 When answering a question that touches an unresolved area:
