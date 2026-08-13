@@ -106,6 +106,24 @@ test("inactive payment endpoints stay hidden without local provider configuratio
   }
 });
 
+test("default-off measurement endpoints stay hidden without explicit activation", async ({
+  request,
+  baseURL,
+}) => {
+  for (const path of ["/api/measurement/consent", "/api/measurement/events"]) {
+    const response = await request.post(`${baseURL}${path}`, {
+      data: { synthetic: true },
+      headers: { Origin: baseURL ?? "http://127.0.0.1:8085" },
+    });
+    expect(response.status()).toBe(404);
+    expect(response.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+    await expect(response.json()).resolves.toMatchObject({
+      contract: "error.response",
+      error: { code: "NOT_FOUND" },
+    });
+  }
+});
+
 test("active intake and campaign surfaces remain non-transactional", async ({ page }) => {
   await isolateExternalFonts(page);
 

@@ -61,6 +61,7 @@ describe("environment catalogue", () => {
       "SUPABASE_SECRET_KEY",
       "SUPABASE_DB_URL",
       "JOURNEY_INTENT_ENCRYPTION_KEY_BASE64",
+      "MEASUREMENT_MODE",
       "RECOVERY_EXPORT_SOURCE",
       "RECOVERY_R2_BUCKET",
       "CLOUDFLARE_ACCOUNT_ID",
@@ -88,6 +89,7 @@ describe("server startup configuration", () => {
       supabase: undefined,
       recovery: undefined,
       stripe: undefined,
+      measurement: { enabled: false },
     });
   });
 
@@ -104,6 +106,7 @@ describe("server startup configuration", () => {
       },
       recovery: undefined,
       stripe: undefined,
+      measurement: { enabled: false },
     });
   });
 
@@ -139,6 +142,7 @@ describe("server startup configuration", () => {
         heartbeatUrl: "https://heartbeat.example.invalid/synthetic",
       },
       stripe: undefined,
+      measurement: { enabled: false },
     });
   });
 
@@ -158,12 +162,27 @@ describe("server startup configuration", () => {
         webhookServiceIdentityId: "80000000-0000-4000-8000-000000000002",
         mode: "test",
       },
+      measurement: { enabled: false },
     });
+  });
+
+  it("enables pilot measurement only with the complete server Supabase pair", () => {
+    expect(
+      validateServerEnvironment({
+        MEASUREMENT_MODE: "pilot",
+        SUPABASE_URL: "https://example.supabase.co",
+        SUPABASE_SECRET_KEY: "synthetic-secret",
+      }),
+    ).toMatchObject({ measurement: { enabled: true } });
+    expect(() => validateServerEnvironment({ MEASUREMENT_MODE: "pilot" })).toThrow(
+      ServerEnvironmentConfigurationError,
+    );
   });
 
   it.each([
     { SUPABASE_URL: "https://example.supabase.co" },
     { SUPABASE_SECRET_KEY: "synthetic-secret" },
+    { MEASUREMENT_MODE: "enabled" },
     {
       SUPABASE_URL: "http://example.supabase.co",
       SUPABASE_SECRET_KEY: "synthetic-secret",

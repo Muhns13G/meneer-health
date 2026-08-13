@@ -67,6 +67,17 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     rotation: "Rotate after suspected exposure and invalidate all outstanding intent cookies.",
   },
   {
+    name: "MEASUREMENT_MODE",
+    purpose:
+      "Server-only exact activation gate for the approved first-party pilot measurement boundary.",
+    owner: "Privacy, product, and release owner",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation: "Keep disabled until Task 7.9 and final privacy/security approval pass.",
+  },
+  {
     name: "RECOVERY_EXPORT_SOURCE",
     purpose: "Runner-only selector that permits synthetic or explicitly gated production exports.",
     owner: "Data and release owner",

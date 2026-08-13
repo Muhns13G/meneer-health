@@ -1595,6 +1595,27 @@
         "src/routes/privacy.tsx"
       ],
       "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-08",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-8-default-off-measurement-boundary.md",
+      "status": "completed",
+      "authority_for": [
+        "default-off first-party measurement boundary",
+        "strict measurement consent and event contracts",
+        "private measurement persistence and access denial",
+        "measurement flow consent withdrawal expiry and idempotency controls",
+        "TD-045 implementation evidence"
+      ],
+      "verify_against": [
+        "contracts/measurement.ts",
+        "src/application/measurement/measurement-service.ts",
+        "src/server/measurement/measurement-http.ts",
+        "src/adapters/persistence/supabase/supabase-measurement-repository.ts",
+        "supabase/migrations/20260813170247_pilot_measurement_boundary.sql",
+        "supabase/tests/database/pilot_measurement_boundary.test.sql"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [
