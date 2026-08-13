@@ -345,8 +345,8 @@ function Confirmation({ headingRef }: { headingRef: RefObject<HTMLHeadingElement
             You're in, meneer.
           </h1>
           <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
-            One of our doctors will be in touch within 48 hours to schedule your virtual
-            consultation. We'll reach out via WhatsApp — keep an eye out.
+            {publicContent.journey.confirmationContact} We'll reach out via WhatsApp — keep an eye
+            out.
           </p>
 
           <div className="mt-12">

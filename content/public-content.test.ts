@@ -4,32 +4,10 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { retainedPublicClaimRegister } from "../contracts/retained-public-claims";
+import { publicContentGovernance } from "./public-content-governance";
 import { publicContent } from "./public-content";
 
-const migratedConsumers = [
-  "src/components/Benefits.tsx",
-  "src/components/CtaSection.tsx",
-  "src/components/Discretion.tsx",
-  "src/components/Doctor.tsx",
-  "src/components/Footer.tsx",
-  "src/components/Hero.tsx",
-  "src/components/HowItWorks.tsx",
-  "src/components/Nav.tsx",
-  "src/components/Timeline.tsx",
-  "src/components/Treatments.tsx",
-  "src/components/TrustStrip.tsx",
-  "src/lib/campaigns.ts",
-  "src/lib/support-channels.ts",
-  "src/routes/__root.tsx",
-  "src/routes/contact.tsx",
-  "src/routes/index.tsx",
-  "src/routes/peptides.tsx",
-  "src/routes/poster-thanks.tsx",
-  "src/routes/poster.tsx",
-  "src/routes/privacy.tsx",
-  "src/routes/start.tsx",
-  "src/routes/terms.tsx",
-] as const;
+const migratedConsumers = publicContentGovernance.migratedConsumers;
 
 const sourceFor = (path: string) => readFileSync(resolve(process.cwd(), path), "utf8");
 

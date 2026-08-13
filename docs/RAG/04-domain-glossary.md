@@ -60,6 +60,9 @@ sensitivity: internal
 - **Canonical runtime content source:** framework-neutral `content/public-content.ts`, consumed by
   active website, metadata, campaign, support and preserved-prototype adapters. It carries approved
   wording selection but does not itself make pending claims domain-approved.
+- **Runtime content governance map:** versioned `content/public-content-governance.ts`, which gives
+  journey, treatment, policy, support and trust projections stable identifiers and canonical-source
+  references for duplicate, drift and lifecycle verification. It is not a CMS or workflow store.
 - **Selected content revision:** the revision proposed for a channel adapter. Selection alone does
   not publish content; its status, approvals, channel, locale, effective date, review deadline, and
   expiry must all remain eligible.

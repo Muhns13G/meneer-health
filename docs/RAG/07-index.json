@@ -1556,6 +1556,26 @@
         "contracts/public-claims.test.ts"
       ],
       "last_updated": "2026-08-13"
+    },
+    {
+      "id": "phase-01-sprint-07-task-06",
+      "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-6-cross-channel-content-verification.md",
+      "status": "completed",
+      "authority_for": [
+        "cross-channel public-content verification",
+        "canonical journey projection mapping",
+        "content duplicate expiry withdrawal version and rollback evidence",
+        "TD-040 and TD-046 verification",
+        "TD-047 regression assurance"
+      ],
+      "verify_against": [
+        "content/public-content.ts",
+        "content/public-content-governance.ts",
+        "content/public-content-governance.test.ts",
+        "contracts/public-content.test.ts",
+        "contracts/public-claims.test.ts"
+      ],
+      "last_updated": "2026-08-13"
     }
   ],
   "future_considerations": [

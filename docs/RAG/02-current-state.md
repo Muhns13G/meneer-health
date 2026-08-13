@@ -98,8 +98,11 @@ effective/review/expiry state, evidence expiry, claim reference, or exact-text b
 Task 7.5 adds framework-neutral `content/public-content.ts` and migrates 22 active website,
 metadata, campaign, support and preserved-prototype consumers to it. Dedicated tests pin the
 established proposition, exact replacements, consumer imports, campaign destinations and support
-channels. Task 7.6 still owns exhaustive drift, duplicate, expiry, withdrawal, version and rollback
-evidence. TD-006, TD-007, TD-040 and TD-046 remain In progress. No transaction, provider,
+channels. Task 7.6 adds the versioned runtime map for 34 journey, treatment, policy, support and
+trust representations. It proves unique identifiers, canonical phase ordering, exact claim/source
+attachment, expiry, emergency withdrawal and eligible historical rollback. TD-040 and TD-046 are
+Verified at the repository content-model boundary. TD-006 and TD-007 remain In progress because
+centralisation does not supply domain evidence or activate a pathway. No transaction, provider,
 analytics, MCP, CMS or database capability changed.
 
 ## Sprint 06 Closure — 13 August 2026

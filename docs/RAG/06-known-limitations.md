@@ -340,9 +340,10 @@ TD-045 remains Sprint 07 scope.
 ## Sprint 07 Journey Decision Boundary
 
 Task 7.2 approves five canonical public phases and the rules for shorter channel projections. Task
-7.5 now migrates 22 website, metadata, campaign, support and preserved-prototype consumers to the
-framework-neutral runtime source. TD-040 remains In progress until Task 7.6 proves exhaustive
-consistency, withdrawal, version and rollback behaviour.
+7.5 migrates 22 website, metadata, campaign, support and preserved-prototype consumers to the
+framework-neutral runtime source. Task 7.6 maps 34 retained representations and proves unique IDs,
+canonical phase ordering, source/claim attachment, expiry, emergency withdrawal and eligible
+rollback. TD-040 and TD-046 are Verified at this repository content-model boundary.
 
 Do not interpret five minutes as total service time, 48 hours as guaranteed dosing/delivery, or the
 provisional three-to-five-business-day delivery target as starting at the first website visit. The
@@ -359,9 +360,9 @@ and contains no patient/private workflow state.
 
 Task 7.4 completes the portable claim register and fail-closed claim publication validator; Task 7.5
 binds the runtime source and three replacements. Of 31 variants, 28 remain pending evidence and three
-are rejected history. Do not describe retained wording as domain-approved or the current website as
-fully drift-proof until Task 7.6 cross-channel tests complete. TD-006, TD-007, TD-040 and TD-046
-remain In progress; TD-047 remains Verified because MCP stays absent.
+are rejected history. Do not describe retained wording as domain-approved: all 28 retained active
+variants remain pending evidence even though the source is now drift-tested. TD-006 and TD-007
+remain In progress; TD-040, TD-046 and TD-047 are Verified at their repository boundaries.
 
 ## Retrieval Response Pattern
 
