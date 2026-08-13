@@ -57,7 +57,7 @@ Sprint 07 does not reintroduce MCP or reopen those debts without a separate owne
 | Task | Commit-sized outcome                                                                                                                                 | Primary debt / gate                    | Status    |
 | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | --------- |
 | 7.1  | Rebaseline every public-content representation, claim, measurement surface, and retired MCP artefact; freeze invariants and implementation order.    | All Sprint 07 debt                     | Completed |
-| 7.2  | Approve one canonical journey vocabulary and model, including permitted three-step, timeline, confirmation, delivery, and timing summaries.          | TD-040; owner/domain approval          | Planned   |
+| 7.2  | Approve one canonical journey vocabulary and model, including permitted three-step, timeline, confirmation, delivery, and timing summaries.          | TD-040; owner/domain approval          | Completed |
 | 7.3  | Implement a versioned, framework-neutral public-content schema with owners, states, channel rules, review dates, archive, and emergency withdrawal.  | TD-046                                 | Planned   |
 | 7.4  | Complete the claim register and add fail-closed publication validation for evidence, approver, channel, effective, review, and expiry state.         | TD-047 assurance; domain inputs        | Planned   |
 | 7.5  | Migrate active website, metadata, campaign, support, and preserved-prototype references to the approved canonical source without ad hoc copy edits.  | TD-040, TD-046                         | Planned   |
@@ -112,9 +112,9 @@ verified completion.
 - **Available:** v1 service scope and preserved-copy rule; canonical origin and route policy;
   operating/commercial architecture; initial retained-claim register; prohibited treatment-intent
   leakage rule; and the approved v1 decision to keep MCP removed.
-- **Task 7.2 approval:** canonical journey events and permitted channel-specific summaries,
-  including precise meanings and qualifying conditions for consultation, 48-hour, fulfilment,
-  delivery, and cancellation statements.
+- **Approved in Task 7.2:** five canonical public phases, controlled channel projections,
+  pathway-specific conditionality, cross-cutting support/cancellation, and precise intake,
+  48-hour, availability, and fulfilment timing semantics.
 - **Tasks 7.3–7.6 approval:** content and claim owners, accepted approval states, evidence links,
   effective/review/expiry rules, localisation position, emergency-withdrawal authority, and the
   framework-neutral storage/generation boundary compatible with v2.

@@ -23,6 +23,7 @@ sensitivity: internal
 
 - **v1:** current TanStack Start generation using Cloudflare as its approved pilot host.
 - **Controlled pilot:** restricted, monitored use by an approved test group under a defined scope and support model. It is not public-launch approval.
+
 - **Pilot charter:** the proposed or approved participant, journey, operating, measurement, stop,
   activation, and exit boundary; a charter does not itself activate a release.
 - **v2:** planned Next.js generation intended to absorb v1 learning and support public launch.
@@ -37,6 +38,22 @@ sensitivity: internal
 - **Free-tier stop trigger:** a usage, reliability, recovery, privacy, security, or operational
   threshold that requires intake to pause or a reviewed upgrade before it is exceeded; automatic
   spend is not permitted.
+
+## Journey and Content Terms
+
+- **Canonical public journey:** the five-phase public explanation approved in Task 7.2: pathway and
+  intake; screening and review; conditional consultation and authorised decision; scenario-aware
+  price and payment; and approved pharmacy fulfilment and delivery. It is not authoritative
+  workflow state.
+- **Channel projection:** an approved short, medium, intake-progress, detailed, campaign, or
+  metadata representation derived from the canonical public journey. It may group phases for
+  comprehension but cannot reorder them, remove material conditions, or make optional events
+  certain.
+- **Interface progress:** numbered screens within a form or prototype. These numbers describe UI
+  navigation and are not the count of clinical, commercial, or fulfilment phases.
+- **Cross-cutting journey concern:** support, cancellation, refund, escalation, privacy, complaint,
+  or exception handling that attaches to the relevant authoritative state rather than becoming a
+  numbered journey phase.
 
 ## Product Terms
 

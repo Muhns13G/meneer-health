@@ -6,7 +6,7 @@ authority: observed-summary
 last_updated: 2026-08-13
 audience: internal
 sensitivity: internal
-source_baseline: fd6863f
+source_baseline: 6b99460
 runtime_baseline: 0838c2d
 sources:
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -54,10 +54,31 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-14-stripe-checkout-evidence.md
   - docs/06-operations/request-security-abuse-runbook.md
   - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-07-1-content-measurement-mcp-baseline.md
+  - docs/02-implementation-plans/phase-01/annexures/sprint-07-2-canonical-journey-model.md
   - docs/06-operations/audit-integration-evidence-runbook.md
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 07 Content-Governance Progress — 13 August 2026
+
+Task 7.1 inventories the distributed public content, nine retained claim families, absent analytics,
+and retired MCP boundary without changing runtime behaviour. Task 7.2 records the owner's approved
+five-phase canonical public journey and controlled channel projections.
+
+Three-step and four-event summaries may group phases; intake progress remains a separate interface
+concept. Pathway variations may make tests, consultation, prescription, payment, pharmacy, or
+delivery conditional, but cannot imply approval or reorder required phases. Support, cancellation,
+refund, escalation, and exceptions remain cross-cutting and derive consequences from authoritative
+state.
+
+The timing semantics are now explicit: five minutes estimates initial intake only; 48 hours targets
+initial clinical contact/review after complete information; and the provisional three-to-five-day
+delivery clock begins at `eligible_for_fulfilment_at`. Existing stronger variants remain unchanged
+pending Task 7.4 claim disposition. TD-040 is In progress until Tasks 7.3–7.6 implement and verify
+the governed source and migration. No public wording, route, transaction, analytics, or MCP surface
+changed in Tasks 7.1–7.2.
 
 ## Sprint 06 Closure — 13 August 2026
 
