@@ -455,8 +455,7 @@ export const retainedPublicClaimRegister = publicClaimRegisterSchema.parse({
         }),
         pending({
           variantId: "timing.contact-within-48-hours",
-          exactText:
-            "One of our doctors will be in touch within 48 hours to schedule your virtual consultation.",
+          exactText: publicContent.journey.confirmationContact,
           sources: [
             {
               path: "src/routes/start.tsx",

@@ -1,5 +1,7 @@
 // Framework-neutral public copy. Keep React, routing, provider, and workflow state out of this file.
 export const publicContent = Object.freeze({
+  schemaVersion: 1,
+  sourceVersion: "2026.08.13.1",
   brand: Object.freeze({
     name: "Meneer",
     tagline: "Back to your best.",
@@ -252,6 +254,8 @@ export const publicContent = Object.freeze({
         when: "Target 3–5 business days after fulfilment approval",
       },
     ]),
+    confirmationContact:
+      "One of our doctors will be in touch within 48 hours to schedule your virtual consultation.",
   }),
   peptides: Object.freeze({
     eyebrow: "Peptide therapy",
