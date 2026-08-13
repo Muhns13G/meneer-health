@@ -1663,13 +1663,13 @@
     {
       "id": "phase-01-sprint-07-task-11",
       "path": "docs/02-implementation-plans/phase-01/annexures/sprint-07-11-validation-approval-evidence.md",
-      "status": "owner-checkpoint",
+      "status": "completed",
       "authority_for": [
         "Sprint 07 complete local validation matrix",
         "Sprint 07 hosted inactive-boundary evidence",
         "content clinical legal privacy security and release approval inventory",
-        "journey-intent runtime-secret release gate",
-        "Task 7.11 owner checkpoint"
+        "journey-intent runtime-secret and clock-skew evidence",
+        "Task 7.11 technical completion checkpoint"
       ],
       "verify_against": [
         ".github/workflows/ci.yml",
@@ -1680,7 +1680,7 @@
         "scripts/test-hosted-mcp-absence.ts",
         "scripts/test-hosted-request-security.ts"
       ],
-      "last_updated": "2026-08-13"
+      "last_updated": "2026-08-14"
     }
   ],
   "future_considerations": [

@@ -395,12 +395,12 @@ privacy/security, or production-release approval.
 
 Twenty-eight retained claim variants still require their named domain evidence and approvals.
 Measurement remains disabled until an approved public consent interface and explicit
-privacy/security release approval exist. The owner has pushed the exact Task 7.11 commit, confirmed
-GitHub CI, and updated the deployment, but the active Worker still returns the safe intent redirect
-without a cookie because the required journey-intent runtime binding is not usable. The repository
-now declares the secret as required. Deploy it under Worker **Variables and Secrets**, not only the
-build environment, and rerun the guarded hosted intent proof before Sprint 07 closes. Never record
-the key in source, documentation, logs, or workflow output.
+privacy/security release approval exist. The owner pushed the Task 7.11 state, confirmed GitHub CI,
+deployed the required Worker runtime secret and clock-skew correction, and passed the guarded hosted
+intent proof. The decoder permits a bounded 60-second future `issuedAt` tolerance for
+distributed-runtime drift while retaining the 30-minute expiry and fail-closed tamper and
+malformed-state checks. Never record the key or cookie value in source, documentation, logs, or
+workflow output.
 
 ## Retrieval Response Pattern
 

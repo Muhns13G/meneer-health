@@ -135,12 +135,11 @@ Task 7.11 completes the local Sprint 07 technical matrix: 58 Vitest files/323 te
 files/336 assertions, 118 desktop/mobile Playwright/axe checks, all synthetic integrations,
 incident/recovery exercises, both audits, build, portability, generated-route/client canaries, MCP
 absence and Worker dry-run pass. Hosted probes confirm default-off measurement, absent MCP, and
-inactive request routes still fail closed. The task remains at owner checkpoint because the branch
-is now pushed and its exact-commit GitHub CI passes, but the active Worker returns the safe intent
-redirect without a cookie because it does not receive a usable journey-intent runtime secret.
-Wrangler now declares that secret as required so future uploads fail instead of silently omitting
-it. Hosted success still requires a runtime binding deployment and guarded retest. No missing domain
-or release approval is inferred.
+inactive request routes still fail closed. The exact-commit GitHub CI and hosted treatment-intent
+exercise pass. Wrangler declares the journey-intent secret as required so future uploads fail
+instead of silently omitting it. A bounded 60-second decoder tolerance addresses verified
+sub-second Worker/local clock drift without changing the 30-minute expiry, tamper rejection, or
+fail-closed input rules. No missing domain or activation approval is inferred.
 
 ## Sprint 06 Closure — 13 August 2026
 

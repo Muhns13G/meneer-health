@@ -4,7 +4,7 @@ title: Content Governance, Measurement, and MCP Boundaries
 status: active
 primary_debt: [TD-040, TD-045, TD-046, TD-047, TD-048]
 depends_on: [phase-01-sprint-02, phase-01-sprint-03, phase-01-sprint-05, phase-01-sprint-06]
-last_updated: 2026-08-13
+last_updated: 2026-08-14
 owner: "@Muhns13G"
 ---
 
@@ -54,20 +54,20 @@ Sprint 07 does not reintroduce MCP or reopen those debts without a separate owne
 
 ## Commit-Sized Task Plan
 
-| Task | Commit-sized outcome                                                                                                                                 | Primary debt / gate                    | Status           |
-| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ---------------- |
-| 7.1  | Rebaseline every public-content representation, claim, measurement surface, and retired MCP artefact; freeze invariants and implementation order.    | All Sprint 07 debt                     | Completed        |
-| 7.2  | Approve one canonical journey vocabulary and model, including permitted three-step, timeline, confirmation, delivery, and timing summaries.          | TD-040; owner/domain approval          | Completed        |
-| 7.3  | Implement a versioned, framework-neutral public-content schema with owners, states, channel rules, review dates, archive, and emergency withdrawal.  | TD-046                                 | Completed        |
-| 7.4  | Complete the claim register and add fail-closed publication validation for evidence, approver, channel, effective, review, and expiry state.         | TD-047 assurance; domain inputs        | Completed        |
-| 7.5  | Migrate active website, metadata, campaign, support, and preserved-prototype references to the approved canonical source without ad hoc copy edits.  | TD-040, TD-046                         | Completed        |
-| 7.6  | Add cross-channel drift, duplicate, expiry, withdrawal, version, and rollback tests for journey, treatment, policy, support, and trust content.      | TD-040, TD-046, TD-047 assurance       | Completed        |
-| 7.7  | Approve the minimal pilot measurement specification: questions, events, prohibited data, purpose/consent, provider, access, retention, and deletion. | TD-045; privacy/owner approval         | Completed        |
-| 7.8  | Implement a default-off, provider-neutral measurement boundary with minimal campaign attribution, consent/opt-out behaviour, and strict schemas.     | TD-045                                 | Completed        |
-| 7.9  | Prove synthetic payload, URL/referrer/log/replay, retention, export, deletion, opt-out, and hosted network behaviour using prohibited-data canaries. | TD-045; hosted/privacy evidence        | Completed        |
-| 7.10 | Re-prove local and hosted MCP absence and document the future public/private MCP boundary, threat model trigger, and reintroduction prohibition.     | TD-047, TD-048 regression assurance    | Completed        |
-| 7.11 | Run complete CI/browser checks and obtain the required content, clinical/legal, privacy/security, and release evidence for implemented scope.        | All Sprint 07 debt; external approvals | Owner checkpoint |
-| 7.12 | Reconcile debt and RAG documents, record deviations/lessons/new debt and file inventories, and issue the Sprint 07 completion report.                | Sprint closure                         | Planned          |
+| Task | Commit-sized outcome                                                                                                                                 | Primary debt / gate                    | Status    |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | --------- |
+| 7.1  | Rebaseline every public-content representation, claim, measurement surface, and retired MCP artefact; freeze invariants and implementation order.    | All Sprint 07 debt                     | Completed |
+| 7.2  | Approve one canonical journey vocabulary and model, including permitted three-step, timeline, confirmation, delivery, and timing summaries.          | TD-040; owner/domain approval          | Completed |
+| 7.3  | Implement a versioned, framework-neutral public-content schema with owners, states, channel rules, review dates, archive, and emergency withdrawal.  | TD-046                                 | Completed |
+| 7.4  | Complete the claim register and add fail-closed publication validation for evidence, approver, channel, effective, review, and expiry state.         | TD-047 assurance; domain inputs        | Completed |
+| 7.5  | Migrate active website, metadata, campaign, support, and preserved-prototype references to the approved canonical source without ad hoc copy edits.  | TD-040, TD-046                         | Completed |
+| 7.6  | Add cross-channel drift, duplicate, expiry, withdrawal, version, and rollback tests for journey, treatment, policy, support, and trust content.      | TD-040, TD-046, TD-047 assurance       | Completed |
+| 7.7  | Approve the minimal pilot measurement specification: questions, events, prohibited data, purpose/consent, provider, access, retention, and deletion. | TD-045; privacy/owner approval         | Completed |
+| 7.8  | Implement a default-off, provider-neutral measurement boundary with minimal campaign attribution, consent/opt-out behaviour, and strict schemas.     | TD-045                                 | Completed |
+| 7.9  | Prove synthetic payload, URL/referrer/log/replay, retention, export, deletion, opt-out, and hosted network behaviour using prohibited-data canaries. | TD-045; hosted/privacy evidence        | Completed |
+| 7.10 | Re-prove local and hosted MCP absence and document the future public/private MCP boundary, threat model trigger, and reintroduction prohibition.     | TD-047, TD-048 regression assurance    | Completed |
+| 7.11 | Run complete CI/browser checks and obtain the required content, clinical/legal, privacy/security, and release evidence for implemented scope.        | All Sprint 07 debt; external approvals | Completed |
+| 7.12 | Reconcile debt and RAG documents, record deviations/lessons/new debt and file inventories, and issue the Sprint 07 completion report.                | Sprint closure                         | Planned   |
 
 Each task remains independently committable. A missing domain approval must retain a documented
 activation gate; it must not be replaced with invented evidence, silent copy changes, or a claim of
