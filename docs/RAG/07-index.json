@@ -1759,6 +1759,30 @@
       "decision_due": "before-public-launch-or-nextjs-migration",
       "last_updated": "2026-08-12",
       "topics": ["fonts", "google-fonts", "self-hosting", "privacy", "csp", "performance", "nextjs"]
+    },
+    {
+      "id": "FC-005",
+      "path": "docs/05-future-considerations/td-006-td-007-claims-peptide-closure.md",
+      "title": "TD-006 and TD-007 Claims and Peptide Closure",
+      "status": "external-evidence-and-approval-required",
+      "decision_due": "before-peptide-pathway-or-affected-claim-activation",
+      "last_updated": "2026-08-14",
+      "topics": [
+        "td-006",
+        "td-007",
+        "public-claims",
+        "claim-evidence",
+        "peptides",
+        "bpc-157",
+        "tb-500",
+        "sahpra",
+        "section-21",
+        "hpcsa",
+        "sapc",
+        "pharmacy",
+        "clinical-approval",
+        "activation-gates"
+      ]
     }
   ],
   "routing": [
