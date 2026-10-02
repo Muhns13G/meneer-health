@@ -119,8 +119,9 @@ the applicable document are verified:
 
 1. OCTOTHORP ZA business/physical address, telephone, legal-service address, office-bearer
    disclosure and any applicable accreditation/code particulars required for electronic supply.
-2. Dedicated privacy, complaint and commercial cancellation routes with monitored ownership,
-   hours and fallback under Task 8.7.
+2. DR-016's dedicated privacy and complaint aliases have verified synthetic delivery/receipt and a
+   qualified response target; monitored routed handling, cancellation, failure and fallback remain
+   Sprint 12 activation gates.
 3. Exact external protocol-provider juristic identity, privacy role, recipient notice, secure
    hand-off method, contract and clinical escalation boundary under Task 8.8.
 4. Verified pharmacy, custody, courier, delivery, return/recall and product-specific authority

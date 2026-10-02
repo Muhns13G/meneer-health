@@ -54,10 +54,12 @@ activation gate rather than a placeholder appointment.
 7. **General support:** OCTOTHORP ZA owns the monitored `support@meneerhealth.co.za` channel for
    non-sensitive, non-urgent account and operations support. It is not a privacy-case submission,
    complaint, clinical advice, emergency or adverse-event channel.
-8. **Dedicated escalation:** Task 8.7 must approve and verify the privacy, complaint and external
-   clinical/protocol escalation channels, owners, hours and fallbacks. Until then, the affected
-   processing and hand-off remain disabled. Public emergency routing to 112/10177 is safety
-   guidance, not a Meneer support service.
+8. **Dedicated escalation:** DR-016 approves the privacy, complaint and external clinical/protocol
+   aliases, records synthetic delivery/receipt and sets a qualified 24-hour response target without
+   fixed hours. Task 8.8/Sprint 12 must still verify the external clinical owner and exercise routed
+   handling, failure, escalation and fallback. Until then, the affected processing and hand-off
+   remain disabled. Public emergency routing to 112/10177 is safety guidance, not a Meneer support
+   service.
 9. **Release:** the Meneer business owner makes the pilot-scope decision; applicable private domain
    approvers must approve their evidence; the release owner records the final go/no-go. Repository
    approval and deployment never substitute for domain or release approval.
@@ -73,8 +75,8 @@ activation gate rather than a placeholder appointment.
 | Information Officer governance                          | OCTOTHORP ZA private authorised-role roster | Role appointment/evidence retained privately                                 |
 | General account/operations support                      | OCTOTHORP ZA support owner                  | Monitored email; no sensitive or urgent payload                              |
 | Protocol intake, decision and record                    | Verified external protocol provider         | Disabled until Task 8.8 verifies the party and contract                      |
-| Clinical/protocol safety escalation                     | External protocol clinical owner            | Disabled until Task 8.7 verifies channel, hours and fallback                 |
-| Privacy request and complaint handling                  | OCTOTHORP ZA legal/privacy owner            | Dedicated routes/channels remain Task 8.7 gates                              |
+| Clinical/protocol safety escalation                     | External protocol clinical owner            | DR-016 alias approved; owner/hours/delivery remain activation gates          |
+| Privacy request and complaint handling                  | OCTOTHORP ZA legal/privacy owner            | DR-016 aliases approved; delivery/hours remain activation gates              |
 | Payment processing                                      | OCTOTHORP ZA commercial owner and Stripe    | Task 8.4 decides merchant/tax treatment; Task 11 implements sandbox evidence |
 | Pharmacy, hub, courier and product fulfilment           | Not applicable to minimum pilot             | Prohibited by DR-011; a new decision is required                             |
 | Final pilot release                                     | Release owner                               | Requires every applicable domain approval and Sprint 13 go/no-go             |
@@ -98,7 +100,8 @@ and protocol completion cannot be inferred from a hand-off attempt.
 - DR-014 approves the minimum profile field catalogue, purposes, classifications, lifecycle and
   staff projections. DR-015 approves the transactional instrument/version contract. Verified
   supplier/channel schedules and rendered domain approval remain activation gates.
-- The dedicated privacy, complaint and clinical/protocol channels remain Task 8.7 inputs.
+- DR-016 approves the dedicated aliases and records delivery/receipt evidence. External clinical
+  ownership and routed failure/escalation/fallback evidence remain Task 8.8/Sprint 12 inputs.
 - DR-013 completes the merchant, VAT-planning, invoice and payment policy; implementation and domain
   approval remain TD-010 gates.
 

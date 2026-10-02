@@ -74,6 +74,7 @@ source documents without explicit authorisation.
 | DR-013 | [Pilot product, commercial and fulfilment amendment](DR-013-pilot-product-commercial-fulfilment-amendment.md)        | Business owner   | 8.4  | Approved |
 | DR-014 | [Minimum client profile, data rights and staff visibility](DR-014-minimum-client-profile-data-rights.md)             | Business owner   | 8.5  | Approved |
 | DR-015 | [Pilot transactional terms, privacy acknowledgement and consent boundary](DR-015-pilot-transactional-instruments.md) | Business owner   | 8.6  | Approved |
+| DR-016 | [Pilot support and escalation channel activation contract](DR-016-pilot-support-escalation-channels.md)              | Business owner   | 8.7  | Approved |
 
 ## Required Maintenance
 

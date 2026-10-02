@@ -76,6 +76,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
   - docs/07-decisions/DR-015-pilot-transactional-instruments.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
+  - docs/07-decisions/DR-016-pilot-support-escalation-channels.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-7-support-channel-activation-contract.md
 ---
 
 # Meneer v1 Verified Current State
@@ -136,9 +138,18 @@ In progress.
 
 Task 8.6 is completed at the decision/evidence level. DR-015 approves versioned account terms,
 privacy acknowledgement, order terms and hand-off authorisation semantics, client actions and
-receipt evidence. No instrument is published or acceptable yet: Tasks 8.7–8.8 must supply verified
-channels/parties, applicable domain reviewers must approve the rendered versions, and Sprints 9–11
-must implement them. Existing public `/terms` and `/privacy` remain website-only.
+receipt evidence. No instrument is published or acceptable yet: Task 8.7 supplies channel and
+synthetic-delivery evidence, Task 8.8 must supply the verified external party, applicable domain
+reviewers must approve the rendered versions, and Sprints 9–11 must implement them. Existing public
+`/terms` and `/privacy` remain website-only.
+
+Task 8.7 is completed at decision/delivery-evidence level. DR-016 approves
+`privacy@meneerhealth.co.za`, `complaints@meneerhealth.co.za` and
+`clinical@meneerhealth.co.za` as purpose-specific destinations and records a fail-closed activation
+contract. Brevo accepted one payload-free synthetic message for each and the owner confirmed all
+three arrived. No fixed operating hours apply; answering within 24 hours where possible is a
+qualified target. No public/runtime surface changed. TD-043 remains Open until Task 8.8/Sprint 12
+prove the clinical owner, routed handling, alternates, failure, escalation and fallback paths.
 
 ## Sprint 07 Closure — 14 August 2026
 

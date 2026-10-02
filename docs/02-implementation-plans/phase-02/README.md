@@ -59,6 +59,14 @@ Marketing and clinical consent are not bundled. The instrument set remains inact
 supplier, channel and external-provider schedules, domain approvals and later-sprint implementation
 exist. TD-009, TD-010, TD-037 and TD-038 therefore remain In progress.
 
+Task 8.7 and DR-016 approve the `privacy@`, `complaints@` and `clinical@` Meneer aliases, their
+purpose boundaries and a fail-closed activation checklist. Brevo accepted one payload-free
+synthetic message per alias and the owner confirmed all three arrived. No fixed operating hours are
+promised; the approved target is to answer within 24 hours where possible. Task 8.7 is complete at
+decision/delivery-evidence level. Sprint 12 must still prove routed handling, alternates, failure
+detection, escalation and fallback before TD-043 can close or public unavailable wording can
+change.
+
 - Hosted Supabase contains the expected 33-table foundation, no Auth users or operational records,
   and only synthetic/bootstrap state requiring a controlled reset before pilot use.
 - Public sign-up is disabled and the public site remains non-transactional.

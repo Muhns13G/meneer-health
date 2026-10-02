@@ -545,6 +545,21 @@
         "TD-009 TD-010 TD-037 and TD-038 retained implementation gates"
       ],
       "last_updated": "2026-10-02"
+    },
+    {
+      "id": "DR-016",
+      "path": "docs/07-decisions/DR-016-pilot-support-escalation-channels.md",
+      "status": "approved",
+      "authority_for": [
+        "active privacy complaint and clinical alias names",
+        "Brevo SMTP acceptance evidence",
+        "owner-confirmed synthetic receipt evidence",
+        "qualified 24-hour response target",
+        "support purpose and ownership boundaries",
+        "channel activation and fallback contract",
+        "TD-043 retained operational evidence gates"
+      ],
+      "last_updated": "2026-10-02"
     }
   ],
   "implementation_plans": [
@@ -597,7 +612,8 @@
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-7-support-channel-activation-contract.md"
       ]
     },
     {
