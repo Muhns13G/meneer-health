@@ -53,7 +53,12 @@ function rootClient(overrides: Record<string, unknown> = {}): SupabaseClient {
       }),
       admin: {
         inviteUserByEmail: vi.fn().mockResolvedValue({
-          data: { user: { id: "20000000-0000-4000-8000-000000000001" } },
+          data: {
+            user: {
+              id: "20000000-0000-4000-8000-000000000001",
+              email: "patient.one@example.invalid",
+            },
+          },
           error: null,
         }),
         signOut: vi.fn().mockResolvedValue({ error: null }),

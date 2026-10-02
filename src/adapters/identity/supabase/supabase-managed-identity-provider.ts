@@ -90,7 +90,13 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
   async invitePatient(email: string, redirectTo: string): Promise<string> {
     try {
       const { data, error } = await this.client.auth.admin.inviteUserByEmail(email, { redirectTo });
-      if (error || !data.user) rejected();
+      if (
+        error ||
+        !data.user ||
+        data.user.email?.trim().toLowerCase() !== email.trim().toLowerCase()
+      ) {
+        rejected();
+      }
       return data.user.id;
     } catch (error) {
       if (error instanceof IdentityRejectedError) throw error;

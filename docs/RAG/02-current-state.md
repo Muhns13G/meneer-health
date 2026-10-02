@@ -12,6 +12,7 @@ sources:
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -84,6 +85,14 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 09.3 Local Invitation Checkpoint — 2 October 2026
+
+The repository now contains a staff-only invitation reservation RPC, provider-delivery
+orchestration and terminal/replay/rate controls. Local synthetic database and unit proofs pass.
+There is no calling staff route or public verification route, no real email was sent, and the
+new migration has not been applied to hosted Supabase. The hosted tenant remains suspended.
+Task 9.4 owns OTP/template activation and Task 9.9 owns hosted synthetic proof.
 
 ## Sprint 09.2 Local Persistence Checkpoint — 2 October 2026
 
