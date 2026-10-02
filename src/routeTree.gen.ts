@@ -20,6 +20,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
 import { Route as AccountVerifyRouteImport } from './routes/account/verify'
+import { Route as AccountSignOutRouteImport } from './routes/account/sign-out'
+import { Route as AccountSignInRouteImport } from './routes/account/sign-in'
+import { Route as AccountRecoverRouteImport } from './routes/account/recover'
 import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
 import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
 import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
@@ -81,6 +84,21 @@ const AccountVerifyRoute = AccountVerifyRouteImport.update({
   path: '/account/verify',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountSignOutRoute = AccountSignOutRouteImport.update({
+  id: '/account/sign-out',
+  path: '/account/sign-out',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountSignInRoute = AccountSignInRouteImport.update({
+  id: '/account/sign-in',
+  path: '/account/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRecoverRoute = AccountRecoverRouteImport.update({
+  id: '/account/recover',
+  path: '/account/recover',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
   id: '/api/payments/checkout',
   path: '/api/payments/checkout',
@@ -117,6 +135,9 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/recover': typeof AccountRecoverRoute
+  '/account/sign-in': typeof AccountSignInRoute
+  '/account/sign-out': typeof AccountSignOutRoute
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
@@ -135,6 +156,9 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/recover': typeof AccountRecoverRoute
+  '/account/sign-in': typeof AccountSignInRoute
+  '/account/sign-out': typeof AccountSignOutRoute
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
@@ -154,6 +178,9 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/recover': typeof AccountRecoverRoute
+  '/account/sign-in': typeof AccountSignInRoute
+  '/account/sign-out': typeof AccountSignOutRoute
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
@@ -174,6 +201,9 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/recover'
+    | '/account/sign-in'
+    | '/account/sign-out'
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
@@ -192,6 +222,9 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/recover'
+    | '/account/sign-in'
+    | '/account/sign-out'
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
@@ -210,6 +243,9 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/recover'
+    | '/account/sign-in'
+    | '/account/sign-out'
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
@@ -229,6 +265,9 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
+  AccountRecoverRoute: typeof AccountRecoverRoute
+  AccountSignInRoute: typeof AccountSignInRoute
+  AccountSignOutRoute: typeof AccountSignOutRoute
   AccountVerifyRoute: typeof AccountVerifyRoute
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
@@ -318,6 +357,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountVerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/sign-out': {
+      id: '/account/sign-out'
+      path: '/account/sign-out'
+      fullPath: '/account/sign-out'
+      preLoaderRoute: typeof AccountSignOutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/sign-in': {
+      id: '/account/sign-in'
+      path: '/account/sign-in'
+      fullPath: '/account/sign-in'
+      preLoaderRoute: typeof AccountSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/recover': {
+      id: '/account/recover'
+      path: '/account/recover'
+      fullPath: '/account/recover'
+      preLoaderRoute: typeof AccountRecoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/payments/checkout': {
       id: '/api/payments/checkout'
       path: '/api/payments/checkout'
@@ -365,6 +425,9 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   StartRoute: StartRoute,
   TermsRoute: TermsRoute,
+  AccountRecoverRoute: AccountRecoverRoute,
+  AccountSignInRoute: AccountSignInRoute,
+  AccountSignOutRoute: AccountSignOutRoute,
   AccountVerifyRoute: AccountVerifyRoute,
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,

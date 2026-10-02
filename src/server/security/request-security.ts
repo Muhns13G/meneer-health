@@ -19,6 +19,10 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/api/payments/checkout", "protected-command"],
   ["/api/payments/stripe/webhook", "provider-callback"],
   ["/account/verify", "protected-command"],
+  ["/account/sign-in", "protected-command"],
+  ["/account/recover", "protected-command"],
+  ["/account/sign-out", "protected-command"],
+  ["/account/session/renew", "protected-command"],
 ]);
 
 export const requestSecurityLimits = Object.freeze({
@@ -255,7 +259,9 @@ export async function inspectPublicRequest(
   }
 
   if (
-    url.pathname === "/account/verify" &&
+    ["/account/verify", "/account/sign-in", "/account/recover", "/account/sign-out"].includes(
+      url.pathname,
+    ) &&
     (request.method === "GET" || request.method === "HEAD")
   ) {
     if (hasBodyFraming(request)) return rejection(request, "BODY_NOT_ALLOWED", "public-read");
