@@ -53,6 +53,12 @@ managed verified email, mobile/WhatsApp, operational contact preference and serv
 lifecycle facts. Health, product, address, credential and free-text data are excluded. TD-009,
 TD-037 and TD-038 remain In progress until later decisions and Sprint 9 implementation evidence.
 
+Task 8.6 and DR-015 approve distinct, versioned account terms, transactional privacy-notice
+acknowledgement, order-specific terms and recipient-specific hand-off authorisation contracts.
+Marketing and clinical consent are not bundled. The instrument set remains inactive until verified
+supplier, channel and external-provider schedules, domain approvals and later-sprint implementation
+exist. TD-009, TD-010, TD-037 and TD-038 therefore remain In progress.
+
 - Hosted Supabase contains the expected 33-table foundation, no Auth users or operational records,
   and only synthetic/bootstrap state requiring a controlled reset before pilot use.
 - Public sign-up is disabled and the public site remains non-transactional.

@@ -74,6 +74,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
   - docs/07-decisions/DR-014-minimum-client-profile-data-rights.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
+  - docs/07-decisions/DR-015-pilot-transactional-instruments.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
 ---
 
 # Meneer v1 Verified Current State
@@ -131,6 +133,12 @@ content, payment-card data and free text. The existing profile prototype remains
 is not implementation authority; Sprint 9 must add the versioned server record and prove RLS,
 contextual access, correction/export/deletion and accessibility. TD-009, TD-037 and TD-038 remain
 In progress.
+
+Task 8.6 is completed at the decision/evidence level. DR-015 approves versioned account terms,
+privacy acknowledgement, order terms and hand-off authorisation semantics, client actions and
+receipt evidence. No instrument is published or acceptable yet: Tasks 8.7–8.8 must supply verified
+channels/parties, applicable domain reviewers must approve the rendered versions, and Sprints 9–11
+must implement them. Existing public `/terms` and `/privacy` remain website-only.
 
 ## Sprint 07 Closure — 14 August 2026
 

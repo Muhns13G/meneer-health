@@ -16,6 +16,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
   - docs/07-decisions/DR-014-minimum-client-profile-data-rights.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
+  - docs/07-decisions/DR-015-pilot-transactional-instruments.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
@@ -88,6 +90,12 @@ from managed identity, and internal identity/lifecycle facts remain server-owned
 address, credential and free-text data are excluded. Role projections, correction/export/deletion
 and 90-day post-closure profile disposition are fixed for Sprint 9 implementation. No profile or
 hosted processing is active yet.
+
+Task 8.6 and DR-015 approve distinct, versioned account terms, transactional privacy-notice
+acknowledgement, order-specific terms and recipient-specific hand-off authorisation contracts.
+Necessary processing is not misrepresented as blanket consent; marketing is off and clinical
+informed consent belongs to the verified external provider. The instruments remain inactive
+pending supplier/channel/recipient schedules, domain approval and Sprints 9–11 implementation.
 
 Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
 a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe

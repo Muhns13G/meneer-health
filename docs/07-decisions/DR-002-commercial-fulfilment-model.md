@@ -16,7 +16,8 @@ last_updated: 2026-08-08
 
 > **Phase 02 refinement:** DR-013 approves the R999 review deposit and credit, Precise Wellness
 > schedule RRP, VAT-inclusive planning, separate delivery, merchant/legal-entity allocation and
-> refund rules. This record's independent-state and fail-closed controls remain in force.
+> refund rules. DR-015 fixes the order-specific terms and acceptance boundary. This record's
+> independent-state and fail-closed controls remain in force.
 
 ## Context and Scope
 

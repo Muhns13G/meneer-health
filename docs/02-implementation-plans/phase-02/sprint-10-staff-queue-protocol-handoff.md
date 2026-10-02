@@ -3,7 +3,7 @@ plan_id: phase-02-sprint-10
 title: Staff Operations Queue and Manual Protocol Hand-Off
 status: planned
 primary_debt: [TD-009, TD-043]
-depends_on: [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013]
+depends_on: [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013, DR-015]
 last_updated: 2026-10-02
 owner: "@Muhns13G"
 ---

@@ -75,10 +75,10 @@ order/fulfilment record. Clinical intake remains with the verified external prov
 
 ## Retained Gates
 
-Task 8.6 must approve the actual notices, acknowledgement and consent versions. Task 8.8 must verify
-the external provider and hand-off. Sprint 9 must implement and prove RLS, contextual access,
-versioned updates, rights workflows, accessibility and false-success prevention. Therefore TD-009,
-TD-037 and TD-038 remain In progress despite Task 8.5 completion.
+DR-015 and Task 8.6 subsequently approve the instrument/version contract. Task 8.8 must verify the
+external provider and hand-off. Sprint 9 must implement and prove RLS, contextual access, versioned
+updates, rights workflows, accessibility and false-success prevention. Therefore TD-009, TD-037
+and TD-038 remain In progress despite Task 8.5 completion.
 
 ## Validation
 

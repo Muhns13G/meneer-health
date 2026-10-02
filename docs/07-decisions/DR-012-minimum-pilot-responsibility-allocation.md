@@ -68,8 +68,8 @@ activation gate rather than a placeholder appointment.
 | ------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------- |
 | Brand, pilot scope and product direction                | Meneer business owner                       | May stop or narrow the pilot                                                 |
 | Website, application and release implementation         | OCTOTHORP ZA technology owner               | No clinical or pharmacy authority                                            |
-| Non-clinical pilot contract                             | OCTOTHORP ZA                                | Only after Tasks 8.4 and 8.6 approve the line item and terms                 |
-| Meneer identity/profile/consent/operations data purpose | OCTOTHORP ZA legal/privacy owner            | DR-014 fixes the field catalogue; instruments remain Task 8.6                |
+| Non-clinical pilot contract                             | OCTOTHORP ZA                                | DR-013/DR-015 approve policy and instrument contract; activation stays gated |
+| Meneer identity/profile/consent/operations data purpose | OCTOTHORP ZA legal/privacy owner            | DR-014/DR-015 fix fields and instruments; implementation remains gated       |
 | Information Officer governance                          | OCTOTHORP ZA private authorised-role roster | Role appointment/evidence retained privately                                 |
 | General account/operations support                      | OCTOTHORP ZA support owner                  | Monitored email; no sensitive or urgent payload                              |
 | Protocol intake, decision and record                    | Verified external protocol provider         | Disabled until Task 8.8 verifies the party and contract                      |
@@ -96,8 +96,8 @@ and protocol completion cannot be inferred from a hand-off attempt.
 - The external protocol provider's exact juristic entity, authorised professionals, contractual
   role, privacy allocation and authenticated portal capability remain unverified until Task 8.8.
 - DR-014 approves the minimum profile field catalogue, purposes, classifications, lifecycle and
-  staff projections. The transactional privacy notice, operator disclosures, data-transfer terms
-  and acknowledgement/consent versions remain Task 8.6 inputs.
+  staff projections. DR-015 approves the transactional instrument/version contract. Verified
+  supplier/channel schedules and rendered domain approval remain activation gates.
 - The dedicated privacy, complaint and clinical/protocol channels remain Task 8.7 inputs.
 - DR-013 completes the merchant, VAT-planning, invoice and payment policy; implementation and domain
   approval remain TD-010 gates.

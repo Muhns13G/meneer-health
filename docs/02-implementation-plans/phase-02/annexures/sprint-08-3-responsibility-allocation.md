@@ -64,7 +64,8 @@ complete because the responsibility model and the exact fail-closed ownership of
 input are now approved; it does not falsely close either debt item.
 
 DR-014 subsequently completed Task 8.5's minimum profile field, purpose, classification, lifecycle
-and visibility decision. That refinement does not supply Task 8.6's transactional instruments.
+and visibility decision. DR-015 subsequently supplies Task 8.6's instrument/version contract;
+verified party/channel schedules and implementation remain gated.
 
 ## Provider/Data Reconciliation
 

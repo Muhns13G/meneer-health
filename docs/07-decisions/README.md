@@ -67,12 +67,13 @@ source documents without explicit authorisation.
 
 ## Phase 02 Register
 
-| ID     | Record                                                                                                        | Accountable role | Task | Status   |
-| ------ | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---- | -------- |
-| DR-011 | [Minimum pilot product and pathway scope](DR-011-minimum-pilot-product-pathway.md)                            | Business owner   | 8.2  | Approved |
-| DR-012 | [Minimum pilot responsibility and party allocation](DR-012-minimum-pilot-responsibility-allocation.md)        | Business owner   | 8.3  | Approved |
-| DR-013 | [Pilot product, commercial and fulfilment amendment](DR-013-pilot-product-commercial-fulfilment-amendment.md) | Business owner   | 8.4  | Approved |
-| DR-014 | [Minimum client profile, data rights and staff visibility](DR-014-minimum-client-profile-data-rights.md)      | Business owner   | 8.5  | Approved |
+| ID     | Record                                                                                                               | Accountable role | Task | Status   |
+| ------ | -------------------------------------------------------------------------------------------------------------------- | ---------------- | ---- | -------- |
+| DR-011 | [Minimum pilot product and pathway scope](DR-011-minimum-pilot-product-pathway.md)                                   | Business owner   | 8.2  | Approved |
+| DR-012 | [Minimum pilot responsibility and party allocation](DR-012-minimum-pilot-responsibility-allocation.md)               | Business owner   | 8.3  | Approved |
+| DR-013 | [Pilot product, commercial and fulfilment amendment](DR-013-pilot-product-commercial-fulfilment-amendment.md)        | Business owner   | 8.4  | Approved |
+| DR-014 | [Minimum client profile, data rights and staff visibility](DR-014-minimum-client-profile-data-rights.md)             | Business owner   | 8.5  | Approved |
+| DR-015 | [Pilot transactional terms, privacy acknowledgement and consent boundary](DR-015-pilot-transactional-instruments.md) | Business owner   | 8.6  | Approved |
 
 ## Required Maintenance
 

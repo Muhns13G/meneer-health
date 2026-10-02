@@ -136,15 +136,16 @@ notification and safe opaque reference, not a clinical or detailed commercial pa
 - Tests must prove own-profile access, assigned minimum projections, wrong-tenant/role/purpose
   denials, masked staff responses, stale-version failure, contact-change controls, export scope,
   deletion propagation and false-success prevention.
-- Task 8.6 still owns the exact notice, acknowledgement and consent versions. Task 8.8 still owns
-  the external-provider hand-off capability. Neither may be inferred from this decision.
+- DR-015 fixes the exact notice, acknowledgement and consent-version contract. Task 8.8 still owns
+  the external-provider hand-off capability. Neither may be inferred from this decision alone.
 
 ## Consequences and Residual Gates
 
-This decision completes Task 8.5 and removes profile-field ambiguity from Sprint 9. TD-009 remains
-In progress because the exact external provider/contract, transactional instruments, hand-off data
-agreement and dedicated channels are unresolved. TD-037 and TD-038 remain In progress until the
-approved profile and stepped flow are implemented and reviewed with live assistive technology.
+This decision completes Task 8.5 and removes profile-field ambiguity from Sprint 9. DR-015 later
+fixes the instrument/version contract. TD-009 remains In progress because exact external parties,
+agreements, rendered schedules, hand-off and dedicated channels are unresolved. TD-037 and TD-038
+remain In progress until the profile and stepped flow are implemented and reviewed with live
+assistive technology.
 
 ## Review Triggers
 
