@@ -14,6 +14,9 @@ last_updated: 2026-08-08
 
 # DR-005 — Data, Tenancy, Lifecycle, and Migration Model
 
+> **Phase 02 refinement:** DR-014 applies this lifecycle/rights model to the minimum client profile
+> and fixes its exact fields, purposes, role projections and post-closure treatment.
+
 ## Context and Scope
 
 The current application has no datastore, schema, tenancy enforcement, backup, or data-subject

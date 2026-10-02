@@ -69,7 +69,7 @@ activation gate rather than a placeholder appointment.
 | Brand, pilot scope and product direction                | Meneer business owner                       | May stop or narrow the pilot                                                 |
 | Website, application and release implementation         | OCTOTHORP ZA technology owner               | No clinical or pharmacy authority                                            |
 | Non-clinical pilot contract                             | OCTOTHORP ZA                                | Only after Tasks 8.4 and 8.6 approve the line item and terms                 |
-| Meneer identity/profile/consent/operations data purpose | OCTOTHORP ZA legal/privacy owner            | Final field catalogue and instruments remain Tasks 8.5–8.6                   |
+| Meneer identity/profile/consent/operations data purpose | OCTOTHORP ZA legal/privacy owner            | DR-014 fixes the field catalogue; instruments remain Task 8.6                |
 | Information Officer governance                          | OCTOTHORP ZA private authorised-role roster | Role appointment/evidence retained privately                                 |
 | General account/operations support                      | OCTOTHORP ZA support owner                  | Monitored email; no sensitive or urgent payload                              |
 | Protocol intake, decision and record                    | Verified external protocol provider         | Disabled until Task 8.8 verifies the party and contract                      |
@@ -95,8 +95,9 @@ and protocol completion cannot be inferred from a hand-off attempt.
 
 - The external protocol provider's exact juristic entity, authorised professionals, contractual
   role, privacy allocation and authenticated portal capability remain unverified until Task 8.8.
-- The approved transactional privacy notice, operator disclosures, data-transfer terms and
-  acknowledgement/consent versions remain Tasks 8.5–8.6 inputs.
+- DR-014 approves the minimum profile field catalogue, purposes, classifications, lifecycle and
+  staff projections. The transactional privacy notice, operator disclosures, data-transfer terms
+  and acknowledgement/consent versions remain Task 8.6 inputs.
 - The dedicated privacy, complaint and clinical/protocol channels remain Task 8.7 inputs.
 - DR-013 completes the merchant, VAT-planning, invoice and payment policy; implementation and domain
   approval remain TD-010 gates.

@@ -47,6 +47,12 @@ current legal seller/invoice issuer, manual purchases and the exception/refund m
 confidential schedule remains outside Git and is identified by hash. TD-010 remains In progress for
 private catalogue/rate implementation, domain approvals, terms, Stripe sandbox and exception proof.
 
+Task 8.5 and DR-014 approve the minimum non-clinical client profile, purposes, classifications,
+retention, rights treatment and staff visibility. The profile is limited to given/family name,
+managed verified email, mobile/WhatsApp, operational contact preference and server-owned identity/
+lifecycle facts. Health, product, address, credential and free-text data are excluded. TD-009,
+TD-037 and TD-038 remain In progress until later decisions and Sprint 9 implementation evidence.
+
 - Hosted Supabase contains the expected 33-table foundation, no Auth users or operational records,
   and only synthetic/bootstrap state requiring a controlled reset before pilot use.
 - Public sign-up is disabled and the public site remains non-transactional.

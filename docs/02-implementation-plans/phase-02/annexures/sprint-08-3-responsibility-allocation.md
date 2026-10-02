@@ -53,7 +53,7 @@ representations or operational assignments.
 | Input                                                                     | Owning task | Effect while absent                             |
 | ------------------------------------------------------------------------- | ----------- | ----------------------------------------------- |
 | External protocol provider legal identity, authority, contract and portal | 8.8         | Manual hand-off disabled                        |
-| Transactional privacy/data-transfer instruments                           | 8.5–8.6     | Identity/profile/consent activation disabled    |
+| Transactional privacy/data-transfer instruments                           | 8.6         | Identity/profile/consent activation disabled    |
 | Dedicated privacy and complaint routes                                    | 8.7         | Rights/complaint processing activation disabled |
 | External clinical/protocol escalation channel, hours and fallback         | 8.7–8.8     | Protocol hand-off disabled                      |
 | Merchant, invoice and tax allocation                                      | 8.4         | Checkout disabled                               |
@@ -62,6 +62,9 @@ TD-009 remains In progress because these real external and transactional particu
 been evidenced. TD-043 remains Open until Task 8.7 verifies the dedicated channels. Task 8.3 is
 complete because the responsibility model and the exact fail-closed ownership of every unresolved
 input are now approved; it does not falsely close either debt item.
+
+DR-014 subsequently completed Task 8.5's minimum profile field, purpose, classification, lifecycle
+and visibility decision. That refinement does not supply Task 8.6's transactional instruments.
 
 ## Provider/Data Reconciliation
 
