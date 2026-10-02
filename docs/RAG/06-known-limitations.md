@@ -55,6 +55,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md
   - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md
+  - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -85,6 +87,11 @@ read-only repository/hosted baseline and freezes the Sprint 08 sequence. Task 8.
 product-neutral transaction boundary; it does not implement onboarding, payment or hand-off.
 Continue to answer from observed code, hosted state and completed task evidence until each planned
 task is implemented and verified.
+
+Task 8.3 assigns OCTOTHORP ZA's non-clinical counterparty/operator and Meneer data-purpose
+responsibilities, but does not verify the external protocol entity, activate a hand-off or appoint a
+clinical/pharmacy party. Do not interpret role-based private governance as proof that a specific
+individual, professional or partner is appointed. TD-009 and TD-043 retain their listed gates.
 
 ## Current Capability Limits
 

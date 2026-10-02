@@ -23,7 +23,7 @@ peptide authority.
 | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | --------- |
 | 8.1  | Rebaseline Phase 02 against DR-010, current hosted state and transferred debt; freeze the sequence and non-goals.                                                       | All               | Completed |
 | 8.2  | Decide the pilot product/pathway: evidence the authorised peptide route or remove affected products and transactional claims from scope.                                | TD-006, TD-007    | Completed |
-| 8.3  | Approve the named contracting, operator, privacy, clinical, pharmacy, protocol, hub, courier and escalation responsibilities.                                           | TD-009            | Planned   |
+| 8.3  | Approve the named contracting, operator, privacy, clinical, pharmacy, protocol, hub, courier and escalation responsibilities.                                           | TD-009            | Completed |
 | 8.4  | Approve pilot prices, line items, merchant/tax/invoice treatment, cancellation, refund, dispute and fulfilment rules.                                                   | TD-010            | Planned   |
 | 8.5  | Approve the minimum client-profile fields, purposes, classifications, retention, correction/export/deletion treatment and staff visibility.                             | TD-009            | Planned   |
 | 8.6  | Approve versioned terms, privacy acknowledgement and any consent required before identity, payment or hand-off.                                                         | TD-009, TD-010    | Planned   |
@@ -57,3 +57,4 @@ anonymous denial and disabled preview/provider gates.
 
 - [Task 8.1 pilot activation baseline](annexures/sprint-08-1-pilot-activation-baseline.md)
 - [Task 8.2 product and pathway decision](annexures/sprint-08-2-product-pathway-decision.md)
+- [Task 8.3 responsibility allocation](annexures/sprint-08-3-responsibility-allocation.md)

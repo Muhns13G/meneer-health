@@ -20,6 +20,14 @@ technology and marketing, and the authorised parties delivering clinical and pha
 This record governs the current informational website and the target controlled-pilot boundary. It
 does not approve a medicine, clinical protocol, pharmacy licence, contract, or pilot activation.
 
+## Current Minimum-Pilot Narrowing
+
+[DR-012](DR-012-minimum-pilot-responsibility-allocation.md) supersedes this record only within the
+minimum-pilot scope. OCTOTHORP ZA owns the Meneer-controlled non-clinical service and data boundary;
+the external protocol provider must contract separately after verification; and DR-011 removes
+pharmacy, hub, courier and product fulfilment from the minimum pilot. This record remains the
+general layered-model authority and historical basis for any future expanded service.
+
 ### Confirmed Facts
 
 - Meneer Health is the working customer-facing product and brand; it is not currently a registered

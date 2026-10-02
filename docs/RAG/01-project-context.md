@@ -10,6 +10,8 @@ sources:
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md
+  - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
@@ -64,6 +66,12 @@ Phase 02 Task 8.2 subsequently verifies TD-007 through DR-011's scope-removal ro
 pilot contains no product-specific peptide transaction; BPC-157 plus TB-500 remains a future
 hypothesis rather than an approved product. Fifty items are now Verified. TD-006, TD-009, TD-010,
 TD-037, TD-038 and TD-043 remain non-Verified activation gates.
+
+Task 8.3 and DR-012 assign the minimum-pilot responsibility boundary. OCTOTHORP ZA is the
+Meneer-controlled non-clinical counterparty/operator and is accountable for Meneer data purposes;
+an independently authorised external provider must contract separately for protocol/clinical work.
+No pharmacy, hub, courier or product-supply party is appointed. The external party/contract,
+transactional instruments and dedicated channels remain later Sprint 08 gates.
 
 Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
 a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe
