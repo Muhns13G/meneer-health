@@ -645,8 +645,11 @@
     {
       "id": "phase-02-sprint-09",
       "path": "docs/02-implementation-plans/phase-02/sprint-09-identity-profile-consent.md",
-      "status": "planned",
-      "authority_for": ["invite-only identity", "client profile", "consent", "client portal"]
+      "status": "in-progress",
+      "authority_for": ["invite-only identity", "client profile", "consent", "client portal"],
+      "task_evidence": [
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md"
+      ]
     },
     {
       "id": "phase-02-sprint-10",
