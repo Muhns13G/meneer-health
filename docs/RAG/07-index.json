@@ -3,7 +3,7 @@
   "collection": {
     "id": "meneer-internal-rag",
     "title": "Meneer Internal Engineering RAG",
-    "stage": "foundation",
+    "stage": "pilot-enablement",
     "status": "active",
     "last_updated": "2026-10-02",
     "audience": "internal",
@@ -502,7 +502,7 @@
     {
       "id": "phase-02-minimum-pilot-enablement",
       "path": "docs/02-implementation-plans/phase-02/README.md",
-      "status": "planned",
+      "status": "in-progress",
       "scope": "minimum invite-only v1 pilot enablement",
       "authority_for": [
         "Phase 02 mission and sequence",
@@ -523,8 +523,11 @@
     {
       "id": "phase-02-sprint-08",
       "path": "docs/02-implementation-plans/phase-02/sprint-08-pilot-activation-contract.md",
-      "status": "planned",
-      "authority_for": ["pilot activation inputs", "hosted baseline", "transferred external gates"]
+      "status": "in-progress",
+      "authority_for": ["pilot activation inputs", "hosted baseline", "transferred external gates"],
+      "task_evidence": [
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md"
+      ]
     },
     {
       "id": "phase-02-sprint-09",
@@ -1919,6 +1922,7 @@
         "docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md"
       ],
       "verify_against": [
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md",
         "docs/02-implementation-plans/phase-02/sprint-08-pilot-activation-contract.md",
         "docs/02-implementation-plans/phase-02/sprint-09-identity-profile-consent.md",
         "docs/02-implementation-plans/phase-02/sprint-10-staff-queue-protocol-handoff.md",

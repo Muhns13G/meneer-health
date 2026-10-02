@@ -65,6 +65,7 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-07-content-measurement-mcp.md
   - docs/06-operations/audit-integration-evidence-runbook.md
   - docs/02-implementation-plans/phase-02/README.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md
 ---
 
 # Meneer v1 Verified Current State
@@ -92,10 +93,12 @@ The successor framework is not selected. Next.js and direct Laravel/React are ca
 continued TanStack delivery; any migration remains subject to DR-004, TD-055 and a separate
 approved implementation/rehearsal plan.
 
-Phase 02 is now planned through Sprints 08–13. Its sequence covers activation decisions and a clean
+Phase 02 is in progress through Sprints 08–13. Its sequence covers activation decisions and a clean
 hosted baseline; invite-only identity/profile/consent; a client portal; the staff queue and manual
 protocol hand-off; Stripe sandbox and commercial exceptions; support and live accessibility; and a
-complete synthetic pilot rehearsal. These are planned outcomes, not implemented capabilities.
+complete synthetic pilot rehearsal. Task 8.1 freezes the exact repository/hosted baseline, Sprint
+08 sequence and non-goals without changing runtime or hosted state. All later capabilities remain
+planned rather than implemented.
 
 ## Sprint 07 Closure — 14 August 2026
 
