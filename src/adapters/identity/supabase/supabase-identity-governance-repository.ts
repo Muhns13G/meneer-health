@@ -7,7 +7,7 @@ import {
   IdentityGovernanceUnavailableError,
   type AddServiceIdentityCredential,
   type AddServiceIdentityScope,
-  type CreatePatientInvitation,
+  type ReservePatientInvitation,
   type CreateRecoveryCase,
   type CreateServiceIdentity,
   type IdentityGovernanceRepository,
@@ -132,46 +132,48 @@ function requireRow<T>(row: T | null): T {
 export class SupabaseIdentityGovernanceRepository implements IdentityGovernanceRepository {
   constructor(private readonly client: SupabaseClient) {}
 
-  async createPatientInvitation(input: CreatePatientInvitation): Promise<IdentityInvitation> {
+  async reservePatientInvitation(input: ReservePatientInvitation): Promise<string> {
     if (!/^[a-f0-9]{64}$/.test(input.contactDigest)) {
       throw new IdentityGovernanceRejectedError();
     }
 
     return this.execute(async () => {
-      const { data, error } = await this.client
-        .from("identity_invitations")
-        .insert({
-          tenant_id: input.tenantId,
-          contact_digest: input.contactDigest,
-          intended_role: "patient",
-          expires_at: input.expiresAt.toISOString(),
-        })
-        .select(invitationProjection)
-        .single<InvitationRow>();
-      if (error) throw new IdentityGovernanceUnavailableError();
-      return mapInvitation(requireRow(data));
+      const { data, error } = await this.client.rpc("reserve_patient_invitation", {
+        p_provider_session_id: input.providerSessionId,
+        p_tenant_id: input.tenantId,
+        p_contact_digest: input.contactDigest,
+        p_expires_at: input.expiresAt.toISOString(),
+        p_request_key: input.requestKey,
+      });
+      if (error) {
+        if (error.code === "22023" || error.code === "42501") {
+          throw new IdentityGovernanceRejectedError();
+        }
+        throw new IdentityGovernanceUnavailableError();
+      }
+      if (typeof data !== "string") throw new IdentityGovernanceUnavailableError();
+      return data;
     });
   }
 
-  async bindInvitationProviderSubject(
+  async completePatientInvitationDelivery(
     invitationId: string,
-    providerSubject: string,
-    observedAt: Date,
-  ): Promise<IdentityInvitation> {
-    if (!providerSubject.trim()) throw new IdentityGovernanceRejectedError();
-
+    providerSubject: string | null,
+    failed: boolean,
+  ): Promise<void> {
     return this.execute(async () => {
-      const { data, error } = await this.client
-        .from("identity_invitations")
-        .update({ provider_subject: providerSubject })
-        .eq("id", invitationId)
-        .eq("status", "pending")
-        .is("provider_subject", null)
-        .gt("expires_at", observedAt.toISOString())
-        .select(invitationProjection)
-        .maybeSingle<InvitationRow>();
-      if (error) throw new IdentityGovernanceUnavailableError();
-      return mapInvitation(requireRow(data));
+      const { data, error } = await this.client.rpc("complete_patient_invitation_delivery", {
+        p_invitation_id: invitationId,
+        p_provider_subject: providerSubject,
+        p_failed: failed,
+      });
+      if (error) {
+        if (error.code === "22023" || error.code === "42501") {
+          throw new IdentityGovernanceRejectedError();
+        }
+        throw new IdentityGovernanceUnavailableError();
+      }
+      if (data !== true) throw new IdentityGovernanceUnavailableError();
     });
   }
 
