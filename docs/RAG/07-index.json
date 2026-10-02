@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-02",
+    "last_updated": "2026-10-03",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -649,7 +649,9 @@
       "authority_for": ["invite-only identity", "client profile", "consent", "client portal"],
       "task_evidence": [
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md"
       ]
     },
     {

@@ -123,6 +123,17 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
     }
   }
 
+  async verifyInvitationOtp(email: string, token: string): Promise<ManagedSession> {
+    try {
+      const { data, error } = await this.client.auth.verifyOtp({ email, token, type: "invite" });
+      if (error) rejected();
+      return mapSession(data.session);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
   async revokeSessions(accessToken: string, scope: SessionRevocationScope): Promise<void> {
     try {
       const { error } = await this.client.auth.admin.signOut(accessToken, scope);

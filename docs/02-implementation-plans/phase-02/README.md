@@ -41,11 +41,12 @@ Sprint 08 is completed with activation gates after Task 8.10 reconciles its deci
 baseline and evidence. The [completion report](../../03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md)
 records the superseded product exclusion, contract-level completion and seven remaining debts.
 Sprint 09.1 has frozen the identity/profile/instrument state, route and threat-model contract in
-its [annexure](annexures/sprint-09-1-identity-profile-consent-contract.md). Sprint 09.2 has added
-the [local portable persistence boundary](annexures/sprint-09-2-profile-instrument-persistence.md)
-with deny-default RLS and passing synthetic tests. The migration is not hosted, and no client
-capability is active. Final external schedules and rendered domain approvals remain required
-before the applicable customer capability is enabled.
+its [annexure](annexures/sprint-09-1-identity-profile-consent-contract.md). Sprint 09.2 added
+the [local portable persistence boundary](annexures/sprint-09-2-profile-instrument-persistence.md),
+Sprint 09.3 added a [governed invitation reservation](annexures/sprint-09-3-governed-patient-invitations.md),
+and Sprint 09.4 added a [local first-party code boundary](annexures/sprint-09-4-first-party-invitation-otp.md).
+Their migrations and invite template are not hosted; no client account capability is active.
+Final external schedules and rendered domain approvals remain required before activation.
 
 - Phase 01 is closed under DR-010 with 49 of 56 debt items Verified.
 - TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 transfer unchanged as activation gates.

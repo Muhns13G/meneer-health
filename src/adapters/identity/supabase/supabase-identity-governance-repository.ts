@@ -132,6 +132,30 @@ function requireRow<T>(row: T | null): T {
 export class SupabaseIdentityGovernanceRepository implements IdentityGovernanceRepository {
   constructor(private readonly client: SupabaseClient) {}
 
+  async findDeliveredPatientInvitation(
+    contactDigest: string,
+    observedAt: Date,
+  ): Promise<IdentityInvitation | null> {
+    if (!/^[a-f0-9]{64}$/.test(contactDigest) || !Number.isFinite(observedAt.getTime())) {
+      throw new IdentityGovernanceRejectedError();
+    }
+    return this.execute(async () => {
+      const { data, error } = await this.client
+        .from("identity_invitations")
+        .select(invitationProjection)
+        .eq("contact_digest", contactDigest)
+        .eq("intended_role", "patient")
+        .eq("status", "pending")
+        .eq("delivery_status", "delivered")
+        .gt("expires_at", observedAt.toISOString())
+        .limit(2);
+      if (error) throw new IdentityGovernanceUnavailableError();
+      if (!data || data.length !== 1) return null;
+      const invitation = mapInvitation(data[0] as InvitationRow);
+      return invitation.providerSubject ? invitation : null;
+    });
+  }
+
   async reservePatientInvitation(input: ReservePatientInvitation): Promise<string> {
     if (!/^[a-f0-9]{64}$/.test(input.contactDigest)) {
       throw new IdentityGovernanceRejectedError();

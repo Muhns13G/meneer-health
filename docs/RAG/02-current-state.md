@@ -3,7 +3,7 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 source_baseline: 8077a9a
@@ -13,6 +13,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -86,13 +87,22 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 09.4 Local Invitation OTP Checkpoint — 3 October 2026
+
+The repository now has a first-party, noindex code-entry route, a code-only local Supabase invite
+template, server-side `invite` OTP verification bound to a delivered invitation/provider subject,
+and a ten-minute encrypted, non-authorising continuation cookie. Synthetic local Auth/Mailpit
+proved code delivery without a usable token URL. Hosted template/secret/migration and Brevo
+tracking settings are unverified; staff delivery is still unrouted, the hosted tenant suspended,
+and no account, profile, active session or portal is enabled. Tasks 9.5–9.9 retain those gates.
+
 ## Sprint 09.3 Local Invitation Checkpoint — 2 October 2026
 
 The repository now contains a staff-only invitation reservation RPC, provider-delivery
 orchestration and terminal/replay/rate controls. Local synthetic database and unit proofs pass.
-There is no calling staff route or public verification route, no real email was sent, and the
-new migration has not been applied to hosted Supabase. The hosted tenant remains suspended.
-Task 9.4 owns OTP/template activation and Task 9.9 owns hosted synthetic proof.
+There was no calling staff route or public verification route at the 9.3 checkpoint, and the
+migration was not applied to hosted Supabase. Task 9.4 adds the local code-entry boundary;
+Task 9.9 still owns hosted synthetic proof.
 
 ## Sprint 09.2 Local Persistence Checkpoint — 2 October 2026
 

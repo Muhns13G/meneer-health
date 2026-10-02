@@ -4,7 +4,7 @@ title: Invite-Only Identity, Client Profile, Consent, and Portal
 status: in-progress
 primary_debt: [TD-009, TD-037, TD-038]
 depends_on: [phase-02-sprint-08, DR-005, DR-007, DR-012, DR-014, DR-015]
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 owner: "@Muhns13G"
 ---
 
@@ -24,7 +24,7 @@ pilot status.
 | 9.1  | Freeze identity/profile/consent contracts, state transitions, route policy and threat model.                                           | TD-009              | Completed at contract level |
 | 9.2  | Add portable migrations for approved profile fields, immutable acknowledgement/consent evidence and lifecycle history with RLS.        | TD-009              | Completed locally           |
 | 9.3  | Implement staff-created, expiring, single-use invitations with rate, replay, tenant and purpose controls.                              | Identity activation | Completed locally           |
-| 9.4  | Implement the Meneer-owned confirmation/OTP boundary; never expose provider tokens to tracking or unsafe redirects.                    | FC-001              | Planned                     |
+| 9.4  | Implement the Meneer-owned confirmation/OTP boundary; never expose provider tokens to tracking or unsafe redirects.                    | FC-001              | Completed locally           |
 | 9.5  | Implement authenticated session establishment, renewal, sign-out, expiry, revocation and recovery using existing identity ports.       | Identity activation | Planned                     |
 | 9.6  | Implement the accessible client profile and versioned acknowledgement/consent flow with durable false-success prevention.              | TD-037, TD-038      | Planned                     |
 | 9.7  | Add an authenticated client portal showing only approved profile, consent and non-clinical workflow status.                            | Portal boundary     | Planned                     |
@@ -41,7 +41,10 @@ records the local migration and deny-default tests. Hosted migration and client 
 separate later gates.
 Task 9.3's [invitation evidence](annexures/sprint-09-3-governed-patient-invitations.md) records
 the staff-only reservation and local replay/rate proofs. Invitation delivery remains dormant
-until Task 9.4 confirms the first-party OTP experience and hosted configuration.
+until hosted configuration and synthetic delivery are separately verified. Task 9.4's
+[local OTP evidence](annexures/sprint-09-4-first-party-invitation-otp.md) proves a code-only
+Mailpit delivery and the first-party route. It does not install the hosted template or open
+staff invitation delivery, account activation, or an authorising session.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
 - Browser code never receives a service-role credential or controls tenant/role authority.
