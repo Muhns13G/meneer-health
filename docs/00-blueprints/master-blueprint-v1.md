@@ -11,7 +11,8 @@
   `meneerhealth.co.za`, while `itws-I` is the permanent source boundary
 - **Purpose:** Define the intended destination before further feature development begins
 - **Current phase:** Phase 01 closed at the secure inactive-foundation boundary under DR-010;
-  minimum pilot enablement is the next planning boundary
+  Phase 02 minimum pilot enablement is planned through Sprints 08–13 and implementation has not
+  started
 
 ## Executive Vision
 

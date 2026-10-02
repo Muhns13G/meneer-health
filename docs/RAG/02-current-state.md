@@ -64,6 +64,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-07-11-validation-approval-evidence.md
   - docs/03-completion-reports/phase-01/sprint-07-content-measurement-mcp.md
   - docs/06-operations/audit-integration-evidence-runbook.md
+  - docs/02-implementation-plans/phase-02/README.md
 ---
 
 # Meneer v1 Verified Current State
@@ -90,6 +91,11 @@ the Meneer hand-off contract remain unverified. Do not claim an integration.
 The successor framework is not selected. Next.js and direct Laravel/React are candidates alongside
 continued TanStack delivery; any migration remains subject to DR-004, TD-055 and a separate
 approved implementation/rehearsal plan.
+
+Phase 02 is now planned through Sprints 08–13. Its sequence covers activation decisions and a clean
+hosted baseline; invite-only identity/profile/consent; a client portal; the staff queue and manual
+protocol hand-off; Stripe sandbox and commercial exceptions; support and live accessibility; and a
+complete synthetic pilot rehearsal. These are planned outcomes, not implemented capabilities.
 
 ## Sprint 07 Closure — 14 August 2026
 

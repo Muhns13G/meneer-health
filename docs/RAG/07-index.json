@@ -500,6 +500,63 @@
       "last_updated": "2026-10-02"
     },
     {
+      "id": "phase-02-minimum-pilot-enablement",
+      "path": "docs/02-implementation-plans/phase-02/README.md",
+      "status": "planned",
+      "scope": "minimum invite-only v1 pilot enablement",
+      "authority_for": [
+        "Phase 02 mission and sequence",
+        "minimum pilot implementation scope",
+        "transferred activation-gate ownership",
+        "Phase 02 completion gate"
+      ],
+      "sprints": [
+        "phase-02-sprint-08",
+        "phase-02-sprint-09",
+        "phase-02-sprint-10",
+        "phase-02-sprint-11",
+        "phase-02-sprint-12",
+        "phase-02-sprint-13"
+      ],
+      "last_updated": "2026-10-02"
+    },
+    {
+      "id": "phase-02-sprint-08",
+      "path": "docs/02-implementation-plans/phase-02/sprint-08-pilot-activation-contract.md",
+      "status": "planned",
+      "authority_for": ["pilot activation inputs", "hosted baseline", "transferred external gates"]
+    },
+    {
+      "id": "phase-02-sprint-09",
+      "path": "docs/02-implementation-plans/phase-02/sprint-09-identity-profile-consent.md",
+      "status": "planned",
+      "authority_for": ["invite-only identity", "client profile", "consent", "client portal"]
+    },
+    {
+      "id": "phase-02-sprint-10",
+      "path": "docs/02-implementation-plans/phase-02/sprint-10-staff-queue-protocol-handoff.md",
+      "status": "planned",
+      "authority_for": ["staff operations queue", "manual protocol hand-off"]
+    },
+    {
+      "id": "phase-02-sprint-11",
+      "path": "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
+      "status": "planned",
+      "authority_for": ["Stripe sandbox activation", "commercial operations", "payment exceptions"]
+    },
+    {
+      "id": "phase-02-sprint-12",
+      "path": "docs/02-implementation-plans/phase-02/sprint-12-support-accessibility-readiness.md",
+      "status": "planned",
+      "authority_for": ["pilot notifications", "support routing", "live accessibility"]
+    },
+    {
+      "id": "phase-02-sprint-13",
+      "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
+      "status": "planned",
+      "authority_for": ["end-to-end pilot rehearsal", "pilot release decision", "Phase 02 closure"]
+    },
+    {
       "id": "phase-01-sprint-01",
       "path": "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
       "status": "completed",
@@ -1843,6 +1900,31 @@
       "verify_against": [
         "docs/02-implementation-plans/phase-01/README.md",
         "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository"
+      ]
+    },
+    {
+      "query_topics": [
+        "phase-02",
+        "minimum-pilot-enablement",
+        "client-onboarding",
+        "client-profile",
+        "staff-queue",
+        "manual-protocol-handoff",
+        "stripe-sandbox",
+        "pilot-rehearsal"
+      ],
+      "read_first": [
+        "docs/02-implementation-plans/phase-02/README.md",
+        "docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md"
+      ],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-02/sprint-08-pilot-activation-contract.md",
+        "docs/02-implementation-plans/phase-02/sprint-09-identity-profile-consent.md",
+        "docs/02-implementation-plans/phase-02/sprint-10-staff-queue-protocol-handoff.md",
+        "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
+        "docs/02-implementation-plans/phase-02/sprint-12-support-accessibility-readiness.md",
+        "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
         "current repository"
       ]
     },

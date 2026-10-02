@@ -51,6 +51,7 @@ sources:
   - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
   - docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md
   - docs/03-completion-reports/phase-01/phase-01-technical-debt-stabilisation.md
+  - docs/02-implementation-plans/phase-02/README.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -74,6 +75,10 @@ and audit evidence.
 
 Next.js is not a committed next generation. Continued TanStack, Next.js and direct Laravel/React
 remain candidates until a separate architecture and migration decision passes DR-004/TD-055.
+
+Phase 02 Sprints 08–13 are planning authority for minimum pilot enablement, not evidence that the
+listed capabilities exist. Continue to answer from observed code, hosted state and completed task
+evidence until each planned task is implemented and verified.
 
 ## Current Capability Limits
 
