@@ -1,7 +1,13 @@
 import { expect, test } from "@playwright/test";
 
 const publicRoutes = ["/", "/contact", "/privacy", "/terms"] as const;
-const excludedDocumentRoutes = ["/start", "/peptides", "/poster", "/poster-thanks"] as const;
+const excludedDocumentRoutes = [
+  "/account/verify",
+  "/start",
+  "/peptides",
+  "/poster",
+  "/poster-thanks",
+] as const;
 
 test.describe("public discovery policy", () => {
   for (const path of publicRoutes) {
@@ -37,11 +43,12 @@ test.describe("public discovery policy", () => {
     const sitemap = await sitemapResponse.text();
 
     expect(robotsResponse.ok()).toBe(true);
+    expect(robots).toContain("Disallow: /account/");
     expect(robots).toContain("Disallow: /api/");
     expect(robots).toContain("Disallow: /go/");
     expect(robots).toContain("Sitemap: https://meneerhealth.co.za/sitemap.xml");
     expect(sitemapResponse.ok()).toBe(true);
     expect(sitemap).toContain("https://meneerhealth.co.za/contact");
-    expect(sitemap).not.toMatch(/start|peptides|poster|\/go\/|\/api\//);
+    expect(sitemap).not.toMatch(/account|start|peptides|poster|\/go\/|\/api\//);
   });
 });

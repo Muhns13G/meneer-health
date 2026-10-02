@@ -61,6 +61,7 @@ describe("public route policy", () => {
     const robots = renderRobotsTxt();
 
     expect(robots).toContain("Disallow: /api/");
+    expect(robots).toContain("Disallow: /account/");
     expect(robots).toContain("Disallow: /go/");
     expect(robots).toContain("Disallow: /peptides");
     expect(robots).toContain("Disallow: /poster");

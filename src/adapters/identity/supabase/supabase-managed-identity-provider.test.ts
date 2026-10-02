@@ -165,6 +165,14 @@ describe("SupabaseManagedIdentityProvider", () => {
       syntheticSession,
     );
     await expect(
+      provider.verifyInvitationOtp("patient.one@example.invalid", "654321"),
+    ).resolves.toEqual(syntheticSession);
+    expect(client.auth.verifyOtp).toHaveBeenNthCalledWith(2, {
+      email: "patient.one@example.invalid",
+      token: "654321",
+      type: "invite",
+    });
+    await expect(
       provider.revokeSessions("synthetic-access-token", "global"),
     ).resolves.toBeUndefined();
 

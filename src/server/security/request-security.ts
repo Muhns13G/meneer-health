@@ -18,6 +18,7 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/api/measurement/events", "protected-command"],
   ["/api/payments/checkout", "protected-command"],
   ["/api/payments/stripe/webhook", "provider-callback"],
+  ["/account/verify", "protected-command"],
 ]);
 
 export const requestSecurityLimits = Object.freeze({
@@ -251,6 +252,18 @@ export async function inspectPublicRequest(
   }
   if (headerBytes(request.headers) > requestSecurityLimits.maxHeaderBytes) {
     return rejection(request, "HEADER_LIMIT_EXCEEDED", classifiedRoute);
+  }
+
+  if (
+    url.pathname === "/account/verify" &&
+    (request.method === "GET" || request.method === "HEAD")
+  ) {
+    if (hasBodyFraming(request)) return rejection(request, "BODY_NOT_ALLOWED", "public-read");
+    return {
+      allowed: true,
+      decision: decision(request, "allowed", "ALLOWED", "public-read"),
+      value: undefined,
+    };
   }
 
   if (classifiedRoute === "protected-command" || classifiedRoute === "provider-callback") {
