@@ -292,6 +292,10 @@ sensitivity: internal
   detection and fallback. Reserving an alias does not make the channel active.
 - **Clinical lead/authorised clinician:** independent authority for the applicable clinical
   protocol, decision, record, and escalation.
+- **Provider-linked intake:** external patient-intake URL scoped to a provider account, verified as
+  reachable while signed out in Task 8.8. It is reusable; expiry, revocation, per-client binding and
+  enumeration resistance were not verified. DR-017 requires private governed handling rather than
+  publication or storage in logs/payment metadata.
 - **Precise Wellness pathway:** owner-confirmed intended peptide clinical/pharmacy service identity;
   exact juristic, professional, pharmacy, product, data, and escalation evidence remains gated.
 - **Pharmacy lead/responsible pharmacist:** authority for dispensing, product release, pharmacy

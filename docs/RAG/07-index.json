@@ -547,6 +547,17 @@
       "last_updated": "2026-10-02"
     },
     {
+      "id": "DR-017",
+      "path": "docs/07-decisions/DR-017-protocol-portal-manual-handoff-boundary.md",
+      "status": "approved",
+      "authority_for": [
+        "synthetic protocol portal observations",
+        "manual hand-off design boundary",
+        "remaining external authority and contract gates"
+      ],
+      "last_updated": "2026-10-02"
+    },
+    {
       "id": "DR-016",
       "path": "docs/07-decisions/DR-016-pilot-support-escalation-channels.md",
       "status": "approved",
@@ -563,6 +574,18 @@
     }
   ],
   "implementation_plans": [
+    {
+      "id": "phase-02-sprint-08-task-08",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-08-8-protocol-portal-capability-evidence.md",
+      "status": "completed",
+      "authority_for": [
+        "synthetic end-to-end capability inspection",
+        "signed-out patient link and generated protocol controls",
+        "portal status and dosing consistency limitations",
+        "unverified API webhook and operational proof"
+      ],
+      "last_updated": "2026-10-02"
+    },
     {
       "id": "phase-01-technical-debt-stabilisation",
       "path": "docs/02-implementation-plans/phase-01/README.md",

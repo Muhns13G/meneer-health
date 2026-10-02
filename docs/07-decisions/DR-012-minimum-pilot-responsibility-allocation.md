@@ -45,9 +45,10 @@ activation gate rather than a placeholder appointment.
    parties for Meneer's business purposes.
 5. **Clinical and protocol responsibility:** a separately contracting, independently authorised
    external protocol provider owns its intake, clinical/protocol decisions, records, professional
-   support and safety escalation. `Precise Wellness` is retained only as the owner-confirmed portal
-   identity until Task 8.8 verifies the exact juristic entity, professionals, contract, privacy
-   role, intake-link behaviour and hand-off capability. No hand-off activates before that evidence.
+   support and safety escalation. Task 8.8/DR-017 verifies the owner-confirmed Precise Wellness
+   portal's provider access, intake-link behaviour, workflow states and PDF outputs, but not the
+   exact juristic entity, professionals, contract, privacy role or integration authority. No
+   hand-off activates before those remaining inputs and the Sprint 10 boundary are verified.
 6. **Pharmacy, hub, courier and product supply:** no party is appointed because those activities
    are outside the minimum pilot under DR-011. No pharmacy, dispensing, custody, dispatch, delivery,
    return or adverse-product responsibility may be implied by the pilot workflow.
@@ -56,10 +57,10 @@ activation gate rather than a placeholder appointment.
    complaint, clinical advice, emergency or adverse-event channel.
 8. **Dedicated escalation:** DR-016 approves the privacy, complaint and external clinical/protocol
    aliases, records synthetic delivery/receipt and sets a qualified 24-hour response target without
-   fixed hours. Task 8.8/Sprint 12 must still verify the external clinical owner and exercise routed
-   handling, failure, escalation and fallback. Until then, the affected processing and hand-off
-   remain disabled. Public emergency routing to 112/10177 is safety guidance, not a Meneer support
-   service.
+   fixed hours. Task 8.8 confirms the portal capability but not the external clinician's authority;
+   Sprint 12 must still exercise routed handling, failure, escalation and fallback. Until then, the
+   affected processing and hand-off remain disabled. Public emergency routing to 112/10177 is
+   safety guidance, not a Meneer support service.
 9. **Release:** the Meneer business owner makes the pilot-scope decision; applicable private domain
    approvers must approve their evidence; the release owner records the final go/no-go. Repository
    approval and deployment never substitute for domain or release approval.
@@ -74,7 +75,7 @@ activation gate rather than a placeholder appointment.
 | Meneer identity/profile/consent/operations data purpose | OCTOTHORP ZA legal/privacy owner            | DR-014/DR-015 fix fields and instruments; implementation remains gated       |
 | Information Officer governance                          | OCTOTHORP ZA private authorised-role roster | Role appointment/evidence retained privately                                 |
 | General account/operations support                      | OCTOTHORP ZA support owner                  | Monitored email; no sensitive or urgent payload                              |
-| Protocol intake, decision and record                    | Verified external protocol provider         | Disabled until Task 8.8 verifies the party and contract                      |
+| Protocol intake, decision and record                    | Verified external protocol provider         | DR-017 verifies portal capability; party/contract remain gated               |
 | Clinical/protocol safety escalation                     | External protocol clinical owner            | DR-016 alias approved; owner/hours/delivery remain activation gates          |
 | Privacy request and complaint handling                  | OCTOTHORP ZA legal/privacy owner            | DR-016 aliases approved; delivery/hours remain activation gates              |
 | Payment processing                                      | OCTOTHORP ZA commercial owner and Stripe    | Task 8.4 decides merchant/tax treatment; Task 11 implements sandbox evidence |
@@ -95,13 +96,14 @@ and protocol completion cannot be inferred from a hand-off attempt.
 
 ## Explicit Retained Gates
 
-- The external protocol provider's exact juristic entity, authorised professionals, contractual
-  role, privacy allocation and authenticated portal capability remain unverified until Task 8.8.
+- DR-017 verifies authenticated portal capability and retains a manual bridge. The external
+  protocol provider's exact juristic entity, authorised professionals, contractual role and privacy
+  allocation remain unverified activation inputs.
 - DR-014 approves the minimum profile field catalogue, purposes, classifications, lifecycle and
   staff projections. DR-015 approves the transactional instrument/version contract. Verified
   supplier/channel schedules and rendered domain approval remain activation gates.
 - DR-016 approves the dedicated aliases and records delivery/receipt evidence. External clinical
-  ownership and routed failure/escalation/fallback evidence remain Task 8.8/Sprint 12 inputs.
+  authority and routed failure/escalation/fallback evidence remain Sprint 12 inputs.
 - DR-013 completes the merchant, VAT-planning, invoice and payment policy; implementation and domain
   approval remain TD-010 gates.
 
