@@ -78,8 +78,8 @@ order/fulfilment record. Clinical intake remains with the verified external prov
 DR-015 and Task 8.6 subsequently approve the instrument/version contract. Task 8.8 verified portal
 workflow and the manual hand-off shape, but not the external provider's legal/professional identity
 or agreement. Sprint 9 must implement and prove RLS, contextual access, versioned updates, rights
-workflows, accessibility and false-success prevention. Therefore TD-009, TD-037 and TD-038 remain
-In progress despite Task 8.5 completion.
+workflows, accessibility and false-success prevention. TD-009 remains In progress; TD-037 and
+TD-038 remain Open despite Task 8.5 completion.
 
 ## Validation
 

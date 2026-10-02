@@ -145,7 +145,7 @@ notification and safe opaque reference, not a clinical or detailed commercial pa
 This decision completes Task 8.5 and removes profile-field ambiguity from Sprint 9. DR-015 later
 fixes the instrument/version contract. TD-009 remains In progress because exact external parties,
 agreements, rendered schedules, hand-off and dedicated channels are unresolved. TD-037 and TD-038
-remain In progress until the profile and stepped flow are implemented and reviewed with live
+remain Open until the profile and stepped flow are implemented and reviewed with live
 assistive technology.
 
 ## Review Triggers

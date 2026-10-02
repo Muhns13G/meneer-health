@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -82,6 +83,19 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 08 Closure — 2 October 2026
+
+Sprint 08 is completed with activation gates at implementation checkpoint `3950b15`. Its ten tasks
+establish approved operating/commercial/profile/instrument/support contracts, verified synthetic
+portal capabilities and a clean suspended hosted tenant. DR-013 supersedes Task 8.2's product
+exclusion. The registry remains at 49 Verified and seven non-Verified debts. No customer profile,
+staff queue, live checkout or governed provider hand-off is implemented by this sprint.
+
+The [completion report](../03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md)
+records that final external appointments, schedules, rendered approvals and support exercises
+remain activation requirements. Sprint 09.1 is ready to define identity/profile/receipt contracts;
+Phase 02 remains in progress. Exact closure-commit CI evidence is supplied after the owner's commit.
+
 ## Phase 01 Closure — 2 October 2026
 
 DR-010 closes Phase 01 at the secure inactive-foundation boundary after seven completed sprints.
@@ -143,8 +157,8 @@ non-clinical profile, purposes, classifications, lifecycle, rights and staff pro
 excludes passwords, identity numbers, birth/age/sex fields, addresses, health/clinical/product
 content, payment-card data and free text. The existing profile prototype remains inaccessible and
 is not implementation authority; Sprint 9 must add the versioned server record and prove RLS,
-contextual access, correction/export/deletion and accessibility. TD-009, TD-037 and TD-038 remain
-In progress.
+contextual access, correction/export/deletion and accessibility. TD-009 remains In progress;
+TD-037 and TD-038 remain Open.
 
 Task 8.6 is completed at the decision/evidence level. DR-015 approves versioned account terms,
 privacy acknowledgement, order terms and hand-off authorisation semantics, client actions and

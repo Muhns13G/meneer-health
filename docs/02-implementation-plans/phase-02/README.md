@@ -37,6 +37,12 @@ open for the listed external evidence, agreements and channels.
 
 ## Reconciled Starting Point
 
+Sprint 08 is completed with activation gates after Task 8.10 reconciles its decisions, hosted
+baseline and evidence. The [completion report](../../03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md)
+records the superseded product exclusion, contract-level completion and seven remaining debts.
+Sprint 09.1 is ready for contract/implementation work; final external schedules and rendered domain
+approvals remain required before the applicable customer capability is enabled.
+
 - Phase 01 is closed under DR-010 with 49 of 56 debt items Verified.
 - TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 transfer unchanged as activation gates.
 
@@ -50,14 +56,14 @@ private catalogue/rate implementation, domain approvals, terms, Stripe sandbox a
 Task 8.5 and DR-014 approve the minimum non-clinical client profile, purposes, classifications,
 retention, rights treatment and staff visibility. The profile is limited to given/family name,
 managed verified email, mobile/WhatsApp, operational contact preference and server-owned identity/
-lifecycle facts. Health, product, address, credential and free-text data are excluded. TD-009,
-TD-037 and TD-038 remain In progress until later decisions and Sprint 9 implementation evidence.
+lifecycle facts. Health, product, address, credential and free-text data are excluded. TD-009
+remains In progress; TD-037 and TD-038 remain Open pending routed implementation and live review.
 
 Task 8.6 and DR-015 approve distinct, versioned account terms, transactional privacy-notice
 acknowledgement, order-specific terms and recipient-specific hand-off authorisation contracts.
 Marketing and clinical consent are not bundled. The instrument set remains inactive until verified
 supplier, channel and external-provider schedules, domain approvals and later-sprint implementation
-exist. TD-009, TD-010, TD-037 and TD-038 therefore remain In progress.
+exist. TD-009 and TD-010 remain In progress; TD-037 and TD-038 remain Open.
 
 Task 8.7 and DR-016 approve the `privacy@`, `complaints@` and `clinical@` Meneer aliases, their
 purpose boundaries and a fail-closed activation checklist. Brevo accepted one payload-free

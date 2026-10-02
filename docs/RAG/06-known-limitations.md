@@ -7,6 +7,7 @@ last_updated: 2026-10-02
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -147,6 +148,12 @@ Reassess the informational foreign-key and unused-index advisor findings after r
 Sprint 09–13 query traffic exists; do not optimise or remove indexes from an empty workload alone.
 
 ## Current Capability Limits
+
+Sprint 08 completion is the approved decision/evidence boundary, including the clean hosted
+baseline. It does not imply that every original external-input intention is satisfied. Seven debts
+remain non-Verified; final appointments, supplier/recipient schedules, rendered approvals and
+routed support exercises must be supplied before affected capabilities activate. The completion
+report explicitly records these deviations and their Sprint 09–13 ownership.
 
 Do not state that Meneer currently provides functioning registration, consent capture, medical questionnaires, clinician review, prescribing, payment, pharmacy fulfilment, delivery tracking, support case management, or follow-up. The v1 interface implies several of these capabilities but does not implement their backend or durable records.
 

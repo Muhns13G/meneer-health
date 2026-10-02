@@ -149,7 +149,7 @@ disclosure may appear in a client-acceptable version.
 Task 8.6 is complete at decision level. TD-009 remains In progress for parties, agreements,
 channels, hand-off and implementation. TD-010 remains In progress for final supplier particulars,
 catalogue/rates, rendered legal/domain approval, payment implementation and exception evidence.
-TD-037 and TD-038 remain In progress until the instruments are implemented and reviewed with live
+TD-037 and TD-038 remain Open until the instruments are implemented and reviewed with live
 assistive technology.
 
 ## Source Basis
