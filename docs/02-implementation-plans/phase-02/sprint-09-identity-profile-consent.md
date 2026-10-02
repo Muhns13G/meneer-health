@@ -22,7 +22,7 @@ pilot status.
 | Task | Commit-sized outcome                                                                                                                   | Gate                | Status                      |
 | ---- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------------------------- |
 | 9.1  | Freeze identity/profile/consent contracts, state transitions, route policy and threat model.                                           | TD-009              | Completed at contract level |
-| 9.2  | Add portable migrations for approved profile fields, immutable acknowledgement/consent evidence and lifecycle history with RLS.        | TD-009              | Planned                     |
+| 9.2  | Add portable migrations for approved profile fields, immutable acknowledgement/consent evidence and lifecycle history with RLS.        | TD-009              | Completed locally           |
 | 9.3  | Implement staff-created, expiring, single-use invitations with rate, replay, tenant and purpose controls.                              | Identity activation | Planned                     |
 | 9.4  | Implement the Meneer-owned confirmation/OTP boundary; never expose provider tokens to tracking or unsafe redirects.                    | FC-001              | Planned                     |
 | 9.5  | Implement authenticated session establishment, renewal, sign-out, expiry, revocation and recovery using existing identity ports.       | Identity activation | Planned                     |
@@ -36,6 +36,9 @@ pilot status.
 
 Task 9.1's [contract and threat-model annexure](annexures/sprint-09-1-identity-profile-consent-contract.md)
 is the implementation baseline for Tasks 9.2–9.9. It does not activate any route or instrument.
+Task 9.2's [persistence evidence](annexures/sprint-09-2-profile-instrument-persistence.md)
+records the local migration and deny-default tests. Hosted migration and client activation are
+separate later gates.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
 - Browser code never receives a service-role credential or controls tenant/role authority.

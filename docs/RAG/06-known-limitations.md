@@ -8,6 +8,7 @@ audience: internal
 sensitivity: internal
 sources:
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -82,7 +83,7 @@ TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 remain non-Verified activation
 The approved minimum v1 target is invite-only onboarding, a minimal non-clinical client profile,
 versioned acknowledgement/consent, one-time Stripe payment, a least-privilege staff queue and a
 manual auditable protocol hand-off. These are target capabilities, not current ones. Hosted payment
-is disabled; no durable profile or staff queue exists; and no protocol API/webhook or authenticated
+is disabled; no functioning client profile or staff queue exists; and no protocol API/webhook or authenticated
 Meneer integration has been verified.
 
 Treat the protocol portal as a separate professional system. Do not copy health data into Meneer,
@@ -112,11 +113,15 @@ or imply a product transaction is lawful or active. TD-007, TD-009 and TD-010 re
 authority, pathway, agreement, implementation and release gates.
 
 Task 8.5 and DR-014 approve the minimum profile contract, not a functioning profile. Do not state
-that registration, durable profile storage, correction, export, deletion or client/staff profile
+that registration, profile writes, correction, export, deletion or client/staff profile
 views exist. Do not add health, product, address, identity-document, credential or free-text fields
 to the profile; delivery address belongs to a later approved order record. Verified email comes
 from managed identity, and WhatsApp preference is operational contact permission—not marketing
 consent or authority to send sensitive content.
+
+Task 9.2 adds local-only profile, publication, receipt and lifecycle tables with deny-default RLS;
+it does not enable writes through a governed command, publish an instrument, create client data or
+apply the migration to hosted Supabase. Do not describe the schema as an operational account flow.
 
 Task 8.6 and DR-015 approve instrument semantics, not published transactional terms or functioning
 acceptance/consent. Do not display internal baselines, unresolved schedules or bracketed hand-off

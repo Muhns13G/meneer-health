@@ -11,6 +11,7 @@ runtime_baseline: b5389b3
 sources:
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -83,6 +84,14 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 09.2 Local Persistence Checkpoint — 2 October 2026
+
+The repository now has a portable migration for the minimum client profile and immutable,
+versioned account/privacy instrument evidence, with six deny-default RLS tables. The local reset,
+369 pgTAP assertions, Auth/authorisation integrations, lint and advisors pass. The migration has
+not been applied to hosted Supabase; no instrument has been published and no client profile,
+activation command, routed account flow or portal is active. Tasks 9.3–9.9 retain those gates.
 
 ## Sprint 09.1 Contract Checkpoint — 2 October 2026
 
