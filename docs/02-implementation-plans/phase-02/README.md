@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
-status: planned
+status: in-progress
 last_updated: 2026-10-02
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
@@ -20,6 +20,9 @@ Phase 02 does not select or begin a framework migration. The TanStack/Cloudflare
 delivery shell while pilot behaviour is proven. Health intake, protocol content, diagnosis,
 prescribing and dispensing remain outside Meneer unless a later approved integration explicitly
 changes that boundary.
+
+Task 8.1 began Phase 02 on 2 October 2026 by freezing the exact repository/hosted baseline, Sprint
+08 sequence and non-goals. It introduced no runtime or hosted mutation.
 
 ## Reconciled Starting Point
 
