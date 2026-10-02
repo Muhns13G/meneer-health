@@ -1,9 +1,9 @@
 ---
 rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
-status: owner-confirmed-direction
+status: owner-confirmed-portable-direction
 authority: strategic
-last_updated: 2026-08-12
+last_updated: 2026-10-02
 audience: internal
 sensitivity: internal
 sources:
@@ -28,6 +28,7 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
+  - docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md
 ---
 
 # Meneer Platform Evolution and Migration Contract
@@ -43,13 +44,21 @@ clinical intake, payment, ordering, and fulfilment are restricted to the enrolle
 enabled transaction must be real, durable, monitored, supportable, and portable to v2; peptides
 remain gated or waitlisted until approved.
 
-### v2 — Next.js public product
+Phase 01 is complete at the secure inactive-foundation boundary. The next delivery boundary is the
+minimum invite-only pilot, not a framework migration.
 
-Purpose: absorb verified v1 learning and deliver the public-launch architecture. v2 should retain approved content, terminology, workflows, domain rules, data contracts, fixtures, and acceptance tests while correcting observed v1 weaknesses.
+### Post-v1 public product
 
-### v3 — Laravel API and React
+Purpose: absorb verified v1 learning and deliver the public-launch architecture. Continued TanStack,
+Next.js and direct Laravel/React remain candidates. The selected implementation must retain approved
+content, terminology, workflows, domain rules, data contracts, fixtures and acceptance tests while
+correcting observed v1 weaknesses.
 
-Purpose: support proven scale, multi-client operations, complex integrations, or team/operational separation when measured demand justifies it. This is a conditional evolution, not a scheduled rewrite.
+### Later scale evolution
+
+Purpose: support proven scale, multi-client operations, complex integrations or team/operational
+separation when measured demand justifies it. Laravel/React may be selected directly for the first
+post-v1 product or later; no sequence is scheduled by the current evidence.
 
 ## Durable Core
 
@@ -178,7 +187,11 @@ A framework migration requires an approved reason based on product evidence, ope
 
 ## Platform-Portability Rule
 
-The selected host may provide builds, previews, functions, logs, and static delivery. Selection of identity, PostgreSQL, object storage, messaging, analytics, and clinical integrations must consider POPIA, data location, security, exportability, failure recovery, contractual obligations, and the planned Next.js/Laravel evolution. Replacing Lovable coupling with avoidable host-specific domain coupling is not an acceptable migration outcome.
+The selected host may provide builds, previews, functions, logs, and static delivery. Selection of
+identity, PostgreSQL, object storage, messaging, analytics, and clinical integrations must consider
+POPIA, data location, security, exportability, failure recovery, contractual obligations, and any
+approved successor architecture. Replacing Lovable coupling with avoidable host-specific domain
+coupling is not an acceptable migration outcome.
 
 Task 5.13 proves the portability boundary with a standard logical PostgreSQL archive, strict
 provider-neutral lifecycle/recovery contracts, AES-256-GCM wrapping, and an isolated restore with

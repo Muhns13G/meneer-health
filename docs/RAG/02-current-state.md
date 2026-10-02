@@ -3,7 +3,7 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-08-14
+last_updated: 2026-10-02
 audience: internal
 sensitivity: internal
 source_baseline: 8077a9a
@@ -67,6 +67,29 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Phase 01 Closure — 2 October 2026
+
+DR-010 closes Phase 01 at the secure inactive-foundation boundary after seven completed sprints.
+The repository has 49 Verified technical-debt items. TD-006, TD-007, TD-009, TD-010, TD-037,
+TD-038 and TD-043 remain non-Verified and transfer unchanged as mandatory pilot-activation gates;
+Phase closure does not waive their evidence or permit the affected capability to activate.
+
+The approved minimum v1 target is invite-only onboarding, verified identity, a minimal non-clinical
+client profile, versioned acknowledgement/consent, approved one-time Stripe payment, a least-
+privilege staff queue, manual auditable protocol hand-off, operational statuses, notifications and
+reconciliation. None of those customer/staff surfaces is fully active today: `/start` remains
+gated, profile state is browser-only in a preserved prototype, hosted payment routes fail closed,
+and no staff queue or verified protocol API/webhook exists.
+
+The protocol portal is an external professional boundary. Its public pages expose provider login,
+a protected patient-intake path and descriptions of structured intake and practitioner-reviewed
+protocol references. Authenticated behaviour, intake-link mechanics, API/webhook availability and
+the Meneer hand-off contract remain unverified. Do not claim an integration.
+
+The successor framework is not selected. Next.js and direct Laravel/React are candidates alongside
+continued TanStack delivery; any migration remains subject to DR-004, TD-055 and a separate
+approved implementation/rehearsal plan.
 
 ## Sprint 07 Closure — 14 August 2026
 

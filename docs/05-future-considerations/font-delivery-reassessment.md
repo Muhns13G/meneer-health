@@ -2,8 +2,8 @@
 consideration_id: FC-004
 title: Font Delivery Reassessment
 status: deferred
-decision_due: before-public-launch-or-nextjs-migration
-last_reviewed: 2026-08-13
+decision_due: before-public-launch-or-successor-migration
+last_reviewed: 2026-10-02
 owner: "@Muhns13G"
 sensitivity: internal
 ---
@@ -22,7 +22,8 @@ warnings as evidence of a production font failure.
 
 ## Reassessment Trigger
 
-Reassess self-hosting before public launch or during the Next.js migration, or sooner if monitoring
-shows material latency, availability, privacy, CSP, or regional-delivery problems. Any change must
-preserve the approved family/weight contract, verify licensing and asset provenance, remove obsolete
-external origins, and pass desktop/mobile visual, fallback, accessibility, and performance checks.
+Reassess self-hosting before public launch or during any approved successor migration, or sooner if
+monitoring shows material latency, availability, privacy, CSP, or regional-delivery problems. Any
+change must preserve the approved family/weight contract, verify licensing and asset provenance,
+remove obsolete external origins, and pass desktop/mobile visual, fallback, accessibility, and
+performance checks.

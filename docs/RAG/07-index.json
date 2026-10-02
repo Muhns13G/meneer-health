@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "foundation",
     "status": "active",
-    "last_updated": "2026-08-14",
+    "last_updated": "2026-10-02",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -58,7 +58,7 @@
       "path": "docs/RAG/03-platform-evolution.md",
       "title": "Meneer Platform Evolution and Migration Contract",
       "type": "strategy",
-      "status": "owner-confirmed-direction",
+      "status": "owner-confirmed-portable-direction",
       "authority": "strategic",
       "priority": 4,
       "topics": ["tanstack", "vercel", "nextjs", "laravel", "react", "migration", "portability"]
@@ -110,8 +110,8 @@
         "delivery-programme",
         "release-gates"
       ],
-      "status": "initial-planning-baseline",
-      "last_updated": "2026-08-09"
+      "status": "amended-planning-baseline",
+      "last_updated": "2026-10-02"
     },
     {
       "id": "project-codebase-audit-2026-08-05",
@@ -466,15 +466,38 @@
         "provider environment separation and stop triggers"
       ],
       "last_updated": "2026-08-10"
+    },
+    {
+      "id": "DR-010",
+      "path": "docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md",
+      "status": "approved",
+      "authority_for": [
+        "Phase 01 closure boundary",
+        "seven transferred pilot activation gates",
+        "minimum v1 pilot capability boundary",
+        "manual protocol hand-off boundary",
+        "post-v1 framework selection deferral"
+      ],
+      "last_updated": "2026-10-02"
     }
   ],
   "implementation_plans": [
     {
       "id": "phase-01-technical-debt-stabilisation",
       "path": "docs/02-implementation-plans/phase-01/README.md",
-      "status": "planned",
+      "status": "completed-inactive-foundation",
       "scope": "TD-001 through TD-056",
-      "authority_for": ["phase-mission", "sprint-sequence", "debt-ownership", "phase-gate"]
+      "authority_for": ["phase-mission", "sprint-sequence", "debt-ownership", "phase-gate"],
+      "transferred_activation_gates": [
+        "TD-006",
+        "TD-007",
+        "TD-009",
+        "TD-010",
+        "TD-037",
+        "TD-038",
+        "TD-043"
+      ],
+      "last_updated": "2026-10-02"
     },
     {
       "id": "phase-01-sprint-01",
@@ -1693,6 +1716,24 @@
         "Sprint 07 debt and closure boundary"
       ],
       "last_updated": "2026-08-14"
+    },
+    {
+      "id": "phase-01-technical-debt-stabilisation-completion",
+      "path": "docs/03-completion-reports/phase-01/phase-01-technical-debt-stabilisation.md",
+      "status": "completed-inactive-foundation",
+      "authority_for": [
+        "Phase 01 mission and outcome",
+        "Phase 01 deviations and lessons",
+        "49 verified debt items",
+        "seven transferred activation gates",
+        "minimum pilot and framework-selection boundary"
+      ],
+      "verify_against": [
+        "docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md",
+        "docs/02-implementation-plans/phase-01/README.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md"
+      ],
+      "last_updated": "2026-10-02"
     }
   ],
   "future_considerations": [
@@ -1764,9 +1805,9 @@
       "id": "FC-005",
       "path": "docs/05-future-considerations/td-006-td-007-claims-peptide-closure.md",
       "title": "TD-006 and TD-007 Claims and Peptide Closure",
-      "status": "external-evidence-and-approval-required",
+      "status": "transferred-pilot-activation-gate",
       "decision_due": "before-peptide-pathway-or-affected-claim-activation",
-      "last_updated": "2026-08-14",
+      "last_updated": "2026-10-02",
       "topics": [
         "td-006",
         "td-007",
@@ -1786,6 +1827,25 @@
     }
   ],
   "routing": [
+    {
+      "query_topics": [
+        "phase-01-closure",
+        "phase-01-status",
+        "minimum-pilot",
+        "pilot-activation-gates",
+        "manual-protocol-handoff",
+        "successor-framework"
+      ],
+      "read_first": [
+        "docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md",
+        "docs/03-completion-reports/phase-01/phase-01-technical-debt-stabilisation.md"
+      ],
+      "verify_against": [
+        "docs/02-implementation-plans/phase-01/README.md",
+        "docs/04-technical-debt/technical-debt-registry-v1.md",
+        "current repository"
+      ]
+    },
     {
       "query_topics": ["what-is-meneer", "users", "market", "product-principles"],
       "read_first": ["docs/RAG/01-project-context.md"],

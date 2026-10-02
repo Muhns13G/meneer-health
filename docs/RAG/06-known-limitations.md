@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-08-14
+last_updated: 2026-10-02
 audience: internal
 sensitivity: internal
 sources:
@@ -49,9 +49,31 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-04-12-closure-evidence.md
   - docs/03-completion-reports/phase-01/sprint-04-repository-delivery-health.md
   - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
+  - docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md
+  - docs/03-completion-reports/phase-01/phase-01-technical-debt-stabilisation.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Phase 01 Closure Boundary
+
+Phase 01 is completed at the secure inactive-foundation boundary under DR-010. Do not translate
+that status into pilot readiness. TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 remain
+non-Verified activation gates with unchanged acceptance criteria.
+
+The approved minimum v1 target is invite-only onboarding, a minimal non-clinical client profile,
+versioned acknowledgement/consent, one-time Stripe payment, a least-privilege staff queue and a
+manual auditable protocol hand-off. These are target capabilities, not current ones. Hosted payment
+is disabled; no durable profile or staff queue exists; and no protocol API/webhook or authenticated
+Meneer integration has been verified.
+
+Treat the protocol portal as a separate professional system. Do not copy health data into Meneer,
+payment metadata, URLs or ordinary email merely to bridge the systems. A manual pilot hand-off must
+use minimum data, opaque references, ownership, timestamps, acknowledgement, exception handling
+and audit evidence.
+
+Next.js is not a committed next generation. Continued TanStack, Next.js and direct Laravel/React
+remain candidates until a separate architecture and migration decision passes DR-004/TD-055.
 
 ## Current Capability Limits
 
@@ -206,9 +228,10 @@ The Lovable Vite wrapper and MCP surface have been removed. The associated telem
 and environment references are absent from local source, configuration, built output, hosted
 browser network, and persisted logs. Root and fallback metadata now use approved Meneer values; the
 broader TD-042 discovery package remains open. The `itws-I-preview` build is served at `meneerhealth.co.za`;
-canonical checks verify the local placeholder logo and campaign routes. The longer-term
-Vercel decision is deferred to the planned Next.js v2. Cloudflare environment roles and rollback
-procedure and pinned build paths are documented and verified. Cloudflare Fonts and automatic Web
+canonical checks verify the local placeholder logo and campaign routes. Cloudflare remains the
+approved TanStack v1 host; selection of any successor host or framework is deferred under DR-010.
+Cloudflare environment roles and rollback procedure and pinned build paths are documented and
+verified. Cloudflare Fonts and automatic Web
 Analytics are disabled for the pilot. TD-052 is Verified. Final brand work remains open.
 
 Do not request or recommend `LOVABLE_API_KEY`. Do not state that removing Lovable will disconnect a functioning patient backend; none was found.

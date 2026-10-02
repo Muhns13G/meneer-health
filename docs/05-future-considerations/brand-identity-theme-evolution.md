@@ -3,7 +3,7 @@ consideration_id: FC-002
 title: Brand Identity and Theme Evolution
 status: deferred
 decision_due: post-pilot-brand-review
-last_reviewed: 2026-08-12
+last_reviewed: 2026-10-02
 owner: "@Muhns13G"
 sensitivity: internal
 ---
@@ -37,5 +37,5 @@ approval.
 ## Trigger
 
 Revisit after pilot feedback or when final identity work is commissioned, and before public launch,
-large-format campaign production, or the Next.js migration. This consideration is not authority to
-change the current theme or messaging during unrelated engineering work.
+large-format campaign production, or any approved successor migration. This consideration is not
+authority to change the current theme or messaging during unrelated engineering work.
