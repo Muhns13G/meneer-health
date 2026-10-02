@@ -2,7 +2,7 @@
 plan_id: phase-02-sprint-13
 title: End-to-End Pilot Rehearsal and Release Decision
 status: planned
-primary_debt: [TD-006, TD-007, TD-009, TD-010, TD-037, TD-038, TD-043]
+primary_debt: [TD-006, TD-009, TD-010, TD-037, TD-038, TD-043]
 depends_on:
   [
     phase-02-sprint-08,

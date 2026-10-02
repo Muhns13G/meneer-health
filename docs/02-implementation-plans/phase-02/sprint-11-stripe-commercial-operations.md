@@ -3,7 +3,7 @@ plan_id: phase-02-sprint-11
 title: Stripe Sandbox and Commercial Operations
 status: planned
 primary_debt: [TD-010]
-depends_on: [phase-02-sprint-08, phase-02-sprint-09, phase-02-sprint-10, DR-002]
+depends_on: [phase-02-sprint-08, phase-02-sprint-09, phase-02-sprint-10, DR-002, DR-011]
 last_updated: 2026-10-02
 owner: "@Muhns13G"
 ---
@@ -34,6 +34,8 @@ refunds and staff reconciliation before considering any live credential or real 
 ## Acceptance Gate
 
 - The server owns price, currency, line items, terms version and internal state.
+- Every approved minimum-pilot line item is non-medicine and contains no peptide or other product
+  identifier.
 - A success redirect is never treated as payment evidence.
 - Payment cannot imply treatment approval, protocol completion, dispensing or fulfilment.
 - Test events reconcile exactly once, and conflicts/out-of-order events enter an owned exception
