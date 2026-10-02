@@ -10,6 +10,10 @@ import { env } from "cloudflare:workers";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import {
+  createPatientVerificationHttpHandler,
+  type PatientVerificationBindings,
+} from "./server/identity/patient-verification-http";
+import {
   classifyTelemetryEnvironment,
   durationBucket,
   emitTelemetry,
@@ -73,7 +77,13 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
       try {
         response = await executeWithRequestTimeout(
           request,
-          (boundedRequest) => Promise.resolve(entry.fetch(boundedRequest, args[1])),
+          (boundedRequest) =>
+            boundedRequest.method === "POST" &&
+            new URL(boundedRequest.url).pathname === "/account/verify"
+              ? createPatientVerificationHttpHandler(env as unknown as PatientVerificationBindings)(
+                  boundedRequest,
+                )
+              : Promise.resolve(entry.fetch(boundedRequest, args[1])),
           undefined,
           () => {
             timedOut = true;

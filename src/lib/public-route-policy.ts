@@ -31,6 +31,7 @@ export const PUBLIC_ROUTE_POLICIES = [
     canonicalPath: "/terms",
   },
   { path: "/start", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/verify", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/peptides", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/poster", routeClass: "campaign", indexing: "noindex-nofollow" },
   { path: "/poster-thanks", routeClass: "campaign", indexing: "noindex-nofollow" },
@@ -57,7 +58,14 @@ export const INDEXABLE_PUBLIC_ROUTES = PUBLIC_ROUTE_POLICIES.filter(
   (route) => route.indexing === "index-follow",
 );
 
-const ROBOTS_DISALLOW_PATHS = ["/api/", "/go/", "/peptides", "/poster", "/start"] as const;
+const ROBOTS_DISALLOW_PATHS = [
+  "/account/",
+  "/api/",
+  "/go/",
+  "/peptides",
+  "/poster",
+  "/start",
+] as const;
 
 const prohibitedIntentQueryKeys = new Set([
   "condition",

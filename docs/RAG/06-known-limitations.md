@@ -3,13 +3,14 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -124,10 +125,12 @@ Task 9.2 adds local-only profile, publication, receipt and lifecycle tables with
 it does not enable writes through a governed command, publish an instrument, create client data or
 apply the migration to hosted Supabase. Do not describe the schema as an operational account flow.
 
-Task 9.3 adds a local-only staff invitation command and rate/replay controls. It is not wired to a
-staff route and must not send real invitations until Task 9.4 verifies the delivered OTP template,
-first-party code-entry route and hosted configuration. Existing provider invitation behaviour may
-send a link. No hosted invitation migration or synthetic provider exercise has been completed.
+Task 9.3 adds a local-only staff invitation command and rate/replay controls. Task 9.4 adds a
+code-only local invite template and a first-party email/code page; synthetic local Auth/Mailpit
+proves `type: "invite"` verification without a token URL. The page's proof cookie is short-lived
+and non-authorising. Do not treat this as a working client account: hosted invite template,
+tracking policy, migration, secret and delivery are unverified; staff sending remains unrouted;
+Tasks 9.5–9.6 must implement session lifecycle and atomic profile/receipt activation.
 
 Task 8.6 and DR-015 approve instrument semantics, not published transactional terms or functioning
 acceptance/consent. Do not display internal baselines, unresolved schedules or bracketed hand-off

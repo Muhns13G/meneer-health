@@ -4,7 +4,7 @@ import { GOOGLE_FONTS_FILE_ORIGIN, GOOGLE_FONTS_STYLESHEET_ORIGIN } from "@/lib/
 const ONE_YEAR_SECONDS = 31_536_000;
 const ONE_HOUR_SECONDS = 3_600;
 
-const SENSITIVE_ROUTE_PREFIXES = ["/start", "/peptides"] as const;
+const SENSITIVE_ROUTE_PREFIXES = ["/account", "/start", "/peptides"] as const;
 const PUBLIC_DOCUMENT_ROUTES = new Set([
   "/",
   "/contact",
@@ -140,7 +140,10 @@ export function applyResponsePolicy(
     headers.set("Content-Security-Policy", contentSecurityPolicy(requestUrl.protocol, nonce));
   }
   headers.set("Permissions-Policy", PERMISSIONS_POLICY);
-  headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  headers.set(
+    "Referrer-Policy",
+    isSensitiveRoute(requestUrl.pathname) ? "no-referrer" : "strict-origin-when-cross-origin",
+  );
   headers.set("X-Content-Type-Options", "nosniff");
   headers.set("X-Frame-Options", "DENY");
 

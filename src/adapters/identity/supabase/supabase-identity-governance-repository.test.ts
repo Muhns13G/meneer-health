@@ -41,6 +41,9 @@ function queuedClient(results: Array<{ data: unknown; error: unknown }>): Supaba
     is: vi.fn().mockReturnThis(),
     not: vi.fn().mockReturnThis(),
     in: vi.fn().mockReturnThis(),
+    limit: vi
+      .fn()
+      .mockImplementation(() => Promise.resolve(results.shift() ?? { data: null, error: null })),
     single: terminal,
     maybeSingle: terminal,
   };
@@ -51,6 +54,30 @@ function queuedClient(results: Array<{ data: unknown; error: unknown }>): Supaba
 }
 
 describe("SupabaseIdentityGovernanceRepository", () => {
+  it("finds only a single delivered, unexpired, provider-bound invitation", async () => {
+    const bound = { ...invitationRow, provider_subject: "provider-subject" };
+    const client = queuedClient([{ data: [bound], error: null }]);
+    const repository = new SupabaseIdentityGovernanceRepository(client);
+    await expect(
+      repository.findDeliveredPatientInvitation("a".repeat(64), new Date("2030-01-01")),
+    ).resolves.toMatchObject({ id: bound.id, providerSubject: "provider-subject" });
+    expect(client.from).toHaveBeenCalledWith("identity_invitations");
+  });
+
+  it("fails closed on absent, ambiguous or unbound invitations", async () => {
+    const client = queuedClient([
+      { data: [], error: null },
+      { data: [invitationRow, invitationRow], error: null },
+      { data: [invitationRow], error: null },
+    ]);
+    const repository = new SupabaseIdentityGovernanceRepository(client);
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await expect(
+        repository.findDeliveredPatientInvitation("a".repeat(64), new Date("2030-01-01")),
+      ).resolves.toBeNull();
+    }
+  });
+
   it("reserves and completes invitation delivery only through governed RPCs", async () => {
     const client = queuedClient([
       { data: invitationRow.id, error: null },

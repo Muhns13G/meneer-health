@@ -19,6 +19,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
+import { Route as AccountVerifyRouteImport } from './routes/account/verify'
 import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
 import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
 import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
@@ -75,6 +76,11 @@ const GoDadsRoute = GoDadsRouteImport.update({
   path: '/go/dads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountVerifyRoute = AccountVerifyRouteImport.update({
+  id: '/account/verify',
+  path: '/account/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
   id: '/api/payments/checkout',
   path: '/api/payments/checkout',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
@@ -128,6 +135,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
     | '/api/journey/intent'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
     | '/api/journey/intent'
@@ -199,6 +210,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
     | '/api/journey/intent'
@@ -217,6 +229,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
+  AccountVerifyRoute: typeof AccountVerifyRoute
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
@@ -298,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoDadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/verify': {
+      id: '/account/verify'
+      path: '/account/verify'
+      fullPath: '/account/verify'
+      preLoaderRoute: typeof AccountVerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/payments/checkout': {
       id: '/api/payments/checkout'
       path: '/api/payments/checkout'
@@ -345,6 +365,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   StartRoute: StartRoute,
   TermsRoute: TermsRoute,
+  AccountVerifyRoute: AccountVerifyRoute,
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,

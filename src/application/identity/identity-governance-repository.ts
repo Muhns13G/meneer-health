@@ -45,6 +45,10 @@ export type AddServiceIdentityCredential = Readonly<{
 }>;
 
 export interface IdentityGovernanceRepository {
+  findDeliveredPatientInvitation(
+    contactDigest: string,
+    observedAt: Date,
+  ): Promise<IdentityInvitation | null>;
   reservePatientInvitation(input: ReservePatientInvitation): Promise<string>;
   completePatientInvitationDelivery(
     invitationId: string,

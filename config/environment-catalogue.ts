@@ -67,6 +67,16 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     rotation: "Rotate after suspected exposure and invalidate all outstanding intent cookies.",
   },
   {
+    name: "IDENTITY_PREACTIVATION_KEY_BASE64",
+    purpose: "Server-only AES-256-GCM key for a short-lived, non-authorising invite continuation.",
+    owner: "Identity and release owner",
+    sensitivity: "secret",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation: "Rotate after suspected exposure; rotation invalidates pending continuation cookies.",
+  },
+  {
     name: "MEASUREMENT_MODE",
     purpose:
       "Server-only exact activation gate for the approved first-party pilot measurement boundary.",
