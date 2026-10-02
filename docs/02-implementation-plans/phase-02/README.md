@@ -67,13 +67,22 @@ decision/delivery-evidence level. Sprint 12 must still prove routed handling, al
 detection, escalation and fallback before TD-043 can close or public unavailable wording can
 change.
 
+Task 8.8 and DR-017 complete the authorised synthetic protocol-portal investigation. A signed-out
+provider-linked intake and authenticated three-step provider intake were verified, and the latter
+generated a persistent pending protocol with review/editor and PDF-download controls. No supported
+API, webhook or machine export was visible. A dashboard/library status mismatch and inconsistent
+dose rounding require provider resolution and clinician verification. Sprint 10 therefore retains
+a staff-mediated, auditable minimum-data hand-off; TD-009 remains In progress for the exact external
+parties, agreements, authority and implemented reconciliation boundary.
+
 - Hosted Supabase contains the expected 33-table foundation, no Auth users or operational records,
   and only synthetic/bootstrap state requiring a controlled reset before pilot use.
 - Public sign-up is disabled and the public site remains non-transactional.
 - Stripe Checkout, signed webhooks, payment reconciliation and fulfilment contracts exist only as
   inactive/test-mode foundations; the hosted payment routes are disabled.
-- The protocol portal is a separate professional system. No authenticated API, webhook or governed
-  Meneer integration has been verified, so the pilot uses a manual minimum-data bridge.
+- The protocol portal is a separate professional system. Authenticated provider and patient-link
+  capabilities are verified, but no supported API, webhook or governed Meneer integration exists;
+  the pilot therefore uses a manual minimum-data bridge.
 - The local unit, browser, accessibility, portability, discovery and configured opaque-intent checks
   pass. This is implementation evidence, not pilot release approval.
 

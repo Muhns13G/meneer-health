@@ -136,8 +136,9 @@ notification and safe opaque reference, not a clinical or detailed commercial pa
 - Tests must prove own-profile access, assigned minimum projections, wrong-tenant/role/purpose
   denials, masked staff responses, stale-version failure, contact-change controls, export scope,
   deletion propagation and false-success prevention.
-- DR-015 fixes the exact notice, acknowledgement and consent-version contract. Task 8.8 still owns
-  the external-provider hand-off capability. Neither may be inferred from this decision alone.
+- DR-015 fixes the exact notice, acknowledgement and consent-version contract. DR-017 verifies the
+  external portal capability and retains a manual minimum-data hand-off for Sprint 10. Neither may
+  be inferred from this decision alone.
 
 ## Consequences and Residual Gates
 

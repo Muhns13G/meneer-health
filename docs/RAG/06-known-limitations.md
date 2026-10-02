@@ -65,6 +65,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
   - docs/07-decisions/DR-016-pilot-support-escalation-channels.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-7-support-channel-activation-contract.md
+  - docs/07-decisions/DR-017-protocol-portal-manual-handoff-boundary.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-8-protocol-portal-capability-evidence.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -127,6 +129,16 @@ arrived. There are no fixed hours; answering within 24 hours where possible is a
 not a guarantee or emergency service. Do not expose the aliases publicly or claim functioning case
 handling before Sprint 12. TD-043 remains Open until the clinical owner and complete routed
 acknowledgement/failure/escalation/fallback path are implemented and exercised.
+
+Task 8.8/DR-017 verifies signed-out patient intake access and a synthetic provider-managed path
+through intake, protocol generation, review/editor views and PDF-download controls. It does not
+verify clinical correctness, notification delivery, PDF binary contents, permission isolation,
+approval/send or billing. The dashboard pending count contradicted the protocol library, and one
+generated dose was rounded inconsistently within the same protocol. No supported API/webhook or
+machine export was visible. Keep the provider link and credentials outside Git; retain manual
+hand-off until Sprint 10 proves its governed boundary. Require provider correction and clinician
+verification before relying on generated dosing. The provider's exact legal identity, professional
+authority and agreements remain unverified.
 
 ## Current Capability Limits
 

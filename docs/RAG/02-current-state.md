@@ -96,10 +96,13 @@ reconciliation. None of those customer/staff surfaces is fully active today: `/s
 gated, profile state is browser-only in a preserved prototype, hosted payment routes fail closed,
 and no staff queue or verified protocol API/webhook exists.
 
-The protocol portal is an external professional boundary. Its public pages expose provider login,
-a protected patient-intake path and descriptions of structured intake and practitioner-reviewed
-protocol references. Authenticated behaviour, intake-link mechanics, API/webhook availability and
-the Meneer hand-off contract remain unverified. Do not claim an integration.
+Task 8.8 verifies the external portal's signed-out provider-linked intake plus an authenticated
+synthetic path through three-step intake, protocol generation, review/editor views and both PDF
+download controls. No supported API, webhook or machine export was visible. DR-017 retains the
+manual bridge for Sprint 10. Notification delivery, PDF binary contents, permission isolation and
+approval/send were not exercised. The dashboard pending count contradicted the protocol library,
+and generated dosing text contained inconsistent rounding. External party authority, agreements,
+provider correction, clinician verification and governed Meneer hand-off remain activation inputs.
 
 The successor framework is not selected. Next.js and direct Laravel/React are candidates alongside
 continued TanStack delivery; any migration remains subject to DR-004, TD-055 and a separate
@@ -139,17 +142,17 @@ In progress.
 Task 8.6 is completed at the decision/evidence level. DR-015 approves versioned account terms,
 privacy acknowledgement, order terms and hand-off authorisation semantics, client actions and
 receipt evidence. No instrument is published or acceptable yet: Task 8.7 supplies channel and
-synthetic-delivery evidence, Task 8.8 must supply the verified external party, applicable domain
-reviewers must approve the rendered versions, and Sprints 9–11 must implement them. Existing public
-`/terms` and `/privacy` remain website-only.
+synthetic-delivery evidence, while Task 8.8 verified portal workflow but not the external party's
+legal/professional authority. Applicable domain reviewers must approve the rendered versions, and
+Sprints 9–11 must implement them. Existing public `/terms` and `/privacy` remain website-only.
 
 Task 8.7 is completed at decision/delivery-evidence level. DR-016 approves
 `privacy@meneerhealth.co.za`, `complaints@meneerhealth.co.za` and
 `clinical@meneerhealth.co.za` as purpose-specific destinations and records a fail-closed activation
 contract. Brevo accepted one payload-free synthetic message for each and the owner confirmed all
 three arrived. No fixed operating hours apply; answering within 24 hours where possible is a
-qualified target. No public/runtime surface changed. TD-043 remains Open until Task 8.8/Sprint 12
-prove the clinical owner, routed handling, alternates, failure, escalation and fallback paths.
+qualified target. No public/runtime surface changed. TD-043 remains Open until Sprint 12 proves the
+clinical owner, routed handling, alternates, failure, escalation and fallback paths.
 
 ## Sprint 07 Closure — 14 August 2026
 

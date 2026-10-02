@@ -122,8 +122,9 @@ the applicable document are verified:
 2. DR-016's dedicated privacy and complaint aliases have verified synthetic delivery/receipt and a
    qualified response target; monitored routed handling, cancellation, failure and fallback remain
    Sprint 12 activation gates.
-3. Exact external protocol-provider juristic identity, privacy role, recipient notice, secure
-   hand-off method, contract and clinical escalation boundary under Task 8.8.
+3. DR-017's verified external portal capability and manual hand-off method, plus the still-required
+   exact provider juristic identity, privacy role, recipient notice, contract and clinical
+   escalation boundary.
 4. Verified pharmacy, custody, courier, delivery, return/recall and product-specific authority
    before any product order terms become active.
 5. Final legal/privacy, commercial, operations, security, accessibility and release review of the
@@ -135,7 +136,7 @@ disclosure may appear in a client-acceptable version.
 ## Implementation and Verification
 
 - Sprint 9 implements account terms/privacy acknowledgement receipts and accessible rendering.
-- Sprint 10 implements recipient-specific hand-off authorisation after Task 8.8 succeeds.
+- Sprint 10 implements recipient-specific hand-off authorisation using DR-017's manual bridge.
 - Sprint 11 implements order-specific terms snapshots and Stripe sandbox evidence.
 - Tests must prove distinct unchecked actions, wrong/missing/stale versions, content-hash mismatch,
   refusal, replay, withdrawal-before-hand-off, changed-recipient reauthorisation, durable success,

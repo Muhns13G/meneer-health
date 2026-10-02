@@ -11,8 +11,9 @@
   `meneerhealth.co.za`, while `itws-I` is the permanent source boundary
 - **Purpose:** Define the intended destination before further feature development begins
 - **Current phase:** Phase 01 closed at the secure inactive-foundation boundary under DR-010;
-  Phase 02 minimum pilot enablement is in progress through Sprints 08–13, with Tasks 8.1–8.6
-  and 8.7 completed; channel publication remains activation-gated pending Sprint 12 evidence
+  Phase 02 minimum pilot enablement is in progress through Sprints 08–13, with Tasks 8.1–8.8
+  completed; the external portal uses a manual audited bridge because no supported API/webhook was
+  verified, and activation remains gated
 
 ## Executive Vision
 

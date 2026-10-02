@@ -123,9 +123,11 @@ authorisation.
 ## Retained Gates
 
 - DR-016 records the active privacy, complaint and clinical aliases, successful synthetic delivery
-  and the qualified response target. Task 8.8/Sprint 12 must still verify the external clinical
-  owner and exercise routed handling, failure, cancellation routing and fallback behaviour.
-- Task 8.8 must verify the provider identity, privacy role, notice, agreement and hand-off method.
+  and the qualified response target. Task 8.8 verified portal workflow but not the external
+  clinical owner's authority; Sprint 12 must exercise routed handling, failure, cancellation
+  routing and fallback behaviour.
+- Task 8.8 verified the manual hand-off method, but provider identity, privacy role, notice and
+  agreement remain activation inputs.
 - Supplier addresses/telephone/office-bearer and any applicable accreditation/code disclosures must
   be privately verified and inserted before electronic supply.
 - Product order instruments require the verified pharmacy/custody/courier and delivery schedules.

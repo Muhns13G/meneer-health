@@ -56,10 +56,11 @@ evidence and route payment or privacy matters to the responsible queue.
 
 ### Clinical and adverse events
 
-The clinical alias may activate only after Task 8.8 verifies the external provider and professional
-owner and Sprint 12 verifies monitoring, acknowledgement, escalation and fallback. It must not be
-owned solely by OCTOTHORP ZA non-clinical staff or routed to Precise Wellness's practitioner-
-software support address as though that were patient care.
+The clinical alias may activate only after the external provider and professional owner are
+independently verified and Sprint 12 verifies monitoring, acknowledgement, escalation and fallback.
+Task 8.8 verified portal workflow but did not establish that authority. The alias must not be owned
+solely by OCTOTHORP ZA non-clinical staff or routed to Precise Wellness's practitioner-software
+support address as though that were patient care.
 
 The alias is not an emergency service. Urgent or severe symptoms must continue to route to `112`
 from a mobile, `10177` for an ambulance, or the nearest emergency facility. General support must
@@ -97,7 +98,8 @@ Each channel must pass all of the following before activation:
 
 - Task 8.7 records the approved destinations, successful synthetic receipt, role ownership, no-
   fixed-hours policy, qualified 24-hour target and exact remaining activation proof.
-- Task 8.8 must verify the protocol/clinical party before the clinical alias can activate.
+- DR-017 verifies portal capability, but the protocol/clinical party and professional authority must
+  still be verified before the clinical alias can activate.
 - Sprint 12.3 implements the routed channels and acknowledgement behaviour.
 - Sprint 12.8 exercises success, failure, acknowledgement, escalation and fallback with synthetic
   content. Only that evidence can close TD-043.

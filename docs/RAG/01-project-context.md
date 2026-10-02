@@ -106,6 +106,13 @@ possible is a qualified target, not a guarantee or emergency service. Task 8.7 i
 decision/delivery level. TD-043 remains open for clinical ownership, routed handling, failure,
 escalation, fallback and live accessibility proof under Tasks 8.8 and Sprint 12.
 
+Task 8.8 and DR-017 complete the synthetic portal capability investigation. Provider-linked remote
+intake works while signed out, and an authenticated provider-managed intake generated a pending
+protocol with review/editor and PDF-download controls. No supported API/webhook was found. The
+dashboard/library status mismatch and inconsistent dose rounding require provider resolution and
+clinical verification. Sprint 10 retains a manual audited bridge. External identity, authority,
+contracts and operational hand-off proof remain required before activation.
+
 Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
 a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe
 payment, a least-privilege staff queue, and an auditable manual hand-off to the external protocol
