@@ -20,6 +20,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
   - docs/07-decisions/DR-016-pilot-support-escalation-channels.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-7-support-channel-activation-contract.md
+  - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
@@ -63,6 +64,11 @@ Meneer is intended to become a South African direct-to-consumer men's health ser
 The product is intended to reduce embarrassment and practical friction without becoming a medication storefront or allowing conversion objectives to override clinical judgement. Hims and Ro are breadth and convenience references; AndroLab is a relevant South African competitor. Their content, claims, pricing, and clinical pathways are not automatically valid for Meneer.
 
 ## Current Product Stage
+
+Sprint 08 completed the pilot decision and hosted-baseline work at checkpoint `3950b15`. The
+suspended tenant is clean, but seven existing activation gates remain. Sprint 09 begins the
+invite-only identity, profile and acknowledgement implementation; the external provider and
+commercial publication inputs must be verified before their dependent customer journeys activate.
 
 Phase 01 formally closed on 2 October 2026 at the secure inactive-foundation boundary under
 DR-010. All seven planned sprints are complete. Forty-nine of 56 original technical-debt items are

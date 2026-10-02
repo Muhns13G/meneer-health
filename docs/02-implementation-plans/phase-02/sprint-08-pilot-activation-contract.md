@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-08
 title: Pilot Activation Contract and Hosted Baseline
-status: in-progress
+status: completed-with-activation-gates
 primary_debt: [TD-006, TD-007, TD-009, TD-010, TD-043]
 depends_on: [DR-010, phase-01-technical-debt-stabilisation]
 last_updated: 2026-10-02
@@ -30,9 +30,14 @@ peptide authority.
 | 8.7  | Verify dedicated privacy, complaint and clinical/adverse-event channels, owners, hours, delivery and fallback behaviour.                                                | TD-043            | Completed  |
 | 8.8  | Inspect the protocol portal with its owner and record whether patient links, export, status, API or webhook capabilities exist; retain manual hand-off unless verified. | TD-009, DR-013    | Completed  |
 | 8.9  | Perform an authorised hosted synthetic reset/reseed, run database/security advisors, reconcile migrations and record the pilot tenant baseline.                         | Hosted activation | Completed  |
-| 8.10 | Reconcile decisions, registry/RAG and issue the Sprint 08 completion report.                                                                                            | All               | Planned    |
+| 8.10 | Reconcile decisions, registry/RAG and issue the Sprint 08 completion report.                                                                                            | All               | Completed  |
 
 ## Acceptance Gate
+
+Sprint 08 closes at its approved decision/evidence boundary. Final external appointments,
+supplier/recipient schedules, rendered domain approvals and routed support exercises remain
+explicit activation requirements in the registry and Sprints 09–13. The completion report records
+this narrowing of the original external-input intention; completion does not waive these inputs.
 
 - No placeholder person, registration, price, tax, responsibility or channel is treated as real.
 - Every enabled Phase 02 field and workflow has a named purpose, owner and minimum-data rule.
@@ -65,3 +70,4 @@ anonymous denial and disabled preview/provider gates.
 - [Task 8.7 support-channel activation contract](annexures/sprint-08-7-support-channel-activation-contract.md)
 - [Task 8.8 synthetic protocol-portal capability evidence](annexures/sprint-08-8-protocol-portal-capability-evidence.md)
 - [Task 8.9 hosted pilot baseline evidence](annexures/sprint-08-9-hosted-pilot-baseline-evidence.md)
+- [Task 8.10 completion report](../../03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md)

@@ -52,6 +52,20 @@ transactions remain inaccessible.
 The registry contains 49 Verified items. TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043
 remain non-Verified Phase 02 activation gates.
 
+Sprint 08 Task 8.10 reconciles all nine task annexures and DR-011–DR-017 against the committed
+implementation checkpoint `3950b15`. The sprint is completed with activation gates; the seven
+statuses and acceptance standards remain unchanged. Tasks 8.3/8.6/8.7 supplied approved contracts
+and channel receipt evidence, while final external identities, appointments, rendered schedules,
+approvals and routed exercises remain due in Sprints 09–13. Task 8.9 supplies a clean suspended
+hosted tenant and exact 16-migration parity, not customer activation.
+
+No new repository debt ID accrued. Portal dosing inconsistency extends TD-007; dashboard/library
+status disagreement extends TD-009. Credential rotation and individual/permission-controlled
+portal access remain DR-017/TD-009 requirements. Informational hosted index notices are scheduled
+for query-based reassessment during Sprints 09–13. See the
+[Sprint 08 completion report](../03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md)
+for ownership, deviations, evidence and the file inventory.
+
 ## Formal Development Entry Gate
 
 Before new product features begin, the project should complete a stabilisation milestone that:
