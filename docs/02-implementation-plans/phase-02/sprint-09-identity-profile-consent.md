@@ -25,7 +25,7 @@ pilot status.
 | 9.2  | Add portable migrations for approved profile fields, immutable acknowledgement/consent evidence and lifecycle history with RLS.        | TD-009              | Completed locally           |
 | 9.3  | Implement staff-created, expiring, single-use invitations with rate, replay, tenant and purpose controls.                              | Identity activation | Completed locally           |
 | 9.4  | Implement the Meneer-owned confirmation/OTP boundary; never expose provider tokens to tracking or unsafe redirects.                    | FC-001              | Completed locally           |
-| 9.5  | Implement authenticated session establishment, renewal, sign-out, expiry, revocation and recovery using existing identity ports.       | Identity activation | Planned                     |
+| 9.5  | Implement authenticated session establishment, renewal, sign-out, expiry, revocation and recovery using existing identity ports.       | Identity activation | Completed locally           |
 | 9.6  | Implement the accessible client profile and versioned acknowledgement/consent flow with durable false-success prevention.              | TD-037, TD-038      | Planned                     |
 | 9.7  | Add an authenticated client portal showing only approved profile, consent and non-clinical workflow status.                            | Portal boundary     | Planned                     |
 | 9.8  | Implement correction, export and account-support request entry points without ordinary-email sensitive payloads.                       | Data rights         | Planned                     |
@@ -45,6 +45,9 @@ until hosted configuration and synthetic delivery are separately verified. Task 
 [local OTP evidence](annexures/sprint-09-4-first-party-invitation-otp.md) proves a code-only
 Mailpit delivery and the first-party route. It does not install the hosted template or open
 staff invitation delivery, account activation, or an authorising session.
+Task 9.5's [local session evidence](annexures/sprint-09-5-patient-session-lifecycle.md)
+records code-only sign-in/recovery delivery, application-session expiry and revocation, and
+noindex first-party pages. The hosted configuration and activated-account proof remain later gates.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
 - Browser code never receives a service-role credential or controls tenant/role authority.

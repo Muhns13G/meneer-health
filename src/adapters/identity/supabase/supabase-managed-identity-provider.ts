@@ -109,7 +109,13 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
   }
 
   async requestRecovery(email: string, redirectTo: string): Promise<void> {
-    await this.requestOtp(email, redirectTo);
+    try {
+      const { error } = await this.client.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) rejected();
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
   }
 
   async verifyEmailOtp(email: string, token: string): Promise<ManagedSession> {
@@ -126,6 +132,30 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
   async verifyInvitationOtp(email: string, token: string): Promise<ManagedSession> {
     try {
       const { data, error } = await this.client.auth.verifyOtp({ email, token, type: "invite" });
+      if (error) rejected();
+      return mapSession(data.session);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
+  async verifyRecoveryOtp(email: string, token: string): Promise<ManagedSession> {
+    try {
+      const { data, error } = await this.client.auth.verifyOtp({ email, token, type: "recovery" });
+      if (error) rejected();
+      return mapSession(data.session);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
+  async refreshSession(refreshToken: string): Promise<ManagedSession> {
+    try {
+      const { data, error } = await this.client.auth.refreshSession({
+        refresh_token: refreshToken,
+      });
       if (error) rejected();
       return mapSession(data.session);
     } catch (error) {
