@@ -24,9 +24,10 @@ does not approve a medicine, clinical protocol, pharmacy licence, contract, or p
 
 [DR-012](DR-012-minimum-pilot-responsibility-allocation.md) supersedes this record only within the
 minimum-pilot scope. OCTOTHORP ZA owns the Meneer-controlled non-clinical service and data boundary;
-the external protocol provider must contract separately after verification; and DR-011 removes
-pharmacy, hub, courier and product fulfilment from the minimum pilot. This record remains the
-general layered-model authority and historical basis for any future expanded service.
+the external protocol provider must contract separately after verification. DR-013 supersedes
+DR-011's product exclusion and adds an intended Precise-Wellness-to-Meneer dispensing/custody route
+plus Meneer-arranged courier direction, all subject to verification. This record remains the general
+layered-model authority and historical basis for the expanded service.
 
 ### Confirmed Facts
 

@@ -70,6 +70,8 @@ sources:
   - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md
   - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
+  - docs/07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
 ---
 
 # Meneer v1 Verified Current State
@@ -101,17 +103,24 @@ Phase 02 is in progress through Sprints 08–13. Its sequence covers activation 
 hosted baseline; invite-only identity/profile/consent; a client portal; the staff queue and manual
 protocol hand-off; Stripe sandbox and commercial exceptions; support and live accessibility; and a
 complete synthetic pilot rehearsal. Task 8.1 freezes the exact repository/hosted baseline, Sprint
-08 sequence and non-goals without changing runtime or hosted state. Task 8.2 and DR-011 select the
-scope-removal route for TD-007: the minimum pilot contains no product-specific peptide transaction,
-while retained public wording stays pending under TD-006. This brings the registry to 50 Verified
-items and leaves six non-Verified activation gates. All later capabilities remain planned rather
-than implemented.
+08 sequence and non-goals without changing runtime or hosted state. Task 8.2 and DR-011 initially
+selected scope removal for TD-007. Task 8.4 and DR-013 now supersede that exclusion with a gated
+candidate catalogue, so TD-007 is In progress again. The registry has 49 Verified items and seven
+non-Verified activation gates. Retained public wording remains pending under TD-006; all runtime
+capabilities remain planned rather than implemented.
 
-Task 8.3 and DR-012 approve the product-neutral responsibility allocation: OCTOTHORP ZA owns the
-Meneer non-clinical service and data-purpose boundary, while a separately contracting verified
-external provider must own protocol/clinical work. Pharmacy, hub, courier and product supply are
-out of scope rather than assigned to placeholders. TD-009 remains In progress pending the external
-party/contract, transactional data instruments and dedicated channels; no runtime is activated.
+Task 8.3 and DR-012 approve the core responsibility allocation: OCTOTHORP ZA owns the Meneer
+non-clinical service and data-purpose boundary, while a separately contracting verified external
+provider must own protocol/clinical work. DR-013 adds the intended Precise-Wellness-to-Meneer
+dispensing/custody route and Meneer-arranged courier direction. TD-007 and TD-009 remain In progress
+pending authority, exact parties/contracts, operational controls and dedicated channels.
+
+Task 8.4 is completed at the decision/evidence level. DR-013 approves free intake, a R999 review
+deposit credited to the first approved order, the fingerprinted Precise Wellness schedule RRP,
+VAT-inclusive planning, separately charged delivery, Meneer as the customer-facing Stripe merchant
+brand, OCTOTHORP ZA as current legal seller/invoice issuer, manual purchases and defined refunds.
+The confidential schedule stays outside Git. TD-010 remains In progress for the private catalogue,
+delivery rates, final terms/domain approvals, Stripe sandbox implementation and exception proof.
 
 ## Sprint 07 Closure — 14 August 2026
 

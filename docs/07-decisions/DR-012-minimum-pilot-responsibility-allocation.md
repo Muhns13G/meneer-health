@@ -7,10 +7,14 @@ implementation_owner: Octothorp ZA technology and operations owner
 required_approvers: [business_owner, repository_owner]
 effective_date: 2026-10-02
 supersedes: DR-001-within-minimum-pilot-scope
+superseded_by: DR-013-product-fulfilment-allocation-only
 related_debt: [TD-009, TD-043]
 ---
 
 # DR-012 — Minimum Pilot Responsibility and Party Allocation
+
+> **Partial supersession:** DR-013 replaces this record's exclusion of pharmacy, custody, courier
+> and product fulfilment. All other responsibility, data and support boundaries remain in force.
 
 ## Context
 
@@ -94,10 +98,11 @@ and protocol completion cannot be inferred from a hand-off attempt.
 - The approved transactional privacy notice, operator disclosures, data-transfer terms and
   acknowledgement/consent versions remain Tasks 8.5–8.6 inputs.
 - The dedicated privacy, complaint and clinical/protocol channels remain Task 8.7 inputs.
-- Merchant, tax, invoice and payment responsibility remains Task 8.4 scope.
+- DR-013 completes the merchant, VAT-planning, invoice and payment policy; implementation and domain
+  approval remain TD-010 gates.
 
-These retained inputs keep TD-009 In progress. They do not reopen pharmacy, courier or product
-fulfilment, which are explicitly out of scope rather than assigned to placeholders.
+These retained inputs keep TD-009 In progress. DR-013 supersedes the earlier product-role exclusion
+with an intended pharmacy/custody/courier direction that remains unverified and fail-closed.
 
 ## Privacy, Security and Clinical Implications
 

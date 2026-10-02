@@ -7,11 +7,16 @@ implementation_owner: Octothorp ZA commercial and operations owners
 required_approvers: [business_owner, commercial_owner, legal_owner, operations_owner, release_owner]
 effective_date: 2026-08-08
 supersedes: null
+refined_by: DR-013
 related_debt: [TD-010]
 last_updated: 2026-08-08
 ---
 
 # DR-002 — Commercial, Payment, and Fulfilment Model
+
+> **Phase 02 refinement:** DR-013 approves the R999 review deposit and credit, Precise Wellness
+> schedule RRP, VAT-inclusive planning, separate delivery, merchant/legal-entity allocation and
+> refund rules. This record's independent-state and fail-closed controls remain in force.
 
 ## Context and Scope
 

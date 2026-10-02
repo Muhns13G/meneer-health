@@ -12,6 +12,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md
   - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md
+  - docs/07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
@@ -62,16 +64,21 @@ Verified; TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 retain their
 and acceptance criteria as mandatory pilot-activation gates. Closure does not approve the pilot or
 represent missing external evidence as complete.
 
-Phase 02 Task 8.2 subsequently verifies TD-007 through DR-011's scope-removal route. The minimum
-pilot contains no product-specific peptide transaction; BPC-157 plus TB-500 remains a future
-hypothesis rather than an approved product. Fifty items are now Verified. TD-006, TD-009, TD-010,
-TD-037, TD-038 and TD-043 remain non-Verified activation gates.
+Phase 02 Task 8.2 temporarily verified TD-007 through DR-011's scope-removal route. Task 8.4 and
+DR-013 supersede that exclusion by approving the confidential Precise Wellness schedule as a gated
+candidate catalogue. TD-007 is In progress again, leaving 49 items Verified and seven
+non-Verified activation gates.
 
-Task 8.3 and DR-012 assign the minimum-pilot responsibility boundary. OCTOTHORP ZA is the
-Meneer-controlled non-clinical counterparty/operator and is accountable for Meneer data purposes;
-an independently authorised external provider must contract separately for protocol/clinical work.
-No pharmacy, hub, courier or product-supply party is appointed. The external party/contract,
-transactional instruments and dedicated channels remain later Sprint 08 gates.
+Task 8.3 and DR-012 assign the minimum-pilot responsibility boundary. DR-013 subsequently records
+the intended Precise-Wellness-to-Meneer dispensing/custody route and Meneer-arranged courier
+direction. The parties, authority, contracts, transactional instruments, chain-of-custody controls
+and dedicated channels remain activation gates.
+
+Task 8.4 completes the commercial-policy decision: free intake, a R999 review deposit credited to
+the first approved order, Precise Wellness schedule RRP, VAT-inclusive planning, separately charged
+delivery, Meneer as the Stripe merchant brand, OCTOTHORP ZA as current legal seller/invoice issuer,
+manual one-time purchases and defined refunds. Stripe and product transactions remain disabled
+until the downstream implementation, external evidence and release gates pass.
 
 Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
 a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe
@@ -219,9 +226,9 @@ pilot providers disabled.
 Task 5.15 keeps that provider boundary explicit: Precise Wellness hand-off, pharmacy release, hub
 custody, courier dispatch/delivery, cancellation, and refund reconciliation use opaque identifiers
 and fingerprints only. Local provider gates are synthetic; preview and production are disabled.
-TD-014, TD-015, and TD-020 are Verified for the inactive foundation. TD-009, TD-010, and
-route-specific activation evidence still block real provider/payment use; DR-011 separately
-prohibits product-specific peptide transactions in the minimum pilot.
+TD-014, TD-015, and TD-020 are Verified for the inactive foundation. TD-007, TD-009, TD-010, and
+route-specific activation evidence still block real provider/payment use; DR-013 permits only a
+gated candidate catalogue and does not activate transactions.
 
 Task 5.16 adds the retained-capability catalogue, exact contract-major/schema/migration registry,
 portable HTTP/contract/behaviour fixtures, CI drift check, and v1-to-v2 rehearsal/cutover/rollback

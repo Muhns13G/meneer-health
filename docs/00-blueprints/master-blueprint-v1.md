@@ -11,7 +11,7 @@
   `meneerhealth.co.za`, while `itws-I` is the permanent source boundary
 - **Purpose:** Define the intended destination before further feature development begins
 - **Current phase:** Phase 01 closed at the secure inactive-foundation boundary under DR-010;
-  Phase 02 minimum pilot enablement is in progress through Sprints 08–13, with Tasks 8.1–8.3
+  Phase 02 minimum pilot enablement is in progress through Sprints 08–13, with Tasks 8.1–8.4
   completed
 
 ## Executive Vision
@@ -232,9 +232,9 @@ independent states; a committed receipt and state version succeed or fail togeth
 safe, while changed replay, stale version, invalid transition, unmet prerequisite and browser/direct
 table mutation are rejected. Tasks 5.14–5.15 now implement inactive payment and partner commands;
 real provider activation remains gated by TD-009, TD-010, and capability-specific hosted activation
-evidence. DR-011 verifies TD-007 only through removal of product-specific peptide transactions from
-the minimum pilot; future product activation reopens its full evidence requirements. Sprint 05
-Verified TD-020 for the currently implemented inactive boundary.
+evidence. DR-013 supersedes DR-011's scope-removal outcome with a gated candidate catalogue, so
+TD-007 is In progress again until its complete product-authority and pathway evidence passes. Sprint
+05 Verified TD-020 for the currently implemented inactive boundary.
 
 Sprint 05 Task 5.10 extends that command boundary with portable `audit.fact`,
 `workflow.transitioned`, and `integration.received` contract families. The Supabase adapter commits

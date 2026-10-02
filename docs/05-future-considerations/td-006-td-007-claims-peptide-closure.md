@@ -1,7 +1,7 @@
 ---
 consideration_id: FC-005
 title: TD-006 and TD-007 Claims and Peptide Closure
-status: td-006-active-td-007-scope-removal-verified
+status: td-006-active-td-007-reopened
 decision_due: before-affected-claim-or-future-peptide-product-activation
 last_reviewed: 2026-10-02
 owner: Octothorp ZA product and release owner
@@ -22,14 +22,14 @@ not claim, product, pathway or release approval.
 
 - **TD-006 remains In progress:** 28 retained claim variants across nine families are still marked
   `pending-evidence`.
-- **TD-007 is Verified through scope removal:** DR-011 excludes BPC-157, TB-500 and every
-  product-specific peptide transaction from the minimum pilot. The intended pairing remains an
-  internal future hypothesis, not regulatory, pharmacy, clinical, legal, security, operational, or
+- **TD-007 is In progress again:** DR-013 supersedes DR-011's product exclusion and permits every
+  product in the fingerprinted Precise Wellness schedule to enter a gated candidate catalogue. The
+  commercial decision is not regulatory, pharmacy, clinical, legal, security, operational or
   release approval.
 - The current non-transactional gates remain mandatory until the relevant closure evidence passes.
 
-Task 8.2 does not close TD-006 or approve existing peptide wording. A future product transaction
-must reopen the full authority/pathway route below through a new decision.
+Task 8.2 did not close TD-006 or approve existing peptide wording. Task 8.4 now selects the product
+direction, so the full authority/pathway route below must be completed before any transaction.
 
 ## TD-006 Claim Evidence Pack
 
@@ -52,8 +52,8 @@ release approvers. Product-owner wording approval alone is insufficient.
 
 ## TD-007 Regulatory and Pathway Decision
 
-DR-011 selects route 2 for the minimum pilot. These remain the only two acceptable routes for any
-future intended peptide:
+DR-011 originally selected route 2. DR-013 now selects a gated route 1 candidate catalogue. These
+remain the only two acceptable treatments for any intended peptide:
 
 1. **Approved-product/access route:** record the product, manufacturer, formulation, route,
    indication, scheduling and SAHPRA registration number, or retain the applicable patient-specific
@@ -92,7 +92,7 @@ cannot be treated as independently verified evidence.
 
 ## Implementation and Verification Sequence
 
-1. Retain DR-011's scope-removal boundary unless a new decision has complete product authority.
+1. Retain the runtime fail-closed boundary while assembling DR-013's complete product authority.
 2. Assign the six accountable approval roles and create the restricted evidence index.
 3. Review all 28 variants family by family; approve, qualify, replace, or withdraw each exact text.
 4. Update `contracts/retained-public-claims.ts` with evidence references, approvals, lifecycle dates,
@@ -110,8 +110,9 @@ cannot be treated as independently verified evidence.
 - **TD-006 is Verified** only when every retained variant has current evidence and all required
   approvals, or has been withdrawn from every governed channel, with automated publication and
   cross-channel evidence passing.
-- **TD-007 is Verified for the minimum pilot** through DR-011's scope-removal route. Any future
-  product transaction reopens the product-specific authority and complete-pathway requirements.
+- **TD-007 is Verified** only after every enabled product has the product-specific authority and
+  complete clinical/pharmacy/fulfilment pathway evidence above. A candidate catalogue or commercial
+  approval does not meet that standard.
 
 ## Authoritative References
 
@@ -120,6 +121,7 @@ cannot be treated as independently verified evidence.
 - [Cross-channel content verification](../02-implementation-plans/phase-01/annexures/sprint-07-6-cross-channel-content-verification.md)
 - [Minimum pilot product/pathway decision](../02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md)
 - [DR-011 minimum pilot product and pathway scope](../07-decisions/DR-011-minimum-pilot-product-pathway.md)
+- [DR-013 pilot product, commercial and fulfilment amendment](../07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md)
 - [Technical-debt registry](../04-technical-debt/technical-debt-registry-v1.md)
 - [SAHPRA peptide-products notice](https://www.sahpra.org.za/peptide-products-public-information/)
 - [SAHPRA Section 21 access guideline](https://www.sahpra.org.za/document/guideline-for-section-21-access-to-unregistered-medicines/)

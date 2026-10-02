@@ -1,7 +1,7 @@
 ---
 evidence_id: phase-02-sprint-08-2
 title: Minimum Pilot Product and Pathway Decision
-status: completed
+status: superseded
 task: 8.2
 source_commit: c0171c51ed74c7a21d2e80b8960144330079f947
 completed: 2026-10-02
@@ -10,6 +10,9 @@ related_debt: [TD-006, TD-007]
 ---
 
 # Sprint 08.2 — Minimum Pilot Product and Pathway Decision
+
+> DR-013 supersedes this task's product-exclusion outcome. The recorded safeguards and complete
+> TD-007 evidence standard remain applicable to the newly approved candidate catalogue.
 
 ## Outcome
 
