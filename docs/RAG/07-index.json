@@ -531,6 +531,20 @@
         "TD-009 TD-037 and TD-038 retained implementation gates"
       ],
       "last_updated": "2026-10-02"
+    },
+    {
+      "id": "DR-015",
+      "path": "docs/07-decisions/DR-015-pilot-transactional-instruments.md",
+      "status": "approved",
+      "authority_for": [
+        "pilot account terms acceptance contract",
+        "transactional privacy notice acknowledgement contract",
+        "order-specific terms acceptance contract",
+        "recipient-specific hand-off authorisation contract",
+        "instrument version and receipt evidence",
+        "TD-009 TD-010 TD-037 and TD-038 retained implementation gates"
+      ],
+      "last_updated": "2026-10-02"
     }
   ],
   "implementation_plans": [
@@ -582,7 +596,8 @@
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md"
       ]
     },
     {

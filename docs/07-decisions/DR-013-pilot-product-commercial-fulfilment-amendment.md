@@ -84,6 +84,8 @@ professionals or activate checkout, dispensing or fulfilment.
 - Task 8.4 is complete at the decision/evidence level. TD-010 remains In progress until the private
   catalogue, delivery rates, customer terms, legal/tax/operations approvals, Stripe sandbox
   implementation and end-to-end exception tests exist.
+- DR-015 subsequently fixes the order-specific terms and acceptance contract. It does not supply
+  unresolved supplier/channel schedules, final rendered domain approval, rates or implementation.
 
 ## Security, Privacy and Clinical Implications
 

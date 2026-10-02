@@ -61,6 +61,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
   - docs/07-decisions/DR-014-minimum-client-profile-data-rights.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
+  - docs/07-decisions/DR-015-pilot-transactional-instruments.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -110,6 +112,12 @@ views exist. Do not add health, product, address, identity-document, credential 
 to the profile; delivery address belongs to a later approved order record. Verified email comes
 from managed identity, and WhatsApp preference is operational contact permission—not marketing
 consent or authority to send sensitive content.
+
+Task 8.6 and DR-015 approve instrument semantics, not published transactional terms or functioning
+acceptance/consent. Do not display internal baselines, unresolved schedules or bracketed hand-off
+values to clients. Do not treat website-only `/terms` or `/privacy` as transactional acceptance,
+infer consent from an invitation/account/payment, bundle marketing, or represent Meneer as having
+collected the external provider's clinical informed consent.
 
 ## Current Capability Limits
 

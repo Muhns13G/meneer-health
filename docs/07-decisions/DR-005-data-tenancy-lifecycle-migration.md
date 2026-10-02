@@ -15,7 +15,8 @@ last_updated: 2026-08-08
 # DR-005 — Data, Tenancy, Lifecycle, and Migration Model
 
 > **Phase 02 refinement:** DR-014 applies this lifecycle/rights model to the minimum client profile
-> and fixes its exact fields, purposes, role projections and post-closure treatment.
+> and fixes its exact fields, purposes, role projections and post-closure treatment. DR-015 fixes
+> the versioned instrument and receipt semantics that Sprint 9 must implement.
 
 ## Context and Scope
 

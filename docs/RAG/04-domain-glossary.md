@@ -140,7 +140,15 @@ sensitivity: internal
 
 - **Claim register:** controlled record of each public assertion, its evidence, accountable approver, permitted channels, effective date, and review/expiry date.
 - **Canonical content:** the approved source from which website, messages, metadata, support, and MCP outputs derive.
-- **Consent record:** durable evidence of the exact notice/purpose/version accepted, subject, timestamp, capture channel, and withdrawal route.
+- **Terms acceptance:** durable evidence that an authenticated client affirmatively accepted an
+  exact reproducible agreement/version for an account or displayed transaction.
+- **Privacy-notice acknowledgement:** durable evidence that the exact privacy notice/version was
+  delivered and acknowledged; it is not itself consent or the sole lawful basis for required
+  processing.
+- **Consent record:** durable evidence of a voluntary, specific and informed permission for a
+  defined optional purpose, data set, recipient/channel and version, including withdrawal state.
+- **Hand-off authorisation:** a separate, recipient-specific permission for one approved minimum-data
+  transfer; it is not the external provider's clinical informed consent.
 - **Audit event:** append-only evidence of an actor, action, subject, time, outcome, correlation identifier, and safe metadata.
 - **Special personal information:** health and related information requiring heightened protection. This glossary is descriptive and not legal advice.
 - **Release gate:** evidence that must exist before a defined pilot or public release may proceed.
