@@ -483,12 +483,11 @@
     {
       "id": "DR-011",
       "path": "docs/07-decisions/DR-011-minimum-pilot-product-pathway.md",
-      "status": "approved",
+      "status": "approved-product-exclusion-superseded",
       "authority_for": [
-        "minimum pilot product scope",
-        "TD-007 scope-removal verification",
-        "product-neutral onboarding payment and hand-off",
-        "future peptide product re-entry gate"
+        "historical minimum pilot product scope",
+        "fail-closed product safeguards",
+        "complete TD-007 evidence standard"
       ],
       "last_updated": "2026-10-02"
     },
@@ -500,8 +499,22 @@
         "minimum pilot responsibility allocation",
         "OCTOTHORP ZA non-clinical service and data responsibilities",
         "external protocol-provider separation",
-        "out-of-scope pharmacy hub courier and product roles",
         "remaining TD-009 and TD-043 activation gates"
+      ],
+      "last_updated": "2026-10-02"
+    },
+    {
+      "id": "DR-013",
+      "path": "docs/07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md",
+      "status": "approved",
+      "authority_for": [
+        "gated pilot candidate product catalogue",
+        "Precise Wellness schedule RRP authority",
+        "R999 review deposit and first-order credit",
+        "VAT merchant seller and invoice treatment",
+        "delivery and refund rules",
+        "intended dispensing custody and courier direction",
+        "TD-007 TD-009 and TD-010 retained activation gates"
       ],
       "last_updated": "2026-10-02"
     }
@@ -553,7 +566,8 @@
       "task_evidence": [
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md"
       ]
     },
     {
@@ -1892,7 +1906,7 @@
       "id": "FC-005",
       "path": "docs/05-future-considerations/td-006-td-007-claims-peptide-closure.md",
       "title": "TD-006 and TD-007 Claims and Peptide Closure",
-      "status": "td-006-active-td-007-scope-removal-verified",
+      "status": "td-006-active-td-007-reopened",
       "decision_due": "before-affected-claim-or-future-peptide-product-activation",
       "last_updated": "2026-10-02",
       "topics": [

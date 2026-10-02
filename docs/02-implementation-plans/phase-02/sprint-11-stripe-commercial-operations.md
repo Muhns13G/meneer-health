@@ -3,7 +3,8 @@ plan_id: phase-02-sprint-11
 title: Stripe Sandbox and Commercial Operations
 status: planned
 primary_debt: [TD-010]
-depends_on: [phase-02-sprint-08, phase-02-sprint-09, phase-02-sprint-10, DR-002, DR-011, DR-012]
+depends_on:
+  [phase-02-sprint-08, phase-02-sprint-09, phase-02-sprint-10, DR-002, DR-011, DR-012, DR-013]
 last_updated: 2026-10-02
 owner: "@Muhns13G"
 ---

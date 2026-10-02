@@ -65,6 +65,14 @@ source documents without explicit authorisation.
 | ------ | ------------------------------------------------------------------------------------------------ | ---------------- | --------- | -------- |
 | DR-010 | [Phase 01 closure and minimum pilot boundary](DR-010-phase-01-closure-minimum-pilot-boundary.md) | Business owner   | Phase 01  | Approved |
 
+## Phase 02 Register
+
+| ID     | Record                                                                                                        | Accountable role | Task | Status   |
+| ------ | ------------------------------------------------------------------------------------------------------------- | ---------------- | ---- | -------- |
+| DR-011 | [Minimum pilot product and pathway scope](DR-011-minimum-pilot-product-pathway.md)                            | Business owner   | 8.2  | Approved |
+| DR-012 | [Minimum pilot responsibility and party allocation](DR-012-minimum-pilot-responsibility-allocation.md)        | Business owner   | 8.3  | Approved |
+| DR-013 | [Pilot product, commercial and fulfilment amendment](DR-013-pilot-product-commercial-fulfilment-amendment.md) | Business owner   | 8.4  | Approved |
+
 ## Required Maintenance
 
 When a record changes status or is superseded, update this index, affected implementation plans,

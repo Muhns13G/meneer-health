@@ -57,6 +57,8 @@ sources:
   - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md
   - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
+  - docs/07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -64,9 +66,9 @@ sources:
 ## Phase 01 Closure Boundary
 
 Phase 01 is completed at the secure inactive-foundation boundary under DR-010. Do not translate
-that status into pilot readiness. Task 8.2 and DR-011 subsequently verify TD-007 only through
-removal of all product-specific peptide transactions from the minimum pilot. TD-006, TD-009,
-TD-010, TD-037, TD-038 and TD-043 remain non-Verified activation gates.
+that status into pilot readiness. Task 8.2 and DR-011 temporarily verified TD-007 through scope
+removal; Task 8.4 and DR-013 later reopened it by approving a gated candidate catalogue. TD-006,
+TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 remain non-Verified activation gates.
 
 The approved minimum v1 target is invite-only onboarding, a minimal non-clinical client profile,
 versioned acknowledgement/consent, one-time Stripe payment, a least-privilege staff queue and a
@@ -83,15 +85,22 @@ Next.js is not a committed next generation. Continued TanStack, Next.js and dire
 remain candidates until a separate architecture and migration decision passes DR-004/TD-055.
 
 Phase 02 Sprints 08–13 are planning authority for minimum pilot enablement. Task 8.1 records the
-read-only repository/hosted baseline and freezes the Sprint 08 sequence. Task 8.2 fixes the pilot's
-product-neutral transaction boundary; it does not implement onboarding, payment or hand-off.
+read-only repository/hosted baseline and freezes the Sprint 08 sequence. Task 8.2's product-neutral
+boundary is superseded by DR-013; no product transaction is implemented or enabled.
 Continue to answer from observed code, hosted state and completed task evidence until each planned
 task is implemented and verified.
 
 Task 8.3 assigns OCTOTHORP ZA's non-clinical counterparty/operator and Meneer data-purpose
-responsibilities, but does not verify the external protocol entity, activate a hand-off or appoint a
-clinical/pharmacy party. Do not interpret role-based private governance as proof that a specific
-individual, professional or partner is appointed. TD-009 and TD-043 retain their listed gates.
+responsibilities. DR-013 adds an intended Precise-Wellness-to-Meneer dispensing/custody direction,
+but does not verify the external entities, activate a hand-off or appoint a professional/pharmacy.
+Do not interpret the direction as proof of authority or an operational agreement.
+
+Task 8.4 and DR-013 approve the commercial policy, not runtime activation. The R999 review deposit,
+Precise Wellness schedule RRP, VAT-inclusive planning, separate delivery, merchant/legal-entity
+allocation and refund rules are approved inputs. Do not expose the confidential practitioner
+schedule, seed Stripe directly from the PDF, accept browser-supplied totals, promise availability
+or imply a product transaction is lawful or active. TD-007, TD-009 and TD-010 retain their
+authority, pathway, agreement, implementation and release gates.
 
 ## Current Capability Limits
 
@@ -218,8 +227,8 @@ pharmacy release, hub custody, courier dispatch/delivery, cancellation, refund, 
 out-of-order reconciliation in local synthetic Supabase. TD-014 is repository-Verified, but no
 registration, consent, booking, prescription, patient order, real partner API, customer-facing
 entry point, hosted endpoint, production price, live credential, parcel, or completed charge exists.
-TD-009 and TD-010 still gate provider activation. TD-007 is Verified only because product-specific
-peptide transactions are excluded; reintroducing one reopens the full gate.
+TD-007, TD-009 and TD-010 still gate provider activation. DR-013 approves a candidate catalogue and
+commercial policy, but product transactions remain inaccessible until the complete gate passes.
 
 Do not describe the Task 5.14 Stripe proof as a functioning payment journey. It proves server-owned
 sandbox prices, real no-charge Checkout creation, signed-event truth, replay/refund/dispute handling,

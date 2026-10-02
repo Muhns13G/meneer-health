@@ -7,10 +7,14 @@ implementation_owner: Octothorp ZA technology and operations owner
 required_approvers: [business_owner, repository_owner]
 effective_date: 2026-10-02
 supersedes: null
+superseded_by: DR-013-product-exclusion-only
 related_debt: [TD-006, TD-007]
 ---
 
 # DR-011 — Minimum Pilot Product and Pathway Scope
+
+> **Historical boundary:** DR-013 supersedes this record's product-transaction exclusion. Its
+> fail-closed safeguards and evidence requirements remain authoritative until TD-007 is verified.
 
 ## Context
 

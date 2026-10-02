@@ -24,18 +24,29 @@ changes that boundary.
 Task 8.1 began Phase 02 on 2 October 2026 by freezing the exact repository/hosted baseline, Sprint
 08 sequence and non-goals. It introduced no runtime or hosted mutation.
 
-Task 8.2 and DR-011 subsequently verify TD-007 through the scope-removal route: the minimum pilot
-contains no product-specific peptide transaction. Six transferred items remain non-Verified.
+Task 8.2 and DR-011 originally verified TD-007 through scope removal. DR-013 now supersedes that
+product exclusion and permits the confidential Precise Wellness schedule to define a gated
+candidate catalogue. TD-007 is therefore In progress again until product authority and the complete
+clinical, pharmacy and fulfilment pathway are independently verified. Seven transferred items are
+non-Verified.
 
-Task 8.3 and DR-012 assign every in-scope responsibility without publishing private role holders:
-OCTOTHORP ZA owns the Meneer-controlled non-clinical service/data boundary, while the separately
-contracting external protocol provider remains a verified-before-hand-off dependency. TD-009 and
-TD-043 remain open for the listed external evidence and channels.
+Task 8.3 and DR-012 assign the product-neutral responsibility boundary without publishing private
+role holders. DR-013 subsequently adds the intended Precise-Wellness-to-Meneer dispensing/custody
+direction, which remains a verified-before-activation dependency. TD-007, TD-009 and TD-043 remain
+open for the listed external evidence, agreements and channels.
 
 ## Reconciled Starting Point
 
 - Phase 01 is closed under DR-010 with 49 of 56 debt items Verified.
 - TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 transfer unchanged as activation gates.
+
+Task 8.4 is complete at the decision/evidence level. DR-013 approves free entry, a R999 review
+deposit credited to the first approved order, Precise Wellness schedule RRP, VAT-inclusive
+planning, separately charged delivery, Meneer as the Stripe merchant brand, OCTOTHORP ZA as the
+current legal seller/invoice issuer, manual purchases and the exception/refund model. The
+confidential schedule remains outside Git and is identified by hash. TD-010 remains In progress for
+private catalogue/rate implementation, domain approvals, terms, Stripe sandbox and exception proof.
+
 - Hosted Supabase contains the expected 33-table foundation, no Auth users or operational records,
   and only synthetic/bootstrap state requiring a controlled reset before pilot use.
 - Public sign-up is disabled and the public site remains non-transactional.

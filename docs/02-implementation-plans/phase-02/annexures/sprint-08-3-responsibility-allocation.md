@@ -11,6 +11,10 @@ related_debt: [TD-009, TD-043]
 
 # Sprint 08.3 — Minimum Pilot Responsibility and Party Allocation
 
+> DR-013 subsequently assigns an intended Precise-Wellness-to-Meneer dispensing/custody route and
+> Meneer-arranged courier direction. This task remains valid for all other responsibility and data
+> boundaries; the new product roles are activation gates pending verification.
+
 ## Outcome
 
 [DR-012](../../../07-decisions/DR-012-minimum-pilot-responsibility-allocation.md) narrows DR-001 to
