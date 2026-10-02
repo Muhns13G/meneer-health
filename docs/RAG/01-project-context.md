@@ -8,6 +8,8 @@ audience: internal
 sensitivity: internal
 sources:
   - docs/00-blueprints/master-blueprint-v1.md
+  - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
@@ -57,6 +59,11 @@ DR-010. All seven planned sprints are complete. Forty-nine of 56 original techni
 Verified; TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 retain their existing statuses
 and acceptance criteria as mandatory pilot-activation gates. Closure does not approve the pilot or
 represent missing external evidence as complete.
+
+Phase 02 Task 8.2 subsequently verifies TD-007 through DR-011's scope-removal route. The minimum
+pilot contains no product-specific peptide transaction; BPC-157 plus TB-500 remains a future
+hypothesis rather than an approved product. Fifty items are now Verified. TD-006, TD-009, TD-010,
+TD-037, TD-038 and TD-043 remain non-Verified activation gates.
 
 Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
 a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe
@@ -204,8 +211,9 @@ pilot providers disabled.
 Task 5.15 keeps that provider boundary explicit: Precise Wellness hand-off, pharmacy release, hub
 custody, courier dispatch/delivery, cancellation, and refund reconciliation use opaque identifiers
 and fingerprints only. Local provider gates are synthetic; preview and production are disabled.
-TD-014, TD-015, and TD-020 are Verified for the inactive foundation, while TD-007, TD-009, TD-010,
-and route-specific activation evidence still block real transactions.
+TD-014, TD-015, and TD-020 are Verified for the inactive foundation. TD-009, TD-010, and
+route-specific activation evidence still block real provider/payment use; DR-011 separately
+prohibits product-specific peptide transactions in the minimum pilot.
 
 Task 5.16 adds the retained-capability catalogue, exact contract-major/schema/migration registry,
 portable HTTP/contract/behaviour fixtures, CI drift check, and v1-to-v2 rehearsal/cutover/rollback

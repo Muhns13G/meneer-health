@@ -24,6 +24,9 @@ changes that boundary.
 Task 8.1 began Phase 02 on 2 October 2026 by freezing the exact repository/hosted baseline, Sprint
 08 sequence and non-goals. It introduced no runtime or hosted mutation.
 
+Task 8.2 and DR-011 subsequently verify TD-007 through the scope-removal route: the minimum pilot
+contains no product-specific peptide transaction. Six transferred items remain non-Verified.
+
 ## Reconciled Starting Point
 
 - Phase 01 is closed under DR-010 with 49 of 56 debt items Verified.
@@ -44,7 +47,7 @@ Task 8.1 began Phase 02 on 2 October 2026 by freezing the exact repository/hoste
 | ------ | ---------------------------------------------------------------------------------------------------------------------- | -------------------------------------- | ------------- |
 | 08     | Freeze the pilot operating, product, commercial, data and support contract and prepare a clean hosted baseline.        | TD-006, TD-007, TD-009, TD-010, TD-043 | DR-010        |
 | 09     | Implement invite-only identity, a minimal client profile, durable acknowledgement/consent and the client portal.       | TD-009, TD-037, TD-038                 | Sprint 08     |
-| 10     | Implement the least-privilege staff queue and manual audited protocol hand-off.                                        | TD-007, TD-009, TD-043                 | Sprint 09     |
+| 10     | Implement the least-privilege staff queue and manual audited protocol hand-off.                                        | TD-009, TD-043                         | Sprint 09     |
 | 11     | Activate approved Stripe sandbox Checkout, payment/refund exceptions and reconciliation within the real pilot journey. | TD-010                                 | Sprints 08–10 |
 | 12     | Complete notifications, support routing and live accessibility verification for the enabled journeys.                  | TD-037, TD-038, TD-043                 | Sprints 09–11 |
 | 13     | Rehearse the complete synthetic pilot, reconcile evidence and make an explicit pilot go/no-go decision.                | All Phase 02 gates                     | Sprints 08–12 |

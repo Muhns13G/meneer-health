@@ -53,6 +53,8 @@ sources:
   - docs/03-completion-reports/phase-01/phase-01-technical-debt-stabilisation.md
   - docs/02-implementation-plans/phase-02/README.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md
+  - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -60,8 +62,9 @@ sources:
 ## Phase 01 Closure Boundary
 
 Phase 01 is completed at the secure inactive-foundation boundary under DR-010. Do not translate
-that status into pilot readiness. TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 remain
-non-Verified activation gates with unchanged acceptance criteria.
+that status into pilot readiness. Task 8.2 and DR-011 subsequently verify TD-007 only through
+removal of all product-specific peptide transactions from the minimum pilot. TD-006, TD-009,
+TD-010, TD-037, TD-038 and TD-043 remain non-Verified activation gates.
 
 The approved minimum v1 target is invite-only onboarding, a minimal non-clinical client profile,
 versioned acknowledgement/consent, one-time Stripe payment, a least-privilege staff queue and a
@@ -78,9 +81,10 @@ Next.js is not a committed next generation. Continued TanStack, Next.js and dire
 remain candidates until a separate architecture and migration decision passes DR-004/TD-055.
 
 Phase 02 Sprints 08–13 are planning authority for minimum pilot enablement. Task 8.1 records the
-read-only repository/hosted baseline and freezes the Sprint 08 sequence; it is not evidence that
-later capabilities exist. Continue to answer from observed code, hosted state and completed task
-evidence until each planned task is implemented and verified.
+read-only repository/hosted baseline and freezes the Sprint 08 sequence. Task 8.2 fixes the pilot's
+product-neutral transaction boundary; it does not implement onboarding, payment or hand-off.
+Continue to answer from observed code, hosted state and completed task evidence until each planned
+task is implemented and verified.
 
 ## Current Capability Limits
 
@@ -207,7 +211,8 @@ pharmacy release, hub custody, courier dispatch/delivery, cancellation, refund, 
 out-of-order reconciliation in local synthetic Supabase. TD-014 is repository-Verified, but no
 registration, consent, booking, prescription, patient order, real partner API, customer-facing
 entry point, hosted endpoint, production price, live credential, parcel, or completed charge exists.
-TD-007, TD-009, and TD-010 still gate activation.
+TD-009 and TD-010 still gate provider activation. TD-007 is Verified only because product-specific
+peptide transactions are excluded; reintroducing one reopens the full gate.
 
 Do not describe the Task 5.14 Stripe proof as a functioning payment journey. It proves server-owned
 sandbox prices, real no-charge Checkout creation, signed-event truth, replay/refund/dispute handling,

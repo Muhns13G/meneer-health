@@ -479,6 +479,18 @@
         "post-v1 framework selection deferral"
       ],
       "last_updated": "2026-10-02"
+    },
+    {
+      "id": "DR-011",
+      "path": "docs/07-decisions/DR-011-minimum-pilot-product-pathway.md",
+      "status": "approved",
+      "authority_for": [
+        "minimum pilot product scope",
+        "TD-007 scope-removal verification",
+        "product-neutral onboarding payment and hand-off",
+        "future peptide product re-entry gate"
+      ],
+      "last_updated": "2026-10-02"
     }
   ],
   "implementation_plans": [
@@ -526,7 +538,8 @@
       "status": "in-progress",
       "authority_for": ["pilot activation inputs", "hosted baseline", "transferred external gates"],
       "task_evidence": [
-        "docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md"
       ]
     },
     {
@@ -1865,8 +1878,8 @@
       "id": "FC-005",
       "path": "docs/05-future-considerations/td-006-td-007-claims-peptide-closure.md",
       "title": "TD-006 and TD-007 Claims and Peptide Closure",
-      "status": "transferred-pilot-activation-gate",
-      "decision_due": "before-peptide-pathway-or-affected-claim-activation",
+      "status": "td-006-active-td-007-scope-removal-verified",
+      "decision_due": "before-affected-claim-or-future-peptide-product-activation",
       "last_updated": "2026-10-02",
       "topics": [
         "td-006",
