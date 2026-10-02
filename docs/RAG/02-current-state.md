@@ -10,6 +10,7 @@ source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -82,6 +83,14 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 09.1 Contract Checkpoint — 2 October 2026
+
+The identity, minimum profile, versioned instrument, state-transition, route-policy and threat
+model contract is recorded for Sprint 09.2–09.9. This is design authority, not a deployed account
+flow: `/start` remains gated, public registration remains disabled, and no client profile,
+transactional publication/receipt or portal has been created by Task 9.1. The suspended hosted
+tenant and Sprint 08 activation gates are unchanged.
 
 ## Sprint 08 Closure — 2 October 2026
 

@@ -40,8 +40,10 @@ open for the listed external evidence, agreements and channels.
 Sprint 08 is completed with activation gates after Task 8.10 reconciles its decisions, hosted
 baseline and evidence. The [completion report](../../03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md)
 records the superseded product exclusion, contract-level completion and seven remaining debts.
-Sprint 09.1 is ready for contract/implementation work; final external schedules and rendered domain
-approvals remain required before the applicable customer capability is enabled.
+Sprint 09.1 has frozen the identity/profile/instrument state, route and threat-model contract in
+its [annexure](annexures/sprint-09-1-identity-profile-consent-contract.md). Sprint 09.2 can now
+implement the portable database boundary. Final external schedules and rendered domain approvals
+remain required before the applicable customer capability is enabled.
 
 - Phase 01 is closed under DR-010 with 49 of 56 debt items Verified.
 - TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 transfer unchanged as activation gates.
