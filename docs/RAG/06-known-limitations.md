@@ -130,7 +130,10 @@ code-only local invite template and a first-party email/code page; synthetic loc
 proves `type: "invite"` verification without a token URL. The page's proof cookie is short-lived
 and non-authorising. Do not treat this as a working client account: hosted invite template,
 tracking policy, migration, secret and delivery are unverified; staff sending remains unrouted;
-Tasks 9.5–9.6 must implement session lifecycle and atomic profile/receipt activation.
+Task 9.5 implements the session lifecycle locally, but it cannot issue a pilot session until
+Task 9.6 atomically activates a profile and current account/privacy receipts. Hosted code-only
+email templates, the separate session-encryption secret and synthetic hosted verification remain
+unproven under Task 9.9. Do not treat the local flow as an active client account.
 
 Task 8.6 and DR-015 approve instrument semantics, not published transactional terms or functioning
 acceptance/consent. Do not display internal baselines, unresolved schedules or bracketed hand-off

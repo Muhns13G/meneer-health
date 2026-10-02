@@ -87,6 +87,19 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 09.5 Local Patient Session Checkpoint — 3 October 2026
+
+First-party sign-in, recovery and sign-out routes now have a locally tested managed-identity
+session lifecycle. The encrypted host-only cookie keeps provider tokens server-side. A patient
+session requires one active tenant membership, committed profile, latest `activated` lifecycle
+event and current account/privacy
+receipts; renewal rechecks them, sign-out revokes locally first, and recovery revokes all sessions
+without signing in. Synthetic Supabase/Mailpit delivery proved code-only sign-in/recovery emails
+while public self-sign-up remains disabled. This is a **local implementation checkpoint**, not
+hosted activation: the hosted templates/secret/migrations and an active account are absent, and
+Tasks 9.6–9.9 retain activation, portal and hosted-proof gates. See the
+[9.5 evidence](../02-implementation-plans/phase-02/annexures/sprint-09-5-patient-session-lifecycle.md).
+
 ## Sprint 09.4 Local Invitation OTP Checkpoint — 3 October 2026
 
 The repository now has a first-party, noindex code-entry route, a code-only local Supabase invite

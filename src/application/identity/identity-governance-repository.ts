@@ -61,6 +61,10 @@ export interface IdentityGovernanceRepository {
     acceptedAt: Date,
   ): Promise<IdentityInvitation>;
   createRecoveryCase(input: CreateRecoveryCase): Promise<IdentityRecoveryCase>;
+  findActivePatientRecoveryCase(
+    subjectId: SubjectId,
+    now: Date,
+  ): Promise<IdentityRecoveryCase | null>;
   approveWorkforceRecovery(
     recoveryCaseId: string,
     approverSubjectId: SubjectId,

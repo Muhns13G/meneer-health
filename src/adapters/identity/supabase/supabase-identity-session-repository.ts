@@ -234,6 +234,26 @@ export class SupabaseIdentitySessionRepository implements IdentitySessionReposit
       throw new IdentitySessionUnavailableError();
     }
   }
+
+  async revokeAllForSubject(subjectId: string, revokedAt: Date, reason: string): Promise<void> {
+    if (!reason.trim()) throw new IdentitySessionRejectedError();
+    try {
+      const { error } = await this.client
+        .from("identity_sessions")
+        .update({
+          status: "revoked",
+          revoked_at: revokedAt.toISOString(),
+          revocation_reason: reason,
+          updated_at: revokedAt.toISOString(),
+        })
+        .eq("subject_id", subjectId)
+        .eq("status", "active");
+      if (error) throw new IdentitySessionUnavailableError();
+    } catch (error) {
+      if (error instanceof IdentitySessionUnavailableError) throw error;
+      throw new IdentitySessionUnavailableError();
+    }
+  }
 }
 
 const sessionClassRank: Record<SessionClass, number> = {

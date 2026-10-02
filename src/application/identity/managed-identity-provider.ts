@@ -16,6 +16,8 @@ export interface ManagedIdentityProvider {
   requestRecovery(email: string, redirectTo: string): Promise<void>;
   verifyEmailOtp(email: string, token: string): Promise<ManagedSession>;
   verifyInvitationOtp(email: string, token: string): Promise<ManagedSession>;
+  verifyRecoveryOtp(email: string, token: string): Promise<ManagedSession>;
+  refreshSession(refreshToken: string): Promise<ManagedSession>;
   revokeSessions(accessToken: string, scope: SessionRevocationScope): Promise<void>;
   enrollWorkforceTotp(session: ManagedSession, friendlyName: string): Promise<TotpEnrollment>;
   challengeWorkforceTotp(session: ManagedSession, factorId: string): Promise<string>;

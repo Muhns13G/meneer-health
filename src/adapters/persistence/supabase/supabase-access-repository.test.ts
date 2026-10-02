@@ -18,6 +18,80 @@ function mockClient(result: { data: unknown; error: unknown }): SupabaseClient {
 }
 
 describe("SupabaseAccessRepository", () => {
+  it("requires an active profile and both current, non-withdrawn account receipts", async () => {
+    const rows: Record<string, { data: unknown; error: null }> = {
+      client_profiles: { data: { id: "profile" }, error: null },
+      pilot_instrument_publications: {
+        data: [
+          { id: "terms", instrument_id: "pilot-account-terms" },
+          { id: "privacy", instrument_id: "pilot-privacy-notice" },
+        ],
+        error: null,
+      },
+      pilot_instrument_receipts: {
+        data: [
+          {
+            id: "terms-receipt",
+            publication_id: "terms",
+            instrument_id: "pilot-account-terms",
+            action: "accepted",
+          },
+          {
+            id: "privacy-receipt",
+            publication_id: "privacy",
+            instrument_id: "pilot-privacy-notice",
+            action: "acknowledged",
+          },
+        ],
+        error: null,
+      },
+      pilot_instrument_receipt_events: { data: [], error: null },
+      pilot_account_lifecycle_events: { data: [{ event_type: "activated" }], error: null },
+    };
+    const client = {
+      from: vi.fn((table: string) => {
+        const result = rows[table];
+        return {
+          select() {
+            return this;
+          },
+          eq() {
+            return this;
+          },
+          in() {
+            return this;
+          },
+          lte() {
+            return this;
+          },
+          or() {
+            return this;
+          },
+          order() {
+            return this;
+          },
+          limit() {
+            return this;
+          },
+          maybeSingle: async () => result,
+          returns: async () => result,
+        };
+      }),
+    } as unknown as SupabaseClient;
+    const repository = new SupabaseAccessRepository(client);
+    const tenant = "10000000-0000-4000-8000-000000000001";
+    const subject = "20000000-0000-4000-8000-000000000001";
+    await expect(repository.hasPilotAccountEvidence(tenant, subject)).resolves.toBe(true);
+    rows.pilot_instrument_receipt_events = {
+      data: [{ receipt_id: "privacy-receipt" }],
+      error: null,
+    };
+    await expect(repository.hasPilotAccountEvidence(tenant, subject)).resolves.toBe(false);
+    rows.pilot_instrument_receipt_events = { data: [], error: null };
+    rows.pilot_account_lifecycle_events = { data: [{ event_type: "suspended" }], error: null };
+    await expect(repository.hasPilotAccountEvidence(tenant, subject)).resolves.toBe(false);
+  });
+
   it("maps provider tenant rows to the provider-neutral model", async () => {
     const repository = new SupabaseAccessRepository(
       mockClient({

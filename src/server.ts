@@ -14,6 +14,10 @@ import {
   type PatientVerificationBindings,
 } from "./server/identity/patient-verification-http";
 import {
+  createPatientSessionHttpHandler,
+  type PatientSessionBindings,
+} from "./server/identity/patient-session-http";
+import {
   classifyTelemetryEnvironment,
   durationBucket,
   emitTelemetry,
@@ -77,13 +81,28 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
       try {
         response = await executeWithRequestTimeout(
           request,
-          (boundedRequest) =>
-            boundedRequest.method === "POST" &&
-            new URL(boundedRequest.url).pathname === "/account/verify"
-              ? createPatientVerificationHttpHandler(env as unknown as PatientVerificationBindings)(
-                  boundedRequest,
-                )
-              : Promise.resolve(entry.fetch(boundedRequest, args[1])),
+          (boundedRequest) => {
+            const pathname = new URL(boundedRequest.url).pathname;
+            if (boundedRequest.method === "POST" && pathname === "/account/verify") {
+              return createPatientVerificationHttpHandler(
+                env as unknown as PatientVerificationBindings,
+              )(boundedRequest);
+            }
+            if (
+              boundedRequest.method === "POST" &&
+              [
+                "/account/sign-in",
+                "/account/recover",
+                "/account/sign-out",
+                "/account/session/renew",
+              ].includes(pathname)
+            ) {
+              return createPatientSessionHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            return Promise.resolve(entry.fetch(boundedRequest, args[1]));
+          },
           undefined,
           () => {
             timedOut = true;

@@ -18,6 +18,7 @@ export interface IdentitySessionRepository {
   findActive(providerSessionId: string, now: Date): Promise<IdentitySession | null>;
   touch(session: IdentitySession, now: Date): Promise<IdentitySession>;
   revoke(sessionId: string, revokedAt: Date, reason: string): Promise<void>;
+  revokeAllForSubject(subjectId: SubjectId, revokedAt: Date, reason: string): Promise<void>;
 }
 
 const sessionLimits: Record<

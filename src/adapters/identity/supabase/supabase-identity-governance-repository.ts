@@ -242,6 +242,26 @@ export class SupabaseIdentityGovernanceRepository implements IdentityGovernanceR
     });
   }
 
+  async findActivePatientRecoveryCase(
+    subjectId: SubjectId,
+    now: Date,
+  ): Promise<IdentityRecoveryCase | null> {
+    return this.execute(async () => {
+      const { data, error } = await this.client
+        .from("identity_recovery_cases")
+        .select(recoveryProjection)
+        .eq("subject_id", subjectId)
+        .eq("recovery_class", "patient")
+        .eq("status", "requested")
+        .gt("expires_at", now.toISOString())
+        .order("requested_at", { ascending: false })
+        .limit(1)
+        .maybeSingle<RecoveryRow>();
+      if (error) throw new IdentityGovernanceUnavailableError();
+      return data ? mapRecovery(data) : null;
+    });
+  }
+
   async approveWorkforceRecovery(
     recoveryCaseId: string,
     approverSubjectId: SubjectId,
