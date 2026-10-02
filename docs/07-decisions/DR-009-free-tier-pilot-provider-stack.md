@@ -110,6 +110,9 @@ eligible company-owned allocation or a paid plan. Neither is assumed by this rec
 
 ## Pilot Data Map
 
+DR-014 narrows the `Contact/profile` row to the approved minimum client profile. It does not broaden
+any permitted processor or purpose.
+
 | Data class         | Minimum examples                                                      | System of record                              | Permitted processors                                 | Explicit exclusions                                         |
 | ------------------ | --------------------------------------------------------------------- | --------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- |
 | Identity/access    | Opaque subject ID, verified email, factor/session state               | Supabase Auth; stable mapping in PostgreSQL   | Supabase, Meneer server                              | Passwords, raw TOTP secrets, user metadata as authority     |

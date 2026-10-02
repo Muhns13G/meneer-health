@@ -59,6 +59,8 @@ sources:
   - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
   - docs/07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
+  - docs/07-decisions/DR-014-minimum-client-profile-data-rights.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -101,6 +103,13 @@ allocation and refund rules are approved inputs. Do not expose the confidential 
 schedule, seed Stripe directly from the PDF, accept browser-supplied totals, promise availability
 or imply a product transaction is lawful or active. TD-007, TD-009 and TD-010 retain their
 authority, pathway, agreement, implementation and release gates.
+
+Task 8.5 and DR-014 approve the minimum profile contract, not a functioning profile. Do not state
+that registration, durable profile storage, correction, export, deletion or client/staff profile
+views exist. Do not add health, product, address, identity-document, credential or free-text fields
+to the profile; delivery address belongs to a later approved order record. Verified email comes
+from managed identity, and WhatsApp preference is operational contact permission—not marketing
+consent or authority to send sensitive content.
 
 ## Current Capability Limits
 

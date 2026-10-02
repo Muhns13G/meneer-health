@@ -14,6 +14,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md
   - docs/07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
+  - docs/07-decisions/DR-014-minimum-client-profile-data-rights.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
@@ -79,6 +81,13 @@ the first approved order, Precise Wellness schedule RRP, VAT-inclusive planning,
 delivery, Meneer as the Stripe merchant brand, OCTOTHORP ZA as current legal seller/invoice issuer,
 manual one-time purchases and defined refunds. Stripe and product transactions remain disabled
 until the downstream implementation, external evidence and release gates pass.
+
+Task 8.5 and DR-014 approve the minimum non-clinical client profile. Client-entered data is limited
+to given/family name, mobile/WhatsApp and operational contact preference; verified email is sourced
+from managed identity, and internal identity/lifecycle facts remain server-owned. Health, product,
+address, credential and free-text data are excluded. Role projections, correction/export/deletion
+and 90-day post-closure profile disposition are fixed for Sprint 9 implementation. No profile or
+hosted processing is active yet.
 
 Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
 a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe

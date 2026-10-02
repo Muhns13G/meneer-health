@@ -280,3 +280,7 @@ TD-013 remains open until this server-side implementation and horizontal/vertica
 Review before selecting/provisioning identity, enabling any authenticated route, adding a role,
 tenant, provider or privileged action, changing session/recovery/MFA policy, after access or identity
 incident, during access review, and before each framework or identity-provider migration.
+
+> **Phase 02 refinement:** DR-014 fixes the minimum client-profile fields and actor-specific
+> projections that Sprint 9 must enforce. It does not change this decision's deny-default,
+> contextual or step-up authorisation requirements.

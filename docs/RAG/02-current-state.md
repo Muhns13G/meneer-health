@@ -72,6 +72,8 @@ sources:
   - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
   - docs/07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-4-commercial-pricing-benchmark.md
+  - docs/07-decisions/DR-014-minimum-client-profile-data-rights.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
 ---
 
 # Meneer v1 Verified Current State
@@ -121,6 +123,14 @@ VAT-inclusive planning, separately charged delivery, Meneer as the customer-faci
 brand, OCTOTHORP ZA as current legal seller/invoice issuer, manual purchases and defined refunds.
 The confidential schedule stays outside Git. TD-010 remains In progress for the private catalogue,
 delivery rates, final terms/domain approvals, Stripe sandbox implementation and exception proof.
+
+Task 8.5 is completed at the decision/evidence level. DR-014 approves the exact minimum
+non-clinical profile, purposes, classifications, lifecycle, rights and staff projections. It
+excludes passwords, identity numbers, birth/age/sex fields, addresses, health/clinical/product
+content, payment-card data and free text. The existing profile prototype remains inaccessible and
+is not implementation authority; Sprint 9 must add the versioned server record and prove RLS,
+contextual access, correction/export/deletion and accessibility. TD-009, TD-037 and TD-038 remain
+In progress.
 
 ## Sprint 07 Closure — 14 August 2026
 
