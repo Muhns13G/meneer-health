@@ -75,8 +75,15 @@ dose rounding require provider resolution and clinician verification. Sprint 10 
 a staff-mediated, auditable minimum-data hand-off; TD-009 remains In progress for the exact external
 parties, agreements, authority and implemented reconciliation boundary.
 
-- Hosted Supabase contains the expected 33-table foundation, no Auth users or operational records,
-  and only synthetic/bootstrap state requiring a controlled reset before pilot use.
+Task 8.9 completes the authorised hosted synthetic reset and establishes the clean pilot database
+baseline. All 16 committed migrations are in exact local/remote parity without hosted seed data.
+The project contains one suspended `meneer-pilot` tenant, 12 migration-defined provider gates, zero
+Auth users and zero operational/audit records. Anonymous access fails closed; inactive API,
+measurement and retired-MCP probes pass. Advisor output contains informational deny-all RLS and
+pre-traffic index notices only; no warning or error was reported.
+
+- Hosted Supabase contains the clean 16-migration foundation, one suspended pilot tenant, no Auth
+  users or operational records, and no local synthetic seed data.
 - Public sign-up is disabled and the public site remains non-transactional.
 - Stripe Checkout, signed webhooks, payment reconciliation and fulfilment contracts exist only as
   inactive/test-mode foundations; the hosted payment routes are disabled.

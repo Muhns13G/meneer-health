@@ -35,6 +35,11 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.
+- `bun --env-file=.env.production.local run test:baseline:hosted` verifies the hosted pilot has one
+  suspended tenant, zero identities and no other service-readable application data; direct database
+  evidence covers tables deliberately hidden from the service role. The command requires the
+  documented hosted-target and redacted read-only guards; its inventory-only guard reports counts
+  before an authorised reset without printing row content.
 - `bun --env-file=.env.production.local run test:payments:provider` performs the explicit no-charge
   Stripe sandbox exercise; never run it in ordinary CI or with live credentials.
 - `bun run exercise:incident` runs the payload-free dependency/break-glass incident rehearsal.

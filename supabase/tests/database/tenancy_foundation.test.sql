@@ -3,7 +3,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(26);
+select plan(28);
 
 select has_table('public', 'tenants', 'tenants table exists');
 select has_table('public', 'subjects', 'subjects table exists');
@@ -91,7 +91,21 @@ select is(
   0::bigint,
   'server service role has no non-read foundation-table privileges'
 );
-select is((select count(*) from public.tenants), 2::bigint, 'two synthetic tenants are seeded');
+select is(
+  (select count(*) from public.tenants),
+  3::bigint,
+  'one suspended pilot tenant and two synthetic tenants are present locally'
+);
+select is(
+  (select status from public.tenants where slug = 'meneer-pilot'),
+  'suspended',
+  'the pilot tenant fails closed until a later release task activates it'
+);
+select is(
+  (select display_name from public.tenants where slug = 'meneer-pilot'),
+  'Meneer Health Pilot',
+  'the pilot tenant has the approved working-brand display name'
+);
 select is((select count(*) from public.subjects), 3::bigint, 'three synthetic subjects are seeded');
 select is(
   (select count(*) from public.tenant_memberships),
