@@ -140,6 +140,12 @@ hand-off until Sprint 10 proves its governed boundary. Require provider correcti
 verification before relying on generated dosing. The provider's exact legal identity, professional
 authority and agreements remain unverified.
 
+Task 8.9 replaces the previous synthetic/bootstrap hosted state with one suspended pilot tenant and
+no Auth user or operational data. Treat this as a clean inactive database baseline, not a working
+account or pilot journey. The current no-policy RLS notices are intentional deny-all controls.
+Reassess the informational foreign-key and unused-index advisor findings after representative
+Sprint 09–13 query traffic exists; do not optimise or remove indexes from an empty workload alone.
+
 ## Current Capability Limits
 
 Do not state that Meneer currently provides functioning registration, consent capture, medical questionnaires, clinician review, prescribing, payment, pharmacy fulfilment, delivery tracking, support case management, or follow-up. The v1 interface implies several of these capabilities but does not implement their backend or durable records.

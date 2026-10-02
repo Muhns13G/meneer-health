@@ -40,6 +40,7 @@
     "test:audit": "bun run scripts/test-supabase-audit-integration.ts",
     "test:security-evidence": "bun run scripts/test-supabase-security-evidence-integration.ts",
     "test:security:hosted": "bun run scripts/test-hosted-request-security.ts",
+    "test:baseline:hosted": "bun run scripts/test-hosted-pilot-baseline.ts",
     "test:intent:hosted": "bun run scripts/test-hosted-treatment-intent.ts",
     "test:measurement": "bun run scripts/test-supabase-measurement-integration.ts",
     "test:measurement:hosted": "bun run scripts/test-hosted-measurement-network.ts",

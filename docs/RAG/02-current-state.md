@@ -104,6 +104,13 @@ approval/send were not exercised. The dashboard pending count contradicted the p
 and generated dosing text contained inconsistent rounding. External party authority, agreements,
 provider correction, clinician verification and governed Meneer hand-off remain activation inputs.
 
+Task 8.9 establishes the clean hosted Supabase baseline after owner-authorised synthetic reset.
+All 16 committed migrations match remotely. Hosted state contains one suspended `meneer-pilot`
+tenant, the 12 migration-defined fulfilment gates, zero Auth users and zero operational/audit
+records. Anonymous tenant access, inactive APIs, measurement and retired MCP all fail closed.
+Advisor results contain informational deny-all RLS and pre-traffic index notices only; they do not
+activate any browser policy or transactional capability.
+
 The successor framework is not selected. Next.js and direct Laravel/React are candidates alongside
 continued TanStack delivery; any migration remains subject to DR-004, TD-055 and a separate
 approved implementation/rehearsal plan.

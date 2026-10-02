@@ -29,7 +29,7 @@ peptide authority.
 | 8.6  | Approve versioned terms, privacy acknowledgement and any consent required before identity, payment or hand-off.                                                         | TD-009, TD-010    | Completed  |
 | 8.7  | Verify dedicated privacy, complaint and clinical/adverse-event channels, owners, hours, delivery and fallback behaviour.                                                | TD-043            | Completed  |
 | 8.8  | Inspect the protocol portal with its owner and record whether patient links, export, status, API or webhook capabilities exist; retain manual hand-off unless verified. | TD-009, DR-013    | Completed  |
-| 8.9  | Perform an authorised hosted synthetic reset/reseed, run database/security advisors, reconcile migrations and record the pilot tenant baseline.                         | Hosted activation | Planned    |
+| 8.9  | Perform an authorised hosted synthetic reset/reseed, run database/security advisors, reconcile migrations and record the pilot tenant baseline.                         | Hosted activation | Completed  |
 | 8.10 | Reconcile decisions, registry/RAG and issue the Sprint 08 completion report.                                                                                            | All               | Planned    |
 
 ## Acceptance Gate
@@ -64,3 +64,4 @@ anonymous denial and disabled preview/provider gates.
 - [Task 8.6 transactional instrument set](annexures/sprint-08-6-transactional-instrument-set.md)
 - [Task 8.7 support-channel activation contract](annexures/sprint-08-7-support-channel-activation-contract.md)
 - [Task 8.8 synthetic protocol-portal capability evidence](annexures/sprint-08-8-protocol-portal-capability-evidence.md)
+- [Task 8.9 hosted pilot baseline evidence](annexures/sprint-08-9-hosted-pilot-baseline-evidence.md)
