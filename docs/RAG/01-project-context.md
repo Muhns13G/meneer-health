@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-08-13
+last_updated: 2026-10-02
 audience: internal
 sensitivity: internal
 sources:
@@ -38,6 +38,8 @@ sources:
   - docs/02-implementation-plans/phase-01/annexures/sprint-03-8-architecture-validation-evidence.md
   - docs/03-completion-reports/phase-01/sprint-03-operating-model-architecture.md
   - docs/03-completion-reports/phase-01/sprint-06-journey-ux-accessibility.md
+  - docs/07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md
+  - docs/03-completion-reports/phase-01/phase-01-technical-debt-stabilisation.md
 ---
 
 # Meneer Project Context
@@ -49,6 +51,22 @@ Meneer is intended to become a South African direct-to-consumer men's health ser
 The product is intended to reduce embarrassment and practical friction without becoming a medication storefront or allowing conversion objectives to override clinical judgement. Hims and Ro are breadth and convenience references; AndroLab is a relevant South African competitor. Their content, claims, pricing, and clinical pathways are not automatically valid for Meneer.
 
 ## Current Product Stage
+
+Phase 01 formally closed on 2 October 2026 at the secure inactive-foundation boundary under
+DR-010. All seven planned sprints are complete. Forty-nine of 56 original technical-debt items are
+Verified; TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 retain their existing statuses
+and acceptance criteria as mandatory pilot-activation gates. Closure does not approve the pilot or
+represent missing external evidence as complete.
+
+Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
+a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe
+payment, a least-privilege staff queue, and an auditable manual hand-off to the external protocol
+portal. Health intake and protocol content should remain in that professional system unless a
+separately reviewed integration requires otherwise. No API or webhook is currently verified.
+
+The post-v1 framework is undecided. Next.js is no longer a committed intermediate generation; a
+future decision may retain TanStack longer, select Next.js, or move directly to Laravel/React while
+preserving the portable contracts, migrations, fixtures and reconciliation requirements.
 
 The repository is v1: a Lovable-generated TanStack Start MVP intended for a controlled one-month,
 real-transaction pilot after stabilisation and deployment to an approved host. Marketing is public, while the

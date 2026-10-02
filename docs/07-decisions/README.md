@@ -3,7 +3,7 @@ document_id: decision-record-index
 title: Decision Record Index
 status: active
 owner: "@Muhns13G"
-last_updated: 2026-08-08
+last_updated: 2026-10-02
 ---
 
 # Decision Record Index
@@ -58,6 +58,12 @@ source documents without explicit authorisation.
 | ID     | Planned record                                                             | Accountable role   | Task | Status   |
 | ------ | -------------------------------------------------------------------------- | ------------------ | ---- | -------- |
 | DR-009 | [Free-tier pilot provider stack](DR-009-free-tier-pilot-provider-stack.md) | Architecture owner | 5.5  | Approved |
+
+## Phase 01 Closure Register
+
+| ID     | Record                                                                                           | Accountable role | Milestone | Status   |
+| ------ | ------------------------------------------------------------------------------------------------ | ---------------- | --------- | -------- |
+| DR-010 | [Phase 01 closure and minimum pilot boundary](DR-010-phase-01-closure-minimum-pilot-boundary.md) | Business owner   | Phase 01  | Approved |
 
 ## Required Maintenance
 

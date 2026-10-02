@@ -3,7 +3,7 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-08-13
+last_updated: 2026-10-02
 audience: internal
 sensitivity: internal
 ---
@@ -18,6 +18,10 @@ sensitivity: internal
 - **Verified:** completed and independently checked against recorded acceptance evidence.
 - **Proposed:** recommended but not approved.
 - **Placeholder:** visible or coded material that is incomplete and must not be treated as operational.
+- **Completed inactive foundation:** planned engineering is implemented and verified with unsafe or
+  incomplete capabilities still disabled; it is not activation or release approval.
+- **Transferred activation gate:** an unresolved item carried intact into the next delivery plan.
+  Transfer does not waive, downgrade or verify its acceptance criteria.
 
 ## Release Terms
 
@@ -26,9 +30,11 @@ sensitivity: internal
 
 - **Pilot charter:** the proposed or approved participant, journey, operating, measurement, stop,
   activation, and exit boundary; a charter does not itself activate a release.
-- **v2:** planned Next.js generation intended to absorb v1 learning and support public launch.
+- **Post-v1 public product:** the future generation that absorbs v1 learning and supports public
+  launch; continued TanStack, Next.js and direct Laravel/React remain candidates until selected.
 - **Public launch:** unrestricted intended-market availability after the complete public release gate passes.
-- **v3:** conditional Laravel API and React evolution triggered by demonstrated scale or operational complexity.
+- **Later scale evolution:** conditional platform change triggered by demonstrated scale or
+  operational complexity; Laravel/React may instead be selected directly for the post-v1 product.
 - **Migration by absorption:** preserving validated behaviour, contracts, data, and tests while deliberately improving or removing weaknesses.
 - **Pilot provider stack:** DR-009's selected v1 combination of Supabase Free, Brevo Free,
   Cloudflare telemetry and EU R2 recovery exports, Better Stack uptime/heartbeats, and Stripe test

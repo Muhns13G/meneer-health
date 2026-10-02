@@ -1,9 +1,9 @@
 ---
 plan_id: phase-01-technical-debt-stabilisation
 title: Phase 01 Technical Debt Stabilisation
-status: in-progress
-last_updated: 2026-08-10
-owner: unassigned
+status: completed-inactive-foundation
+last_updated: 2026-10-02
+owner: "@Muhns13G"
 ---
 
 # Phase 01 — Technical Debt Stabilisation
@@ -15,6 +15,21 @@ v1 pilot baseline on an approved host. Public marketing remains open, while the 
 restricted to the enrolled cohort. Phase 01 covers every item in Technical Debt Registry v1. An item
 may be resolved by implementing, removing, or explicitly deferring a capability when the registry's
 acceptance evidence permits it; framework migration alone does not close debt.
+
+## Phase Closure
+
+Phase 01 formally closed on 2 October 2026 under
+[DR-010](../../07-decisions/DR-010-phase-01-closure-minimum-pilot-boundary.md) at the secure,
+deliberately inactive foundation. All seven planned sprints are complete. Forty-nine of 56 debt
+items are Verified; TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 retain their existing
+statuses and acceptance criteria as mandatory pilot-activation gates.
+
+This approved transfer does not waive, downgrade or falsely verify those items. It separates
+completed stabilisation engineering from evidence that can exist only when the minimum pilot
+journey and accountable external parties are ready. The phase-level outcome is recorded in the
+[completion report](../../03-completion-reports/phase-01/phase-01-technical-debt-stabilisation.md).
+No pilot, transaction, health-data collection, peptide pathway, public claim, payment route or
+framework migration is activated by closure.
 
 “Phase 01” is the delivery phase. Registry priorities `P0`, `P1`, `P2`, and `P3` describe urgency and must not be confused with the phase number.
 
@@ -136,14 +151,18 @@ Completion reports should be stored under `docs/03-completion-reports/phase-01/`
 
 ## Phase Completion Gate
 
-Phase 01 completes only when:
+Phase 01 completed when:
 
-- TD-001 through TD-056 are each `Verified`, including approved disable/defer outcomes where appropriate.
+- Every TD-001 through TD-056 item was either `Verified` or explicitly transferred, without status
+  dilution, to the next pilot-activation plan by an approved decision record.
 - The approved v1 pilot scope and operating model are recorded.
 - Preview and production paths on the selected host are verified without unintended Lovable or obsolete platform dependencies.
 - Frozen install, lint, typecheck, automated tests, build, dependency policy, and critical browser checks pass.
 - Enabled submissions have durable monitored destinations and cannot report false success.
 - Security, privacy, support, incident, rollback, and data-lifecycle procedures exist for the enabled pilot scope.
 - The internal RAG corpus reflects the completed implementation and clearly separates remaining public-launch work.
+
+DR-010 satisfies the transfer rule for TD-006, TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043.
+Those gates still block their corresponding Phase 2 capability and pilot release.
 
 Phase completion does not automatically authorise public launch. The blueprint's separate public-launch gate remains controlling.

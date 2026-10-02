@@ -4,12 +4,14 @@
 
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05
-- **Last amended:** 2026-08-12
+- **Last amended:** 2026-10-02
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
 - **Current implementation:** Lovable-origin TanStack Start v1 MVP with repository-owned Cloudflare
   configuration; `itws-I-preview` temporarily remains the Cloudflare production branch serving
   `meneerhealth.co.za`, while `itws-I` is the permanent source boundary
 - **Purpose:** Define the intended destination before further feature development begins
+- **Current phase:** Phase 01 closed at the secure inactive-foundation boundary under DR-010;
+  minimum pilot enablement is the next planning boundary
 
 ## Executive Vision
 
@@ -22,8 +24,8 @@ The current repository proves the acquisition concept and visual direction. It d
 Meneer will evolve through deliberate product generations rather than treating each framework change as a clean rewrite:
 
 1. **v1 — TanStack Start pilot:** remove Lovable coupling, explicitly own and verify the Cloudflare runtime, stabilise the experience, and operate a controlled one-month pilot with a test client group. v1 must not imply that unimplemented clinical or operational actions occurred.
-2. **v2 — Next.js public launch:** absorb validated v1 journeys, language, analytics, domain rules, data contracts, and test cases; correct pilot findings; and deliver the first public-launch architecture.
-3. **v3 — Laravel API and React:** introduce a mature service backend when real user volume, client operations, integrations, or organisational scale justify it. Preserve compatible contracts and migrate data through rehearsed, reversible procedures.
+2. **Post-v1 public product:** absorb validated v1 journeys, language, domain rules, data contracts and test cases into the approved successor architecture. Continued TanStack delivery, Next.js and a direct Laravel/React implementation remain candidates; none is selected before pilot evidence and a migration decision.
+3. **Scale evolution:** introduce or expand a service-oriented backend when real demand, client operations, integrations or organisational scale justify it. Preserve compatible contracts and migrate data through rehearsed, reversible procedures.
 
 Frameworks are replaceable delivery shells. The durable product consists of the domain model, approved content, workflow states, API contracts, database schema, audit events, security rules, migration history, and acceptance tests. Every generation must demonstrate behavioural equivalence for retained capabilities and document intentional improvements or removals.
 
@@ -32,7 +34,11 @@ queries, results, events, errors, and audit facts. Contract majors, runtime vali
 concurrency, safe errors, reconciliation, compatibility, cutover, and rollback rules survive each
 framework generation; generated types and framework handlers are adapters only.
 
-After Sprint 01 comparison, the repository owner selected Cloudflare for the TanStack v1 pilot. Vercel remains a possible host for the planned Next.js v2 and is not a v1 dependency. Platform-specific services may support deployment, previews, functions, logs, and assets, but core patient and clinical data must remain portable and platform services must not become the only expression of clinical rules or authoritative workflow state.
+After Sprint 01 comparison, the repository owner selected Cloudflare for the TanStack v1 pilot.
+Vercel remains a possible future host, but Next.js is no longer a committed intermediate generation
+and Vercel is not a v1 dependency. Platform-specific services may support deployment, previews,
+functions, logs and assets, but core patient and clinical data must remain portable and platform
+services must not become the only expression of clinical rules or authoritative workflow state.
 
 The v1 release contract is documented in
 `docs/06-operations/cloudflare-environments-release-runbook.md`. The repository pins its Bun and
@@ -343,6 +349,10 @@ Replace the Lovable Vite wrapper, virtual assets, branding, MCP telemetry/manife
 
 Define exactly which journeys the test group will use and whether each is functional, manually operated, waitlisted, or demonstrative. Approve the participating entity, clinician/support responsibilities, consent basis, data map, policies, treatment claims, peptide disposition, success measures, incident response, and exit criteria. Produce reviewed pilot journey maps and acceptance criteria.
 
+Phase 01 technical-debt stabilisation closed on 2 October 2026 under DR-010 at the secure inactive-
+foundation boundary. Seven unresolved external or live-journey items transferred without status
+dilution as mandatory pilot-activation gates. Closure is not pilot approval.
+
 ### Phase 2 — Implement the minimum safe v1 pilot
 
 Implement only the approved pilot scope, including real registration, intake, approved clinical
@@ -359,9 +369,12 @@ Run the time-boxed pilot with the approved test group only after the pilot gate 
 
 Classify findings as retain, improve, remove, or defer. Freeze the validated journeys, terminology, domain rules, content decisions, fixtures, data contracts, and acceptance tests that v2 must absorb. Produce a migration plan and reconcile or securely dispose of pilot data under the approved policy.
 
-### Phase 5 — Build the Next.js patient and clinical foundation
+### Phase 5 — Build the successor patient and clinical foundation
 
-Implement identity, verified contact methods, consent records, patient profiles, authorisation, audit logging, secure storage, account rights, versioned questionnaires, triage rules, clinician queues, consultations, decision records, laboratory workflows, and follow-up plans. Prove retained v1 behaviour with cross-generation acceptance tests.
+Implement identity, verified contact methods, consent records, patient profiles, authorisation,
+audit logging, secure storage, account rights, versioned questionnaires, triage rules, clinician
+queues, consultations, decision records, laboratory workflows and follow-up plans in the approved
+successor architecture. Prove retained v1 behaviour with cross-generation acceptance tests.
 
 ### Phase 6 — Expand commerce and fulfilment
 
@@ -370,13 +383,18 @@ delivery, refund, reconciliation, notification, and exception contracts into v2.
 only where pilot evidence justifies it, and rehearse retries, partial failures, manual recovery, and
 financial/fulfilment reconciliation.
 
-### Phase 7 — Next.js public launch
+### Phase 7 — Successor public launch
 
 Complete security and privacy review, disaster-recovery exercise, accessibility audit, performance testing, content sign-off, operational training, support rehearsals, and staged production rollout with monitored conversion and clinical-safety metrics.
 
-### Phase 8 — Scale-triggered Laravel and React evolution
+### Phase 8 — Scale-triggered further architecture evolution
 
-Consider Laravel and React only when measured demand, multi-client operations, complex integrations, team structure, or scaling economics justify the migration. Approve it through an architecture decision, preserve API and data contracts where sound, rehearse migrations and rollback, and prove retained journeys against cross-version acceptance tests.
+Consider further platform separation or migration only when measured demand, multi-client
+operations, complex integrations, team structure or scaling economics justify it. Laravel/React may
+already be the Phase 5 successor if separately approved; otherwise it remains one later candidate.
+Approve any evolution through an architecture decision, preserve API and data contracts where
+sound, rehearse migrations and rollback, and prove retained journeys against cross-version
+acceptance tests.
 
 ## Launch Gates
 

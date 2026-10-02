@@ -1,9 +1,9 @@
 ---
 consideration_id: FC-005
 title: TD-006 and TD-007 Claims and Peptide Closure
-status: external-evidence-and-approval-required
+status: transferred-pilot-activation-gate
 decision_due: before-peptide-pathway-or-affected-claim-activation
-last_reviewed: 2026-08-14
+last_reviewed: 2026-10-02
 owner: Octothorp ZA product and release owner
 sensitivity: internal
 ---
@@ -15,6 +15,10 @@ sensitivity: internal
 Sprint 07 completed the technical foundations for governed content, exact claim registration,
 cross-channel consistency, withdrawal, rollback, and fail-closed publication. It did not manufacture
 the external evidence or professional approvals needed to close TD-006 or TD-007.
+
+DR-010 closed Phase 01 at the secure inactive-foundation boundary and transferred both items,
+without changing their status or evidence standard, into minimum-pilot enablement. Phase closure is
+not claim, product, pathway or release approval.
 
 - **TD-006 remains In progress:** 28 retained claim variants across nine families are still marked
   `pending-evidence`.
