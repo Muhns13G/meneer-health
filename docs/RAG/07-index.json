@@ -491,6 +491,19 @@
         "future peptide product re-entry gate"
       ],
       "last_updated": "2026-10-02"
+    },
+    {
+      "id": "DR-012",
+      "path": "docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md",
+      "status": "approved",
+      "authority_for": [
+        "minimum pilot responsibility allocation",
+        "OCTOTHORP ZA non-clinical service and data responsibilities",
+        "external protocol-provider separation",
+        "out-of-scope pharmacy hub courier and product roles",
+        "remaining TD-009 and TD-043 activation gates"
+      ],
+      "last_updated": "2026-10-02"
     }
   ],
   "implementation_plans": [
@@ -539,7 +552,8 @@
       "authority_for": ["pilot activation inputs", "hosted baseline", "transferred external gates"],
       "task_evidence": [
         "docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md"
       ]
     },
     {

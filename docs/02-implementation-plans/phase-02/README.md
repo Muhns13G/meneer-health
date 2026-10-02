@@ -27,6 +27,11 @@ Task 8.1 began Phase 02 on 2 October 2026 by freezing the exact repository/hoste
 Task 8.2 and DR-011 subsequently verify TD-007 through the scope-removal route: the minimum pilot
 contains no product-specific peptide transaction. Six transferred items remain non-Verified.
 
+Task 8.3 and DR-012 assign every in-scope responsibility without publishing private role holders:
+OCTOTHORP ZA owns the Meneer-controlled non-clinical service/data boundary, while the separately
+contracting external protocol provider remains a verified-before-hand-off dependency. TD-009 and
+TD-043 remain open for the listed external evidence and channels.
+
 ## Reconciled Starting Point
 
 - Phase 01 is closed under DR-010 with 49 of 56 debt items Verified.

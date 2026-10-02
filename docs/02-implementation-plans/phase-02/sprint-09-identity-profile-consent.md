@@ -3,7 +3,7 @@ plan_id: phase-02-sprint-09
 title: Invite-Only Identity, Client Profile, Consent, and Portal
 status: planned
 primary_debt: [TD-009, TD-037, TD-038]
-depends_on: [phase-02-sprint-08, DR-005, DR-007]
+depends_on: [phase-02-sprint-08, DR-005, DR-007, DR-012]
 last_updated: 2026-10-02
 owner: "@Muhns13G"
 ---

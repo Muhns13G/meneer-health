@@ -68,6 +68,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-1-pilot-activation-baseline.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md
   - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-3-responsibility-allocation.md
+  - docs/07-decisions/DR-012-minimum-pilot-responsibility-allocation.md
 ---
 
 # Meneer v1 Verified Current State
@@ -104,6 +106,12 @@ scope-removal route for TD-007: the minimum pilot contains no product-specific p
 while retained public wording stays pending under TD-006. This brings the registry to 50 Verified
 items and leaves six non-Verified activation gates. All later capabilities remain planned rather
 than implemented.
+
+Task 8.3 and DR-012 approve the product-neutral responsibility allocation: OCTOTHORP ZA owns the
+Meneer non-clinical service and data-purpose boundary, while a separately contracting verified
+external provider must own protocol/clinical work. Pharmacy, hub, courier and product supply are
+out of scope rather than assigned to placeholders. TD-009 remains In progress pending the external
+party/contract, transactional data instruments and dedicated channels; no runtime is activated.
 
 ## Sprint 07 Closure — 14 August 2026
 
