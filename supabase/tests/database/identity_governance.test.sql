@@ -101,8 +101,8 @@ select is(
       )
       and privilege_type in ('SELECT', 'INSERT', 'UPDATE')
   ),
-  21::bigint,
-  'server identity adapter receives only the three required privileges per identity table'
+  20::bigint,
+  'server identity adapter uses governed reservation rather than direct invitation insert'
 );
 select is(
   (
