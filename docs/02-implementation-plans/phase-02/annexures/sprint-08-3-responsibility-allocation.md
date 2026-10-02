@@ -59,13 +59,16 @@ representations or operational assignments.
 | Merchant, invoice and tax allocation                                      | 8.4         | Checkout disabled                               |
 
 TD-009 remains In progress because these real external and transactional particulars have not yet
-been evidenced. TD-043 remains Open until Task 8.7 verifies the dedicated channels. Task 8.3 is
+been evidenced. DR-016 subsequently approves the dedicated aliases and records successful
+synthetic delivery and receipt. TD-043 remains Open until Task 8.8/Sprint 12 verifies the external
+clinical owner and exercises routed acknowledgement, failure, escalation and fallback. Task 8.3 is
 complete because the responsibility model and the exact fail-closed ownership of every unresolved
 input are now approved; it does not falsely close either debt item.
 
 DR-014 subsequently completed Task 8.5's minimum profile field, purpose, classification, lifecycle
-and visibility decision. DR-015 subsequently supplies Task 8.6's instrument/version contract;
-verified party/channel schedules and implementation remain gated.
+and visibility decision. DR-015 subsequently supplies Task 8.6's instrument/version contract.
+DR-016 supplies the completed Task 8.7 channel contract and delivery evidence; routed operational
+implementation remains gated.
 
 ## Provider/Data Reconciliation
 

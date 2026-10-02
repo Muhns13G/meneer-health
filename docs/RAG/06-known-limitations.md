@@ -63,6 +63,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
   - docs/07-decisions/DR-015-pilot-transactional-instruments.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
+  - docs/07-decisions/DR-016-pilot-support-escalation-channels.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-7-support-channel-activation-contract.md
 ---
 
 # Meneer Known Limitations and Answer Guardrails
@@ -118,6 +120,13 @@ acceptance/consent. Do not display internal baselines, unresolved schedules or b
 values to clients. Do not treat website-only `/terms` or `/privacy` as transactional acceptance,
 infer consent from an invitation/account/payment, bundle marketing, or represent Meneer as having
 collected the external provider's clinical informed consent.
+
+Task 8.7 and DR-016 approve the `privacy@`, `complaints@` and `clinical@` Meneer aliases and their
+activation contract. Brevo accepted payload-free synthetic mail and the owner confirmed all three
+arrived. There are no fixed hours; answering within 24 hours where possible is a qualified target,
+not a guarantee or emergency service. Do not expose the aliases publicly or claim functioning case
+handling before Sprint 12. TD-043 remains Open until the clinical owner and complete routed
+acknowledgement/failure/escalation/fallback path are implemented and exercised.
 
 ## Current Capability Limits
 
@@ -397,9 +406,11 @@ live. TD-037 and TD-038 remain activation gates until an approved routed asynchr
 live keyboard and assistive-technology verification.
 
 General support at `support@meneerhealth.co.za` and mobile `112`/ambulance `10177` are the verified
-published routes. Do not invent or imply a dedicated privacy, complaint, clinical, or adverse-event
-service; TD-043 remains open until accountable owners, channels, hours, and fallback paths are
-approved and tested. The general mailbox is not an urgent clinical service.
+published routes. DR-016 records the active-but-unpublished privacy, complaint and clinical aliases,
+synthetic delivery/receipt and qualified response target. Do not imply functioning case or
+adverse-event handling; TD-043 remains open until the external clinical owner and routed failure,
+escalation and fallback paths are implemented and tested. The general mailbox is not an urgent
+clinical service.
 
 The treatment-intent cookie is a 30-minute navigation aid only. It is not identity, consent,
 eligibility, diagnosis, intake, prescription, or a durable health record. It must never enter URLs,

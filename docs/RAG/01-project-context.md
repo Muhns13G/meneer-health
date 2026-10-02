@@ -18,6 +18,8 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-5-minimum-client-profile.md
   - docs/07-decisions/DR-015-pilot-transactional-instruments.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-6-transactional-instrument-set.md
+  - docs/07-decisions/DR-016-pilot-support-escalation-channels.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-08-7-support-channel-activation-contract.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-8-safety-campaign-continuation-evidence.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-controlled-pilot-charter-v1.md
@@ -96,6 +98,13 @@ acknowledgement, order-specific terms and recipient-specific hand-off authorisat
 Necessary processing is not misrepresented as blanket consent; marketing is off and clinical
 informed consent belongs to the verified external provider. The instruments remain inactive
 pending supplier/channel/recipient schedules, domain approval and Sprints 9–11 implementation.
+
+Task 8.7 and DR-016 approve `privacy@`, `complaints@` and `clinical@` Meneer aliases and their
+purpose/fallback contract. Brevo accepted one payload-free synthetic message for each, and the owner
+confirmed all three arrived. No fixed operating hours apply; answering within 24 hours where
+possible is a qualified target, not a guarantee or emergency service. Task 8.7 is complete at
+decision/delivery level. TD-043 remains open for clinical ownership, routed handling, failure,
+escalation, fallback and live accessibility proof under Tasks 8.8 and Sprint 12.
 
 Stakeholders narrowed v1 to the minimum invite-only pilot operations system: verified onboarding,
 a minimal non-clinical client profile, versioned acknowledgement/consent, approved one-time Stripe

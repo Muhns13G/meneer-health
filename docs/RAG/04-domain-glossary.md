@@ -287,6 +287,9 @@ sensitivity: internal
   or pharmacy decision-maker.
 - **OCTOTHORP ZA:** current website operator and intended technology, marketing, general-support,
   release, and operations-coordination layer.
+- **Dedicated pilot support channel:** a purpose-specific privacy, complaint or clinical/adverse-
+  event destination with approved ownership, hours, secure follow-up, acknowledgement, failure
+  detection and fallback. Reserving an alias does not make the channel active.
 - **Clinical lead/authorised clinician:** independent authority for the applicable clinical
   protocol, decision, record, and escalation.
 - **Precise Wellness pathway:** owner-confirmed intended peptide clinical/pharmacy service identity;
