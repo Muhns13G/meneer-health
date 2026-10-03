@@ -48,6 +48,13 @@ TD-009 remains In progress for approved publication/party and hosted proof. TD-0
 Open for live keyboard/assistive-technology review of the released flow; their earlier prototype
 evidence is now supplemented by the new routed, synthetic local checks. No new debt ID is added.
 
+Task 9.7 adds locally verified own-account portal projections, exact-document reproduction and
+session-expiry/revalidation presentation, with database-enforced patient/tenant/session/receipt
+denials. See [the portal evidence](../02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md).
+No new debt ID accrued. TD-009 remains In progress for parties/publication, rights and hosted proof;
+TD-037/TD-038 remain Open for live assistive-technology review. Local portal completion does not
+activate a real account, intake, payment or clinical pathway.
+
 Task 8.2 and [DR-011](../07-decisions/DR-011-minimum-pilot-product-pathway.md) originally selected
 TD-007's scope-removal route. Task 8.4 and
 [DR-013](../07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md) supersede that

@@ -8,6 +8,7 @@ import {
 import type { Register } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
+import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import {
@@ -84,6 +85,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/portal/account") {
+              return createPatientPortalHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
             if (
               (boundedRequest.method === "POST" && pathname === "/account/activate") ||
               pathname === "/account/activate/instruments"

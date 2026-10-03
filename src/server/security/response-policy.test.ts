@@ -42,7 +42,7 @@ describe("response security policy", () => {
     expect(await secured.text()).toBe("home");
   });
 
-  it.each(["/start", "/start/step", "/peptides"])(
+  it.each(["/start", "/start/step", "/peptides", "/portal", "/portal/profile", "/portal/account"])(
     "prevents storage of the sensitive route %s",
     (pathname) => {
       const original = new Response("sensitive");
@@ -51,6 +51,7 @@ describe("response security policy", () => {
       expect(classifyResponse(request(pathname), original)).toBe("sensitive");
       expect(secured.headers.get("Cache-Control")).toBe("private, no-store, max-age=0");
       expect(secured.headers.get("X-Robots-Tag")).toBe("noindex, nofollow");
+      expect(secured.headers.get("Referrer-Policy")).toBe("no-referrer");
     },
   );
 

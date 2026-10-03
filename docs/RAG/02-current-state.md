@@ -15,6 +15,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -87,6 +88,24 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 09.7 Local Client Portal Checkpoint — 3 October 2026
+
+`/portal` and `/portal/profile` now provide a read-only, authenticated own-account view. Data-free
+HTML shells fetch a server-only projection; every read checks the sealed cookie, fresh provider
+identity, live Auth and application sessions, own tenant/subject, single active patient membership,
+verified contact, account lifecycle, profile and current exact account/privacy receipts. The client
+can retain the recorded document versions and view minimum profile/contact verification plus
+literal dispatch/delivery/cancellation states. Empty workflows do not imply payment or clinical
+progress. No clinical, product, payment or partner payload is projected.
+
+Responses are no-store/no-referrer/noindex. Private state is discarded at its session deadline,
+when hidden, or when revalidation fails; renewal is an explicit same-origin action. Successful
+sign-in links to the portal and pre-hydration submission cannot put contact details in a GET URL.
+Local database/browser evidence is recorded in the
+[9.7 annexure](../02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md).
+No hosted account or instrument was activated. Task 9.8 owns correction/rights, Task 9.9 owns hosted
+synthetic proof, and TD-037/TD-038 retain live assistive-technology approval.
 
 ## Sprint 09.6 Local Account Activation Checkpoint — 3 October 2026
 

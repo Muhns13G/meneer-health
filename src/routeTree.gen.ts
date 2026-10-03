@@ -17,6 +17,8 @@ import { Route as PosterRouteImport } from './routes/poster'
 import { Route as PeptidesRouteImport } from './routes/peptides'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
 import { Route as AccountVerifyRouteImport } from './routes/account/verify'
@@ -68,6 +70,16 @@ const ContactRoute = ContactRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/portal/',
+  path: '/portal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalProfileRoute = PortalProfileRouteImport.update({
+  id: '/portal/profile',
+  path: '/portal/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoThanksDadRoute = GoThanksDadRouteImport.update({
@@ -148,6 +160,8 @@ export interface FileRoutesByFullPath {
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
   '/api/measurement/events': typeof ApiMeasurementEventsRoute
@@ -170,6 +184,8 @@ export interface FileRoutesByTo {
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
   '/api/measurement/events': typeof ApiMeasurementEventsRoute
@@ -193,6 +209,8 @@ export interface FileRoutesById {
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
   '/api/measurement/events': typeof ApiMeasurementEventsRoute
@@ -217,6 +235,8 @@ export interface FileRouteTypes {
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/profile'
+    | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
     | '/api/measurement/events'
@@ -239,6 +259,8 @@ export interface FileRouteTypes {
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/profile'
+    | '/portal'
     | '/api/journey/intent'
     | '/api/measurement/consent'
     | '/api/measurement/events'
@@ -261,6 +283,8 @@ export interface FileRouteTypes {
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/profile'
+    | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
     | '/api/measurement/events'
@@ -284,6 +308,8 @@ export interface RootRouteChildren {
   AccountVerifyRoute: typeof AccountVerifyRoute
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
+  PortalProfileRoute: typeof PortalProfileRoute
+  PortalIndexRoute: typeof PortalIndexRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
   ApiMeasurementConsentRoute: typeof ApiMeasurementConsentRoute
   ApiMeasurementEventsRoute: typeof ApiMeasurementEventsRoute
@@ -347,6 +373,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/': {
+      id: '/portal/'
+      path: '/portal'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/profile': {
+      id: '/portal/profile'
+      path: '/portal/profile'
+      fullPath: '/portal/profile'
+      preLoaderRoute: typeof PortalProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/go/thanks-dad': {
@@ -452,6 +492,8 @@ const rootRouteChildren: RootRouteChildren = {
   AccountVerifyRoute: AccountVerifyRoute,
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
+  PortalProfileRoute: PortalProfileRoute,
+  PortalIndexRoute: PortalIndexRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,
   ApiMeasurementConsentRoute: ApiMeasurementConsentRoute,
   ApiMeasurementEventsRoute: ApiMeasurementEventsRoute,
