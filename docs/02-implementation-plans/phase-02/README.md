@@ -19,8 +19,10 @@ Owner commit `1b41ed49` and exact-commit CI run `37138262125` passed. Sprint 10.
 design boundary. Task 10.2's [persistence boundary](annexures/sprint-10-2-staff-queue-persistence.md)
 adds eight locally verified deny-default tables and portable records. Task 10.3's
 [workforce boundary](annexures/sprint-10-3-workforce-security.md) implements individual staff
-entry, TOTP/AAL2, server-derived context and governed invitation dispatch locally; Tasks 10.4–10.10 remain.
-Both Sprint 10 migrations are not applied hosted. Real-client activation is still subject to the seven
+entry, TOTP/AAL2, server-derived context and governed invitation dispatch locally. Task 10.4's
+[assigned queue](annexures/sprint-10-4-assigned-queue-projection.md) adds the locally verified read-only
+queue and masked detail; Tasks 10.5–10.10 remain.
+All three Sprint 10 migrations are not applied hosted. Real-client activation is still subject to the seven
 existing clinical, commercial and operational acceptance gates.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.

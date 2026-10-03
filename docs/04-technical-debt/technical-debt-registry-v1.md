@@ -152,6 +152,13 @@ live revocation checks and reviewed immutable invitation dispatch. Neither Sprin
 is applied hosted. Queue commands, hand-off, audit/alerts, external accountability and hosted
 staff activation proof remain outstanding; TD-009 stays In progress and TD-043 Open. No new debt ID.
 
+Task 10.4 adds the locally verified [assigned queue projection](../02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md):
+bounded read-only operations list/detail, live AAL2 and assignment checks, state filters and
+database-masked contacts. No routine admin/support browsing, raw contact export, claim or delivery
+authority is introduced. All three Sprint 10 migrations remain unapplied hosted. Tasks 10.5–10.10,
+external accountability and hosted staff activation remain; TD-009 stays In progress and TD-043 Open.
+No new debt ID is accrued by this task.
+
 Task 8.8/DR-017 subsequently verifies signed-out provider-linked intake and an authenticated
 synthetic path through intake, protocol generation, review controls and PDF-download controls. No
 supported API/webhook was found. TD-009 remains In progress for external identity, authority,

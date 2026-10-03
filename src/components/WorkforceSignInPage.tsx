@@ -250,7 +250,13 @@ export function WorkforceSignInPage() {
             Staff authentication complete. Active role: {session?.role}. This does not grant
             unassigned case access.
           </p>
-          <p>The staff queue is delivered in the next task.</p>
+          {session?.role === "operations" ? (
+            <a href="/staff/queue" className="underline">
+              Open assigned queue
+            </a>
+          ) : (
+            <p>This role does not grant operations queue access.</p>
+          )}
           <p>Session idle deadline: {session?.expiresAt}.</p>
           <button
             disabled={busy}

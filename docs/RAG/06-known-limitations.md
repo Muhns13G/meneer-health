@@ -7,6 +7,7 @@ last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
@@ -93,6 +94,18 @@ Post-deploy verification remains separate release evidence. No deployed exploit 
 is claimed. Current total: 50 Verified, seven non-Verified; clinical, commercial, operational and
 live-accessibility acceptance gates remain unchanged.
 
+## Sprint 10.4 Queue Is Read-Only and Local
+
+The assigned operations queue/list/detail is implemented locally, not activated hosted. Only
+current case-assigned operations staff may read it after live AAL2/session/context verification.
+There is no unassigned queue, raw-contact reveal/export, routine admin/support browsing, invitation
+dispatch, claim, transition or provider-delivery button. Payment and hand-off readiness remain
+`not_evaluated`; profile/email facts are not substitutes. Claims/transitions, hand-off, append-only
+access audit/alerts, client projection and full rehearsals remain Tasks 10.5–10.10. Browser synthetic
+projection fixtures prove UI behaviour, not an authenticated hosted staff session.
+All three Sprint 10 migrations need separate hosted approval/proof. TD-009 remains In progress and
+TD-043 Open; real-client activation and live assistive-technology gates remain unchanged.
+
 ## Sprint 10.3 Staff Authentication Is Not an Activated Queue
 
 Individual staff entry, TOTP/AAL2 and live server context now exist locally. A pending email/MFA
@@ -100,18 +113,18 @@ cookie cannot read a staff session; an authenticated session cannot browse unass
 Invitation does not create or approve roles; first-admin bootstrap and independent target review
 are required. Uncertain invitations stay unresolved and cannot be blindly resent; operator
 reconciliation/alerts remain Task 10.7. Email cannot reset an existing verified authenticator.
-Neither Sprint 10 migration is applied hosted; hosted workforce invitation delivery, Auth redirect/
+No Sprint 10 migration is applied hosted; hosted workforce invitation delivery, Auth redirect/
 OTP configuration, Worker session proof and owner-approved provisioning remain activation gates.
-Tasks 10.4–10.10 own the operational queue, scoped commands, hand-off and final rehearsals.
+Task 10.4 now supplies the read-only local queue; Tasks 10.5–10.10 own commands, hand-off and final rehearsals.
 TD-009 remains In progress and TD-043 Open. No new debt ID or pilot permission is introduced.
 
 ## Sprint 10.2 Records Are Not an Operational Staff Queue
 
 Eight local tables and strict portable records now exist, but every application role still has
 direct access denied. A claim is not permission; stored versions are not yet optimistic-concurrency
-commands. Task 10.3 now verifies workforce membership/AAL2 locally; case-specific assignment,
-governed transitions, recipient verification, audit/alerts and client projection remain Tasks
-10.4–10.9. Hosted has not received either new migration. Do not interpret local persistence
+commands. Tasks 10.3/10.4 now verify workforce membership/AAL2 and current case-specific read
+assignments locally; governed transitions, recipient verification, audit/alerts and client projection
+remain Tasks 10.5–10.9. Hosted has not received the three new migrations. Do not interpret local persistence
 completion as staff, provider or pilot activation.
 
 ## Sprint 10.1 Is a Contract, Not Staff Activation
@@ -132,7 +145,8 @@ TD-007, TD-009, TD-010, TD-037, TD-038 and TD-043 remain non-Verified activation
 The approved minimum v1 target is invite-only onboarding, a minimal non-clinical client profile,
 versioned acknowledgement/consent, one-time Stripe payment, a least-privilege staff queue and a
 manual auditable protocol hand-off. These are target capabilities, not current ones. Hosted payment
-is disabled; no functioning client profile or staff queue exists; and no protocol API/webhook or authenticated
+is disabled; local profile and assigned read-only queue implementations are not real-client activation;
+and no protocol API/webhook or authenticated
 Meneer integration has been verified.
 
 Treat the protocol portal as a separate professional system. Do not copy health data into Meneer,
