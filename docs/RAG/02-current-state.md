@@ -17,6 +17,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -90,6 +91,35 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 09.9 Hosted Database Proof — 3 October 2026
+
+With explicit approval, the five committed Sprint-9 migrations were applied to healthy hosted
+Supabase. A separately approved metadata repair aligned their hosted history versions to the
+repository filenames. All 157 Sprint-9 database assertions passed in hosted rollback-only
+transactions. Direct post-test inventory, including hidden activation/account/rights ledgers,
+confirmed zero identities, sessions, profiles, publications, receipts or requests and one suspended
+pilot tenant. No real document was published or client activated. Later approved email and durable
+synthetic-fixture exercises are recorded below; all test records have now been removed.
+
+Task 9.9's bounded synthetic proof is completed. Deployment reconciliation resolved the initial portal 404; all
+seven hosted anonymous denials now pass. Hosted code-only Auth templates and the approved
+six-digit/900-second OTP policy were saved and independently verified. Under explicit owner
+instruction, Supabase runtime credentials and both distinct identity-cookie encryption keys were
+added as encrypted Worker secrets; independent listing and seven repeated anonymous checks passed.
+The observed provisioning version was `9ca14b09-3fe2-40bb-970d-26d678c9168a` at 100% traffic.
+Actual hosted invitation/sign-in/recovery emails reached the approved support mailbox. Positive
+API/provider checks passed for synthetic activation, own-account projection, secure encrypted
+cookies, renewal, logout, replay/wrong-contact/tamper/expiry rejection, recovery and independent
+provider/application revocation. This is not a live assistive-technology or positive browser-portal
+review. Scoped cleanup plus independent direct/private and service-readable inventory restored
+zero identities/sessions/application evidence, one suspended pilot tenant and 12 existing provider
+gates; all seven named append-only/immutable triggers remain enabled. Anonymous denials passed again.
+An invitation tracking image was observed despite token-free email links. The owner accepts
+retaining useful tracking unless it harms authentication or production reliability; no provider
+tracking setting was changed. FC-001 preserves code-only credential protection and harm-triggered
+retesting. Task 9.10 closeout remains separate; real client activation stays gated. See the
+[9.9 security annexure](../02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md).
+
 ## Sprint 09.8 Local Correction and Rights Entry — 3 October 2026
 
 `/portal/rights` now provides version-checked correction of given/family name and operational
@@ -106,7 +136,8 @@ secure delivery, retention and downstream reconciliation remain operational rele
 
 Local browser/database proofs and file inventory are in the
 [9.8 annexure](../02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md).
-Hosted migration/proof remain Task 9.9; public intake gates are unchanged.
+The newer 9.9 checkpoint above supersedes this task's hosted-migration gap; hosted runtime/Auth
+proof remains open and public intake gates are unchanged.
 
 ## Sprint 09.7 Local Client Portal Checkpoint — 3 October 2026
 

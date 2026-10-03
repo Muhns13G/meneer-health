@@ -14,6 +14,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -156,7 +157,21 @@ ordinary email; receipt is not secure export, restriction, closure or contact-ch
 Before pilot, reviewed staff processing, step-up and confirmation for high-risk actions, safe
 delivery, case/command retention and downstream reconciliation must be verified. The two new
 `identity_private` command/request tables require direct database inventory in Task 9.9 because
-the service-readable hosted baseline cannot enumerate them. Hosted proof remains Task 9.9.
+the service-readable hosted baseline cannot enumerate them. Task 9.9 has now directly inventoried
+them after 157 passing hosted rollback-only SQL assertions and approved migration application.
+All synthetic records rolled back; the pilot tenant remains suspended. Seven hosted anonymous
+HTTP denials now pass after deployment reconciliation. Code-only Auth templates and the approved
+six-digit/900-second OTP policy are verified. Supabase runtime credentials and both distinct
+identity-cookie encryption keys were subsequently provisioned under explicit owner instruction;
+secret-name verification and repeated anonymous checks passed. Delivered invitation/sign-in/
+recovery and positive hosted API/session checks now pass, including independent provider and
+application revocation. The approved disposable tenant/profile/nonbinding-document evidence was
+removed; independent inventory verified the original baseline and all seven triggers enabled.
+This is not a positive browser-portal or live assistive-technology review. The invitation contained
+a tracking image; no token-bearing link was observed. The owner accepts retaining useful tracking
+unless it harms authentication or production reliability. Code-only credentials stay protected;
+FC-001 requires harm-triggered remediation/retesting, not blanket tracking removal. Task 9.9 is
+completed at its synthetic boundary. Do not equate synthetic proof with permission to activate clients.
 Do not use the portal as a back door to the gated intake/payment paths.
 
 Task 8.6 and DR-015 approve instrument semantics, not published transactional terms or functioning

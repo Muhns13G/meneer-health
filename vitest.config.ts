@@ -16,7 +16,12 @@ export default defineConfig({
       },
     },
     fileParallelism: false,
-    include: ["content/**/*.test.ts", "contracts/**/*.test.ts", "src/**/*.test.{ts,tsx}"],
+    include: [
+      "content/**/*.test.ts",
+      "contracts/**/*.test.ts",
+      "scripts/lib/**/*.test.ts",
+      "src/**/*.test.{ts,tsx}",
+    ],
     mockReset: true,
     passWithNoTests: false,
     restoreMocks: true,
