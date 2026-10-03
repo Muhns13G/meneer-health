@@ -4,7 +4,7 @@ import { GOOGLE_FONTS_FILE_ORIGIN, GOOGLE_FONTS_STYLESHEET_ORIGIN } from "@/lib/
 const ONE_YEAR_SECONDS = 31_536_000;
 const ONE_HOUR_SECONDS = 3_600;
 
-const SENSITIVE_ROUTE_PREFIXES = ["/account", "/portal", "/start", "/peptides"] as const;
+const SENSITIVE_ROUTE_PREFIXES = ["/account", "/portal", "/staff", "/start", "/peptides"] as const;
 const PUBLIC_DOCUMENT_ROUTES = new Set([
   "/",
   "/contact",

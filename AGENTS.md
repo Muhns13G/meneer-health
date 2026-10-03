@@ -36,6 +36,9 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   locally. `test:identity:hosted-denials` requires the documented canonical-origin/anonymous-only
   guard; it sends no emails and does not substitute for hosted Auth/session proof. Hosted SQL
   packets and migration-history repairs require explicit approval; never copy the full local seed.
+- `bun run test:workforce` proves email-only denial, TOTP/AAL2, server context, cookie sealing,
+  renewal and revocation against disposable local Auth fixtures, then removes only those fixtures.
+  It rejects hosted targets and never sends emails.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.

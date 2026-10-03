@@ -715,6 +715,17 @@
       ]
     },
     {
+      "id": "phase-02-sprint-10-3-workforce-security",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md",
+      "status": "verified-local",
+      "last_updated": "2026-10-03",
+      "authority_for": [
+        "individual workforce TOTP and server-derived context",
+        "bounded separate staff sessions and invitation governance",
+        "local proof and hosted staff activation gates"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11",
       "path": "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
       "status": "planned",

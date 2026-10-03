@@ -13,6 +13,11 @@ const correlationPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 const idempotencyPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$/;
 const directEndpointPrefixes = ["/api", "/.mcp"] as const;
 const registeredPostRoutes = new Map<string, RequestRouteClass>([
+  ["/staff/sign-in", "protected-command"],
+  ["/staff/mfa", "protected-command"],
+  ["/staff/session", "protected-command"],
+  ["/staff/invite", "protected-command"],
+  ["/staff/sign-out", "protected-command"],
   ["/api/journey/intent", "protected-command"],
   ["/api/measurement/consent", "protected-command"],
   ["/api/measurement/events", "protected-command"],
@@ -263,6 +268,8 @@ export async function inspectPublicRequest(
   if (
     [
       "/account/verify",
+      "/staff/sign-in",
+      "/staff/session",
       "/account/activate",
       "/account/sign-in",
       "/account/recover",

@@ -45,7 +45,7 @@ break glass. No staff queue/UI, migration or hosted activation is delivered by t
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------- |
 | 10.1  | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Completed (contract) |
 | 10.2  | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Completed (local)    |
-| 10.3  | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Planned              |
+| 10.3  | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Completed (local)    |
 | 10.4  | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Planned              |
 | 10.5  | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Planned              |
 | 10.6  | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Planned              |
@@ -57,7 +57,10 @@ break glass. No staff queue/UI, migration or hosted activation is delivered by t
 Task 10.2 adds eight deny-default tables and `operations.record@1`; see the
 [persistence evidence](annexures/sprint-10-2-staff-queue-persistence.md). Local migration replay
 and database checks pass. No hosted migration or operational staff workflow is activated;
-Tasks 10.3–10.10 remain.
+Tasks 10.4–10.10 remain. Task 10.3's [workforce security evidence](annexures/sprint-10-3-workforce-security.md)
+records individual staff entry, TOTP/AAL2, server-derived context, bounded separate sessions and
+reviewed invitation dispatch. Both Sprint 10 migrations remain unapplied hosted; no staff or pilot
+activation is inferred from local completion.
 
 ## Acceptance Gate
 

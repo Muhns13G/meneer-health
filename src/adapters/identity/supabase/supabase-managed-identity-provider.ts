@@ -194,6 +194,18 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
     }
   }
 
+  async listWorkforceTotp(session: ManagedSession): Promise<readonly string[]> {
+    try {
+      const client = await this.createSessionClient(session);
+      const { data, error } = await client.auth.mfa.listFactors();
+      if (error) rejected();
+      return data.totp.filter((factor) => factor.status === "verified").map((factor) => factor.id);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
   async challengeWorkforceTotp(session: ManagedSession, factorId: string): Promise<string> {
     try {
       const client = await this.createSessionClient(session);

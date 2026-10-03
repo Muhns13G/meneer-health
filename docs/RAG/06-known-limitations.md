@@ -7,6 +7,7 @@ last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
@@ -92,13 +93,26 @@ Post-deploy verification remains separate release evidence. No deployed exploit 
 is claimed. Current total: 50 Verified, seven non-Verified; clinical, commercial, operational and
 live-accessibility acceptance gates remain unchanged.
 
+## Sprint 10.3 Staff Authentication Is Not an Activated Queue
+
+Individual staff entry, TOTP/AAL2 and live server context now exist locally. A pending email/MFA
+cookie cannot read a staff session; an authenticated session cannot browse unassigned cases.
+Invitation does not create or approve roles; first-admin bootstrap and independent target review
+are required. Uncertain invitations stay unresolved and cannot be blindly resent; operator
+reconciliation/alerts remain Task 10.7. Email cannot reset an existing verified authenticator.
+Neither Sprint 10 migration is applied hosted; hosted workforce invitation delivery, Auth redirect/
+OTP configuration, Worker session proof and owner-approved provisioning remain activation gates.
+Tasks 10.4–10.10 own the operational queue, scoped commands, hand-off and final rehearsals.
+TD-009 remains In progress and TD-043 Open. No new debt ID or pilot permission is introduced.
+
 ## Sprint 10.2 Records Are Not an Operational Staff Queue
 
 Eight local tables and strict portable records now exist, but every application role still has
 direct access denied. A claim is not permission; stored versions are not yet optimistic-concurrency
-commands. Live assignment/membership checks, AAL2, governed transitions, recipient verification,
-audit/alerts and client projection belong to Tasks 10.3–10.9. Hosted has not received the new
-migration. Do not interpret local persistence completion as staff, provider or pilot activation.
+commands. Task 10.3 now verifies workforce membership/AAL2 locally; case-specific assignment,
+governed transitions, recipient verification, audit/alerts and client projection remain Tasks
+10.4–10.9. Hosted has not received either new migration. Do not interpret local persistence
+completion as staff, provider or pilot activation.
 
 ## Sprint 10.1 Is a Contract, Not Staff Activation
 
