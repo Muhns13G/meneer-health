@@ -21,8 +21,10 @@ adds eight locally verified deny-default tables and portable records. Task 10.3'
 [workforce boundary](annexures/sprint-10-3-workforce-security.md) implements individual staff
 entry, TOTP/AAL2, server-derived context and governed invitation dispatch locally. Task 10.4's
 [assigned queue](annexures/sprint-10-4-assigned-queue-projection.md) adds the locally verified read-only
-queue and masked detail; Tasks 10.5–10.10 remain.
-All three Sprint 10 migrations are not applied hosted. Real-client activation is still subject to the seven
+queue and masked detail. Task 10.5's [claimed commands](annexures/sprint-10-5-claimed-queue-commands.md)
+add reservations, version/replay guards, atomic audit, coded pause and pre-delivery cancellation.
+Recipient/deposit readiness remains gated by Task 10.6/Sprint 11; Tasks 10.6–10.10 remain.
+All four Sprint 10 migrations are not applied hosted. Real-client activation is still subject to the seven
 existing clinical, commercial and operational acceptance gates.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.

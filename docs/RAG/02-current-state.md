@@ -3,12 +3,13 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
@@ -95,6 +96,19 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 10.5 Claimed Commands — 4 October 2026
+
+[Task 10.5](../02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md)
+adds current-assignment claim/release, bounded coded pause and pre-delivery cancellation through
+protected POST commands. SQL serialisation, expected versions, live AAL2/context, payload-bound
+replay and atomic audit prevent partial ownership or stale overwrites. Assigned detail derives
+account/profile, contact, effective receipt and unused authorisation facts; deposit and recipient
+integration remains pending, so staff cannot mark ready or claim external delivery by assertion.
+Task 10.6 owns delivery/reconciliation and Sprint 11 the deposit ledger. All four Sprint 10 migrations
+need separate hosted approval/proof. No public wording, hosted data or TD status changed.
+Local real Auth/TOTP concurrent claims/replays and controlled UI checks support this checkpoint;
+Tasks 10.6–10.10 and existing activation gates remain.
 
 Task 9.10 discovered **TD-057**: initially 36 full/26 production-filtered findings on
 2026-10-03. The subsequent [bounded remediation](../01-audits/td-057-dependency-remediation-2026-10-03.md)

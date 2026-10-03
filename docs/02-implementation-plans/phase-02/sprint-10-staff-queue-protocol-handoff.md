@@ -4,7 +4,7 @@ title: Staff Operations Queue and Manual Protocol Hand-Off
 status: in-progress
 primary_debt: [TD-009, TD-043]
 depends_on: [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013, DR-014, DR-015, DR-017]
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 owner: "@Muhns13G"
 ---
 
@@ -41,28 +41,32 @@ existing scoped roles, individual AAL2 workforce accounts, case-specific assignm
 DR-017 states, guarded attempts/acknowledgements, separate clinical/payment authority and disabled
 break glass. No staff queue/UI, migration or hosted activation is delivered by this task.
 
-| Task  | Commit-sized outcome                                                                                                                            | Gate               | Status               |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------- |
-| 10.1  | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Completed (contract) |
-| 10.2  | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Completed (local)    |
-| 10.3  | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Completed (local)    |
-| 10.4  | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Completed (local)    |
-| 10.5  | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Planned              |
-| 10.6  | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Planned              |
-| 10.7  | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Planned              |
-| 10.8  | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Planned              |
-| 10.9  | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned              |
-| 10.10 | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned              |
+| Task  | Commit-sized outcome                                                                                                                            | Gate               | Status                  |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ----------------------- |
+| 10.1  | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Completed (contract)    |
+| 10.2  | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Completed (local)       |
+| 10.3  | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Completed (local)       |
+| 10.4  | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Completed (local)       |
+| 10.5  | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Completed (local gated) |
+| 10.6  | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Planned                 |
+| 10.7  | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Planned                 |
+| 10.8  | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Planned                 |
+| 10.9  | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned                 |
+| 10.10 | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned                 |
 
 Task 10.2 adds eight deny-default tables and `operations.record@1`; see the
 [persistence evidence](annexures/sprint-10-2-staff-queue-persistence.md). Local migration replay
 and database checks pass. No hosted migration or operational staff workflow is activated;
-Tasks 10.5–10.10 remain. Task 10.3's [workforce security evidence](annexures/sprint-10-3-workforce-security.md)
+Task 10.3's [workforce security evidence](annexures/sprint-10-3-workforce-security.md)
 records individual staff entry, TOTP/AAL2, server-derived context, bounded separate sessions and
 reviewed invitation dispatch. Task 10.4's [queue projection evidence](annexures/sprint-10-4-assigned-queue-projection.md)
 records the read-only assigned queue, bounded state filtering/keyset pages and database-masked detail.
-Hand-off/payment readiness is explicitly not evaluated; claims and transitions remain Task 10.5.
-All three Sprint 10 migrations remain unapplied hosted; no staff or pilot
+Task 10.5's [claimed-command evidence](annexures/sprint-10-5-claimed-queue-commands.md) adds
+reservation/release, coded pause and pre-delivery cancellation with expected versions, atomic audit
+and payload-bound replay. Detail derives account/receipt/authorisation facts; recipient/payment
+integration remains explicitly pending, not an operator override. Task 10.6 owns delivered/provider
+transitions and reconciliation; Sprint 11 supplies the authoritative deposit gate.
+Tasks 10.6–10.10 remain. All four Sprint 10 migrations remain unapplied hosted; no staff or pilot
 activation is inferred from local completion.
 
 ## Acceptance Gate

@@ -159,6 +159,12 @@ authority is introduced. All three Sprint 10 migrations remain unapplied hosted.
 external accountability and hosted staff activation remain; TD-009 stays In progress and TD-043 Open.
 No new debt ID is accrued by this task.
 
+Task 10.5 adds the local [claimed-command boundary](../02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md):
+claim/release, expected versions, live assignment/AAL2, payload-bound replay, atomic event/journal,
+coded pause and pre-delivery cancellation. Derived readiness still refuses missing recipient and
+deposit integration. Task 10.6/Sprint 11 retain those explicit dependencies; all four migrations and
+hosted command proof remain activation gates. TD-009 stays In progress and TD-043 Open; no new ID.
+
 Task 8.8/DR-017 subsequently verifies signed-out provider-linked intake and an authenticated
 synthetic path through intake, protocol generation, review controls and PDF-download controls. No
 supported API/webhook was found. TD-009 remains In progress for external identity, authority,

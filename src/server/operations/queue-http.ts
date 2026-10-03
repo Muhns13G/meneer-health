@@ -3,6 +3,11 @@ import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { SupabaseQueueRepository } from "@/adapters/persistence/supabase/supabase-queue-repository";
 import { queueFilterSchema } from "@/application/operations/queue-projection";
+import {
+  queueCommandSchema,
+  QueueConflictError,
+  QueueReadinessError,
+} from "@/application/operations/queue-command";
 import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
 import { IdentitySessionRejectedError } from "@/application/identity/identity-session-repository";
 import type { WorkforceSessionService } from "@/application/identity/workforce-session-service";
@@ -28,7 +33,7 @@ export function createQueueHttpHandler(
   bindings: PatientSessionBindings,
   injected?: {
     workforce: Pick<WorkforceSessionService, "authorise">;
-    queue: Pick<SupabaseQueueRepository, "list" | "detail">;
+    queue: Pick<SupabaseQueueRepository, "list" | "detail" | "command">;
   },
 ) {
   return async (request: Request) => {
@@ -36,11 +41,11 @@ export function createQueueHttpHandler(
     if (
       url.search ||
       !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname) ||
-      !["/staff/queue/read", "/staff/queue/detail"].includes(url.pathname)
+      !["/staff/queue/read", "/staff/queue/detail", "/staff/queue/command"].includes(url.pathname)
     )
       return response(404);
     const inspected = await inspectProtectedFormRequest(request, {
-      action: "operations-read",
+      action: url.pathname.endsWith("/command") ? "operations-command" : "operations-read",
       rateLimiter: bindings.REQUEST_RATE_LIMITER,
       maximumBytes: 512,
     });
@@ -49,8 +54,19 @@ export function createQueueHttpHandler(
     const only = (...names: string[]) =>
       [...fields.keys()].length === names.length && names.every((n) => fields.has(n));
     let filter;
+    let command;
     const caseId = fields.get("caseId");
-    if (url.pathname.endsWith("/detail")) {
+    if (url.pathname.endsWith("/command")) {
+      const value = Object.fromEntries(fields);
+      const parsed = queueCommandSchema.safeParse({
+        ...value,
+        expectedVersion: /^\d+$/.test(value.expectedVersion ?? "")
+          ? Number(value.expectedVersion)
+          : null,
+      });
+      if (!parsed.success) return response(422);
+      command = parsed.data;
+    } else if (url.pathname.endsWith("/detail")) {
       if (!only("caseId") || !z.uuid().safeParse(caseId).success) return response(422);
     } else {
       if (!only("state", "afterCreatedAt", "afterId")) return response(422);
@@ -96,7 +112,9 @@ export function createQueueHttpHandler(
         200,
         filter
           ? await queue.list(identity, proof, filter)
-          : await queue.detail(identity, proof, caseId!),
+          : command
+            ? await queue.command(identity, proof, command)
+            : await queue.detail(identity, proof, caseId!),
       );
       result.headers.set(
         "X-Session-Expires-At",
@@ -110,6 +128,8 @@ export function createQueueHttpHandler(
       );
       return result;
     } catch (error) {
+      if (error instanceof QueueConflictError) return response(409);
+      if (error instanceof QueueReadinessError) return response(412);
       return response(
         error instanceof IdentityRejectedError || error instanceof IdentitySessionRejectedError
           ? 403

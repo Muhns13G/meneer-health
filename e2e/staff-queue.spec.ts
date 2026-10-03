@@ -2,6 +2,16 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { isolateExternalFonts } from "./helpers";
 const id = "a3000000-0000-4000-8000-000000000010";
+const readiness = {
+  profileActive: true,
+  accountActive: true,
+  emailVerified: true,
+  instrumentsCurrent: false,
+  authorisationCurrent: false,
+  paymentReadiness: "integration_pending",
+  recipientReadiness: "integration_pending",
+  ready: false,
+};
 const row = {
   caseId: id,
   state: "onboarding_pending",
@@ -40,7 +50,59 @@ test("private queue denies anonymous reads and remains accessible", async ({ pag
   });
   expect(r.status()).toBe(401);
   expect((await request.get("/staff/queue/read")).status()).toBe(404);
+  expect(
+    (
+      await request.post("/staff/queue/command", {
+        headers: { origin: "http://127.0.0.1:8085" },
+        form: { caseId: id, action: "claim", expectedVersion: "1", requestKey: id },
+      })
+    ).status(),
+  ).toBe(401);
   expect(errors).toEqual([]);
+});
+test("synthetic claim/release is versioned, refreshes live detail and keeps readiness blocked", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  let version = 1;
+  let claim = "unclaimed";
+  await page.route("**/staff/queue/read", (route) =>
+    route.fulfill({ json: { cases: [row], nextCursor: null } }),
+  );
+  await page.route("**/staff/queue/detail", (route) =>
+    route.fulfill({ json: { ...row, version, claim, readiness, profile: null } }),
+  );
+  await page.route("**/staff/queue/command", async (route) => {
+    const fields = new URLSearchParams(route.request().postData() ?? "");
+    expect(fields.get("caseId")).toBe(id);
+    expect(fields.get("expectedVersion")).toBe(String(version));
+    expect(fields.get("requestKey")).toMatch(/^[a-f0-9-]{36}$/);
+    expect([...fields.keys()].sort()).toEqual([
+      "action",
+      "caseId",
+      "expectedVersion",
+      "requestKey",
+    ]);
+    version++;
+    claim = fields.get("action") === "claim" ? "yours" : "unclaimed";
+    await route.fulfill({ json: { caseId: id, version, state: row.state, claim, readiness } });
+  });
+  await page.goto("/staff/queue");
+  await page.getByRole("button", { name: `View case ${id}` }).click();
+  await page.getByRole("button", { name: "Claim case" }).click();
+  await expect(page.getByRole("button", { name: "Release claim" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Mark ready for hand-off" })).toBeDisabled();
+  expect(
+    (
+      await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+        .analyze()
+    ).violations,
+  ).toEqual([]);
+  await page.getByRole("button", { name: "Release claim" }).click();
+  await expect(page.getByRole("button", { name: "Claim case" })).toBeVisible();
+  expect(version).toBe(3);
+  expect(page.url()).not.toContain(id);
 });
 test("synthetic queue filter, masked detail and denied refresh never reveal raw contact", async ({
   page,
@@ -59,6 +121,8 @@ test("synthetic queue filter, masked detail and denied refresh never reveal raw 
     route.fulfill({
       json: {
         ...row,
+        claim: "unclaimed",
+        readiness,
         profile: {
           givenName: "Synthetic",
           familyName: "Client",

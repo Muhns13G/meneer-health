@@ -3,10 +3,11 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
@@ -105,6 +106,16 @@ access audit/alerts, client projection and full rehearsals remain Tasks 10.5–1
 projection fixtures prove UI behaviour, not an authenticated hosted staff session.
 All three Sprint 10 migrations need separate hosted approval/proof. TD-009 remains In progress and
 TD-043 Open; real-client activation and live assistive-technology gates remain unchanged.
+
+### Task 10.5 Supersedes the Read-Only Command Limitation
+
+Local claim/release, expected-version commands, immutable replay/audit, coded pause and pre-delivery
+cancellation now exist. Current-assignment/AAL2 is rechecked for every command, including replay.
+Account/profile/contact/receipt/authorisation facts are derived server-side; payment and verified
+recipient fact adapters are still explicitly pending. There is no staff payment override or delivery
+assertion. Task 10.6 owns attempt delivery, acknowledgement, resumption and external reconciliation;
+Sprint 11 owns the deposit gate. All four migrations need separately approved hosted proof.
+The older read-only checkpoint above is historical. No pilot/provider/payment activation is implied.
 
 ## Sprint 10.3 Staff Authentication Is Not an Activated Queue
 
