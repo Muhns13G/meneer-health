@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-start/server";
 import type { Register } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
+import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import {
@@ -83,6 +84,14 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (
+              (boundedRequest.method === "POST" && pathname === "/account/activate") ||
+              pathname === "/account/activate/instruments"
+            ) {
+              return createPatientActivationHttpHandler(
+                env as unknown as PatientVerificationBindings,
+              )(boundedRequest);
+            }
             if (boundedRequest.method === "POST" && pathname === "/account/verify") {
               return createPatientVerificationHttpHandler(
                 env as unknown as PatientVerificationBindings,

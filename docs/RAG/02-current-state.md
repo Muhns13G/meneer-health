@@ -14,6 +14,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -86,6 +87,18 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 09.6 Local Account Activation Checkpoint — 3 October 2026
+
+The first-party setup page now renders exact published account/privacy documents before collecting
+DR-014's minimum profile. Two separate unchecked actions and a server-only atomic RPC bind the
+profile, exact-version receipts, membership, invitation and value-free audit/lifecycle facts.
+Same-key retries are idempotent and a late audit failure rolls all writes back. Setup completion
+uses the existing sign-in flow rather than implicitly granting a session. Browser and database
+proofs are local and synthetic; no instruments were published or hosted migrations applied.
+Portal/rights implementation and hosted proof remain Tasks 9.7–9.9, and live assistive-technology
+approval remains due under TD-037/TD-038. See the
+[9.6 evidence](../02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md).
 
 ## Sprint 09.5 Local Patient Session Checkpoint — 3 October 2026
 
