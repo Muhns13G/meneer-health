@@ -80,14 +80,15 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
-## Current Security Exception: TD-057
+## Resolved Dependency Finding: TD-057
 
-Task 9.10's 2026-10-03 dependency audits fail: 36 findings overall and 26 in the production-filtered
-graph. Runtime reachability has not been established. Sprint 09 functional tests/build pass, but
-do not describe its dependency security or current complete CI matrix as passing. A dedicated
-remediation task is required before normal Sprint 10 feature work or real-client activation; see
-the [completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md) and
-[registry](../04-technical-debt/technical-debt-registry-v1.md). Total debt: 49 Verified, eight non-Verified.
+Task 9.10's initial 36 full/26 production-filtered findings are historical. The dedicated
+[remediation](../01-audits/td-057-dependency-remediation-2026-10-03.md) now passes both audits,
+types/lint, unit/browser/database checks, production build and upload dry-run. TD-057 is locally
+Verified, not an accepted security exception. Owner commit/exact-commit CI and post-deploy
+verification remain pending release evidence. No deployed exploit or hosted configuration change
+is claimed. Current total: 50 Verified, seven non-Verified; clinical, commercial, operational and
+live-accessibility acceptance gates remain unchanged.
 
 ## Phase 01 Closure Boundary
 

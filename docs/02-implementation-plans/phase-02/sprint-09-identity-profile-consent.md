@@ -77,10 +77,11 @@ invite-only synthetic boundary, not a real-client release. TD-009, TD-037 and TD
 external/operational and live-review acceptance gates. The owner commits this closeout and verifies
 its GitHub CI; no remote run is inferred from local results.
 
-Final closeout audit discovered TD-057: both dependency audit gates currently fail. Functional
-implementation and evidence reconciliation are complete; a clean CI/security release is not.
-Resolve the new advisory set in a dedicated, tested remediation task before normal Sprint 10
-feature work or real-client activation. No dependency was upgraded during this closeout.
+Final closeout audit discovered TD-057; no dependency was upgraded in Task 9.10. The subsequent
+dedicated [remediation](../../01-audits/td-057-dependency-remediation-2026-10-03.md) passes both
+audits and local regression. TD-057 is locally Verified; owner commit/exact-commit CI and
+post-deploy checks are not yet claimed. Sprint 09 closeout is committed at `daf1927`; its
+real-client activation gates remain unchanged.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
 - Browser code never receives a service-role credential or controls tenant/role authority.

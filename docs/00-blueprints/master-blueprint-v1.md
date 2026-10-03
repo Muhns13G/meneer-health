@@ -2,9 +2,10 @@
 
 ## Document Status
 
-Task 9.10's final dependency audit discovered TD-057: functional validation passes, but both
-dependency audit gates fail. Resolve it through bounded, tested remediation before normal
-Sprint 10 feature work or real-client activation; the complete release matrix is not yet green.
+Task 9.10 discovered TD-057; the subsequent bounded remediation now passes both dependency
+audits and local regression. See the [remediation evidence](../01-audits/td-057-dependency-remediation-2026-10-03.md).
+Owner commit/exact-commit CI and post-deploy verification remain release steps. The seven
+existing pilot-activation obligations remain unchanged.
 
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05

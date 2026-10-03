@@ -27,6 +27,7 @@ import {
   statusClass,
 } from "./server/observability/telemetry";
 import { applyResponsePolicy } from "./server/security/response-policy";
+import { applySsrResponsePolicy } from "./server/security/ssr-response-policy";
 import {
   applyCorrelationHeader,
   executeWithRequestTimeout,
@@ -36,13 +37,12 @@ import {
 
 const serverEnvironment = initialiseServerEnvironment();
 const handleRequest = createStartHandler(async (context) => {
-  const nonce = crypto.randomUUID().replaceAll("-", "");
+  const nonce = context.router.options.ssr?.nonce;
+  if (!nonce) throw new Error("SSR nonce is missing.");
 
-  context.router.update({ ssr: { nonce } });
+  const result = await defaultStreamHandler(context);
 
-  const response = await defaultStreamHandler(context);
-
-  return applyResponsePolicy(context.request, response, nonce);
+  return applySsrResponsePolicy(context.request, result, nonce);
 });
 
 export type ServerEntry = { fetch: RequestHandler<Register> };

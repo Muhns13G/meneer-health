@@ -102,6 +102,19 @@
   ],
   "authoritative_sources": [
     {
+      "id": "td-057-dependency-remediation",
+      "path": "docs/01-audits/td-057-dependency-remediation-2026-10-03.md",
+      "status": "verified-local-owner-ci-pending",
+      "authority_for": [
+        "TD-057 bounded dependency remediation",
+        "advisory path triage and override removal triggers",
+        "SSR cleanup and nonce compatibility regression",
+        "local verification and owner release handoff"
+      ],
+      "baseline": "daf1927",
+      "last_updated": "2026-10-03"
+    },
+    {
       "id": "master-blueprint-v1",
       "path": "docs/00-blueprints/master-blueprint-v1.md",
       "authority_for": [
@@ -261,9 +274,10 @@
       "status": "active",
       "last_updated": "2026-10-03",
       "item_count": 57,
-      "verified_count": 49,
-      "non_verified_count": 8,
-      "new_debt": ["TD-057"]
+      "verified_count": 50,
+      "non_verified_count": 7,
+      "new_debt": ["TD-057"],
+      "resolved_debt": ["TD-057"]
     },
     {
       "id": "phase-01-sprint-01-completion",
@@ -1954,6 +1968,7 @@
         "retained activation gates and Sprint 10 handoff"
       ],
       "implementation_checkpoint": "0511752",
+      "closeout_commit": "daf1927",
       "last_updated": "2026-10-03"
     }
   ],
