@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-09
 title: Invite-Only Identity, Client Profile, Consent, and Portal
-status: in-progress
+status: completed-with-activation-gates
 primary_debt: [TD-009, TD-037, TD-038]
 depends_on: [phase-02-sprint-08, DR-005, DR-007, DR-012, DR-014, DR-015]
 last_updated: 2026-10-03
@@ -19,18 +19,18 @@ pilot status.
 
 ## Commit-Sized Task Plan
 
-| Task | Commit-sized outcome                                                                                                                   | Gate                | Status                      |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | --------------------------- |
-| 9.1  | Freeze identity/profile/consent contracts, state transitions, route policy and threat model.                                           | TD-009              | Completed at contract level |
-| 9.2  | Add portable migrations for approved profile fields, immutable acknowledgement/consent evidence and lifecycle history with RLS.        | TD-009              | Completed locally           |
-| 9.3  | Implement staff-created, expiring, single-use invitations with rate, replay, tenant and purpose controls.                              | Identity activation | Completed locally           |
-| 9.4  | Implement the Meneer-owned confirmation/OTP boundary; never expose provider tokens to tracking or unsafe redirects.                    | FC-001              | Completed locally           |
-| 9.5  | Implement authenticated session establishment, renewal, sign-out, expiry, revocation and recovery using existing identity ports.       | Identity activation | Completed locally           |
-| 9.6  | Implement the accessible client profile and versioned acknowledgement/consent flow with durable false-success prevention.              | TD-037, TD-038      | Completed locally           |
-| 9.7  | Add an authenticated client portal showing only approved profile, consent and non-clinical workflow status.                            | Portal boundary     | Completed locally           |
-| 9.8  | Implement correction, export and account-support request entry points without ordinary-email sensitive payloads.                       | Data rights         | Completed locally           |
-| 9.9  | Prove cross-tenant, wrong-role, stale/replayed invite, session, direct-endpoint and audit boundaries locally and hosted-synthetically. | Security            | Completed — synthetic proof |
-| 9.10 | Reconcile evidence and issue the Sprint 09 completion report.                                                                          | All                 | Planned                     |
+| Task | Commit-sized outcome                                                                                                                   | Gate                | Status                           |
+| ---- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------- | -------------------------------- |
+| 9.1  | Freeze identity/profile/consent contracts, state transitions, route policy and threat model.                                           | TD-009              | Completed at contract level      |
+| 9.2  | Add portable migrations for approved profile fields, immutable acknowledgement/consent evidence and lifecycle history with RLS.        | TD-009              | Completed locally                |
+| 9.3  | Implement staff-created, expiring, single-use invitations with rate, replay, tenant and purpose controls.                              | Identity activation | Completed locally                |
+| 9.4  | Implement the Meneer-owned confirmation/OTP boundary; never expose provider tokens to tracking or unsafe redirects.                    | FC-001              | Completed locally                |
+| 9.5  | Implement authenticated session establishment, renewal, sign-out, expiry, revocation and recovery using existing identity ports.       | Identity activation | Completed locally                |
+| 9.6  | Implement the accessible client profile and versioned acknowledgement/consent flow with durable false-success prevention.              | TD-037, TD-038      | Completed locally                |
+| 9.7  | Add an authenticated client portal showing only approved profile, consent and non-clinical workflow status.                            | Portal boundary     | Completed locally                |
+| 9.8  | Implement correction, export and account-support request entry points without ordinary-email sensitive payloads.                       | Data rights         | Completed locally                |
+| 9.9  | Prove cross-tenant, wrong-role, stale/replayed invite, session, direct-endpoint and audit boundaries locally and hosted-synthetically. | Security            | Completed — synthetic proof      |
+| 9.10 | Reconcile evidence and issue the Sprint 09 completion report.                                                                          | All                 | Completed — owner commit pending |
 
 ## Acceptance Gate
 
@@ -70,6 +70,17 @@ Task 9.9 is completed at the synthetic-proof boundary. The owner accepts retaini
 unless it harms authentication or production reliability. The observed invitation image does not
 demonstrate such harm; code-only OTP consumption remains protected and FC-001 records the decision.
 No real client, legal publication, clinical or payment workflow was activated.
+
+Task 9.10 reconciles the [completion report](../../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md),
+complete Git-derived file inventory, residual debt and RAG routing. Sprint 09 closes at the verified
+invite-only synthetic boundary, not a real-client release. TD-009, TD-037 and TD-038 retain their
+external/operational and live-review acceptance gates. The owner commits this closeout and verifies
+its GitHub CI; no remote run is inferred from local results.
+
+Final closeout audit discovered TD-057: both dependency audit gates currently fail. Functional
+implementation and evidence reconciliation are complete; a clean CI/security release is not.
+Resolve the new advisory set in a dedicated, tested remediation task before normal Sprint 10
+feature work or real-client activation. No dependency was upgraded during this closeout.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
 - Browser code never receives a service-role credential or controls tenant/role authority.

@@ -259,7 +259,11 @@
       "path": "docs/04-technical-debt/technical-debt-registry-v1.md",
       "authority_for": ["open-debt", "priorities", "acceptance-evidence", "resolution-order"],
       "status": "active",
-      "last_updated": "2026-08-08"
+      "last_updated": "2026-10-03",
+      "item_count": 57,
+      "verified_count": 49,
+      "non_verified_count": 8,
+      "new_debt": ["TD-057"]
     },
     {
       "id": "phase-01-sprint-01-completion",
@@ -645,7 +649,7 @@
     {
       "id": "phase-02-sprint-09",
       "path": "docs/02-implementation-plans/phase-02/sprint-09-identity-profile-consent.md",
-      "status": "in-progress",
+      "status": "completed-with-activation-gates",
       "authority_for": [
         "invite-only identity",
         "client profile",
@@ -662,7 +666,8 @@
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md",
+        "docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md"
       ]
     },
     {
@@ -1937,6 +1942,19 @@
       ],
       "implementation_checkpoint": "3950b15",
       "last_updated": "2026-10-02"
+    },
+    {
+      "id": "phase-02-sprint-09-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md",
+      "status": "completed-with-activation-gates",
+      "authority_for": [
+        "Sprint 09 account and portal implementation evidence",
+        "Sprint 09 synthetic hosted proof and cleanup",
+        "Sprint 09 deviations, lessons and exact file inventory",
+        "retained activation gates and Sprint 10 handoff"
+      ],
+      "implementation_checkpoint": "0511752",
+      "last_updated": "2026-10-03"
     }
   ],
   "future_considerations": [

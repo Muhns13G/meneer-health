@@ -2,7 +2,7 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
@@ -10,6 +10,10 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 # Phase 02 — Minimum Pilot Enablement
 
 ## Mission
+
+Sprint 09 closes with activation gates and new TD-057 dependency advisory debt discovered during
+Task 9.10. Functional tests/build pass; audit gates fail. A dedicated remediation task must prove
+clean audits and regression checks before normal Sprint 10 feature work or real-client activation.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.
 The pilot must onboard a client, preserve a minimal non-clinical profile and versioned consent,
@@ -45,7 +49,13 @@ its [annexure](annexures/sprint-09-1-identity-profile-consent-contract.md). Spri
 the [local portable persistence boundary](annexures/sprint-09-2-profile-instrument-persistence.md),
 Sprint 09.3 added a [governed invitation reservation](annexures/sprint-09-3-governed-patient-invitations.md),
 and Sprint 09.4 added a [local first-party code boundary](annexures/sprint-09-4-first-party-invitation-otp.md).
-Their migrations and invite template are not hosted; no client account capability is active.
+Those were local checkpoints; Task 9.9 subsequently applied all five Sprint-9 migrations, verified
+code-only hosted delivery and provider/application sessions, then removed approved disposable
+fixtures. Sprint 09 closes with the profile, exact-document activation, portal and correction/
+rights entry implemented and synthetically verified. See the
+[Sprint 09 completion report](../../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md).
+The hosted baseline now has 21 migrations, one suspended pilot tenant and no Auth/client records;
+no real client account capability is active.
 Final external schedules and rendered domain approvals remain required before activation.
 
 - Phase 01 is closed under DR-010 with 49 of 56 debt items Verified.
@@ -93,7 +103,7 @@ Auth users and zero operational/audit records. Anonymous access fails closed; in
 measurement and retired-MCP probes pass. Advisor output contains informational deny-all RLS and
 pre-traffic index notices only; no warning or error was reported.
 
-- Hosted Supabase contains the clean 16-migration foundation, one suspended pilot tenant, no Auth
+- Hosted Supabase contains the clean 21-migration foundation, one suspended pilot tenant, no Auth
   users or operational records, and no local synthetic seed data.
 - Public sign-up is disabled and the public site remains non-transactional.
 - Stripe Checkout, signed webhooks, payment reconciliation and fulfilment contracts exist only as

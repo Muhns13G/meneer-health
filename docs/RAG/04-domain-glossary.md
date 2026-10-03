@@ -3,7 +3,7 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 ---
@@ -22,6 +22,19 @@ sensitivity: internal
   incomplete capabilities still disabled; it is not activation or release approval.
 - **Transferred activation gate:** an unresolved item carried intact into the next delivery plan.
   Transfer does not waive, downgrade or verify its acceptance criteria.
+
+## Sprint 09 Account Terms
+
+- **Preactivation proof:** short-lived, encrypted first-party cookie proving invitation verification;
+  it is not an activated account or authenticated portal session.
+- **Atomic account activation:** one validated database command records the minimum profile and
+  acknowledgements of the exact published document versions, consumes the invitation and activates
+  the account together. Synthetic test publications are not real legal approval.
+- **Rights-request receipt:** durable acknowledgement of an authenticated correction, export or
+  account-support request. Receipt is not fulfilment, clinical support or a completed export.
+
+See the [Sprint 09 completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md)
+for implementation evidence and retained activation gates.
 
 ## Release Terms
 

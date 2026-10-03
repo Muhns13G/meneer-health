@@ -2,9 +2,13 @@
 
 ## Document Status
 
+Task 9.10's final dependency audit discovered TD-057: functional validation passes, but both
+dependency audit gates fail. Resolve it through bounded, tested remediation before normal
+Sprint 10 feature work or real-client activation; the complete release matrix is not yet green.
+
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05
-- **Last amended:** 2026-10-02
+- **Last amended:** 2026-10-03
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
 - **Current implementation:** Lovable-origin TanStack Start v1 MVP with repository-owned Cloudflare
   configuration; `itws-I-preview` temporarily remains the Cloudflare production branch serving
@@ -12,8 +16,10 @@
 - **Purpose:** Define the intended destination before further feature development begins
 - **Current phase:** Phase 01 closed at the secure inactive-foundation boundary under DR-010;
   Phase 02 minimum pilot enablement is in progress through Sprints 08–13; Sprint 08 is completed
-  with activation gates and a clean suspended hosted tenant. Sprint 09 owns identity/profile
-  implementation. The external portal uses a planned manual audited bridge because no supported
+  with activation gates and a clean suspended hosted tenant. Sprint 09 completes invite-only
+  identity/profile, exact-document activation, portal and rights entry at a verified synthetic
+  boundary; real publication, staff operations and live accessibility remain gated. Sprint 10
+  owns the staff queue and manual hand-off. The external portal uses a planned manual audited bridge because no supported
   API/webhook was verified, and activation remains gated
 
 ## Executive Vision
