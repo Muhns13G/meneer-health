@@ -104,7 +104,7 @@
     {
       "id": "td-057-dependency-remediation",
       "path": "docs/01-audits/td-057-dependency-remediation-2026-10-03.md",
-      "status": "verified-local-owner-ci-pending",
+      "status": "verified-local-and-ci",
       "authority_for": [
         "TD-057 bounded dependency remediation",
         "advisory path triage and override removal triggers",
@@ -687,8 +687,20 @@
     {
       "id": "phase-02-sprint-10",
       "path": "docs/02-implementation-plans/phase-02/sprint-10-staff-queue-protocol-handoff.md",
-      "status": "planned",
+      "status": "in-progress",
       "authority_for": ["staff operations queue", "manual protocol hand-off"]
+    },
+    {
+      "id": "phase-02-sprint-10-1-staff-queue-handoff-contract",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md",
+      "status": "completed-at-contract-level",
+      "last_updated": "2026-10-03",
+      "authority_for": [
+        "staff role and purpose boundaries",
+        "case-specific assignment and concurrent claim contract",
+        "manual hand-off states and minimum projections",
+        "disabled break-glass posture and Sprint 10 negative-path requirements"
+      ]
     },
     {
       "id": "phase-02-sprint-11",

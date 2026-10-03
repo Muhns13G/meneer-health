@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md
@@ -95,8 +96,18 @@ sources:
 Task 9.10 discovered **TD-057**: initially 36 full/26 production-filtered findings on
 2026-10-03. The subsequent [bounded remediation](../01-audits/td-057-dependency-remediation-2026-10-03.md)
 passes both audits and local regression, including 443 unit and 156 browser checks. Current
-registry: **57 items, 50 Verified, seven non-Verified**. Owner commit/exact-commit CI and
-post-deploy smoke remain release steps; no hosted change was made by this remediation.
+registry: **57 items, 50 Verified, seven non-Verified**. Owner remediation commit `1b41ed49`
+and exact-commit [CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125)
+are verified. Post-deploy smoke remains separate; no hosted change was made by this remediation.
+
+## Sprint 10.1 Contract Checkpoint — 3 October 2026
+
+The [staff queue contract](../02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md)
+fixes existing role/purpose boundaries, individual workforce AAL2, case-specific assignments and
+concurrent claims, DR-017 operational states, manual attempts/acknowledgements and disabled break
+glass. Operational completion cannot imply clinical approval, payment or dispensing. No queue
+schema, staff UI, provider delivery or hosted activation is implemented at this checkpoint;
+Tasks 10.2–10.10 remain. TD-009 and TD-043 retain their existing activation requirements.
 
 ## Sprint 09 Closure — 3 October 2026
 
@@ -108,8 +119,8 @@ independent provider/application revocation passed with disposable fixtures, the
 the suspended empty-client baseline. The owner accepts retaining tracking that does not harm
 authentication/reliability; no marketing collection was newly enabled. The original cohort
 retains 49 Verified debts and seven activation gates; newly discovered TD-057 is subsequently
-locally Verified, bringing the current total to 50 Verified. Confirm owner remediation commit/CI
-before normal Sprint 10 feature implementation;
+Verified locally and in exact-commit CI, bringing the current total to 50 Verified. The Sprint 10
+commit/CI prerequisite is satisfied;
 Phase 02 and real-client release are not complete. Earlier task sections below are dated checkpoints,
 not claims that their then-missing implementation is still absent.
 

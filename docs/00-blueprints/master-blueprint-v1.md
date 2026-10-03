@@ -4,7 +4,9 @@
 
 Task 9.10 discovered TD-057; the subsequent bounded remediation now passes both dependency
 audits and local regression. See the [remediation evidence](../01-audits/td-057-dependency-remediation-2026-10-03.md).
-Owner commit/exact-commit CI and post-deploy verification remain release steps. The seven
+Owner remediation commit `1b41ed49` and exact-commit CI `37138262125` are verified; post-deploy
+verification remains a release step. Sprint 10.1's staff/assignment/hand-off contract is complete,
+not a functioning staff queue or provider integration. The seven
 existing pilot-activation obligations remain unchanged.
 
 - **Status:** Initial planning baseline

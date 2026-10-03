@@ -60,8 +60,9 @@ sources:
 
 Task 9.10 discovered TD-057 dependency advisories; subsequent bounded remediation passes both
 audits and local regression. The registry now has 50 Verified and seven non-Verified items.
-See the [evidence](../01-audits/td-057-dependency-remediation-2026-10-03.md); owner commit/CI
-remains the Sprint 10 handoff, not permission to activate the pilot.
+See the [evidence](../01-audits/td-057-dependency-remediation-2026-10-03.md); owner commit
+`1b41ed49` and exact-commit CI `37138262125` passed. Sprint 10.1's staff queue contract is complete
+at the design boundary, not permission to activate the pilot.
 
 ## Product Intent
 

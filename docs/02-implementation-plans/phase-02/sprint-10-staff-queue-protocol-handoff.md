@@ -1,9 +1,9 @@
 ---
 plan_id: phase-02-sprint-10
 title: Staff Operations Queue and Manual Protocol Hand-Off
-status: planned
+status: in-progress
 primary_debt: [TD-009, TD-043]
-depends_on: [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013, DR-015]
+depends_on: [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013, DR-014, DR-015, DR-017]
 last_updated: 2026-10-03
 owner: "@Muhns13G"
 ---
@@ -30,21 +30,29 @@ approved legal publication, operational rights fulfilment or clinical authority 
 
 Task 9.10 discovered TD-057 dependency advisories. The dedicated
 [remediation](../../01-audits/td-057-dependency-remediation-2026-10-03.md) now passes both audits
-and local regression. Confirm the owner's remediation commit and exact-commit CI before
-normal Sprint 10 feature implementation; the approved queue mission and activation gates remain.
+and local regression. The owner committed remediation at `1b41ed49d4a809baddd77be2cc598ee6668359bd`;
+[exact-commit CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125)
+passed on `itws-I`. This prerequisite is satisfied; post-deploy verification remains separate.
+The approved queue mission and activation gates remain unchanged.
 
-| Task  | Commit-sized outcome                                                                                                                            | Gate               | Status  |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------- |
-| 10.1  | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Planned |
-| 10.2  | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Planned |
-| 10.3  | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Planned |
-| 10.4  | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Planned |
-| 10.5  | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Planned |
-| 10.6  | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Planned |
-| 10.7  | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Planned |
-| 10.8  | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Planned |
-| 10.9  | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned |
-| 10.10 | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned |
+Task 10.1 is completed at the contract level in the
+[staff queue and hand-off annexure](annexures/sprint-10-1-staff-queue-handoff-contract.md):
+existing scoped roles, individual AAL2 workforce accounts, case-specific assignment/claim rules,
+DR-017 states, guarded attempts/acknowledgements, separate clinical/payment authority and disabled
+break glass. No staff queue/UI, migration or hosted activation is delivered by this task.
+
+| Task  | Commit-sized outcome                                                                                                                            | Gate               | Status               |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------- |
+| 10.1  | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Completed (contract) |
+| 10.2  | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Planned              |
+| 10.3  | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Planned              |
+| 10.4  | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Planned              |
+| 10.5  | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Planned              |
+| 10.6  | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Planned              |
+| 10.7  | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Planned              |
+| 10.8  | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Planned              |
+| 10.9  | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned              |
+| 10.10 | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned              |
 
 ## Acceptance Gate
 

@@ -7,6 +7,7 @@ last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
@@ -84,11 +85,19 @@ sources:
 
 Task 9.10's initial 36 full/26 production-filtered findings are historical. The dedicated
 [remediation](../01-audits/td-057-dependency-remediation-2026-10-03.md) now passes both audits,
-types/lint, unit/browser/database checks, production build and upload dry-run. TD-057 is locally
-Verified, not an accepted security exception. Owner commit/exact-commit CI and post-deploy
-verification remain pending release evidence. No deployed exploit or hosted configuration change
+types/lint, unit/browser/database checks, production build and upload dry-run. TD-057 is Verified
+locally and in exact-commit CI `37138262125` at `1b41ed49`, not an accepted security exception.
+Post-deploy verification remains separate release evidence. No deployed exploit or hosted configuration change
 is claimed. Current total: 50 Verified, seven non-Verified; clinical, commercial, operational and
 live-accessibility acceptance gates remain unchanged.
+
+## Sprint 10.1 Is a Contract, Not Staff Activation
+
+The frozen staff queue/hand-off contract precedes migrations and staff UI. Existing case-specific
+assignments do not permit unassigned tenant-wide browsing; provider acknowledgement is not inferred
+from link delivery, and operational outcome is not treatment approval. Break glass remains disabled.
+Tasks 10.2–10.10 and external party/contract/escalation verification are still required. No new
+debt ID or pilot permission results from completing the contract task.
 
 ## Phase 01 Closure Boundary
 
