@@ -45,6 +45,7 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/staff/queue", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/staff/queue/read", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/queue/detail", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/staff/queue/command", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/session", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/mfa", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/invite", routeClass: "internal", indexing: "noindex-nofollow" },

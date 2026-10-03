@@ -1,6 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { queueDetailSchema, queueFilterSchema, queuePageSchema } from "./queue-projection";
 const id = "a3000000-0000-4000-8000-000000000010";
+const readiness = {
+  profileActive: true,
+  accountActive: true,
+  emailVerified: true,
+  instrumentsCurrent: false,
+  authorisationCurrent: false,
+  paymentReadiness: "integration_pending",
+  recipientReadiness: "integration_pending",
+  ready: false,
+};
 const row = {
   caseId: id,
   assignedOwner: id,
@@ -35,7 +45,9 @@ describe("minimum queue projection contracts", () => {
       contactPreference: "email",
       mobileVerificationStatus: "pending",
     };
-    expect(queueDetailSchema.safeParse({ ...row, profile }).success).toBe(true);
+    expect(
+      queueDetailSchema.safeParse({ ...row, profile, claim: "unclaimed", readiness }).success,
+    ).toBe(true);
     for (const extra of [
       { maskedEmail: "raw@example.invalid" },
       { maskedMobile: "+27820000012" },

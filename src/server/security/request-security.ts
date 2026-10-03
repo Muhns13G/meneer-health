@@ -15,6 +15,7 @@ const directEndpointPrefixes = ["/api", "/.mcp"] as const;
 const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/staff/queue/read", "protected-command"],
   ["/staff/queue/detail", "protected-command"],
+  ["/staff/queue/command", "protected-command"],
   ["/staff/sign-in", "protected-command"],
   ["/staff/mfa", "protected-command"],
   ["/staff/session", "protected-command"],

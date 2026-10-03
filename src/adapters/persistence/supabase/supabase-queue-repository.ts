@@ -11,9 +11,37 @@ import {
   queueDetailSchema,
   type QueueFilter,
 } from "@/application/operations/queue-projection";
+import {
+  queueCommandSchema,
+  queueCommandResultSchema,
+  QueueConflictError,
+  QueueReadinessError,
+  type QueueCommand,
+} from "@/application/operations/queue-command";
 
 export class SupabaseQueueRepository {
   constructor(private readonly client: SupabaseClient) {}
+  async command(identity: ProviderIdentity, proof: WorkforceProof, command: QueueCommand) {
+    if (!proof.sessionId || identity.assurance !== "aal2") throw new IdentityRejectedError();
+    const input = queueCommandSchema.parse(command);
+    const { data, error } = await this.client.rpc("command_operations_queue", {
+      p_provider_subject: identity.providerSubject,
+      p_provider_session_id: identity.providerSessionId,
+      p_verified_email: identity.verifiedContact.value.trim().toLowerCase(),
+      p_session_id: proof.sessionId,
+      p_subject_id: proof.context.subjectId,
+      p_tenant_id: proof.context.tenantId,
+      p_command: input,
+    });
+    if (error?.code === "42501") throw new IdentityRejectedError();
+    if (error?.code === "40001") throw new QueueConflictError();
+    if (error?.code === "55000") throw new QueueReadinessError();
+    if (error) throw new IdentityUnavailableError();
+    const parsed = queueCommandResultSchema.safeParse(data);
+    if (!parsed.success || parsed.data.caseId !== input.caseId)
+      throw new IdentityUnavailableError();
+    return parsed.data;
+  }
   private async read(
     identity: ProviderIdentity,
     proof: WorkforceProof,

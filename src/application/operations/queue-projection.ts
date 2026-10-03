@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { readinessSchema } from "./queue-command";
 import {
   operationsStateSchema,
   operationsExceptionCodeSchema,
@@ -36,6 +37,8 @@ export const queuePageSchema = z
   .strict();
 export const queueDetailSchema = queueCaseSchema
   .extend({
+    claim: z.enum(["unclaimed", "yours", "other"]),
+    readiness: readinessSchema,
     profile: z
       .object({
         givenName: z.string().max(100).nullable(),
