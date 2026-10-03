@@ -74,6 +74,7 @@ test("own account documents and literal operational states are accessible withou
 });
 test("failure, expiry and renewed-session denial remove the old projection", async ({ page }) => {
   await isolateExternalFonts(page);
+  await page.clock.install();
   let available = false;
   await page.route("**/portal/account", (route) =>
     available
@@ -92,6 +93,7 @@ test("failure, expiry and renewed-session denial remove the old projection", asy
   available = true;
   await page.getByRole("button", { name: "Try again" }).click();
   await expect(page.getByText("portal@example.invalid", { exact: true })).toBeVisible();
+  await page.clock.fastForward(2000);
   await expect(page.getByRole("status")).toContainText("information has been hidden");
   await expect(page.getByText("portal@example.invalid")).toHaveCount(0);
   await page.getByRole("button", { name: "Check session" }).click();

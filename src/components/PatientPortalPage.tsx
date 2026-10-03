@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { portalViewSchema, type PortalView } from "@/domain/identity/patient-portal";
+import { PatientRightsPanel } from "./PatientRightsPanel";
 
 type ViewState =
   | { stage: "loading" | "signed-out" | "unavailable" | "expired" }
@@ -27,7 +28,7 @@ const stateLabels = {
   declined: "Declined",
 };
 
-export function PatientPortalPage({ mode }: { mode: "overview" | "profile" }) {
+export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "rights" }) {
   const [state, setState] = useState<ViewState>({ stage: "loading" });
   const controller = useRef<AbortController | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -130,7 +131,11 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" }) {
           tabIndex={-1}
           className="mt-6 font-serif text-4xl text-foreground sm:text-5xl"
         >
-          {mode === "profile" ? "Your profile" : "Your Meneer account"}
+          {mode === "profile"
+            ? "Your profile"
+            : mode === "rights"
+              ? "Your account and data requests"
+              : "Your Meneer account"}
         </h1>
         {state.stage !== "ready" ? (
           <section className="mt-8" aria-live="polite">
@@ -180,8 +185,20 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" }) {
               <Link to="/account/sign-out" className="text-gold underline underline-offset-4">
                 Sign out
               </Link>
+              <Link
+                to="/portal/rights"
+                className="text-gold underline underline-offset-4"
+                aria-current={mode === "rights" ? "page" : undefined}
+              >
+                Corrections and requests
+              </Link>
             </nav>
-            {mode === "profile" ? (
+            {mode === "rights" ? (
+              <PatientRightsPanel
+                profile={state.view.account.profile}
+                onInvalidate={() => void load()}
+              />
+            ) : mode === "profile" ? (
               <section className="mt-10">
                 <h2 className="font-serif text-2xl text-foreground">Your minimum profile</h2>
                 <dl className="mt-6 grid gap-5 sm:grid-cols-2">
@@ -214,8 +231,9 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" }) {
                   ))}
                 </dl>
                 <p className="mt-6 text-sm text-muted-foreground">
-                  This profile is read-only. Your contact preference is for operational messages,
-                  not marketing. An unverified mobile number cannot be used for account recovery.
+                  Use Corrections and requests to correct names or contact preference. Your contact
+                  preference is for operational messages, not marketing. An unverified mobile number
+                  cannot be used for account recovery.
                 </p>
               </section>
             ) : (

@@ -20,6 +20,7 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/api/payments/stripe/webhook", "provider-callback"],
   ["/account/verify", "protected-command"],
   ["/account/activate", "protected-command"],
+  ["/portal/rights/command", "protected-command"],
   ["/account/sign-in", "protected-command"],
   ["/account/recover", "protected-command"],
   ["/account/sign-out", "protected-command"],
