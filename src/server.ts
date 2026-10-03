@@ -11,6 +11,7 @@ import { createPatientActivationHttpHandler } from "./server/identity/patient-ac
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
+import { createQueueHttpHandler } from "./server/operations/queue-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import {
@@ -87,6 +88,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (["/staff/queue/read", "/staff/queue/detail"].includes(pathname)) {
+              return createQueueHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
             if (
               (boundedRequest.method === "POST" && pathname.startsWith("/staff/")) ||
               pathname === "/staff/session"

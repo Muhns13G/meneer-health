@@ -32,7 +32,7 @@ function response(status: number, body?: unknown, cookie?: string) {
     },
   });
 }
-function serviceFor(bindings: PatientSessionBindings) {
+export function workforceServiceFor(bindings: PatientSessionBindings) {
   const config = initialiseServerEnvironment({
     SUPABASE_URL: bindings.SUPABASE_URL,
     SUPABASE_SECRET_KEY: bindings.SUPABASE_SECRET_KEY,
@@ -68,7 +68,9 @@ export function createWorkforceHttpHandler(bindings: PatientSessionBindings, inj
             .success
         )
           return response(429);
-        const { context, session } = await (injected ?? serviceFor(bindings)).authorise(proof);
+        const { context, session } = await (injected ?? workforceServiceFor(bindings)).authorise(
+          proof,
+        );
         return response(200, {
           role: context.role,
           purpose: context.purpose,
@@ -92,7 +94,7 @@ export function createWorkforceHttpHandler(bindings: PatientSessionBindings, inj
     const only = (...names: string[]) =>
       [...fields.keys()].length === names.length && names.every((name) => fields.has(name));
     try {
-      const service = injected ?? serviceFor(bindings);
+      const service = injected ?? workforceServiceFor(bindings);
       if (url.pathname === "/staff/sign-in") {
         if (fields.get("action") === "request" && only("action", "email")) {
           await service.requestCode(fields.get("email")!);
