@@ -1,7 +1,7 @@
 ---
 audit_id: td-057-dependency-remediation
 title: TD-057 — Dependency Remediation Evidence
-status: verified-local-owner-ci-pending
+status: verified-local-and-ci
 last_updated: 2026-10-03
 baseline: daf1927
 owner: "@Muhns13G"
@@ -13,8 +13,10 @@ owner: "@Muhns13G"
 
 The full and production-filtered Bun audits now report **No vulnerabilities found**. The
 new advisory set discovered during Sprint 09 closeout is locally remediated; TD-057 is Verified
-at this repository boundary. Owner commit, exact-commit CI and post-deploy smoke checks remain
-release steps, not evidence already obtained. No hosted service, data, secret, branch, staging,
+at this repository boundary. The owner committed remediation at
+`1b41ed49d4a809baddd77be2cc598ee6668359bd`; exact-commit
+[CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125) passed
+on `itws-I`. Post-deploy smoke checks remain separate release evidence. No hosted service, data, secret, branch, staging,
 commit, push or deployment was changed. Site wording and metadata text are unchanged.
 
 Baseline `daf1927` contains the committed Sprint 09 closeout. Its initial 36 full/26 production
@@ -86,7 +88,9 @@ Sources: [Bun overrides](https://bun.sh/docs/pm/overrides),
 Local workstation Node defaults to 24.21.0; a temporary Node 22.23.2 runtime separately passed
 the 443-test unit suite, 156-test browser matrix, lint/types, build, dry-run and binding check.
 The repository runtime pin and workflow remain unchanged.
-The complete owner-run CI, including committed generated-output comparison, is still pending.
+The complete owner-run CI, including committed generated-output comparison, subsequently passed
+at the exact commit/run above. The table preserves the original local checkpoint; its generated
+gate is now satisfied by the committed file and passing CI, not bypassed.
 Local synthetic and browser evidence does not replace final live accessibility, clinical,
 commercial or operational approval.
 
@@ -119,9 +123,9 @@ TD-037, TD-038 and TD-043 retain their existing acceptance gates. No new debt ID
 this remediation. Keep Sprint 09's inventory scoped to its original commits; this is a separate
 post-closeout repair.
 
-Owner: review and commit all listed source/generated/document changes, verify exact-commit CI,
-then use the existing release runbook for deployment/smoke checks. Rollback is the owner-controlled
+Owner commit and exact-commit CI are verified. The owner still uses the existing release runbook
+for deployment/smoke checks. Rollback is the owner-controlled
 baseline package, lock, compatibility code and generated outputs together—not just one override.
-Sprint 10 may proceed after the owner confirms that commit/CI checkpoint; no pilot activation
+Sprint 10 may proceed at this verified commit/CI checkpoint; no pilot activation
 permission is implied. Verification and React guidance kept the compatibility work bounded,
 preserved stream ownership and separated passing local flows from hosted release approval.

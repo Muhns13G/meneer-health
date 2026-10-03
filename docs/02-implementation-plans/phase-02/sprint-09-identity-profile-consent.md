@@ -30,7 +30,7 @@ pilot status.
 | 9.7  | Add an authenticated client portal showing only approved profile, consent and non-clinical workflow status.                            | Portal boundary     | Completed locally                |
 | 9.8  | Implement correction, export and account-support request entry points without ordinary-email sensitive payloads.                       | Data rights         | Completed locally                |
 | 9.9  | Prove cross-tenant, wrong-role, stale/replayed invite, session, direct-endpoint and audit boundaries locally and hosted-synthetically. | Security            | Completed — synthetic proof      |
-| 9.10 | Reconcile evidence and issue the Sprint 09 completion report.                                                                          | All                 | Completed — owner commit pending |
+| 9.10 | Reconcile evidence and issue the Sprint 09 completion report.                                                                          | All                 | Completed — committed at daf1927 |
 
 ## Acceptance Gate
 
@@ -74,13 +74,14 @@ No real client, legal publication, clinical or payment workflow was activated.
 Task 9.10 reconciles the [completion report](../../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md),
 complete Git-derived file inventory, residual debt and RAG routing. Sprint 09 closes at the verified
 invite-only synthetic boundary, not a real-client release. TD-009, TD-037 and TD-038 retain their
-external/operational and live-review acceptance gates. The owner commits this closeout and verifies
-its GitHub CI; no remote run is inferred from local results.
+external/operational and live-review acceptance gates. Owner closeout commit `daf1927` is retained;
+the subsequent exact-commit remediation CI is recorded below, not inferred from local results.
 
 Final closeout audit discovered TD-057; no dependency was upgraded in Task 9.10. The subsequent
 dedicated [remediation](../../01-audits/td-057-dependency-remediation-2026-10-03.md) passes both
-audits and local regression. TD-057 is locally Verified; owner commit/exact-commit CI and
-post-deploy checks are not yet claimed. Sprint 09 closeout is committed at `daf1927`; its
+audits and local regression. TD-057 is Verified locally and in exact-commit
+[CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125) at
+owner remediation commit `1b41ed49`. Post-deploy checks remain separate. Sprint 09 closeout is committed at `daf1927`; its
 real-client activation gates remain unchanged.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
