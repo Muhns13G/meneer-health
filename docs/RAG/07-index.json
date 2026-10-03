@@ -726,6 +726,17 @@
       ]
     },
     {
+      "id": "phase-02-sprint-10-4-assigned-queue-projection",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md",
+      "status": "verified-local",
+      "last_updated": "2026-10-03",
+      "authority_for": [
+        "read-only current-assignment operations queue",
+        "minimum masked detail and bounded state pagination",
+        "local verification and remaining workflow activation gates"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11",
       "path": "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
       "status": "planned",

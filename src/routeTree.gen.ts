@@ -27,6 +27,7 @@ import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as PortalRightsRouteImport } from './routes/portal.rights'
+import { Route as StaffQueueRouteImport } from './routes/staff.queue'
 import { Route as StaffSignInRouteImport } from './routes/staff.sign-in'
 import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
 import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
@@ -124,6 +125,11 @@ const PortalRightsRoute = PortalRightsRouteImport.update({
   path: '/portal/rights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffQueueRoute = StaffQueueRouteImport.update({
+  id: '/staff/queue',
+  path: '/staff/queue',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaffSignInRoute = StaffSignInRouteImport.update({
   id: '/staff/sign-in',
   path: '/staff/sign-in',
@@ -174,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/portal': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
@@ -227,6 +235,7 @@ export interface FileRoutesById {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
@@ -255,6 +264,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/profile'
     | '/portal/rights'
+    | '/staff/queue'
     | '/staff/sign-in'
     | '/portal/'
     | '/api/journey/intent'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/profile'
     | '/portal/rights'
+    | '/staff/queue'
     | '/staff/sign-in'
     | '/portal'
     | '/api/journey/intent'
@@ -307,6 +318,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/profile'
     | '/portal/rights'
+    | '/staff/queue'
     | '/staff/sign-in'
     | '/portal/'
     | '/api/journey/intent'
@@ -334,6 +346,7 @@ export interface RootRouteChildren {
   GoThanksDadRoute: typeof GoThanksDadRoute
   PortalProfileRoute: typeof PortalProfileRoute
   PortalRightsRoute: typeof PortalRightsRoute
+  StaffQueueRoute: typeof StaffQueueRoute
   StaffSignInRoute: typeof StaffSignInRoute
   PortalIndexRoute: typeof PortalIndexRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
@@ -471,6 +484,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalRightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff/queue': {
+      id: '/staff/queue'
+      path: '/staff/queue'
+      fullPath: '/staff/queue'
+      preLoaderRoute: typeof StaffQueueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/staff/sign-in': {
       id: '/staff/sign-in'
       path: '/staff/sign-in'
@@ -534,6 +554,7 @@ const rootRouteChildren: RootRouteChildren = {
   GoThanksDadRoute: GoThanksDadRoute,
   PortalProfileRoute: PortalProfileRoute,
   PortalRightsRoute: PortalRightsRoute,
+  StaffQueueRoute: StaffQueueRoute,
   StaffSignInRoute: StaffSignInRoute,
   PortalIndexRoute: PortalIndexRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,

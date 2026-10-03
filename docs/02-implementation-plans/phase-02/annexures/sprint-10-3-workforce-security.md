@@ -14,7 +14,8 @@ Build the individual workforce entry boundary agreed in Task 10.1 on the Task 10
 persistence baseline committed at `c93d6d0`. `/staff/sign-in` now supports invitation-code or
 existing-account email-code verification, authenticator enrollment/challenge, session resumption,
 bounded renewal, sign-out and narrowly authorised staff invitations. Public website messaging
-is unchanged. The operational queue and patient-invitation UI remain Task 10.4 work.
+is unchanged. The read-only assigned queue remains Task 10.4 work. Patient invitations retain
+the governed Sprint 9 service/helper; a new dispatch UI is not part of Task 10.4's read-only scope.
 
 Email verification creates only a ten-minute encrypted MFA-setup cookie. It grants **no**
 application session or case access. An existing verified TOTP factor is reused, never reset by

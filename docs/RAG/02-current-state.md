@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
@@ -101,6 +102,21 @@ passes both audits and local regression, including 443 unit and 156 browser chec
 registry: **57 items, 50 Verified, seven non-Verified**. Owner remediation commit `1b41ed49`
 and exact-commit [CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125)
 are verified. Post-deploy smoke remains separate; no hosted change was made by this remediation.
+
+## Sprint 10.4 Assigned Queue Checkpoint — 3 October 2026
+
+[Task 10.4](../02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md)
+adds `/staff/queue` and protected read-only POST endpoints for current assigned operations cases.
+Live provider/application AAL2, membership, tenant, role/purpose and case assignments are rechecked.
+The list contains opaque references, operational states, timestamps, facts and coded exceptions;
+only assigned detail contains names and database-masked contacts. State filtering and 25-row
+keyset pagination are bounded. No raw contact, clinical content or tenant-wide count is returned.
+Private data is not persisted and is cleared before reads, on denial and at session expiry.
+Hand-off/payment readiness is explicitly not evaluated; Task 10.5 and Sprint 11 own those decisions.
+Local migration replay/schema diff, database, unit, workforce and browser checks support this
+implementation checkpoint, not hosted activation. Hosted remains the recorded 21-migration baseline;
+all three Sprint 10 migrations require separate approval/proof. Tasks 10.5–10.10 remain.
+Public wording and TD-009/TD-043 status are unchanged.
 
 ## Sprint 10.3 Workforce Security Checkpoint — 3 October 2026
 
