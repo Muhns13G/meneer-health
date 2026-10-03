@@ -7,6 +7,7 @@ last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md
@@ -78,6 +79,15 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Current Security Exception: TD-057
+
+Task 9.10's 2026-10-03 dependency audits fail: 36 findings overall and 26 in the production-filtered
+graph. Runtime reachability has not been established. Sprint 09 functional tests/build pass, but
+do not describe its dependency security or current complete CI matrix as passing. A dedicated
+remediation task is required before normal Sprint 10 feature work or real-client activation; see
+the [completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md) and
+[registry](../04-technical-debt/technical-debt-registry-v1.md). Total debt: 49 Verified, eight non-Verified.
 
 ## Phase 01 Closure Boundary
 
@@ -205,13 +215,24 @@ Sprint 09–13 query traffic exists; do not optimise or remove indexes from an e
 
 ## Current Capability Limits
 
+Sprint 09 is engineering-complete at the invite-only synthetic boundary; its
+[completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md) records
+profile/receipt/portal/rights entry and real hosted Auth proof. Real client activation remains
+unapproved: hosted tenant suspended, no real transactional publication, no staff invitation UI,
+no rights processor/secure export delivery and no released-flow assistive-technology approval.
+Seven debts remain non-Verified. This current checkpoint supersedes earlier local-only statements
+below, without rewriting their historical evidence.
+
 Sprint 08 completion is the approved decision/evidence boundary, including the clean hosted
 baseline. It does not imply that every original external-input intention is satisfied. Seven debts
 remain non-Verified; final appointments, supplier/recipient schedules, rendered approvals and
 routed support exercises must be supplied before affected capabilities activate. The completion
 report explicitly records these deviations and their Sprint 09–13 ownership.
 
-Do not state that Meneer currently provides functioning registration, consent capture, medical questionnaires, clinician review, prescribing, payment, pharmacy fulfilment, delivery tracking, support case management, or follow-up. The v1 interface implies several of these capabilities but does not implement their backend or durable records.
+Do not claim live registration, client consent capture, clinical questionnaires, prescribing,
+payments, pharmacy fulfilment or reviewed support/rights fulfilment. Sprint 09 provides durable
+invite-only account/profile/receipt and request-entry code with synthetic proof, not released
+clinical, commercial or staff operations. A rights request marked received is not fulfilled.
 
 Do not state that form submission succeeded. As of the verified Sprint 1.2 working-tree boundary,
 `/start` and `/peptides` render non-transactional gates with no forms or inputs. Their previous

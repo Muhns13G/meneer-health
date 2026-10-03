@@ -3,10 +3,11 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-portable-direction
 authority: strategic
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
@@ -46,6 +47,12 @@ remain gated or waitlisted until approved.
 
 Phase 01 is complete at the secure inactive-foundation boundary. The next delivery boundary is the
 minimum invite-only pilot, not a framework migration.
+
+Sprint 09 now completes the TanStack invite-only identity/profile, exact-document receipt, portal
+and correction/request entry boundary with portable SQL migrations and synthetic local/hosted
+proof. The [completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md)
+records the remaining real-client activation gates. Sprint 10 is staff/manual hand-off work, not
+a framework migration; Next.js or Laravel/React remains a separate later decision.
 
 ### Post-v1 public product
 

@@ -3,7 +3,7 @@ rag_id: meneer-decision-register
 title: Meneer Decision Register
 status: active
 authority: mixed
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 ---
@@ -11,6 +11,19 @@ sensitivity: internal
 # Meneer Decision Register
 
 ## Usage
+
+### DIR-091 — Transactional tracking retention (owner accepted, 2026-10-03)
+
+Retain useful existing tracking; disable or bypass a mechanism when it compromises authentication,
+delivery or production reliability. Sprint 09 uses code-only emails and a first-party confirmation
+boundary, not credential-bearing tracked links. Never send codes, sessions, clinical content or
+credential URLs into tracking. Any future link rewriting/prefetch or demonstrated harm requires
+targeted mitigation and re-verification. This decision neither enables new collection nor expands
+the separately approved marketing-measurement contract. No Brevo setting was changed in Task 9.9.
+
+Evidence: [Task 9.9](../02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md),
+[FC-001](../05-future-considerations/postgres-auth-email-vendor-strategy.md), and the
+[Sprint 09 completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md).
 
 This register separates confirmed direction from unresolved choices. “Confirmed” records owner direction, not implementation completion. Formal architecture, clinical, legal, privacy, or operational decisions move into the owned [`docs/07-decisions/`](../07-decisions/README.md) record set with rationale, consequences, effective dates, and approvers. Only approved records are authoritative.
 

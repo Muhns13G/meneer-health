@@ -73,7 +73,13 @@ The invitation image alone is not evidence of harm; code-only credential protect
 retesting remain recorded under FC-001. No tracking setting was changed.
 TD-009's wider responsibility/partner obligations are not closed by this proof. See
 [the security annexure](../02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md).
-Do not close Sprint 09 or report patient activation readiness from database proof alone.
+Task 9.10 closes Sprint 09 with local/browser/provider evidence and the accepted tracking policy,
+not database proof alone. See the [completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md).
+The original 56-item cohort remains 49 Verified and seven non-Verified. TD-009's profile/receipt/hosted identity
+implementation is delivered; named-party/publication and manual-hand-off/privacy operations remain
+mandatory. TD-037/TD-038 have routed synthetic browser evidence but retain live released-flow
+review in Sprint 12. No new product debt ID is introduced. Rights processing/secure export/contact
+step-up remain operational launch gates even though TD-016's earlier foundation is Verified.
 
 Task 8.2 and [DR-011](../07-decisions/DR-011-minimum-pilot-product-pathway.md) originally selected
 TD-007's scope-removal route. Task 8.4 and
@@ -248,6 +254,17 @@ removal; Task 8.4 and DR-013 later reopened it by restoring a gated product cata
 5. **Design secure data operations:** TD-014 through TD-020 and establish TD-055 migration evidence.
 6. **Correct journeys and public content:** TD-035 through TD-047.
 7. **Complete public-launch quality:** TD-038, TD-039, TD-042, TD-044, TD-045, and TD-048.
+
+## H. Phase 02 Newly Discovered Debt
+
+| ID     | Pri | Status | Debt and evidence                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Required outcome / acceptance evidence                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------ | --: | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TD-057 |  P0 | Open   | Task 9.10 on 2026-10-03 found 36 advisory findings (14 high, 16 moderate, 6 low) with `bun run audit`, and 26 (9 high, 11 moderate, 6 low) with `bun run audit:prod`; both exit 1. Affected families include js-yaml, brace-expansion, sharp, Vitest/mocker, humanfs, baseline-browser-mapping, braces, undici and browserslist. Production-filtered graph findings are not proof of deployed Worker reachability. Owner: @Muhns13G; target: before a passing release/real-client activation, with a dedicated remediation task before normal Sprint 10 feature work. | Capture advisory paths and deployed/build/test reachability, make bounded compatible updates or narrowly justified overrides, synchronize `bun.lock`, and rerun frozen install, both audits, types, lint, unit/browser/database tests, build and dry-run. Require passing audit gates; any exception needs named security approval, scope and expiry. Do not suppress checks or perform untested bulk upgrades. Evidence: [Sprint 09 completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md). |
+
+Current total: **57 items — 49 Verified, eight non-Verified**. TD-021 retains its historical
+dependency-policy/enforcement evidence; TD-057 records this newly observed advisory set as a new
+immutable ID. Sprint 09 functional implementation is complete, but a clean security/CI release is
+not claimed while either audit gate fails.
 
 ## Registry Maintenance Rules
 

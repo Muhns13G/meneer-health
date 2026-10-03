@@ -4,7 +4,7 @@ title: Staff Operations Queue and Manual Protocol Hand-Off
 status: planned
 primary_debt: [TD-009, TD-043]
 depends_on: [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013, DR-015]
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 owner: "@Muhns13G"
 ---
 
@@ -17,6 +17,19 @@ recording a manual, auditable minimum-data bridge to the separate protocol porta
 coordinate work without granting clinical authority or copying protocol data into Meneer.
 
 ## Commit-Sized Task Plan
+
+### Reconciled Sprint 09 prerequisite
+
+Sprint 09 is [completed with activation gates](../../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md):
+the profile, invitation, first-party OTP, session, portal and rights-request boundaries exist, and
+all 21 migrations were verified hosted. Disposable hosted proof restored the empty, suspended
+pilot baseline. The staff invitation service is a governed helper, not an operational staff UI.
+Task 10.1 must settle roles, assignments and transitions before queue implementation; Task 10.3
+still owns staff invitation integration and AAL2 enforcement. Do not infer real-client activation,
+approved legal publication, operational rights fulfilment or clinical authority from Sprint 09.
+
+Task 9.10 discovered TD-057 dependency advisories. Remediate and prove both audit gates before
+normal Sprint 10 feature implementation; this does not change the approved queue mission.
 
 | Task  | Commit-sized outcome                                                                                                                            | Gate               | Status  |
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------- |

@@ -3,10 +3,11 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-10-02
+last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-08-2-product-pathway-decision.md
@@ -57,6 +58,10 @@ sources:
 
 # Meneer Project Context
 
+Task 9.10 discovered TD-057 dependency advisories: functional Sprint 09 validation passes, but
+the dependency audit gates fail. The registry now has 49 Verified and eight non-Verified items.
+Resolve this security-release prerequisite before normal Sprint 10 feature implementation.
+
 ## Product Intent
 
 Meneer is intended to become a South African direct-to-consumer men's health service. Its proposed experience combines discreet condition-led discovery, structured intake, consultation with an authorised clinician, prescribing where appropriate, pharmacy fulfilment, neutral delivery, and ongoing support.
@@ -66,9 +71,12 @@ The product is intended to reduce embarrassment and practical friction without b
 ## Current Product Stage
 
 Sprint 08 completed the pilot decision and hosted-baseline work at checkpoint `3950b15`. The
-suspended tenant is clean, but seven existing activation gates remain. Sprint 09 begins the
-invite-only identity, profile and acknowledgement implementation; the external provider and
-commercial publication inputs must be verified before their dependent customer journeys activate.
+suspended tenant is clean, but seven existing activation gates remain. Sprint 09 completes the
+invite-only identity, profile, exact-document activation, portal and correction/rights entry at a
+verified synthetic boundary. Its [completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md)
+separates local browser/database and real hosted provider evidence from client release. Sprint 10
+owns staff operations/manual hand-off; external provider and commercial publication inputs remain
+required before dependent customer journeys activate.
 
 Phase 01 formally closed on 2 October 2026 at the secure inactive-foundation boundary under
 DR-010. All seven planned sprints are complete. Forty-nine of 56 original technical-debt items are
@@ -96,8 +104,9 @@ Task 8.5 and DR-014 approve the minimum non-clinical client profile. Client-ente
 to given/family name, mobile/WhatsApp and operational contact preference; verified email is sourced
 from managed identity, and internal identity/lifecycle facts remain server-owned. Health, product,
 address, credential and free-text data are excluded. Role projections, correction/export/deletion
-and 90-day post-closure profile disposition are fixed for Sprint 9 implementation. No profile or
-hosted processing is active yet.
+and 90-day post-closure profile disposition govern the implementation. Sprint 09 implements the
+profile and correction/request entry; secure rights fulfilment remains later operational work.
+Hosted synthetic Auth/profile processing was proved and cleaned up; no real client is active.
 
 Task 8.6 and DR-015 approve distinct, versioned account terms, transactional privacy-notice
 acknowledgement, order-specific terms and recipient-specific hand-off authorisation contracts.

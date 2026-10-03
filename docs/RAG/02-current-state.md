@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md
@@ -90,6 +91,25 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+Task 9.10's final audit adds **TD-057**: 36 overall dependency advisory findings and 26 in the
+production-filtered graph on 2026-10-03. Functional validation passes; both audit gates fail.
+Current registry: 57 items, 49 Verified, eight non-Verified. Do not infer a clean CI/security
+release from the completed Sprint 09 functional boundary.
+
+## Sprint 09 Closure — 3 October 2026
+
+Tasks 9.1–9.10 complete the approved invite-only identity/profile/instrument/portal engineering
+boundary. Implementation checkpoint `0511752` contains committed Tasks 9.1–9.9; Task 9.10's
+[completion report](../03-completion-reports/phase-02/sprint-09-identity-profile-consent.md) and
+synchronised documents await the owner's commit/CI. Hosted identity, cookie consumption and
+independent provider/application revocation passed with disposable fixtures, then cleanup restored
+the suspended empty-client baseline. The owner accepts retaining tracking that does not harm
+authentication/reliability; no marketing collection was newly enabled. Forty-nine debts remain
+Verified and seven retain their original activation gates; TD-057 adds an eighth non-Verified
+item. Remediate the failing dependency audits before normal Sprint 10 feature implementation;
+Phase 02 and real-client release are not complete. Earlier task sections below are dated checkpoints,
+not claims that their then-missing implementation is still absent.
 
 ## Sprint 09.9 Hosted Database Proof — 3 October 2026
 
