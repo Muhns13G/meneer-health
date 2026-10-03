@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-03",
+    "last_updated": "2026-10-04",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -734,6 +734,17 @@
         "read-only current-assignment operations queue",
         "minimum masked detail and bounded state pagination",
         "local verification and remaining workflow activation gates"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-10-5-claimed-queue-commands",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md",
+      "status": "verified-local-gated",
+      "last_updated": "2026-10-04",
+      "authority_for": [
+        "assigned claim and optimistic command boundary",
+        "payload-bound replay and atomic audit",
+        "pending recipient and deposit activation gates"
       ]
     },
     {

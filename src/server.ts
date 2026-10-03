@@ -88,7 +88,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
-            if (["/staff/queue/read", "/staff/queue/detail"].includes(pathname)) {
+            if (
+              ["/staff/queue/read", "/staff/queue/detail", "/staff/queue/command"].includes(
+                pathname,
+              )
+            ) {
               return createQueueHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
               );

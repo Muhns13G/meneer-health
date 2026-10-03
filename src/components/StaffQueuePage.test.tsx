@@ -3,6 +3,16 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { StaffQueuePage } from "./StaffQueuePage";
 const id = "a1000000-0000-4000-8000-000000000001";
+const readiness = {
+  profileActive: true,
+  accountActive: true,
+  emailVerified: true,
+  instrumentsCurrent: false,
+  authorisationCurrent: false,
+  paymentReadiness: "integration_pending",
+  recipientReadiness: "integration_pending",
+  ready: false,
+};
 const item = {
   caseId: id,
   state: "onboarding_pending",
@@ -21,6 +31,41 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe("accessible assigned queue", () => {
+  it("sends a version-bound claim once and clears private data on a conflict", async () => {
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce(Response.json({ cases: [item], nextCursor: null }))
+      .mockResolvedValueOnce(
+        Response.json({ ...item, profile: null, claim: "unclaimed", readiness }),
+      )
+      .mockResolvedValueOnce(new Response(null, { status: 409 }));
+    vi.stubGlobal("fetch", fetch);
+    render(<StaffQueuePage />);
+    await userEvent.click(await screen.findByRole("button", { name: `View case ${id}` }));
+    await userEvent.click(await screen.findByRole("button", { name: "Claim case" }));
+    expect(await screen.findByText(/case changed or is already claimed/)).toBeVisible();
+    expect(screen.queryByRole("heading", { name: `Case ${id}` })).toBeNull();
+    expect(fetch.mock.calls[2]![0]).toBe("/staff/queue/command");
+    const fields = new URLSearchParams(fetch.mock.calls[2]![1].body);
+    expect(fields.get("expectedVersion")).toBe("1");
+    expect(fields.get("action")).toBe("claim");
+    expect(fields.get("requestKey")).toMatch(/^[a-f0-9-]{36}$/);
+  });
+  it("never offers a payment override for a claimed case", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi
+        .fn()
+        .mockResolvedValueOnce(Response.json({ cases: [item], nextCursor: null }))
+        .mockResolvedValueOnce(
+          Response.json({ ...item, profile: null, claim: "yours", readiness }),
+        ),
+    );
+    render(<StaffQueuePage />);
+    await userEvent.click(await screen.findByRole("button", { name: `View case ${id}` }));
+    expect(await screen.findByRole("button", { name: "Mark ready for hand-off" })).toBeDisabled();
+    expect(screen.getByRole("button", { name: "Release claim" })).toBeEnabled();
+  });
   it("loads masked details and clears them on denial", async () => {
     const fetch = vi
       .fn()
@@ -28,6 +73,8 @@ describe("accessible assigned queue", () => {
       .mockResolvedValueOnce(
         Response.json({
           ...item,
+          claim: "unclaimed",
+          readiness,
           profile: {
             givenName: "Synthetic",
             familyName: "Client",

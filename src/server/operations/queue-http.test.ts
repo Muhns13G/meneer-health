@@ -3,6 +3,7 @@ import { createQueueHttpHandler } from "./queue-http";
 import { sealWorkforceProof } from "@/server/identity/workforce-session-cookie";
 import type { WorkforceProof } from "@/application/identity/workforce-session-service";
 import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
+import { QueueConflictError, QueueReadinessError } from "@/application/operations/queue-command";
 const id = "a1000000-0000-4000-8000-000000000001";
 const key = btoa("s".repeat(32));
 const proof: WorkforceProof = {
@@ -29,6 +30,7 @@ async function setup() {
   const queue = {
     list: vi.fn().mockResolvedValue({ cases: [], nextCursor: null }),
     detail: vi.fn().mockResolvedValue({}),
+    command: vi.fn().mockResolvedValue({}),
   };
   const cookie = (await sealWorkforceProof(proof, new Date(Date.now() + 600_000), key)).split(
     ";",
@@ -59,6 +61,21 @@ async function setup() {
   return { workforce, queue, handler, request };
 }
 describe("scoped queue HTTP", () => {
+  it("protects commands with live scope, exact fields and typed denial statuses", async () => {
+    const s = await setup();
+    const fields = { action: "claim", caseId: id, expectedVersion: "1", requestKey: id };
+    expect((await s.handler(s.request(fields, "command"))).status).toBe(200);
+    expect(s.queue.command).toHaveBeenCalledOnce();
+    expect((await s.handler(s.request({ ...fields, paid: "true" }, "command"))).status).toBe(422);
+    expect((await s.handler(s.request(fields, "command", { cookie: "" }))).status).toBe(401);
+    expect(
+      (await s.handler(s.request(fields, "command", { origin: "https://evil.invalid" }))).status,
+    ).toBe(403);
+    s.queue.command.mockRejectedValue(new QueueConflictError());
+    expect((await s.handler(s.request(fields, "command"))).status).toBe(409);
+    s.queue.command.mockRejectedValue(new QueueReadinessError());
+    expect((await s.handler(s.request(fields, "command"))).status).toBe(412);
+  });
   it("authorises each read and uses private no-store responses without renewing", async () => {
     const s = await setup();
     const r = await s.handler(s.request());

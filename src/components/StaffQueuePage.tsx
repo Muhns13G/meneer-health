@@ -1,5 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { operationsStateSchema } from "../../contracts/operations";
+import { operationsStateSchema, operationsExceptionCodeSchema } from "../../contracts/operations";
+import {
+  queueCommandResultSchema,
+  type QueueCommand,
+} from "@/application/operations/queue-command";
 import {
   queuePageSchema,
   queueDetailSchema,
@@ -17,6 +21,10 @@ function failure(status: number) {
   if (status === 403)
     return "Access is unavailable. Check your session and assigned operations scope.";
   if (status === 429) return "Too many requests. Wait before retrying.";
+  if (status === 409)
+    return "The case changed or is already claimed. Refresh before taking another action.";
+  if (status === 412)
+    return "Readiness or delivery reconciliation is incomplete. No state change was made.";
   return "The queue is temporarily unavailable. No case information is displayed.";
 }
 
@@ -26,12 +34,13 @@ export function StaffQueuePage() {
   const [detail, setDetail] = useState<QueueDetail | null>(null);
   const [message, setMessage] = useState("Loading assigned cases…");
   const [busy, setBusy] = useState(false);
+  const [exceptionCode, setExceptionCode] = useState(operationsExceptionCodeSchema.options[0]);
   const requestRef = useRef<AbortController | null>(null);
   const detailHeading = useRef<HTMLHeadingElement>(null);
   const sequence = useRef(0);
   const expiryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  async function load(filter: QueueFilter, caseId?: string) {
+  async function load(filter: QueueFilter, caseId?: string, command?: QueueCommand) {
     requestRef.current?.abort();
     if (expiryTimer.current) clearTimeout(expiryTimer.current);
     const controller = new AbortController();
@@ -43,6 +52,26 @@ export function StaffQueuePage() {
     setPage(null);
     setMessage(caseId ? "Loading assigned case…" : "Loading assigned cases…");
     try {
+      if (command) {
+        const mutation = await fetch("/staff/queue/command", {
+          method: "POST",
+          credentials: "same-origin",
+          cache: "no-store",
+          signal: controller.signal,
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(
+            Object.entries(command).map(([key, value]) => [key, String(value)]),
+          ),
+        });
+        if (current !== sequence.current) return;
+        if (!mutation.ok) {
+          setMessage(failure(mutation.status));
+          return;
+        }
+        const result = queueCommandResultSchema.parse(await mutation.json());
+        if (result.caseId !== command.caseId) throw new Error("Unexpected command result");
+        // Re-read live state after the mutation; never treat a replay receipt as current authority.
+      }
       const response = await fetch(caseId ? "/staff/queue/detail" : "/staff/queue/read", {
         method: "POST",
         credentials: "same-origin",
@@ -97,7 +126,12 @@ export function StaffQueuePage() {
         );
       }
     } catch {
-      if (current === sequence.current && !controller.signal.aborted) setMessage(failure(503));
+      if (current === sequence.current && !controller.signal.aborted)
+        setMessage(
+          command
+            ? "Command result uncertain. Refresh the assigned queue before retrying. No automatic retry was sent."
+            : failure(503),
+        );
     } finally {
       if (current === sequence.current) setBusy(false);
     }
@@ -266,9 +300,139 @@ export function StaffQueuePage() {
             <p className="mt-4">No client profile has been activated.</p>
           )}
           <p className="mt-5">
-            Hand-off and payment readiness have not been evaluated. This view cannot claim, invite,
-            send contact data or change case state.
+            Reservation: {detail.claim}. Payment and recipient readiness remain integration pending.
+            A claim is not clinical approval, payment clearance or permission to send contact data.
           </p>
+          <dl className="mt-4 grid gap-2">
+            {Object.entries(detail.readiness)
+              .filter(([key]) => !["paymentReadiness", "recipientReadiness", "ready"].includes(key))
+              .map(([key, value]) => (
+                <div key={key}>
+                  <dt>{key.replaceAll(/([A-Z])/g, " $1")}</dt>
+                  <dd>{value ? "Confirmed" : "Not confirmed"}</dd>
+                </div>
+              ))}
+          </dl>
+          {!["cancelled", "provider_outcome_recorded"].includes(detail.state) && (
+            <div className="mt-6 flex flex-wrap gap-3">
+              {detail.claim === "unclaimed" && (
+                <button
+                  className={buttonClass}
+                  disabled={busy}
+                  onClick={() =>
+                    void load({ state, cursor: null }, detail.caseId, {
+                      action: "claim",
+                      caseId: detail.caseId,
+                      expectedVersion: detail.version,
+                      requestKey: crypto.randomUUID(),
+                    })
+                  }
+                >
+                  Claim case
+                </button>
+              )}
+              {detail.claim === "yours" && (
+                <>
+                  <button
+                    className={buttonClass}
+                    disabled={busy}
+                    onClick={() =>
+                      void load({ state, cursor: null }, detail.caseId, {
+                        action: "release",
+                        caseId: detail.caseId,
+                        expectedVersion: detail.version,
+                        requestKey: crypto.randomUUID(),
+                      })
+                    }
+                  >
+                    Release claim
+                  </button>
+                  <button
+                    className={buttonClass}
+                    disabled={busy || !detail.readiness.ready}
+                    title="Requires approved recipient and authoritative deposit ledger"
+                    onClick={() =>
+                      void load({ state, cursor: null }, detail.caseId, {
+                        action: "mark_ready",
+                        caseId: detail.caseId,
+                        expectedVersion: detail.version,
+                        requestKey: crypto.randomUUID(),
+                      })
+                    }
+                  >
+                    Mark ready for hand-off
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+          {detail.claim === "yours" &&
+            !["cancelled", "provider_outcome_recorded"].includes(detail.state) && (
+              <form
+                className="mt-6 flex flex-wrap gap-3 items-end"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void load({ state, cursor: null }, detail.caseId, {
+                    action: "record_exception",
+                    caseId: detail.caseId,
+                    expectedVersion: detail.version,
+                    requestKey: crypto.randomUUID(),
+                    code: exceptionCode,
+                  });
+                }}
+              >
+                <div>
+                  <label htmlFor="queue-exception" className="block">
+                    Pause reason
+                  </label>
+                  <select
+                    id="queue-exception"
+                    className="mt-2 rounded border border-border bg-surface p-3"
+                    value={exceptionCode}
+                    disabled={busy || detail.state === "handoff_exception"}
+                    onChange={(event) =>
+                      setExceptionCode(operationsExceptionCodeSchema.parse(event.target.value))
+                    }
+                  >
+                    {operationsExceptionCodeSchema.options.map((code) => (
+                      <option key={code} value={code}>
+                        {code.replaceAll("_", " ")}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  className={buttonClass}
+                  disabled={busy || detail.state === "handoff_exception"}
+                >
+                  Pause with coded exception
+                </button>
+                {["onboarding_pending", "ready_for_handoff", "handoff_exception"].includes(
+                  detail.state,
+                ) && (
+                  <button
+                    type="button"
+                    className={buttonClass}
+                    disabled={busy}
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Cancel this case? Any existing external delivery still requires reconciliation.",
+                        )
+                      )
+                        void load({ state, cursor: null }, detail.caseId, {
+                          action: "cancel",
+                          caseId: detail.caseId,
+                          expectedVersion: detail.version,
+                          requestKey: crypto.randomUUID(),
+                        });
+                    }}
+                  >
+                    Cancel case
+                  </button>
+                )}
+              </form>
+            )}
           <button
             className={`${buttonClass} mt-6`}
             onClick={() => void load({ state, cursor: null })}

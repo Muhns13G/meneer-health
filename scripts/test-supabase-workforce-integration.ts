@@ -6,6 +6,7 @@ import { createSupabaseManagedIdentityProvider } from "../src/adapters/identity/
 import { SupabaseIdentitySessionRepository } from "../src/adapters/identity/supabase/supabase-identity-session-repository";
 import { SupabaseWorkforceContextRepository } from "../src/adapters/identity/supabase/supabase-workforce-context-repository";
 import { WorkforceSessionService } from "../src/application/identity/workforce-session-service";
+import { SupabaseQueueRepository } from "../src/adapters/persistence/supabase/supabase-queue-repository";
 import {
   sealWorkforceProof,
   openWorkforceProof,
@@ -77,6 +78,7 @@ const service = new WorkforceSessionService(
 const email = `synthetic-workforce-${crypto.randomUUID()}@example.invalid`;
 let providerId: string | undefined;
 let subjectId: string | undefined;
+const caseId = crypto.randomUUID();
 try {
   const created = await client.auth.admin.createUser({ email, email_confirm: true });
   invariant(!created.error && created.data.user, "WORKFORCE_TEST_CREATE_FAILED");
@@ -129,6 +131,58 @@ try {
       renewed.session.absoluteExpiresAt.getTime() === complete.session.absoluteExpiresAt.getTime(),
     "WORKFORCE_TEST_RENEW_EXTENDED_SESSION",
   );
+  localSql(`insert into public.operations_cases(id,tenant_id,subject_id)
+    values('${caseId}','10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001');
+    insert into public.operations_assignments(tenant_id,case_id,subject_id,workforce_subject_id,granted_by_subject_id,starts_at,expires_at)
+    values('10000000-0000-4000-8000-000000000001','${caseId}','20000000-0000-4000-8000-000000000001',
+      '${subjectId}','20000000-0000-4000-8000-000000000003',now(),now()+interval '1 hour');`);
+  const queue = new SupabaseQueueRepository(client);
+  const identity = (await service.authorise(renewed.proof)).identity;
+  const candidates = [crypto.randomUUID(), crypto.randomUUID()].map((requestKey) => ({
+    action: "claim" as const,
+    caseId,
+    expectedVersion: 1,
+    requestKey,
+  }));
+  const claims = await Promise.allSettled(
+    candidates.map((command) => queue.command(identity, renewed.proof, command)),
+  );
+  invariant(
+    claims.filter((result) => result.status === "fulfilled").length === 1 &&
+      claims.filter((result) => result.status === "rejected").length === 1,
+    "WORKFORCE_TEST_CONCURRENT_CLAIM_FAILED",
+  );
+  const winningIndex = claims.findIndex((result) => result.status === "fulfilled");
+  const replays = await Promise.all([
+    queue.command(identity, renewed.proof, candidates[winningIndex]!),
+    queue.command(identity, renewed.proof, candidates[winningIndex]!),
+  ]);
+  invariant(
+    replays.every((result) => result.version === 2 && result.claim === "yours"),
+    "WORKFORCE_TEST_CONCURRENT_REPLAY_FAILED",
+  );
+  invariant(
+    localSql(`select count(*) from public.operations_events where case_id='${caseId}';`) === "1",
+    "WORKFORCE_TEST_DUPLICATE_AUDIT",
+  );
+  await denied(() =>
+    queue.command(identity, renewed.proof, {
+      action: "mark_ready",
+      caseId,
+      expectedVersion: 2,
+      requestKey: crypto.randomUUID(),
+    }),
+  );
+  await queue.command(identity, renewed.proof, {
+    action: "release",
+    caseId,
+    expectedVersion: 2,
+    requestKey: crypto.randomUUID(),
+  });
+  invariant(
+    (await queue.detail(identity, renewed.proof, caseId)).claim === "unclaimed",
+    "WORKFORCE_TEST_RELEASE_FAILED",
+  );
   await denied(() =>
     service.invite(renewed.proof, "unapproved@example.invalid", crypto.randomUUID()),
   );
@@ -143,6 +197,17 @@ try {
   // Only this generated .invalid fixture is removed; no hosted target is permitted.
   if (providerId) {
     localSql(`begin;
+      -- Local-only, generated synthetic case cleanup; append-only definitions remain intact.
+      lock table identity_private.operations_commands,public.operations_events in access exclusive mode;
+      alter table identity_private.operations_commands disable trigger operations_commands_append_only;
+      alter table public.operations_events disable trigger operations_events_append_only;
+      delete from identity_private.operations_commands where case_id='${caseId}';
+      delete from public.operations_events where case_id='${caseId}';
+      alter table identity_private.operations_commands enable trigger operations_commands_append_only;
+      alter table public.operations_events enable trigger operations_events_append_only;
+      delete from public.operations_claims where case_id='${caseId}';
+      delete from public.operations_assignments where case_id='${caseId}';
+      delete from public.operations_cases where id='${caseId}';
       delete from public.identity_sessions where subject_id=(select subject_id from public.external_identities where provider='supabase' and provider_subject='${providerId}');
       delete from public.tenant_memberships where subject_id=(select subject_id from public.external_identities where provider='supabase' and provider_subject='${providerId}');
       delete from public.subject_contacts where subject_id=(select subject_id from public.external_identities where provider='supabase' and provider_subject='${providerId}');
@@ -153,5 +218,5 @@ try {
   }
 }
 console.log(
-  "Synthetic local workforce email/TOTP/context/renewal/revocation proof passed; fixture removed.",
+  "Synthetic local workforce AAL2/session and concurrent queue claim/replay/release proof passed; fixtures removed.",
 );

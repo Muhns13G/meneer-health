@@ -7,6 +7,7 @@ import {
   IdentityUnavailableError,
 } from "@/application/identity/managed-identity-provider";
 import { SupabaseQueueRepository } from "./supabase-queue-repository";
+import { QueueConflictError, QueueReadinessError } from "@/application/operations/queue-command";
 const id = "a1000000-0000-4000-8000-000000000001";
 const identity: ProviderIdentity = {
   provider: "supabase",
@@ -24,6 +25,30 @@ const proof: WorkforceProof = {
   providerSession: { accessToken: "synthetic", refreshToken: "synthetic", expiresAt: new Date() },
 };
 describe("minimum server queue repository", () => {
+  it.each([
+    ["40001", QueueConflictError],
+    ["55000", QueueReadinessError],
+    ["42501", IdentityRejectedError],
+    ["08006", IdentityUnavailableError],
+  ])("maps command failure %s without exposing SQL", async (code, errorType) => {
+    const rpc = vi.fn().mockResolvedValue({ error: { code }, data: null });
+    const repo = new SupabaseQueueRepository({ rpc } as unknown as SupabaseClient);
+    await expect(
+      repo.command(identity, proof, {
+        action: "claim",
+        caseId: id,
+        expectedVersion: 1,
+        requestKey: id,
+      }),
+    ).rejects.toBeInstanceOf(errorType);
+    expect(rpc).toHaveBeenCalledWith(
+      "command_operations_queue",
+      expect.objectContaining({
+        p_session_id: id,
+        p_command: { action: "claim", caseId: id, expectedVersion: 1, requestKey: id },
+      }),
+    );
+  });
   it("passes verified scope and rejects an expanded response", async () => {
     const rpc = vi.fn().mockResolvedValue({ data: { cases: [], nextCursor: null }, error: null });
     const repo = new SupabaseQueueRepository({ rpc } as unknown as SupabaseClient);
