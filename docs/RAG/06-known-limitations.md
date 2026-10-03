@@ -13,6 +13,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -118,8 +119,10 @@ authority, pathway, agreement, implementation and release gates.
 
 Task 8.5 and DR-014 approved the minimum profile contract; Task 9.6 now implements local atomic
 activation/profile writes and exact account/privacy receipts. It does not enable public registration
-or hosted client use. Task 9.7 supplies a locally verified own-client read-only portal. Correction,
-export, deletion and staff profile views remain later tasks.
+or hosted client use. Task 9.7 supplies a locally verified own-client portal; Task 9.8 adds local
+name/preference correction and private rights/support request entry. Actual export delivery,
+contact change, restriction/deletion execution and staff case views remain separately reviewed
+operational work—not implied by a received request.
 Do not add health, product, address, identity-document, credential or free-text fields
 to the profile; delivery address belongs to a later approved order record. Verified email comes
 from managed identity, and WhatsApp preference is operational contact permission—not marketing
@@ -146,8 +149,15 @@ receipt checks. UI interception proves presentation only; pgTAP independently pr
 scope/denials. The status projection contains opaque references and literal dispatch/delivery/
 cancellation state only—not clinical approval, protocol, product or payment content. No workflow
 row means no workflow, not a fabricated milestone. No hosted portal, real document publication or
-live assistive-technology approval is claimed. Rights/correction remain Task 9.8; hosted proof
-remains Task 9.9. Do not use the portal as a back door to the gated intake/payment paths.
+live assistive-technology approval is claimed. Task 9.8's rights commands recheck this same authority
+and add strict fields, expected versions, idempotency and atomic audit/rollback. Only names and
+operational preference can change directly. Request categories persist privately without sending
+ordinary email; receipt is not secure export, restriction, closure or contact-change completion.
+Before pilot, reviewed staff processing, step-up and confirmation for high-risk actions, safe
+delivery, case/command retention and downstream reconciliation must be verified. The two new
+`identity_private` command/request tables require direct database inventory in Task 9.9 because
+the service-readable hosted baseline cannot enumerate them. Hosted proof remains Task 9.9.
+Do not use the portal as a back door to the gated intake/payment paths.
 
 Task 8.6 and DR-015 approve instrument semantics, not published transactional terms or functioning
 acceptance/consent. Do not display internal baselines, unresolved schedules or bracketed hand-off

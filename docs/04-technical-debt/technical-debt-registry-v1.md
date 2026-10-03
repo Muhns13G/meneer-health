@@ -55,6 +55,13 @@ No new debt ID accrued. TD-009 remains In progress for parties/publication, righ
 TD-037/TD-038 remain Open for live assistive-technology review. Local portal completion does not
 activate a real account, intake, payment or clinical pathway.
 
+Task 9.8 adds local versioned name/preference correction and private export/restriction/closure/
+contact-change/support request receipt. See [the rights-entry evidence](../02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md).
+No new debt ID is added: reviewed rights fulfilment, secure delivery, channel/step-up verification,
+retention and downstream reconciliation remain existing DR-014/TD-009/TD-016 and operational release
+obligations. Hosted proof stays Task 9.9; live assistive-technology gates remain TD-037/TD-038.
+“Received” must never be reported as fulfilled.
+
 Task 8.2 and [DR-011](../07-decisions/DR-011-minimum-pilot-product-pathway.md) originally selected
 TD-007's scope-removal route. Task 8.4 and
 [DR-013](../07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md) supersede that

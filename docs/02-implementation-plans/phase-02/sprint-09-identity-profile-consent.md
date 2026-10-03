@@ -28,7 +28,7 @@ pilot status.
 | 9.5  | Implement authenticated session establishment, renewal, sign-out, expiry, revocation and recovery using existing identity ports.       | Identity activation | Completed locally           |
 | 9.6  | Implement the accessible client profile and versioned acknowledgement/consent flow with durable false-success prevention.              | TD-037, TD-038      | Completed locally           |
 | 9.7  | Add an authenticated client portal showing only approved profile, consent and non-clinical workflow status.                            | Portal boundary     | Completed locally           |
-| 9.8  | Implement correction, export and account-support request entry points without ordinary-email sensitive payloads.                       | Data rights         | Planned                     |
+| 9.8  | Implement correction, export and account-support request entry points without ordinary-email sensitive payloads.                       | Data rights         | Completed locally           |
 | 9.9  | Prove cross-tenant, wrong-role, stale/replayed invite, session, direct-endpoint and audit boundaries locally and hosted-synthetically. | Security            | Planned                     |
 | 9.10 | Reconcile evidence and issue the Sprint 09 completion report.                                                                          | All                 | Planned                     |
 
@@ -52,9 +52,12 @@ Task 9.6's [local activation evidence](annexures/sprint-09-6-atomic-profile-ackn
 records accessible exact-document rendering and an atomic profile/receipt/membership transaction.
 No real publication or hosted activation was introduced. Task 9.7's
 [local portal evidence](annexures/sprint-09-7-authenticated-client-portal.md) records the own-client
-projection, fresh authority checks, exact receipts and private browser lifecycle. Tasks 9.8–9.9
-retain rights entry points and hosted synthetic proof; live assistive-technology review remains an
-activation requirement.
+projection, fresh authority checks, exact receipts and private browser lifecycle. Task 9.9
+retains hosted synthetic proof; live assistive-technology review remains an activation requirement.
+Task 9.8's [local rights evidence](annexures/sprint-09-8-profile-correction-rights-entry.md)
+records versioned name/preference correction and request-only data/account cases. Secure reviewed
+fulfilment of export, restriction, closure and contact-change requests is not an automatic action
+of these entry points; the operational channel/reconciliation release gates remain mandatory.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
 - Browser code never receives a service-role credential or controls tenant/role authority.
