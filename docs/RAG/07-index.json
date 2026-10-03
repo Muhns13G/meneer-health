@@ -703,6 +703,18 @@
       ]
     },
     {
+      "id": "phase-02-sprint-10-2-staff-queue-persistence",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md",
+      "status": "verified-local",
+      "last_updated": "2026-10-03",
+      "authority_for": [
+        "staff queue and hand-off structural persistence",
+        "deny-default scope and immutable evidence",
+        "operations.record version 1 portable record shapes",
+        "local-only migration proof and remaining staff command gates"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11",
       "path": "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
       "status": "planned",

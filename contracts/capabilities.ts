@@ -134,8 +134,9 @@ export const retainedCapabilityCatalogue = [
     contractReferences: [
       { name: "workflow.transition", version: 1 },
       { name: "workflow.transitioned", version: 1 },
+      { name: "operations.record", version: 1 },
     ],
-    acceptanceFixtureIds: ["PORT-007", "PORT-008"],
+    acceptanceFixtureIds: ["PORT-007", "PORT-008", "PORT-023", "PORT-024"],
     activation: "inactive-gated",
     rollback: "database-forward-repair",
   },

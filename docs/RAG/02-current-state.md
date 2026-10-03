@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
@@ -99,6 +100,16 @@ passes both audits and local regression, including 443 unit and 156 browser chec
 registry: **57 items, 50 Verified, seven non-Verified**. Owner remediation commit `1b41ed49`
 and exact-commit [CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125)
 are verified. Post-deploy smoke remains separate; no hosted change was made by this remediation.
+
+## Sprint 10.2 Persistence Checkpoint — 3 October 2026
+
+The [persistence annexure](../02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md)
+records eight new deny-default tables for cases, assignments, claims, authorisations, attempts,
+acknowledgements, exceptions and events, plus `operations.record@1`. All 22 migrations replayed
+locally and 641 database assertions passed. Structural scope, exclusivity, receipt binding and
+append-only evidence are tested; no operational command, staff UI or clinical authority is enabled.
+Hosted remains the previously verified 21-migration checkpoint; the new migration is unapplied.
+Tasks 10.3–10.10 remain, as do TD-009/TD-043 and the other existing activation gates.
 
 ## Sprint 10.1 Contract Checkpoint — 3 October 2026
 

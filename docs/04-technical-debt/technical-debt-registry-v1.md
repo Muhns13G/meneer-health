@@ -141,6 +141,11 @@ implementation or closure: TD-009 stays In progress and TD-043 Open. No new debt
 
 ## B. Platform, Data, and Security Debt
 
+Task 10.2 adds the locally verified [staff persistence boundary](../02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md):
+eight deny-default tables, scoped foreign keys, exclusive claims/attempts, bound receipts,
+append-only evidence and portable records. No hosted migration or operational command is enabled.
+TD-009 remains In progress and TD-043 Open; no new debt ID or activation permission is introduced.
+
 Task 8.8/DR-017 subsequently verifies signed-out provider-linked intake and an authenticated
 synthetic path through intake, protocol generation, review controls and PDF-download controls. No
 supported API/webhook was found. TD-009 remains In progress for external identity, authority,
