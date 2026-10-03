@@ -2,7 +2,7 @@
 runbook_id: meneer-http-security-cache
 title: HTTP Security Headers and Cache Policy
 status: active-verified
-last_updated: 2026-08-10
+last_updated: 2026-10-03
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -35,6 +35,7 @@ before it.
 | -------------------------- | ------------------------------------------------- | --------------------------------------- |
 | Public document            | `/`, `/contact`, `/privacy`, `/terms`, `/poster*` | `public, max-age=0, must-revalidate`    |
 | Sensitive journey          | `/start`, `/peptides`, including nested paths     | `private, no-store, max-age=0`          |
+| Private account            | `/account/*`, `/portal`, `/portal/*`              | `private, no-store, max-age=0`          |
 | Redirect or error          | `/go/*`, ordinary 404/5xx                         | `private, no-store, max-age=0`          |
 | Non-read or cookie-bearing | non-GET/HEAD, any `Set-Cookie` response           | `private, no-store, max-age=0`          |
 | Fingerprinted asset        | `/assets/*`                                       | `public, max-age=31536000, immutable`   |
@@ -51,6 +52,13 @@ permissions policy disabling unused device/payment capabilities. HTTPS responses
 HSTS without `includeSubDomains` or preload. SSR documents use a fresh request-scoped nonce for
 TanStack/React scripts; `unsafe-inline` is not allowed for scripts. Inline styles remain allowed
 because current campaign pages and progress UI use style elements/attributes.
+
+Account, portal, start and peptide routes use `Referrer-Policy: no-referrer` and noindex/nofollow.
+The portal HTML is a data-free shell. Its `/portal/account` JSON projection is authenticated on
+every request, carries `Vary: Cookie`, and accepts no query-controlled tenant/subject or cross-origin
+read. No profile, receipt, workflow, provider token or session value belongs in public cache,
+browser storage or telemetry. Task 9.7 is locally verified; hosted configuration and synthetic
+release proof remain Task 9.9.
 
 The CSP permits only the current application needs: same-origin scripts and connections, Google
 Fonts styles/fonts, HTTPS images/media, data images, same-origin forms, and no plugins or framing.

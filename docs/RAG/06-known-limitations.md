@@ -12,6 +12,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/04-technical-debt/technical-debt-registry-v1.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -117,7 +118,8 @@ authority, pathway, agreement, implementation and release gates.
 
 Task 8.5 and DR-014 approved the minimum profile contract; Task 9.6 now implements local atomic
 activation/profile writes and exact account/privacy receipts. It does not enable public registration
-or hosted client use. Correction, export, deletion and client/staff profile views remain later tasks.
+or hosted client use. Task 9.7 supplies a locally verified own-client read-only portal. Correction,
+export, deletion and staff profile views remain later tasks.
 Do not add health, product, address, identity-document, credential or free-text fields
 to the profile; delivery address belongs to a later approved order record. Verified email comes
 from managed identity, and WhatsApp preference is operational contact permission—not marketing
@@ -137,6 +139,15 @@ command. The setup page still fails closed without exact approved published docu
 publications were created. Hosted code-only
 email templates, the separate session-encryption secret and synthetic hosted verification remain
 unproven under Task 9.9. Do not treat the local flow as an active client account.
+
+Task 9.7's `/portal` and `/portal/profile` are data-free shells unless the authenticated projection
+passes fresh provider/session, own-patient, tenant/contact/profile/lifecycle and exact current
+receipt checks. UI interception proves presentation only; pgTAP independently proves database
+scope/denials. The status projection contains opaque references and literal dispatch/delivery/
+cancellation state only—not clinical approval, protocol, product or payment content. No workflow
+row means no workflow, not a fabricated milestone. No hosted portal, real document publication or
+live assistive-technology approval is claimed. Rights/correction remain Task 9.8; hosted proof
+remains Task 9.9. Do not use the portal as a back door to the gated intake/payment paths.
 
 Task 8.6 and DR-015 approve instrument semantics, not published transactional terms or functioning
 acceptance/consent. Do not display internal baselines, unresolved schedules or bracketed hand-off

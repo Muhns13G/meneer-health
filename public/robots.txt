@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /account/
+Disallow: /portal
 Disallow: /api/
 Disallow: /go/
 Disallow: /peptides
