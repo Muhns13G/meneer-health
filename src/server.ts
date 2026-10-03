@@ -10,6 +10,7 @@ import { env } from "cloudflare:workers";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
+import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import {
@@ -86,6 +87,14 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (
+              (boundedRequest.method === "POST" && pathname.startsWith("/staff/")) ||
+              pathname === "/staff/session"
+            ) {
+              return createWorkforceHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
             if (pathname === "/portal/rights/command") {
               return createPatientRightsHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,

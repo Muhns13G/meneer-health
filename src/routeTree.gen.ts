@@ -27,6 +27,7 @@ import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as PortalRightsRouteImport } from './routes/portal.rights'
+import { Route as StaffSignInRouteImport } from './routes/staff.sign-in'
 import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
 import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
 import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
@@ -123,6 +124,11 @@ const PortalRightsRoute = PortalRightsRouteImport.update({
   path: '/portal/rights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffSignInRoute = StaffSignInRouteImport.update({
+  id: '/staff/sign-in',
+  path: '/staff/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiJourneyIntentRoute = ApiJourneyIntentRouteImport.update({
   id: '/api/journey/intent',
   path: '/api/journey/intent',
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/staff/sign-in': typeof StaffSignInRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/staff/sign-in': typeof StaffSignInRoute
   '/portal': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/staff/sign-in': typeof StaffSignInRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -246,6 +255,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/profile'
     | '/portal/rights'
+    | '/staff/sign-in'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -271,6 +281,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/profile'
     | '/portal/rights'
+    | '/staff/sign-in'
     | '/portal'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -296,6 +307,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/profile'
     | '/portal/rights'
+    | '/staff/sign-in'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -322,6 +334,7 @@ export interface RootRouteChildren {
   GoThanksDadRoute: typeof GoThanksDadRoute
   PortalProfileRoute: typeof PortalProfileRoute
   PortalRightsRoute: typeof PortalRightsRoute
+  StaffSignInRoute: typeof StaffSignInRoute
   PortalIndexRoute: typeof PortalIndexRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
   ApiMeasurementConsentRoute: typeof ApiMeasurementConsentRoute
@@ -458,6 +471,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalRightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff/sign-in': {
+      id: '/staff/sign-in'
+      path: '/staff/sign-in'
+      fullPath: '/staff/sign-in'
+      preLoaderRoute: typeof StaffSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/journey/intent': {
       id: '/api/journey/intent'
       path: '/api/journey/intent'
@@ -514,6 +534,7 @@ const rootRouteChildren: RootRouteChildren = {
   GoThanksDadRoute: GoThanksDadRoute,
   PortalProfileRoute: PortalProfileRoute,
   PortalRightsRoute: PortalRightsRoute,
+  StaffSignInRoute: StaffSignInRoute,
   PortalIndexRoute: PortalIndexRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,
   ApiMeasurementConsentRoute: ApiMeasurementConsentRoute,
