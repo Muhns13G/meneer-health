@@ -1,7 +1,51 @@
 {
-  "revision": 3,
+  "revision": 4,
   "generatedFrom": "v1-tanstack",
   "fixtures": [
+    {
+      "id": "PORT-023",
+      "capabilityId": "CAP-005",
+      "kind": "contract-validation",
+      "contract": { "name": "operations.record", "version": 1 },
+      "message": {
+        "contract": "operations.record",
+        "version": 1,
+        "record": {
+          "kind": "case",
+          "id": "91000000-0000-4000-8000-000000000001",
+          "tenantId": "10000000-0000-4000-8000-000000000001",
+          "subjectId": "20000000-0000-4000-8000-000000000001",
+          "state": "onboarding_pending",
+          "outcome": null,
+          "version": 1,
+          "createdAt": "2030-01-01T00:00:00Z",
+          "updatedAt": "2030-01-01T00:00:00Z"
+        }
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-024",
+      "capabilityId": "CAP-005",
+      "kind": "contract-validation",
+      "contract": { "name": "operations.record", "version": 1 },
+      "message": {
+        "contract": "operations.record",
+        "version": 1,
+        "record": {
+          "kind": "case",
+          "id": "91000000-0000-4000-8000-000000000001",
+          "tenantId": "10000000-0000-4000-8000-000000000001",
+          "subjectId": "20000000-0000-4000-8000-000000000001",
+          "state": "clinical.approve",
+          "outcome": null,
+          "version": 1,
+          "createdAt": "2030-01-01T00:00:00Z",
+          "updatedAt": "2030-01-01T00:00:00Z"
+        }
+      },
+      "expected": { "accepted": false, "stableErrorCode": "VALIDATION_FAILED" }
+    },
     {
       "id": "PORT-001",
       "capabilityId": "CAP-001",

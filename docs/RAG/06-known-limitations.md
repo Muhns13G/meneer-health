@@ -7,6 +7,7 @@ last_updated: 2026-10-03
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/03-completion-reports/phase-02/sprint-08-pilot-activation-contract.md
@@ -90,6 +91,14 @@ locally and in exact-commit CI `37138262125` at `1b41ed49`, not an accepted secu
 Post-deploy verification remains separate release evidence. No deployed exploit or hosted configuration change
 is claimed. Current total: 50 Verified, seven non-Verified; clinical, commercial, operational and
 live-accessibility acceptance gates remain unchanged.
+
+## Sprint 10.2 Records Are Not an Operational Staff Queue
+
+Eight local tables and strict portable records now exist, but every application role still has
+direct access denied. A claim is not permission; stored versions are not yet optimistic-concurrency
+commands. Live assignment/membership checks, AAL2, governed transitions, recipient verification,
+audit/alerts and client projection belong to Tasks 10.3–10.9. Hosted has not received the new
+migration. Do not interpret local persistence completion as staff, provider or pilot activation.
 
 ## Sprint 10.1 Is a Contract, Not Staff Activation
 

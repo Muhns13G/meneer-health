@@ -44,7 +44,7 @@ break glass. No staff queue/UI, migration or hosted activation is delivered by t
 | Task  | Commit-sized outcome                                                                                                                            | Gate               | Status               |
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------- |
 | 10.1  | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Completed (contract) |
-| 10.2  | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Planned              |
+| 10.2  | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Completed (local)    |
 | 10.3  | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Planned              |
 | 10.4  | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Planned              |
 | 10.5  | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Planned              |
@@ -53,6 +53,11 @@ break glass. No staff queue/UI, migration or hosted activation is delivered by t
 | 10.8  | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Planned              |
 | 10.9  | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned              |
 | 10.10 | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned              |
+
+Task 10.2 adds eight deny-default tables and `operations.record@1`; see the
+[persistence evidence](annexures/sprint-10-2-staff-queue-persistence.md). Local migration replay
+and database checks pass. No hosted migration or operational staff workflow is activated;
+Tasks 10.3–10.10 remain.
 
 ## Acceptance Gate
 
