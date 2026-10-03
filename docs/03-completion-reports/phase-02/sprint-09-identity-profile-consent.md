@@ -4,6 +4,7 @@ title: Sprint 09 — Identity, Profile and Consent Completion Report
 status: completed-with-activation-gates
 last_updated: 2026-10-03
 implementation_checkpoint: 0511752
+closeout_commit: daf1927
 inventory_baseline: ee2b29b
 owner: "@Muhns13G"
 ---
@@ -17,11 +18,12 @@ non-clinical profile, exact-version document acknowledgements and an authenticat
 Tasks 9.1–9.10 are implemented/reconciled at the bounded synthetic boundary. This is not
 real-client activation, legal publication approval, clinical intake or payment activation.
 
-Task 9.9 is committed at `0511752`; this report and closure reconciliation await the owner's
-commit. Functional validation passes, but final dependency audits discovered **TD-057** and
-currently fail. Therefore **a clean security/CI release is not claimed**. Remediate this new
-finding before normal Sprint 10 feature work or real-client activation; do not equate functional
-sprint completion with unconditional production readiness.
+Task 9.9 is committed at `0511752`; this report and closure reconciliation are committed at
+`daf1927`. Final closeout audits discovered **TD-057**, retained below as historical evidence.
+The subsequent [dedicated remediation](../../01-audits/td-057-dependency-remediation-2026-10-03.md)
+now passes both audits and local regression. TD-057 is locally Verified; the owner still commits
+the remediation and verifies exact-commit CI/post-deploy checks. Functional completion does not
+grant real-client activation or unconditional production approval.
 
 ## Delivered Work and Decisions
 
@@ -50,7 +52,7 @@ separate approved boundary. See DIR-091 and [FC-001](../../05-future-considerati
 
 ## Evidence and Validation
 
-### Fresh Task 9.10 checks (2026-10-03)
+### Initial Task 9.10 checks (2026-10-03; before remediation)
 
 | Check                                               | Result                                                                                                                                       |
 | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -72,6 +74,17 @@ separate approved boundary. See DIR-091 and [FC-001](../../05-future-considerati
 These are advisory finding counts, not independently deduplicated deployed vulnerabilities.
 Bun's production-filtered graph also reports tooling/transitive paths; deployed Worker
 reachability still requires investigation. No dependency or lockfile was changed in Task 9.10.
+
+### Subsequent TD-057 remediation (2026-10-03)
+
+Both audits now pass with no vulnerabilities found; frozen install, types/lint, 443 unit tests,
+156 desktop/mobile browser checks, local database/security/recovery packets, production build
+and upload dry-run pass. The [separate evidence report](../../01-audits/td-057-dependency-remediation-2026-10-03.md)
+records paths, compatible version changes, override removal triggers and resolved streaming/CSP
+compatibility findings. Its regenerated route tree is stable with unchanged routes; the Git
+generated-output gate expects an owner commit before it becomes green. No CI or deployed result
+for that uncommitted remediation is inferred. This follow-up is not added to Sprint 09's original
+Git-derived file inventory.
 
 ### Inherited, completed Task 9.9 hosted evidence
 
@@ -135,20 +148,21 @@ expiry was not waited out. These evidence classes must remain distinct.
 ## Technical Debt and Activation Gates
 
 The original 56-item cohort retains 49 Verified items and seven non-Verified obligations.
-Task 9.10 adds **TD-057**: total **57**, **49 Verified**, **eight non-Verified**.
+Task 9.10 initially added **TD-057**: 57 total, 49 Verified, eight non-Verified.
+Subsequent local remediation verifies TD-057: current **57 total, 50 Verified, seven non-Verified**.
 No new product-feature debt arose from the account implementation; the advisory set is newly
 discovered security debt, not proof that Sprint 09 introduced each affected package.
 
-| Debt   | What remains / acceptance owner                                                                                                                                               |
-| ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| TD-006 | Approved substantiation and clinical review of public claims; no account test substitutes for claim approval.                                                                 |
-| TD-007 | Product-specific authority, clinical/dispensing scope and protocol concentration/dosing reconciliation.                                                                       |
-| TD-009 | Final parties, publications, partner/manual hand-off and operational rights responsibilities; staff bridge in Sprint 10, external approvals before activation.                |
-| TD-010 | Approved commercial/merchant/delivery/tax terms and payment-ready offers; Sprint 11 and accountable business owners.                                                          |
-| TD-037 | Live released-flow keyboard/focus/interaction review; Sprint 12 acceptance.                                                                                                   |
-| TD-038 | Live assistive-technology and async/error/status review; Sprint 12 acceptance.                                                                                                |
-| TD-043 | Operational clinical/support escalation acceptance; staff/rehearsal work and Sprint 12 release gate.                                                                          |
-| TD-057 | New dependency advisories: owner @Muhns13G; dedicated reachability/remediation task before normal Sprint 10 feature work/activation, then passing audits and full regression. |
+| Debt   | What remains / acceptance owner                                                                                                                                                    |
+| ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| TD-006 | Approved substantiation and clinical review of public claims; no account test substitutes for claim approval.                                                                      |
+| TD-007 | Product-specific authority, clinical/dispensing scope and protocol concentration/dosing reconciliation.                                                                            |
+| TD-009 | Final parties, publications, partner/manual hand-off and operational rights responsibilities; staff bridge in Sprint 10, external approvals before activation.                     |
+| TD-010 | Approved commercial/merchant/delivery/tax terms and payment-ready offers; Sprint 11 and accountable business owners.                                                               |
+| TD-037 | Live released-flow keyboard/focus/interaction review; Sprint 12 acceptance.                                                                                                        |
+| TD-038 | Live assistive-technology and async/error/status review; Sprint 12 acceptance.                                                                                                     |
+| TD-043 | Operational clinical/support escalation acceptance; staff/rehearsal work and Sprint 12 release gate.                                                                               |
+| TD-057 | Locally Verified by the separate dependency remediation evidence; owner @Muhns13G commits the repair and checks exact-commit CI/post-deploy smoke. No accepted security exception. |
 
 TD-013/TD-017 and TD-016 retain earlier Verified inactive-foundation evidence; this does not
 grant final legal approval, operational rights fulfilment or real-client release permission.
@@ -307,10 +321,10 @@ excluded. Counts: **50 modified; 83 newly created**.
 
 ## Handoff
 
-This closeout is ready for owner review/commit, but its clean CI/security gate remains blocked
-by TD-057. Stage and commit manually; resolve advisories with tested, bounded changes and verify
-the resulting owner-run CI before treating the release as green. No branch, staging, commit,
-push, deployment, hosted data or tracking-setting change was performed by Task 9.10.
+This closeout is committed at `daf1927`. TD-057's subsequent bounded remediation passes local
+audits and regression; owner review/commit, exact-commit CI and post-deploy smoke are the
+remaining release steps for that repair. No branch, staging, commit, push, deployment, hosted
+data or tracking-setting change was performed by Task 9.10 or the remediation agent.
 
 After remediation, begin Sprint 10 at Task 10.1's staff contract. Do not infer authorization to
 implement the queue, publish legal instruments, charge clients or activate real patient intake

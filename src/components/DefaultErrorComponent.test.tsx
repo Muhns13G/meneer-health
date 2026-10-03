@@ -6,6 +6,14 @@ import { syntheticError } from "@/test/fixtures/non-production";
 import { renderWithRouter } from "@/test/render-with-router";
 
 describe("default error component", () => {
+  it("handles a non-Error thrown value without exposing it", async () => {
+    await renderWithRouter(
+      <DefaultErrorComponent error="synthetic-private-detail" reset={vi.fn()} />,
+    );
+    expect(screen.getByRole("heading", { name: "Something went wrong" })).toBeVisible();
+    expect(screen.queryByText("synthetic-private-detail")).not.toBeInTheDocument();
+  });
+
   it("offers a retry and safe home action", async () => {
     const user = userEvent.setup();
     const reset = vi.fn();

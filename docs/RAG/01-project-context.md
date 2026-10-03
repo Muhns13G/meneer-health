@@ -58,9 +58,10 @@ sources:
 
 # Meneer Project Context
 
-Task 9.10 discovered TD-057 dependency advisories: functional Sprint 09 validation passes, but
-the dependency audit gates fail. The registry now has 49 Verified and eight non-Verified items.
-Resolve this security-release prerequisite before normal Sprint 10 feature implementation.
+Task 9.10 discovered TD-057 dependency advisories; subsequent bounded remediation passes both
+audits and local regression. The registry now has 50 Verified and seven non-Verified items.
+See the [evidence](../01-audits/td-057-dependency-remediation-2026-10-03.md); owner commit/CI
+remains the Sprint 10 handoff, not permission to activate the pilot.
 
 ## Product Intent
 

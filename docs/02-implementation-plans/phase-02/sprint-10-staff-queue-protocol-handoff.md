@@ -28,8 +28,10 @@ Task 10.1 must settle roles, assignments and transitions before queue implementa
 still owns staff invitation integration and AAL2 enforcement. Do not infer real-client activation,
 approved legal publication, operational rights fulfilment or clinical authority from Sprint 09.
 
-Task 9.10 discovered TD-057 dependency advisories. Remediate and prove both audit gates before
-normal Sprint 10 feature implementation; this does not change the approved queue mission.
+Task 9.10 discovered TD-057 dependency advisories. The dedicated
+[remediation](../../01-audits/td-057-dependency-remediation-2026-10-03.md) now passes both audits
+and local regression. Confirm the owner's remediation commit and exact-commit CI before
+normal Sprint 10 feature implementation; the approved queue mission and activation gates remain.
 
 | Task  | Commit-sized outcome                                                                                                                            | Gate               | Status  |
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------- |

@@ -11,9 +11,11 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Mission
 
-Sprint 09 closes with activation gates and new TD-057 dependency advisory debt discovered during
-Task 9.10. Functional tests/build pass; audit gates fail. A dedicated remediation task must prove
-clean audits and regression checks before normal Sprint 10 feature work or real-client activation.
+Sprint 09 is committed with activation gates at `daf1927`. Newly discovered TD-057 is now
+locally Verified through bounded updates, clean audits and regression; see the
+[remediation evidence](../../01-audits/td-057-dependency-remediation-2026-10-03.md).
+Owner commit/exact-commit CI remains the handoff before Sprint 10; real-client activation is
+still subject to the seven existing clinical, commercial and operational acceptance gates.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.
 The pilot must onboard a client, preserve a minimal non-clinical profile and versioned consent,
