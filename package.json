@@ -37,6 +37,8 @@
     "test:auth": "bun run scripts/test-supabase-auth-integration.ts",
     "test:auth:email": "bun run scripts/test-supabase-patient-session-email.ts",
     "test:authz": "bun run scripts/test-supabase-authorisation-integration.ts",
+    "test:identity:security": "bun run scripts/test-sprint09-security.ts",
+    "test:identity:hosted-denials": "bun run scripts/test-sprint09-hosted-http.ts",
     "test:commands": "bun run scripts/test-supabase-workflow-commands-integration.ts",
     "test:audit": "bun run scripts/test-supabase-audit-integration.ts",
     "test:security-evidence": "bun run scripts/test-supabase-security-evidence-integration.ts",
