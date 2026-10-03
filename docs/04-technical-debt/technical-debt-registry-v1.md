@@ -62,6 +62,19 @@ retention and downstream reconciliation remain existing DR-014/TD-009/TD-016 and
 obligations. Hosted proof stays Task 9.9; live assistive-technology gates remain TD-037/TD-038.
 “Received” must never be reported as fulfilled.
 
+Task 9.9 is completed at its synthetic-proof boundary: all five hosted Sprint-9 migrations and explicitly approved history
+alignment are verified; 157 hosted rollback-only SQL assertions passed with a clean independent
+post-test inventory. The initial deployed portal 404 was resolved; all seven anonymous HTTP denials
+and actual code-only delivery/positive hosted Auth/session checks now pass. Separate provider and
+application revocation were proved. Scoped cleanup restored zero identities/application evidence,
+the suspended pilot tenant and all seven named audit/immutability triggers. No new debt ID is added:
+the owner accepts retaining useful tracking unless it harms authentication or production reliability.
+The invitation image alone is not evidence of harm; code-only credential protection and conditional
+retesting remain recorded under FC-001. No tracking setting was changed.
+TD-009's wider responsibility/partner obligations are not closed by this proof. See
+[the security annexure](../02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md).
+Do not close Sprint 09 or report patient activation readiness from database proof alone.
+
 Task 8.2 and [DR-011](../07-decisions/DR-011-minimum-pilot-product-pathway.md) originally selected
 TD-007's scope-removal route. Task 8.4 and
 [DR-013](../07-decisions/DR-013-pilot-product-commercial-fulfilment-amendment.md) supersede that

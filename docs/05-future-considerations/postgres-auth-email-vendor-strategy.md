@@ -3,7 +3,7 @@ consideration_id: FC-001
 title: PostgreSQL, Authentication, and Transactional Email Vendor Strategy
 status: selected-with-activation-gates
 decision_due: before-pilot-activation
-last_reviewed: 2026-08-10
+last_reviewed: 2026-10-03
 owner: Octothorp ZA architecture and data owners
 sensitivity: internal
 ---
@@ -29,8 +29,9 @@ health-data processing or activate a transaction.
 - **Payments:** Stripe Checkout in test mode until TD-010's commercial and live-activation gates pass.
 
 The owner verified that the OITWS Supabase organisation is on the Free plan and then used the
-remaining zero-monthly-cost project slot for `meneer-health`. The healthy London Nano project has no
-migrations or backups and remains synthetic-only. Supabase hosted branching is not selected because
+remaining zero-monthly-cost project slot for `meneer-health`. The London Nano project now has
+versioned hosted migrations and separately evidenced encrypted recovery; it remains gated against
+real client activation. Supabase hosted branching is not selected because
 it is billed; local Supabase provides development and CI databases instead.
 
 ## Environment Contract
@@ -113,6 +114,36 @@ session-revocation outcome. Consider a dedicated authenticated Auth-sending subd
 reputation or operational separation becomes necessary.
 
 ## Authoritative Records
+
+### Sprint 09.9 checkpoint — 3 October 2026
+
+The Meneer-owned code-entry boundary is implemented and hosted invitation, sign-in and recovery
+delivery/session tests passed with the controlled support mailbox. Six-digit/900-second OTP policy
+and code-only templates are verified. Delivered messages contain no token-bearing confirmation
+link; Gmail's auto-linked generic site address is not an authentication credential. Recovery and
+independent provider/application revocation passed. Disposable test data was removed and the pilot
+tenant remains suspended. Email-change delivery and reviewed operational rights fulfilment are
+not implied by this evidence.
+
+An image consistent with tracking remained in the delivered invitation. Do not claim Brevo
+tracking is disabled or anonymous from saved templates alone. The owner accepts retaining useful
+tracking for operational and marketing purposes, disabling only mechanisms that harm authentication
+or production reliability. No provider setting was changed or additional collection enabled by
+this decision. The existing code-only flow passed; the image alone is not evidence of harm.
+
+Keep credentials and clinical content out of tracking: no OTPs, session tokens or credential-bearing
+URLs. If a future token-link flow, rewrite, scanner/prefetch interaction or provider change creates
+an authentication failure or credential exposure, disable/bypass that mechanism and repeat the
+affected hosted tests. Scope any change to Auth messages where possible; account-wide changes
+require approval of their effect on other mail. Marketing instrumentation remains subject to its
+separate approved measurement/data contract; this decision does not enable health-data profiling
+or remove existing disclosure/permission requirements. This resolves Task 9.9's policy gate, not
+the wider real-client activation gates. The observed sender was
+`Meneer Health <sales@meneerhealth.co.za>`; confirm the intended operational sender before launch.
+
+Evidence: [Sprint 09.9 hosted security proof](../02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md).
+
+### Provider and decision references
 
 - [DR-009 free-tier pilot provider stack](../07-decisions/DR-009-free-tier-pilot-provider-stack.md)
 - [Sprint 05.5 provider-selection evidence](../02-implementation-plans/phase-01/annexures/sprint-05-5-provider-selection-data-map-evidence.md)

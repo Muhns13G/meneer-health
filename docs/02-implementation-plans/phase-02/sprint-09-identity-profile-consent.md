@@ -29,7 +29,7 @@ pilot status.
 | 9.6  | Implement the accessible client profile and versioned acknowledgement/consent flow with durable false-success prevention.              | TD-037, TD-038      | Completed locally           |
 | 9.7  | Add an authenticated client portal showing only approved profile, consent and non-clinical workflow status.                            | Portal boundary     | Completed locally           |
 | 9.8  | Implement correction, export and account-support request entry points without ordinary-email sensitive payloads.                       | Data rights         | Completed locally           |
-| 9.9  | Prove cross-tenant, wrong-role, stale/replayed invite, session, direct-endpoint and audit boundaries locally and hosted-synthetically. | Security            | Planned                     |
+| 9.9  | Prove cross-tenant, wrong-role, stale/replayed invite, session, direct-endpoint and audit boundaries locally and hosted-synthetically. | Security            | Completed — synthetic proof |
 | 9.10 | Reconcile evidence and issue the Sprint 09 completion report.                                                                          | All                 | Planned                     |
 
 ## Acceptance Gate
@@ -58,6 +58,18 @@ Task 9.8's [local rights evidence](annexures/sprint-09-8-profile-correction-righ
 records versioned name/preference correction and request-only data/account cases. Secure reviewed
 fulfilment of export, restriction, closure and contact-change requests is not an automatic action
 of these entry points; the operational channel/reconciliation release gates remain mandatory.
+Task 9.9's [security evidence](annexures/sprint-09-9-security-hosted-proof.md) records applied hosted
+migrations, 157 passing rollback-only database assertions and seven passing hosted HTTP denials
+after deployment reconciliation. Code-only Auth templates and the approved six-digit/900-second
+OTP policy are verified. The four Worker runtime bindings were provisioned under explicit owner
+instruction and independently listed; anonymous denials passed again. Actual code-only invitation,
+sign-in/recovery delivery, activation with nonbinding test documents, portal access, renewal,
+logout, tamper/expiry denial and independent provider/application revocation now pass. Scoped
+cleanup restored the empty identity baseline and all seven named audit/immutability triggers.
+Task 9.9 is completed at the synthetic-proof boundary. The owner accepts retaining useful tracking
+unless it harms authentication or production reliability. The observed invitation image does not
+demonstrate such harm; code-only OTP consumption remains protected and FC-001 records the decision.
+No real client, legal publication, clinical or payment workflow was activated.
 
 - Public sign-up remains disabled; only authorised invitations create a pilot identity.
 - Browser code never receives a service-role credential or controls tenant/role authority.

@@ -646,7 +646,13 @@
       "id": "phase-02-sprint-09",
       "path": "docs/02-implementation-plans/phase-02/sprint-09-identity-profile-consent.md",
       "status": "in-progress",
-      "authority_for": ["invite-only identity", "client profile", "consent", "client portal"],
+      "authority_for": [
+        "invite-only identity",
+        "client profile",
+        "consent",
+        "client portal",
+        "completed synthetic hosted Auth proof with accepted tracking-retention policy"
+      ],
       "task_evidence": [
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-1-identity-profile-consent-contract.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md",
@@ -655,7 +661,8 @@
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-5-patient-session-lifecycle.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-9-security-hosted-proof.md"
       ]
     },
     {

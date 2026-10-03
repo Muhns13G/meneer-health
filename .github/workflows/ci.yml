@@ -71,6 +71,7 @@ jobs:
         run: |
           bun run db:reset
           bun run db:test
+          bun run test:identity:security
           bun run db:lint
           bun run test:auth
           bun run test:authz

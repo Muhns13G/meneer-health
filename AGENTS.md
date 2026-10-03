@@ -32,6 +32,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   `test:audit`, `test:security-evidence`, `test:lifecycle`, `test:payments`, and `test:fulfilment`
   verify the synthetic local PostgreSQL, identity, payment, partner, and reconciliation boundaries;
   finish with `bun run db:stop`.
+- `bun run test:identity:security` runs the fixed Sprint-9 rollback-only database security packet
+  locally. `test:identity:hosted-denials` requires the documented canonical-origin/anonymous-only
+  guard; it sends no emails and does not substitute for hosted Auth/session proof. Hosted SQL
+  packets and migration-history repairs require explicit approval; never copy the full local seed.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.
