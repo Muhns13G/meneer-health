@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 const publicRoutes = ["/", "/contact", "/privacy", "/terms"] as const;
 const excludedDocumentRoutes = [
   "/account/verify",
+  "/staff/sign-in",
   "/start",
   "/peptides",
   "/poster",

@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-2-staff-queue-persistence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-1-staff-queue-handoff-contract.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
@@ -100,6 +101,19 @@ passes both audits and local regression, including 443 unit and 156 browser chec
 registry: **57 items, 50 Verified, seven non-Verified**. Owner remediation commit `1b41ed49`
 and exact-commit [CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125)
 are verified. Post-deploy smoke remains separate; no hosted change was made by this remediation.
+
+## Sprint 10.3 Workforce Security Checkpoint — 3 October 2026
+
+[Task 10.3](../02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md)
+adds `/staff/sign-in`, email/invitation verification followed by TOTP/AAL2, an encrypted separate
+staff cookie, server-derived tenant/role/purpose, live membership/session revalidation and bounded
+renewal/revocation. Inviting requires reviewed target membership, a target-specific admin assignment
+and recent MFA; provider acceptance never claims mailbox delivery. Replay/uncertain dispatch is
+contained in an immutable deny-default journal. Email verification alone gives no application access.
+All 23 migrations replay locally; 685 database assertions and a real local Auth/TOTP/cookie exercise
+pass. Hosted remains the 21-migration checkpoint: neither Sprint 10 migration is applied there.
+No hosted staff identity/email, queue access, clinical authority or pilot activation was introduced.
+Tasks 10.4–10.10 and existing TD/activation gates remain. Public wording is unchanged.
 
 ## Sprint 10.2 Persistence Checkpoint — 3 October 2026
 

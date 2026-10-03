@@ -146,6 +146,12 @@ eight deny-default tables, scoped foreign keys, exclusive claims/attempts, bound
 append-only evidence and portable records. No hosted migration or operational command is enabled.
 TD-009 remains In progress and TD-043 Open; no new debt ID or activation permission is introduced.
 
+Task 10.3 adds the locally verified [individual workforce boundary](../02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md):
+staff email/invitation verification, TOTP/AAL2, server-derived context, bounded separate sessions,
+live revocation checks and reviewed immutable invitation dispatch. Neither Sprint 10 migration
+is applied hosted. Queue commands, hand-off, audit/alerts, external accountability and hosted
+staff activation proof remain outstanding; TD-009 stays In progress and TD-043 Open. No new debt ID.
+
 Task 8.8/DR-017 subsequently verifies signed-out provider-linked intake and an authenticated
 synthetic path through intake, protocol generation, review controls and PDF-download controls. No
 supported API/webhook was found. TD-009 remains In progress for external identity, authority,

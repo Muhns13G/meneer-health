@@ -41,6 +41,11 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/portal/rights", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/portal/rights/command", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/portal/account", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/staff/sign-in", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/staff/session", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/staff/mfa", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/staff/invite", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/staff/sign-out", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/peptides", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/poster", routeClass: "campaign", indexing: "noindex-nofollow" },
   { path: "/poster-thanks", routeClass: "campaign", indexing: "noindex-nofollow" },
@@ -69,6 +74,7 @@ export const INDEXABLE_PUBLIC_ROUTES = PUBLIC_ROUTE_POLICIES.filter(
 
 const ROBOTS_DISALLOW_PATHS = [
   "/account/",
+  "/staff/",
   "/portal",
   "/api/",
   "/go/",

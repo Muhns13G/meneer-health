@@ -20,6 +20,7 @@ export interface ManagedIdentityProvider {
   refreshSession(refreshToken: string): Promise<ManagedSession>;
   revokeSessions(accessToken: string, scope: SessionRevocationScope): Promise<void>;
   enrollWorkforceTotp(session: ManagedSession, friendlyName: string): Promise<TotpEnrollment>;
+  listWorkforceTotp(session: ManagedSession): Promise<readonly string[]>;
   challengeWorkforceTotp(session: ManagedSession, factorId: string): Promise<string>;
   verifyWorkforceTotp(
     session: ManagedSession,
