@@ -23,6 +23,7 @@ import { Route as AccountVerifyRouteImport } from './routes/account/verify'
 import { Route as AccountSignOutRouteImport } from './routes/account/sign-out'
 import { Route as AccountSignInRouteImport } from './routes/account/sign-in'
 import { Route as AccountRecoverRouteImport } from './routes/account/recover'
+import { Route as AccountActivateRouteImport } from './routes/account/activate'
 import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
 import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
 import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
@@ -99,6 +100,11 @@ const AccountRecoverRoute = AccountRecoverRouteImport.update({
   path: '/account/recover',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountActivateRoute = AccountActivateRouteImport.update({
+  id: '/account/activate',
+  path: '/account/activate',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
   id: '/api/payments/checkout',
   path: '/api/payments/checkout',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/activate': typeof AccountActivateRoute
   '/account/recover': typeof AccountRecoverRoute
   '/account/sign-in': typeof AccountSignInRoute
   '/account/sign-out': typeof AccountSignOutRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/activate': typeof AccountActivateRoute
   '/account/recover': typeof AccountRecoverRoute
   '/account/sign-in': typeof AccountSignInRoute
   '/account/sign-out': typeof AccountSignOutRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/activate': typeof AccountActivateRoute
   '/account/recover': typeof AccountRecoverRoute
   '/account/sign-in': typeof AccountSignInRoute
   '/account/sign-out': typeof AccountSignOutRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/activate'
     | '/account/recover'
     | '/account/sign-in'
     | '/account/sign-out'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/activate'
     | '/account/recover'
     | '/account/sign-in'
     | '/account/sign-out'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/activate'
     | '/account/recover'
     | '/account/sign-in'
     | '/account/sign-out'
@@ -265,6 +277,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
+  AccountActivateRoute: typeof AccountActivateRoute
   AccountRecoverRoute: typeof AccountRecoverRoute
   AccountSignInRoute: typeof AccountSignInRoute
   AccountSignOutRoute: typeof AccountSignOutRoute
@@ -378,6 +391,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountRecoverRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/activate': {
+      id: '/account/activate'
+      path: '/account/activate'
+      fullPath: '/account/activate'
+      preLoaderRoute: typeof AccountActivateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/payments/checkout': {
       id: '/api/payments/checkout'
       path: '/api/payments/checkout'
@@ -425,6 +445,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   StartRoute: StartRoute,
   TermsRoute: TermsRoute,
+  AccountActivateRoute: AccountActivateRoute,
   AccountRecoverRoute: AccountRecoverRoute,
   AccountSignInRoute: AccountSignInRoute,
   AccountSignOutRoute: AccountSignOutRoute,

@@ -100,8 +100,14 @@ function VerifyInvitationPage() {
           </button>
         </form>
         <div role="status" aria-live="polite" className="mt-6 text-sm text-muted-foreground">
-          {result === "accepted" &&
-            "Your code was verified. Account setup is not available until the remaining pilot controls are approved."}
+          {result === "accepted" && (
+            <>
+              <p>Your code was verified.</p>
+              <Link to="/account/activate" className="text-gold underline">
+                Continue to account setup
+              </Link>
+            </>
+          )}
           {result === "rejected" &&
             "We could not verify those details. Check the email and code, or contact support if you need help."}
           {result === "unavailable" &&

@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-02
+**Last amended:** 2026-10-03
 
 ## Registry Purpose
 
@@ -40,6 +40,13 @@ claims, products, operating/commercial paths, forms, stepped flows or support ch
 closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
+
+Task 9.6 adds locally verified atomic profile/receipt activation and an accessible document-first
+form, with separate actions, focused validation, pending-state controls and durable retry evidence.
+See [the task annexure](../02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md).
+TD-009 remains In progress for approved publication/party and hosted proof. TD-037/TD-038 remain
+Open for live keyboard/assistive-technology review of the released flow; their earlier prototype
+evidence is now supplemented by the new routed, synthetic local checks. No new debt ID is added.
 
 Task 8.2 and [DR-011](../07-decisions/DR-011-minimum-pilot-product-pathway.md) originally selected
 TD-007's scope-removal route. Task 8.4 and

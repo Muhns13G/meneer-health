@@ -19,7 +19,10 @@ export function Footer() {
             <p className="text-muted-foreground text-sm">{publicContent.brand.tagline}</p>
           </div>
         </div>
-        <nav className="flex items-center gap-6 text-sm text-muted-foreground">
+        <nav
+          aria-label="Legal and support"
+          className="flex items-center gap-6 text-sm text-muted-foreground"
+        >
           {publicContent.navigation.footer.map((item) => (
             <Link key={item.to} to={item.to} className="hover:text-foreground transition-colors">
               {item.label}

@@ -652,7 +652,8 @@
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-2-profile-instrument-persistence.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-3-governed-patient-invitations.md",
         "docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md",
-        "docs/02-implementation-plans/phase-02/annexures/sprint-09-5-patient-session-lifecycle.md"
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-5-patient-session-lifecycle.md",
+        "docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md"
       ]
     },
     {
