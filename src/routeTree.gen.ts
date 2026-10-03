@@ -18,6 +18,7 @@ import { Route as PeptidesRouteImport } from './routes/peptides'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalRightsRouteImport } from './routes/portal.rights'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
@@ -75,6 +76,11 @@ const IndexRoute = IndexRouteImport.update({
 const PortalIndexRoute = PortalIndexRouteImport.update({
   id: '/portal/',
   path: '/portal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRightsRoute = PortalRightsRouteImport.update({
+  id: '/portal/rights',
+  path: '/portal/rights',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortalProfileRoute = PortalProfileRouteImport.update({
@@ -161,6 +167,7 @@ export interface FileRoutesByFullPath {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
+  '/portal/rights': typeof PortalRightsRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -185,6 +192,7 @@ export interface FileRoutesByTo {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
+  '/portal/rights': typeof PortalRightsRoute
   '/portal': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -210,6 +218,7 @@ export interface FileRoutesById {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/profile': typeof PortalProfileRoute
+  '/portal/rights': typeof PortalRightsRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -236,6 +245,7 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/portal/profile'
+    | '/portal/rights'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -260,6 +270,7 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/portal/profile'
+    | '/portal/rights'
     | '/portal'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/portal/profile'
+    | '/portal/rights'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -309,6 +321,7 @@ export interface RootRouteChildren {
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
   PortalProfileRoute: typeof PortalProfileRoute
+  PortalRightsRoute: typeof PortalRightsRoute
   PortalIndexRoute: typeof PortalIndexRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
   ApiMeasurementConsentRoute: typeof ApiMeasurementConsentRoute
@@ -380,6 +393,13 @@ declare module '@tanstack/react-router' {
       path: '/portal'
       fullPath: '/portal/'
       preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/rights': {
+      id: '/portal/rights'
+      path: '/portal/rights'
+      fullPath: '/portal/rights'
+      preLoaderRoute: typeof PortalRightsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portal/profile': {
@@ -493,6 +513,7 @@ const rootRouteChildren: RootRouteChildren = {
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
   PortalProfileRoute: PortalProfileRoute,
+  PortalRightsRoute: PortalRightsRoute,
   PortalIndexRoute: PortalIndexRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,
   ApiMeasurementConsentRoute: ApiMeasurementConsentRoute,

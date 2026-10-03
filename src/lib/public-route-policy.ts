@@ -38,6 +38,8 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/account/sign-out", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/portal", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/portal/profile", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal/rights", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal/rights/command", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/portal/account", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/peptides", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/poster", routeClass: "campaign", indexing: "noindex-nofollow" },

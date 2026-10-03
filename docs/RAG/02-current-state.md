@@ -16,6 +16,7 @@ sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-4-first-party-invitation-otp.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-09-7-authenticated-client-portal.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
   - docs/01-audits/runtime-investigation-2026-08-06.md
   - docs/02-implementation-plans/phase-01/annexures/sprint-01-2-incomplete-journey-gate-evidence.md
@@ -88,6 +89,24 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 09.8 Local Correction and Rights Entry — 3 October 2026
+
+`/portal/rights` now provides version-checked correction of given/family name and operational
+contact preference. Verified email and mobile remain uneditable. A server-only transaction rechecks
+the portal's live authority, commits the profile version, value-free change history, audit and
+private replay receipt together, and rejects stale or changed retries.
+
+Export, restriction/objection, closure/deletion, contact-change and account-support requests record
+only a category, opaque reference and server-owned scope/version/time. Repeated requests of one
+category reuse its received case. No free text, health data, identity document or sensitive email
+payload is collected. “Received” is not fulfilled: no export is released, contact changed,
+restriction applied or account deleted. Reviewed processing, step-up/channel confirmation,
+secure delivery, retention and downstream reconciliation remain operational release requirements.
+
+Local browser/database proofs and file inventory are in the
+[9.8 annexure](../02-implementation-plans/phase-02/annexures/sprint-09-8-profile-correction-rights-entry.md).
+Hosted migration/proof remain Task 9.9; public intake gates are unchanged.
 
 ## Sprint 09.7 Local Client Portal Checkpoint — 3 October 2026
 

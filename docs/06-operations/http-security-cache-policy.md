@@ -60,6 +60,12 @@ read. No profile, receipt, workflow, provider token or session value belongs in 
 browser storage or telemetry. Task 9.7 is locally verified; hosted configuration and synthetic
 release proof remain Task 9.9.
 
+Task 9.8 adds `/portal/rights` and the POST-only `/portal/rights/command`. The bounded same-origin
+JSON command requires a unique sealed patient cookie, matching idempotency header/body and fresh
+authority. Only names/preference are corrected; rights/support categories record private receipt
+without email or automatic high-risk action. Neither command payload nor outcome belongs in
+telemetry. Private replay/request tables need direct database inventory during hosted proof.
+
 The CSP permits only the current application needs: same-origin scripts and connections, Google
 Fonts styles/fonts, HTTPS images/media, data images, same-origin forms, and no plugins or framing.
 Adding analytics, payments, storage, new media origins, embedded content, or external form actions

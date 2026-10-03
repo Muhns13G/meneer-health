@@ -25,7 +25,7 @@ export class PatientPortalService {
     private readonly now: () => Date = () => new Date(),
   ) {}
 
-  async read(proof: PatientSessionProof): Promise<PortalView> {
+  async authorise(proof: PatientSessionProof) {
     const session = await this.sessions.findActive(proof.providerSessionId, this.now());
     if (
       !session ||
@@ -41,9 +41,7 @@ export class PatientPortalService {
       identity.verifiedContact.kind !== "email"
     )
       throw new IdentityRejectedError();
-    // SQL rechecks the live Auth session, mapping, membership, contact and exact receipts
-    // in one snapshot; neither a cached JWT nor cookie IDs alone authorize a profile read.
-    const account = await this.repository.readOwnAccount({
+    const context: PortalContext = {
       tenantId: proof.tenantId,
       subjectId: proof.subjectId,
       sessionId: proof.sessionId,
@@ -51,7 +49,14 @@ export class PatientPortalService {
       providerSessionId: identity.providerSessionId,
       verifiedEmail: identity.verifiedContact.value.trim().toLowerCase(),
       purpose: "account",
-    });
+    };
+    return { session, identity, context };
+  }
+
+  async read(proof: PatientSessionProof): Promise<PortalView> {
+    const { session, identity, context } = await this.authorise(proof);
+    // SQL rechecks live authority in one snapshot; cached JWT/cookie IDs are insufficient.
+    const account = await this.repository.readOwnAccount(context);
     const touched = await this.sessions.touch(session, this.now());
     const expiresAt = new Date(
       Math.min(
