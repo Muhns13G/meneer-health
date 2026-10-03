@@ -32,6 +32,7 @@ export const PUBLIC_ROUTE_POLICIES = [
   },
   { path: "/start", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/account/verify", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/activate", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/account/sign-in", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/account/recover", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/account/sign-out", routeClass: "restricted", indexing: "noindex-nofollow" },
