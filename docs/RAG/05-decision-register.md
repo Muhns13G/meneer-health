@@ -142,6 +142,15 @@ permissions, clinical verification and end-to-end delivery remain activation inp
 | OPN-006 | Which final delivery-rate table, verified supplier/channel schedules, rendered legal/tax/operations approvals, Stripe sandbox configuration and pharmacy/custody/courier evidence complete DR-013/DR-015? | TD-007, TD-009, TD-010 |
 | OPN-007 | What post-pilot evidence would justify public launch or a later framework migration?                                                                                                                      | TD-055                 |
 
+## Task 10.6 Delivery Decision — 4 October 2026
+
+The owner approved DR-017's authenticated patient-portal channel and independent record verification
+by a second assigned staff member. Local code now supports tenant-bound administrator approval of
+the exact server-configured destination, durable private issuance and opaque evidence ingestion.
+Issuance is not receipt or acknowledgement. Actual intake URL/configuration, recipient instruments,
+hosted synthetic proof and Sprint 11 payment readiness remain activation gates; no ordinary-email
+link delivery, provider API or clinical authority is approved by this amendment.
+
 ## Open Architecture and Vendor Decisions
 
 | ID      | Decision needed                                                                                                                                                                                                | Related debt   |

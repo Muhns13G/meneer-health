@@ -7,6 +7,7 @@ last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
@@ -108,6 +109,18 @@ All three Sprint 10 migrations need separate hosted approval/proof. TD-009 remai
 TD-043 Open; real-client activation and live assistive-technology gates remain unchanged.
 
 ### Task 10.5 Supersedes the Read-Only Command Limitation
+
+Task 10.6 subsequently implements the local reference-only attempt/acknowledgement/reconciliation
+boundary, including independent evidence, safe retry and cancellation preserving delivery history.
+See its [acceptance evidence](../02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md).
+The approved authenticated portal and independent assigned reviewer are now implemented locally,
+including guarded issuance, tenant-bound destination approval and opaque evidence ingestion.
+Local Task 10.6 is complete, not live: supply the actual intake URL/server bindings, review the
+recipient/instruments and exercise the separately approved hosted path. Issuance never proves
+receipt or acknowledgement; no recipient is seeded. External reusable-link access cannot be revoked
+by a Meneer case cancellation alone. The Sprint 11 deposit adapter defaults false.
+All six Sprint 10 migrations need separately
+approved hosted proof. The prior four-migration statement below is a historical checkpoint.
 
 Local claim/release, expected-version commands, immutable replay/audit, coded pause and pre-delivery
 cancellation now exist. Current-assignment/AAL2 is rechecked for every command, including replay.

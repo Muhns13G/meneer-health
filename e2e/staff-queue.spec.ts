@@ -25,6 +25,63 @@ const row = {
   handoffReadiness: "not_evaluated",
   paymentReadiness: "not_evaluated",
 };
+test("synthetic hand-off acknowledgement uses opaque evidence and re-reads live detail", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  let state = "handed_off";
+  let version = 6;
+  const handoff = {
+    attemptId: id,
+    attemptState: "delivered",
+    authorisationId: id,
+    exceptionId: null,
+  };
+  await page.route("**/staff/queue/read", (route) =>
+    route.fulfill({ json: { cases: [{ ...row, state, version }], nextCursor: null } }),
+  );
+  await page.route("**/staff/queue/detail", (route) =>
+    route.fulfill({
+      json: { ...row, state, version, claim: "yours", readiness, profile: null, handoff },
+    }),
+  );
+  await page.route("**/staff/queue/handoff", async (route) => {
+    const fields = new URLSearchParams(route.request().postData() ?? "");
+    expect(Object.fromEntries(fields)).toEqual({
+      action: "acknowledge",
+      caseId: id,
+      expectedVersion: "6",
+      requestKey: expect.stringMatching(/^[a-f0-9-]{36}$/),
+      attemptId: id,
+      evidenceId: id,
+    });
+    state = "provider_acknowledged";
+    version++;
+    await route.fulfill({
+      json: { caseId: id, state, version, attemptId: id, attemptState: "delivered" },
+    });
+  });
+  await page.goto("/staff/queue");
+  await page.getByRole("button", { name: `View case ${id}` }).click();
+  await page.getByLabel("Hand-off action").selectOption("acknowledge");
+  await expect(page.getByLabel("attempt Id")).toHaveValue(id);
+  await page.getByLabel("evidence Id").fill(id);
+  await page.getByRole("button", { name: "Record hand-off command" }).click();
+  await expect(page.getByText("State: provider acknowledged. Record version: 7.")).toBeVisible();
+  expect(page.url()).not.toContain(id);
+  expect(
+    await page.evaluate(
+      () => Object.keys(sessionStorage).length + Object.keys(localStorage).length,
+    ),
+  ).toBe(0);
+  expect(
+    (
+      await new AxeBuilder({ page })
+        .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
+        .analyze()
+    ).violations,
+  ).toEqual([]);
+});
 test("private queue denies anonymous reads and remains accessible", async ({ page, request }) => {
   await isolateExternalFonts(page);
   const errors: string[] = [];
@@ -50,6 +107,20 @@ test("private queue denies anonymous reads and remains accessible", async ({ pag
   });
   expect(r.status()).toBe(401);
   expect((await request.get("/staff/queue/read")).status()).toBe(404);
+  expect(
+    (
+      await request.post("/staff/queue/handoff", {
+        headers: { origin: "http://127.0.0.1:8085" },
+        form: {
+          caseId: id,
+          action: "prepare",
+          expectedVersion: "1",
+          requestKey: id,
+          authorisationId: id,
+        },
+      })
+    ).status(),
+  ).toBe(401);
   expect(
     (
       await request.post("/staff/queue/command", {

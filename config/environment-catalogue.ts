@@ -14,6 +14,20 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
+  ...["HANDOFF_INTAKE_URL", "HANDOFF_DESTINATION_ID", "HANDOFF_DESTINATION_VERSION"].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Owner-configured private patient-intake channel; exact digest/version requires separate AAL2 admin approval.",
+      owner: "Provider hand-off and release owner",
+      sensitivity: name === "HANDOFF_INTAKE_URL" ? "secret" : "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "Reapprove the recipient and reauthorise clients whenever URL or version changes; never log the link.",
+    }),
+  ),
   {
     name: "SUPABASE_URL",
     purpose:

@@ -31,7 +31,7 @@ export const readinessSchema = z
     authorisationCurrent: z.boolean(),
     // Sprint 11 owns deposit credit/refund reconciliation. No operator-supplied bypass.
     paymentReadiness: z.literal("integration_pending"),
-    recipientReadiness: z.literal("integration_pending"),
+    recipientReadiness: z.enum(["integration_pending", "approved"]),
     ready: z.literal(false),
   })
   .strict();

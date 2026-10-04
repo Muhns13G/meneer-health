@@ -748,6 +748,28 @@
       ]
     },
     {
+      "id": "phase-02-sprint-10-6-manual-handoff-commands",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md",
+      "status": "completed-local-activation-gated",
+      "last_updated": "2026-10-04",
+      "authority_for": [
+        "local handoff attempt acknowledgement retry cancellation and reconciliation commands",
+        "independent recipient evidence and atomic audit replay",
+        "approved private portal issuance destination approval and independent evidence ingestion",
+        "actual intake configuration recipient approval authoritative deposit and hosted activation gates"
+      ]
+    },
+    {
+      "id": "private-portal-handoff-runbook",
+      "path": "docs/06-operations/private-portal-handoff-runbook.md",
+      "status": "local-implementation-activation-gated",
+      "last_updated": "2026-10-04",
+      "authority_for": [
+        "private intake configuration and independent evidence operating procedure",
+        "hosted activation and external access limitations"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11",
       "path": "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
       "status": "planned",
