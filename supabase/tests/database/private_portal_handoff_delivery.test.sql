@@ -110,6 +110,26 @@ set local role service_role;
 select throws_ok($$select pg_temp.approve('deliverer@example.invalid')$$,'42501','HANDOFF_REJECTED','operations cannot approve destination');
 select is(pg_temp.approve(),'b6000000-0000-4000-8000-000000000011'::uuid,'AAL2 admin approves current digest only');
 select is(pg_temp.approve(),'b6000000-0000-4000-8000-000000000011'::uuid,'approval exact replay');
+reset role;
+select is((select count(*) from public.audit_events where action='operations.destination.approved'),1::bigint,'destination approval exact replay appends one central fact');
+create function pg_temp.alerts(app uuid default null,tenant uuid default '10000000-0000-4000-8000-000000000001')
+returns jsonb language sql as $$ select public.read_operations_alerts(provider_id,provider_session,email,
+coalesce(app,app_session),subject_id,tenant) from channel_staff where email='approver@example.invalid' $$;
+set local role service_role;
+select is(jsonb_array_length(pg_temp.alerts()),2,'live AAL2 administrator can review assignment alerts');
+select is((select count(*) from jsonb_object_keys(pg_temp.alerts()->0)),8::bigint,'alert projection contains only eight approved fields');
+select throws_ok($$select pg_temp.alerts(gen_random_uuid())$$,'42501','WORKFORCE_REJECTED','forged review session denied');
+select throws_ok($$select pg_temp.alerts(tenant=>'10000000-0000-4000-8000-000000000002')$$,'42501','WORKFORCE_REJECTED','cross-tenant review denied');
+reset role;
+select throws_ok($$select public.read_operations_alerts(provider_id,provider_session,email,null,subject_id,
+  '10000000-0000-4000-8000-000000000001') from channel_staff where email='approver@example.invalid'$$,
+  '42501','OPERATIONS_ALERT_REJECTED','pending MFA null-session bypass denied');
+select throws_ok($test$do $$begin update auth.sessions set aal='aal1' where user_id=(select provider_id from channel_staff where email='approver@example.invalid');
+  perform pg_temp.alerts(); end$$$test$,'42501','WORKFORCE_REJECTED','email-only administrator cannot review alerts');
+select throws_ok($test$do $$begin update public.tenant_memberships set status='revoked' where subject_id=(select subject_id from channel_staff where email='approver@example.invalid');
+  perform pg_temp.alerts(); end$$$test$,'42501','WORKFORCE_REJECTED','revoked administrator cannot review alerts');
+select ok(exists(select 1 from public.audit_events where action='operations.alert.read'),'alert reviews are audited without claiming human acknowledgement');
+set local role service_role;
 select throws_ok($$select pg_temp.command('prepare','{"authorisationId":"b6000000-0000-4000-8000-000000000012"}')$$,'55000','QUEUE_NOT_READY','production payment adapter still false');
 reset role;
 -- Rollback-bound test adapter only; never marks an actual Stripe payment.
@@ -161,5 +181,88 @@ reset role;
 select is((select count(*) from identity_private.handoff_evidence),4::bigint,'four bounded independently verified observations');
 select ok(not exists(select 1 from identity_private.handoff_boundary_events where kind='portal_link_issued' and actor_subject_id<>(select subject_id from portal_context)),'issuance attributed to own patient');
 select throws_ok($$update identity_private.handoff_boundary_events set kind='portal_link_issued'$$,'55000','APPEND_ONLY_RECORD','boundary evidence immutable');
+-- Synthetic alert delivery and human response controls, all rolled back with this packet.
+create temporary table alert_test_claim(value jsonb);
+grant all on alert_test_claim to service_role;
+set local role service_role;
+insert into alert_test_claim select public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001');
+reset role;
+select ok((select value is not null from alert_test_claim),'dispatcher claims one durable notification');
+select is((select count(*) from jsonb_object_keys((select value from alert_test_claim))),5::bigint,'claim contains only approved transport fields');
+select ok(not has_function_privilege('authenticated','public.claim_operations_alert_notification(uuid)','execute'),'browser cannot dispatch alerts');
+select ok(not has_table_privilege('service_role','audit_private.operations_alert_responses','insert'),'service cannot forge human response rows');
+create function pg_temp.finish_alert(outcome text) returns boolean language sql as $$
+  select public.finish_operations_alert_notification('10000000-0000-4000-8000-000000000001',
+    (value->>'alertId')::uuid,(value->>'leaseId')::uuid,outcome) from alert_test_claim$$;
+set local role service_role;
+select ok(pg_temp.finish_alert('retryable'),'known throttling receipt persisted');
+select ok(pg_temp.finish_alert('retryable'),'same receipt replay idempotent');
+select throws_ok($$select pg_temp.finish_alert('accepted')$$,'40001','ALERT_CONFLICT','changed receipt cannot claim accepted');
+reset role;
+select is((select state from audit_private.operations_alert_dispatch where alert_id=(select (value->>'alertId')::uuid from alert_test_claim)),'pending','retryable attempt queues retry');
+select ok((select next_attempt_at>clock_timestamp() from audit_private.operations_alert_dispatch where alert_id=(select (value->>'alertId')::uuid from alert_test_claim)),'retry has durable backoff');
+update audit_private.operations_alert_dispatch set next_attempt_at=clock_timestamp()-interval '1 second' where alert_id=(select (value->>'alertId')::uuid from alert_test_claim);
+set local role service_role;
+update alert_test_claim set value=public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001');
+select ok(pg_temp.finish_alert('uncertain'),'ambiguous delivery is recorded');
+reset role;
+select is((select state from audit_private.operations_alert_dispatch where alert_id=(select (value->>'alertId')::uuid from alert_test_claim)),'uncertain','ambiguous delivery is not retried automatically');
+create function pg_temp.respond_alert(action text,key uuid default 'b6000000-0000-4000-8000-000000000050',p_email text default 'approver@example.invalid') returns uuid language sql as $$
+select public.respond_operations_alert(provider_id,provider_session,email,app_session,subject_id,
+'10000000-0000-4000-8000-000000000001',(select (value->>'alertId')::uuid from alert_test_claim),action,key)
+from channel_staff where channel_staff.email=p_email$$;
+set local role service_role;
+select throws_ok($$select pg_temp.respond_alert('resolved')$$,'55000','ALERT_ACKNOWLEDGEMENT_REQUIRED','resolve requires prior human acknowledgement');
+select throws_ok($$select pg_temp.respond_alert('acknowledged',p_email=>'deliverer@example.invalid')$$,'42501','OPERATIONS_ALERT_REJECTED','operations role cannot acknowledge security alerts');
+select lives_ok($$select pg_temp.respond_alert('acknowledged')$$,'administrator acknowledges explicitly');
+select lives_ok($$select pg_temp.respond_alert('acknowledged')$$,'human acknowledgement exact replay');
+select throws_ok($$select pg_temp.respond_alert('resolved')$$,'40001','ALERT_CONFLICT','request key cannot change human action');
+select lives_ok($$select pg_temp.respond_alert('resolved','b6000000-0000-4000-8000-000000000051')$$,'administrator explicitly resolves acknowledged alert');
+reset role;
+select is((select count(*) from audit_private.operations_alert_responses),2::bigint,'only two immutable human responses');
+select is((select count(*) from public.audit_events where action in ('operations.alert.acknowledged','operations.alert.resolved')),2::bigint,'human responses feed central audit chain');
+select throws_ok($$update audit_private.operations_alert_delivery_facts set outcome='accepted'$$,'55000','APPEND_ONLY_RECORD','transport evidence append only');
+select throws_ok($$delete from audit_private.operations_alert_responses$$,'55000','APPEND_ONLY_RECORD','human responses append only');
+set local role service_role;
+update alert_test_claim set value=public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001');
+reset role;
+update audit_private.operations_alert_dispatch set lease_until=clock_timestamp()-interval '1 second' where alert_id=(select (value->>'alertId')::uuid from alert_test_claim);
+set local role service_role;
+select lives_ok($$select public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001')$$,'expired lease reconciled before further claim');
+reset role;
+select is((select outcome from audit_private.operations_alert_delivery_facts where lease_id=(select (value->>'leaseId')::uuid from alert_test_claim)),'uncertain','worker crash leaves immutable uncertainty evidence');
+select throws_ok($$select public.finish_operations_alert_notification('10000000-0000-4000-8000-000000000002',(value->>'alertId')::uuid,(value->>'leaseId')::uuid,'uncertain') from alert_test_claim$$,'42501','ALERT_REJECTED','other tenant cannot finish an attempt');
+select throws_ok($$select public.finish_operations_alert_notification('10000000-0000-4000-8000-000000000001',(value->>'alertId')::uuid,gen_random_uuid(),'accepted') from alert_test_claim$$,'40001','ALERT_CONFLICT','foreign lease cannot claim acceptance');
+-- Isolated transport fixtures test retry ceilings and the shared UTC-day send budget.
+insert into audit_private.operations_alerts(tenant_id,audit_fact_id,code,owner,severity,deduplication_key)
+select tenant_id,audit_fact_id,'OPERATIONS_EXCEPTION',owner,'critical',gen_random_uuid()::text
+from audit_private.operations_alerts limit 1;
+set local role service_role;
+update alert_test_claim set value=public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001');
+select ok(pg_temp.finish_alert('retryable'),'first throttled attempt recorded');
+reset role;
+update audit_private.operations_alert_dispatch set next_attempt_at=clock_timestamp()-interval '1 second' where alert_id=(select (value->>'alertId')::uuid from alert_test_claim);
+set local role service_role;
+update alert_test_claim set value=public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001');
+select ok(pg_temp.finish_alert('retryable'),'second throttled attempt recorded');
+reset role;
+update audit_private.operations_alert_dispatch set next_attempt_at=clock_timestamp()-interval '1 second' where alert_id=(select (value->>'alertId')::uuid from alert_test_claim);
+set local role service_role;
+update alert_test_claim set value=public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001');
+select ok(pg_temp.finish_alert('retryable'),'third throttled attempt recorded');
+reset role;
+select is((select state from audit_private.operations_alert_dispatch where alert_id=(select (value->>'alertId')::uuid from alert_test_claim)),'failed','third rejection exhausts retries');
+insert into audit_private.operations_alerts(tenant_id,audit_fact_id,code,owner,severity,deduplication_key)
+select a.tenant_id,a.audit_fact_id,'OPERATIONS_EXCEPTION',a.owner,'warning',gen_random_uuid()::text
+from (select * from audit_private.operations_alerts limit 1) a cross join generate_series(1,55);
+do $$declare v jsonb; begin
+  for i in 1..55 loop
+    v:=public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001');
+    exit when v is null;
+    perform public.finish_operations_alert_notification('10000000-0000-4000-8000-000000000001',(v->>'alertId')::uuid,(v->>'leaseId')::uuid,'accepted');
+  end loop;
+end$$;
+select is((select count(*) from audit_private.operations_alert_attempts),50::bigint,'global daily send-attempt budget enforced');
+select is(public.claim_operations_alert_notification('10000000-0000-4000-8000-000000000001'),null::jsonb,'budget exhaustion leaves further alerts unsent');
 select * from finish();
 rollback;

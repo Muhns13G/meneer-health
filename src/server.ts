@@ -12,6 +12,8 @@ import { createPatientPortalHttpHandler } from "./server/identity/patient-portal
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
+import { createAlertHttpHandler } from "./server/operations/alert-http";
+import { runScheduledOperationsAlerts } from "./server/operations/alert-dispatch";
 import { createPortalHandoffHttpHandler } from "./server/operations/portal-handoff-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
@@ -48,10 +50,36 @@ const handleRequest = createStartHandler(async (context) => {
   return applySsrResponsePolicy(context.request, result, nonce);
 });
 
-export type ServerEntry = { fetch: RequestHandler<Register> };
+export type ServerEntry = {
+  fetch: RequestHandler<Register>;
+  scheduled?: (
+    controller: ScheduledController,
+    bindings: Env,
+    context: ExecutionContext,
+  ) => Promise<void>;
+};
 
 export function createServerEntry(entry: ServerEntry): ServerEntry {
   return {
+    async scheduled(_controller, bindings) {
+      try {
+        await runScheduledOperationsAlerts(bindings as unknown as Record<string, unknown>);
+      } catch {
+        emitTelemetry({
+          contract: "telemetry.event",
+          version: 1,
+          occurredAt: new Date().toISOString(),
+          environment: "production",
+          event: "request.denied",
+          severity: "critical",
+          outcome: "failed",
+          correlationId: crypto.randomUUID(),
+          reasonCode: "INTERNAL_FAILURE",
+          statusClass: "5xx",
+        });
+        throw new Error("OPERATIONS_ALERT_JOB_FAILED");
+      }
+    },
     async fetch(...args) {
       if (serverEnvironment.bundleCanary.length === 0) {
         throw new Error("Server configuration is invalid.");
@@ -89,6 +117,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (["/staff/alerts/read", "/staff/alerts/respond"].includes(pathname)) {
+              return createAlertHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
             if (
               [
                 "/staff/queue/read",

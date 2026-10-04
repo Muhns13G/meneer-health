@@ -14,6 +14,20 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
+  ...["OPERATIONS_ALERTS_MODE", "OPERATIONS_ALERTS_TENANT_ID", "BREVO_API_KEY"].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Opt-in generic internal operations alert delivery; disabled until hosted rehearsal.",
+      owner: "Operations and release owner",
+      sensitivity: name === "BREVO_API_KEY" ? "secret" : "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "Review on provider or tenant change; API credentials are distinct from SMTP credentials.",
+    }),
+  ),
   ...["HANDOFF_INTAKE_URL", "HANDOFF_DESTINATION_ID", "HANDOFF_DESTINATION_VERSION"].map(
     (name): EnvironmentCatalogueEntry => ({
       name,

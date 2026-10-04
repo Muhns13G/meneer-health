@@ -2,13 +2,61 @@
 document_id: meneer-audit-integration-evidence-runbook
 title: Audit and Integration Evidence Runbook
 status: active-local-foundation
-last_updated: 2026-08-10
+last_updated: 2026-10-04
 owner: "@Muhns13G"
 audience: engineering, security, privacy, operations
 sensitivity: internal
 ---
 
 # Audit and Integration Evidence Runbook
+
+## Sprint 10 Operations Extension
+
+Task 10.7 adds central chained facts around operations and private hand-off journals, assigned
+queue reads and coded identified denials. The owner-approved hosted migration also creates append-only owned
+alerts; neither browsers nor the service role can access the table directly. Use the live AAL2
+administrator `read_operations_alerts` RPC for a bounded reference-free review; it audits the read
+but records no human acknowledgement or resolution.
+
+The service-only `sweep_operations_alerts(tenant, overdueHours)` requires an explicit 1–168-hour
+interval and processes at most 100 not-yet-alerted attempts per call. It deduplicates uncertain
+delivery and overdue unacknowledged delivery by attempt/code, without changing clinical or case
+state. Task 10.7's approved operating contract uses a five-minute Cron and a 24-hour overdue review
+target. It sends generic internal Brevo email to `support@meneerhealth.co.za`; Mansoer Gallie is the
+initial responder. This target is not a clinical SLA. A generated alert is not a delivered notification.
+Apply DR-005 retention to these private operational/security records; no automatic purge is claimed.
+All seven Sprint 10 migrations were applied hosted with explicit approval on 4 October 2026,
+without seeds or roles; the suspended empty baseline remains. Do not run hosted sweeps or fixture
+writes until specifically authorised for a synthetic exercise. The separately approved rehearsal
+verified real hosted TOTP/AAL2, generic Brevo acceptance, owner-confirmed support mailbox receipt,
+scripted synthetic administrator response/replay/revocation and a valid audit chain. Scoped cleanup
+restored the suspended empty baseline and original triggers. It used direct hosted RPCs and the
+transport adapter, not a deployed Worker Cron or routed browser session. Owner-controlled Worker
+configuration/deployment and routed/Cron release proof remain pending.
+
+### Alert Delivery and Response
+
+1. After separate hosted migration/rehearsal approval, configure server-only `BREVO_API_KEY`,
+   `OPERATIONS_ALERTS_TENANT_ID` and `OPERATIONS_ALERTS_MODE=brevo`. The HTTPS API key is **not**
+   the SMTP key; existing Auth SMTP settings are unchanged. Owner deploys/promotes the configuration.
+2. Cron claims at most three notifications per invocation, with a global 50-attempt UTC-day budget.
+   This conservative internal budget is not a guarantee of remaining shared provider quota. Only
+   known 429 rejection retries, at most three attempts with 60/300-second backoff. Provider 201 means
+   accepted, not delivered. Timeouts, 5xx, redirects and expired leases remain uncertain for review;
+   permanent rejection remains failed. Neither is blindly resent. Idempotency uses the alert UUID.
+3. Sign in with administrator MFA and open `/staff/alerts`. Review transport state and owner code;
+   explicitly acknowledge, investigate, then confirm resolution. Reads and provider acceptance do
+   not respond on a human's behalf. Resolution requires prior acknowledgement. Do not enter patient
+   details into email, alerts or the generic support channel. Security alerts escalate to the security
+   owner; operational alerts to technology/operations, initially the repository owner until separately
+   designated. No independent responder is invented by this implementation.
+4. During a separately approved synthetic rehearsal prove receipt, failed/uncertain delivery review,
+   acknowledgement and resolution, and retain redacted timestamps. Inspect private immutable attempt,
+   receipt and response evidence only through approved diagnostic access; tables deny direct service
+   writes. Review the alert console at least daily; a broken email channel cannot notify itself.
+5. Disable delivery with `OPERATIONS_ALERTS_MODE=disabled` for an incident. Do not delete durable
+   alert or audit evidence. Any resend/reopening requires a separately approved reconciliation design;
+   no automatic reset of uncertain or failed cursor states is exposed.
 
 ## Current Boundary
 

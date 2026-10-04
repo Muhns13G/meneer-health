@@ -25,6 +25,28 @@ const proof: WorkforceProof = {
   providerSession: { accessToken: "synthetic", refreshToken: "synthetic", expiresAt: new Date() },
 };
 describe("minimum server queue repository", () => {
+  it("records only a coded actor-scoped denial and validates its opaque receipt", async () => {
+    const rpc = vi.fn().mockResolvedValue({ data: id, error: null });
+    const repository = new SupabaseQueueRepository({ rpc } as unknown as SupabaseClient);
+    expect(await repository.recordDenial(identity, proof, "QUEUE_REJECTED")).toBe(id);
+    expect(rpc).toHaveBeenCalledWith("record_operations_denial", {
+      p_provider_subject: id,
+      p_provider_session_id: id,
+      p_verified_email: "staff@example.invalid",
+      p_session_id: id,
+      p_subject_id: id,
+      p_tenant_id: id,
+      p_reason_code: "QUEUE_REJECTED",
+    });
+    rpc.mockResolvedValue({ data: { id, privateDetails: "forbidden" }, error: null });
+    await expect(repository.recordDenial(identity, proof, "QUEUE_REJECTED")).rejects.toThrow(
+      IdentityUnavailableError,
+    );
+    rpc.mockResolvedValue({ data: null, error: { code: "42501" } });
+    await expect(repository.recordDenial(identity, proof, "QUEUE_REJECTED")).rejects.toThrow(
+      IdentityRejectedError,
+    );
+  });
   it("binds independent evidence verification to live AAL2 scope and validates opaque results", async () => {
     const rpc = vi.fn().mockResolvedValue({ data: id, error: null });
     const repo = new SupabaseQueueRepository({ rpc } as unknown as SupabaseClient);

@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
   - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md
@@ -112,6 +113,35 @@ follow 10.7/10.8 and precede expanded 10.9/10.10 closure. Existing 10.6 code at 
 complete locally; external-link activation/configuration stays inactive and is not required for the
 new path. Hosted medical access, escalation, instruments and end-to-end proof remain pending.
 
+## Sprint 10.7 Audit and Alert Foundation — 4 October 2026
+
+[Task 10.7](../02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md)
+adds local central hash-chained facts for queue reads, mutation journals, assignment changes and
+private hand-off boundary events. Identified denials and recognised overrides record only coded
+actor-scoped facts. Audit failure rolls back source writes or prevents disclosure; denial-evidence
+failure fails closed with payload-free telemetry. Private append-only alerts cover assignment,
+denial/override and coded exceptions, with a bounded deduplicated uncertainty/overdue sweep.
+Alert review requires live administrator AAL2 and exposes no client reference or content.
+Task 10.7 also implements the approved generic Brevo dispatcher, durable bounded retries and
+failure/uncertainty evidence, plus explicit AAL2 administrator acknowledgement/resolution through
+`/staff/alerts`. Cron runs every five minutes when enabled; overdue review is 24 hours. These are
+operational targets, not clinical SLAs. Email acceptance, mailbox delivery and human response remain
+distinct. The dispatcher defaults to disabled and needs a server-only Brevo API key (not SMTP key)
+and tenant binding. Implementation and hosted database/provider rehearsal now pass: actual
+TOTP/AAL2, generic Brevo acceptance, owner-confirmed mailbox receipt, scripted synthetic administrator
+response/replay, wrong-tenant/revocation denials and intact audit chain. Disposable fixtures were
+removed under the approved transaction; one suspended tenant and zero identities/sessions,
+audit/alert/transport/response records remain. This called hosted RPCs from a temporary runner,
+not deployed Worker Cron or routed browser endpoints. Owner configuration/deployment and that
+release proof remain pending; no scheduled operational channel is claimed.
+On 4 October 2026, all seven Sprint 10 migrations were applied hosted
+with explicit owner approval, retaining exact filename versions and importing no seeds or roles.
+Hosted history has 28 migrations; one suspended tenant and zero subjects/Auth users, cases, attempts
+and alerts remain. All 19 inspected operations/hand-off tables force RLS and deny browser reads;
+eight inspected RPCs deny browser execution. The validated Brevo key is local-only; hosted channel
+configuration, Cron and routed release verification remain pending.
+The payment/clinical/intake gates remain unchanged; alert creation is not operational response.
+
 ## Sprint 10.6 Local Manual Reconciliation — 4 October 2026
 
 [Task 10.6](../02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md)
@@ -126,7 +156,8 @@ audit, tenant-bound destination approval and independent assigned-reviewer evide
 Issuance is not provider receipt/acknowledgement. Local implementation is complete; the actual
 patient-intake URL, three server-only bindings, reviewed recipient instruments and hosted synthetic
 proof remain activation gates. The payment adapter stays false until Sprint 11. No live link is configured.
-All six Sprint 10 migrations remain unapplied hosted; no pilot, payment or staff activation.
+At this historical Task 10.6 checkpoint, six Sprint 10 migrations remained unapplied hosted.
+The later Task 10.7 checkpoint above records their approved application; no pilot, payment or staff activation.
 Tasks 10.7–10.10 remain. The older checkpoints below describe their historic implementation state.
 
 ## Sprint 10.5 Claimed Commands — 4 October 2026
