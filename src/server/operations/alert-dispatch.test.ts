@@ -30,7 +30,7 @@ describe("generic internal alert dispatch", () => {
     expect(body.textContent).not.toContain(claim.alertId);
     expect(body.textContent).not.toContain(claim.code);
     expect(body).not.toHaveProperty("htmlContent");
-    expect(init!.redirect).toBe("error");
+    expect(init!.redirect).toBe("manual");
     expect(init!.signal).toBeInstanceOf(AbortSignal);
   });
   it("does not retry an ambiguous network failure", async () => {
