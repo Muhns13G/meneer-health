@@ -32,7 +32,11 @@ verified real hosted TOTP/AAL2, generic Brevo acceptance, owner-confirmed suppor
 scripted synthetic administrator response/replay/revocation and a valid audit chain. Scoped cleanup
 restored the suspended empty baseline and original triggers. It used direct hosted RPCs and the
 transport adapter, not a deployed Worker Cron or routed browser session. Owner-controlled Worker
-configuration/deployment and routed/Cron release proof remain pending.
+configuration was subsequently rehearsed with explicit bounded approval. Deployed Cron invocation
+and routed MFA/administrator response passed, but the send remained uncertain because Workers rejects
+`redirect: "error"`. The adapter's local `manual` fix needs owner deployment and successful scheduled
+email/mailbox receipt retesting. Mode was restored to disabled, temporary tenant binding removed and
+the original empty suspended baseline verified. Never treat an `ok` Cron outcome as provider acceptance.
 
 ### Alert Delivery and Response
 

@@ -133,7 +133,12 @@ response/replay, wrong-tenant/revocation denials and intact audit chain. Disposa
 removed under the approved transaction; one suspended tenant and zero identities/sessions,
 audit/alert/transport/response records remain. This called hosted RPCs from a temporary runner,
 not deployed Worker Cron or routed browser endpoints. Owner configuration/deployment and that
-release proof remain pending; no scheduled operational channel is claimed.
+release proof was subsequently exercised: registered Cron claimed one alert, while routed real
+MFA/administrator response/replay/revocation passed. Sending stayed uncertain because Workers rejects
+`redirect: "error"`. A local workerd probe confirmed the cause; the adapter now uses `manual` to
+prevent redirect credential forwarding. Owner deployment and successful Cron email/receipt retest
+remain pending. The original Worker code was retained, mode restored to disabled, temporary tenant
+binding removed and the empty suspended baseline independently verified. No scheduled delivery is claimed.
 On 4 October 2026, all seven Sprint 10 migrations were applied hosted
 with explicit owner approval, retaining exact filename versions and importing no seeds or roles.
 Hosted history has 28 migrations; one suspended tenant and zero subjects/Auth users, cases, attempts

@@ -45,13 +45,16 @@ intake URL/configuration, recipient approval and hosted proof remain activation 
 Sprint 11's deposit adapter. Task 10.7's [audit/alert packet](annexures/sprint-10-7-operations-audit-alerts.md)
 adds locally verified central audit, generic Brevo dispatch with bounded retries, private alert review
 and explicit AAL2 administrator acknowledgement/resolution. Task 10.7 is completed locally; hosted
-configuration, deployed Cron and routed administrator verification remain activation gates.
+scheduled email acceptance remains a release gate after a locally corrected Workers redirect defect.
 The hosted RPC/provider rehearsal passed real MFA, owner-confirmed receipt and scripted synthetic
 response/revocation with the baseline restored. Tasks 10.8–10.10
 remain planned.
 All seven Sprint 10 migrations were applied hosted with explicit owner approval on 4 October 2026;
 no seeds or roles were imported and the suspended empty baseline remains. Alert delivery/response
-and hosted application configuration remain unverified.
+was additionally exercised through deployed Cron and routed administrator endpoints. Cron retained
+an uncertain send because Workers rejected `redirect: "error"`; the adapter now uses `manual`.
+The owner must deploy this fix and repeat successful scheduled email/receipt proof. The approved
+temporary configuration was restored to disabled mode and the empty suspended baseline was verified.
 Real-client activation is still subject to the seven
 existing clinical, commercial and operational acceptance gates.
 

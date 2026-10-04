@@ -48,8 +48,10 @@ Generic Brevo dispatch, bounded durable retries/failure evidence, explicit AAL2 
 acknowledgement/resolution, five-minute invocation and 24-hour overdue review are implemented locally.
 All seven migrations and the hosted database/provider rehearsal now pass: real TOTP/AAL2,
 owner-confirmed generic mailbox receipt, synthetic response/replay/revocation and restored empty
-baseline. Worker configuration/deployment, Cron and routed administrator release proof remain
-activation gates; direct RPC proof is not deployed Worker proof. TD-009 and TD-043 retain
+baseline. A subsequent authorised Worker rehearsal passed Cron invocation and routed real-MFA
+administrator response/revocation. A Workers redirect-mode defect retained the send as uncertain;
+the local `manual` fix requires owner deployment and successful scheduled email/mailbox receipt retest.
+Mode is restored to disabled and the synthetic baseline is clean. TD-009 and TD-043 retain
 their status and hosted/operational acceptance requirements. No new debt ID is added.
 
 Task 9.6 adds locally verified atomic profile/receipt activation and an accessible document-first
