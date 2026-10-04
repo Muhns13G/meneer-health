@@ -101,8 +101,10 @@ Brevo dispatcher, durable retry/failure evidence and explicit administrator ackn
 are implemented locally. Five-minute invocation and 24-hour overdue review are operational targets,
 not clinical SLAs. Hosted RPC/provider rehearsal now verifies real MFA, owner-confirmed mailbox
 receipt and scripted synthetic administrator response/revocation, followed by scoped fixture removal.
-Worker configuration/deployment, Cron and routed release proof remain activation gates; direct
-RPC acceptance is not scheduled Worker proof.
+An authorised configuration-only Worker rehearsal verified Cron invocation and routed administrator
+MFA/response/revocation, but the email attempt was uncertain: Workers rejected `redirect: "error"`.
+The local `manual` redirect fix needs owner deployment and successful Cron email/receipt retesting.
+Temporary configuration was restored to disabled mode and synthetic fixtures were removed.
 The payment adapter remains false until Sprint 11. Tasks 10.8–10.10 remain planned. All seven Sprint
 10 migrations were applied hosted with explicit owner approval on 4 October 2026. No seed/role
 import or pilot activation occurred; independent checks retain one suspended tenant and zero

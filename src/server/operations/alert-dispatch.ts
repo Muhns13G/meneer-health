@@ -33,7 +33,8 @@ export async function sendBrevoOperationsAlert(
   try {
     const result = await send("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
-      redirect: "error",
+      // Workers supports manual/follow, not error. Never forward the API key on redirects.
+      redirect: "manual",
       signal: AbortSignal.timeout(10_000),
       headers: {
         "api-key": apiKey,

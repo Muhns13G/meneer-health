@@ -97,11 +97,15 @@ administrator acknowledgement/resolution. Mansoer is the initial responder at th
 mailbox; five-minute invocation and 24-hour overdue review do not establish a clinical SLA.
 `OPERATIONS_ALERTS_MODE` remains disabled. All seven Sprint 10 migrations were applied hosted with
 explicit approval on 4 October 2026, without seeds or role changes. The validated Brevo API key is
-saved only in the ignored local environment. The approved hosted database/provider rehearsal passed
+saved in the ignored local environment and, under explicit one-time approval, as a Worker secret.
+The approved hosted database/provider rehearsal passed
 real TOTP/AAL2, generic email acceptance, owner-confirmed mailbox receipt and scripted administrator
 response/replay/revocation. All disposable fixtures were removed and the empty suspended baseline
-restored. Hosted Worker key/tenant configuration, deployment, Cron and routed administrator proof
-remain pending: direct RPC/transport testing is not scheduled production activation.
+restored. The subsequent deployed rehearsal passed real Cron invocation and routed administrator
+MFA/response/revocation. Its send was uncertain because Workers rejects `redirect: "error"`; the
+local fix uses `manual` without redirect credential forwarding. Owner deployment and successful
+scheduled email acceptance/mailbox receipt remain outstanding. Disabled mode and the empty baseline
+were restored; the temporary tenant binding was removed. Task 10.7 is not fully closed yet.
 
 ## Current Intake Scope Overrides Historical External Only Limits
 

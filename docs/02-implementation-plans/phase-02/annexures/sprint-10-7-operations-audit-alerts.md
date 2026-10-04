@@ -1,6 +1,6 @@
 ---
 plan_id: phase-02-sprint-10-task-07
-status: completed-hosted-rehearsal-live-activation-pending
+status: hosted-cron-transport-fix-retest-pending
 last_updated: 2026-10-04
 primary_debt: [TD-009, TD-043]
 source_commit: 3deab6f
@@ -53,10 +53,9 @@ The foundation started on clean `itws-I`; Task 10.6 was committed at `b2a3a1e`.
 
 ## Completion and Activation Boundaries
 
-Task 10.7 implementation and hosted database/provider synthetic acceptance are complete; live
-scheduled Worker activation is not verified. The dispatcher defaults to disabled.
-Separate authorisation is still required for hosted API-key/tenant configuration,
-deployment, synthetic mailbox receipt and explicit responder acknowledgement/resolution rehearsal.
+Task 10.7 local implementation and hosted database/provider synthetic acceptance pass. The later
+deployed rehearsal below exposed a Workers transport compatibility defect; its local fix requires
+owner deployment and a successful scheduled email retest before full task closure. Mode is disabled.
 On 4 October 2026, the owner explicitly approved all seven pending Sprint 10 migrations. Linked
 CLI dry-run identified exactly those files; `db push --linked --yes` applied them without seed or
 role changes. Hosted history now matches all 28 local filename versions, with no history repair.
@@ -67,7 +66,7 @@ reported only informational no-policy notices, consistent with the deny-default 
 The Brevo API credential was separately validated and saved only in the ignored local environment
 at the owner's request. The subsequently approved rehearsal below verifies actual email acceptance,
 owner-confirmed receipt and synthetic administrator response RPCs. No hosted Worker alert configuration
-or deployment change ran. Historical Better Stack evidence is not queue-alert proof; neither schema
+or deployment change ran during that first rehearsal. Historical Better Stack evidence is not queue-alert proof; neither schema
 application nor this disposable rehearsal activates the suspended pilot.
 
 ### Hosted Synthetic Rehearsal — 4 October 2026
@@ -92,10 +91,34 @@ application nor this disposable rehearsal activates the suspended pilot.
   verified one suspended tenant and zero Auth/application sessions, identities, audit facts/heads,
   alerts, dispatch cursors, attempts, delivery facts and responses. All six inspected original
   audit/alert triggers remain enabled. Temporary runner/token state was removed after revocation.
-- **Remaining release gate:** the owner must deploy this task, provision the Worker-only Brevo key
-  and approved tenant binding, deliberately enable the mode, and verify Cron plus the routed
-  administrator flow. Until that owner-controlled release proof, live dispatch remains disabled;
-  do not describe the scheduled channel as operational. No new debt or real-client activation.
+- The subsequent bounded Worker rehearsal below supersedes the initial configuration/routing gap;
+  successful scheduled email acceptance and mailbox receipt remain the release gate.
+
+### Deployed Worker Rehearsal and Transport Fix — 4 October 2026
+
+- The owner explicitly authorised a one-time configuration-only promotion, saved Brevo key upload,
+  isolated tenant activation and restoration. Original version `77ac1099-7861-4f36-8e15-045e2338a913`
+  and temporary version `d5cae085-feca-4584-871a-09ac58627faa` have identical deployed code hashes.
+  Cloudflare's live schedule is `*/5 * * * *`; a real scheduled invocation completed without exception.
+- One normal denied-override alert was claimed once and persisted as **uncertain**, not accepted.
+  Brevo's redacted event inventory showed no corresponding new request. A credential-free local
+  workerd probe reproduced `TypeError`: Workers accepts redirect modes `follow`/`manual`, not `error`.
+  The adapter now uses `manual`, never forwarding the API key through a redirect; existing redirect
+  responses still classify as uncertain. The focused dispatch/HTTP suite passes **16 tests**.
+- Real routed administrator sign-in, TOTP/AAL2, private review, acknowledgement, exact replay,
+  premature-resolution denial, resolution and post-sign-out denial passed at **13:44:31 SAST**.
+  This was scripted HTTP endpoint proof, not a manual visual browser walkthrough. Two responses
+  were persisted for the uncertain alert; neither response falsely established email delivery.
+- Restoration version `e9fbae4e-f9e9-48c7-8524-34191c203ff4` is deployed at 100%, retaining the original
+  code hash, disabling alert mode and removing the disposable tenant binding. The authorised
+  server-only Brevo key remains configured. No routes, real pilot state or Auth SMTP settings changed.
+- Approved scoped cleanup removed only this exercise's fixtures, restored the five append-only
+  triggers before commit and independently verified one suspended tenant and zero identities,
+  sessions, audit facts/heads, alerts, dispatch, attempts, delivery facts and responses.
+- **Remaining:** owner commits/deploys the redirect fix; repeat an explicitly authorised isolated
+  Cron send and confirm support-mailbox receipt, then restore disabled mode and the empty baseline.
+  No success is claimed for scheduled delivery yet. Track this bounded defect here under existing
+  TD-043 acceptance, not as a duplicate debt ID; TD-009/TD-043 and pilot activation remain open.
 
 Review the console at least daily: a broken email channel cannot notify itself. Security alerts
 escalate to the security owner and operational alerts to technology/operations, initially the repository
