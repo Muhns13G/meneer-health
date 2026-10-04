@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import { StaffHandoffControls } from "./StaffHandoffControls";
+import { StaffHandoffEvidencePanel } from "./StaffHandoffEvidencePanel";
+import { handoffResultSchema, type HandoffCommand } from "@/application/operations/handoff-command";
 import { operationsStateSchema, operationsExceptionCodeSchema } from "../../contracts/operations";
 import {
   queueCommandResultSchema,
@@ -40,7 +43,11 @@ export function StaffQueuePage() {
   const sequence = useRef(0);
   const expiryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  async function load(filter: QueueFilter, caseId?: string, command?: QueueCommand) {
+  async function load(
+    filter: QueueFilter,
+    caseId?: string,
+    command?: QueueCommand | HandoffCommand,
+  ) {
     requestRef.current?.abort();
     if (expiryTimer.current) clearTimeout(expiryTimer.current);
     const controller = new AbortController();
@@ -53,14 +60,20 @@ export function StaffQueuePage() {
     setMessage(caseId ? "Loading assigned case…" : "Loading assigned cases…");
     try {
       if (command) {
-        const mutation = await fetch("/staff/queue/command", {
+        const handoff = !["claim", "release", "mark_ready", "cancel", "record_exception"].includes(
+          command.action,
+        );
+        const mutation = await fetch(handoff ? "/staff/queue/handoff" : "/staff/queue/command", {
           method: "POST",
           credentials: "same-origin",
           cache: "no-store",
           signal: controller.signal,
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams(
-            Object.entries(command).map(([key, value]) => [key, String(value)]),
+            Object.entries(command).map(([key, value]) => [
+              key,
+              value === null ? "" : String(value),
+            ]),
           ),
         });
         if (current !== sequence.current) return;
@@ -68,7 +81,9 @@ export function StaffQueuePage() {
           setMessage(failure(mutation.status));
           return;
         }
-        const result = queueCommandResultSchema.parse(await mutation.json());
+        const result = (handoff ? handoffResultSchema : queueCommandResultSchema).parse(
+          await mutation.json(),
+        );
         if (result.caseId !== command.caseId) throw new Error("Unexpected command result");
         // Re-read live state after the mutation; never treat a replay receipt as current authority.
       }
@@ -300,8 +315,10 @@ export function StaffQueuePage() {
             <p className="mt-4">No client profile has been activated.</p>
           )}
           <p className="mt-5">
-            Reservation: {detail.claim}. Payment and recipient readiness remain integration pending.
-            A claim is not clinical approval, payment clearance or permission to send contact data.
+            Reservation: {detail.claim}. Payment:{" "}
+            {detail.readiness.paymentReadiness.replaceAll("_", " ")}. Recipient:{" "}
+            {detail.readiness.recipientReadiness.replaceAll("_", " ")}. A claim is not clinical
+            approval, payment clearance or permission to send contact data.
           </p>
           <dl className="mt-4 grid gap-2">
             {Object.entries(detail.readiness)
@@ -433,6 +450,19 @@ export function StaffQueuePage() {
                 )}
               </form>
             )}
+          {detail.claim === "yours" && (
+            <StaffHandoffControls
+              key={`${detail.caseId}:${detail.version}`}
+              detail={detail}
+              busy={busy}
+              submit={(command) => void load({ state, cursor: null }, detail.caseId, command)}
+            />
+          )}
+          <StaffHandoffEvidencePanel
+            key={`evidence:${detail.caseId}:${detail.version}`}
+            detail={detail}
+            onInvalidate={() => void load({ state, cursor: null }, detail.caseId)}
+          />
           <button
             className={`${buttonClass} mt-6`}
             onClick={() => void load({ state, cursor: null })}

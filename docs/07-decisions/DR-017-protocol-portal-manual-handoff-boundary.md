@@ -8,10 +8,25 @@ required_approvers: [business_owner, repository_owner]
 effective_date: 2026-10-02
 supersedes: null
 related_debt: [TD-009, TD-043]
-last_updated: 2026-10-02
+last_updated: 2026-10-04
 ---
 
 # DR-017 — Protocol Portal Capability and Manual Hand-off Boundary
+
+## Task 10.6 Delivery Amendment — 4 October 2026
+
+The business owner approved delivery of the private patient-intake link through the authenticated
+Meneer patient portal, not ordinary email, and independent record verification by a second assigned
+staff member. A current AAL2 administrator approves the exact server-configured destination digest,
+version and tenant after recipient/privacy review. Patient authority, receipts, destination, active
+assignment/claim and authoritative payment readiness must remain valid at issuance.
+
+The private issuance event commits before disclosure; opening a reusable intake link is not provider
+receipt, acknowledgement, review or clinical approval. Only inspected nonclinical states and opaque
+references enter the queue. The delivering actor/current claimant cannot verify their own evidence.
+Local implementation is complete; the actual intake URL/configuration, recipient approval and
+hosted synthetic proof remain activation requirements. No supported provider API is presumed.
+See [the private hand-off runbook](../06-operations/private-portal-handoff-runbook.md).
 
 ## Context
 

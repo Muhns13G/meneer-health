@@ -2,7 +2,7 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
@@ -23,8 +23,13 @@ entry, TOTP/AAL2, server-derived context and governed invitation dispatch locall
 [assigned queue](annexures/sprint-10-4-assigned-queue-projection.md) adds the locally verified read-only
 queue and masked detail. Task 10.5's [claimed commands](annexures/sprint-10-5-claimed-queue-commands.md)
 add reservations, version/replay guards, atomic audit, coded pause and pre-delivery cancellation.
-Recipient/deposit readiness remains gated by Task 10.6/Sprint 11; Tasks 10.6–10.10 remain.
-All four Sprint 10 migrations are not applied hosted. Real-client activation is still subject to the seven
+Task 10.6's [manual command boundary](annexures/sprint-10-6-manual-handoff-commands.md) adds
+locally verified attempts, independent evidence reconciliation, acknowledgement and safe retry/
+cancellation, owner-approved authenticated portal issuance, tenant-bound administrator destination
+approval and separate assigned-reviewer evidence ingestion. Local Task 10.6 is complete; actual
+intake URL/configuration, recipient approval and hosted proof remain activation gates, alongside
+Sprint 11's deposit adapter. Tasks 10.7–10.10 remain. All six Sprint 10 migrations are not applied hosted.
+Real-client activation is still subject to the seven
 existing clinical, commercial and operational acceptance gates.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.

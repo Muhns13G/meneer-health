@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { readinessSchema } from "./queue-command";
+import { handoffAttemptStateSchema } from "../../../contracts/operations";
 import {
   operationsStateSchema,
   operationsExceptionCodeSchema,
@@ -37,6 +38,16 @@ export const queuePageSchema = z
   .strict();
 export const queueDetailSchema = queueCaseSchema
   .extend({
+    handoff: z
+      .object({
+        attemptId: z.uuid().nullable(),
+        attemptState: handoffAttemptStateSchema.nullable(),
+        authorisationId: z.uuid().nullable(),
+        exceptionId: z.uuid().nullable(),
+      })
+      .strict()
+      .nullable()
+      .default(null),
     claim: z.enum(["unclaimed", "yours", "other"]),
     readiness: readinessSchema,
     profile: z

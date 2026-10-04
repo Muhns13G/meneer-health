@@ -165,6 +165,16 @@ coded pause and pre-delivery cancellation. Derived readiness still refuses missi
 deposit integration. Task 10.6/Sprint 11 retain those explicit dependencies; all four migrations and
 hosted command proof remain activation gates. TD-009 stays In progress and TD-043 Open; no new ID.
 
+Task 10.6 adds the locally verified [manual hand-off command/reconciliation boundary](../02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md):
+persisted attempts, independent opaque evidence, guarded acknowledgement/outcome, uncertainty,
+linked retry, immutable exception resolution and cancellation preserving prior delivery.
+Owner-approved authenticated portal issuance, tenant-bound destination approval and independent
+assigned-reviewer evidence ingestion are implemented and verified locally. Task 10.6 local code is
+complete; actual intake URL/configuration, recipient instruments/approval and hosted synthetic proof
+remain activation gates. Issuance is not receipt; Sprint 11's deposit adapter defaults false.
+All six Sprint 10 migrations require separate hosted approval/proof. TD-009 remains In progress,
+TD-043 Open; no new debt ID. Earlier migration counts above are historical checkpoints.
+
 Task 8.8/DR-017 subsequently verifies signed-out provider-linked intake and an authenticated
 synthetic path through intake, protocol generation, review controls and PDF-download controls. No
 supported API/webhook was found. TD-009 remains In progress for external identity, authority,

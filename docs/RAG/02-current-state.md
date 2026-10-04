@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-3-workforce-security.md
@@ -96,6 +97,23 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 10.6 Local Manual Reconciliation — 4 October 2026
+
+[Task 10.6](../02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md)
+implements protected reference-only hand-off commands, private approved recipient/evidence facts,
+persist-before-delivery attempts, independent acknowledgements, bounded non-clinical outcomes,
+safe uncertainty/retry, exception resolution and cancellation retaining delivered history.
+Live assignment/claim/AAL2, expected versions and shared atomic audit/replay guard every command.
+Staff detail exposes only minimum opaque operational references; no protocol, intake or provider URL.
+The migration approves no recipient and the payment adapter remains false pending Sprint 11.
+The owner-approved authenticated portal now implements guarded private link issuance after durable
+audit, tenant-bound destination approval and independent assigned-reviewer evidence ingestion.
+Issuance is not provider receipt/acknowledgement. Local implementation is complete; the actual
+patient-intake URL, three server-only bindings, reviewed recipient instruments and hosted synthetic
+proof remain activation gates. The payment adapter stays false until Sprint 11. No live link is configured.
+All six Sprint 10 migrations remain unapplied hosted; no pilot, payment or staff activation.
+Tasks 10.7–10.10 remain. The older checkpoints below describe their historic implementation state.
 
 ## Sprint 10.5 Claimed Commands — 4 October 2026
 

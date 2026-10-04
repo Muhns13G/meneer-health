@@ -4,6 +4,43 @@ import { expect, test } from "@playwright/test";
 import { portalAccountFixture } from "../src/test/patient-portal-fixture";
 import { isolateExternalFonts } from "./helpers";
 
+test("private intake is unavailable anonymously and does not imply provider receipt", async ({
+  page,
+  request,
+}) => {
+  await isolateExternalFonts(page);
+  expect(
+    (
+      await request.post("/portal/handoff/open", {
+        form: { requestKey: "b6000000-0000-4000-8000-000000000011" },
+        headers: { origin: "http://127.0.0.1:8085" },
+      })
+    ).status(),
+  ).toBe(401);
+  await page.route("**/portal/account", (route) =>
+    route.fulfill({
+      json: {
+        account: portalAccountFixture,
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      },
+    }),
+  );
+  let body = "";
+  await page.route("**/portal/handoff/open", (route) => {
+    body = route.request().postData() ?? "";
+    return route.fulfill({ status: 412, body: "" });
+  });
+  await page.goto("/portal");
+  await page.getByRole("button", { name: "Continue to private intake" }).click();
+  await expect(page.getByText("Your hand-off is not ready yet.", { exact: false })).toBeVisible();
+  expect([...new URLSearchParams(body).keys()]).toEqual(["requestKey"]);
+  expect(page.url()).toBe("http://127.0.0.1:8085/portal");
+  expect(
+    await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
+  ).toEqual({ local: 0, session: 0 });
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
 test("portal shells deny data without a session and preserve private response policies", async ({
   page,
   request,

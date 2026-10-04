@@ -12,6 +12,7 @@ import { createPatientPortalHttpHandler } from "./server/identity/patient-portal
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
+import { createPortalHandoffHttpHandler } from "./server/operations/portal-handoff-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import {
@@ -89,9 +90,14 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
             if (
-              ["/staff/queue/read", "/staff/queue/detail", "/staff/queue/command"].includes(
-                pathname,
-              )
+              [
+                "/staff/queue/read",
+                "/staff/queue/detail",
+                "/staff/queue/command",
+                "/staff/queue/handoff",
+                "/staff/queue/evidence",
+                "/staff/queue/destination",
+              ].includes(pathname)
             ) {
               return createQueueHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
@@ -102,6 +108,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               pathname === "/staff/session"
             ) {
               return createWorkforceHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (pathname === "/portal/handoff/open") {
+              return createPortalHandoffHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
               );
             }

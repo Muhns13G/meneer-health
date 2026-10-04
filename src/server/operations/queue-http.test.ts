@@ -31,6 +31,11 @@ async function setup() {
     list: vi.fn().mockResolvedValue({ cases: [], nextCursor: null }),
     detail: vi.fn().mockResolvedValue({}),
     command: vi.fn().mockResolvedValue({}),
+    handoff: vi.fn().mockResolvedValue({}),
+  };
+  const boundary = {
+    verifyEvidence: vi.fn().mockResolvedValue(id),
+    approveDestination: vi.fn().mockResolvedValue(id),
   };
   const cookie = (await sealWorkforceProof(proof, new Date(Date.now() + 600_000), key)).split(
     ";",
@@ -41,7 +46,7 @@ async function setup() {
       IDENTITY_SESSION_KEY_BASE64: key,
       REQUEST_RATE_LIMITER: { limit: async () => ({ success: true }) },
     },
-    { workforce, queue },
+    { workforce, queue, boundary },
   );
   const request = (
     fields: Record<string, string> = { state: "", afterCreatedAt: "", afterId: "" },
@@ -58,9 +63,54 @@ async function setup() {
       },
       body: new URLSearchParams(fields),
     });
-  return { workforce, queue, handler, request };
+  return { workforce, queue, boundary, handler, request };
 }
 describe("scoped queue HTTP", () => {
+  it("takes only opaque reviewed evidence and denies operations destination approval", async () => {
+    const s = await setup();
+    const command = {
+      caseId: id,
+      attemptId: id,
+      kind: "acknowledged",
+      externalReference: id,
+      sourceReference: id,
+      observedAt: new Date().toISOString(),
+      requestKey: id,
+    };
+    const result = await s.handler(s.request(command, "evidence"));
+    expect(result.status).toBe(200);
+    expect(await result.json()).toEqual({ evidenceId: id });
+    expect(s.boundary.verifyEvidence).toHaveBeenCalledOnce();
+    expect(
+      (await s.handler(s.request({ ...command, protocol: "forbidden" }, "evidence"))).status,
+    ).toBe(422);
+    expect(
+      (await s.handler(s.request({ approvalReference: id, requestKey: id }, "destination"))).status,
+    ).toBe(403);
+    expect(s.boundary.approveDestination).not.toHaveBeenCalled();
+  });
+  it("protects hand-off commands and cannot accept operator delivery or payment assertions", async () => {
+    const s = await setup();
+    const fields = {
+      action: "prepare",
+      caseId: id,
+      expectedVersion: "1",
+      requestKey: id,
+      authorisationId: id,
+    };
+    expect((await s.handler(s.request(fields, "handoff"))).status).toBe(200);
+    expect(s.queue.handoff).toHaveBeenCalledOnce();
+    for (const field of ["paid", "delivered", "providerUrl", "notes", "subjectId"])
+      expect((await s.handler(s.request({ ...fields, [field]: "x" }, "handoff"))).status).toBe(422);
+    expect((await s.handler(s.request(fields, "handoff", { cookie: "" }))).status).toBe(401);
+    expect(
+      (await s.handler(s.request(fields, "handoff", { origin: "https://evil.invalid" }))).status,
+    ).toBe(403);
+    s.queue.handoff.mockRejectedValue(new QueueReadinessError());
+    expect((await s.handler(s.request(fields, "handoff"))).status).toBe(412);
+    s.queue.handoff.mockRejectedValue(new QueueConflictError());
+    expect((await s.handler(s.request(fields, "handoff"))).status).toBe(409);
+  });
   it("protects commands with live scope, exact fields and typed denial statuses", async () => {
     const s = await setup();
     const fields = { action: "claim", caseId: id, expectedVersion: "1", requestKey: id };

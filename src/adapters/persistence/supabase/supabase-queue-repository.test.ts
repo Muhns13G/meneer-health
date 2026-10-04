@@ -25,6 +25,80 @@ const proof: WorkforceProof = {
   providerSession: { accessToken: "synthetic", refreshToken: "synthetic", expiresAt: new Date() },
 };
 describe("minimum server queue repository", () => {
+  it("binds independent evidence verification to live AAL2 scope and validates opaque results", async () => {
+    const rpc = vi.fn().mockResolvedValue({ data: id, error: null });
+    const repo = new SupabaseQueueRepository({ rpc } as unknown as SupabaseClient);
+    const command = {
+      caseId: id,
+      attemptId: id,
+      kind: "acknowledged" as const,
+      externalReference: id,
+      sourceReference: id,
+      observedAt: new Date().toISOString(),
+      requestKey: id,
+    };
+    expect(await repo.verifyEvidence(identity, proof, command)).toBe(id);
+    expect(rpc).toHaveBeenCalledWith(
+      "verify_operations_handoff_evidence",
+      expect.objectContaining({
+        p_subject_id: id,
+        p_session_id: id,
+        p_verified_email: "staff@example.invalid",
+        p_command: command,
+      }),
+    );
+    await expect(
+      repo.verifyEvidence({ ...identity, assurance: "aal1" }, proof, command),
+    ).rejects.toThrow(IdentityRejectedError);
+    rpc.mockResolvedValueOnce({ data: { evidenceId: id, protocol: "forbidden" }, error: null });
+    await expect(repo.verifyEvidence(identity, proof, command)).rejects.toThrow(
+      IdentityUnavailableError,
+    );
+    rpc.mockResolvedValueOnce({ data: null, error: { code: "23505" } });
+    await expect(repo.verifyEvidence(identity, proof, command)).rejects.toThrow(QueueConflictError);
+  });
+  it("binds hand-off RPC to live scope and rejects expanded or wrong-case receipts", async () => {
+    const command = {
+      action: "prepare" as const,
+      caseId: id,
+      expectedVersion: 1,
+      requestKey: id,
+      authorisationId: id,
+    };
+    const result = {
+      caseId: id,
+      version: 2,
+      state: "ready_for_handoff",
+      attemptId: id,
+      attemptState: "prepared",
+    };
+    const rpc = vi.fn().mockResolvedValue({ data: result, error: null });
+    const repo = new SupabaseQueueRepository({ rpc } as unknown as SupabaseClient);
+    expect(await repo.handoff(identity, proof, command)).toEqual(result);
+    expect(rpc).toHaveBeenCalledWith(
+      "command_operations_handoff",
+      expect.objectContaining({ p_command: command, p_subject_id: id, p_session_id: id }),
+    );
+    rpc.mockResolvedValue({
+      data: { ...result, externalUrl: "https://private.invalid" },
+      error: null,
+    });
+    await expect(repo.handoff(identity, proof, command)).rejects.toBeInstanceOf(
+      IdentityUnavailableError,
+    );
+    rpc.mockResolvedValue({
+      data: { ...result, caseId: "a1000000-0000-4000-8000-000000000002" },
+      error: null,
+    });
+    await expect(repo.handoff(identity, proof, command)).rejects.toBeInstanceOf(
+      IdentityUnavailableError,
+    );
+    rpc.mockClear();
+    await expect(
+      repo.handoff({ ...identity, assurance: "aal1" }, proof, command),
+    ).rejects.toBeInstanceOf(IdentityRejectedError);
+    expect(rpc).not.toHaveBeenCalled();
+  });
   it.each([
     ["40001", QueueConflictError],
     ["55000", QueueReadinessError],

@@ -4,6 +4,7 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { portalViewSchema, type PortalView } from "@/domain/identity/patient-portal";
 import { PatientRightsPanel } from "./PatientRightsPanel";
+import { PortalHandoffPanel } from "./PortalHandoffPanel";
 
 type ViewState =
   | { stage: "loading" | "signed-out" | "unavailable" | "expired" }
@@ -287,6 +288,7 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "ri
                     </article>
                   ))}
                 </section>
+                <PortalHandoffPanel />
                 <section className="mt-10" aria-labelledby="account-progress">
                   <h2 id="account-progress" className="font-serif text-2xl text-foreground">
                     Non-clinical progress
