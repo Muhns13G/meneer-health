@@ -31,6 +31,17 @@ import {
 
 export class SupabaseQueueRepository {
   constructor(private readonly client: SupabaseClient) {}
+  async recordDenial(
+    identity: ProviderIdentity,
+    proof: WorkforceProof,
+    reason: "QUEUE_REJECTED" | "QUEUE_CONFLICT" | "QUEUE_NOT_READY" | "BREAK_GLASS_DISABLED",
+  ) {
+    const { data, error } = await this.client.rpc("record_operations_denial", {
+      ...this.authority(identity, proof),
+      p_reason_code: reason,
+    });
+    return this.referenceResult(data, error);
+  }
   async verifyEvidence(
     identity: ProviderIdentity,
     proof: WorkforceProof,

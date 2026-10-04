@@ -5,6 +5,8 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
   "preview_urls": true,
+  "vars": { "OPERATIONS_ALERTS_MODE": "disabled" },
+  "triggers": { "crons": ["*/5 * * * *"] },
   "secrets": {
     "required": ["JOURNEY_INTENT_ENCRYPTION_KEY_BASE64"],
   },

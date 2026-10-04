@@ -56,6 +56,9 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "OPERATIONS_ALERTS_MODE",
+      "OPERATIONS_ALERTS_TENANT_ID",
+      "BREVO_API_KEY",
       "HANDOFF_INTAKE_URL",
       "HANDOFF_DESTINATION_ID",
       "HANDOFF_DESTINATION_VERSION",

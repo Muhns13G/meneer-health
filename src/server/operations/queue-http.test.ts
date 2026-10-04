@@ -37,6 +37,7 @@ async function setup() {
     verifyEvidence: vi.fn().mockResolvedValue(id),
     approveDestination: vi.fn().mockResolvedValue(id),
   };
+  const audit = { recordDenial: vi.fn().mockResolvedValue(id) };
   const cookie = (await sealWorkforceProof(proof, new Date(Date.now() + 600_000), key)).split(
     ";",
     1,
@@ -46,7 +47,7 @@ async function setup() {
       IDENTITY_SESSION_KEY_BASE64: key,
       REQUEST_RATE_LIMITER: { limit: async () => ({ success: true }) },
     },
-    { workforce, queue, boundary },
+    { workforce, queue, boundary, audit },
   );
   const request = (
     fields: Record<string, string> = { state: "", afterCreatedAt: "", afterId: "" },
@@ -63,9 +64,48 @@ async function setup() {
       },
       body: new URLSearchParams(fields),
     });
-  return { workforce, queue, boundary, handler, request };
+  return { workforce, queue, boundary, audit, handler, request };
 }
 describe("scoped queue HTTP", () => {
+  it("records attempted overrides but never executes them", async () => {
+    const s = await setup();
+    expect((await s.handler(s.request({ action: "force_handoff" }, "command"))).status).toBe(403);
+    expect(s.audit.recordDenial).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      "BREAK_GLASS_DISABLED",
+    );
+    expect(s.queue.command).not.toHaveBeenCalled();
+  });
+  it("records a denial without trusting an attempted client reference", async () => {
+    const s = await setup();
+    s.queue.detail.mockRejectedValue(new IdentityRejectedError());
+    expect((await s.handler(s.request({ caseId: id }, "detail"))).status).toBe(403);
+    expect(s.audit.recordDenial).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      "QUEUE_REJECTED",
+    );
+  });
+  it("fails closed when denial evidence cannot be stored", async () => {
+    const s = await setup();
+    s.queue.command.mockRejectedValue(new QueueConflictError());
+    s.audit.recordDenial.mockRejectedValue(new Error("synthetic private failure"));
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    expect(
+      (
+        await s.handler(
+          s.request(
+            { caseId: id, action: "claim", expectedVersion: "1", requestKey: id },
+            "command",
+          ),
+        )
+      ).status,
+    ).toBe(503);
+    expect(JSON.stringify(log.mock.calls)).not.toContain(id);
+    expect(JSON.stringify(log.mock.calls)).not.toContain("synthetic private failure");
+    log.mockRestore();
+  });
   it("takes only opaque reviewed evidence and denies operations destination approval", async () => {
     const s = await setup();
     const command = {
