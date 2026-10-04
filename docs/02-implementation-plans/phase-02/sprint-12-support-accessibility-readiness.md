@@ -4,13 +4,19 @@ title: Notifications, Support, and Live Accessibility Readiness
 status: planned
 primary_debt: [TD-037, TD-038, TD-043]
 depends_on: [phase-02-sprint-09, phase-02-sprint-10, phase-02-sprint-11]
-last_updated: 2026-10-02
+last_updated: 2026-10-04
 owner: "@Muhns13G"
 ---
 
 # Sprint 12 — Notifications, Support, and Live Accessibility Readiness
 
 ## Mission
+
+DR-018 and the Sprint 10 intake amendment add first-party medical collection. Reconcile I5's
+approved safety routing, accountable recipient, acknowledgement and failure/fallback evidence with
+this sprint's support work. Generic support email or a qualified 24-hour response target must not
+be represented as immediate emergency response. Notifications remain payload-free; verify the new
+questionnaire's accessibility and protect medical answers from ordinary message channels.
 
 Make the enabled pilot journeys understandable and supportable across client and staff roles.
 Notifications must be generic and reliable, each support purpose must reach an accountable owner,

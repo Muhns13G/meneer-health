@@ -14,13 +14,19 @@ depends_on:
     DR-013,
     DR-015,
   ]
-last_updated: 2026-10-02
+last_updated: 2026-10-04
 owner: "@Muhns13G"
 ---
 
 # Sprint 11 — Stripe Sandbox and Commercial Operations
 
 ## Mission
+
+DR-018 now plans first-party medical intake and manual generator transfer. Reconcile I1's
+questionnaire/submission/transfer timing with the deposit contract before Checkout activation;
+do not infer payment approval from submitted medical answers or make bloods an initial submission
+prerequisite. Questionnaire content must never enter Stripe line items, metadata or URLs.
+The expanded Sprint 10 intake stream must be reflected in the synthetic journey proof.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
 test mode. Prove server-owned pricing, signed provider events, independent clinical/payment state,

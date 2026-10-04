@@ -8,12 +8,18 @@ required_approvers: [business_owner, repository_owner]
 effective_date: 2026-10-02
 supersedes: null
 related_debt: [TD-009, TD-016, TD-037, TD-038]
-last_updated: 2026-10-02
+last_updated: 2026-10-04
 ---
 
 # DR-014 — Minimum Client Profile, Data Rights and Staff Visibility
 
 ## Context and Scope
+
+**Current amendment:** [DR-018](DR-018-meneer-hosted-medical-intake.md) now plans first-party
+medical questionnaire collection. This supersedes the external-only intake assumption below, not
+the minimal account profile. All clinical/identity fields listed as excluded remain excluded from
+the profile; the new medical-intake module requires its own access, processing, retention and rights
+contract. No existing profile permission or 90-day closure rule implicitly extends to medical data.
 
 The minimum pilot needs enough durable client information to establish an invite-only identity,
 provide account and operational support, associate Stripe and workflow records through opaque
@@ -51,8 +57,8 @@ gender/sex, condition, symptom, medication, blood result, questionnaire answer, 
 prescription, protocol, product selection, payment-card detail, delivery address or free-text note.
 
 - Supabase Auth owns credentials; application code never reads or stores a password.
-- Eligibility and age/clinical evidence belong to the approved external clinical pathway, not the
-  Meneer profile.
+- Eligibility and age/clinical evidence do not belong in the Meneer profile. DR-018's separately
+  protected intake may collect approved medical fields; the practitioner retains clinical decisions.
 - A delivery address is collected only after an approved order requires fulfilment. It belongs to a
   purpose-bound order/delivery record with its own retention and visibility rules.
 - Product, payment, provider and hand-off records use opaque references rather than profile fields.

@@ -8,7 +8,7 @@ required_approvers: [business_owner, repository_owner]
 effective_date: 2026-10-02
 supersedes: null
 related_debt: [TD-009, TD-010, TD-037, TD-038]
-last_updated: 2026-10-02
+last_updated: 2026-10-04
 ---
 
 # DR-015 — Pilot Transactional Terms, Privacy Acknowledgement and Consent Boundary
@@ -134,6 +134,14 @@ No `[TBC]`, placeholder person, placeholder registration, hidden schedule or unr
 disclosure may appear in a client-acceptable version.
 
 ## Implementation and Verification
+
+[DR-018](DR-018-meneer-hosted-medical-intake.md) changes the selected intake path to Meneer-hosted
+medical answers. Existing external-only processing/recipient wording is historical and must not be
+published for that new path. Before collection, version and review the privacy/processing schedule,
+actual reviewing party, separate questionnaire declaration and recipient-specific manual-transfer
+authorisation. Dr Zee's question approval, as confirmed by the owner, does not publish a revised
+instrument or imply marketing consent/treatment approval. Existing account receipts cannot silently
+cover a materially different collection/transfer purpose.
 
 - Sprint 9 implements account terms/privacy acknowledgement receipts and accessible rendering.
 - Sprint 10 implements recipient-specific hand-off authorisation using DR-017's manual bridge.

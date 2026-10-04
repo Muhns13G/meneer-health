@@ -11,7 +11,7 @@ existing pilot-activation obligations remain unchanged.
 
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05
-- **Last amended:** 2026-10-03
+- **Last amended:** 2026-10-04
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
 - **Current implementation:** Lovable-origin TanStack Start v1 MVP with repository-owned Cloudflare
   configuration; `itws-I-preview` temporarily remains the Cloudflare production branch serving
@@ -26,6 +26,18 @@ existing pilot-activation obligations remain unchanged.
   API/webhook was verified, and activation remains gated
 
 ## Executive Vision
+
+### Current Minimum Pilot Intake Amendment
+
+[DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) now selects a first-party medical
+questionnaire, separate from the minimal account profile, followed by purpose-bound manual transfer
+into the external protocol generator. Dr Zee approved Mikhail's questions unchanged according to
+the owner. Blood results are not mandatory for initial onboarding/submission; clinicians may request
+tests later. Clinical decisions/protocol content remain external. The external patient link is no
+longer required for this selected path; its completed local code stays inactive.
+The [eight additional Sprint 10 intake tasks](../02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md)
+are planned, not implemented. This supersedes older external-only intake scope, not Phase 01
+closure, current runtime proof or release approvals.
 
 Meneer is intended to become a South African direct-to-consumer men's health service that removes the embarrassment, inconvenience, and uncertainty that prevent men from seeking care. The experience should combine a discreet premium brand with clinically governed telehealth: private digital intake, consultation with an HPCSA-registered clinician, prescriptions where appropriate, pharmacy fulfilment, and neutral delivery.
 

@@ -11,13 +11,20 @@ depends_on:
     phase-02-sprint-11,
     phase-02-sprint-12,
   ]
-last_updated: 2026-10-02
+last_updated: 2026-10-04
 owner: "@Muhns13G"
 ---
 
 # Sprint 13 — End-to-End Pilot Rehearsal and Release Decision
 
 ## Mission
+
+DR-018 changes the selected pilot journey to first-party medical questionnaire collection followed
+by authorised manual entry into the generator. Include all eight added Sprint 10 intake tasks in
+readiness and rehearsal evidence. Bloods are not required for initial submission; later clinical
+requirements remain independent. Verify medical access, safety routing, consent/versioning,
+manual transfer and independent reconciliation without assuming the retained external-link path
+is active. No local question approval or questionnaire submission itself authorises pilot release.
 
 Prove the complete minimum pilot with disposable synthetic data, reconcile every transferred gate,
 and make an explicit owner-approved go/no-go decision. This sprint closes Phase 02 only when the

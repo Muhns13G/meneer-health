@@ -3,12 +3,28 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 ---
 
 # Meneer Domain and Delivery Glossary
+
+## Medical Intake Amendment Terms
+
+- **Medical intake:** DR-018's planned protected questionnaire record, distinct from the minimal
+  account profile, nonclinical queue and provider protocol. No medical-intake implementation exists
+  merely because the question wording is owner-confirmed clinician-approved.
+- **Manual medical transfer:** deliberate access by a separately authorised, assigned actor to the
+  reviewed questionnaire version for entry into the generator. Routine operations membership is
+  insufficient; no supported API, automated generation or ordinary-email transfer is implied.
+- **Bloods optional at initial submission:** no mandatory blood result/upload to finish onboarding
+  or submit the questionnaire. This does not mean clinical testing is never required later.
+- **Independent reconciliation:** a separate authorised reviewer verifies actual external records;
+  portal-link opening, submission and payment are not clinical approval or provider acknowledgement.
+
+Historical external-only intake definitions below are superseded by
+[DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) for the selected pilot path.
 
 ## Status Terms
 

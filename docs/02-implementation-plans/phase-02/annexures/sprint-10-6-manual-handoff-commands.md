@@ -8,6 +8,15 @@ source_commit: 8cd2734
 
 # Task 2.10.6 — Manual Hand-off Commands and Reconciliation
 
+## Subsequent Intake Direction
+
+Committed at `b2a3a1e`, this task remains complete at the original local boundary. The subsequent
+[DR-018](../../../07-decisions/DR-018-meneer-hosted-medical-intake.md) selects a first-party medical
+questionnaire/manual-transfer path. Preserve existing command/evidence/replay controls and leave
+external-link delivery inactive. Its URL/configuration requirements below apply only to that
+retained path; the new [intake packet](sprint-10-medical-intake-amendment.md) is planned work, not
+capability already delivered here. No historical test result is reclassified as medical-intake proof.
+
 ## Mission and Scope
 
 Implement DR-017's non-clinical manual bridge: persist an attempt before external work, reconcile
