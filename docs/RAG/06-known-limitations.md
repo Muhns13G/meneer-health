@@ -7,6 +7,7 @@ last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
   - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md
@@ -87,6 +88,20 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Task 10.7 Hosted Activation Remains Open
+
+The [audit/alert foundation](../02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md)
+is complete locally, including generic Brevo dispatch, durable bounded retries/uncertainty and explicit
+administrator acknowledgement/resolution. Mansoer is the initial responder at the monitored support
+mailbox; five-minute invocation and 24-hour overdue review do not establish a clinical SLA.
+`OPERATIONS_ALERTS_MODE` remains disabled. All seven Sprint 10 migrations were applied hosted with
+explicit approval on 4 October 2026, without seeds or role changes. The validated Brevo API key is
+saved only in the ignored local environment. The approved hosted database/provider rehearsal passed
+real TOTP/AAL2, generic email acceptance, owner-confirmed mailbox receipt and scripted administrator
+response/replay/revocation. All disposable fixtures were removed and the empty suspended baseline
+restored. Hosted Worker key/tenant configuration, deployment, Cron and routed administrator proof
+remain pending: direct RPC/transport testing is not scheduled production activation.
 
 ## Current Intake Scope Overrides Historical External Only Limits
 

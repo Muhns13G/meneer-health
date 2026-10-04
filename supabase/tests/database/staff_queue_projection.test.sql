@@ -63,5 +63,38 @@ select throws_ok($test$do $$begin update public.tenant_memberships set status='r
 select throws_ok($test$do $$begin update public.tenants set status='suspended'; perform pg_temp.queue(); end$$$test$,'42501','WORKFORCE_REJECTED','tenant suspension denies list');
 select throws_ok($test$do $$begin delete from auth.sessions where id='a3000000-0000-4000-8000-000000000002'; perform pg_temp.queue(); end$$$test$,'42501','WORKFORCE_REJECTED','provider session revocation denies list');
 select is((select count(*) from public.operations_cases),26::bigint,'reads never mutate case inventory');
+select ok(exists(select 1 from public.audit_events where action='operations.queue.read'),'queue reads centrally audited');
+select ok(exists(select 1 from public.audit_events where action='operations.case.read'),'assigned detail reads centrally audited');
+select ok(not exists(select 1 from public.audit_events where action like 'operations.%'
+  and metadata<>'{}'::jsonb),'no projected client content copied into audit metadata');
+select public.record_operations_denial('a3000000-0000-4000-8000-000000000001',
+  'a3000000-0000-4000-8000-000000000002','queue@example.invalid',
+  'a3000000-0000-4000-8000-000000000003',(select subject_id from queue_actor),
+  '10000000-0000-4000-8000-000000000001','BREAK_GLASS_DISABLED');
+select is((select count(*) from audit_private.operations_alerts where code='OVERRIDE_DENIED'),1::bigint,'attempted override raises durable security alert');
+select ok(audit_private.verify_audit_chain('10000000-0000-4000-8000-000000000001'),'operations reads, assignments and denials preserve audit hash chain');
+select throws_ok($$select public.record_operations_denial('a3000000-0000-4000-8000-000000000001',
+  'a3000000-0000-4000-8000-000000000002','queue@example.invalid',null,
+  (select subject_id from queue_actor),'10000000-0000-4000-8000-000000000001','QUEUE_REJECTED')$$,
+  '42501','OPERATIONS_DENIAL_REJECTED','denial journal cannot bypass application session');
+select throws_ok($$select public.record_operations_denial('a3000000-0000-4000-8000-000000000001',
+  'a3000000-0000-4000-8000-000000000002','queue@example.invalid',
+  'a3000000-0000-4000-8000-000000000003',(select subject_id from queue_actor),
+  '10000000-0000-4000-8000-000000000001','private-client@example.invalid')$$,
+  '22023','OPERATIONS_DENIAL_INVALID','free text cannot enter denial audit');
+select throws_ok($$select public.read_operations_alerts('a3000000-0000-4000-8000-000000000001',
+  'a3000000-0000-4000-8000-000000000002','queue@example.invalid',
+  'a3000000-0000-4000-8000-000000000003',(select subject_id from queue_actor),
+  '10000000-0000-4000-8000-000000000001')$$,'42501','OPERATIONS_ALERT_REJECTED','operators cannot browse tenant security alerts');
+select throws_ok($$select public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',0)$$,
+  '22023','OPERATIONS_ALERT_INPUT_INVALID','overdue interval is explicitly bounded');
+create function pg_temp.fail_central_audit() returns trigger language plpgsql as $$begin
+  raise exception using errcode='55000',message='SYNTHETIC_CENTRAL_AUDIT_FAILURE'; end$$;
+create trigger synthetic_central_audit_failure before insert on public.audit_events
+for each row execute function pg_temp.fail_central_audit();
+select throws_ok($$select pg_temp.queue()$$,'55000','SYNTHETIC_CENTRAL_AUDIT_FAILURE','audit failure prevents list disclosure');
+select throws_ok($$update public.operations_assignments set revoked_at=clock_timestamp()$$,
+  '55000','SYNTHETIC_CENTRAL_AUDIT_FAILURE','assignment change rolls back if central audit fails');
+select is((select count(*) from public.operations_assignments where revoked_at is not null),0::bigint,'failed audit leaves assignment authority unchanged');
 select * from finish();
 rollback;

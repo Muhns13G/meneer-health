@@ -105,6 +105,8 @@ select throws_ok($$select pg_temp.handoff('prepare','{"authorisationId":"a600000
 select throws_ok($$select pg_temp.handoff('begin_delivery',jsonb_build_object('attemptId',pg_temp.attempt()),'a6000000-0000-4000-8000-000000000020',2)$$,'40001','QUEUE_CONFLICT','cross-action replay collision denied');
 select is(pg_temp.handoff('begin_delivery',jsonb_build_object('attemptId',pg_temp.attempt()))->>'attemptState','delivery_pending','durable delivery boundary before external work');
 select is(pg_temp.handoff('mark_uncertain',jsonb_build_object('attemptId',pg_temp.attempt()))->>'state','handoff_exception','timeout creates owned exception');
+select is(public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',24),1,'sweep records delivery uncertainty');
+select is(public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',24),0,'repeat sweep deduplicates uncertainty');
 select throws_ok($$select pg_temp.handoff('cancel_handoff',jsonb_build_object('attemptId',pg_temp.attempt(),'evidenceId',null))$$,'55000','QUEUE_NOT_READY','uncertain cancellation needs independent evidence');
 select throws_ok($$select pg_temp.handoff('retry',jsonb_build_object('attemptId',pg_temp.attempt(),'authorisationId','a6000000-0000-4000-8000-000000000012'))$$,'40001','QUEUE_CONFLICT','uncertain delivery cannot be retried');
 select throws_ok($$select pg_temp.handoff('reconcile_delivery',jsonb_build_object('attemptId',pg_temp.attempt(),'evidenceId',gen_random_uuid()))$$,'55000','QUEUE_NOT_READY','forged evidence reference denied');
@@ -118,6 +120,18 @@ select is(pg_temp.handoff('resolve_exception',jsonb_build_object('exceptionId',(
 select is(pg_temp.handoff('retry',jsonb_build_object('attemptId',(select id from failed_attempt),'authorisationId','a6000000-0000-4000-8000-000000000012'))->>'attemptState','prepared','definite failure gets linked new attempt');
 select is(pg_temp.handoff('begin_delivery',jsonb_build_object('attemptId',pg_temp.attempt()))->>'attemptState','delivery_pending','retry revalidates before dispatch');
 select is(pg_temp.handoff('reconcile_delivery',jsonb_build_object('attemptId',pg_temp.attempt(),'evidenceId',pg_temp.evidence('delivered')))->>'state','handed_off','confirmed delivery is not provider acknowledgement');
+select is(public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',24),0,'fresh delivery does not produce overdue alert');
+reset role;
+-- The rollback-only packet rewinds the synthetic delivery timestamp, never production evidence.
+create temporary table overdue_times as select id,created_at,delivered_at from public.handoff_attempts where id=pg_temp.attempt();
+update public.handoff_attempts set created_at=clock_timestamp()-interval '26 hours',
+  delivered_at=clock_timestamp()-interval '25 hours' where id=pg_temp.attempt();
+select is(public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',24),1,'old delivered attempt without receipt raises overdue alert');
+select is(public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',24),0,'overdue alert retry is deduplicated');
+select is((select count(*) from public.handoff_acknowledgements),0::bigint,'alert does not manufacture provider acknowledgement');
+update public.handoff_attempts h set created_at=t.created_at,delivered_at=t.delivered_at
+from overdue_times t where h.id=t.id;
+set local role service_role;
 select throws_ok($$select pg_temp.handoff('acknowledge',jsonb_build_object('attemptId',pg_temp.attempt(),'evidenceId',pg_temp.evidence('acknowledged',pg_temp.attempt(),'a6000000-0000-4000-8000-000000000030',(select subject_id from handoff_actor))))$$,'55000','QUEUE_NOT_READY','delivering operator cannot verify own acknowledgement');
 select throws_ok($$select pg_temp.handoff('acknowledge',jsonb_build_object('attemptId',pg_temp.attempt(),'evidenceId',pg_temp.evidence('review_pending')))$$,'40001','QUEUE_CONFLICT','wrong evidence kind does not count as acknowledgement');
 select throws_ok($$select pg_temp.handoff('acknowledge',jsonb_build_object('attemptId',pg_temp.attempt(),'evidenceId',pg_temp.evidence('acknowledged',pg_temp.attempt(),gen_random_uuid())))$$,'55000','QUEUE_NOT_READY','wrong external reference denied');
@@ -128,6 +142,7 @@ select throws_ok($$select pg_temp.handoff('cancel_handoff',jsonb_build_object('a
 reset role;
 select is((select count(*) from public.handoff_attempts),2::bigint,'only initial and linked retry attempts exist');
 select is((select count(*) from public.handoff_acknowledgements),1::bigint,'one matched acknowledgement');
+select is(public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',1),0,'acknowledged delivery no longer qualifies');
 select is((select count(*) from public.operations_exceptions),2::bigint,'original exception and immutable resolution retained');
 select is((select count(*) from public.operations_events),(select count(*) from identity_private.operations_commands),'one audit event per successful command');
 select throws_ok($$update identity_private.handoff_evidence set kind='completed'$$,'55000','APPEND_ONLY_RECORD','provider facts append-only');

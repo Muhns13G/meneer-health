@@ -259,6 +259,11 @@ export function WorkforceSignInPage() {
             <p>This role does not grant operations queue access.</p>
           )}
           <p>Session idle deadline: {session?.expiresAt}.</p>
+          {session?.role === "admin" ? (
+            <a href="/staff/alerts" className="underline">
+              Review operations alerts
+            </a>
+          ) : null}
           <button
             disabled={busy}
             onClick={() => void action("renew")}

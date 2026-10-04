@@ -41,6 +41,7 @@ select throws_ok($$select pg_temp.command('handed_off',2,'a4000000-0000-4000-800
 reset role;
 select is((select count(*) from public.operations_claims where released_at is null),1::bigint,'one active claim');
 select is((select count(*) from public.operations_events),1::bigint,'replay and failed commands append no duplicate audit');
+select is((select count(*) from public.audit_events where action='operations.claimed'),1::bigint,'central chain also deduplicates replay');
 select is((select count(*) from identity_private.operations_commands),1::bigint,'one committed replay receipt');
 insert into public.tenant_memberships(tenant_id,subject_id,role,status,valid_from,expires_at,approved_by_subject_id)
 values('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000002','operations','active',
@@ -75,6 +76,13 @@ select is((select prior_state from public.operations_exceptions),'onboarding_pen
 select is(pg_temp.command('cancel',5,'a4000000-0000-4000-8000-000000000024')->>'state','cancelled','pre-delivery cancellation is explicit');
 select throws_ok($$select pg_temp.command('claim',6,'a4000000-0000-4000-8000-000000000025')$$,'40001','QUEUE_CONFLICT','terminal case immutable');
 select is((select count(*) from public.operations_events),5::bigint,'every successful mutation has one immutable event');
+select is((select count(*) from audit_private.operations_alerts where code='OPERATIONS_EXCEPTION'),1::bigint,'coded exception raises a durable owned alert');
+select is((select count(*) from audit_private.operations_alerts where code='ASSIGNMENT_CHANGED'),2::bigint,'assignment grants raise security review alerts');
+select ok(not has_table_privilege('service_role','audit_private.operations_alerts','select,insert,update,delete'),'alert table hidden even from service role');
+select throws_ok($$update audit_private.operations_alerts set severity='critical'$$,'55000','APPEND_ONLY_RECORD','alerts cannot be rewritten');
+select throws_ok($$delete from audit_private.operations_alerts$$,'55000','APPEND_ONLY_RECORD','alerts cannot be erased');
+select ok(not exists(select 1 from public.operations_events e left join public.audit_events a
+  on a.correlation_id=e.id::text and a.action like 'operations.%' where a.id is null),'every journaled mutation feeds central audit chain');
 select throws_ok($$update identity_private.operations_commands set result='{}'$$,'55000','APPEND_ONLY_RECORD','replay journal append only');
 select * from finish();
 rollback;

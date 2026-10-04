@@ -772,6 +772,17 @@
       ]
     },
     {
+      "id": "phase-02-sprint-10-7-operations-audit-alerts",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md",
+      "status": "completed-hosted-rehearsal-live-activation-pending",
+      "last_updated": "2026-10-04",
+      "authority_for": [
+        "locally verified central operations audit and private alert generation review",
+        "bounded uncertainty and overdue acknowledgement sweep",
+        "hosted RPC real TOTP/AAL2 generic Brevo receipt and synthetic administrator response; live Worker Cron and routed release acceptance pending"
+      ]
+    },
+    {
       "id": "phase-02-sprint-10-6-manual-handoff-commands",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md",
       "status": "completed-local-activation-gated",

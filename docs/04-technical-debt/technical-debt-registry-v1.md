@@ -41,6 +41,17 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+Task 10.7's [audit/alert foundation](../02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md)
+adds local central chained audit, access-before-disclosure evidence, identified denied overrides,
+private owned alert intent, administrator AAL2 review and bounded overdue/uncertainty detection.
+Generic Brevo dispatch, bounded durable retries/failure evidence, explicit AAL2 administrator
+acknowledgement/resolution, five-minute invocation and 24-hour overdue review are implemented locally.
+All seven migrations and the hosted database/provider rehearsal now pass: real TOTP/AAL2,
+owner-confirmed generic mailbox receipt, synthetic response/replay/revocation and restored empty
+baseline. Worker configuration/deployment, Cron and routed administrator release proof remain
+activation gates; direct RPC proof is not deployed Worker proof. TD-009 and TD-043 retain
+their status and hosted/operational acceptance requirements. No new debt ID is added.
+
 Task 9.6 adds locally verified atomic profile/receipt activation and an accessible document-first
 form, with separate actions, focused validation, pending-state controls and durable retry evidence.
 See [the task annexure](../02-implementation-plans/phase-02/annexures/sprint-09-6-atomic-profile-acknowledgement.md).
