@@ -1,5 +1,15 @@
 # Private Portal Hand-off Runbook
 
+## Current Direction Supersedes Link Activation
+
+[DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) selects a Meneer-hosted questionnaire
+with authorised manual transfer into the generator. Do not perform the external-link activation
+steps below for that path or populate a dummy/staff-login URL. Retain this procedure for the inactive
+Task 10.6 implementation; no code, bindings or hosted state are changed by the planning amendment.
+The new [intake task packet](../02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md)
+will supply medical access, transfer and hosted proof. Recipient instruments, independent evidence,
+payment readiness and release approvals remain necessary; only link-specific prerequisites fall away.
+
 Task 2.10.6 implements this path locally under DR-017. It is not enabled for real clients. No
 questionnaire answer, protocol, prescription, PDF, patient name or provider URL belongs in queue
 notes, logs, payment metadata, ordinary email or this document.

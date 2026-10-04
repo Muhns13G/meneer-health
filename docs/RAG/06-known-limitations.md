@@ -7,6 +7,8 @@ last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 sources:
+  - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
@@ -85,6 +87,19 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Current Intake Scope Overrides Historical External Only Limits
+
+[DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) plans medical questionnaire collection
+inside Meneer with purpose-bound manual transfer. No such collection/access exists yet. General
+profile/queue permissions do not authorise medical answers. The external intake URL is no longer a
+required input for this path; leave that implementation inactive. Clinician question approval is
+owner-attested, not a signed publication or proof of provider compatibility. Blood results are not
+an initial submission gate. Field/access/retention/instrument mapping and safety-response ownership
+remain I1 inputs, followed by eight implementation/verification tasks before Sprint 10 closure.
+Do not claim operational readiness or reopen question wording because those controls are pending.
+
+The following sections retain historical checkpoint limitations where later amendments supersede them.
 
 ## Resolved Dependency Finding: TD-057
 

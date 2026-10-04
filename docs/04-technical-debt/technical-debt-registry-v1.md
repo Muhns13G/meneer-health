@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-03
+**Last amended:** 2026-10-04
 
 ## Registry Purpose
 
@@ -174,6 +174,16 @@ complete; actual intake URL/configuration, recipient instruments/approval and ho
 remain activation gates. Issuance is not receipt; Sprint 11's deposit adapter defaults false.
 All six Sprint 10 migrations require separate hosted approval/proof. TD-009 remains In progress,
 TD-043 Open; no new debt ID. Earlier migration counts above are historical checkpoints.
+
+**Subsequent scope amendment:** [DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md)
+selects a separately protected Meneer questionnaire and authorised manual transfer into the
+generator. The owner confirms Dr Zee approved the questions unchanged; blood results are not an
+initial submission prerequisite. Task 10.6 at `b2a3a1e` is retained local evidence, not medical-intake
+implementation. Its external-link prerequisites are no longer required for the selected path.
+The [eight intake tasks](../02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md)
+remain planned before revised Sprint 10 rehearsal/closure. TD-009 stays In progress and
+TD-037/TD-038/TD-043 remain Open; the field/access/escalation/processing contract is pending.
+No new defect or debt ID is asserted from this scope change, and no debt is closed by planning.
 
 Task 8.8/DR-017 subsequently verifies signed-out provider-linked intake and an authenticated
 synthetic path through intake, protocol generation, review controls and PDF-download controls. No

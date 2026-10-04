@@ -9,6 +9,20 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 # Phase 02 — Minimum Pilot Enablement
 
+## Current Intake Amendment
+
+[DR-018](../../07-decisions/DR-018-meneer-hosted-medical-intake.md) selects protected first-party
+medical intake using Mikhail's questionnaire, approved unchanged by Dr Zee according to the owner.
+Blood results are not mandatory for onboarding/submission, including peptides; clinicians may
+request tests later. The questionnaire is separate from the minimal account profile. Protocol
+generation/clinical decisions remain external, with purpose-bound manual staff transfer.
+
+The [Sprint 10 intake packet](annexures/sprint-10-medical-intake-amendment.md) adds eight tasks
+`2.10.I1`–`2.10.I8` after the existing 10.7/10.8 slices and before revised 10.9/10.10 closure.
+External-only statements in historical checkpoints below are superseded for this selected path.
+Existing external-link code stays inactive; the actual provider intake URL is no longer a required
+activation input for first-party intake. No questionnaire code or hosted collection is yet enabled.
+
 ## Mission
 
 Sprint 09 is committed with activation gates at `daf1927`. Newly discovered TD-057 is now
@@ -38,9 +52,9 @@ accept an approved one-time payment, place the case in a least-privilege staff q
 manual auditable hand-off to the separate protocol portal.
 
 Phase 02 does not select or begin a framework migration. The TanStack/Cloudflare v1 remains the
-delivery shell while pilot behaviour is proven. Health intake, protocol content, diagnosis,
-prescribing and dispensing remain outside Meneer unless a later approved integration explicitly
-changes that boundary.
+delivery shell while pilot behaviour is proven. DR-018 now plans first-party medical questionnaire
+collection. Protocol content, diagnosis, prescribing and dispensing authority remain external;
+medical answers belong only in the new protected module and approved manual transfer.
 
 Task 8.1 began Phase 02 on 2 October 2026 by freezing the exact repository/hosted baseline, Sprint
 08 sequence and non-goals. It introduced no runtime or hosted mutation.
@@ -149,8 +163,9 @@ pre-traffic index notices only; no warning or error was reported.
 2. Preserve deny-by-default preview and production gates until the relevant sprint acceptance
    evidence passes and the repository owner explicitly activates the capability.
 3. Use synthetic identities and transactions until Sprint 13 authorises a controlled pilot.
-4. Store no questionnaire answer, diagnosis, protocol, prescription or other health information in
-   URLs, payment metadata, ordinary email or the Meneer pilot database.
+4. Store no health information in URLs, logs, payment metadata, ordinary email or general queue/
+   profile records. DR-018 permits planning a separate protected medical questionnaire module;
+   enable it only after its field/access/processing contract and verification are complete.
 5. Use opaque references across Stripe, the protocol portal and operational notifications.
 6. Do not mark transferred debt Verified merely because enabling code exists. Apply the registry's
    original external evidence and live-review requirements.

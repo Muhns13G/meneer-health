@@ -15,6 +15,13 @@ last_updated: 2026-10-04
 
 ## Task 10.6 Delivery Amendment — 4 October 2026
 
+**Superseded intake direction:** [DR-018](DR-018-meneer-hosted-medical-intake.md) now selects
+Meneer-hosted questionnaire collection and authorised manual transfer. The external-link amendment
+below remains the historical authority for completed Task 10.6 code; leave that path inactive.
+Its intake URL/configuration is not required for the new first-party path. The provider remains
+authoritative for clinical decisions/protocols; general queue records remain nonclinical. Medical
+answers may enter only the separately planned module and purpose-bound transfer, not this queue.
+
 The business owner approved delivery of the private patient-intake link through the authenticated
 Meneer patient portal, not ordinary email, and independent record verification by a second assigned
 staff member. A current AAL2 administrator approves the exact server-configured destination digest,
@@ -84,6 +91,10 @@ contract, processing allocation, pharmacy authority or escalation appointment re
 the pilot.
 
 ## Decision
+
+Items 2–3's external-only collection limits are superseded for the new medical module by DR-018.
+They remain the limits of the implemented Task 10.6 external-link/queue path, not a prohibition on
+planning the approved first-party questionnaire. The provider observations below remain historical.
 
 1. The Phase 02 pilot retains a manual, auditable bridge. No API or webhook integration may be
    represented or built from the portal's private browser calls.

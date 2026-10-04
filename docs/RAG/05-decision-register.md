@@ -3,7 +3,7 @@ rag_id: meneer-decision-register
 title: Meneer Decision Register
 status: active
 authority: mixed
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 ---
@@ -144,6 +144,10 @@ permissions, clinical verification and end-to-end delivery remain activation inp
 
 ## Task 10.6 Delivery Decision — 4 October 2026
 
+**Superseded selected intake path:** DR-018 now selects first-party medical intake and manual staff
+transfer. The portal-link decision below records the completed local 10.6 implementation, which
+remains inactive; it does not require an external intake URL for the revised path.
+
 The owner approved DR-017's authenticated patient-portal channel and independent record verification
 by a second assigned staff member. Local code now supports tenant-bound administrator approval of
 the exact server-configured destination, durable private issuance and opaque evidence ingestion.
@@ -152,6 +156,14 @@ hosted synthetic proof and Sprint 11 payment readiness remain activation gates; 
 link delivery, provider API or clinical authority is approved by this amendment.
 
 ## Open Architecture and Vendor Decisions
+
+### DR-018 — First Party Medical Intake
+
+The owner confirms Dr Zee approved Mikhail's questions unchanged and bloods are not an initial
+onboarding/submission prerequisite. A separate medical module, authorised manual transfer and eight
+additional Sprint-10 tasks are planned. Field/access/escalation/processing decisions remain pending;
+clinical decisions stay external. No questionnaire, hosted collection, live transfer or debt closure
+is implemented by this decision. See [DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md).
 
 | ID      | Decision needed                                                                                                                                                                                                | Related debt   |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |

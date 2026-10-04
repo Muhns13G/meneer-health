@@ -3,7 +3,7 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 sources:
@@ -57,6 +57,16 @@ sources:
 ---
 
 # Meneer Project Context
+
+## Current Intake Direction
+
+[DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) selects a first-party protected medical
+questionnaire, not an external patient-link prerequisite. The owner confirms Dr Zee approved
+Mikhail's questions unchanged and blood results are not mandatory for onboarding/submission.
+Authorised staff will manually transfer approved inputs into the external generator. Medical
+collection remains **planned**, separate from the account profile; clinical decisions remain
+external. Older external-only intake statements below describe superseded scope, not current
+permission to enable questionnaire collection or widen operations access.
 
 Task 9.10 discovered TD-057 dependency advisories; subsequent bounded remediation passes both
 audits and local regression. The registry now has 50 Verified and seven non-Verified items.

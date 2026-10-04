@@ -571,9 +571,33 @@
       "authority_for": [
         "synthetic protocol portal observations",
         "manual hand-off design boundary",
-        "remaining external authority and contract gates"
+        "remaining external authority and contract gates",
+        "historical external-link path superseded for selected intake by DR-018"
       ],
-      "last_updated": "2026-10-02"
+      "last_updated": "2026-10-04"
+    },
+    {
+      "id": "DR-018",
+      "path": "docs/07-decisions/DR-018-meneer-hosted-medical-intake.md",
+      "status": "approved-direction-controls-pending",
+      "last_updated": "2026-10-04",
+      "authority_for": [
+        "owner-attested clinician approval of questionnaire questions",
+        "first-party protected intake and manual generator transfer direction",
+        "bloods not required for initial onboarding or submission",
+        "external-link prerequisites superseded without runtime activation"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-10-medical-intake-amendment",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md",
+      "status": "planned-contract-details-pending",
+      "last_updated": "2026-10-04",
+      "authority_for": [
+        "eight added intake tasks 2.10.I1 through 2.10.I8",
+        "questionnaire access escalation rights and generator mapping acceptance",
+        "revised Sprint 10 sequence and closure prerequisites"
+      ]
     },
     {
       "id": "DR-016",

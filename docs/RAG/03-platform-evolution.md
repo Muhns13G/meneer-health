@@ -3,7 +3,7 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-portable-direction
 authority: strategic
-last_updated: 2026-10-03
+last_updated: 2026-10-04
 audience: internal
 sensitivity: internal
 sources:
@@ -33,6 +33,14 @@ sources:
 ---
 
 # Meneer Platform Evolution and Migration Contract
+
+## First Party Intake Scope Amendment
+
+[DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) adds a planned framework-neutral
+medical-intake module, separate from account/profile and operational queue records. Preserve
+versioned questions, submissions, declarations, purpose-bound access and opaque transfer evidence
+across future migrations. This changes pilot scope, not the framework decision or current runtime.
+The external generator remains authoritative for clinical decisions/protocols; no API is assumed.
 
 ## Generations
 

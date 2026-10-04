@@ -9,6 +9,8 @@ sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-6-manual-handoff-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-5-claimed-queue-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-4-assigned-queue-projection.md
@@ -97,6 +99,18 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## First Party Medical Intake Plan — 4 October 2026
+
+[DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) supersedes external-only intake
+direction. Dr Zee's unchanged question approval is owner-confirmed; the source is hash-identified.
+Blood results are not mandatory for initial onboarding/submission, including peptides, without
+overriding later clinician requirements. A separate protected medical module and authorised manual
+generator transfer are **planned**, not implemented or enabled. The minimum profile remains intact.
+The [eight added tasks](../02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md)
+follow 10.7/10.8 and precede expanded 10.9/10.10 closure. Existing 10.6 code at `b2a3a1e` remains
+complete locally; external-link activation/configuration stays inactive and is not required for the
+new path. Hosted medical access, escalation, instruments and end-to-end proof remain pending.
 
 ## Sprint 10.6 Local Manual Reconciliation — 4 October 2026
 
