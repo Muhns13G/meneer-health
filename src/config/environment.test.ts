@@ -56,6 +56,9 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "HANDOFF_INTAKE_URL",
+      "HANDOFF_DESTINATION_ID",
+      "HANDOFF_DESTINATION_VERSION",
       "SUPABASE_URL",
       "SUPABASE_PUBLISHABLE_KEY",
       "SUPABASE_SECRET_KEY",

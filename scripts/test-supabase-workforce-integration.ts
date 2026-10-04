@@ -173,6 +173,15 @@ try {
       requestKey: crypto.randomUUID(),
     }),
   );
+  await denied(() =>
+    queue.handoff(identity, renewed.proof, {
+      action: "prepare",
+      caseId,
+      expectedVersion: 2,
+      requestKey: crypto.randomUUID(),
+      authorisationId: crypto.randomUUID(),
+    }),
+  );
   await queue.command(identity, renewed.proof, {
     action: "release",
     caseId,

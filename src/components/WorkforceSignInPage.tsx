@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { z } from "zod";
+import { StaffDestinationApprovalPanel } from "./StaffDestinationApprovalPanel";
 
 const sessionView = z
   .object({ role: z.string(), purpose: z.string(), expiresAt: z.string() })
@@ -272,6 +273,9 @@ export function WorkforceSignInPage() {
           >
             Sign out
           </button>
+          {session?.role === "admin" && session.purpose === "security_administration" ? (
+            <StaffDestinationApprovalPanel key={session.expiresAt} />
+          ) : null}
           {session?.role === "admin" ? (
             <form
               onSubmit={(event) => {

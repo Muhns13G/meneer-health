@@ -26,6 +26,9 @@ import {
 } from "@/server/security/request-security";
 
 export type PatientSessionBindings = Readonly<{
+  HANDOFF_INTAKE_URL?: unknown;
+  HANDOFF_DESTINATION_ID?: unknown;
+  HANDOFF_DESTINATION_VERSION?: unknown;
   SUPABASE_URL?: unknown;
   SUPABASE_SECRET_KEY?: unknown;
   IDENTITY_SESSION_KEY_BASE64?: unknown;
