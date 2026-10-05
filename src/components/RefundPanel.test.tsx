@@ -50,3 +50,25 @@ it("clears private facts on expiry, denial and offer remount", async () => {
   page.rerender(<RefundPanel offerId={crypto.randomUUID()} />);
   expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
 });
+it("shows signed terminal refunds and restricts reconciliation/retry to staff", async () => {
+  const data = {
+    ...view(),
+    refunds: [{ reference: id, amountMinor: 19900, state: "failed_verified" }],
+    exceptions: [{ reference: id, code: "EVENT_CONFLICT", state: "pending" }],
+  };
+  const fetcher = vi.fn().mockImplementation(async () => Response.json(data));
+  vi.stubGlobal("fetch", fetcher);
+  const page = render(<RefundPanel offerId={id} staff />);
+  fireEvent.click(screen.getByRole("button", { name: "Check cancellation / refund request" }));
+  await screen.findByText(/refund failed verified/);
+  fireEvent.click(screen.getByRole("button", { name: "Reconcile verified payment evidence" }));
+  await screen.findByText(/refund failed verified/);
+  expect(JSON.parse(fetcher.mock.calls[1]![1].body).action).toBe("reconcile");
+  fireEvent.click(screen.getByRole("button", { name: "Queue retry after verified failure" }));
+  await screen.findByText(/refund failed verified/);
+  expect(JSON.parse(fetcher.mock.calls[2]![1].body).action).toBe("retry");
+  page.rerender(<RefundPanel offerId={crypto.randomUUID()} />);
+  expect(
+    screen.queryByRole("button", { name: "Reconcile verified payment evidence" }),
+  ).not.toBeInTheDocument();
+});

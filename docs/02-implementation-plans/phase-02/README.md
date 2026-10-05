@@ -2,7 +2,7 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-05
+last_updated: 2026-10-06
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
@@ -35,7 +35,11 @@ own-client/assigned AAL2 staff reads, bounded history, current authority, explic
 separation and expiry/denial clearing. Task 11.7's
 [cancellation/refund commands](annexures/sprint-11-7-cancellation-refund-commands.md) are complete
 locally: scoped requests, independent financial authority/evidence, original-method reservations,
-automatic unused-deposit jobs and disabled-by-default sandbox dispatch. Task 11.8 is next.
+automatic unused-deposit jobs and disabled-by-default sandbox dispatch. Task 11.8 is
+[in progress locally](annexures/sprint-11-8-payment-reconciliation.md): verified refund settlement,
+bounded retries, provider-checked unpaid credit release and native deposit readiness are implemented;
+duplicate-capture refund, dispute outcome resolution and replacement deposit Checkout remain open.
+Finish these before treating 11.8 as complete or moving to 11.9 acceptance.
 Hosted bindings/releases/migrations
 remain disabled/unapplied and no real instrument was published or provider contacted.
 Sprints 12–13 remain planned.

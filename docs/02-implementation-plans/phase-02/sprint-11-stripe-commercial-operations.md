@@ -15,7 +15,7 @@ depends_on:
     DR-015,
     DR-018,
   ]
-last_updated: 2026-10-05
+last_updated: 2026-10-06
 owner: "@Muhns13G"
 ---
 
@@ -52,7 +52,12 @@ private portal/queue panels and local regression proof. No payment or clinical a
 Task 11.7 is complete at the [local cancellation/refund boundary](annexures/sprint-11-7-cancellation-refund-commands.md):
 own-client requests, independently authorised staff dispositions, original-source refund reservations,
 automatic unused-deposit jobs and default-off sandbox dispatch. Provider responses do not confirm
-refund settlement or cancel clinical/supply workflows. Tasks 11.8–11.10 remain planned;
+refund settlement or cancel clinical/supply workflows. Task 11.8 is in progress at the
+[local reconciliation checkpoint](annexures/sprint-11-8-payment-reconciliation.md): exact signed
+refund settlement, verified-failure refund retries, provider-checked unpaid credit release,
+content-free owned exceptions and the native deposit-readiness bridge. Genuine duplicate-capture
+refunds, dispute outcome resolution and replacement deposit Checkout remain outstanding;
+Tasks 11.9–11.10 remain planned. Do not treat this checkpoint as full Task 11.8 acceptance;
 TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
@@ -70,7 +75,7 @@ refunds and staff reconciliation before considering any live credential or real 
 | 11.5  | Enable signed raw-body webhooks with durable idempotency, replay/conflict detection and out-of-order reconciliation. | Provider events | Completed locally           |
 | 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Completed locally           |
 | 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Completed locally           |
-| 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | Planned                     |
+| 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | In progress locally         |
 | 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | Planned                     |
 | 11.10 | Reconcile evidence and issue the Sprint 11 completion report; keep live mode disabled.                               | All             | Planned                     |
 

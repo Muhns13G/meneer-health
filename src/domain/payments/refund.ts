@@ -15,6 +15,15 @@ export const refundReasonSchema = z.enum([
 export const refundCommandSchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("request"), offerId: z.uuid(), requestKey: z.uuid() }).strict(),
   z.object({ action: z.literal("read"), offerId: z.uuid() }).strict(),
+  z.object({ action: z.literal("reconcile"), offerId: z.uuid(), requestKey: z.uuid() }).strict(),
+  z
+    .object({
+      action: z.literal("retry"),
+      offerId: z.uuid(),
+      refundId: z.uuid(),
+      requestKey: z.uuid(),
+    })
+    .strict(),
   z
     .object({
       action: z.literal("review"),
@@ -42,12 +51,33 @@ export const refundViewSchema = z
           .object({
             reference: z.uuid(),
             amountMinor: z.int().positive().max(100_000_000),
-            state: z.enum(["queued", "submitted", "pending", "uncertain", "failed"]),
+            state: z.enum([
+              "queued",
+              "submitted",
+              "pending",
+              "uncertain",
+              "failed",
+              "confirmed",
+              "failed_verified",
+            ]),
           })
           .strict(),
       )
       .max(20),
     expiresAt: z.iso.datetime({ offset: true }),
+    exceptions: z
+      .array(
+        z
+          .object({
+            reference: z.uuid(),
+            code: z.string().max(40),
+            state: z.enum(["pending", "resolved"]),
+          })
+          .strict(),
+      )
+      .max(20)
+      .optional()
+      .default([]),
   })
   .strict();
 export type RefundView = z.infer<typeof refundViewSchema>;

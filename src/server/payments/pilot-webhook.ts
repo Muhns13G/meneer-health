@@ -37,6 +37,13 @@ export const pilotProviderReceiptSchema = z
       ])
       .nullable(),
     occurredAt: z.iso.datetime({ offset: true }),
+    refundId: optionalId("re").optional().default(null),
+    refundReference: z.uuid().nullable().optional().default(null),
+    refundStatus: z
+      .enum(["pending", "requires_action", "succeeded", "failed", "canceled"])
+      .nullable()
+      .optional()
+      .default(null),
   })
   .strict();
 export type PilotProviderReceipt = z.infer<typeof pilotProviderReceiptSchema>;
@@ -69,11 +76,15 @@ export async function verifyPilotReceipt(
     "charge.refunded",
     "charge.dispute.created",
     "charge.dispute.closed",
+    "refund.created",
+    "refund.updated",
+    "refund.failed",
   ].includes(e.type);
   const session = e.type.startsWith("checkout.session."),
     charge = e.type === "charge.refunded",
     pi = e.type === "payment_intent.payment_failed";
   const dispute = e.type.startsWith("charge.dispute.");
+  const refund = e.type.startsWith("refund.");
   if (supported && session && v.client_reference_id !== metadata.orderId)
     throw new Error("WEBHOOK_REFERENCE_REJECTED");
   const fingerprint = Array.from(
@@ -94,7 +105,7 @@ export async function verifyPilotReceipt(
       ? null
       : session
         ? (v.amount_total ?? null)
-        : pi || charge || dispute
+        : pi || charge || dispute || refund
           ? (v.amount ?? null)
           : null,
     currency: supported ? (v.currency ?? null) : null,
@@ -104,6 +115,9 @@ export async function verifyPilotReceipt(
     disputeId: dispute ? v.id : null,
     disputeStatus: dispute ? (v.status ?? null) : null,
     occurredAt: new Date(e.created * 1000).toISOString(),
+    refundId: supported && refund ? v.id : null,
+    refundReference: supported && refund ? (metadata.refund_reference ?? null) : null,
+    refundStatus: supported && refund ? (v.status ?? null) : null,
   });
 }
 export type PilotWebhookBindings = {
