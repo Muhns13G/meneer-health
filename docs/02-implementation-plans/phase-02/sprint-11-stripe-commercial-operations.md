@@ -46,7 +46,10 @@ test-only provider response attachment. No hosted/provider activation is claimed
 Task 11.5 is complete at the [local signed-receipt/settlement boundary](annexures/sprint-11-5-signed-receipts-settlement.md):
 raw signature verification, scoped append-only receipts, replay/conflict handling, independent
 money facts and pending orphan/refund/dispute reconciliation. No hosted/provider activation is claimed.
-Tasks 11.6–11.10 remain planned; TD-010 remains In progress.
+Task 11.6 is complete at the [local payment-projection boundary](annexures/sprint-11-6-payment-status-projections.md):
+own-client and assigned AAL2 operations reads, strict coarse facts, audited scope/expiry checks,
+private portal/queue panels and local regression proof. No payment or clinical activation is implied.
+Tasks 11.7–11.10 remain planned; TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
 test mode. Prove server-owned pricing, signed provider events, independent clinical/payment state,
@@ -61,7 +64,7 @@ refunds and staff reconciliation before considering any live credential or real 
 | 11.3  | Implement the authenticated client review-and-pay boundary with explicit line items and no health metadata.          | Checkout        | Completed locally           |
 | 11.4  | Enable test-mode Checkout creation behind environment, identity, consent, workflow and release gates.                | Checkout        | Completed locally           |
 | 11.5  | Enable signed raw-body webhooks with durable idempotency, replay/conflict detection and out-of-order reconciliation. | Provider events | Completed locally           |
-| 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Planned                     |
+| 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Completed locally           |
 | 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Planned                     |
 | 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | Planned                     |
 | 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | Planned                     |

@@ -16,6 +16,7 @@ import {
   type CommerceReviewBindings,
 } from "./server/payments/order-review-http";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
+import { createPaymentStatusHttpHandler } from "./server/payments/payment-status-http";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
@@ -145,6 +146,10 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               );
             if (pathname === "/portal/order/command")
               return createOrderReviewHttpHandler(env as unknown as CommerceReviewBindings)(
+                boundedRequest,
+              );
+            if (["/portal/payments/read", "/staff/payments/read"].includes(pathname))
+              return createPaymentStatusHttpHandler(env as unknown as CommerceReviewBindings)(
                 boundedRequest,
               );
             if (pathname === "/staff/intake/command")

@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
@@ -107,6 +108,20 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 11.6 — Private Payment Facts, Not Clinical Readiness
+
+The [11.6 packet](../02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md)
+adds own-client portal and assigned-case operations panels. Service-only RPCs recheck current
+patient authority or workforce AAL2/operations/assignment authority and append content-free audit.
+Stable 25-record pages expose only opaque offer references, scenario, ZAR amount/refund facts,
+status, dispute/reconciliation flags and creation time; provider/contact/medical data stay private.
+Paid comes only from verified settlement evidence, not acceptance, Checkout creation or redirect.
+Refund/dispute evidence remains independent of confirmed capture. Zero-total completion is not a
+new payment. Data clears on expiry, denial, page hiding and parent-session invalidation.
+No hosted/provider call or money command occurred. Five Sprint 11 migrations remain unclaimed
+hosted; existing mode defaults stay disabled. Both downstream paid-readiness adapters stay closed.
+TD-010 remains In progress; 11.7 is next. Historical task checkpoints below remain historical.
 
 ## Sprint 11.5 — Local Signed Receipts and Independent Money Facts
 
