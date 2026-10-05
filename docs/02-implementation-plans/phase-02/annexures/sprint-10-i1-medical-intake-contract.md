@@ -143,7 +143,7 @@ start/expiry and revocation. An administrator provisions reviewed grants without
 or approving their own access. Approved grants expire after seven days, are rechecked on every use
 and end immediately on case closure, removal, restriction or safety reassignment where applicable.
 The owner approved the seven-day maximum and separate grants. For implementation, medical review
-requires the existing `clinical` role; manual transcription permits `clinical` or `operations` only
+requires the existing `clinician` role; manual transcription permits `clinician` or `operations` only
 with a separately approved medical-transfer grant. Routine operations assignment still grants no
 answer access. Domain appointments and field-specific roster approval are release gates before I6
 is enabled. Private grants cannot be self-approved or inferred from an administrator's privileges.
@@ -151,7 +151,7 @@ is enabled. Private grants cannot be self-approved or inferred from an administr
 | Actor                                             | Approved implementation permission                                         | Exclusions                                                                             |
 | ------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | Patient                                           | Own version-aware draft/read/submit/amend; governed own export             | No other subject, clinical decision, transfer acknowledgement or unrestricted download |
-| Assigned `clinical` reviewer                      | AAL2, active professional appointment, medical-review purpose/grant        | No payment mutation or automatic prescribing                                           |
+| Assigned `clinician` reviewer                     | AAL2, active professional appointment, medical-review purpose/grant        | No payment mutation or automatic prescribing                                           |
 | Separately approved manual transcriber            | AAL2 plus explicit purpose/field/version grant and clinical owner approval | No routine `operations` access; no diagnosis/changes/approval or bulk export           |
 | Independent nonclinical reconciler                | Existing assigned queue and opaque transfer/version/evidence facts         | No medical answers or protocol content                                                 |
 | Routine admin/support/operations/finance/pharmacy | Administrative statuses only under their existing authority                | No answer/ID/DOB access through role alone                                             |
@@ -192,7 +192,7 @@ Named private roster references may remain confidential, but accountable role, f
 rules must be explicit. A general support mailbox or administrator cannot replace clinical review.
 Only the approved professional can release a safety hold; their authority, rationale/evidence and
 snapshot version must be recorded privately with non-content audit. I5 tests all failure paths.
-For implementation, primary and fallback are independently appointed `clinical` reviewers with
+For implementation, primary and fallback are independently appointed `clinician` reviewers with
 active medical-safety grants. No named person, mailbox recipient or response deadline is invented.
 These are explicit versioned deployment configuration: primary roster reference, fallback roster
 reference, acknowledgement deadline, after-hours route and reviewed guidance version. Missing or

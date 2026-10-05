@@ -56,6 +56,9 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "MEDICAL_INTAKE_TENANT_ID",
+      "MEDICAL_INTAKE_MODE",
+      "MEDICAL_INTAKE_KEYRING_JSON",
       "OPERATIONS_ALERTS_MODE",
       "OPERATIONS_ALERTS_TENANT_ID",
       "BREVO_API_KEY",

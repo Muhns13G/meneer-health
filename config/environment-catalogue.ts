@@ -14,6 +14,42 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
+  {
+    name: "MEDICAL_INTAKE_TENANT_ID",
+    purpose:
+      "Explicit tenant scope for reviewed clinical safety notification dispatch; never inferred from client input.",
+    owner: "Clinical and release owners",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation:
+      "Change only under reviewed release; isolated fixture binding removed after rehearsal.",
+  },
+  {
+    name: "MEDICAL_INTAKE_MODE",
+    purpose:
+      "Explicit opt-in for reviewed protected intake; disabled until isolated release proof and domain approval.",
+    owner: "Clinical, privacy and release owners",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation:
+      "Keep disabled during synthetic-only development; no real tenant activation inferred.",
+  },
+  {
+    name: "MEDICAL_INTAKE_KEYRING_JSON",
+    purpose:
+      "Dedicated versioned 32-byte AES-GCM medical payload keys, never reused from session, journey or recovery keys.",
+    owner: "Medical data and security custodian",
+    sensitivity: "secret",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation:
+      "Authorised key rotation retains old decryption keys until governed re-encryption and retention complete; never log values.",
+  },
   ...["OPERATIONS_ALERTS_MODE", "OPERATIONS_ALERTS_TENANT_ID", "BREVO_API_KEY"].map(
     (name): EnvironmentCatalogueEntry => ({
       name,

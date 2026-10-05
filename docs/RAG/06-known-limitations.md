@@ -95,7 +95,11 @@ The [I1 packet](../02-implementation-plans/phase-02/annexures/sprint-10-i1-medic
 and JSON catalogue preserve the approved original questionnaire. The owner approved remaining
 engineering recommendations and an explicit sex field on 5 October; collection 1.1.0 has no default
 male or gender-identity inference. This new field is not covered by Dr Zee's original approval.
-Technical controls/grants are frozen for local I2. Private clinical primary/fallback appointments,
+Technical controls/grants are implemented locally under the
+[I2–I8 progress packet](../02-implementation-plans/phase-02/annexures/sprint-10-intake-implementation-progress.md),
+not accepted as hosted or activated. `/portal/intake` and `/staff/intake` fail closed without explicit
+mode, bound tenant, current identity and reviewed publication/grant authority. The production
+review-deposit/manual-transfer gate stays closed until Sprint 11. Private clinical primary/fallback appointments,
 safety deadlines/guidance, recipient agreements and domain publication approval remain pre-launch
 gates. Missing configuration fails closed; no invented appointments, clinical scores, mandatory
 bloods/deposit prerequisite, provider-code modification or live collection is claimed.
@@ -137,7 +141,8 @@ remains suspended. Earlier pending statements above describe superseded rehearsa
 ## Current Intake Scope Overrides Historical External Only Limits
 
 [DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) plans medical questionnaire collection
-inside Meneer with purpose-bound manual transfer. No such collection/access exists yet. General
+inside Meneer with purpose-bound manual transfer. Local collection/access code now exists, but
+hosted intake schema, release and end-to-end acceptance remain outstanding. General
 profile/queue permissions do not authorise medical answers. The external intake URL is no longer a
 required input for this path; leave that implementation inactive. Clinician question approval is
 owner-attested, not a signed publication or proof of provider compatibility. Blood results are not
@@ -145,6 +150,15 @@ an initial submission gate. I1 now freezes engineering fields/access/retention/h
 the separately attributed sex extension. Clinical publication, private safety appointments and
 response configuration remain release gates. I2–I8 implementation/verification still precedes
 Sprint 10 closure. Do not claim operational readiness or change original wording to resolve these gates.
+
+The final local intake SQL replay passes 1,003 assertions, including 95 intake checks; the application
+suite passes 651 tests. The local SQL linter still reports a pre-existing implicit `text`-to-`text[]`
+initialisation warning in `public.execute_patient_account_command`. Account-rights regression checks
+pass, but that warning is not intake completion evidence or a claim of warning-free schema health.
+See the intake progress record for the separate controlled browser and hosted-rehearsal boundaries.
+The refreshed full browser matrix remains unaccepted: an account-activation deadline failed and
+the run was stopped; isolated reruns subsequently passed that retry path but encountered local
+server-readiness/loading deadlines. No production defect or root cause is asserted from these runs.
 
 The following sections retain historical checkpoint limitations where later amendments supersede them.
 

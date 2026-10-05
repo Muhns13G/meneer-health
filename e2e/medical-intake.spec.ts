@@ -1,0 +1,123 @@
+import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+import catalogue from "../content/medical-intake-catalogue.json" with { type: "json" };
+import { completeSyntheticAnswers } from "../contracts/fixtures/medical-intake-synthetic";
+const id = "d3000000-0000-4000-8000-000000000001";
+// Controlled presentation proof only. Provider-backed persistence/authority is proved separately.
+test("questionnaire notice, all source sections, branching, review and hidden-state safety", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  let answers: unknown = {};
+  let version = 0;
+  let state = "draft";
+  const publication = {
+    id,
+    catalogueHash: "a".repeat(64),
+    privacy: "Synthetic medical-intake notice only",
+    reviewDeclaration: "Synthetic reviewed doctor declaration only",
+    recipientReference: id,
+    urgentGuidance: "Synthetic urgent guidance",
+    afterHoursGuidance: "Synthetic after-hours guidance",
+    transferNotice: "Synthetic disclosure notice only",
+  };
+  await page.route("**/portal/intake/command", async (route) => {
+    const command = route.request().postDataJSON();
+    if (command.action !== "read") {
+      answers = command.answers;
+      version++;
+      state = command.action === "submit" ? "submitted" : "draft";
+    }
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify(
+        command.action === "read"
+          ? {
+              record: version
+                ? {
+                    id,
+                    caseId: id,
+                    version,
+                    snapshotId: id,
+                    state,
+                    hasSubmitted: state === "submitted",
+                    safetyHold: false,
+                    expiresAt: new Date(Date.now() + 60000).toISOString(),
+                    answers,
+                  }
+                : null,
+              publication,
+              contact: {
+                email: "intake@example.invalid",
+                mobile: "+27820000000",
+                profileVersion: 1,
+              },
+              expiresAt: Date.now() + 60000,
+            }
+          : {
+              intakeId: id,
+              caseId: id,
+              version,
+              snapshotId: id,
+              state,
+              safetyHold: false,
+              expiresAt: new Date(Date.now() + 60000).toISOString(),
+            },
+      ),
+    });
+  });
+  await page.goto("/portal/intake");
+  await expect(page.getByText(publication.privacy)).toBeVisible();
+  await expect(page.getByRole("textbox")).toHaveCount(0);
+  await page.getByRole("checkbox", { name: /acknowledge this medical-intake/ }).check();
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(page.getByRole("combobox", { name: "Sex", exact: true })).toHaveValue("");
+  expect((await new AxeBuilder({ page }).include("main").analyze()).violations).toEqual([]);
+  await page
+    .getByLabel(catalogue.items.find((i) => i.id === "full_name")!.prompt, { exact: true })
+    .fill(completeSyntheticAnswers.full_name);
+  await page
+    .getByLabel(catalogue.items.find((i) => i.id === "date_of_birth")!.prompt, { exact: true })
+    .fill(completeSyntheticAnswers.date_of_birth);
+  await page.getByLabel("Height (cm)").fill("180");
+  await page.getByLabel("Weight (kg)").fill("80");
+  await page.getByRole("combobox", { name: "Sex", exact: true }).selectOption("male");
+  for (let section = 2; section <= 8; section++) {
+    await page.getByRole("button", { name: "Next section" }).click();
+    await expect(
+      page.getByRole("heading", { name: catalogue.sections[section - 1]!.title, exact: true }),
+    ).toBeVisible();
+    if (section === 7) await page.getByRole("checkbox", { name: "Peptides", exact: true }).check();
+    for (const item of catalogue.items.filter((i) => i.section === section)) {
+      if (item.id.startsWith("category_") && item.id !== "category_peptides") continue;
+      if (item.id === "diagnosed_conditions")
+        await page.getByRole("combobox", { name: "Response", exact: true }).selectOption("none");
+      else if (item.id === "mental_safety" || item.id === "sti_symptoms")
+        await page.getByLabel(item.prompt, { exact: true }).selectOption("no");
+      else if (item.id === "accuracy_declaration")
+        await page.getByRole("checkbox", { name: item.prompt, exact: true }).check();
+      else if (item.id === "doctor_review_consent")
+        await page.getByRole("checkbox", { name: publication.reviewDeclaration }).check();
+      else if (item.id === "signature")
+        await page.getByLabel(item.prompt, { exact: true }).fill("Synthetic Client");
+      else await page.getByLabel(item.prompt, { exact: true }).selectOption("none");
+    }
+  }
+  await page.getByRole("button", { name: "Review answers", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Confirm and submit questionnaire" }),
+  ).toBeVisible();
+  expect((await new AxeBuilder({ page }).include("main").analyze()).violations).toEqual([]);
+  await page.getByRole("button", { name: "Confirm and submit questionnaire" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Questionnaire received", exact: true }),
+  ).toBeVisible();
+  expect(page.url()).toMatch(/\/portal\/intake$/);
+  expect(
+    await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
+  ).toEqual({ local: 0, session: 0 });
+  expect(errors).toEqual([]);
+  await page.evaluate(() => window.dispatchEvent(new Event("pagehide")));
+  await expect(page.getByText(/Questionnaire information has been hidden/)).toBeVisible();
+});

@@ -1,6 +1,6 @@
 ---
 plan_id: phase-02-sprint-10-medical-intake-amendment
-status: engineering-contract-frozen-implementation-pending
+status: local-implementation-hosted-verification-pending
 last_updated: 2026-10-05
 depends_on: [DR-018, phase-02-sprint-09, phase-02-sprint-10-task-06]
 primary_debt: [TD-009, TD-037, TD-038, TD-043]
@@ -101,8 +101,11 @@ operational inputs are private reviewer/transcriber and primary/fallback appoint
 configuration and reviewed publications/processing schedules. The owner-approved sex extension needs
 clinical publication review; the original question wording is not reopened. Public copy is unchanged.
 
-The packet is planned, not implemented. Existing TD-009/TD-037/TD-038/TD-043 cover its hand-off,
+I2–I7 now have local implementation and controlled evidence in the
+[progress record](sprint-10-intake-implementation-progress.md); I8 hosted release/rehearsal and
+acceptance remain open. This does not claim that every task or the expanded sprint is closed.
+Existing TD-009/TD-037/TD-038/TD-043 cover its hand-off,
 rights, accessibility and routed-support obligations; no new defect or debt ID is asserted merely
 because scope expanded. Any discovered implementation defect is recorded during the relevant task.
-Sprint 10 cannot close at the revised scope while this work is absent. Sprint 11 sandbox payment,
+Sprint 10 cannot close at the revised scope while hosted acceptance is outstanding. Sprint 11 sandbox payment,
 Sprint 12 support and Sprint 13 go/no-go remain required; real Stripe charges are separately approved.

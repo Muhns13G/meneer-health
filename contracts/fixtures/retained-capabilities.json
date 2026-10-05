@@ -1,7 +1,56 @@
 {
-  "revision": 4,
+  "revision": 5,
   "generatedFrom": "v1-tanstack",
   "fixtures": [
+    {
+      "id": "PORT-025",
+      "capabilityId": "CAP-015",
+      "kind": "contract-validation",
+      "contract": { "name": "medical-intake.record", "version": 1 },
+      "message": {
+        "contract": "medical-intake.record",
+        "version": 1,
+        "scope": {
+          "tenantId": "10000000-0000-4000-8000-000000000001",
+          "subjectId": "20000000-0000-4000-8000-000000000001",
+          "intakeId": "d2000000-0000-4000-8000-000000000001",
+          "snapshotId": "d2000000-0000-4000-8000-000000000002",
+          "collectionVersion": "1.1.0",
+          "controlVersion": "1.0.0"
+        },
+        "recordVersion": 1,
+        "state": "deleted",
+        "envelope": null,
+        "safetyHold": false,
+        "expiresAt": null
+      },
+      "expected": { "accepted": true, "stableErrorCode": null }
+    },
+    {
+      "id": "PORT-026",
+      "capabilityId": "CAP-015",
+      "kind": "contract-validation",
+      "contract": { "name": "medical-intake.record", "version": 1 },
+      "message": {
+        "contract": "medical-intake.record",
+        "version": 1,
+        "scope": {
+          "tenantId": "10000000-0000-4000-8000-000000000001",
+          "subjectId": "20000000-0000-4000-8000-000000000001",
+          "intakeId": "d2000000-0000-4000-8000-000000000001",
+          "snapshotId": "d2000000-0000-4000-8000-000000000002",
+          "collectionVersion": "1.1.0",
+          "controlVersion": "1.0.0"
+        },
+        "recordVersion": 1,
+        "state": "deleted",
+        "envelope": null,
+        "safetyHold": false,
+        "expiresAt": null,
+        "answers": "forbidden plaintext"
+      },
+      "expected": { "accepted": false, "stableErrorCode": "VALIDATION_FAILED" }
+    },
     {
       "id": "PORT-023",
       "capabilityId": "CAP-005",
