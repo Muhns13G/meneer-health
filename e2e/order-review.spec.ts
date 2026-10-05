@@ -47,7 +47,7 @@ test("exact order disclosure and unchecked acceptance never imply payment", asyn
   await page.getByRole("checkbox").focus();
   await page.keyboard.press("Space");
   await page.getByRole("button", { name: "Accept this order" }).click();
-  await expect(page.getByRole("status")).toContainText("Payment has not been taken");
+  await expect(page.getByRole("status")).toContainText("Payment is not confirmed here");
   await expect(page.getByRole("checkbox")).toHaveCount(0);
   expect(errors).toEqual([]);
   expect(new URL(page.url()).search).toBe("");
@@ -91,4 +91,37 @@ test("wall-clock expiry clears the review and acknowledgement", async ({ page })
   await expect(page.getByRole("checkbox")).toBeVisible();
   await expect(page.getByRole("status")).toContainText("review has expired", { timeout: 6000 });
   await expect(page.getByRole("checkbox")).toHaveCount(0);
+});
+test("accepted sandbox order starts only a strict Checkout request and never renders paid", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  const review = orderReviewFixture();
+  review.checkoutEnabled = true;
+  review.acceptance = { receiptId: review.offerId, recordedAt: new Date().toISOString() };
+  await page.route("https://checkout.stripe.com/**", (route) =>
+    route.fulfill({ body: "Synthetic Checkout destination", contentType: "text/html" }),
+  );
+  await page.route("**/portal/order/command", (route) => {
+    const body = route.request().postDataJSON();
+    if (body.action === "checkout") {
+      expect(body).toEqual({
+        action: "checkout",
+        offerId: review.offerId,
+        requestKey: expect.any(String),
+      });
+      expect(route.request().headers()["idempotency-key"]).toBe(body.requestKey);
+      return route.fulfill({
+        json: { checkoutUrl: "https://checkout.stripe.com/c/pay/synthetic" },
+      });
+    }
+    return route.fulfill({ json: { review } });
+  });
+  await Promise.all([
+    page.waitForResponse((r) => new URL(r.url()).pathname === "/portal/order/command"),
+    page.goto("/portal/order"),
+  ]);
+  await expect(page.getByRole("status")).toContainText("Payment is not confirmed here");
+  await page.getByRole("button", { name: "Continue to secure Checkout" }).click();
+  await expect(page).toHaveURL("https://checkout.stripe.com/c/pay/synthetic");
 });
