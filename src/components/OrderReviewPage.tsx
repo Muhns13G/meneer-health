@@ -1,0 +1,211 @@
+import { Link } from "@tanstack/react-router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Nav } from "./Nav";
+import { Footer } from "./Footer";
+import { orderReviewResultSchema, type OrderReview } from "@/domain/payments/order-review";
+const money = new Intl.NumberFormat("en-ZA", { style: "currency", currency: "ZAR" });
+const amount = (minor: number) => money.format(minor / 100);
+export function OrderReviewPage() {
+  const [review, setReview] = useState<OrderReview | null>(null);
+  const [status, setStatus] = useState("Loading your order…");
+  const [accepted, setAccepted] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const controller = useRef<AbortController | null>(null);
+  const sequence = useRef(0);
+  const acceptKey = useRef<string | null>(null);
+  const send = useCallback(async (acceptReview?: OrderReview) => {
+    const accept = acceptReview !== undefined;
+    const current = ++sequence.current;
+    controller.current?.abort();
+    const abort = new AbortController();
+    controller.current = abort;
+    setBusy(true);
+    const key = accept ? (acceptKey.current ??= crypto.randomUUID()) : crypto.randomUUID();
+    const body = acceptReview
+      ? {
+          action: "accept",
+          offerId: acceptReview.offerId,
+          publicationId: acceptReview.terms.publicationId,
+          snapshotHash: acceptReview.snapshotHash,
+          contentHash: acceptReview.terms.contentHash,
+          requestKey: key,
+          accepted: true,
+        }
+      : { action: "read" };
+    try {
+      const response = await fetch("/portal/order/command", {
+        method: "POST",
+        credentials: "same-origin",
+        cache: "no-store",
+        signal: abort.signal,
+        headers: { "Content-Type": "application/json", "Idempotency-Key": key },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok)
+        throw new Error(
+          response.status === 401
+            ? "Your session has ended. Sign in again."
+            : response.status === 409
+              ? "This order has changed. Reload and review it again."
+              : "Your order is not available. Please try again later.",
+        );
+      const result = orderReviewResultSchema.parse(await response.json());
+      if (current !== sequence.current) return;
+      if (result.review && Date.parse(result.review.expiresAt) <= Date.now())
+        throw new Error("Your order review has expired. Reload to continue.");
+      setReview(result.review);
+      setAccepted(false);
+      setStatus(
+        result.review?.acceptance
+          ? "Your acceptance has been recorded. Payment has not been taken."
+          : result.review
+            ? "Review the details and full terms before accepting."
+            : "No order is currently available for review.",
+      );
+    } catch (error) {
+      if (current !== sequence.current || abort.signal.aborted) return;
+      setReview(null);
+      setAccepted(false);
+      setStatus(
+        error instanceof Error &&
+          (error.message.startsWith("Your ") || error.message.startsWith("This order"))
+          ? error.message
+          : "Your order is not available. Please try again later.",
+      );
+    } finally {
+      if (current === sequence.current) setBusy(false);
+    }
+  }, []);
+  const invalidate = useCallback(() => {
+    sequence.current++;
+    controller.current?.abort();
+  }, []);
+  useEffect(() => {
+    void send();
+    return invalidate;
+  }, [send, invalidate]);
+  useEffect(() => {
+    if (!review) return;
+    const timer = setTimeout(
+      () => {
+        sequence.current++;
+        controller.current?.abort();
+        setReview(null);
+        setAccepted(false);
+        setBusy(false);
+        setStatus("Your order review has expired. Reload to continue.");
+      },
+      Math.max(0, Date.parse(review.expiresAt) - Date.now()),
+    );
+    return () => clearTimeout(timer);
+  }, [review]);
+  return (
+    <>
+      <Nav />
+      <main className="container-x max-w-3xl py-16">
+        <h1 className="font-serif text-3xl">Review your order</h1>
+        <p role="status" aria-live="polite" className="mt-4">
+          {status}
+        </p>
+        {review ? (
+          <section aria-label="Order details" className="mt-8 space-y-6">
+            <p>
+              {review.scenario === "review_deposit" ? "Review deposit" : "Approved product order"}
+            </p>
+            <p className="whitespace-pre-wrap">Supplier: {review.terms.supplier}</p>
+            <ul className="space-y-3">
+              {review.lines.map((line, index) => (
+                <li key={index}>
+                  <p>
+                    {line.description} · {line.quantity} × {amount(line.unitAmountMinor)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Price version: {line.priceVersion} · VAT-inclusive planning
+                  </p>
+                </li>
+              ))}
+            </ul>
+            <dl className="grid grid-cols-2 gap-3">
+              <dt>Delivery</dt>
+              <dd>{amount(review.deliveryMinor)}</dd>
+              <dt>Deposit credit</dt>
+              <dd>{amount(review.creditMinor)}</dd>
+              <dt>Unused deposit refund</dt>
+              <dd>{amount(review.unusedDepositRefundMinor)}</dd>
+              <dt>Total payable</dt>
+              <dd>{amount(review.amountTotalMinor)}</dd>
+            </dl>
+            {review.deliveryVersion ? (
+              <p>Delivery quote version: {review.deliveryVersion}</p>
+            ) : null}
+            <section aria-labelledby="order-terms-heading">
+              <h2 id="order-terms-heading" className="text-xl">
+                Pilot Order and Payment Terms · {review.terms.version}
+              </h2>
+              <p className="mt-2 text-sm">
+                Effective:{" "}
+                {new Date(review.terms.effectiveAt).toLocaleDateString("en-ZA", {
+                  timeZone: "Africa/Johannesburg",
+                })}
+              </p>
+              <p className="mt-4 whitespace-pre-wrap break-words">{review.terms.body}</p>
+              <button type="button" className="mt-4 underline" onClick={() => window.print()}>
+                Print or save these terms
+              </button>
+            </section>
+            {!review.acceptance ? (
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (accepted && !busy) void send(review);
+                }}
+              >
+                <label className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked={accepted}
+                    disabled={busy}
+                    onChange={(event) => setAccepted(event.target.checked)}
+                    className="mt-1"
+                  />
+                  <span>
+                    I accept Pilot Order and Payment Terms version {review.terms.version} for this
+                    displayed transaction, including the R999 review-deposit credit and refund
+                    rules. I understand that payment does not guarantee clinical approval, product
+                    supply or delivery.
+                  </span>
+                </label>
+                <button
+                  type="submit"
+                  disabled={!accepted || busy}
+                  className="mt-6 rounded-full border px-6 py-3 disabled:opacity-50"
+                >
+                  {busy ? "Recording acceptance…" : "Accept this order"}
+                </button>
+              </form>
+            ) : (
+              <p>Acceptance recorded. Checkout is not available yet.</p>
+            )}
+          </section>
+        ) : null}
+        <div className="mt-8 flex gap-6">
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => {
+              acceptKey.current = null;
+              void send();
+            }}
+            className="underline"
+          >
+            Reload order
+          </button>
+          <Link to="/portal" className="underline">
+            Back to your account
+          </Link>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+}

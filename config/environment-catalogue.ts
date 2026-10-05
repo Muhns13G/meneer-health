@@ -14,6 +14,20 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
+  ...["COMMERCE_REVIEW_MODE", "COMMERCE_REVIEW_TENANT_ID"].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Explicit opt-in and tenant scope for private order review/acceptance; not Checkout activation.",
+      owner: "Commercial and release owners",
+      sensitivity: "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "Disabled by default; change only for authorised isolated proof or reviewed release.",
+    }),
+  ),
   {
     name: "MEDICAL_INTAKE_TENANT_ID",
     purpose:

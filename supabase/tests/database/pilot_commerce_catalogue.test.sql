@@ -6,7 +6,8 @@ select no_plan();
 select has_table('commerce_private','prices','private immutable catalogue exists');
 select has_table('commerce_private','credit_reservations','private credit reservations exist');
 select is((select count(*)::integer from pg_class c join pg_namespace n on n.oid=c.relnamespace
- where n.nspname='commerce_private' and c.relkind='r' and c.relrowsecurity and c.relforcerowsecurity),6,'all six tables force RLS');
+ where n.nspname='commerce_private' and c.relkind='r' and c.relrowsecurity and c.relforcerowsecurity
+ and c.relname in ('prices','delivery_quotes','deposit_funding','offers','credit_reservations','product_release_gates')),6,'original six commerce tables force RLS');
 select ok(not has_schema_privilege('anon','commerce_private','USAGE'),'anonymous cannot access private commerce');
 select ok(not has_table_privilege('service_role','commerce_private.prices','SELECT'),'service cannot browse catalogue directly');
 select ok(not has_function_privilege('service_role','commerce_private.prepare_offer(uuid,uuid,uuid,jsonb)','EXECUTE'),'preparation not exposed before governed runtime');

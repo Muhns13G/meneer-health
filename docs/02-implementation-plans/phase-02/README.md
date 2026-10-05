@@ -20,8 +20,11 @@ reconciles the next ten tasks. Task 11.1's
 contract level, including owner-approved below-R999 credit/refund and unresolved-exception handling.
 Task 11.2's [private commerce preparation](annexures/sprint-11-2-private-commerce-preparation.md)
 is now complete locally: deny-default catalogue/quotes/offers/funding, server-owned arithmetic and
-credit reservation with SQL/build/recovery proof. Task 11.3 is next; no payment runtime or hosted
-configuration was enabled by either task.
+credit reservation with SQL/build/recovery proof. Task 11.3's
+[exact order review/acceptance](annexures/sprint-11-3-order-review-acceptance.md) is completed locally:
+private route, sealed-session command, published-instrument/hash binding, immutable receipts and
+SQL/HTTP/desktop-mobile verification. Task 11.4 is next; Checkout and hosted review configuration
+remain disabled and no real instrument was published.
 Sprints 12–13 remain planned.
 Earlier task checkpoints below are historical, not outstanding engineering work.
 

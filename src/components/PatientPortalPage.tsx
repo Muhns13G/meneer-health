@@ -297,6 +297,12 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "ri
                   Your medical questionnaire
                 </Link>
                 <PortalHandoffPanel />
+                <Link
+                  to="/portal/order"
+                  className="mt-8 block text-gold underline underline-offset-4"
+                >
+                  Review your order
+                </Link>
                 <section className="mt-10" aria-labelledby="account-progress">
                   <h2 id="account-progress" className="font-serif text-2xl text-foreground">
                     Non-clinical progress

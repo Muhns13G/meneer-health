@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
@@ -105,6 +106,18 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 11.3 — Local Own-Order Review and Acceptance
+
+The [11.3 packet](../02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md)
+implements `/portal/order` and its sealed-session POST command, exact prepared-offer disclosure,
+private scenario publications and append-only receipt/hash binding with central audit. No offer
+is fabricated by the page. The command defaults disabled and requires an explicit matching tenant.
+Accepted browser acknowledgement never means paid: Checkout remains strictly unavailable.
+Full local unit/SQL, focused HTTP/schema, six controlled desktop/mobile checks, production build,
+lint/advisors and encrypted recovery pass; UI mocks are not hosted payment evidence. Neither pending
+Sprint 11 migration nor any real publication/configuration was applied hosted. TD-010 stays
+In progress; TD-037/038 retain live accessibility gates. Task 11.4 is next.
+
 ## Sprint 11.2 — Local Private Catalogue and Credit Preparation
 
 The [11.2 packet](../02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md)
@@ -116,7 +129,7 @@ revoked. The internal preparation function does not authenticate a patient or ex
 688 unit tests, 1,066 SQL assertions, clean local migration/seed replay, advisors and production
 build pass. Private commerce is included in encrypted logical recovery; 57 records reconcile in
 the local exercise. Hosted migration/configuration and payment adapters remain untouched/closed.
-TD-010 stays In progress. Task 11.3 is next; no paid or refunded transaction is proved by this task.
+TD-010 stays In progress. This checkpoint preceded 11.3 above; no paid or refunded transaction is proved by 11.2.
 
 ## Sprint 11.1 — Commercial Contract, Not Payment Activation
 
