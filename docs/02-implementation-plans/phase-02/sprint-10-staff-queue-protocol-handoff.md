@@ -64,19 +64,19 @@ existing scoped roles, individual AAL2 workforce accounts, case-specific assignm
 DR-017 states, guarded attempts/acknowledgements, separate clinical/payment authority and disabled
 break glass. No staff queue/UI, migration or hosted activation is delivered by this task.
 
-| Task     | Commit-sized outcome                                                                                                                            | Gate               | Status                                                             |
-| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------ |
-| 10.1     | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Completed (contract)                                               |
-| 10.2     | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Completed (local)                                                  |
-| 10.3     | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Completed (local)                                                  |
-| 10.4     | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Completed (local)                                                  |
-| 10.5     | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Completed (local gated)                                            |
-| 10.6     | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Completed locally; activation gated                                |
-| 10.7     | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Completed and closed; hosted verified with owner-confirmed receipt |
-| 10.8     | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Completed locally; hosted migration/release proof gated            |
-| 10.I1–I8 | Deliver the separately protected first-party questionnaire, authorised manual transfer and medical lifecycle under the intake amendment.        | DR-018, TD-009     | I1 engineering contract complete; I2–I8 planned with release gates |
-| 10.9     | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned                                                            |
-| 10.10    | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned                                                            |
+| Task     | Commit-sized outcome                                                                                                                            | Gate               | Status                                                                         |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------------------------------------ |
+| 10.1     | Freeze staff roles, queue states, assignments, allowed transitions, separation of duties and break-glass posture.                               | TD-009             | Completed (contract)                                                           |
+| 10.2     | Add migrations/contracts for queue items, assignments, hand-off attempts, acknowledgements, opaque external references and exceptions.          | Data model         | Completed (local)                                                              |
+| 10.3     | Implement staff invitation, AAL2 enforcement and server-derived tenant/role/purpose context.                                                    | Workforce security | Completed (local)                                                              |
+| 10.4     | Implement the accessible staff queue with minimum necessary fields, filters and masked contact data.                                            | Operations         | Completed (local)                                                              |
+| 10.5     | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Completed (local gated)                                                        |
+| 10.6     | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Completed locally; activation gated                                            |
+| 10.7     | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Completed and closed; hosted verified with owner-confirmed receipt             |
+| 10.8     | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Completed locally; hosted migration/release proof gated                        |
+| 10.I1–I8 | Deliver the separately protected first-party questionnaire, authorised manual transfer and medical lifecycle under the intake amendment.        | DR-018, TD-009     | Completed; current external-generator walkthrough explicitly excepted by owner |
+| 10.9     | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned                                                                        |
+| 10.10    | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned                                                                        |
 
 Task 10.2 adds eight deny-default tables and `operations.record@1`; see the
 [persistence evidence](annexures/sprint-10-2-staff-queue-persistence.md). Local migration replay
@@ -120,7 +120,13 @@ and update time only. Own-scope/lifecycle/receipt/session checks, audit failure 
 deny disclosure; no internal outcomes, reasons or clinical authority are exposed. Local migration
 replay, 908 SQL assertions, 610 Vitest tests and 18 desktop/mobile portal checks pass. The new migration
 needs separate hosted approval before deploying its RPC consumer. No hosted application or pilot
-activation is claimed. I1's engineering contract is complete; implement I2–I8 next, before revised 10.9/10.10.
+activation was claimed at that checkpoint. I1–I8 engineering acceptance is now complete: the approved
+hosted migrations, real Auth/AAL2 and medical-command proofs, hosted patient browser/expiry checks,
+mailbox visibility and scoped cleanup are in the
+[intake progress packet](annexures/sprint-10-intake-implementation-progress.md). On 5 October the
+owner explicitly excepted the unavailable current-generator walkthrough from I8 closeout; provider
+entitlement/compatibility remains a pre-launch dependency. Final intake mode is disabled and the
+real tenant remains suspended. Task 10.9 may now proceed after the owner's commit.
 The payment adapter remains false until Sprint 11. Tasks 10.9–10.10 remain planned. All seven Sprint
 10 migrations were applied hosted with explicit owner approval on 4 October 2026. No seed/role
 import or pilot activation occurred; independent checks retain one suspended tenant and zero

@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-04
+**Last amended:** 2026-10-05
 
 ## Registry Purpose
 
@@ -345,7 +345,30 @@ TD-057's owner remediation commit `1b41ed49` and exact-commit
 passed, including the committed generated-output comparison. This supplements the row's original
 local evidence; post-deploy smoke remains separate release evidence.
 
-Current total: **57 items — 50 Verified, seven non-Verified**. TD-021 retains its historical
+### TD-058 — Restricted Intake Safety Review Completion
+
+Priority: **P1**. Status: **Verified**. Owner: **@Muhns13G**. Target: **2.10.I8**, before
+clinical intake activation.
+
+The isolated hosted rehearsal on 5 October found that `respond_medical_safety` cleared the hold
+before its final grant check. For a restricted intake, safety access depends on the unresolved hold;
+the final check therefore rejected the authorised transition and rolled back review completion.
+No real patient was affected. Migration
+`20261005134411_restricted_medical_safety_review_completion.sql` checks fresh authority before
+clearing the hold without removing restriction or bypassing clinical grants, acknowledgement or audit.
+Four added regressions pass; the full local database suite passes 1,007 assertions.
+
+Acceptance: owner-approved hosted migration; actual AAL2 routed restricted-intake review succeeds;
+restriction remains and subsequent ordinary/safety access is denied; exact audit evidence and scoped
+cleanup pass. These criteria were subsequently satisfied on 5 October: owner-approved hosted
+migration (36 matching versions), fresh routed TOTP/AAL2, independent grant activation, exact
+one-field projection, review 200 and subsequent safety/ordinary read 403. The audit chain verified;
+approved scoped cleanup restored the original baseline and all triggers. Repository commit/CI are
+not claimed before the owner's actions. I8's other non-generator checks subsequently passed;
+the owner explicitly excepted current generator entitlement/compatibility from its closeout. See the
+[I8 progress record](../02-implementation-plans/phase-02/annexures/sprint-10-intake-implementation-progress.md).
+
+Current total: **58 items — 51 Verified, seven non-Verified**. TD-021 retains its historical
 dependency-policy/enforcement evidence; TD-057 remains an immutable newly discovered ID, now
 locally Verified after bounded remediation. Both audits and local regression pass; owner
 commit/exact-commit CI and post-deploy verification are not claimed in advance. TD-006, TD-007,

@@ -103,11 +103,25 @@ clinical publication review; the original question wording is not reopened. Publ
 
 I2–I7 now have accepted local implementation and controlled evidence (including the full 180-case
 desktop/mobile browser matrix) in the
-[progress record](sprint-10-intake-implementation-progress.md); I8 hosted release/rehearsal and
-acceptance remain open. All seven approved prerequisite/intake migrations are applied hosted, with
-no seed or activation. Owner deployment, dedicated-key provisioning and isolated provider-backed
-rehearsal remain pending; fresh generator access currently reaches the subscription gate. This does
-not claim that every task or the expanded sprint is closed.
+[progress record](sprint-10-intake-implementation-progress.md); I8 non-generator acceptance is
+completed, with the owner's explicit external-generator exception. All seven approved prerequisite/intake migrations are applied hosted, with
+no seed or activation. Owner-deployed disabled-command checks pass; the dedicated medical key is
+provisioned and exercised in an explicitly authorised isolated rehearsal. Real routed Auth/AAL2,
+medical commands, owned retained export and revocation checks pass; scheduled Brevo delivery is
+accepted and reported delivered by Brevo. Subsequent browser inspection found the exact alert in
+Gmail's Updates category with the correct support recipient and generic body, closing mailbox
+visibility verification without claiming owner acknowledgement. A restricted-safety review ordering defect is fixed and
+regression-tested locally; its additional approved hosted migration/replay now passes and TD-058 is
+Verified. All 36 hosted versions match; scoped fixture/Auth cleanup restores the original baseline
+with every trigger enabled. Intake was restored to disabled and the synthetic tenant binding removed.
+The fresh hosted patient browser walkthrough passes real sign-in, privacy acknowledgement,
+eight sections/branching, validation, saved draft/resume, review/submission, amendment access,
+mobile layout and wall-clock expiry hiding. Browser/database evidence and scoped cleanup are recorded
+in the progress packet. Final disabled Worker version is `ac94b09c-efa8-453a-a8db-c171d1755acf`.
+Fresh generator access still reaches the subscription gate; the owner explicitly excepted that
+unavailable walkthrough from I8 closure on 5 October. Current provider compatibility remains a
+pre-launch dependency. I1–I8 engineering acceptance is closed; Task 10.9 and the wider sprint are
+not yet claimed complete.
 Existing TD-009/TD-037/TD-038/TD-043 cover its hand-off,
 rights, accessibility and routed-support obligations; no new defect or debt ID is asserted merely
 because scope expanded. Any discovered implementation defect is recorded during the relevant task.
