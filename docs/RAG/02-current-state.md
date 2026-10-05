@@ -139,6 +139,10 @@ MFA/administrator response/replay/revocation passed. Sending stayed uncertain be
 prevent redirect credential forwarding. Owner deployment and successful Cron email/receipt retest
 remain pending. The original Worker code was retained, mode restored to disabled, temporary tenant
 binding removed and the empty suspended baseline independently verified. No scheduled delivery is claimed.
+The subsequently authorised corrected retest supersedes that transport gap: real Cron persisted one
+accepted send at 14:41:02 SAST, and Brevo reports delivery at 14:41:04 SAST on 4 October 2026.
+The owner confirmed mailbox receipt on 5 October 2026: Task 2.10.7 is formally closed.
+Corrected code was preserved, disabled mode restored and only retest fixtures removed.
 On 4 October 2026, all seven Sprint 10 migrations were applied hosted
 with explicit owner approval, retaining exact filename versions and importing no seeds or roles.
 Hosted history has 28 migrations; one suspended tenant and zero subjects/Auth users, cases, attempts

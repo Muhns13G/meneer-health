@@ -89,7 +89,7 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
-## Task 10.7 Hosted Activation Remains Open
+## Task 10.7 Closed; Real-Pilot Activation Remains Separate
 
 The [audit/alert foundation](../02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md)
 is complete locally, including generic Brevo dispatch, durable bounded retries/uncertainty and explicit
@@ -106,6 +106,10 @@ MFA/response/revocation. Its send was uncertain because Workers rejects `redirec
 local fix uses `manual` without redirect credential forwarding. Owner deployment and successful
 scheduled email acceptance/mailbox receipt remain outstanding. Disabled mode and the empty baseline
 were restored; the temporary tenant binding was removed. Task 10.7 is not fully closed yet.
+The corrected deployed Cron retest subsequently passed one accepted attempt and provider-reported
+delivery at 14:41 SAST on 4 October 2026. The owner confirmed receipt on 5 October 2026,
+closing Task 2.10.7. The transport defect is resolved. Mode is restored to disabled; the real pilot
+remains suspended. Earlier pending statements above describe superseded rehearsal checkpoints.
 
 ## Current Intake Scope Overrides Historical External Only Limits
 
