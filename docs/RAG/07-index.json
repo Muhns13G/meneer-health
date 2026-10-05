@@ -960,6 +960,20 @@
       ]
     },
     {
+      "id": "phase-02-sprint-11-7-cancellation-refund-commands",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md",
+      "status": "completed-local-refund-boundary",
+      "source_commit": "46fa1bf",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "own-client cancellation requests and assigned AAL2 financial commands",
+        "independent expiring financial grants and verified eligibility evidence",
+        "original-source reservations and automatic unused-deposit refund jobs",
+        "default-off sandbox dispatch with stable retry identity and no false settlement",
+        "local SQL unit browser build recovery proof; 11.8 reconciliation and TD-010 retained"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11-1-commercial-payment-contract",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md",
       "status": "completed-at-contract-level",

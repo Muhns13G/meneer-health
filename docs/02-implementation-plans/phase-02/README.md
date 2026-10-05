@@ -32,7 +32,11 @@ locally: real-SDK raw signature tests, attributed durable journal, replay/confli
 monotonic money facts and owned exceptions. Task 11.6's
 [private payment-status views](annexures/sprint-11-6-payment-status-projections.md) are complete locally:
 own-client/assigned AAL2 staff reads, bounded history, current authority, explicit money/clinical
-separation and expiry/denial clearing. Task 11.7 is next. Hosted bindings/releases/migrations
+separation and expiry/denial clearing. Task 11.7's
+[cancellation/refund commands](annexures/sprint-11-7-cancellation-refund-commands.md) are complete
+locally: scoped requests, independent financial authority/evidence, original-method reservations,
+automatic unused-deposit jobs and disabled-by-default sandbox dispatch. Task 11.8 is next.
+Hosted bindings/releases/migrations
 remain disabled/unapplied and no real instrument was published or provider contacted.
 Sprints 12–13 remain planned.
 Earlier task checkpoints below are historical, not outstanding engineering work.

@@ -19,6 +19,7 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     "COMMERCE_REVIEW_TENANT_ID",
     "COMMERCE_CHECKOUT_MODE",
     "COMMERCE_WEBHOOK_MODE",
+    "COMMERCE_REFUND_MODE",
     "STRIPE_CHECKOUT_ACCOUNT_ID",
   ].map(
     (name): EnvironmentCatalogueEntry => ({
