@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
@@ -108,6 +109,23 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 11.7 — Local Cancellation and Original-Method Refund Commands
+
+The [11.7 packet](../02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md)
+records private own-client requests and assigned AAL2 staff commands. Financial mutations additionally
+require an independently approved, expiring case grant and verified eligibility evidence. The ledger
+reserves exact original-source amounts before provider calls, prevents double allocation and queues
+unused deposit automatically after verified commercial completion. Unresolved cancellation cases
+remain staff-reviewed without invented fees. Original-method sandbox dispatch is independently
+default-off; its response is submitted/pending/failed/uncertain, never confirmed refund settlement.
+Content-free audit and existing operations-alert records cover uncertain/pending/failed jobs.
+
+Full unit, rollback-only SQL and controlled desktop/mobile boundary evidence is recorded in the packet.
+No provider/hosted mutation, real charge, email or pilot activation occurred. Six Sprint 11 migrations
+are not claimed applied hosted. Task 11.8 owns terminal refund/retry/reconciliation and downstream
+payment-readiness integration; Task 11.9 owns hosted/provider proof. TD-010 remains In progress.
+Earlier task checkpoints below are historical; 11.8 is next.
 
 ## Sprint 11.6 — Private Payment Facts, Not Clinical Readiness
 

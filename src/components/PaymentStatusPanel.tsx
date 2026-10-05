@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { paymentStatusPageSchema, type PaymentStatusPage } from "@/domain/payments/payment-status";
+import { RefundPanel } from "./RefundPanel";
 
 const labels = {
   not_started: "Checkout not started",
@@ -129,6 +130,7 @@ function PaymentStatusContent({ caseId }: { caseId?: string }) {
                 {payment.requiresReview && (
                   <p>Reconciliation review required. Contact support before repeating payment.</p>
                 )}
+                <RefundPanel offerId={payment.reference} staff={caseId !== undefined} />
               </li>
             ))}
           </ul>

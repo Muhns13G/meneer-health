@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
@@ -96,6 +97,23 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 11.7 Refund Commands Are Local, Not Activated or Settled
+
+Own-client requests do not cancel treatment, supply or confirm a refund. Staff decisions require
+current assigned AAL2 scope plus a separate financial grant and independently verified eligibility
+record. Grant/evidence publication is a governed database-owner release input, not a patient-supplied
+outcome, arbitrary UUID or permission inherited from a broad operations role.
+No real grant, eligibility record, provider refund or customer communication was created here.
+
+`COMMERCE_REFUND_MODE` defaults to `disabled`. Sandbox dispatch also requires existing Checkout/
+callback modes and database release/account authority. Six Sprint 11 migrations remain unapplied
+hosted in this task's evidence. Pending/failed/uncertain jobs retain their reserved amounts until
+11.8 reconciles independent provider evidence; no blind fresh-key retry or confirmed-refund promise.
+Refund alerts are locally verified records, not an asserted delivered email. Clinical/dispensing/
+delivery cancellation remains independent; both downstream payment-readiness adapters stay closed
+until 11.8's authoritative integration. TD-010 remains In progress, with hosted/provider proof in 11.9.
+This checkpoint supersedes earlier task-specific implementation gaps below.
 
 ## Sprint 11.6 Views Are Implemented Locally, Not Operationally Activated
 

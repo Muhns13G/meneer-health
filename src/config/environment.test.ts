@@ -60,6 +60,7 @@ describe("environment catalogue", () => {
       "COMMERCE_REVIEW_TENANT_ID",
       "COMMERCE_CHECKOUT_MODE",
       "COMMERCE_WEBHOOK_MODE",
+      "COMMERCE_REFUND_MODE",
       "STRIPE_CHECKOUT_ACCOUNT_ID",
       "MEDICAL_INTAKE_TENANT_ID",
       "MEDICAL_INTAKE_MODE",
