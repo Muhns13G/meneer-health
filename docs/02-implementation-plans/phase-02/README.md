@@ -13,8 +13,10 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 Sprint 10 is [completed with activation gates](../../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md),
 including I1–I8 and the owner's explicit current-generator exception. Implementation checkpoint:
-`14a965a`; closure docs await owner commit/CI. Phase 02 remains in progress. After this commit,
-reconcile Sprint 11.1's deposit/catalogue scenarios before implementation; Sprints 12–13 remain planned.
+`14a965a`; closure docs are committed at `5c7a0a0` (exact-commit CI not rechecked here).
+Phase 02 remains in progress. The [Sprint 11 readiness handoff](annexures/sprint-11-readiness-handoff.md)
+reconciles the next ten tasks; begin 11.1's deposit/catalogue contract before runtime implementation.
+Sprints 12–13 remain planned.
 Earlier task checkpoints below are historical, not outstanding engineering work.
 
 [DR-018](../../07-decisions/DR-018-meneer-hosted-medical-intake.md) selects protected first-party
