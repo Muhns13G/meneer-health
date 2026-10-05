@@ -22,6 +22,10 @@ The [Sprint 10 intake packet](annexures/sprint-10-medical-intake-amendment.md) a
 External-only statements in historical checkpoints below are superseded for this selected path.
 Existing external-link code stays inactive; the actual provider intake URL is no longer a required
 activation input for first-party intake. No questionnaire code or hosted collection is yet enabled.
+The [I1 contract](annexures/sprint-10-i1-medical-intake-contract.md) is frozen following owner approval
+on 5 October. Original wording remains exact; collection 1.1.0 adds a separately attributed sex field
+with no default. I2 may proceed locally; private clinical/safety appointments and reviewed publications
+remain pre-launch gates, not asserted approval of the added field by Dr Zee.
 
 ## Mission
 

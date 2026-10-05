@@ -1,11 +1,11 @@
 ---
 decision_id: DR-018
 title: Meneer Hosted Medical Intake Amendment
-status: approved-direction-controls-pending
+status: approved-engineering-release-gated
 accountable_owner: Meneer business owner
 implementation_owner: Octothorp ZA technology owner
 effective_date: 2026-10-04
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 supersedes: DR-014 and DR-017 external-only intake scope; not their account or clinical-authority boundaries
 related_debt: [TD-009, TD-037, TD-038, TD-043]
 ---
@@ -22,6 +22,17 @@ obtained signed approval. The source still bears its original draft title; prese
 Source SHA-256: `76d412344cd59d1ae66c7a0fb97a58e41f0802467f094a18ae8df8c1443d467a`.
 Keep the original source privately; no completed patient response or credential belongs in Git.
 No questionnaire text is rewritten by this amendment.
+
+On 5 October 2026 the owner approved I1's remaining engineering recommendations and authorised
+an additional Meneer-side sex input to supply the observed generator requirement. The original
+24 questionnaire items remain exact at source version 1.0.0; collection version 1.1.0 adds the
+separately attributed field without changing Precise Wellness's software. No automatic male answer
+is inferred from men's-health positioning. Sex is not conflated with gender identity, and no gender
+identity question is added. This owner approval does not assert that Dr Zee approved the extension.
+Clinical review of the rendered addition and instruments remains a pre-launch publication gate.
+The [I1 contract](../02-implementation-plans/phase-02/annexures/sprint-10-i1-medical-intake-contract.md)
+freezes local implementation semantics; named clinical/safety appointments, response configuration,
+provider agreements and final domain approvals remain release gates, not synthetic evidence of readiness.
 
 The owner also confirms bloods are part of the wider process but are not required to complete
 initial onboarding or submit this questionnaire, including the peptide pathway. A clinician may

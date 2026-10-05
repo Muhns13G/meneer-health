@@ -41,6 +41,13 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+Task I1's [medical-intake engineering contract](../02-implementation-plans/phase-02/annexures/sprint-10-i1-medical-intake-contract.md)
+is frozen following owner approval on 5 October. It preserves 24 original source items and adds one
+explicit unselected sex field with separate provenance, never an assumed male value. I2 may implement
+synthetic local persistence/contracts. Clinical publication review of the extension, private medical
+and safety appointments, response configuration and processing/retention confirmation remain release
+gates. No new debt ID or TD-009/TD-043 closure; no live collection, grant or provider-code change.
+
 Task 10.8's [own-client projection](../02-implementation-plans/phase-02/annexures/sprint-10-8-client-case-progress.md)
 is completed locally: central read audit, coarse administrative labels and three-field private display
 with own-scope/lifecycle/session/receipt authority. Full local SQL and application/browser checks pass.
