@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
@@ -95,6 +96,18 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 11.6 Views Are Implemented Locally, Not Operationally Activated
+
+The [payment projections](../02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md)
+are complete locally, backed by the private signed-evidence ledger and separately verified SQL,
+HTTP/component and controlled desktop/mobile boundaries. Browser responses are synthetic mocks,
+not a hosted card/payment exercise. Only own-client and assigned AAL2 operations access exists;
+this is not a tenant-wide finance browser. Pending/unmatched provider exceptions remain owned
+reconciliation work, not guessed client matches. Refund evidence is not a new refund command.
+Funding/credit/refund execution and downstream paid-review/transfer remain 11.7–11.8 work.
+Five Sprint 11 migrations are not claimed applied hosted; no binding/release/credential changes
+or real payment occurred. TD-010 stays In progress. Earlier four-migration notes are historical.
 
 ## Sprint 11.5 Is Local Money Evidence, Not Pilot Release
 
