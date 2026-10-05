@@ -2,6 +2,60 @@ import { expect, it, vi } from "vitest";
 import { createRefundHttpHandler } from "./refund-http";
 import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
 const id = "a4700000-0000-4000-8000-000000000001";
+it("records only independently inspected exception references and denies browser observation commands", async () => {
+  const h = setup();
+  const inspectException = vi.fn(async () => ({
+    reference: id,
+    kind: "duplicate" as const,
+    eventId: "evt_synthetic12345",
+  }));
+  const deps = { ...h.deps, provider: { ...h.deps.provider, inspectException } };
+  deps.command
+    .mockResolvedValueOnce([{ reference: id }])
+    .mockResolvedValueOnce(h.view)
+    .mockResolvedValueOnce(h.view);
+  const handler = createRefundHttpHandler(h.bindings, deps);
+  expect(
+    (
+      await handler(
+        h.request({ action: "reconcile", offerId: id, requestKey: id }, "/staff/payments/refund"),
+      )
+    ).status,
+  ).toBe(200);
+  expect(deps.command.mock.calls.map((call) => call[2].action)).toEqual([
+    "inspect_exceptions",
+    "record_exception",
+    "reconcile",
+  ]);
+  expect(deps.command.mock.calls[1]?.[2]).toEqual({
+    action: "record_exception",
+    offerId: id,
+    requestKey: id,
+    reference: id,
+    kind: "duplicate",
+    eventId: "evt_synthetic12345",
+  });
+  for (const action of [
+    "record_exception",
+    "inspect_exceptions",
+    "replace_deposit",
+    "own_dispute",
+  ]) {
+    expect(
+      (await handler(h.request({ action, offerId: id, requestKey: id, reference: id }))).status,
+    ).toBe(422);
+  }
+  deps.command.mockClear().mockResolvedValueOnce([{ reference: id }]);
+  inspectException.mockRejectedValueOnce(new Error("changed provider evidence"));
+  expect(
+    (
+      await handler(
+        h.request({ action: "reconcile", offerId: id, requestKey: id }, "/staff/payments/refund"),
+      )
+    ).status,
+  ).toBe(503);
+  expect(deps.command).toHaveBeenCalledOnce();
+});
 function setup() {
   const bindings = {
     COMMERCE_REVIEW_MODE: "enabled",

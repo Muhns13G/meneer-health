@@ -111,7 +111,7 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 11.8 — Reconciliation Checkpoint, Not Task Closure
+## Sprint 11.8 — Completed Local Reconciliation Boundary
 
 The [11.8 packet](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
 records independently signed exact-refund confirmation, terminal failure and bounded replacement
@@ -126,10 +126,13 @@ legacy payment order. All independent identity, intake, clinical, publication an
 remain required. This supersedes the older false-adapter implementation notes, not activation gates.
 No hosted migrations, Stripe calls, real charges, emails or activation occurred here.
 
-Task 11.8 is **In progress**, not complete: genuine duplicate captures need their own full-refund
-path, final disputes need attributed reconciliation, and an expired/failed deposit needs a safe
-replacement Checkout path. Those cases are held; event replay is not a duplicate capture.
-TD-010 remains In progress. Finish 11.8 before Task 11.9 provider/hosted acceptance.
+Task 11.8 is **completed locally**. Separate duplicate captures receive full original-method refunds
+without consuming retained deposit credit. Current provider inspection plus exact signed outcomes
+support attributed dispute resolution; lost or contradictory funds remain unavailable. Expired/failed
+deposits have immutable replacement approvals/links, fresh acceptance and late-payment holds.
+Local SQL, SDK/HTTP/component and desktop/mobile checks prove these boundaries; eight Sprint 11
+migrations remain local-only in this task. TD-010 remains In progress; Task 11.9 provider/hosted proof
+and 11.10 Sprint closure remain. No real-client or payment activation is implied.
 
 ## Sprint 11.7 — Local Cancellation and Original-Method Refund Commands
 

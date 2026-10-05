@@ -24,6 +24,34 @@ export const terminalInspectionSchema = z
       .nullable(),
   })
   .strict();
+export const exceptionInspectionSchema = z.discriminatedUnion("kind", [
+  z
+    .object({
+      kind: z.literal("duplicate"),
+      reference: z.uuid(),
+      eventId: z.string().regex(/^evt_[A-Za-z0-9_]{8,120}$/),
+      intentId: z.uuid(),
+      tenantId: z.uuid(),
+      accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
+      sessionId: z.string().regex(/^cs_test_[A-Za-z0-9_]{8,120}$/),
+      paymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
+      retainedPaymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
+      amountMinor: z.int().positive().max(100_000_000),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal("dispute"),
+      reference: z.uuid(),
+      eventId: z.string().regex(/^evt_[A-Za-z0-9_]{8,120}$/),
+      accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
+      disputeId: z.string().regex(/^dp_[A-Za-z0-9_]{8,120}$/),
+      paymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
+      amountMinor: z.int().nonnegative().max(100_000_000),
+      status: z.enum(["won", "lost", "warning_closed"]),
+    })
+    .strict(),
+]);
 export class PilotRefundProvider {
   private readonly client: Stripe;
   constructor(
@@ -135,6 +163,65 @@ export class PilotRefundProvider {
       sessionId: input.sessionId,
       status: session.status as "expired" | "complete",
     };
+  }
+  async inspectException(value: unknown) {
+    const input = exceptionInspectionSchema.parse(value);
+    if (
+      input.accountId !== this.accountId ||
+      (await this.client.accounts.retrieveCurrent()).id !== this.accountId
+    )
+      throw new Error("RECONCILIATION_ACCOUNT_INVALID");
+    if (input.kind === "dispute") {
+      const dispute = await this.client.disputes.retrieve(input.disputeId);
+      const paymentId =
+        typeof dispute.payment_intent === "string"
+          ? dispute.payment_intent
+          : dispute.payment_intent?.id;
+      if (
+        dispute.livemode ||
+        dispute.id !== input.disputeId ||
+        paymentId !== input.paymentIntentId ||
+        dispute.currency !== "zar" ||
+        dispute.amount !== input.amountMinor ||
+        dispute.status !== input.status
+      )
+        throw new Error("DISPUTE_OUTCOME_UNPROVEN");
+    } else {
+      if (input.paymentIntentId === input.retainedPaymentIntentId)
+        throw new Error("DUPLICATE_CAPTURE_UNPROVEN");
+      const session = await this.client.checkout.sessions.retrieve(input.sessionId);
+      const paymentId =
+        typeof session.payment_intent === "string"
+          ? session.payment_intent
+          : session.payment_intent?.id;
+      if (
+        session.livemode ||
+        session.id !== input.sessionId ||
+        session.status !== "complete" ||
+        session.payment_status !== "paid" ||
+        session.mode !== "payment" ||
+        session.currency !== "zar" ||
+        session.amount_total !== input.amountMinor ||
+        paymentId !== input.paymentIntentId ||
+        session.client_reference_id !== input.intentId ||
+        session.metadata?.orderId !== input.intentId ||
+        session.metadata?.tenantId !== input.tenantId
+      )
+        throw new Error("DUPLICATE_CAPTURE_UNPROVEN");
+      for (const id of [input.paymentIntentId, input.retainedPaymentIntentId]) {
+        const payment = await this.client.paymentIntents.retrieve(id);
+        if (
+          payment.livemode ||
+          payment.id !== id ||
+          payment.status !== "succeeded" ||
+          payment.currency !== "zar" ||
+          payment.amount_received !== input.amountMinor
+        )
+          throw new Error("DUPLICATE_CAPTURE_UNPROVEN");
+      }
+    }
+    // Provider identifiers and amounts remain server-only; SQL re-derives them from the receipt.
+    return { reference: input.reference, kind: input.kind, eventId: input.eventId };
   }
 }
 

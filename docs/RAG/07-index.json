@@ -962,15 +962,16 @@
     {
       "id": "phase-02-sprint-11-8-payment-reconciliation",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md",
-      "status": "in-progress-local-reconciliation",
-      "source_commit": "31bd489",
+      "status": "completed-local-reconciliation-boundary",
+      "source_commit": "4129a04",
       "last_updated": "2026-10-06",
       "authority_for": [
         "signed exact refund confirmation and verified-failure bounded retries",
         "current provider inspection before unpaid terminal credit release",
         "owned exceptions and native deposit readiness without clinical approval",
-        "remaining duplicate-capture dispute and replacement Checkout obligations",
-        "local evidence only; no Task 11.8 closure or hosted activation"
+        "full duplicate-capture refunds and attributed terminal dispute outcomes",
+        "immutable replacement deposit approval fresh acceptance and late-money holds",
+        "Task 11.8 locally complete; no provider hosted activation or TD-010 closure"
       ]
     },
     {

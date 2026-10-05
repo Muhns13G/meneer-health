@@ -36,10 +36,10 @@ separation and expiry/denial clearing. Task 11.7's
 [cancellation/refund commands](annexures/sprint-11-7-cancellation-refund-commands.md) are complete
 locally: scoped requests, independent financial authority/evidence, original-method reservations,
 automatic unused-deposit jobs and disabled-by-default sandbox dispatch. Task 11.8 is
-[in progress locally](annexures/sprint-11-8-payment-reconciliation.md): verified refund settlement,
+[completed locally](annexures/sprint-11-8-payment-reconciliation.md): verified refund settlement,
 bounded retries, provider-checked unpaid credit release and native deposit readiness are implemented;
-duplicate-capture refund, dispute outcome resolution and replacement deposit Checkout remain open.
-Finish these before treating 11.8 as complete or moving to 11.9 acceptance.
+full separate duplicate-capture refunds, attributed final dispute resolution and replacement deposit
+offers with fresh acceptance are locally proved. Task 11.9 provider/hosted proof is next, not accepted.
 Hosted bindings/releases/migrations
 remain disabled/unapplied and no real instrument was published or provider contacted.
 Sprints 12–13 remain planned.

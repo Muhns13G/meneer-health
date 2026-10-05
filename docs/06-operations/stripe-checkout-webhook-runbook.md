@@ -20,10 +20,35 @@ unused-deposit original-method refund and separate delivery charge. The legacy t
 below is historical foundation proof, not proof of these current pilot scenarios.
 
 Task [11.8](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
-is in progress locally. Signed exact-refund confirmation, bounded verified-failure retries,
-provider-checked unpaid credit release and native deposit readiness are implemented. Genuine
-duplicate-capture full refunds, final dispute resolution and replacement deposit Checkout remain
-unfinished and held. No Task 11.9 hosted/provider activation is claimed; TD-010 stays In progress.
+is completed locally. Signed exact-refund confirmation, bounded verified-failure retries,
+provider-checked unpaid credit release and native deposit readiness are implemented. Separate
+duplicate-capture full refunds, final dispute resolution and immutable replacement deposit offers
+are locally verified. No Task 11.9 hosted/provider activation is claimed; TD-010 stays In progress.
+
+### Reconciliation Controls Before Hosted Release
+
+- Assigned current AAL2 financial staff need an independently approved, expiring case grant.
+  Use **Reconcile verified payment evidence**; the server independently retrieves the exact current
+  test-account Session/PaymentIntent or Dispute before recording an opaque observation. Browser
+  amounts, provider IDs and force-confirm flags are not accepted.
+- Restrict the test key to required account/Checkout/PaymentIntent/Dispute reads and refund writes.
+  Include signed `charge.dispute.updated` alongside created/closed and the existing refund events
+  in the separately approved endpoint configuration. Do not turn on live mode to satisfy a read.
+- A duplicate capture is a distinct captured PaymentIntent, not a repeated event. Reconciliation
+  reserves its full refund to the original method; dispatch remains sandbox-only and default-off.
+  Keep uncertainty held. Only independently verified failure can reserve one retry per failed job.
+- Take ownership of an open dispute, then handle its response/evidence in the Stripe Dashboard.
+  The ownership control does not submit provider evidence. Reconcile the exact terminal outcome;
+  won/warning-closed can release only otherwise clean funding, while lost or conflicting funds
+  remain unavailable. Review associated refunds and credit before any progression.
+- To replace a failed/expired deposit, independently inspect terminal unpaid money first, then
+  **Authorise replacement deposit Checkout**. Approval and observation last 15 minutes. An unused
+  expired approval requires fresh inspection/authorisation; never edit old evidence. The client
+  reviews and accepts the distinct current offer before Checkout. Late original payment blocks
+  replacement or requires a full duplicate refund if replacement was already paid.
+- Eight local Sprint 11 migrations require separate hosted approval. Preserve the real pilot's
+  suspended state, use isolated synthetic fixtures, verify provider permissions and receipt routes,
+  and restore the approved baseline during Task 11.9. No real charge or refund is authorised here.
 
 ### Historical Phase 01 Foundation
 
