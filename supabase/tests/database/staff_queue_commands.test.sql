@@ -84,5 +84,31 @@ select throws_ok($$delete from audit_private.operations_alerts$$,'55000','APPEND
 select ok(not exists(select 1 from public.operations_events e left join public.audit_events a
   on a.correlation_id=e.id::text and a.action like 'operations.%' where a.id is null),'every journaled mutation feeds central audit chain');
 select throws_ok($$update identity_private.operations_commands set result='{}'$$,'55000','APPEND_ONLY_RECORD','replay journal append only');
+-- Task 10.9: separate provider-outage and abandoned-work branches, no external request or paid flag.
+insert into public.operations_cases(id,tenant_id,subject_id)
+values ('a4000000-0000-4000-8000-000000000090','10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001'),
+ ('a4000000-0000-4000-8000-000000000091','10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001');
+insert into public.operations_assignments(tenant_id,case_id,subject_id,workforce_subject_id,granted_by_subject_id,starts_at,expires_at)
+select tenant_id,id,subject_id,(select subject_id from command_actor),'20000000-0000-4000-8000-000000000003',
+ now()-interval '1 minute',now()+interval '1 hour' from public.operations_cases
+where id in ('a4000000-0000-4000-8000-000000000090','a4000000-0000-4000-8000-000000000091');
+create function pg_temp.rehearse(case_id uuid,action text,version integer,key uuid,code text default null)
+returns jsonb language sql as $$select public.command_operations_queue(
+ 'a4000000-0000-4000-8000-000000000001','a4000000-0000-4000-8000-000000000002','commands@example.invalid',
+ 'a4000000-0000-4000-8000-000000000003',(select subject_id from command_actor),'10000000-0000-4000-8000-000000000001',
+ jsonb_build_object('caseId',case_id,'action',action,'expectedVersion',version,'requestKey',key)||
+ case when code is null then '{}'::jsonb else jsonb_build_object('code',code) end)$$;
+set local role service_role;
+select is(pg_temp.rehearse('a4000000-0000-4000-8000-000000000090','claim',1,'a4000000-0000-4000-8000-000000000092')->>'version','2','outage case claimed by assigned owner');
+select is(pg_temp.rehearse('a4000000-0000-4000-8000-000000000090','record_exception',2,'a4000000-0000-4000-8000-000000000093','provider_unavailable')->>'state','handoff_exception','unavailable generator pauses rather than fabricates delivery');
+select is(pg_temp.rehearse('a4000000-0000-4000-8000-000000000090','record_exception',2,'a4000000-0000-4000-8000-000000000093','provider_unavailable')->>'version','3','outage replay creates no second mutation');
+select throws_ok($$select pg_temp.rehearse('a4000000-0000-4000-8000-000000000090','record_exception',2,'a4000000-0000-4000-8000-000000000093','abandoned_case')$$,'40001','QUEUE_CONFLICT','changed outage replay denied');
+select is(pg_temp.rehearse('a4000000-0000-4000-8000-000000000091','claim',1,'a4000000-0000-4000-8000-000000000094')->>'version','2','abandoned case has explicit owner');
+select is(pg_temp.rehearse('a4000000-0000-4000-8000-000000000091','record_exception',2,'a4000000-0000-4000-8000-000000000095','abandoned_case')->>'state','handoff_exception','abandoned work is paused without automatic hand-off');
+reset role;
+select is((select count(*) from public.handoff_attempts where case_id in('a4000000-0000-4000-8000-000000000090','a4000000-0000-4000-8000-000000000091')),0::bigint,'outage and abandonment create no delivery intent');
+select is((select count(*) from public.operations_exceptions where case_id in('a4000000-0000-4000-8000-000000000090','a4000000-0000-4000-8000-000000000091') and prior_state='onboarding_pending'),2::bigint,'both retain their exact prior stage');
+select is((select count(*) from audit_private.operations_alerts a join public.audit_events e on e.id=a.audit_fact_id where e.resource_id in('a4000000-0000-4000-8000-000000000090','a4000000-0000-4000-8000-000000000091') and a.code='OPERATIONS_EXCEPTION'),2::bigint,'both exceptions have durable escalation intent');
+select is((select count(*) from public.operations_claims where case_id in('a4000000-0000-4000-8000-000000000090','a4000000-0000-4000-8000-000000000091') and released_at is null),2::bigint,'no silent reassignment or loss of accountable owner');
 select * from finish();
 rollback;

@@ -2,7 +2,7 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
@@ -21,10 +21,11 @@ The [Sprint 10 intake packet](annexures/sprint-10-medical-intake-amendment.md) a
 `2.10.I1`–`2.10.I8` after the existing 10.7/10.8 slices and before revised 10.9/10.10 closure.
 External-only statements in historical checkpoints below are superseded for this selected path.
 Existing external-link code stays inactive; the actual provider intake URL is no longer a required
-activation input for first-party intake. No questionnaire code or hosted collection is yet enabled.
+activation input for first-party intake. I1–I8 engineering acceptance is now complete, including
+authorised hosted synthetic proof and cleanup; current intake collection is disabled.
 The [I1 contract](annexures/sprint-10-i1-medical-intake-contract.md) is frozen following owner approval
 on 5 October. Original wording remains exact; collection 1.1.0 adds a separately attributed sex field
-with no default. I2 may proceed locally; private clinical/safety appointments and reviewed publications
+with no default. Private clinical/safety appointments and reviewed publications
 remain pre-launch gates, not asserted approval of the added field by Dr Zee.
 
 ## Mission
@@ -51,8 +52,10 @@ adds locally verified central audit, generic Brevo dispatch with bounded retries
 and explicit AAL2 administrator acknowledgement/resolution. Task 10.7 is completed locally; hosted
 scheduled email acceptance remains a release gate after a locally corrected Workers redirect defect.
 The hosted RPC/provider rehearsal passed real MFA, owner-confirmed receipt and scripted synthetic
-response/revocation with the baseline restored. Tasks 10.9–10.10
-remain planned.
+response/revocation with the baseline restored. Task 10.9's
+[bounded cross-boundary rehearsal](annexures/sprint-10-9-cross-boundary-rehearsal.md) is complete:
+411 packet assertions, 1,017 full SQL assertions, 673 unit tests, real local MFA/concurrency,
+34 targeted desktop/mobile browser checks and production build. Task 10.10 remains planned.
 All seven Sprint 10 migrations were applied hosted with explicit owner approval on 4 October 2026;
 no seeds or roles were imported and the suspended empty baseline remains. Alert delivery/response
 was additionally exercised through deployed Cron and routed administrator endpoints. Cron retained
@@ -68,9 +71,10 @@ existing clinical, commercial and operational acceptance gates.
 Task 10.8's [own-client progress packet](annexures/sprint-10-8-client-case-progress.md) is completed
 locally: strict three-field coarse case status, central read audit and private portal display reuse
 existing account authority and expiry/data-clearing controls. Full local SQL, Vitest and portal
-desktop/mobile tests pass. The new migration and hosted own-client release proof remain separately
-approved gates; do not deploy its RPC consumer before applying the migration. Next implement the
-DR-018 intake stream I1–I8, then the expanded 10.9 rehearsal and 10.10 closure.
+desktop/mobile tests pass. Its migration was subsequently approved/applied alongside I8's intake
+migrations, and the hosted portal's waiting-state display was exercised. This does not replace the
+full local state-mapping proof. I1–I8 is closed with the owner's current-generator exception; await
+the owner's 10.9 commit, then issue 10.10's sprint closure report.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.
 The pilot must onboard a client, preserve a minimal non-clinical profile and versioned consent,

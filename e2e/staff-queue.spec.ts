@@ -25,6 +25,48 @@ const row = {
   handoffReadiness: "not_evaluated",
   paymentReadiness: "not_evaluated",
 };
+for (const scenario of [
+  { name: "stale claim", status: 409, message: "The case changed or is already claimed." },
+  {
+    name: "unavailable readiness",
+    status: 412,
+    message: "Readiness or delivery reconciliation is incomplete.",
+  },
+  { name: "uncertain transport", status: 0, message: "Command result uncertain." },
+]) {
+  test(`rehearsal ${scenario.name} clears stale detail and never automatically retries`, async ({
+    page,
+  }) => {
+    await isolateExternalFonts(page);
+    let requests = 0;
+    await page.route("**/staff/queue/read", (route) =>
+      route.fulfill({ json: { cases: [row], nextCursor: null } }),
+    );
+    await page.route("**/staff/queue/detail", (route) =>
+      route.fulfill({ json: { ...row, claim: "unclaimed", readiness, profile: null } }),
+    );
+    await page.route("**/staff/queue/command", async (route) => {
+      requests++;
+      if (scenario.status === 0) await route.abort("failed");
+      else await route.fulfill({ status: scenario.status, body: "" });
+    });
+    await page.goto("/staff/queue");
+    await page.getByRole("button", { name: `View case ${id}` }).click();
+    await page.getByRole("button", { name: "Claim case" }).click();
+    await expect(page.getByRole("status")).toContainText(scenario.message);
+    await expect(page.getByRole("button", { name: "Release claim" })).toHaveCount(0);
+    await expect(page.getByText("State: onboarding pending. Record version: 1.")).toHaveCount(0);
+    await page.getByRole("button", { name: "Apply filter / refresh" }).click();
+    await expect(page.getByRole("button", { name: `View case ${id}` })).toBeVisible();
+    expect(requests).toBe(1);
+    expect(page.url()).not.toContain(id);
+    expect(
+      await page.evaluate(
+        () => Object.keys(localStorage).length + Object.keys(sessionStorage).length,
+      ),
+    ).toBe(0);
+  });
+}
 test("synthetic hand-off acknowledgement uses opaque evidence and re-reads live detail", async ({
   page,
 }) => {

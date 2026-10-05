@@ -39,6 +39,9 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run test:workforce` proves email-only denial, TOTP/AAL2, server context, cookie sealing,
   renewal and revocation against disposable local Auth fixtures, then removes only those fixtures.
   It rejects hosted targets and never sends emails.
+- `bun run test:operations:rehearsal` runs nine fixed rollback-only local SQL suites, checking
+  complete TAP results, baseline table counts and unchanged payment-adapter definitions. Never
+  supply hosted environment configuration or copy its synthetic fixtures to hosted services.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.
