@@ -18,12 +18,13 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     "COMMERCE_REVIEW_MODE",
     "COMMERCE_REVIEW_TENANT_ID",
     "COMMERCE_CHECKOUT_MODE",
+    "COMMERCE_WEBHOOK_MODE",
     "STRIPE_CHECKOUT_ACCOUNT_ID",
   ].map(
     (name): EnvironmentCatalogueEntry => ({
       name,
       purpose:
-        "Explicit opt-in and tenant scope for private order review/acceptance; not Checkout activation.",
+        "Separate opt-in and scope for private review, sandbox Checkout and signed receipts; no live-payment activation.",
       owner: "Commercial and release owners",
       sensitivity: "public",
       environments: ["local", "production"],

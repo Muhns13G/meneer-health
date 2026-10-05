@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
@@ -106,6 +107,21 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 11.5 — Local Signed Receipts and Independent Money Facts
+
+The [11.5 packet](../02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md)
+adds a separately gated canonical sandbox webhook, actual SDK HMAC/timestamp verification and
+strict minimum normalization without raw/card/contact/health retention. Private attributed receipts,
+immutable PaymentIntent bindings, settlement facts, exceptions and processing dispositions commit
+before acknowledgement. Replay/conflict and refund-before-Session correlation are tested; money
+facts never imply clinical release. Checkout also requires configured/current callback authority.
+704 unit tests and 1,133 SQL assertions pass, alongside build/static, lint/advisors and recovery
+(57 records). No hosted/provider/card/charge proof is claimed; mode defaults disabled and both
+downstream paid-readiness adapters stay closed for the later funding/command integration.
+TD-010 stays In progress. Task 11.6 supplies client/staff projections; 11.7–11.8 own monetary commands
+and exception resolution. Historical 11.4 webhook-unmapped statements below are superseded locally,
+not evidence that this new handler is deployed or operational.
 
 ## Sprint 11.4 — Guarded Local Sandbox Creation
 

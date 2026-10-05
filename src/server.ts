@@ -8,6 +8,10 @@ import {
 import type { Register } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
 import {
+  createPilotWebhookHandler,
+  type PilotWebhookBindings,
+} from "./server/payments/pilot-webhook";
+import {
   createOrderReviewHttpHandler,
   type CommerceReviewBindings,
 } from "./server/payments/order-review-http";
@@ -132,6 +136,13 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (
+              pathname === "/api/payments/stripe/webhook" &&
+              (env as unknown as PilotWebhookBindings).COMMERCE_WEBHOOK_MODE === "sandbox"
+            )
+              return createPilotWebhookHandler(env as unknown as PilotWebhookBindings)(
+                boundedRequest,
+              );
             if (pathname === "/portal/order/command")
               return createOrderReviewHttpHandler(env as unknown as CommerceReviewBindings)(
                 boundedRequest,

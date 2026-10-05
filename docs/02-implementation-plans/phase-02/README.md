@@ -26,8 +26,11 @@ private route, sealed-session command, published-instrument/hash binding, immuta
 SQL/HTTP/desktop-mobile verification. Task 11.4's
 [guarded sandbox creation](annexures/sprint-11-4-guarded-sandbox-checkout.md) is complete locally:
 explicit environment/database/account gates, one immutable creation intent per accepted offer,
-stable provider retries, and no paid inference. Task 11.5 is next. Hosted bindings/releases remain
-disabled/unapplied and no real instrument was published or provider contacted.
+stable provider retries, and no paid inference. Task 11.5's
+[signed receipts and settlement](annexures/sprint-11-5-signed-receipts-settlement.md) is now complete
+locally: real-SDK raw signature tests, attributed durable journal, replay/conflict/correlation,
+monotonic money facts and owned exceptions. Task 11.6 is next. Hosted bindings/releases/migrations
+remain disabled/unapplied and no real instrument was published or provider contacted.
 Sprints 12–13 remain planned.
 Earlier task checkpoints below are historical, not outstanding engineering work.
 
