@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
@@ -104,6 +105,19 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 11.2 — Local Private Catalogue and Credit Preparation
+
+The [11.2 packet](../02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md)
+records six private RLS tables, immutable versions/offers, bounded server calculations and locked
+one-use credit reservation. The local seed is an R999 deposit plus two synthetic items, not an
+import of confidential RRP or a live delivery tariff. All direct browser/service access remains
+revoked. The internal preparation function does not authenticate a patient or expose a route;
+11.3–11.5 must bind actual session, acceptance and provider evidence before activation.
+688 unit tests, 1,066 SQL assertions, clean local migration/seed replay, advisors and production
+build pass. Private commerce is included in encrypted logical recovery; 57 records reconcile in
+the local exercise. Hosted migration/configuration and payment adapters remain untouched/closed.
+TD-010 stays In progress. Task 11.3 is next; no paid or refunded transaction is proved by this task.
+
 ## Sprint 11.1 — Commercial Contract, Not Payment Activation
 
 The [11.1 packet](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)
@@ -112,7 +126,8 @@ deposit/later order timing, free intake, price/terms/receipt binding, provider e
 exception handling. The owner approved capped product credit with unused-deposit refund to the
 original method, separate delivery, and staff review for unresolved no-show/late/post-release cases
 without invented fees or forfeiture. These are recorded decisions, not functioning payment code.
-Task 11.2 is next. TD-010 stays In progress; all seven activation debts remain non-Verified.
+That contract checkpoint preceded the local 11.2 implementation above. TD-010 stays In progress;
+all seven activation debts remain non-Verified.
 No runtime, schema, public copy, secret, hosted configuration or Stripe resource changed in 11.1.
 
 ## Sprint 10 Closed — Current Authority

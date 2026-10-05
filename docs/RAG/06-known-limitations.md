@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
@@ -92,11 +93,21 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Sprint 11.2 Is Private Preparation, Not an Enabled Payment Journey
+
+The [local commerce packet](../02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md)
+implements synthetic catalogue, quotes, immutable offers and credit reservation without granting a
+service/browser API. No actual confidential RRP import, approved live delivery tariff, provider
+Price mapping or rendered order acceptance is claimed. Local positive funding/release rows are
+rollback-only synthetic evidence, not clinical/payment authority. Receipt/session entry, Checkout,
+signed event credit consumption/release and refund execution remain 11.3–11.8. Hosted has not
+received the new migration; both payment-readiness adapters remain false. TD-010 stays In progress.
+
 ## Sprint 11.1 Does Not Implement Checkout
 
 The [commercial contract](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)
 is complete at contract level, including owner-approved credit and exception dispositions.
-Private catalogue/rates, exact reviewed transactional publication/acceptance, current patient
+At that historical checkpoint, private catalogue/rates, exact reviewed transactional publication/acceptance, current patient
 Checkout, authoritative deposit/credit adapters, provider-backed refunds and hosted exception proof
 remain Tasks 11.2–11.9. Legacy payment runtime remains localhost-only and production readiness
 adapters remain false. Zero-total Session completion must not be described as a new charge.

@@ -890,6 +890,20 @@
       ]
     },
     {
+      "id": "phase-02-sprint-11-2-private-commerce-preparation",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md",
+      "status": "completed-local-preparation-boundary",
+      "source_commit": "4affa32",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "synthetic private catalogue quotes readiness and offer persistence",
+        "server-owned minor-unit totals capped credit and unused refund calculation",
+        "immutable versions replay and one-use credit reservation guards",
+        "local SQL unit build and encrypted recovery proof",
+        "no hosted or provider activation; TD-010 remains In progress"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11-1-commercial-payment-contract",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md",
       "status": "completed-at-contract-level",

@@ -1,5 +1,18 @@
 -- Synthetic local/CI fixtures only. Never copy pilot or patient data into this file.
 
+-- Commerce preparation fixtures: no real RRP, provider Price IDs, delivery rates or release.
+insert into commerce_private.prices(id,kind,version,description,unit_amount_minor,tax_treatment,
+ source_fingerprint,approval_reference,environment,effective_at,expires_at) values
+ ('a1100000-0000-4000-8000-000000000011','review_deposit','pilot-review-deposit-v1',
+ 'Synthetic review deposit',99900,'vat-inclusive-planning',repeat('a',64),
+ 'a1100000-0000-4000-8000-000000000099','local-synthetic','2020-01-01','2100-01-01'),
+ ('a1100000-0000-4000-8000-000000000012','product','pilot-commerce-synthetic-v1',
+ 'Synthetic item A',150000,'vat-inclusive-planning',repeat('a',64),
+ 'a1100000-0000-4000-8000-000000000099','local-synthetic','2020-01-01','2100-01-01'),
+ ('a1100000-0000-4000-8000-000000000013','product','pilot-commerce-synthetic-v1',
+ 'Synthetic item B',80000,'vat-inclusive-planning',repeat('a',64),
+ 'a1100000-0000-4000-8000-000000000099','local-synthetic','2020-01-01','2100-01-01');
+
 insert into public.tenants (id, slug, display_name, status)
 values
   ('10000000-0000-4000-8000-000000000001', 'synthetic-alpha', 'Synthetic Alpha', 'active'),
