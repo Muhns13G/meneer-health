@@ -30,6 +30,9 @@ export type CommerceReviewBindings = PatientSessionBindings & {
   COMMERCE_REVIEW_MODE?: unknown;
   COMMERCE_REVIEW_TENANT_ID?: unknown;
   COMMERCE_CHECKOUT_MODE?: unknown;
+  COMMERCE_WEBHOOK_MODE?: unknown;
+  STRIPE_WEBHOOK_SERVICE_IDENTITY_ID?: unknown;
+  STRIPE_WEBHOOK_SIGNING_SECRET?: unknown;
   STRIPE_CHECKOUT_ACCOUNT_ID?: unknown;
   STRIPE_RESTRICTED_KEY?: unknown;
 };
@@ -92,6 +95,11 @@ export function createOrderReviewHttpHandler(
       );
       if (!inspected.allowed) return response(inspected.response.status);
       if (!z.uuid().safeParse(inspected.value.idempotencyKey).success) return response(422);
+      const callbackConfigured =
+        bindings.COMMERCE_WEBHOOK_MODE === "sandbox" &&
+        z.uuid().safeParse(bindings.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID).success &&
+        typeof bindings.STRIPE_WEBHOOK_SIGNING_SECRET === "string" &&
+        bindings.STRIPE_WEBHOOK_SIGNING_SECRET.startsWith("whsec_");
       const parsed = orderReviewCommandSchema.safeParse(inspected.value.body);
       if (!parsed.success) return response(422);
       if (
@@ -146,7 +154,7 @@ export function createOrderReviewHttpHandler(
             return data;
           },
         };
-        if (bindings.COMMERCE_CHECKOUT_MODE === "sandbox") {
+        if (bindings.COMMERCE_CHECKOUT_MODE === "sandbox" && callbackConfigured) {
           const account =
             typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
               ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
@@ -159,19 +167,31 @@ export function createOrderReviewHttpHandler(
           dependencies.prepare = commands.prepare;
           dependencies.checkout = commands.checkout;
           dependencies.ready = async (context) => {
-            const { data, error } = await client.rpc("patient_checkout_ready", {
-              p_context: context,
-              p_account: account,
-            });
-            if (error) throw new Error("COMMERCE_FORBIDDEN");
-            return data === true;
+            const [{ data, error }, hook] = await Promise.all([
+              client.rpc("patient_checkout_ready", {
+                p_context: context,
+                p_account: account,
+              }),
+              client.rpc("pilot_webhook_ready", {
+                p_tenant_id: context.tenantId,
+                p_service_id: bindings.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID,
+              }),
+            ]);
+            if (error || hook.error) throw new Error("COMMERCE_FORBIDDEN");
+            return data === true && hook.data === true;
           };
         }
       }
       const authority = await dependencies.authorise(proof);
       if (parsed.data.action === "checkout") {
-        if (bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" || !dependencies.checkout)
+        if (
+          bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
+          !callbackConfigured ||
+          !dependencies.checkout
+        )
           return response(412);
+        if (!dependencies.ready || !(await dependencies.ready(authority.context)))
+          return response(403);
         const result = checkoutResultSchema.parse(
           await dependencies.checkout(
             authority.context,
@@ -184,6 +204,7 @@ export function createOrderReviewHttpHandler(
       }
       if (
         parsed.data.action === "read" &&
+        callbackConfigured &&
         bindings.COMMERCE_CHECKOUT_MODE === "sandbox" &&
         dependencies.prepare &&
         dependencies.ready &&
@@ -196,6 +217,7 @@ export function createOrderReviewHttpHandler(
       if (result.review) {
         result.review.checkoutEnabled =
           bindings.COMMERCE_CHECKOUT_MODE === "sandbox" &&
+          callbackConfigured &&
           result.review.acceptance !== null &&
           Boolean(dependencies.ready && (await dependencies.ready(authority.context)));
         result.review.expiresAt = new Date(

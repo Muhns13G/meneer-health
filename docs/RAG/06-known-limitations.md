@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
@@ -94,6 +95,17 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 11.5 Is Local Money Evidence, Not Pilot Release
+
+The [signed-receipt boundary](../02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md)
+is complete locally. SDK signatures are genuine synthetic cryptographic tests; SQL normalized
+fixtures are rollback-only. No actual provider/network or hosted payment flow was exercised.
+Mode remains disabled; four Sprint 11 migrations are not claimed applied hosted. Paid/refund/
+dispute/expiry evidence is retained independently with owned pending exceptions. Funding bridge,
+credit consumption/release, refund execution and downstream paid-review/transfer commands remain
+later work; both adapters remain closed. TD-010 stays In progress and no customer/card/medical
+raw event body is stored. Earlier webhook-unmapped statements are historical local checkpoints.
 
 ## Sprint 11.4 Creates Sessions, Not Settled Payments
 

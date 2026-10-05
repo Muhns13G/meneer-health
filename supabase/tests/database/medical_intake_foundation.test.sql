@@ -167,5 +167,67 @@ select is((select state from commerce_private.checkout_intents),'open','session 
 select throws_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
 (pg_temp.checkout()->>'intentId')::uuid,'cs_test_other12345','https://checkout.stripe.com/c/pay/synthetic')$$,'40001','COMMERCE_CONFLICT','second session for same intent denied');
 select is(intake_private.review_payment_ready((select case_id from intake_private.intakes limit 1)),false,'open Checkout cannot open paid review');
+-- Task 11.5: minimal verified-event fixture; raw signature verification is separately SDK tested.
+create function pg_temp.event_body(event text,kind text default 'checkout.session.completed',status text default 'paid')
+ returns jsonb language sql as $$select jsonb_build_object('eventId',event,'fingerprint',repeat('a',64),'eventType',kind,
+ 'intentId',(select id from commerce_private.checkout_intents where session_id='cs_test_synthetic12345'),'tenantId','10000000-0000-4000-8000-000000000001',
+ 'sessionId','cs_test_synthetic12345','paymentIntentId','pi_synthetic12345','amountMinor',99900,'currency','zar',
+'paymentStatus',status,'refundMinor',null,'chargeId',null,'disputeId',null,'disputeStatus',null,'occurredAt',now())$$;
+create function pg_temp.apply_event(e jsonb) returns jsonb language sql as $$select public.apply_pilot_provider_event(
+'80000000-0000-4000-8000-000000000002','10000000-0000-4000-8000-000000000001','acct_synthetic12345',e)$$;
+select ok(not has_function_privilege('anon','public.apply_pilot_provider_event(uuid,uuid,text,jsonb)','execute'),'browser cannot forge verified events');
+select ok(not has_table_privilege('service_role','commerce_private.settlements','update'),'service cannot mark settlement directly');
+select throws_ok($$select public.apply_pilot_provider_event('80000000-0000-4000-8000-000000000001',
+'10000000-0000-4000-8000-000000000001','acct_synthetic12345',pg_temp.event_body('evt_scope00001'))$$,
+'42501','WEBHOOK_SERVICE_REJECTED','wrong tenant service cannot process');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_unpaid0001','checkout.session.completed','unpaid'))->>'outcome','applied','unpaid completion retained without settlement');
+select is((select paid_confirmed from commerce_private.settlements),false,'unpaid completion never means paid');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001'))->>'outcome','applied','verified matching paid event settles');
+select is((select paid_confirmed from commerce_private.settlements),true,'confirmed money fact persisted');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001'))->>'replayed','true','exact event replay identified');
+select is((select count(*)::integer from commerce_private.provider_receipts),2,'replay creates no second receipt');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001')||jsonb_build_object('fingerprint',repeat('b',64)))->>'outcome','pending','conflicting event ID quarantined');
+select is((select reconciliation_required from commerce_private.settlements),true,'conflict requires owned reconciliation');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_badamount01')||'{"amountMinor":1}')->>'outcome','pending','wrong amount cannot settle');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_wrongsession1')||'{"sessionId":"cs_test_other12345"}')->>'outcome','pending','wrong session quarantined');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_expired0001','checkout.session.expired','unpaid'))->>'outcome','pending','out-of-order expiry cannot overwrite confirmed capture');
+select is((select paid_confirmed from commerce_private.settlements),true,'expiry never erases actual money evidence');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_refund00001','charge.refunded',null)||jsonb_build_object(
+'refundMinor',20000,'chargeId','ch_synthetic12345','sessionId',null))->>'outcome','pending','partial refund recorded for reconciliation');
+select is((select refunded_minor from commerce_private.settlements),20000,'partial refund amount retained');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_refundolder1','charge.refunded',null)||jsonb_build_object(
+'refundMinor',10000,'chargeId','ch_synthetic12345','sessionId',null))->>'outcome','pending','older refund snapshot retained');
+select is((select refunded_minor from commerce_private.settlements),20000,'older event does not reduce refunded amount');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_dispute0001','charge.dispute.closed',null)||jsonb_build_object(
+'disputeId','dp_synthetic12345','disputeStatus','won','sessionId',null))->>'outcome','pending','dispute closure still needs independent reconciliation');
+select is((select dispute_seen from commerce_private.settlements),true,'dispute facts retained without clinical inference');
+select throws_ok($$update commerce_private.provider_receipts set fingerprint=repeat('f',64)$$,'55000','APPEND_ONLY_RECORD','verified receipt history immutable');
+select is(intake_private.review_payment_ready((select case_id from intake_private.intakes limit 1)),false,'settlement facts do not activate the paid-review adapter');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_orphan00001','charge.dispute.created',null)||jsonb_build_object(
+'intentId',null,'tenantId',null,'paymentIntentId','pi_unmatched12345','sessionId',null,'disputeId','dp_unmatched12345',
+'disputeStatus','needs_response'))->>'outcome','pending','orphan dispute retained for later correlation');
+select is((select reason from commerce_private.provider_exceptions where event_id='evt_orphan00001'),'UNMATCHED','orphan is an owned exception not dropped');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_unknown0001','customer.updated',null))->>'outcome','ignored','unsupported signed type durably ignored');
+select is((select count(*)::integer from commerce_private.provider_receipts where event_id='evt_unknown0001'),1,'unsupported receipt retained');
+select throws_ok($test$do $$begin update public.service_identities set status='revoked' where id='80000000-0000-4000-8000-000000000002';
+perform pg_temp.apply_event(pg_temp.event_body('evt_revoked0001'));end$$$test$,'42501','WEBHOOK_SERVICE_REJECTED','revoked service cannot mutate receipt ledger');
+-- Isolated second synthetic offer/receipt/intent: prove correlation when refund arrives first.
+insert into commerce_private.offers(id,tenant_id,subject_id,case_id,request_key,selection,snapshot,expires_at)
+select 'a4500000-0000-4000-8000-000000000001',tenant_id,subject_id,case_id,gen_random_uuid(),selection,snapshot,expires_at
+from commerce_private.offers order by created_at limit 1;
+insert into commerce_private.order_acceptances(id,offer_id,publication_id,subject_id,tenant_id,session_id,content_hash,snapshot_hash,request_key,assurance)
+select 'a4500000-0000-4000-8000-000000000002','a4500000-0000-4000-8000-000000000001',publication_id,subject_id,tenant_id,session_id,
+content_hash,snapshot_hash,gen_random_uuid(),assurance from commerce_private.order_acceptances limit 1;
+insert into commerce_private.checkout_intents(id,offer_id,tenant_id,subject_id,acceptance_id,provider_account_id,request_key,payload,
+creation_deadline,provider_expires_epoch,state,session_id,checkout_url)
+select 'a4500000-0000-4000-8000-000000000003','a4500000-0000-4000-8000-000000000001',tenant_id,subject_id,
+'a4500000-0000-4000-8000-000000000002',provider_account_id,gen_random_uuid(),payload,creation_deadline,provider_expires_epoch,
+'open','cs_test_reordered12345','https://checkout.stripe.com/c/pay/synthetic-reordered' from commerce_private.checkout_intents limit 1;
+select is(pg_temp.apply_event(pg_temp.event_body('evt_earlyrefund01','charge.refunded',null)||jsonb_build_object('intentId',null,'tenantId',null,
+'sessionId',null,'paymentIntentId','pi_reordered12345','chargeId','ch_reordered12345','refundMinor',20000))->>'outcome','pending','early refund waits for correlation');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_laterpaid001')||jsonb_build_object('intentId','a4500000-0000-4000-8000-000000000003',
+'sessionId','cs_test_reordered12345','paymentIntentId','pi_reordered12345'))->>'outcome','applied','later valid Session establishes binding');
+select is((select refunded_minor from commerce_private.settlements where intent_id='a4500000-0000-4000-8000-000000000003'),20000,'previous orphan refund correlates automatically');
+select is((select reconciliation_required from commerce_private.settlements where intent_id='a4500000-0000-4000-8000-000000000003'),true,'correlated refund remains owned monetary exception');
 select * from finish();
 rollback;
