@@ -15,7 +15,10 @@ Sprint 10 is [completed with activation gates](../../03-completion-reports/phase
 including I1–I8 and the owner's explicit current-generator exception. Implementation checkpoint:
 `14a965a`; closure docs are committed at `5c7a0a0` (exact-commit CI not rechecked here).
 Phase 02 remains in progress. The [Sprint 11 readiness handoff](annexures/sprint-11-readiness-handoff.md)
-reconciles the next ten tasks; begin 11.1's deposit/catalogue contract before runtime implementation.
+reconciles the next ten tasks. Task 11.1's
+[deposit/catalogue contract](annexures/sprint-11-1-commercial-payment-contract.md) is completed at
+contract level, including owner-approved below-R999 credit/refund and unresolved-exception handling.
+Task 11.2 is next; no payment runtime or hosted configuration was enabled by 11.1.
 Sprints 12–13 remain planned.
 Earlier task checkpoints below are historical, not outstanding engineering work.
 

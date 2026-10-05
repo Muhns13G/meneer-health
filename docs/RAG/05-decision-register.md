@@ -12,6 +12,17 @@ sensitivity: internal
 
 ## Usage
 
+### Sprint 11.1 Commercial Clarifications — 5 October 2026
+
+The owner approved the [11.1 contract](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)
+clarifications to DR-013: cap first-order credit at product RRP subtotal, refund the unused R999
+deposit to its original method, and charge delivery separately. Unresolved no-show/late and
+post-release cancellation/refund cases use staff review, with no automatic forfeiture or invented
+fee; explicit existing full-refund reasons remain automatic. No future wallet is selected.
+The contract defines transaction-specific instrument/price snapshots and separates zero additional
+payment from a new paid deposit. Revised meanings require reviewed, traceable publication before
+real client acceptance. No new domain approval, refund execution or payment activation is inferred.
+
 ### Sprint 10 Closure and Explicit Provider Exception — 5 October 2026
 
 The [completion report](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)

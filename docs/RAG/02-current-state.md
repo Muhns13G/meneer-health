@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
@@ -103,6 +104,17 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 11.1 — Commercial Contract, Not Payment Activation
+
+The [11.1 packet](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)
+completes the contract task against committed readiness baseline `109413b`. It fixes separate R999
+deposit/later order timing, free intake, price/terms/receipt binding, provider evidence, credit and
+exception handling. The owner approved capped product credit with unused-deposit refund to the
+original method, separate delivery, and staff review for unresolved no-show/late/post-release cases
+without invented fees or forfeiture. These are recorded decisions, not functioning payment code.
+Task 11.2 is next. TD-010 stays In progress; all seven activation debts remain non-Verified.
+No runtime, schema, public copy, secret, hosted configuration or Stripe resource changed in 11.1.
+
 ## Sprint 10 Closed — Current Authority
 
 The [completion report](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)
@@ -110,7 +122,7 @@ closes Tasks 10.1–10.10 and I1–I8 at their engineering/synthetic boundaries.
 through 10.9 is committed at `14a965a`; closure docs are committed at `5c7a0a0`.
 Exact-commit CI has not been rechecked in the Sprint 11 preparation. The
 [readiness handoff](../02-implementation-plans/phase-02/annexures/sprint-11-readiness-handoff.md)
-selects 11.1 next; no Sprint 11 implementation task is yet complete. No new deployment
+selected 11.1 next; the contract task is subsequently completed above. No new deployment
 or hosted inventory is claimed by this documentation batch. Last I8 proof records 36 matching
 migrations, one suspended tenant/12 original provider gates and otherwise empty application data;
 collection/alert mode restored disabled. Current generator compatibility is explicitly excepted
