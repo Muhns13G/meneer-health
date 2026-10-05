@@ -250,5 +250,12 @@ select ('a4600000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,tenant_id,subjec
  where id='a4500000-0000-4000-8000-000000000001';
 select is(jsonb_array_length(public.read_patient_payment_status(pg_temp.intake_context())->'payments'),25,'financial history bounded to 25 rows');
 select is(jsonb_array_length(public.read_patient_payment_status(pg_temp.intake_context(),public.read_patient_payment_status(pg_temp.intake_context())->'nextCursor')->'payments'),3,'stable second page neither skips nor duplicates');
+-- Cancellation request is not a clinical cancellation or a refund fact.
+select is(public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4500000-0000-4000-8000-000000000001","requestKey":"a4700000-0000-4000-8000-000000000021"}')->>'requestState','requested','own authenticated client records request');
+select is(public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4500000-0000-4000-8000-000000000001","requestKey":"a4700000-0000-4000-8000-000000000021"}')->>'requestState','requested','request replay does not imply refund');
+select is((select count(*) from commerce_private.cancellation_requests),1::bigint,'one request per original offer');
+select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4700000-0000-4000-8000-000000000099","requestKey":"a4700000-0000-4000-8000-000000000021"}')$$,'42501','REFUND_REJECTED','unknown or foreign offer indistinguishable');
+select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4500000-0000-4000-8000-000000000001","requestKey":"a4700000-0000-4000-8000-000000000021","amountMinor":99900}')$$,'22023','REFUND_COMMAND_INVALID','client cannot select refund amount');
+select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"review","offerId":"a4500000-0000-4000-8000-000000000001"}')$$,'22023','REFUND_COMMAND_INVALID','patient cannot classify eligibility');
 select * from finish();
 rollback;
