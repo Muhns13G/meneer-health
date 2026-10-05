@@ -11,6 +11,36 @@ afterEach(() => {
   vi.unstubAllGlobals();
   vi.useRealTimers();
 });
+it("limits deposit replacement and dispute ownership to staff without claiming refunded or paid money", async () => {
+  const data = {
+    ...view(),
+    canReplaceDeposit: true,
+    disputes: [{ reference: id, status: "lost", owned: false, reconciled: true }],
+  };
+  const fetcher = vi.fn<typeof fetch>(async () => Response.json(data));
+  vi.stubGlobal("fetch", fetcher);
+  const page = render(<RefundPanel offerId={id} staff />);
+  fireEvent.click(screen.getByRole("button", { name: "Check cancellation / refund request" }));
+  await screen.findByText(/Dispute: lost/);
+  fireEvent.click(screen.getByRole("button", { name: "Authorise replacement deposit Checkout" }));
+  await screen.findByText(/Dispute: lost/);
+  expect(JSON.parse(fetcher.mock.calls[1]![1]!.body as string).action).toBe("replace_deposit");
+  fireEvent.click(screen.getByRole("button", { name: "Take ownership of dispute review" }));
+  await screen.findByText(/Dispute: lost/);
+  expect(JSON.parse(fetcher.mock.calls[2]![1]!.body as string)).toMatchObject({
+    action: "own_dispute",
+    reference: id,
+  });
+  page.rerender(<RefundPanel offerId={crypto.randomUUID()} />);
+  fireEvent.click(screen.getByRole("button", { name: "Check cancellation / refund request" }));
+  await screen.findByText(/Dispute: lost/);
+  expect(
+    screen.queryByRole("button", { name: "Authorise replacement deposit Checkout" }),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole("button", { name: "Take ownership of dispute review" }),
+  ).not.toBeInTheDocument();
+});
 it("requires explicit request confirmation and never treats request acceptance as refunded", async () => {
   const fetcher = vi
     .fn()

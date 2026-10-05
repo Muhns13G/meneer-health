@@ -24,7 +24,7 @@ type Dependencies = {
   authorise(request: Request, staff: boolean): Promise<Authority>;
   command(staff: boolean, context: unknown, command: Record<string, unknown>): Promise<unknown>;
   provider: Pick<PilotRefundProvider, "submit"> &
-    Partial<Pick<PilotRefundProvider, "inspectTerminal">>;
+    Partial<Pick<PilotRefundProvider, "inspectTerminal" | "inspectException">>;
 };
 function reply(status: number, value?: unknown) {
   return new Response(value === undefined ? null : JSON.stringify(value), {
@@ -143,6 +143,13 @@ export function createRefundHttpHandler(
           },
           // Lazy construction: read/request paths need no refund-capable credentials.
           provider: {
+            inspectException: (value) =>
+              new PilotRefundProvider(
+                bindings.STRIPE_RESTRICTED_KEY,
+                typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
+                  ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
+                  : "",
+              ).inspectException(value),
             inspectTerminal: (value) =>
               new PilotRefundProvider(
                 bindings.STRIPE_RESTRICTED_KEY,
@@ -186,7 +193,10 @@ export function createRefundHttpHandler(
       )
         return reply(422);
       const command = parsed.data;
-      if (command.action === "reconcile" && dependencies.provider.inspectTerminal) {
+      if (
+        (command.action === "reconcile" || command.action === "replace_deposit") &&
+        dependencies.provider.inspectTerminal
+      ) {
         if (
           bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
           bindings.COMMERCE_WEBHOOK_MODE !== "sandbox"
@@ -205,6 +215,33 @@ export function createRefundHttpHandler(
             requestKey: command.requestKey,
             ...fact,
           });
+        }
+      }
+      if (command.action === "replace_deposit" && !dependencies.provider.inspectTerminal)
+        return reply(503);
+      if (command.action === "reconcile" && dependencies.provider.inspectException) {
+        if (
+          bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
+          bindings.COMMERCE_WEBHOOK_MODE !== "sandbox"
+        )
+          return reply(412);
+        const plans = await dependencies.command(true, authority.context, {
+          action: "inspect_exceptions",
+          offerId: command.offerId,
+        });
+        if (!Array.isArray(plans) || plans.length > 20) throw new Error("RECONCILIATION_INVALID");
+        const seen = new Set<string>();
+        for (const plan of plans) {
+          const fact = await dependencies.provider.inspectException(plan);
+          const identity = `${fact.kind}:${fact.eventId}`;
+          if (seen.has(identity)) continue;
+          await dependencies.command(true, authority.context, {
+            action: "record_exception",
+            offerId: command.offerId,
+            requestKey: command.requestKey,
+            ...fact,
+          });
+          seen.add(identity);
         }
       }
       if (command.action === "dispatch") {

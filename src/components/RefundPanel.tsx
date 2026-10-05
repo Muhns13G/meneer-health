@@ -118,6 +118,51 @@ function RefundContent({ offerId, staff }: { offerId: string; staff: boolean }) 
               ))}
             </ul>
           )}
+          {staff && view.canReplaceDeposit && (
+            <button
+              className="mt-3 rounded-full border border-border px-4 py-2"
+              disabled={busy}
+              onClick={() =>
+                void send({ action: "replace_deposit", requestKey: crypto.randomUUID() })
+              }
+            >
+              Authorise replacement deposit Checkout
+            </button>
+          )}
+          {view.replacementAuthorised && (
+            <p className="mt-3 text-sm">
+              Replacement deposit authorised. The client must review and accept the new offer. No
+              payment is confirmed.
+            </p>
+          )}
+          {view.disputes.length > 0 && (
+            <ul className="mt-3 space-y-3">
+              {view.disputes.map((dispute) => (
+                <li key={dispute.reference}>
+                  Dispute: {dispute.status.replaceAll("_", " ")} —{" "}
+                  {dispute.reconciled ? "outcome reconciled" : "review required"}
+                  {dispute.status === "lost" && (
+                    <p className="text-sm">Lost funds cannot authorise paid progression.</p>
+                  )}
+                  {staff && !dispute.owned && (
+                    <button
+                      className="ml-3 rounded-full border border-border px-4 py-2"
+                      disabled={busy}
+                      onClick={() =>
+                        void send({
+                          action: "own_dispute",
+                          reference: dispute.reference,
+                          requestKey: crypto.randomUUID(),
+                        })
+                      }
+                    >
+                      Take ownership of dispute review
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
           {!staff && view.requestState === "not_requested" && (
             <form
               className="mt-3"
