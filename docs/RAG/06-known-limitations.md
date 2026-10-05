@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
@@ -93,6 +94,18 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 11.4 Creates Sessions, Not Settled Payments
+
+The [guarded creation packet](../02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md)
+is complete locally. Committed mode remains disabled; no hosted migration/release or provider
+resource was created. SDK mocks, SQL fixtures and intercepted Checkout navigation are distinct
+engineering evidence, not an actual sandbox charge. The new private ledger records `preparing`
+or `open`, never paid. The legacy webhook does not yet map these creation identities; 11.5 must
+provide signed settlement proof before an operational journey can progress. One-hour provider
+expiry is separate from short-lived offer/session authority; late/uncertain outcomes, minimum
+amount rejection and abandoned sessions remain 11.5/11.8 reconciliation inputs. TD-010 stays
+In progress; real catalogue, terms, authority and release remain gates.
 
 ## Sprint 11.3 Acceptance Is Not a Payment
 

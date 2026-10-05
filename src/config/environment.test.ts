@@ -58,6 +58,8 @@ describe("environment catalogue", () => {
     expect(serverEntries.map((entry) => entry.name)).toEqual([
       "COMMERCE_REVIEW_MODE",
       "COMMERCE_REVIEW_TENANT_ID",
+      "COMMERCE_CHECKOUT_MODE",
+      "STRIPE_CHECKOUT_ACCOUNT_ID",
       "MEDICAL_INTAKE_TENANT_ID",
       "MEDICAL_INTAKE_MODE",
       "MEDICAL_INTAKE_KEYRING_JSON",

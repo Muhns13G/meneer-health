@@ -140,5 +140,32 @@ select throws_ok($$select public.patient_order_review(pg_temp.intake_context()||
 select throws_ok($test$do $$begin update public.identity_sessions set status='revoked',revoked_at=now(),revocation_reason='synthetic'
 where id='97000000-0000-4000-8000-000000000006';
 perform public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept());end$$$test$,'42501','PORTAL_REJECTED','revoked session cannot accept');
+-- Task 11.4: sandbox creation intent only, no provider call or paid/clinical inference.
+create function pg_temp.checkout(key uuid default 'a3200000-0000-4000-8000-000000000001') returns jsonb language sql as $$
+select public.patient_prepare_checkout(pg_temp.intake_context(),(pg_temp.order_accept()->>'offerId')::uuid,key,'acct_synthetic12345')$$;
+select throws_ok($$select pg_temp.checkout()$$,'42501','COMMERCE_RELEASE_DISABLED','no database release means no Checkout');
+insert into commerce_private.checkout_releases values('10000000-0000-4000-8000-000000000001',
+'acct_synthetic12345',gen_random_uuid(),now()+interval '1 day',true);
+select ok(not has_function_privilege('anon','public.patient_prepare_checkout(jsonb,uuid,uuid,text)','execute'),'anonymous cannot create intent');
+select ok(not has_table_privilege('service_role','commerce_private.checkout_intents','UPDATE'),'service cannot mark Checkout paid or mutate payload');
+select is(pg_temp.checkout()->>'amountTotalMinor','99900','only accepted server amount reaches intent');
+select is(pg_temp.checkout()->>'intentId',pg_temp.checkout('a3200000-0000-4000-8000-000000000002')->>'intentId','fresh transport retry reuses one commercial intent');
+select is((select count(*)::integer from commerce_private.checkout_intents),1,'one provider creation identity per offer');
+select is((select state from commerce_private.checkout_intents),'preparing','intent does not imply provider success or paid');
+select throws_ok($$update commerce_private.checkout_intents set payload='{}'$$,'42501','CHECKOUT_INTENT_IMMUTABLE','frozen provider params cannot change');
+select throws_ok($test$do $$begin update commerce_private.checkout_releases set enabled=false;
+perform pg_temp.checkout();end$$$test$,'42501','COMMERCE_RELEASE_DISABLED','release revocation denies replay');
+select throws_ok($$select public.patient_prepare_checkout(pg_temp.intake_context(),
+(pg_temp.order_accept()->>'offerId')::uuid,gen_random_uuid(),'acct_wrong12345')$$,
+'42501','COMMERCE_RELEASE_DISABLED','wrong provider account denied');
+select throws_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
+(pg_temp.checkout()->>'intentId')::uuid,'cs_live_synthetic12345','https://checkout.stripe.com/c/pay/synthetic')$$,
+'22023','COMMERCE_INVALID','live session cannot attach');
+select lives_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
+(pg_temp.checkout()->>'intentId')::uuid,'cs_test_synthetic12345','https://checkout.stripe.com/c/pay/synthetic')$$,'test session attaches after revalidation');
+select is((select state from commerce_private.checkout_intents),'open','session attachment means open, never paid');
+select throws_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
+(pg_temp.checkout()->>'intentId')::uuid,'cs_test_other12345','https://checkout.stripe.com/c/pay/synthetic')$$,'40001','COMMERCE_CONFLICT','second session for same intent denied');
+select is(intake_private.review_payment_ready((select case_id from intake_private.intakes limit 1)),false,'open Checkout cannot open paid review');
 select * from finish();
 rollback;

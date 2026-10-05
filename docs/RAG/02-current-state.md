@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
@@ -106,6 +107,20 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 11.4 — Guarded Local Sandbox Creation
+
+The [11.4 packet](../02-implementation-plans/phase-02/annexures/sprint-11-4-guarded-sandbox-checkout.md)
+connects released submitted-case preparation and accepted-offer Checkout to one immutable private
+creation identity. Environment/tenant/database/account gates, restricted test keys and current
+patient/receipt/readiness checks apply. Provider parameters are frozen ZAR amounts, net product
+balance plus separate delivery and opaque metadata; live/wrong-account/amount/currency/expiry/origin
+responses fail closed. UI redirects only to validated Checkout and never infers paid state.
+Local evidence: 700 unit tests, final ten-test provider/HTTP packet, 1,101 SQL assertions, eight
+controlled desktop/mobile checks, build/static gates, lint/advisors and encrypted recovery pass.
+Provider clients/navigation were mocked/intercepted; no real Stripe or hosted proof is claimed.
+Hosted migrations/releases/bindings remain unapplied/disabled and payment readiness remains false.
+Task 11.5 must reconcile signed events for these intents; the legacy webhook alone is insufficient.
+
 ## Sprint 11.3 — Local Own-Order Review and Acceptance
 
 The [11.3 packet](../02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md)
@@ -116,7 +131,7 @@ Accepted browser acknowledgement never means paid: Checkout remains strictly una
 Full local unit/SQL, focused HTTP/schema, six controlled desktop/mobile checks, production build,
 lint/advisors and encrypted recovery pass; UI mocks are not hosted payment evidence. Neither pending
 Sprint 11 migration nor any real publication/configuration was applied hosted. TD-010 stays
-In progress; TD-037/038 retain live accessibility gates. Task 11.4 is next.
+In progress; TD-037/038 retain live accessibility gates. This checkpoint preceded 11.4 above.
 
 ## Sprint 11.2 — Local Private Catalogue and Credit Preparation
 
