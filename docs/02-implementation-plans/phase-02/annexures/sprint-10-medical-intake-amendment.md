@@ -101,9 +101,13 @@ operational inputs are private reviewer/transcriber and primary/fallback appoint
 configuration and reviewed publications/processing schedules. The owner-approved sex extension needs
 clinical publication review; the original question wording is not reopened. Public copy is unchanged.
 
-I2–I7 now have local implementation and controlled evidence in the
+I2–I7 now have accepted local implementation and controlled evidence (including the full 180-case
+desktop/mobile browser matrix) in the
 [progress record](sprint-10-intake-implementation-progress.md); I8 hosted release/rehearsal and
-acceptance remain open. This does not claim that every task or the expanded sprint is closed.
+acceptance remain open. All seven approved prerequisite/intake migrations are applied hosted, with
+no seed or activation. Owner deployment, dedicated-key provisioning and isolated provider-backed
+rehearsal remain pending; fresh generator access currently reaches the subscription gate. This does
+not claim that every task or the expanded sprint is closed.
 Existing TD-009/TD-037/TD-038/TD-043 cover its hand-off,
 rights, accessibility and routed-support obligations; no new defect or debt ID is asserted merely
 because scope expanded. Any discovered implementation defect is recorded during the relevant task.

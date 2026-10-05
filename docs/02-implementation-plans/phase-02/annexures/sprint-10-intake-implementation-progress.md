@@ -8,7 +8,7 @@ tasks: [2.10.I2, 2.10.I3, 2.10.I4, 2.10.I5, 2.10.I6, 2.10.I7, 2.10.I8]
 # Intake Implementation Progress and Verification
 
 The owner requested I2–I8 as one continuous implementation run, retaining owner-only Git staging,
-commit, branch and release control. No task is claimed fully closed by this progress record.
+commit, branch and release control. I2–I7 have accepted local implementation evidence; I8 remains open.
 I1 is committed; the original questionnaire and separately attributed sex extension remain fixed.
 
 ## Current Checkpoints
@@ -17,7 +17,9 @@ I1 is committed; the original questionnaire and separately attributed sex extens
   immutable submitted snapshots, distinct publication notice receipts, private medical grants,
   safety/transfer/reconciliation/lifecycle evidence and payload-free central audit. Generated local
   migrations cover foundation, governance, rights/recovery, safety restriction, restricted safety
-  grants and exact-record audit attribution. They remain unapplied to hosted Supabase.
+  grants and exact-record audit attribution. On 5 October, the owner-approved CLI push applied all
+  six intake migrations plus `20261005074014_patient_case_status_projection.sql` to hosted Supabase.
+  Migration history now matches all 35 committed versions; no seed or activation was applied.
 - Portable `medical-intake.record@1`, strict answer/disposition/envelope schemas, source catalogue,
   dedicated AES-GCM scope binding and candidate-key HMAC replay handling are implemented.
 - The three rollback-only intake packets pass **95 SQL assertions**. Published notice immutability,
@@ -45,7 +47,7 @@ I1 is committed; the original questionnaire and separately attributed sex extens
   JSON cast and unused variable in the unreleased audit migration; both were corrected and replayed.
   A pre-existing implicit `text`-to-`text[]` initialisation warning in
   `public.execute_patient_account_command` is separate from intake and is not silently waived as
-  warning-free schema evidence. The full browser matrix is **not accepted**: 42 checks passed before
+  warning-free schema evidence. An earlier full browser matrix was **not accepted**: 42 checks passed before
   an existing account-activation case exceeded its 30-second test deadline while awaiting the
   intercepted retry response. The run was stopped (one later case interrupted, 136 not run).
   A separate account rerun could not start because local SSR requests timed out and the managed
@@ -55,10 +57,30 @@ I1 is committed; the original questionnaire and separately attributed sex extens
   After stopping the completed local database services, a final isolated desktop rerun passed the
   original retry/durable-success case, but the denial case was still showing “Loading account
   documents…” at its five-second assertion deadline (the server logged the expected denial).
-  This is not a successful full regression run. Local database volumes were retained on shutdown.
+  Those attempts were not successful full regression runs. Local database volumes were retained on
+  shutdown. The subsequent clean rerun on 5 October passes **180/180 desktop/mobile checks in 6.9
+  minutes**; a separate focused account/intake rerun passes all six checks. No application safeguard,
+  assertion or timeout was weakened. The current full local browser regression is accepted.
 - I8 hosted Auth/browser/notification delivery and scoped cleanup are **not accepted or completed**.
-  A read-only hosted baseline confirms one suspended tenant, zero subjects/identities and no intake
-  schema. No live patient intake is activated.
+  Post-migration read-only checks confirm one suspended tenant, zero subjects/external identities/Auth
+  users and zero rows in all 18 intake tables. All 18 tables have forced RLS; none is readable by
+  `anon` or `authenticated`. No live patient intake is activated.
+
+## Hosted Advisor and Provider Access Findings
+
+Hosted advisors report informational notices, not a warning-free result: 83 deny-default tables have
+RLS without browser policies (including all 18 private intake tables), 51 foreign keys lack covering
+indexes (eight intake findings), and 50 indexes are unused (28 intake findings). Missing browser
+policies are intentional for the server-command boundary. Unused indexes are expected in this empty
+baseline and are not candidates for blind removal. The eight intake foreign-key index candidates
+remain a recorded performance-review item before volume grows; they are not evidence of disclosure.
+See Supabase's [foreign-key index guidance](https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys).
+
+A fresh provider login on 5 October succeeds but redirects to `/subscribe`, displaying the
+R1,500/month White-Label Starter subscription. The visible Dashboard link returns to that same gate.
+No subscription was purchased, no payment submitted and no new protocol generated. Historical Task
+8.8 generator evidence does not substitute for current I8 access/compatibility proof. The owner must
+resolve the provider entitlement or supply an already entitled account before this walkthrough.
 
 ## Explicit Authorisations
 
@@ -68,6 +90,8 @@ and removal of only those fixtures; and generation of a separate 32-byte medical
 storage and transmission to the Worker secret for the rehearsal. Temporary intake configuration must
 return to disabled; the real pilot stays suspended. Existing keys are not reused or rotated.
 No key has yet been generated/provisioned, and no hosted intake write has yet run.
+The owner chose to deploy the committed code personally. Approval for the seven pending migrations
+was separately confirmed and completed; it is not approval for agent deployment or Git changes.
 
 The owner explicitly selected **keep the production gate closed; synthetic proof only** for the
 paid-review/manual-transfer dependency. Sprint 11 is not brought forward. Positive payment-dependent
@@ -76,7 +100,7 @@ production paid flag, runtime bypass or clinical/payment approval is inferred fr
 
 ## Next Verification
 
-Finish the refreshed full-suite and migration-replay gates, then follow the
+Local full-suite and migration-replay gates are accepted. Continue with the
 [release/recovery runbook](../../../06-operations/medical-intake-release-recovery-runbook.md).
 Hosted code release still requires the owner's deployment or explicit bounded deployment authority;
 migration/key/fixture approval is not permission to push or promote code. Rehearse real synthetic

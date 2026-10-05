@@ -142,7 +142,7 @@ remains suspended. Earlier pending statements above describe superseded rehearsa
 
 [DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) plans medical questionnaire collection
 inside Meneer with purpose-bound manual transfer. Local collection/access code now exists, but
-hosted intake schema, release and end-to-end acceptance remain outstanding. General
+hosted intake schema is now applied; code release and end-to-end acceptance remain outstanding. General
 profile/queue permissions do not authorise medical answers. The external intake URL is no longer a
 required input for this path; leave that implementation inactive. Clinician question approval is
 owner-attested, not a signed publication or proof of provider compatibility. Blood results are not
@@ -156,9 +156,14 @@ suite passes 651 tests. The local SQL linter still reports a pre-existing implic
 initialisation warning in `public.execute_patient_account_command`. Account-rights regression checks
 pass, but that warning is not intake completion evidence or a claim of warning-free schema health.
 See the intake progress record for the separate controlled browser and hosted-rehearsal boundaries.
-The refreshed full browser matrix remains unaccepted: an account-activation deadline failed and
-the run was stopped; isolated reruns subsequently passed that retry path but encountered local
-server-readiness/loading deadlines. No production defect or root cause is asserted from these runs.
+The refreshed full browser matrix now passes all 180 desktop/mobile checks without weakening tests;
+earlier account/readiness deadline failures remain historical, not current regression blockers.
+I8 still needs owner deployment, a separate medical key, provider-backed synthetic Auth/AAL2,
+medical-command/alert delivery proof and scoped cleanup. Hosted migration history matches all 35
+committed versions; the pilot remains suspended and all 18 intake tables are empty. Hosted advisors
+record eight intake foreign-key covering-index candidates for performance review, plus intentional
+deny-default RLS and unused-index notices. Fresh protocol-generator login reaches a subscription
+gate; restored provider entitlement is required before current manual-transfer compatibility proof.
 
 The following sections retain historical checkpoint limitations where later amendments supersede them.
 
