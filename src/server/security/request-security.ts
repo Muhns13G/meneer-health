@@ -35,6 +35,8 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/account/verify", "protected-command"],
   ["/account/activate", "protected-command"],
   ["/portal/rights/command", "protected-command"],
+  ["/portal/intake/command", "protected-command"],
+  ["/staff/intake/command", "protected-command"],
   ["/account/sign-in", "protected-command"],
   ["/account/recover", "protected-command"],
   ["/account/sign-out", "protected-command"],

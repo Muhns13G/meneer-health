@@ -14,6 +14,12 @@ import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
 import { createAlertHttpHandler } from "./server/operations/alert-http";
 import { runScheduledOperationsAlerts } from "./server/operations/alert-dispatch";
+import { runMedicalSafetyDispatch } from "./server/intake/safety-dispatch";
+import { createStaffIntakeHttpHandler } from "./server/intake/staff-intake-http";
+import {
+  createPatientIntakeHttpHandler,
+  type IntakeBindings,
+} from "./server/intake/patient-intake-http";
 import { createPortalHandoffHttpHandler } from "./server/operations/portal-handoff-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
@@ -63,7 +69,12 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
   return {
     async scheduled(_controller, bindings) {
       try {
-        await runScheduledOperationsAlerts(bindings as unknown as Record<string, unknown>);
+        const outcomes = await Promise.allSettled([
+          runScheduledOperationsAlerts(bindings as unknown as Record<string, unknown>),
+          runMedicalSafetyDispatch(bindings as unknown as Record<string, unknown>),
+        ]);
+        if (outcomes.some((result) => result.status === "rejected"))
+          throw new Error("SCHEDULED_DEPENDENCY_FAILED");
       } catch {
         emitTelemetry({
           contract: "telemetry.event",
@@ -117,6 +128,12 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/staff/intake/command")
+              return createStaffIntakeHttpHandler(env as unknown as IntakeBindings)(boundedRequest);
+            if (pathname === "/portal/intake/command")
+              return createPatientIntakeHttpHandler(env as unknown as IntakeBindings)(
+                boundedRequest,
+              );
             if (["/staff/alerts/read", "/staff/alerts/respond"].includes(pathname)) {
               return createAlertHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,

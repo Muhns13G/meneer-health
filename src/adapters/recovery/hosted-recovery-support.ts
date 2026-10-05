@@ -14,6 +14,7 @@ export const governedRecoverySchemas = [
   "audit_private",
   "fulfilment_private",
   "identity_private",
+  "intake_private",
   "lifecycle_private",
   "payments_private",
 ] as const;

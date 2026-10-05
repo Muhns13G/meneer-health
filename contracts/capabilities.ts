@@ -64,6 +64,20 @@ export type RetainedCapability = z.infer<typeof retainedCapabilitySchema>;
 
 export const retainedCapabilityCatalogue = [
   {
+    id: "CAP-015",
+    name: "Protected medical intake and manual transfer",
+    owner: "Medical intake module",
+    disposition: "retained",
+    currentGeneration: "v1-tanstack",
+    targetGenerations: ["v2-nextjs", "v3-laravel-react"],
+    surface: "sensitive",
+    authority: "Own-patient encrypted records and separately approved medical-purpose grants",
+    contractReferences: [{ name: "medical-intake.record", version: 1 }],
+    acceptanceFixtureIds: ["PORT-025", "PORT-026"],
+    activation: "inactive-gated",
+    rollback: "database-forward-repair",
+  },
+  {
     id: "CAP-001",
     name: "Approved public site routes and brand content",
     owner: "Product and content boundary",

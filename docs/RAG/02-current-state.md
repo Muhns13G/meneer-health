@@ -107,7 +107,7 @@ sources:
 direction. Dr Zee's unchanged question approval is owner-confirmed; the source is hash-identified.
 Blood results are not mandatory for initial onboarding/submission, including peptides, without
 overriding later clinician requirements. A separate protected medical module and authorised manual
-generator transfer are **planned**, not implemented or enabled. The minimum profile remains intact.
+generator transfer are being implemented locally and remain disabled. The minimum profile remains intact.
 The [eight added tasks](../02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md)
 follow 10.7/10.8 and precede expanded 10.9/10.10 closure. Existing 10.6 code at `b2a3a1e` remains
 complete locally; external-link activation/configuration stays inactive and is not required for the
@@ -118,7 +118,15 @@ three rendered pages. On 5 October the owner approved the technical/access/safet
 and authorised a Meneer-side sex field. Collection 1.1.0 adds explicit unselected input, not assumed
 male or gender identity; the original 24 items remain unchanged. The extension needs clinical
 publication review and has no claim of original Dr Zee approval. I1 is completed-contract-frozen
-with private appointment/safety-configuration/publication gates; I2 may begin locally, not hosted.
+with private appointment/safety-configuration/publication gates. I2–I7 now have local code, private
+schema, protected patient/staff routes and controlled evidence, tracked in the
+[implementation progress record](../02-implementation-plans/phase-02/annexures/sprint-10-intake-implementation-progress.md).
+Do not infer task closure, hosted deployment or activation: I8 hosted Auth/browser/transport,
+manual-generator and scoped-cleanup proof remains outstanding. A read-only hosted check on
+5 October confirmed one suspended tenant, zero subjects/identities and no intake schema.
+The final local application/database suites pass 651 tests and 1,003 SQL assertions respectively;
+intake-specific desktop/mobile and encrypted recovery checks pass. The broader browser refresh
+is not accepted because account loading/readiness deadlines failed; see the progress record.
 
 ## Sprint 10.8 Own-Client Case Progress — 5 October 2026
 
