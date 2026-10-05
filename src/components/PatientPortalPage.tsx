@@ -5,6 +5,7 @@ import { Footer } from "./Footer";
 import { portalViewSchema, type PortalView } from "@/domain/identity/patient-portal";
 import { PatientRightsPanel } from "./PatientRightsPanel";
 import { PortalHandoffPanel } from "./PortalHandoffPanel";
+import { PaymentStatusPanel } from "./PaymentStatusPanel";
 import { ClientCaseProgress } from "./ClientCaseProgress";
 
 type ViewState =
@@ -297,6 +298,7 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "ri
                   Your medical questionnaire
                 </Link>
                 <PortalHandoffPanel />
+                <PaymentStatusPanel />
                 <Link
                   to="/portal/order"
                   className="mt-8 block text-gold underline underline-offset-4"

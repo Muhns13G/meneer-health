@@ -167,6 +167,7 @@ select is((select state from commerce_private.checkout_intents),'open','session 
 select throws_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
 (pg_temp.checkout()->>'intentId')::uuid,'cs_test_other12345','https://checkout.stripe.com/c/pay/synthetic')$$,'40001','COMMERCE_CONFLICT','second session for same intent denied');
 select is(intake_private.review_payment_ready((select case_id from intake_private.intakes limit 1)),false,'open Checkout cannot open paid review');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','pending','open Session cannot show confirmed money');
 -- Task 11.5: minimal verified-event fixture; raw signature verification is separately SDK tested.
 create function pg_temp.event_body(event text,kind text default 'checkout.session.completed',status text default 'paid')
  returns jsonb language sql as $$select jsonb_build_object('eventId',event,'fingerprint',repeat('a',64),'eventType',kind,
@@ -182,8 +183,10 @@ select throws_ok($$select public.apply_pilot_provider_event('80000000-0000-4000-
 '42501','WEBHOOK_SERVICE_REJECTED','wrong tenant service cannot process');
 select is(pg_temp.apply_event(pg_temp.event_body('evt_unpaid0001','checkout.session.completed','unpaid'))->>'outcome','applied','unpaid completion retained without settlement');
 select is((select paid_confirmed from commerce_private.settlements),false,'unpaid completion never means paid');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','pending','unpaid completion remains pending in own-client view');
 select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001'))->>'outcome','applied','verified matching paid event settles');
 select is((select paid_confirmed from commerce_private.settlements),true,'confirmed money fact persisted');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','confirmed','matching provider evidence confirms client payment view');
 select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001'))->>'replayed','true','exact event replay identified');
 select is((select count(*)::integer from commerce_private.provider_receipts),2,'replay creates no second receipt');
 select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001')||jsonb_build_object('fingerprint',repeat('b',64)))->>'outcome','pending','conflicting event ID quarantined');
@@ -229,5 +232,23 @@ select is(pg_temp.apply_event(pg_temp.event_body('evt_laterpaid001')||jsonb_buil
 'sessionId','cs_test_reordered12345','paymentIntentId','pi_reordered12345'))->>'outcome','applied','later valid Session establishes binding');
 select is((select refunded_minor from commerce_private.settlements where intent_id='a4500000-0000-4000-8000-000000000003'),20000,'previous orphan refund correlates automatically');
 select is((select reconciliation_required from commerce_private.settlements where intent_id='a4500000-0000-4000-8000-000000000003'),true,'correlated refund remains owned monetary exception');
+-- Task 11.6: scoped own-client projection retains money plus independent exceptions.
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','confirmed','later expiry and failure do not erase captured money');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'refundedMinor','20000','cumulative provider refund facts projected');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'requiresReview','true','contradictory money facts require review');
+select is((select count(*) from jsonb_object_keys(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0)),9::bigint,'projection has exactly nine permitted fields');
+select ok(position('pi_synthetic' in public.read_patient_payment_status(pg_temp.intake_context())::text)=0,'no provider identifiers leave payment view');
+select ok(not has_function_privilege('authenticated','public.read_patient_payment_status(jsonb,jsonb)','execute'),'browser direct own-status RPC denied');
+select throws_ok($$select public.read_patient_payment_status(pg_temp.intake_context()||jsonb_build_object('subjectId','20000000-0000-4000-8000-000000000001'))$$,'42501','PORTAL_REJECTED','forged patient subject denied');
+select throws_ok($$select public.read_patient_payment_status(pg_temp.intake_context()||jsonb_build_object('purpose','operations'))$$,'42501','INTAKE_REJECTED','patient purpose override denied');
+select throws_ok($$select public.read_patient_payment_status(pg_temp.intake_context(),'{"id":"a4600000-0000-4000-8000-000000000001"}')$$,'22023','PAYMENT_CURSOR_INVALID','partial cursor denied');
+select throws_ok($test$do $$begin update public.identity_sessions set status='revoked',revoked_at=clock_timestamp(),revocation_reason='synthetic-test' where id='97000000-0000-4000-8000-000000000006';perform public.read_patient_payment_status(pg_temp.intake_context());end$$$test$,'42501','PORTAL_REJECTED','revoked session clears financial access');
+select ok(exists(select 1 from public.audit_events where action='commerce.status.read' and metadata='{}'),'financial reads auditable without contents');
+insert into commerce_private.offers(id,tenant_id,subject_id,case_id,request_key,selection,snapshot,created_at,expires_at)
+select ('a4600000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,tenant_id,subject_id,case_id,gen_random_uuid(),selection,snapshot,
+ now()+interval '1 minute',now()+interval '1 hour' from commerce_private.offers cross join generate_series(10,35) n
+ where id='a4500000-0000-4000-8000-000000000001';
+select is(jsonb_array_length(public.read_patient_payment_status(pg_temp.intake_context())->'payments'),25,'financial history bounded to 25 rows');
+select is(jsonb_array_length(public.read_patient_payment_status(pg_temp.intake_context(),public.read_patient_payment_status(pg_temp.intake_context())->'nextCursor')->'payments'),3,'stable second page neither skips nor duplicates');
 select * from finish();
 rollback;
