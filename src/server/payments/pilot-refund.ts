@@ -11,6 +11,19 @@ export const refundDispatchSchema = z
     currency: z.literal("zar"),
   })
   .strict();
+export const terminalInspectionSchema = z
+  .object({
+    intentId: z.uuid(),
+    tenantId: z.uuid(),
+    accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
+    sessionId: z.string().regex(/^cs_test_[A-Za-z0-9_]{8,120}$/),
+    amountMinor: z.int().nonnegative().max(100_000_000),
+    paymentIntentId: z
+      .string()
+      .regex(/^pi_[A-Za-z0-9_]{8,120}$/)
+      .nullable(),
+  })
+  .strict();
 export class PilotRefundProvider {
   private readonly client: Stripe;
   constructor(
@@ -77,6 +90,50 @@ export class PilotRefundProvider {
           : result.status === "pending" || result.status === "requires_action"
             ? ("pending" as const)
             : ("submitted" as const),
+    };
+  }
+  async inspectTerminal(value: unknown) {
+    const input = terminalInspectionSchema.parse(value);
+    if (
+      input.accountId !== this.accountId ||
+      (await this.client.accounts.retrieveCurrent()).id !== this.accountId
+    )
+      throw new Error("REFUND_ACCOUNT_MISMATCH");
+    const session = await this.client.checkout.sessions.retrieve(input.sessionId);
+    if (
+      session.livemode ||
+      session.id !== input.sessionId ||
+      session.mode !== "payment" ||
+      session.currency !== "zar" ||
+      session.amount_total !== input.amountMinor ||
+      session.metadata?.orderId !== input.intentId ||
+      session.metadata?.tenantId !== input.tenantId ||
+      session.client_reference_id !== input.intentId ||
+      !["expired", "complete"].includes(session.status ?? "") ||
+      session.payment_status !== "unpaid"
+    )
+      throw new Error("PAYMENT_TERMINAL_UNPROVEN");
+    const paymentId =
+      typeof session.payment_intent === "string"
+        ? session.payment_intent
+        : session.payment_intent?.id;
+    if (input.paymentIntentId !== null && input.paymentIntentId !== paymentId)
+      throw new Error("PAYMENT_TERMINAL_UNPROVEN");
+    if (paymentId) {
+      const payment = await this.client.paymentIntents.retrieve(paymentId);
+      if (
+        payment.livemode ||
+        payment.id !== paymentId ||
+        payment.currency !== "zar" ||
+        payment.amount_received !== 0 ||
+        !["canceled", "requires_payment_method"].includes(payment.status)
+      )
+        throw new Error("PAYMENT_TERMINAL_UNPROVEN");
+    } else if (session.status !== "expired") throw new Error("PAYMENT_TERMINAL_UNPROVEN");
+    return {
+      intentId: input.intentId,
+      sessionId: input.sessionId,
+      status: session.status as "expired" | "complete",
     };
   }
 }

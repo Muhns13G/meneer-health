@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-05
+**Last amended:** 2026-10-06
 
 ## Registry Purpose
 
@@ -40,6 +40,16 @@ claims, products, operating/commercial paths, forms, stepped flows or support ch
 closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
+
+### Sprint 11.8 Reconciliation Checkpoint — In Progress
+
+The [local checkpoint](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
+adds signed exact-refund settlement, verified-failure bounded retries, provider-checked unpaid credit
+release, owned coded exceptions and a native R999 deposit-readiness bridge. None is hosted acceptance.
+Task 11.8 remains In progress: genuinely separate duplicate captures require full original-method
+refund reconciliation, final disputes require attributed outcome resolution, and expired/failed
+deposits require a safe replacement Checkout path. These are existing TD-010 obligations, not waived
+or moved to future considerations. No new debt ID; 58 total, 51 Verified, seven non-Verified.
 
 ### Sprint 10 Closure — Current Authority
 

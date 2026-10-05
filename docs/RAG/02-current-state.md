@@ -3,12 +3,13 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-05
+last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 source_baseline: 14a965a
 runtime_baseline: 9630cfe
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
@@ -109,6 +110,26 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 11.8 — Reconciliation Checkpoint, Not Task Closure
+
+The [11.8 packet](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
+records independently signed exact-refund confirmation, terminal failure and bounded replacement
+refund jobs. Replays cannot double-count refunds; late dispatch responses cannot overwrite terminal
+evidence. Unpaid credit release requires a current test-account Checkout/PaymentIntent inspection,
+not an expiry receipt alone. Staff commands require current assigned AAL2 and independent financial
+authority. Private controls expose bounded coded exceptions and truthful refund state; newly
+journalled provider exceptions create content-free owned alert records.
+
+Native clean R999 deposit evidence now supplies paid-review/manual-transfer readiness without a
+legacy payment order. All independent identity, intake, clinical, publication and release gates
+remain required. This supersedes the older false-adapter implementation notes, not activation gates.
+No hosted migrations, Stripe calls, real charges, emails or activation occurred here.
+
+Task 11.8 is **In progress**, not complete: genuine duplicate captures need their own full-refund
+path, final disputes need attributed reconciliation, and an expired/failed deposit needs a safe
+replacement Checkout path. Those cases are held; event replay is not a duplicate capture.
+TD-010 remains In progress. Finish 11.8 before Task 11.9 provider/hosted acceptance.
 
 ## Sprint 11.7 — Local Cancellation and Original-Method Refund Commands
 

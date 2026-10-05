@@ -113,7 +113,12 @@ test("assigned staff reviews coded evidence and submits a sandbox refund without
                 {
                   reference,
                   amountMinor: 99900,
-                  state: body.action === "dispatch" ? "submitted" : "queued",
+                  state:
+                    body.action === "reconcile"
+                      ? "confirmed"
+                      : body.action === "dispatch"
+                        ? "submitted"
+                        : "queued",
                 },
               ],
         expiresAt: new Date(Date.now() + 60000).toISOString(),
@@ -128,6 +133,11 @@ test("assigned staff reviews coded evidence and submits a sandbox refund without
   await page.getByRole("button", { name: "Review verified disposition" }).click();
   await page.getByRole("button", { name: "Submit original-method sandbox refund" }).click();
   await expect(page.getByText("R999.00 — refund submitted")).toBeVisible();
+  await page.getByRole("button", { name: "Reconcile verified payment evidence" }).click();
+  await expect(page.getByText("R999.00 — refund confirmed")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Queue retry after verified failure" }),
+  ).toHaveCount(0);
   await expect(page.getByText(/does not confirm a refund/)).toBeVisible();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

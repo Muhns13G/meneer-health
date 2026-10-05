@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-05",
+    "last_updated": "2026-10-06",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -957,6 +957,20 @@
         "private stable pagination audited scope and bounded authority expiry",
         "portal and queue invalidation with controlled local browser evidence",
         "no money command hosted activation or TD-010 closure"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-11-8-payment-reconciliation",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md",
+      "status": "in-progress-local-reconciliation",
+      "source_commit": "31bd489",
+      "last_updated": "2026-10-06",
+      "authority_for": [
+        "signed exact refund confirmation and verified-failure bounded retries",
+        "current provider inspection before unpaid terminal credit release",
+        "owned exceptions and native deposit readiness without clinical approval",
+        "remaining duplicate-capture dispute and replacement Checkout obligations",
+        "local evidence only; no Task 11.8 closure or hosted activation"
       ]
     },
     {

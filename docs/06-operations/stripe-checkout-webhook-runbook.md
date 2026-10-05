@@ -2,7 +2,7 @@
 runbook_id: meneer-stripe-checkout-webhook
 title: Stripe Checkout and Webhook Operations Runbook
 status: inactive-until-approved
-last_updated: 2026-08-11
+last_updated: 2026-10-06
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -11,6 +11,21 @@ sensitivity: internal
 # Stripe Checkout and Webhook Operations Runbook
 
 ## Current Boundary
+
+Sprint 11 now supplies protected `/portal/payments/*` and `/staff/payments/*` commerce boundaries,
+plus the guarded `/api/payments/stripe/webhook` callback. The
+[11.1 contract](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)
+owns the R999 review deposit, separately accepted approved RRP order, capped product credit,
+unused-deposit original-method refund and separate delivery charge. The legacy three-price exercise
+below is historical foundation proof, not proof of these current pilot scenarios.
+
+Task [11.8](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
+is in progress locally. Signed exact-refund confirmation, bounded verified-failure retries,
+provider-checked unpaid credit release and native deposit readiness are implemented. Genuine
+duplicate-capture full refunds, final dispute resolution and replacement deposit Checkout remain
+unfinished and held. No Task 11.9 hosted/provider activation is claimed; TD-010 stays In progress.
+
+### Historical Phase 01 Foundation
 
 The repository contains a local/test-mode payment foundation only. Exact local POST boundaries exist
 at `/api/payments/checkout` and `/api/payments/stripe/webhook`; hosted requests fail closed and no
@@ -47,6 +62,34 @@ or public payment journey is active. TD-010 approval and a reviewed release rema
   evidence commit. Provider retry is required after a durable failure.
 
 ## Reconciliation and Incident Response
+
+### Current Sprint 11 Controls
+
+- Keep Checkout, webhook and refund environment modes disabled outside an explicitly approved
+  sandbox release. Current expiring database/account releases and independent financial grants are
+  additional requirements, not substitutes for environment modes.
+- Subscribe the approved test callback to `refund.created`, `refund.updated` and `refund.failed`
+  as well as the existing Checkout, PaymentIntent failure, cumulative refund and dispute events.
+  Provisioning and delivery proof remain Task 11.9; this document does not assert they occurred.
+- Refund metadata contains only the opaque immutable job reference. Exact account, original
+  PaymentIntent, amount and currency must match independently signed evidence before confirming a
+  job. A create-refund response, success redirect or cumulative charge total alone cannot confirm it.
+- Reconcile through the assigned AAL2 staff control with a current independent financial grant.
+  Retain pending/uncertain reservations. Retry only a signed terminal failed/canceled job, with one
+  durable replacement reference. Never retry a confirmed job or change its original destination.
+- Before releasing unpaid reserved credit, the server reads the current approved test account,
+  exact Checkout Session and associated PaymentIntent. It rejects open, processing, captured,
+  mismatched, foreign-account or ambiguous evidence. Required restricted-key permissions include
+  account, Checkout and PaymentIntent reads in addition to the existing refund dispatch permissions.
+- Newly journalled provider exceptions create content-free owned alerts; staff views expose only
+  opaque references, coded reasons and state. Alert records are not evidence of delivered email.
+- Never force-clear conflicting captures or disputes. Preserve their evidence and holds until the
+  outstanding 11.8 outcomes are implemented and independently verified. Do not refund an unrelated
+  PaymentIntent merely because a valid event names a known order.
+- A clean native review deposit can supply monetary readiness; identity, consent, medical safety,
+  approval, pharmacy, custody and delivery controls remain independent. Paid never means dispensed.
+
+### Historical Foundation Exception Store
 
 Monitor Checkout completion, delayed success/failure, expiration, refunds, disputes, duplicate
 delivery, unmatched references, and payment-intent conflicts. Partial refunds and ambiguous events

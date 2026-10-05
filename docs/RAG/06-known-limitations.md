@@ -3,10 +3,11 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-05
+last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-5-signed-receipts-settlement.md
@@ -97,6 +98,22 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 11.8 Is Not Yet Fully Accepted
+
+The [local reconciliation checkpoint](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
+confirms exact signed refund jobs and permits one replacement after independently verified failure.
+Pending, uncertain or contradictory evidence cannot be retried blindly. Provider-checked unpaid
+terminal evidence can release an unconsumed product credit; webhook expiry alone cannot.
+The native deposit bridge is implemented but does not activate clinical/manual transfer by itself.
+
+Do not equate event deduplication with refunding a genuinely separate duplicate capture. That full
+refund path, final dispute outcome resolution, and replacement failed/expired deposit Checkout remain
+outstanding Task 11.8 work. All remain held rather than being silently marked resolved. No new debt
+ID or business-policy deviation is introduced; TD-010 retains these obligations.
+Local mocked/browser/SQL proof is not hosted provider proof. Seven Sprint 11 migrations have not been
+applied hosted by this task; dispatch remains disabled by default and Task 11.9 is not accepted.
+Earlier task-specific checkpoints below are historical and must be read with this current boundary.
 
 ## Sprint 11.7 Refund Commands Are Local, Not Activated or Settled
 

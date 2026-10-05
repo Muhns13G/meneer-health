@@ -93,3 +93,63 @@ it("never calls Stripe if claim fails, and preserves uncertainty when result per
   expect(h.create).toHaveBeenCalledOnce();
   expect(record).toHaveBeenCalledOnce();
 });
+it("releases no credit unless the current exact test Session and PaymentIntent are terminal and unpaid", async () => {
+  const plan = {
+    intentId: input.refundId,
+    tenantId: input.refundId,
+    accountId: input.accountId,
+    sessionId: "cs_test_synthetic12345",
+    paymentIntentId: input.paymentIntentId,
+    amountMinor: 60100,
+  };
+  const session = {
+    id: plan.sessionId,
+    livemode: false,
+    mode: "payment",
+    currency: "zar",
+    amount_total: 60100,
+    client_reference_id: plan.intentId,
+    metadata: { orderId: plan.intentId, tenantId: plan.tenantId },
+    status: "expired",
+    payment_status: "unpaid",
+    payment_intent: plan.paymentIntentId,
+  };
+  const payment = {
+    id: plan.paymentIntentId,
+    livemode: false,
+    currency: "zar",
+    status: "requires_payment_method",
+    amount_received: 0,
+  };
+  const client = {
+    accounts: { retrieveCurrent: vi.fn(async () => ({ id: plan.accountId })) },
+    checkout: { sessions: { retrieve: vi.fn(async () => session) } },
+    paymentIntents: { retrieve: vi.fn(async () => payment) },
+  };
+  const provider = new PilotRefundProvider(
+    "rk_test_synthetic_only",
+    plan.accountId,
+    client as unknown as Stripe,
+  );
+  expect(await provider.inspectTerminal(plan)).toEqual({
+    intentId: plan.intentId,
+    sessionId: plan.sessionId,
+    status: "expired",
+  });
+  for (const status of ["processing", "requires_action", "succeeded"]) {
+    payment.status = status;
+    await expect(provider.inspectTerminal(plan)).rejects.toThrow();
+  }
+  payment.status = "canceled";
+  payment.amount_received = 1;
+  await expect(provider.inspectTerminal(plan)).rejects.toThrow();
+  payment.amount_received = 0;
+  session.payment_status = "paid";
+  await expect(provider.inspectTerminal(plan)).rejects.toThrow();
+  session.payment_status = "unpaid";
+  session.status = "open";
+  await expect(provider.inspectTerminal(plan)).rejects.toThrow();
+  session.status = "expired";
+  session.metadata.orderId = crypto.randomUUID();
+  await expect(provider.inspectTerminal(plan)).rejects.toThrow();
+});
