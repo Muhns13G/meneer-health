@@ -3,10 +3,11 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-portable-direction
 authority: strategic
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/01-audits/project-codebase-audit-2026-08-05.md
@@ -33,6 +34,12 @@ sources:
 ---
 
 # Meneer Platform Evolution and Migration Contract
+
+Current delivery checkpoint: Sprint 10's staff queue, protected first-party medical intake and
+governed manual bridge are [completed with activation gates](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md).
+This remains TanStack/Cloudflare v1, not a Next.js or Laravel rebuild. Sprints 11–13 and the owner's
+provider reactivation/compatibility requirement precede pilot activation. Historical design-stage
+statements below must not be interpreted as current missing queue/intake implementation.
 
 ## First Party Intake Scope Amendment
 

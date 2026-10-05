@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-10
 title: Staff Operations Queue and Manual Protocol Hand-Off
-status: in-progress
+status: completed-with-activation-gates
 primary_debt: [TD-009, TD-043]
 depends_on:
   [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013, DR-014, DR-015, DR-017, DR-018]
@@ -10,6 +10,15 @@ owner: "@Muhns13G"
 ---
 
 # Sprint 10 — Staff Operations Queue and Manual Protocol Hand-Off
+
+## Closure — 5 October 2026
+
+Tasks 10.1–10.10 and I1–I8 are complete at their recorded engineering/synthetic acceptance boundaries.
+See the [completion report](../../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)
+for decisions, deviations, tests, lessons, debt and the exact Git-derived inventory through `14a965a`.
+The owner's current-generator exception remains a pre-launch dependency; real pilot intake,
+payments and transfer remain disabled/gated. Task 10.10's documentation awaits owner commit/CI.
+Historical checkpoints below retain their original evidence and are superseded by this closure.
 
 ## Mission
 
@@ -73,10 +82,10 @@ break glass. No staff queue/UI, migration or hosted activation is delivered by t
 | 10.5     | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Completed (local gated)                                                        |
 | 10.6     | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Completed locally; activation gated                                            |
 | 10.7     | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Completed and closed; hosted verified with owner-confirmed receipt             |
-| 10.8     | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Completed locally; hosted migration/release proof gated                        |
+| 10.8     | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Completed; hosted migration/waiting-state proof included in I8                 |
 | 10.I1–I8 | Deliver the separately protected first-party questionnaire, authorised manual transfer and medical lifecycle under the intake amendment.        | DR-018, TD-009     | Completed; current external-generator walkthrough explicitly excepted by owner |
 | 10.9     | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Completed; bounded local rehearsal, activation gates unchanged                 |
-| 10.10    | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned                                                                        |
+| 10.10    | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Completed; owner commit/CI pending                                             |
 
 Task 10.2 adds eight deny-default tables and `operations.record@1`; see the
 [persistence evidence](annexures/sprint-10-2-staff-queue-persistence.md). Local migration replay
@@ -132,7 +141,7 @@ The payment adapter remains false until Sprint 11. Task 10.9's
 rollback-only local packet, generator-outage/abandonment assertions and controlled browser failure
 checks. The packet passes 411 assertions, full SQL 1,017, Vitest 673, real local MFA/concurrency,
 34 targeted desktop/mobile browser checks and production build. Task 10.9 is complete at this
-bounded engineering boundary; Task 10.10 remains planned. All seven Sprint
+bounded engineering boundary; Task 10.10 now closes the sprint in the linked completion report. All seven Sprint
 10 migrations were applied hosted with explicit owner approval on 4 October 2026. No seed/role
 import or pilot activation occurred; independent checks retain one suspended tenant and zero
 subjects/Auth users, cases, attempts and alerts. No real-client or scheduled Worker activation is claimed.
