@@ -57,6 +57,73 @@ it("uses verified context rather than client authority and returns private bound
   );
   expect(h.deps.provider.submit).not.toHaveBeenCalled();
 });
+it("permits only staff reconciliation/retry with exact schema and no provider call", async () => {
+  const h = setup();
+  for (const action of ["reconcile", "retry"]) {
+    const body = {
+      action,
+      offerId: id,
+      requestKey: id,
+      ...(action === "retry" ? { refundId: id } : {}),
+    };
+    expect((await h.handler(h.request(body))).status).toBe(422);
+    expect((await h.handler(h.request(body, "/staff/payments/refund"))).status).toBe(200);
+    expect(
+      (await h.handler(h.request({ ...body, state: "confirmed" }, "/staff/payments/refund")))
+        .status,
+    ).toBe(422);
+  }
+  expect(h.deps.provider.submit).not.toHaveBeenCalled();
+});
+it("records a provider-backed terminal observation before reconciliation, and holds on inspection failure", async () => {
+  const h = setup(),
+    plan = {
+      intentId: id,
+      tenantId: id,
+      accountId: "acct_synthetic12345",
+      sessionId: "cs_test_synthetic12345",
+      amountMinor: 60100,
+      paymentIntentId: "pi_synthetic12345",
+    };
+  const inspectTerminal = vi.fn(async () => ({
+    intentId: id,
+    sessionId: plan.sessionId,
+    status: "expired" as const,
+  }));
+  const deps = { ...h.deps, provider: { ...h.deps.provider, inspectTerminal } };
+  deps.command.mockResolvedValueOnce([plan]).mockResolvedValueOnce(h.view);
+  const handler = createRefundHttpHandler(h.bindings, deps),
+    request = () =>
+      h.request({ action: "reconcile", offerId: id, requestKey: id }, "/staff/payments/refund");
+  expect((await handler(request())).status).toBe(200);
+  expect(deps.command.mock.calls.map((call) => call[2].action)).toEqual([
+    "inspect",
+    "record_terminal",
+    "reconcile",
+  ]);
+  deps.command.mockClear().mockResolvedValueOnce([plan]);
+  inspectTerminal.mockRejectedValueOnce(new Error("synthetic pending money"));
+  expect((await handler(request())).status).toBe(503);
+  expect(deps.command).toHaveBeenCalledOnce();
+  expect(deps.provider.submit).not.toHaveBeenCalled();
+  expect(
+    (
+      await handler(
+        h.request(
+          {
+            action: "record_terminal",
+            offerId: id,
+            requestKey: id,
+            intentId: id,
+            sessionId: plan.sessionId,
+            status: "expired",
+          },
+          "/staff/payments/refund",
+        ),
+      )
+    ).status,
+  ).toBe(422);
+});
 it("rejects patient staff commands, injected amounts, cross origin and query strings", async () => {
   const h = setup();
   expect(

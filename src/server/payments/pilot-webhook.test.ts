@@ -78,6 +78,37 @@ it("retains safe unsupported receipts without persisting their object", async ()
   expect(result.paymentIntentId).toBeNull();
   expect(result.eventType).toBe("customer.updated");
 });
+it("retains only signed original-source refund status and opaque job correlation", async () => {
+  for (const status of ["pending", "succeeded", "failed", "canceled", "requires_action"]) {
+    const raw = payload({
+      type: "refund.updated",
+      data: {
+        object: {
+          id: "re_synthetic12345",
+          payment_intent: "pi_synthetic12345",
+          amount: 19900,
+          currency: "zar",
+          status,
+          metadata: { refund_reference: id, diagnosis: "synthetic-prohibited" },
+          customer_email: "private@example.invalid",
+        },
+      },
+    });
+    const event = await verifyPilotReceipt(raw, signature(raw), secret, account, client);
+    expect(event).toMatchObject({
+      refundId: "re_synthetic12345",
+      refundReference: id,
+      refundStatus: status,
+      amountMinor: 19900,
+    });
+    expect(JSON.stringify(event)).not.toMatch(/diagnosis|private@example|synthetic-prohibited/);
+  }
+  const raw = payload({
+    type: "refund.updated",
+    data: { object: { id: "re_synthetic12345", status: "unknown" } },
+  });
+  await expect(verifyPilotReceipt(raw, signature(raw), secret, account, client)).rejects.toThrow();
+});
 it("acknowledges only durable receipt processing and hides storage errors", async () => {
   const apply = vi.fn(async () => ({ replayed: false, outcome: "pending" }));
   const handler = createPilotWebhookHandler(

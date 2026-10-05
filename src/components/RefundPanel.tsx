@@ -100,6 +100,24 @@ function RefundContent({ offerId, staff }: { offerId: string; staff: boolean }) 
       {view && (
         <>
           <p className="mt-3">Request: {view.requestState.replaceAll("_", " ")}</p>
+          {staff && (
+            <button
+              className="mt-3 rounded-full border border-border px-4 py-2"
+              disabled={busy}
+              onClick={() => void send({ action: "reconcile", requestKey: crypto.randomUUID() })}
+            >
+              Reconcile verified payment evidence
+            </button>
+          )}
+          {staff && view.exceptions.length > 0 && (
+            <ul className="mt-3 text-sm">
+              {view.exceptions.map((exception) => (
+                <li key={exception.reference}>
+                  {exception.code.replaceAll("_", " ")} — {exception.state}
+                </li>
+              ))}
+            </ul>
+          )}
           {!staff && view.requestState === "not_requested" && (
             <form
               className="mt-3"
@@ -186,7 +204,23 @@ function RefundContent({ offerId, staff }: { offerId: string; staff: boolean }) 
           <ul className="mt-3 space-y-3">
             {view.refunds.map((refund) => (
               <li key={refund.reference}>
-                R{(refund.amountMinor / 100).toFixed(2)} — refund {refund.state}
+                R{(refund.amountMinor / 100).toFixed(2)} — refund{" "}
+                {refund.state.replaceAll("_", " ")}
+                {staff && refund.state === "failed_verified" && (
+                  <button
+                    className="ml-3 rounded-full border border-border px-4 py-2"
+                    disabled={busy}
+                    onClick={() =>
+                      void send({
+                        action: "retry",
+                        refundId: refund.reference,
+                        requestKey: crypto.randomUUID(),
+                      })
+                    }
+                  >
+                    Queue retry after verified failure
+                  </button>
+                )}
                 {staff && refund.state === "queued" && (
                   <button
                     className="ml-3 rounded-full border border-border px-4 py-2"

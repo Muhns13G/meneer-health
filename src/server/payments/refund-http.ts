@@ -23,7 +23,8 @@ type Authority = { tenantId: string; sessionId: string; expiresAt: Date; context
 type Dependencies = {
   authorise(request: Request, staff: boolean): Promise<Authority>;
   command(staff: boolean, context: unknown, command: Record<string, unknown>): Promise<unknown>;
-  provider: Pick<PilotRefundProvider, "submit">;
+  provider: Pick<PilotRefundProvider, "submit"> &
+    Partial<Pick<PilotRefundProvider, "inspectTerminal">>;
 };
 function reply(status: number, value?: unknown) {
   return new Response(value === undefined ? null : JSON.stringify(value), {
@@ -142,6 +143,13 @@ export function createRefundHttpHandler(
           },
           // Lazy construction: read/request paths need no refund-capable credentials.
           provider: {
+            inspectTerminal: (value) =>
+              new PilotRefundProvider(
+                bindings.STRIPE_RESTRICTED_KEY,
+                typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
+                  ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
+                  : "",
+              ).inspectTerminal(value),
             submit: (value) =>
               new PilotRefundProvider(
                 bindings.STRIPE_RESTRICTED_KEY,
@@ -178,6 +186,27 @@ export function createRefundHttpHandler(
       )
         return reply(422);
       const command = parsed.data;
+      if (command.action === "reconcile" && dependencies.provider.inspectTerminal) {
+        if (
+          bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
+          bindings.COMMERCE_WEBHOOK_MODE !== "sandbox"
+        )
+          return reply(412);
+        const plans = await dependencies.command(true, authority.context, {
+          action: "inspect",
+          offerId: command.offerId,
+        });
+        if (!Array.isArray(plans) || plans.length > 20) throw new Error("RECONCILIATION_INVALID");
+        for (const plan of plans) {
+          const fact = await dependencies.provider.inspectTerminal(plan);
+          await dependencies.command(true, authority.context, {
+            action: "record_terminal",
+            offerId: command.offerId,
+            requestKey: command.requestKey,
+            ...fact,
+          });
+        }
+      }
       if (command.action === "dispatch") {
         if (
           bindings.COMMERCE_REFUND_MODE !== "sandbox" ||
