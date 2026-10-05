@@ -41,6 +41,12 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+Task 10.8's [own-client projection](../02-implementation-plans/phase-02/annexures/sprint-10-8-client-case-progress.md)
+is completed locally: central read audit, coarse administrative labels and three-field private display
+with own-scope/lifecycle/session/receipt authority. Full local SQL and application/browser checks pass.
+Hosted migration approval and own-client release proof remain activation gates. No new debt ID;
+TD-009/TD-043 wider intake/operational requirements and manual accessibility gates remain open.
+
 Task 10.7's [audit/alert foundation](../02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md)
 adds local central chained audit, access-before-disclosure evidence, identified denied overrides,
 private owned alert intent, administrator AAL2 review and bounded overdue/uncertainty detection.

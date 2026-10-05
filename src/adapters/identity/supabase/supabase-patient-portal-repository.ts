@@ -15,7 +15,7 @@ export class SupabasePatientPortalRepository implements PatientPortalRepository 
 
   async readOwnAccount(context: PortalContext) {
     try {
-      const { data, error } = await this.client.rpc("read_patient_portal", {
+      const { data, error } = await this.client.rpc("read_patient_portal_with_operations", {
         p_tenant_id: context.tenantId,
         p_subject_id: context.subjectId,
         p_session_id: context.sessionId,
