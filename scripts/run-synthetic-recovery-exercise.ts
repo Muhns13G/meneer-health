@@ -16,6 +16,7 @@ const stagingDatabase = `meneer_recovery_${process.pid}`;
 const containerDump = `/tmp/${stagingDatabase}.dump`;
 const schemaVersion = "20260811113146";
 const governedSchemas = [
+  "commerce_private",
   "public",
   "audit_private",
   "fulfilment_private",
@@ -46,7 +47,7 @@ function databaseFingerprint(database: string): {
 } {
   const tableNames = sql(
     database,
-    "select schemaname || '.' || tablename from pg_tables where schemaname in ('public','intake_private') order by schemaname,tablename",
+    "select schemaname || '.' || tablename from pg_tables where schemaname in ('public','intake_private','commerce_private') order by schemaname,tablename",
   )
     .split("\n")
     .filter(
