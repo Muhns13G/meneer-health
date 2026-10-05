@@ -6,6 +6,7 @@ accountable_owner: Meneer business owner
 implementation_owner: Octothorp ZA commercial, technology and operations owner
 required_approvers: [business_owner, repository_owner]
 effective_date: 2026-10-02
+last_updated: 2026-10-05
 supersedes: [DR-011-product-exclusion, DR-012-product-fulfilment-exclusion]
 related_debt: [TD-006, TD-007, TD-009, TD-010, TD-043]
 ---
@@ -68,6 +69,21 @@ professionals or activate checkout, dispensing or fulfilment.
 11. **Activation:** Stripe remains in sandbox/test mode until Sprint 11 and the final Sprint 13
     release decision. No price, product or delivery route becomes public or chargeable merely
     because this commercial decision is approved.
+
+## Task 11.1 Owner Clarifications — 5 October 2026
+
+The owner explicitly approved capped product credit where the first approved order's RRP subtotal
+is below R999: refund the unused deposit to the original method and charge delivery separately.
+There is no future wallet balance or silent forfeiture. The
+[11.1 contract](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)
+defines atomic credit reservation/consumption, unused-refund reconciliation and original-funding
+allocation. This is a commercial clarification, not executed refund or payment evidence.
+
+The owner also approved staff review of unresolved no-show/late-cancellation and
+post-pharmacy-release refund cases, with no automatic forfeiture or invented fee. Existing explicit
+full-refund reasons remain automatic. Exact monetary exceptions require reviewed terms and
+attributed authority; staff review cannot waive applicable rights or infer voluntary decline.
+Final rendered transactional publication must include these meanings with traceable versioning.
 
 ## Effect on Earlier Decisions and Debt
 

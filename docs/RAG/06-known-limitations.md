@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
@@ -90,6 +91,16 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 11.1 Does Not Implement Checkout
+
+The [commercial contract](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)
+is complete at contract level, including owner-approved credit and exception dispositions.
+Private catalogue/rates, exact reviewed transactional publication/acceptance, current patient
+Checkout, authoritative deposit/credit adapters, provider-backed refunds and hosted exception proof
+remain Tasks 11.2–11.9. Legacy payment runtime remains localhost-only and production readiness
+adapters remain false. Zero-total Session completion must not be described as a new charge.
+TD-010 is still In progress; neither these decisions nor synthetic prices approve a real sale.
 
 ## Sprint 10 Closure Is Not Pilot Release
 

@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-11
 title: Stripe Sandbox and Commercial Operations
-status: planned
+status: in-progress
 primary_debt: [TD-010]
 depends_on:
   [
@@ -32,7 +32,10 @@ The expanded Sprint 10 intake stream must be reflected in the synthetic journey 
 
 The [readiness handoff](annexures/sprint-11-readiness-handoff.md) records the committed Sprint 10
 baseline, retained activation gates and existing payment-foundation gaps. Start with Task 11.1;
-this handoff is preparation, not completion of that task or permission to enable payments.
+this handoff is preparation, not permission to enable payments. Task 11.1 is now complete at the
+[commercial contract boundary](annexures/sprint-11-1-commercial-payment-contract.md), including
+owner-approved capped credit/unused-deposit refund and staff-reviewed unresolved exceptions.
+Tasks 11.2–11.10 remain planned; TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
 test mode. Prove server-owned pricing, signed provider events, independent clinical/payment state,
@@ -40,18 +43,18 @@ refunds and staff reconciliation before considering any live credential or real 
 
 ## Commit-Sized Task Plan
 
-| Task  | Commit-sized outcome                                                                                                 | Gate            | Status  |
-| ----- | -------------------------------------------------------------------------------------------------------------------- | --------------- | ------- |
-| 11.1  | Freeze approved pilot scenarios, price versions, terms versions, payment timing and exception matrix.                | TD-010          | Planned |
-| 11.2  | Seed the approved test-mode price catalogue and readiness rules; reject browser-supplied amounts.                    | TD-010          | Planned |
-| 11.3  | Implement the authenticated client review-and-pay boundary with explicit line items and no health metadata.          | Checkout        | Planned |
-| 11.4  | Enable test-mode Checkout creation behind environment, identity, consent, workflow and release gates.                | Checkout        | Planned |
-| 11.5  | Enable signed raw-body webhooks with durable idempotency, replay/conflict detection and out-of-order reconciliation. | Provider events | Planned |
-| 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Planned |
-| 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Planned |
-| 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | Planned |
-| 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | Planned |
-| 11.10 | Reconcile evidence and issue the Sprint 11 completion report; keep live mode disabled.                               | All             | Planned |
+| Task  | Commit-sized outcome                                                                                                 | Gate            | Status                      |
+| ----- | -------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------------- |
+| 11.1  | Freeze approved pilot scenarios, price versions, terms versions, payment timing and exception matrix.                | TD-010          | Completed at contract level |
+| 11.2  | Seed the approved test-mode price catalogue and readiness rules; reject browser-supplied amounts.                    | TD-010          | Planned                     |
+| 11.3  | Implement the authenticated client review-and-pay boundary with explicit line items and no health metadata.          | Checkout        | Planned                     |
+| 11.4  | Enable test-mode Checkout creation behind environment, identity, consent, workflow and release gates.                | Checkout        | Planned                     |
+| 11.5  | Enable signed raw-body webhooks with durable idempotency, replay/conflict detection and out-of-order reconciliation. | Provider events | Planned                     |
+| 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Planned                     |
+| 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Planned                     |
+| 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | Planned                     |
+| 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | Planned                     |
+| 11.10 | Reconcile evidence and issue the Sprint 11 completion report; keep live mode disabled.                               | All             | Planned                     |
 
 ## Acceptance Gate
 

@@ -875,8 +875,33 @@
     {
       "id": "phase-02-sprint-11",
       "path": "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
-      "status": "planned",
+      "status": "in-progress",
+      "last_updated": "2026-10-05",
       "authority_for": ["Stripe sandbox activation", "commercial operations", "payment exceptions"]
+    },
+    {
+      "id": "phase-02-sprint-11-readiness",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-readiness-handoff.md",
+      "status": "ready-for-contract-task",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "Sprint 10 committed engineering closure and retained activation gates",
+        "ten-task Sprint 11 sequence and inactive payment-foundation gaps"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-11-1-commercial-payment-contract",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md",
+      "status": "completed-at-contract-level",
+      "source_commit": "109413b",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "R999 deposit and separate approved product-order timing",
+        "price instrument and order-specific acceptance version binding",
+        "owner-approved capped credit unused refund and staff-reviewed exceptions",
+        "payment credit refund and independent provider evidence test obligations",
+        "TD-010 remains In progress with payment activation disabled"
+      ]
     },
     {
       "id": "phase-02-sprint-12",
