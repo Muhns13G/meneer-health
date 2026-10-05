@@ -1,7 +1,7 @@
 begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
-select plan(35);
+select no_plan();
 
 insert into auth.users(id,email,email_confirmed_at,is_sso_user,is_anonymous)
 values ('97000000-0000-4000-8000-000000000001','portal@example.invalid',now(),false,false);
@@ -37,7 +37,7 @@ select '97000000-0000-4000-8000-000000000006',subject_id,'97000000-0000-4000-800
 create function pg_temp.portal(tenant uuid default '10000000-0000-4000-8000-000000000001',
   subject uuid default null, provider uuid default '97000000-0000-4000-8000-000000000001',
   purpose text default 'account') returns jsonb language sql as $$
-  select public.read_patient_portal(tenant,coalesce(subject,(select subject_id from portal_context)),
+  select public.read_patient_portal_with_operations(tenant,coalesce(subject,(select subject_id from portal_context)),
     '97000000-0000-4000-8000-000000000006',provider,'97000000-0000-4000-8000-000000000002',
     'portal@example.invalid',purpose);
 $$;
@@ -52,6 +52,51 @@ select is(pg_temp.portal()->'profile'->>'mobileVerificationStatus','pending','mo
 select is(jsonb_array_length(pg_temp.portal()->'instruments'),2,'two exact account actions appear');
 select is(pg_temp.portal()->'workflows','[]'::jsonb,'absence never fabricates workflow progress');
 reset role;
+select ok(not has_function_privilege('anon','public.read_patient_portal_with_operations(uuid,uuid,uuid,uuid,uuid,text,text)','execute'),'anonymous cannot call case projection');
+select ok(not has_function_privilege('authenticated','public.read_patient_portal_with_operations(uuid,uuid,uuid,uuid,uuid,text,text)','execute'),'browser cannot call case projection');
+select ok(has_function_privilege('service_role','public.read_patient_portal_with_operations(uuid,uuid,uuid,uuid,uuid,text,text)','execute'),'server can call own case projection');
+select is(pg_temp.portal()->'operationsCases','[]'::jsonb,'no case never fabricates administrative progress');
+insert into public.operations_cases(id,tenant_id,subject_id,state,outcome,created_at)
+select ('c8000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,
+ '10000000-0000-4000-8000-000000000001',subject_id,state,
+ case when state='provider_outcome_recorded' then 'unable_to_complete' else null end,
+ now()-interval '1 day'+make_interval(secs=>n)
+from portal_context cross join (values (1,'onboarding_pending'),(2,'ready_for_handoff'),
+ (3,'handed_off'),(4,'provider_acknowledged'),(5,'provider_review_pending'),
+ (6,'provider_outcome_recorded'),(7,'handoff_exception'),(8,'cancelled')) v(n,state);
+insert into public.tenant_memberships(tenant_id,subject_id,role,status)
+values('10000000-0000-4000-8000-000000000002','20000000-0000-4000-8000-000000000002','patient','active');
+insert into public.operations_cases(id,tenant_id,subject_id)
+values('c8000000-0000-4000-8000-000000000099','10000000-0000-4000-8000-000000000002','20000000-0000-4000-8000-000000000002');
+select is(jsonb_array_length(pg_temp.portal()->'operationsCases'),8,'other tenant/subject case excluded');
+select is((select jsonb_agg(x->>'status') from jsonb_array_elements(pg_temp.portal()->'operationsCases') x),
+ '["waiting","handoff_pending","handoff_recorded","handoff_recorded","handoff_recorded","completed","paused","paused"]'::jsonb,
+ 'all internal states map to coarse administrative labels');
+select ok(not exists(select 1 from jsonb_array_elements(pg_temp.portal()->'operationsCases') x
+ where (select count(*) from jsonb_object_keys(x))<>3 or x ?| array['state','outcome','reason','staffId','clinicalState','paymentState','protocol']),
+ 'only reference status and timestamp cross the client boundary');
+select ok(exists(select 1 from public.audit_events where subject_id=(select subject_id from portal_context)
+ and action='operations.client.status.read' and purpose='account'),'case read records central audit');
+select throws_ok($test$do $$begin
+ create function pg_temp.fail_client_read() returns trigger language plpgsql as $body$begin
+ if new.action='operations.client.status.read' then raise exception 'SYNTHETIC_AUDIT_FAILURE'; end if;
+ return new; end;$body$;
+ create trigger synthetic_fail_client_read before insert on public.audit_events
+ for each row execute function pg_temp.fail_client_read();
+ perform pg_temp.portal(); end;$$$test$,'P0001','SYNTHETIC_AUDIT_FAILURE','audit failure prevents projection disclosure');
+select throws_ok($test$do $$begin
+ create function pg_temp.delay_client_read() returns trigger language plpgsql as $body$begin
+ if new.action='operations.client.status.read' then perform pg_sleep(0.15); end if;
+ return new; end;$body$;
+ create trigger synthetic_delay_client_read before insert on public.audit_events
+ for each row execute function pg_temp.delay_client_read();
+ update public.identity_sessions set idle_expires_at=clock_timestamp()+interval '0.1 seconds'
+ where id='97000000-0000-4000-8000-000000000006';
+ perform pg_temp.portal(); end;$$$test$,'42501','PORTAL_REJECTED','wall-clock expiry during audit waiting prevents stale disclosure');
+select throws_ok($test$do $$begin
+ insert into public.operations_cases(id,tenant_id,subject_id)
+ select gen_random_uuid(),'10000000-0000-4000-8000-000000000001',subject_id from portal_context cross join generate_series(1,93);
+ perform pg_temp.portal(); end;$$$test$,'54000','PORTAL_CAPACITY_EXCEEDED','oversized case inventory fails closed rather than truncating silently');
 insert into public.workflow_instances(id,tenant_id,subject_id,payment_state)
 select '97000000-0000-4000-8000-000000000007','10000000-0000-4000-8000-000000000001',subject_id,'paid' from portal_context;
 insert into public.workflow_instances(id,tenant_id,subject_id)
