@@ -26,6 +26,7 @@ import { Route as GoDadsRouteImport } from './routes/go/dads'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalIntakeRouteImport } from './routes/portal.intake'
+import { Route as PortalOrderRouteImport } from './routes/portal.order'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as PortalRightsRouteImport } from './routes/portal.rights'
 import { Route as StaffAlertsRouteImport } from './routes/staff.alerts'
@@ -123,6 +124,11 @@ const PortalIntakeRoute = PortalIntakeRouteImport.update({
   path: '/portal/intake',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalOrderRoute = PortalOrderRouteImport.update({
+  id: '/portal/order',
+  path: '/portal/order',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalProfileRoute = PortalProfileRouteImport.update({
   id: '/portal/profile',
   path: '/portal/profile',
@@ -197,6 +203,7 @@ export interface FileRoutesByFullPath {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/intake': typeof PortalIntakeRoute
+  '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/staff/alerts': typeof StaffAlertsRoute
@@ -227,6 +234,7 @@ export interface FileRoutesByTo {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/intake': typeof PortalIntakeRoute
+  '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/staff/alerts': typeof StaffAlertsRoute
@@ -258,6 +266,7 @@ export interface FileRoutesById {
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/intake': typeof PortalIntakeRoute
+  '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/staff/alerts': typeof StaffAlertsRoute
@@ -290,6 +299,7 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/portal/intake'
+    | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
     | '/staff/alerts'
@@ -320,6 +330,7 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/portal/intake'
+    | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
     | '/staff/alerts'
@@ -350,6 +361,7 @@ export interface FileRouteTypes {
     | '/go/dads'
     | '/go/thanks-dad'
     | '/portal/intake'
+    | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
     | '/staff/alerts'
@@ -381,6 +393,7 @@ export interface RootRouteChildren {
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
   PortalIntakeRoute: typeof PortalIntakeRoute
+  PortalOrderRoute: typeof PortalOrderRoute
   PortalProfileRoute: typeof PortalProfileRoute
   PortalRightsRoute: typeof PortalRightsRoute
   StaffAlertsRoute: typeof StaffAlertsRoute
@@ -516,6 +529,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalIntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/order': {
+      id: '/portal/order'
+      path: '/portal/order'
+      fullPath: '/portal/order'
+      preLoaderRoute: typeof PortalOrderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portal/profile': {
       id: '/portal/profile'
       path: '/portal/profile'
@@ -613,6 +633,7 @@ const rootRouteChildren: RootRouteChildren = {
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
   PortalIntakeRoute: PortalIntakeRoute,
+  PortalOrderRoute: PortalOrderRoute,
   PortalProfileRoute: PortalProfileRoute,
   PortalRightsRoute: PortalRightsRoute,
   StaffAlertsRoute: StaffAlertsRoute,
