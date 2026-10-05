@@ -13,8 +13,9 @@ depends_on:
     DR-012,
     DR-013,
     DR-015,
+    DR-018,
   ]
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 owner: "@Muhns13G"
 ---
 
@@ -22,11 +23,16 @@ owner: "@Muhns13G"
 
 ## Mission
 
-DR-018 now plans first-party medical intake and manual generator transfer. Reconcile I1's
+DR-018's first-party medical intake and manual generator transfer are implemented and synthetically
+verified by the completed Sprint 10. Reconcile I1's
 questionnaire/submission/transfer timing with the deposit contract before Checkout activation;
 do not infer payment approval from submitted medical answers or make bloods an initial submission
 prerequisite. Questionnaire content must never enter Stripe line items, metadata or URLs.
 The expanded Sprint 10 intake stream must be reflected in the synthetic journey proof.
+
+The [readiness handoff](annexures/sprint-11-readiness-handoff.md) records the committed Sprint 10
+baseline, retained activation gates and existing payment-foundation gaps. Start with Task 11.1;
+this handoff is preparation, not completion of that task or permission to enable payments.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
 test mode. Prove server-owned pricing, signed provider events, independent clinical/payment state,
@@ -50,8 +56,12 @@ refunds and staff reconciliation before considering any live credential or real 
 ## Acceptance Gate
 
 - The server owns price, currency, line items, terms version and internal state.
-- Every approved minimum-pilot line item is non-medicine and contains no peptide or other product
-  identifier.
+- DR-013 supersedes the historical non-medicine-only scope: prove the R999 review deposit and
+  separately accepted, clinically approved RRP orders with deposit credit and separate delivery.
+  Product authority, availability and supply gates remain independent; synthetic proof is not
+  approval to sell. Keep medical answers and unnecessary health/product identifiers out of Stripe
+  metadata, URLs and logs. Task 11.1 must define the truthful client/provider line-item boundary
+  without disguising the nature of a transaction.
 - A success redirect is never treated as payment evidence.
 - Payment cannot imply treatment approval, protocol completion, dispensing or fulfilment.
 - Test events reconcile exactly once, and conflicts/out-of-order events enter an owned exception

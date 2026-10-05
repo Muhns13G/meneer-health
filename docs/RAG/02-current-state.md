@@ -107,7 +107,10 @@ sources:
 
 The [completion report](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)
 closes Tasks 10.1–10.10 and I1–I8 at their engineering/synthetic boundaries. Runtime implementation
-through 10.9 is committed at `14a965a`; closure docs await the owner's commit/CI. No new deployment
+through 10.9 is committed at `14a965a`; closure docs are committed at `5c7a0a0`.
+Exact-commit CI has not been rechecked in the Sprint 11 preparation. The
+[readiness handoff](../02-implementation-plans/phase-02/annexures/sprint-11-readiness-handoff.md)
+selects 11.1 next; no Sprint 11 implementation task is yet complete. No new deployment
 or hosted inventory is claimed by this documentation batch. Last I8 proof records 36 matching
 migrations, one suspended tenant/12 original provider gates and otherwise empty application data;
 collection/alert mode restored disabled. Current generator compatibility is explicitly excepted
