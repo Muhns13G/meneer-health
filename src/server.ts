@@ -7,6 +7,10 @@ import {
 } from "@tanstack/react-start/server";
 import type { Register } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
+import {
+  createOrderReviewHttpHandler,
+  type CommerceReviewBindings,
+} from "./server/payments/order-review-http";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
@@ -128,6 +132,10 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/portal/order/command")
+              return createOrderReviewHttpHandler(env as unknown as CommerceReviewBindings)(
+                boundedRequest,
+              );
             if (pathname === "/staff/intake/command")
               return createStaffIntakeHttpHandler(env as unknown as IntakeBindings)(boundedRequest);
             if (pathname === "/portal/intake/command")

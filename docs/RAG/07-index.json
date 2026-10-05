@@ -904,6 +904,20 @@
       ]
     },
     {
+      "id": "phase-02-sprint-11-3-order-review-acceptance",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md",
+      "status": "completed-local-review-boundary",
+      "source_commit": "99944b6",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "private exact-order review and unchecked transaction-specific acceptance",
+        "current sealed patient authority and immutable publication/offer hash binding",
+        "append-only receipt central audit expiry and replay denial proof",
+        "distinct local SQL HTTP and controlled desktop/mobile evidence",
+        "Checkout disabled and TD-010 TD-037 TD-038 retained release gates"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11-1-commercial-payment-contract",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md",
       "status": "completed-at-contract-level",

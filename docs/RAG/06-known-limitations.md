@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-2-private-commerce-preparation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
@@ -92,6 +93,17 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 11.3 Acceptance Is Not a Payment
+
+The [order-review boundary](../02-implementation-plans/phase-02/annexures/sprint-11-3-order-review-acceptance.md)
+is complete locally, with exact supplier/price/quote/terms disclosure and durable hash-bound receipt.
+Review defaults disabled; no real offer or instrument is manufactured or published. Hosted has
+neither new commerce migration. Checkout, provider settlement, credit consumption/release and
+refund execution remain later tasks. Terms approval and real catalogue/rates/authority remain
+release inputs. Browser fixture acceptance is UI evidence, not hosted Auth/SQL or Stripe proof.
+TD-010/037/038 remain non-Verified. Do not describe an accepted order as paid, clinically approved,
+dispensed or delivered.
 
 ## Sprint 11.2 Is Private Preparation, Not an Enabled Payment Journey
 
