@@ -72,6 +72,7 @@ jobs:
           bun run db:reset
           bun run db:test
           bun run test:identity:security
+          bun run test:operations:rehearsal
           bun run db:lint
           bun run test:auth
           bun run test:workforce
