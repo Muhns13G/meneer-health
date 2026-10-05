@@ -1,9 +1,16 @@
 # Protected Medical Intake — Release and Recovery
 
-Status: local implementation and verification in progress. Hosted I8 rehearsal and live clinical
+Status: I2–I7 local implementation/verification accepted; approved hosted migrations applied.
+Hosted I8 rehearsal and live clinical
 publication are separate gates. This runbook does not activate collection or approve clinical care.
 
 ## Isolated Rehearsal
+
+5 October checkpoint: all 35 hosted migration versions match the committed files; all 18 intake
+tables are empty with forced RLS. The owner will deploy the code. No medical key or synthetic runtime
+fixtures have yet been provisioned. Fresh provider login reaches `/subscribe`; obtain restored
+entitlement before claiming current generator compatibility. Never purchase a subscription as part
+of this rehearsal without separate owner action.
 
 1. Confirm the hosted baseline using counts only: one suspended pilot tenant, no real identities or
    client records. Preserve owner approval for migrations, synthetic fixtures, emails and cleanup.

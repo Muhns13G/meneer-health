@@ -121,12 +121,18 @@ publication review and has no claim of original Dr Zee approval. I1 is completed
 with private appointment/safety-configuration/publication gates. I2–I7 now have local code, private
 schema, protected patient/staff routes and controlled evidence, tracked in the
 [implementation progress record](../02-implementation-plans/phase-02/annexures/sprint-10-intake-implementation-progress.md).
-Do not infer task closure, hosted deployment or activation: I8 hosted Auth/browser/transport,
-manual-generator and scoped-cleanup proof remains outstanding. A read-only hosted check on
-5 October confirmed one suspended tenant, zero subjects/identities and no intake schema.
+I2–I7 have accepted local implementation evidence; do not infer hosted runtime or pilot activation.
+I8 hosted Auth/browser/transport, manual-generator and scoped-cleanup proof remains outstanding.
+On 5 October the owner-approved seven-migration push brought hosted history to all 35 committed
+versions, with no seed/activation. Read-only checks confirm one suspended tenant, zero subjects,
+external identities and Auth users, and 18 empty intake tables with forced RLS and no browser-role read
+privilege. The owner will deploy the code; the dedicated medical key/rehearsal remain pending.
 The final local application/database suites pass 651 tests and 1,003 SQL assertions respectively;
 intake-specific desktop/mobile and encrypted recovery checks pass. The broader browser refresh
-is not accepted because account loading/readiness deadlines failed; see the progress record.
+now passes all **180 desktop/mobile checks in 6.9 minutes**, superseding the earlier local
+loading/readiness failures without weakening tests. Hosted advisors have informational deny-default
+RLS, foreign-key-index and unused-index notices, documented in the progress record. Fresh provider
+login reaches its subscription gate; current manual-generator proof needs restored entitlement.
 
 ## Sprint 10.8 Own-Client Case Progress — 5 October 2026
 
@@ -139,7 +145,7 @@ staff identities and clinical/payment fields are excluded, with strict extra-fie
 The new stateless section reuses refresh/expiry/hidden-page clearing and stores no browser data.
 Full local evidence: replay of all 29 migrations, 908 SQL assertions, 610 Vitest tests, 18 desktop/mobile
 portal Playwright/axe checks, lint/typecheck/build and portability/discovery/generated checks.
-Hosted migration application needs separate approval before deploying the new RPC consumer; no
+The prerequisite migration was subsequently approved and applied with intake migrations on 5 October; no
 hosted own-client proof, real-client activation or clinical integration is claimed. Intake I1–I8 is next.
 
 ## Sprint 10.7 Audit and Alert Foundation — 4 October 2026
