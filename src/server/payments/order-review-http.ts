@@ -1,5 +1,6 @@
 import "@tanstack/react-start/server-only";
 import { createClient } from "@supabase/supabase-js";
+import { z } from "zod";
 import { createSupabaseManagedIdentityProvider } from "@/adapters/identity/supabase/supabase-managed-identity-provider";
 import { SupabaseIdentitySessionRepository } from "@/adapters/identity/supabase/supabase-identity-session-repository";
 import { SupabasePatientPortalRepository } from "@/adapters/identity/supabase/supabase-patient-portal-repository";
@@ -10,7 +11,12 @@ import {
 import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
 import { IdentitySessionRejectedError } from "@/application/identity/identity-session-repository";
 import type { PatientSessionProof } from "@/application/identity/patient-session-service";
-import { orderReviewCommandSchema, orderReviewResultSchema } from "@/domain/payments/order-review";
+import {
+  orderReviewCommandSchema,
+  orderReviewResultSchema,
+  checkoutResultSchema,
+} from "@/domain/payments/order-review";
+import { createPilotCheckoutCommands, PilotCheckoutProvider } from "./pilot-checkout";
 import { initialiseServerEnvironment } from "@/server/config/environment.server";
 import {
   openPatientSession,
@@ -23,10 +29,16 @@ import { inspectProtectedJsonRequest } from "@/server/security/request-security"
 export type CommerceReviewBindings = PatientSessionBindings & {
   COMMERCE_REVIEW_MODE?: unknown;
   COMMERCE_REVIEW_TENANT_ID?: unknown;
+  COMMERCE_CHECKOUT_MODE?: unknown;
+  STRIPE_CHECKOUT_ACCOUNT_ID?: unknown;
+  STRIPE_RESTRICTED_KEY?: unknown;
 };
 type Dependencies = {
   authorise(proof: PatientSessionProof): Promise<{ context: PortalContext; expiresAt: Date }>;
   execute(context: PortalContext, command: unknown): Promise<unknown>;
+  prepare?(context: PortalContext, key: string): Promise<void>;
+  checkout?(context: PortalContext, offerId: string, key: string): Promise<unknown>;
+  ready?(context: PortalContext): Promise<boolean>;
 };
 function response(status: number, value?: unknown, clear = false) {
   return new Response(value === undefined ? null : JSON.stringify(value), {
@@ -79,10 +91,11 @@ export function createOrderReviewHttpHandler(
         { rateLimiter: bindings.REQUEST_RATE_LIMITER, principalRateKey: proof.sessionId },
       );
       if (!inspected.allowed) return response(inspected.response.status);
+      if (!z.uuid().safeParse(inspected.value.idempotencyKey).success) return response(422);
       const parsed = orderReviewCommandSchema.safeParse(inspected.value.body);
       if (!parsed.success) return response(422);
       if (
-        parsed.data.action === "accept" &&
+        parsed.data.action !== "read" &&
         parsed.data.requestKey !== inspected.value.idempotencyKey
       )
         return response(422);
@@ -133,12 +146,58 @@ export function createOrderReviewHttpHandler(
             return data;
           },
         };
+        if (bindings.COMMERCE_CHECKOUT_MODE === "sandbox") {
+          const account =
+            typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
+              ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
+              : "";
+          const commands = createPilotCheckoutCommands(
+            client,
+            account,
+            new PilotCheckoutProvider(bindings.STRIPE_RESTRICTED_KEY, account),
+          );
+          dependencies.prepare = commands.prepare;
+          dependencies.checkout = commands.checkout;
+          dependencies.ready = async (context) => {
+            const { data, error } = await client.rpc("patient_checkout_ready", {
+              p_context: context,
+              p_account: account,
+            });
+            if (error) throw new Error("COMMERCE_FORBIDDEN");
+            return data === true;
+          };
+        }
       }
       const authority = await dependencies.authorise(proof);
+      if (parsed.data.action === "checkout") {
+        if (bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" || !dependencies.checkout)
+          return response(412);
+        const result = checkoutResultSchema.parse(
+          await dependencies.checkout(
+            authority.context,
+            parsed.data.offerId,
+            parsed.data.requestKey,
+          ),
+        );
+        if (authority.expiresAt.getTime() <= Date.now()) return response(401, undefined, true);
+        return response(200, result);
+      }
+      if (
+        parsed.data.action === "read" &&
+        bindings.COMMERCE_CHECKOUT_MODE === "sandbox" &&
+        dependencies.prepare &&
+        dependencies.ready &&
+        (await dependencies.ready(authority.context))
+      )
+        await dependencies.prepare(authority.context, inspected.value.idempotencyKey!);
       const result = orderReviewResultSchema.parse(
         await dependencies.execute(authority.context, parsed.data),
       );
       if (result.review) {
+        result.review.checkoutEnabled =
+          bindings.COMMERCE_CHECKOUT_MODE === "sandbox" &&
+          result.review.acceptance !== null &&
+          Boolean(dependencies.ready && (await dependencies.ready(authority.context)));
         result.review.expiresAt = new Date(
           Math.min(Date.parse(result.review.expiresAt), authority.expiresAt.getTime()),
         ).toISOString();

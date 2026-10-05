@@ -40,7 +40,10 @@ synthetic catalogue, bounded arithmetic, immutable offers and locked credit rese
 local SQL/build/recovery proof. Task 11.3 is complete at the
 [local order-review/acceptance boundary](annexures/sprint-11-3-order-review-acceptance.md), including
 sealed-session HTTP, immutable exact-order receipts, SQL and desktop/mobile proof.
-Tasks 11.4–11.10 remain planned; TD-010 remains In progress.
+Task 11.4 is complete at the [guarded local sandbox creation boundary](annexures/sprint-11-4-guarded-sandbox-checkout.md):
+released case preparation, current acceptance/release checks, immutable retry identity and verified
+test-only provider response attachment. No hosted/provider activation is claimed.
+Tasks 11.5–11.10 remain planned; TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
 test mode. Prove server-owned pricing, signed provider events, independent clinical/payment state,
@@ -53,7 +56,7 @@ refunds and staff reconciliation before considering any live credential or real 
 | 11.1  | Freeze approved pilot scenarios, price versions, terms versions, payment timing and exception matrix.                | TD-010          | Completed at contract level |
 | 11.2  | Seed the approved test-mode price catalogue and readiness rules; reject browser-supplied amounts.                    | TD-010          | Completed locally           |
 | 11.3  | Implement the authenticated client review-and-pay boundary with explicit line items and no health metadata.          | Checkout        | Completed locally           |
-| 11.4  | Enable test-mode Checkout creation behind environment, identity, consent, workflow and release gates.                | Checkout        | Planned                     |
+| 11.4  | Enable test-mode Checkout creation behind environment, identity, consent, workflow and release gates.                | Checkout        | Completed locally           |
 | 11.5  | Enable signed raw-body webhooks with durable idempotency, replay/conflict detection and out-of-order reconciliation. | Provider events | Planned                     |
 | 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Planned                     |
 | 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Planned                     |

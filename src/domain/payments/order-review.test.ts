@@ -22,12 +22,12 @@ it("accepts only explicit exact-order acceptance, never amounts or medical field
   ])
     expect(orderReviewCommandSchema.safeParse({ ...command, ...extra }).success).toBe(false);
 });
-it("rejects provider data, health fields and enabled Checkout in the review projection", () => {
+it("rejects provider and health data in the review projection", () => {
   const r = orderReviewFixture();
   expect(orderReviewResultSchema.safeParse({ review: r }).success).toBe(true);
   for (const extra of [
     { diagnosis: "private" },
-    { checkoutEnabled: true },
+    { checkoutUrl: "https://untrusted.invalid" },
     { providerPriceId: "price_unknown" },
   ])
     expect(orderReviewResultSchema.safeParse({ review: { ...r, ...extra } }).success).toBe(false);

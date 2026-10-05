@@ -14,7 +14,12 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
-  ...["COMMERCE_REVIEW_MODE", "COMMERCE_REVIEW_TENANT_ID"].map(
+  ...[
+    "COMMERCE_REVIEW_MODE",
+    "COMMERCE_REVIEW_TENANT_ID",
+    "COMMERCE_CHECKOUT_MODE",
+    "STRIPE_CHECKOUT_ACCOUNT_ID",
+  ].map(
     (name): EnvironmentCatalogueEntry => ({
       name,
       purpose:

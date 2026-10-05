@@ -23,8 +23,11 @@ is now complete locally: deny-default catalogue/quotes/offers/funding, server-ow
 credit reservation with SQL/build/recovery proof. Task 11.3's
 [exact order review/acceptance](annexures/sprint-11-3-order-review-acceptance.md) is completed locally:
 private route, sealed-session command, published-instrument/hash binding, immutable receipts and
-SQL/HTTP/desktop-mobile verification. Task 11.4 is next; Checkout and hosted review configuration
-remain disabled and no real instrument was published.
+SQL/HTTP/desktop-mobile verification. Task 11.4's
+[guarded sandbox creation](annexures/sprint-11-4-guarded-sandbox-checkout.md) is complete locally:
+explicit environment/database/account gates, one immutable creation intent per accepted offer,
+stable provider retries, and no paid inference. Task 11.5 is next. Hosted bindings/releases remain
+disabled/unapplied and no real instrument was published or provider contacted.
 Sprints 12–13 remain planned.
 Earlier task checkpoints below are historical, not outstanding engineering work.
 

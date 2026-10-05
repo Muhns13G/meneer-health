@@ -3,6 +3,7 @@ const hash = z.string().regex(/^[a-f0-9]{64}$/);
 const minor = z.int().min(0).max(100_000_000);
 export const orderReviewCommandSchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("read") }).strict(),
+  z.object({ action: z.literal("checkout"), offerId: z.uuid(), requestKey: z.uuid() }).strict(),
   z
     .object({
       action: z.literal("accept"),
@@ -59,10 +60,18 @@ export const orderReviewResultSchema = z
           .object({ receiptId: z.uuid(), recordedAt: z.iso.datetime({ offset: true }) })
           .strict()
           .nullable(),
-        checkoutEnabled: z.literal(false),
+        checkoutEnabled: z.boolean(),
       })
       .strict()
       .nullable(),
   })
   .strict();
 export type OrderReview = NonNullable<z.infer<typeof orderReviewResultSchema>["review"]>;
+export const checkoutResultSchema = z
+  .object({
+    checkoutUrl: z.url().refine((value) => {
+      const url = new URL(value);
+      return url.origin === "https://checkout.stripe.com" && !url.username && !url.password;
+    }),
+  })
+  .strict();

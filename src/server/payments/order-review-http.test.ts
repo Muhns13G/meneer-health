@@ -133,7 +133,7 @@ it("clears revoked authority and fails closed on unsafe provider projections", a
   expect(rejected.status).toBe(401);
   expect(rejected.headers.has("set-cookie")).toBe(true);
   h.execute.mockResolvedValueOnce({
-    review: { ...orderReviewFixture(), checkoutEnabled: true },
+    review: { ...orderReviewFixture(), diagnosis: "synthetic-prohibited-field" },
   } as never);
   expect((await h.handler(h.request())).status).toBe(503);
 });
@@ -153,4 +153,29 @@ it("denies oversized payloads, exhausted limits and a different configured tenan
     ).status,
   ).toBe(403);
   expect(h.execute).not.toHaveBeenCalled();
+});
+it("permits only explicit sandbox Checkout and validates the returned provider origin", async () => {
+  const h = await harness(),
+    checkout = vi.fn(async () => ({ checkoutUrl: "https://checkout.stripe.com/c/pay/synthetic" }));
+  const deps = { authorise: h.authorise, execute: h.execute, checkout };
+  const command = { action: "checkout", offerId: orderReviewFixture().offerId, requestKey: id };
+  expect((await createOrderReviewHttpHandler(h.bindings, deps)(h.request(command))).status).toBe(
+    412,
+  );
+  expect(
+    (
+      await createOrderReviewHttpHandler(
+        { ...h.bindings, COMMERCE_CHECKOUT_MODE: "live" },
+        deps,
+      )(h.request(command))
+    ).status,
+  ).toBe(412);
+  const handler = createOrderReviewHttpHandler(
+    { ...h.bindings, COMMERCE_CHECKOUT_MODE: "sandbox" },
+    deps,
+  );
+  expect((await handler(h.request({ ...command, amountTotalMinor: 1 }))).status).toBe(422);
+  expect((await handler(h.request(command))).status).toBe(200);
+  checkout.mockResolvedValueOnce({ checkoutUrl: "https://untrusted.invalid" });
+  expect((await handler(h.request(command))).status).toBe(503);
 });

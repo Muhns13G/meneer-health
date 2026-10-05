@@ -2,7 +2,11 @@ import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
-import { orderReviewResultSchema, type OrderReview } from "@/domain/payments/order-review";
+import {
+  orderReviewResultSchema,
+  checkoutResultSchema,
+  type OrderReview,
+} from "@/domain/payments/order-review";
 const money = new Intl.NumberFormat("en-ZA", { style: "currency", currency: "ZAR" });
 const amount = (minor: number) => money.format(minor / 100);
 export function OrderReviewPage() {
@@ -13,6 +17,38 @@ export function OrderReviewPage() {
   const controller = useRef<AbortController | null>(null);
   const sequence = useRef(0);
   const acceptKey = useRef<string | null>(null);
+  const checkoutKey = useRef<{ offerId: string; key: string } | null>(null);
+  async function checkout(view: OrderReview) {
+    if (!view.acceptance || !view.checkoutEnabled || busy) return;
+    const current = ++sequence.current;
+    controller.current?.abort();
+    const abort = new AbortController();
+    controller.current = abort;
+    if (checkoutKey.current?.offerId !== view.offerId)
+      checkoutKey.current = { offerId: view.offerId, key: crypto.randomUUID() };
+    const key = checkoutKey.current.key;
+    setBusy(true);
+    setStatus("Preparing secure Checkout…");
+    try {
+      const response = await fetch("/portal/order/command", {
+        method: "POST",
+        credentials: "same-origin",
+        cache: "no-store",
+        signal: abort.signal,
+        headers: { "Content-Type": "application/json", "Idempotency-Key": key },
+        body: JSON.stringify({ action: "checkout", offerId: view.offerId, requestKey: key }),
+      });
+      if (!response.ok) throw new Error("CHECKOUT_UNAVAILABLE");
+      const result = checkoutResultSchema.parse(await response.json());
+      if (current !== sequence.current || Date.parse(view.expiresAt) <= Date.now()) return;
+      window.location.assign(result.checkoutUrl);
+    } catch {
+      if (current === sequence.current && !abort.signal.aborted)
+        setStatus("Checkout is not confirmed. Reload your order before trying again.");
+    } finally {
+      if (current === sequence.current) setBusy(false);
+    }
+  }
   const send = useCallback(async (acceptReview?: OrderReview) => {
     const accept = acceptReview !== undefined;
     const current = ++sequence.current;
@@ -57,7 +93,7 @@ export function OrderReviewPage() {
       setAccepted(false);
       setStatus(
         result.review?.acceptance
-          ? "Your acceptance has been recorded. Payment has not been taken."
+          ? "Your acceptance has been recorded. Payment is not confirmed here."
           : result.review
             ? "Review the details and full terms before accepting."
             : "No order is currently available for review.",
@@ -184,7 +220,21 @@ export function OrderReviewPage() {
                 </button>
               </form>
             ) : (
-              <p>Acceptance recorded. Checkout is not available yet.</p>
+              <div>
+                <p>Acceptance recorded. Payment status requires independent confirmation.</p>
+                {review.checkoutEnabled ? (
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() => void checkout(review)}
+                    className="mt-4 rounded-full border px-6 py-3 disabled:opacity-50"
+                  >
+                    Continue to secure Checkout
+                  </button>
+                ) : (
+                  <p>Checkout is not available yet.</p>
+                )}
+              </div>
             )}
           </section>
         ) : null}
