@@ -3,7 +3,7 @@ rag_id: meneer-decision-register
 title: Meneer Decision Register
 status: active
 authority: mixed
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 ---
@@ -11,6 +11,16 @@ sensitivity: internal
 # Meneer Decision Register
 
 ## Usage
+
+### Sprint 10 Closure and Explicit Provider Exception — 5 October 2026
+
+The [completion report](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)
+reconciles the implemented DR-018 scope and I1–I8 engineering acceptance. The owner explicitly
+excepted the currently unavailable generator walkthrough from I8 closure, retaining the
+[reactivation checklist](../05-future-considerations/protocol-generator-reactivation-and-compatibility.md)
+before real transfer. This is not provider compatibility approval, clinical publication, payment
+readiness or a waiver of TD-009/TD-043. R999 paid review/manual transfer remains Sprint 11 work;
+draft/submission remains free and blood results are not an initial prerequisite.
 
 ### DIR-091 — Transactional tracking retention (owner accepted, 2026-10-03)
 

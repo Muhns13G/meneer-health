@@ -3,10 +3,11 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/00-blueprints/master-blueprint-v1.md
   - docs/07-decisions/DR-011-minimum-pilot-product-pathway.md
@@ -81,6 +82,12 @@ Meneer is intended to become a South African direct-to-consumer men's health ser
 The product is intended to reduce embarrassment and practical friction without becoming a medication storefront or allowing conversion objectives to override clinical judgement. Hims and Ro are breadth and convenience references; AndroLab is a relevant South African competitor. Their content, claims, pricing, and clinical pathways are not automatically valid for Meneer.
 
 ## Current Product Stage
+
+Current authority: Sprint 10 is [completed with activation gates](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)
+through `14a965a`, including I1–I8 protected first-party intake and the owner's explicit generator
+exception. Actual hosted Auth/AAL2, medical-command/browser/expiry/mailbox and scoped cleanup proof
+supplements local regression; the real pilot remains suspended. Seven debts remain non-Verified,
+not just TD-006/TD-007. Sprints 11–13 remain; earlier checkpoints below are historical.
 
 Sprint 08 completed the pilot decision and hosted-baseline work at checkpoint `3950b15`. The
 suspended tenant is clean, but seven existing activation gates remain. Sprint 09 completes the

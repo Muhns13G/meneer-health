@@ -48,6 +48,12 @@ The React review kept presentation separate from authority and reused existing l
 
 ## Validation and Release Gates
 
+Subsequent I8 reconciliation: the owner approved and applied this prerequisite migration with
+the intake migrations. The actual hosted patient portal displayed its own waiting-state case.
+Full state-mapping/denial proof remains the local matrix below, not a hosted exercise of every state.
+The [Sprint 10 completion report](../../../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)
+supersedes the historical migration-pending checkpoint without granting real-client activation.
+
 - Local migration replay succeeded. Full pgTAP: **908 assertions across 22 files**, including **46**
   portal checks: coarse mappings, own-scope exclusion, server-only ACLs, exact fields, audit failure,
   expiry during audit waiting, revoked/suspended/wrong-role/purpose/provider authority and capacity.

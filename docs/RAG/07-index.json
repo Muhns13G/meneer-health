@@ -591,7 +591,7 @@
     {
       "id": "phase-02-sprint-10-medical-intake-amendment",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md",
-      "status": "engineering-contract-frozen-implementation-pending",
+      "status": "completed-with-external-dependency-exception",
       "last_updated": "2026-10-05",
       "authority_for": [
         "eight added intake tasks 2.10.I1 through 2.10.I8",
@@ -711,8 +711,13 @@
     {
       "id": "phase-02-sprint-10",
       "path": "docs/02-implementation-plans/phase-02/sprint-10-staff-queue-protocol-handoff.md",
-      "status": "in-progress",
-      "authority_for": ["staff operations queue", "manual protocol hand-off"]
+      "status": "completed-with-activation-gates",
+      "authority_for": [
+        "staff operations queue",
+        "manual protocol hand-off",
+        "protected first-party intake",
+        "bounded sprint closure"
+      ]
     },
     {
       "id": "phase-02-sprint-10-1-staff-queue-handoff-contract",
@@ -831,7 +836,7 @@
       "authority_for": [
         "own-client coarse administrative case mapping and strict three-field projection",
         "central read audit and post-audit live authority expiry",
-        "local SQL application and browser verification with pending hosted migration release gate"
+        "local SQL application and browser verification; subsequent I8 hosted migration and own waiting-state proof"
       ]
     },
     {
@@ -2133,6 +2138,19 @@
       ],
       "implementation_checkpoint": "3950b15",
       "last_updated": "2026-10-02"
+    },
+    {
+      "id": "phase-02-sprint-10-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md",
+      "status": "completed-with-activation-gates",
+      "authority_for": [
+        "staff queue medical intake and manual-transfer implementation evidence",
+        "local and hosted synthetic proof with explicit generator exception",
+        "decisions deviations lessons and exact modified/new file inventory",
+        "TD-058 resolution and seven retained activation gates; Sprint 11 handoff"
+      ],
+      "implementation_checkpoint": "14a965a",
+      "last_updated": "2026-10-05"
     },
     {
       "id": "phase-02-sprint-09-completion",

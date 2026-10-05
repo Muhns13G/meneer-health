@@ -1,6 +1,6 @@
 ---
 plan_id: phase-02-sprint-10-medical-intake-amendment
-status: local-implementation-hosted-verification-pending
+status: completed-with-external-dependency-exception
 last_updated: 2026-10-05
 depends_on: [DR-018, phase-02-sprint-09, phase-02-sprint-10-task-06]
 primary_debt: [TD-009, TD-037, TD-038, TD-043]
@@ -120,10 +120,12 @@ mobile layout and wall-clock expiry hiding. Browser/database evidence and scoped
 in the progress packet. Final disabled Worker version is `ac94b09c-efa8-453a-a8db-c171d1755acf`.
 Fresh generator access still reaches the subscription gate; the owner explicitly excepted that
 unavailable walkthrough from I8 closure on 5 October. Current provider compatibility remains a
-pre-launch dependency. I1–I8 engineering acceptance is closed; Task 10.9 and the wider sprint are
-not yet claimed complete.
+pre-launch dependency. I1–I8 engineering acceptance is closed. Tasks 10.9/10.10 subsequently complete
+the reliability packet and [Sprint 10 closure](../../../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md),
+without activating intake or waiving the provider exception.
 Existing TD-009/TD-037/TD-038/TD-043 cover its hand-off,
 rights, accessibility and routed-support obligations; no new defect or debt ID is asserted merely
 because scope expanded. Any discovered implementation defect is recorded during the relevant task.
-Sprint 10 cannot close at the revised scope while hosted acceptance is outstanding. Sprint 11 sandbox payment,
+Hosted non-generator acceptance is now satisfied; the owner explicitly excepted the current-generator
+walkthrough. Sprint 10 is closed with that pre-launch dependency retained. Sprint 11 sandbox payment,
 Sprint 12 support and Sprint 13 go/no-go remain required; real Stripe charges are separately approved.

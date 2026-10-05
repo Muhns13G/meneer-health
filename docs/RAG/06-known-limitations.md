@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
   - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
@@ -90,6 +91,16 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Sprint 10 Closure Is Not Pilot Release
+
+Sprint 10 and I1–I8 are [completed with activation gates](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md).
+The generator exception is explicit: no current generation/compatibility acceptance is claimed.
+TD-006/TD-007/TD-009/TD-010/TD-037/TD-038/TD-043 remain non-Verified; TD-058 accrued and was resolved.
+Sprint 11 authoritative deposit/catalogue/refund proof, Sprint 12 support/accessibility and Sprint 13
+release rehearsal remain. Private appointments, reviewed publications and safety configuration must
+precede real intake. Old task/migration-pending sections below are historical checkpoints, superseded
+by the report and I8 evidence, not current engineering blockers. Closure-batch CI is owner-pending.
+
 ## Task 10.9 Rehearsal Is Not Pilot Activation
 
 The [reliability packet](../02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md)
@@ -97,7 +108,7 @@ reuses nine rollback-only local SQL suites plus actual local Auth/concurrency an
 checks. It neither contacts the protocol generator nor proves external clinical compatibility.
 Payment-ready positive fixtures exist only inside rolled-back synthetic tests; production adapters
 remain closed pending Sprint 11. Current-generator access remains an owner-excepted I8 pre-launch
-dependency with a committed reactivation checklist. Task 10.10 and existing activation gates remain.
+dependency with a committed reactivation checklist. Task 10.10 now closes the sprint; activation gates remain.
 The evidence packet discloses a non-reproduced initial SQL interruption; do not describe it as a
 diagnosed production defect or claim every validation attempt passed.
 

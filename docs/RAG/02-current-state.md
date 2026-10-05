@@ -6,9 +6,10 @@ authority: observed-summary
 last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
-source_baseline: 8077a9a
-runtime_baseline: b5389b3
+source_baseline: 14a965a
+runtime_baseline: 9630cfe
 sources:
+  - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
   - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
@@ -102,6 +103,18 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 10 Closed — Current Authority
+
+The [completion report](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md)
+closes Tasks 10.1–10.10 and I1–I8 at their engineering/synthetic boundaries. Runtime implementation
+through 10.9 is committed at `14a965a`; closure docs await the owner's commit/CI. No new deployment
+or hosted inventory is claimed by this documentation batch. Last I8 proof records 36 matching
+migrations, one suspended tenant/12 original provider gates and otherwise empty application data;
+collection/alert mode restored disabled. Current generator compatibility is explicitly excepted
+from I8, not verified. Registry: 58 items, 51 Verified and seven retained activation gates.
+TD-058 accrued and was fixed/Verified; Sprints 11–13 remain. Historical pending statements below
+must not reopen delivered engineering tasks or imply activation.
+
 ## Task 10.9 Reliability Packet
 
 The [cross-boundary rehearsal](../02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md)
@@ -111,7 +124,7 @@ workforce MFA, competing claims, replay/release and revocation passed with fixtu
 controlled browser checks cover stale commands, missing readiness and transport uncertainty; all
 34 targeted desktop/mobile checks and the production build passed. Task 10.9 is complete at the
 bounded local engineering boundary. No new hosted proof or activation is claimed. Task 10.10
-remains planned; I1–I8 is already closed with the owner's external-generator exception.
+subsequently closes the sprint; I1–I8 is closed with the owner's external-generator exception.
 
 ## First Party Medical Intake Plan — 4 October 2026
 

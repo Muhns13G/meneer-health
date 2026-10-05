@@ -2,6 +2,13 @@
 
 ## Document Status
 
+Current checkpoint, 5 October 2026: Sprint 10 is
+[completed with activation gates](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md),
+including protected DR-018 medical intake and the owner's current-generator exception. Staff queue,
+manual-transfer controls and own-client status exist and have bounded local/hosted evidence.
+This supersedes historical contract-only statements below. The real pilot stays suspended;
+Sprint 11 payments, Sprint 12 operational/accessibility acceptance and Sprint 13 go/no-go remain.
+
 Task 9.10 discovered TD-057; the subsequent bounded remediation now passes both dependency
 audits and local regression. See the [remediation evidence](../01-audits/td-057-dependency-remediation-2026-10-03.md).
 Owner remediation commit `1b41ed49` and exact-commit CI `37138262125` are verified; post-deploy
@@ -11,7 +18,7 @@ existing pilot-activation obligations remain unchanged.
 
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05
-- **Last amended:** 2026-10-04
+- **Last amended:** 2026-10-05
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
 - **Current implementation:** Lovable-origin TanStack Start v1 MVP with repository-owned Cloudflare
   configuration; `itws-I-preview` temporarily remains the Cloudflare production branch serving

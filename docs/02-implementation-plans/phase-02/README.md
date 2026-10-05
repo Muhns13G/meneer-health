@@ -11,6 +11,12 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Current Intake Amendment
 
+Sprint 10 is [completed with activation gates](../../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md),
+including I1–I8 and the owner's explicit current-generator exception. Implementation checkpoint:
+`14a965a`; closure docs await owner commit/CI. Phase 02 remains in progress. After this commit,
+reconcile Sprint 11.1's deposit/catalogue scenarios before implementation; Sprints 12–13 remain planned.
+Earlier task checkpoints below are historical, not outstanding engineering work.
+
 [DR-018](../../07-decisions/DR-018-meneer-hosted-medical-intake.md) selects protected first-party
 medical intake using Mikhail's questionnaire, approved unchanged by Dr Zee according to the owner.
 Blood results are not mandatory for onboarding/submission, including peptides; clinicians may
@@ -55,7 +61,7 @@ The hosted RPC/provider rehearsal passed real MFA, owner-confirmed receipt and s
 response/revocation with the baseline restored. Task 10.9's
 [bounded cross-boundary rehearsal](annexures/sprint-10-9-cross-boundary-rehearsal.md) is complete:
 411 packet assertions, 1,017 full SQL assertions, 673 unit tests, real local MFA/concurrency,
-34 targeted desktop/mobile browser checks and production build. Task 10.10 remains planned.
+34 targeted desktop/mobile browser checks and production build. Task 10.10 now issues the closure report.
 All seven Sprint 10 migrations were applied hosted with explicit owner approval on 4 October 2026;
 no seeds or roles were imported and the suspended empty baseline remains. Alert delivery/response
 was additionally exercised through deployed Cron and routed administrator endpoints. Cron retained
@@ -74,7 +80,7 @@ existing account authority and expiry/data-clearing controls. Full local SQL, Vi
 desktop/mobile tests pass. Its migration was subsequently approved/applied alongside I8's intake
 migrations, and the hosted portal's waiting-state display was exercised. This does not replace the
 full local state-mapping proof. I1–I8 is closed with the owner's current-generator exception; await
-the owner's 10.9 commit, then issue 10.10's sprint closure report.
+the owner's 10.10 closure commit/CI, then reconcile Sprint 11 prerequisites.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.
 The pilot must onboard a client, preserve a minimal non-clinical profile and versioned consent,
