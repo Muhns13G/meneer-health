@@ -25,9 +25,11 @@ import { Route as AccountVerifyRouteImport } from './routes/account/verify'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
 import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalIntakeRouteImport } from './routes/portal.intake'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as PortalRightsRouteImport } from './routes/portal.rights'
 import { Route as StaffAlertsRouteImport } from './routes/staff.alerts'
+import { Route as StaffIntakeRouteImport } from './routes/staff.intake'
 import { Route as StaffQueueRouteImport } from './routes/staff.queue'
 import { Route as StaffSignInRouteImport } from './routes/staff.sign-in'
 import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
@@ -116,6 +118,11 @@ const PortalIndexRoute = PortalIndexRouteImport.update({
   path: '/portal/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalIntakeRoute = PortalIntakeRouteImport.update({
+  id: '/portal/intake',
+  path: '/portal/intake',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalProfileRoute = PortalProfileRouteImport.update({
   id: '/portal/profile',
   path: '/portal/profile',
@@ -129,6 +136,11 @@ const PortalRightsRoute = PortalRightsRouteImport.update({
 const StaffAlertsRoute = StaffAlertsRouteImport.update({
   id: '/staff/alerts',
   path: '/staff/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffIntakeRoute = StaffIntakeRouteImport.update({
+  id: '/staff/intake',
+  path: '/staff/intake',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StaffQueueRoute = StaffQueueRouteImport.update({
@@ -184,9 +196,11 @@ export interface FileRoutesByFullPath {
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/intake': typeof PortalIntakeRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/staff/alerts': typeof StaffAlertsRoute
+  '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/portal/': typeof PortalIndexRoute
@@ -212,9 +226,11 @@ export interface FileRoutesByTo {
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/intake': typeof PortalIntakeRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/staff/alerts': typeof StaffAlertsRoute
+  '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/portal': typeof PortalIndexRoute
@@ -241,9 +257,11 @@ export interface FileRoutesById {
   '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/intake': typeof PortalIntakeRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/staff/alerts': typeof StaffAlertsRoute
+  '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/portal/': typeof PortalIndexRoute
@@ -271,9 +289,11 @@ export interface FileRouteTypes {
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/intake'
     | '/portal/profile'
     | '/portal/rights'
     | '/staff/alerts'
+    | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
     | '/portal/'
@@ -299,9 +319,11 @@ export interface FileRouteTypes {
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/intake'
     | '/portal/profile'
     | '/portal/rights'
     | '/staff/alerts'
+    | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
     | '/portal'
@@ -327,9 +349,11 @@ export interface FileRouteTypes {
     | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/intake'
     | '/portal/profile'
     | '/portal/rights'
     | '/staff/alerts'
+    | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
     | '/portal/'
@@ -356,9 +380,11 @@ export interface RootRouteChildren {
   AccountVerifyRoute: typeof AccountVerifyRoute
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
+  PortalIntakeRoute: typeof PortalIntakeRoute
   PortalProfileRoute: typeof PortalProfileRoute
   PortalRightsRoute: typeof PortalRightsRoute
   StaffAlertsRoute: typeof StaffAlertsRoute
+  StaffIntakeRoute: typeof StaffIntakeRoute
   StaffQueueRoute: typeof StaffQueueRoute
   StaffSignInRoute: typeof StaffSignInRoute
   PortalIndexRoute: typeof PortalIndexRoute
@@ -483,6 +509,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/intake': {
+      id: '/portal/intake'
+      path: '/portal/intake'
+      fullPath: '/portal/intake'
+      preLoaderRoute: typeof PortalIntakeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portal/profile': {
       id: '/portal/profile'
       path: '/portal/profile'
@@ -502,6 +535,13 @@ declare module '@tanstack/react-router' {
       path: '/staff/alerts'
       fullPath: '/staff/alerts'
       preLoaderRoute: typeof StaffAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/intake': {
+      id: '/staff/intake'
+      path: '/staff/intake'
+      fullPath: '/staff/intake'
+      preLoaderRoute: typeof StaffIntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/staff/queue': {
@@ -572,9 +612,11 @@ const rootRouteChildren: RootRouteChildren = {
   AccountVerifyRoute: AccountVerifyRoute,
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
+  PortalIntakeRoute: PortalIntakeRoute,
   PortalProfileRoute: PortalProfileRoute,
   PortalRightsRoute: PortalRightsRoute,
   StaffAlertsRoute: StaffAlertsRoute,
+  StaffIntakeRoute: StaffIntakeRoute,
   StaffQueueRoute: StaffQueueRoute,
   StaffSignInRoute: StaffSignInRoute,
   PortalIndexRoute: PortalIndexRoute,

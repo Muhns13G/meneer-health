@@ -290,6 +290,12 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "ri
                   ))}
                 </section>
                 <ClientCaseProgress cases={state.view.account.operationsCases} />
+                <Link
+                  to="/portal/intake"
+                  className="mt-8 inline-block text-gold underline underline-offset-4"
+                >
+                  Your medical questionnaire
+                </Link>
                 <PortalHandoffPanel />
                 <section className="mt-10" aria-labelledby="account-progress">
                   <h2 id="account-progress" className="font-serif text-2xl text-foreground">
