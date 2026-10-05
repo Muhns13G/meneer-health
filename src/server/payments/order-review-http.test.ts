@@ -157,7 +157,7 @@ it("denies oversized payloads, exhausted limits and a different configured tenan
 it("permits only explicit sandbox Checkout and validates the returned provider origin", async () => {
   const h = await harness(),
     checkout = vi.fn(async () => ({ checkoutUrl: "https://checkout.stripe.com/c/pay/synthetic" }));
-  const deps = { authorise: h.authorise, execute: h.execute, checkout };
+  const deps = { authorise: h.authorise, execute: h.execute, checkout, ready: async () => true };
   const command = { action: "checkout", offerId: orderReviewFixture().offerId, requestKey: id };
   expect((await createOrderReviewHttpHandler(h.bindings, deps)(h.request(command))).status).toBe(
     412,
@@ -171,7 +171,13 @@ it("permits only explicit sandbox Checkout and validates the returned provider o
     ).status,
   ).toBe(412);
   const handler = createOrderReviewHttpHandler(
-    { ...h.bindings, COMMERCE_CHECKOUT_MODE: "sandbox" },
+    {
+      ...h.bindings,
+      COMMERCE_CHECKOUT_MODE: "sandbox",
+      COMMERCE_WEBHOOK_MODE: "sandbox",
+      STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: id,
+      STRIPE_WEBHOOK_SIGNING_SECRET: "whsec_synthetic_only",
+    },
     deps,
   );
   expect((await handler(h.request({ ...command, amountTotalMinor: 1 }))).status).toBe(422);
