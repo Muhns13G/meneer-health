@@ -113,6 +113,20 @@ follow 10.7/10.8 and precede expanded 10.9/10.10 closure. Existing 10.6 code at 
 complete locally; external-link activation/configuration stays inactive and is not required for the
 new path. Hosted medical access, escalation, instruments and end-to-end proof remain pending.
 
+## Sprint 10.8 Own-Client Case Progress — 5 October 2026
+
+[Task 10.8](../02-implementation-plans/phase-02/annexures/sprint-10-8-client-case-progress.md)
+is completed locally. The private portal now consumes an audited, server-only own-client projection
+of opaque reference, coarse administrative status and update time. Active patient account, exact
+current receipts and fresh provider/application authority remain mandatory. Audit failure and
+wall-clock expiry during audit waiting prevent disclosure. Internal case reasons, provider outcomes,
+staff identities and clinical/payment fields are excluded, with strict extra-field rejection.
+The new stateless section reuses refresh/expiry/hidden-page clearing and stores no browser data.
+Full local evidence: replay of all 29 migrations, 908 SQL assertions, 610 Vitest tests, 18 desktop/mobile
+portal Playwright/axe checks, lint/typecheck/build and portability/discovery/generated checks.
+Hosted migration application needs separate approval before deploying the new RPC consumer; no
+hosted own-client proof, real-client activation or clinical integration is claimed. Intake I1–I8 is next.
+
 ## Sprint 10.7 Audit and Alert Foundation — 4 October 2026
 
 [Task 10.7](../02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md)
@@ -167,7 +181,8 @@ patient-intake URL, three server-only bindings, reviewed recipient instruments a
 proof remain activation gates. The payment adapter stays false until Sprint 11. No live link is configured.
 At this historical Task 10.6 checkpoint, six Sprint 10 migrations remained unapplied hosted.
 The later Task 10.7 checkpoint above records their approved application; no pilot, payment or staff activation.
-Tasks 10.7–10.10 remain. The older checkpoints below describe their historic implementation state.
+Tasks 10.7 and 10.8 are complete (10.8 locally, with hosted release gates). Intake I1–I8 and
+Tasks 10.9–10.10 remain. The older checkpoints below describe their historic implementation state.
 
 ## Sprint 10.5 Claimed Commands — 4 October 2026
 

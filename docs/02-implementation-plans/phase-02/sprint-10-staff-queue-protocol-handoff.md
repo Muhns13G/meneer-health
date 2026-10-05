@@ -5,7 +5,7 @@ status: in-progress
 primary_debt: [TD-009, TD-043]
 depends_on:
   [phase-02-sprint-09, DR-003, DR-007, DR-011, DR-012, DR-013, DR-014, DR-015, DR-017, DR-018]
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 owner: "@Muhns13G"
 ---
 
@@ -67,7 +67,7 @@ break glass. No staff queue/UI, migration or hosted activation is delivered by t
 | 10.5     | Implement claimed assignment and optimistic-concurrency-safe transitions through onboarding, payment readiness and hand-off states.             | Workflow           | Completed (local gated)                                            |
 | 10.6     | Implement manual protocol hand-off initiation, acknowledgement, retry, cancellation and reconciliation without transporting health information. | TD-009, DR-013     | Completed locally; activation gated                                |
 | 10.7     | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Completed and closed; hosted verified with owner-confirmed receipt |
-| 10.8     | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Planned                                                            |
+| 10.8     | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Completed locally; hosted migration/release proof gated            |
 | 10.I1–I8 | Deliver the separately protected first-party questionnaire, authorised manual transfer and medical lifecycle under the intake amendment.        | DR-018, TD-009     | Planned; contract details pending                                  |
 | 10.9     | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned                                                            |
 | 10.10    | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned                                                            |
@@ -108,7 +108,14 @@ Temporary configuration was restored to disabled mode and synthetic fixtures wer
 The corrected deployed Cron retest then passed one accepted attempt and provider-reported delivery
 at 14:41 SAST on 4 October 2026; owner-confirmed receipt on 5 October closes Task 10.7. Disabled mode
 and the empty suspended baseline were restored without changing the corrected deployed code.
-The payment adapter remains false until Sprint 11. Tasks 10.8–10.10 remain planned. All seven Sprint
+Task 10.8's [own-client progress packet](annexures/sprint-10-8-client-case-progress.md) adds an audited
+server-only case projection and private portal section: opaque reference, coarse administrative status
+and update time only. Own-scope/lifecycle/receipt/session checks, audit failure and wall-clock expiry
+deny disclosure; no internal outcomes, reasons or clinical authority are exposed. Local migration
+replay, 908 SQL assertions, 610 Vitest tests and 18 desktop/mobile portal checks pass. The new migration
+needs separate hosted approval before deploying its RPC consumer. No hosted application or pilot
+activation is claimed. Complete DR-018 intake tasks I1–I8 next, before revised 10.9/10.10.
+The payment adapter remains false until Sprint 11. Tasks 10.9–10.10 remain planned. All seven Sprint
 10 migrations were applied hosted with explicit owner approval on 4 October 2026. No seed/role
 import or pilot activation occurred; independent checks retain one suspended tenant and zero
 subjects/Auth users, cases, attempts and alerts. No real-client or scheduled Worker activation is claimed.

@@ -20,7 +20,7 @@ it("uses the governed own-account projection, not browser table grants", async (
   const rpc = vi.fn(async () => ({ data: portalAccountFixture, error: null }));
   const repository = new SupabasePatientPortalRepository({ rpc } as unknown as SupabaseClient);
   await expect(repository.readOwnAccount(context)).resolves.toEqual(portalAccountFixture);
-  expect(rpc).toHaveBeenCalledWith("read_patient_portal", {
+  expect(rpc).toHaveBeenCalledWith("read_patient_portal_with_operations", {
     p_tenant_id: id,
     p_subject_id: id,
     p_session_id: id,
@@ -35,6 +35,19 @@ it.each([
   { ...portalAccountFixture, profile: { ...portalAccountFixture.profile, password: "excluded" } },
   { ...portalAccountFixture, instruments: [] },
   { ...portalAccountFixture, workflows: [{ reference: id, clinicalState: "approved" }] },
+  {
+    ...portalAccountFixture,
+    operationsCases: [
+      { reference: id, status: "provider_review_pending", updatedAt: "2026-10-03T00:00:00Z" },
+    ],
+  },
+  {
+    ...portalAccountFixture,
+    operationsCases: [
+      { reference: id, status: "waiting", updatedAt: "2026-10-03T00:00:00Z", outcome: "completed" },
+    ],
+  },
+  { ...portalAccountFixture, operationsCases: undefined },
 ])("fails closed on extra, missing or sensitive provider fields", async (data) => {
   const repository = new SupabasePatientPortalRepository({
     rpc: async () => ({ data, error: null }),

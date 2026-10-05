@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-04",
+    "last_updated": "2026-10-05",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -769,6 +769,17 @@
         "assigned claim and optimistic command boundary",
         "payload-bound replay and atomic audit",
         "pending recipient and deposit activation gates"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-10-task-08",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-8-client-case-progress.md",
+      "status": "completed-locally-with-release-gates",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "own-client coarse administrative case mapping and strict three-field projection",
+        "central read audit and post-audit live authority expiry",
+        "local SQL application and browser verification with pending hosted migration release gate"
       ]
     },
     {

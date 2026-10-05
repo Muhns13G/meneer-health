@@ -47,7 +47,7 @@ adds locally verified central audit, generic Brevo dispatch with bounded retries
 and explicit AAL2 administrator acknowledgement/resolution. Task 10.7 is completed locally; hosted
 scheduled email acceptance remains a release gate after a locally corrected Workers redirect defect.
 The hosted RPC/provider rehearsal passed real MFA, owner-confirmed receipt and scripted synthetic
-response/revocation with the baseline restored. Tasks 10.8–10.10
+response/revocation with the baseline restored. Tasks 10.9–10.10
 remain planned.
 All seven Sprint 10 migrations were applied hosted with explicit owner approval on 4 October 2026;
 no seeds or roles were imported and the suspended empty baseline remains. Alert delivery/response
@@ -60,6 +60,13 @@ at 14:41 SAST on 4 October 2026. Owner-confirmed receipt on 5 October formally c
 disabled mode and baseline were restored. Earlier release-pending statements are historical checkpoints.
 Real-client activation is still subject to the seven
 existing clinical, commercial and operational acceptance gates.
+
+Task 10.8's [own-client progress packet](annexures/sprint-10-8-client-case-progress.md) is completed
+locally: strict three-field coarse case status, central read audit and private portal display reuse
+existing account authority and expiry/data-clearing controls. Full local SQL, Vitest and portal
+desktop/mobile tests pass. The new migration and hosted own-client release proof remain separately
+approved gates; do not deploy its RPC consumer before applying the migration. Next implement the
+DR-018 intake stream I1–I8, then the expanded 10.9 rehearsal and 10.10 closure.
 
 Turn the completed secure inactive foundation into the smallest complete, invite-only pilot system.
 The pilot must onboard a client, preserve a minimal non-clinical profile and versioned consent,

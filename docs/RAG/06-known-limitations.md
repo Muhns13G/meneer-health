@@ -89,6 +89,18 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Task 10.8 Local Completion and Hosted Release Gate
+
+The [own-client progress packet](../02-implementation-plans/phase-02/annexures/sprint-10-8-client-case-progress.md)
+is implemented and verified locally. `/portal` now displays own administrative cases through the
+audited `read_patient_portal_with_operations` RPC: reference, coarse status and timestamp only.
+No provider outcome, clinical state, internal reason or staff identity is disclosed. Completed means
+administrative processing closed, not consultation/treatment/payment/delivery success. Action-required
+vocabulary is reserved for explicit later intake facts, not invented from internal readiness failures.
+Hosted migration application and synthetic own-client release proof need separate approval before
+deployment of the new consumer. Missing RPC fails closed; real pilot stays suspended. Intake I1–I8
+still precedes 10.9/10.10. Historical incomplete-projection statements below are superseded locally.
+
 ## Task 10.7 Closed; Real-Pilot Activation Remains Separate
 
 The [audit/alert foundation](../02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md)
