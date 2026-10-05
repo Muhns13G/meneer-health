@@ -165,8 +165,13 @@ additional Sprint-10 tasks are planned. On 5 October the owner approved I1's eng
 and a separately attributed explicit sex field, without a male default or provider-code change.
 Original question text remains unchanged; clinical review of the addition and private appointments,
 safety response configuration and domain publication stay pre-launch gates. I1 is complete at contract
-level; I2–I8 are not implemented. Clinical decisions stay external. No hosted collection, live transfer or debt closure
-is implemented by this decision. See [DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md).
+level. I2–I8 engineering implementation and local/hosted synthetic acceptance subsequently completed
+on 5 October. The owner explicitly excepted current external-generator compatibility from I8
+closeout because its subscription is unavailable; that remains a pre-launch dependency.
+Real intake remains disabled, the real tenant suspended, and the Sprint-11 deposit gate closed.
+Clinical decisions stay external. This decision itself does not approve clinical publication or
+live transfer. See [DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md) and the
+[I8 evidence](../02-implementation-plans/phase-02/annexures/sprint-10-intake-implementation-progress.md).
 
 | ID      | Decision needed                                                                                                                                                                                                | Related debt   |
 | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------- |

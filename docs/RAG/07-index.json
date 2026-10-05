@@ -772,6 +772,27 @@
       ]
     },
     {
+      "id": "protocol-generator-reactivation-and-compatibility",
+      "path": "docs/05-future-considerations/protocol-generator-reactivation-and-compatibility.md",
+      "status": "planned-pre-launch-dependency",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "deferred I8 generator entitlement and current compatibility acceptance checklist",
+        "synthetic generation PDF validation historical output findings and manual bridge release evidence"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-10-intake-implementation",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-intake-implementation-progress.md",
+      "status": "completed-with-external-dependency-exception",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "I2 through I8 local and actual hosted Auth command browser expiry and mailbox evidence",
+        "TD-058 corrective migration and verified scoped cleanup disabled restoration",
+        "owner-excepted current protocol-generator walkthrough remains a pre-launch dependency"
+      ]
+    },
+    {
       "id": "phase-02-sprint-10-intake-task-01",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-i1-medical-intake-contract.md",
       "status": "completed-contract-frozen-release-gated",

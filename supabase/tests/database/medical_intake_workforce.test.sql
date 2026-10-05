@@ -132,5 +132,10 @@ select ok((select safety_hold and state='restricted' from intake_private.intakes
 select lives_ok($$select public.read_medical_intake(pg_temp.medical_context(2),'d2000000-0000-4000-8000-000000000001','medical_safety')$$,'exact independently approved safety grant remains usable only while restricted hold is unresolved');
 select throws_ok($$select public.read_medical_intake(pg_temp.medical_context(2),'d2000000-0000-4000-8000-000000000001','medical_review')$$,'42501','MEDICAL_REJECTED','restriction denies ordinary medical-review purpose');
 select throws_ok($$select public.patient_intake_read(pg_temp.intake_context(),'d2000000-0000-4000-8000-000000000001')$$,'42501','INTAKE_REJECTED','restriction still denies ordinary own questionnaire view');
+select public.respond_medical_safety(pg_temp.medical_context(2),jsonb_build_object('intakeId','d2000000-0000-4000-8000-000000000001','snapshotId','d2000000-0000-4000-8000-000000000041','action','acknowledged','evidenceReference',gen_random_uuid(),'requestKey',gen_random_uuid()));
+select lives_ok($$select public.respond_medical_safety(pg_temp.medical_context(2),jsonb_build_object('intakeId','d2000000-0000-4000-8000-000000000001','snapshotId','d2000000-0000-4000-8000-000000000041','action','reviewed','evidenceReference',gen_random_uuid(),'requestKey',gen_random_uuid()))$$,'authorised clinical review can clear a restricted unresolved safety hold');
+select ok((select not safety_hold and state='restricted' from intake_private.intakes),'clinical resolution preserves patient restriction');
+select throws_ok($$select public.read_medical_intake(pg_temp.medical_context(2),'d2000000-0000-4000-8000-000000000001','medical_safety')$$,'42501','MEDICAL_REJECTED','resolved restricted intake no longer permits safety access');
+select throws_ok($$select public.patient_intake_read(pg_temp.intake_context(),'d2000000-0000-4000-8000-000000000001')$$,'42501','INTAKE_REJECTED','clinical resolution never restores ordinary patient access');
 select * from finish();
 rollback;

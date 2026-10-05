@@ -1,16 +1,37 @@
 # Protected Medical Intake — Release and Recovery
 
-Status: I2–I7 local implementation/verification accepted; approved hosted migrations applied.
-Hosted I8 rehearsal and live clinical
-publication are separate gates. This runbook does not activate collection or approve clinical care.
+Status: I2–I8 engineering verification accepted, with the owner's external-generator exception;
+approved hosted migrations applied. Live clinical publication and current provider compatibility
+remain separate launch gates. This runbook does not activate collection or approve clinical care.
 
 ## Isolated Rehearsal
 
-5 October checkpoint: all 35 hosted migration versions match the committed files; all 18 intake
-tables are empty with forced RLS. The owner will deploy the code. No medical key or synthetic runtime
-fixtures have yet been provisioned. Fresh provider login reaches `/subscribe`; obtain restored
+5 October checkpoint: 36 hosted migration versions are applied. The owner authorised a bounded
+synthetic runtime rehearsal; real HTTP Auth/AAL2, intake commands, independent grants, restriction,
+retained export and revocation checks pass. Brevo records `delivered` at 15:41:05 SAST on 5 October.
+After the owner's initial non-receipt report, direct browser inspection found the exact generic
+alert in Gmail's Updates category, addressed to `support@meneerhealth.co.za` at 15:41 SAST.
+Mailbox visibility is verified separately from provider acceptance; it is not clinical acknowledgement.
+The restricted-safety review correction now passes its approved hosted replay and exact
+field-projection check; TD-058 is Verified. The local suite passes 1,007 assertions.
+Final Worker `ac94b09c-efa8-453a-a8db-c171d1755acf` restores disabled intake, removes the temporary
+tenant binding and retains the dedicated server-only key; disabled endpoints again return 412.
+Synthetic sessions, fixture rows and all five Auth users were removed through the approved scoped
+cleanup. Every named trigger was restored before commit; independent inventory confirms the original
+one suspended tenant/12-provider-gate baseline and zero disabled user triggers. A separate real hosted
+patient browser rehearsal passes OTP sign-in, privacy acknowledgement, branching, validation,
+draft/resume, persisted submission, amendment access, mobile layout and wall-clock expiry hiding.
+Keyboard/accessibility-tree review supplements the controlled desktop/mobile axe checks; no certified
+assistive-technology audit is claimed. Its fresh fixtures and five Auth users were also removed.
+Fresh provider login reaches `/subscribe`; the owner explicitly excepted this unavailable walkthrough
+from I8 closeout. Obtain restored
 entitlement before claiming current generator compatibility. Never purchase a subscription as part
 of this rehearsal without separate owner action.
+
+After entitlement is restored, complete the
+[generator reactivation and compatibility checklist](../05-future-considerations/protocol-generator-reactivation-and-compatibility.md)
+before real manual transfer. It covers the deferred I8 provider proof, field mapping, historical
+output/PDF findings and governed transfer/failure evidence; subscription renewal alone is not activation.
 
 1. Confirm the hosted baseline using counts only: one suspended pilot tenant, no real identities or
    client records. Preserve owner approval for migrations, synthetic fixtures, emails and cleanup.
@@ -32,6 +53,13 @@ of this rehearsal without separate owner action.
 8. Revoke test sessions first, then remove only identified fixtures using the reviewed scoped
    cleanup transaction. Restore intake to disabled and remove the synthetic tenant binding.
    Recheck the original baseline. Record evidence without secrets or medical payloads.
+
+The guarded interactive `scripts/test-hosted-medical-intake.ts` is a dated rehearsal helper, not a
+deployment, fixture-setup or cleanup authority. It keeps Auth codes, TOTP secrets and cookies in
+memory and logs only coded status/opaque fixture receipts. Its `resume` action is pinned to this
+exercise's five disposable identities and resets only their MFA factors; it is not a general Auth
+reset tool. SQL setup and locked cleanup are independently reviewed. Read commands still require
+idempotency headers; staff sign-out requires the explicit `action=sign-out` form field.
 
 ## Medical Rights and Provider Copies
 

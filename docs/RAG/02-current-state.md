@@ -122,17 +122,38 @@ with private appointment/safety-configuration/publication gates. I2–I7 now hav
 schema, protected patient/staff routes and controlled evidence, tracked in the
 [implementation progress record](../02-implementation-plans/phase-02/annexures/sprint-10-intake-implementation-progress.md).
 I2–I7 have accepted local implementation evidence; do not infer hosted runtime or pilot activation.
-I8 hosted Auth/browser/transport, manual-generator and scoped-cleanup proof remains outstanding.
+I8 is completed for non-generator acceptance, with the owner's explicit external-generator exception.
+Real hosted HTTP Auth/AAL2, intake writes/reads, independent grants, retained export,
+restriction and revocation checks pass. Scheduled generic safety email was accepted and delivered by
+Brevo at 15:41:05 SAST on 5 October. Following the owner's initial non-receipt report, direct browser
+inspection found the exact support-addressed generic alert in Gmail's Updates category. Mailbox
+visibility is verified, not owner acknowledgement. A separate hosted browser walkthrough now proves
+real sign-in, privacy acknowledgement, all sections/branching, validation, saved draft/resume,
+persisted submission, amendment access, mobile layout and real wall-clock expiry hiding. Keyboard
+and accessibility-tree checks supplement the 180-case controlled axe matrix. Current manual-generator
+compatibility alone remains a pre-launch dependency, explicitly excepted from I8 by the owner.
+Both disposable rehearsal sets were cleaned up; no real collection or payment is enabled.
 On 5 October the owner-approved seven-migration push brought hosted history to all 35 committed
 versions, with no seed/activation. Read-only checks confirm one suspended tenant, zero subjects,
 external identities and Auth users, and 18 empty intake tables with forced RLS and no browser-role read
-privilege. The owner will deploy the code; the dedicated medical key/rehearsal remain pending.
-The final local application/database suites pass 651 tests and 1,003 SQL assertions respectively;
+privilege. A newly deployed Worker passes four disabled patient/staff-command preflight checks.
+The dedicated medical key is saved in ignored local records and provisioned server-only. The owner
+authorised the isolated rehearsal; it has since been restored to disabled in active Worker version
+`ac94b09c-efa8-453a-a8db-c171d1755acf`, with its synthetic tenant binding removed. All synthetic
+application/provider sessions and five disposable Auth identities/fixture rows were removed under
+the approved scoped cleanup. Independent inventory confirms one suspended pilot tenant, the original
+12 fulfilment-provider gate records and no other governed application data; all user triggers are enabled.
+The restricted-safety review defect's additional migration and four regressions pass locally
+(1,007 SQL assertions total); approved hosted replay passes exact one-field access, clinical review,
+subsequent denials and audit-chain verification. Hosted history now matches 36 versions. TD-058 is
+Verified; no real pilot or paid-review capability is activated.
+The final local application/database suites pass 651 tests and 1,007 SQL assertions respectively;
 intake-specific desktop/mobile and encrypted recovery checks pass. The broader browser refresh
 now passes all **180 desktop/mobile checks in 6.9 minutes**, superseding the earlier local
 loading/readiness failures without weakening tests. Hosted advisors have informational deny-default
 RLS, foreign-key-index and unused-index notices, documented in the progress record. Fresh provider
 login reaches its subscription gate; current manual-generator proof needs restored entitlement.
+I1–I8 engineering acceptance is closed with that explicit exception; proceed to 10.9 after owner commit.
 
 ## Sprint 10.8 Own-Client Case Progress — 5 October 2026
 
@@ -221,7 +242,9 @@ Tasks 10.6–10.10 and existing activation gates remain.
 Task 9.10 discovered **TD-057**: initially 36 full/26 production-filtered findings on
 2026-10-03. The subsequent [bounded remediation](../01-audits/td-057-dependency-remediation-2026-10-03.md)
 passes both audits and local regression, including 443 unit and 156 browser checks. Current
-registry: **57 items, 50 Verified, seven non-Verified**. Owner remediation commit `1b41ed49`
+registry at that checkpoint: **57 items, 50 Verified, seven non-Verified**. The subsequent I8
+restricted-safety review finding adds TD-058, subsequently Verified through local and hosted proof;
+the current registry has **58 items, 51 Verified, seven non-Verified**. Owner remediation commit `1b41ed49`
 and exact-commit [CI 37138262125](https://github.com/Muhns13G/meneer-health/actions/runs/37138262125)
 are verified. Post-deploy smoke remains separate; no hosted change was made by this remediation.
 

@@ -158,12 +158,29 @@ pass, but that warning is not intake completion evidence or a claim of warning-f
 See the intake progress record for the separate controlled browser and hosted-rehearsal boundaries.
 The refreshed full browser matrix now passes all 180 desktop/mobile checks without weakening tests;
 earlier account/readiness deadline failures remain historical, not current regression blockers.
-I8 still needs owner deployment, a separate medical key, provider-backed synthetic Auth/AAL2,
-medical-command/alert delivery proof and scoped cleanup. Hosted migration history matches all 35
-committed versions; the pilot remains suspended and all 18 intake tables are empty. Hosted advisors
+I8 non-generator acceptance is complete: real hosted Auth/AAL2, medical commands, independent grants,
+restriction/retained export, revocation and scheduled Brevo delivery pass. A fresh actual hosted
+patient browser rehearsal proves sign-in, privacy acknowledgement, eight sections/branching,
+validation, saved draft/resume, submission/amendment access, mobile layout and real expiry hiding.
+Keyboard/accessibility-tree checks supplement the controlled axe matrix, not a certified
+assistive-technology audit. Brevo records receiving-server delivery at 15:41:05 SAST on 5 October;
+subsequent direct browser inspection found the exact support-addressed generic alert in Gmail's
+Updates category. This closes mailbox visibility proof, not owner or clinical acknowledgement.
+Exact field projection and scoped cleanup now pass. The
+restricted-safety review ordering defect is Verified through four local regressions, approved hosted
+migration, fresh AAL2 review/success/subsequent denial and audit-chain proof. Hosted history contains
+36 versions; local SQL passes 1,007 assertions. The real pilot remains suspended. All disposable
+fixture rows/five Auth users and sessions are removed; the original one-tenant/12-provider-gate
+baseline is independently verified, with all triggers enabled. Hosted advisors
 record eight intake foreign-key covering-index candidates for performance review, plus intentional
 deny-default RLS and unused-index notices. Fresh protocol-generator login reaches a subscription
 gate; restored provider entitlement is required before current manual-transfer compatibility proof.
+The owner explicitly excepted this unavailable external walkthrough from I8 closeout; it remains a
+pre-launch dependency, not an engineering task-open claim. Task 10.9 may proceed.
+The authorised temporary rehearsal was restored to disabled in Worker version
+`ac94b09c-efa8-453a-a8db-c171d1755acf`; its synthetic tenant binding is removed and both command
+endpoints again return no-store, payload-free 412. The dedicated medical key remains server-only.
+No real collection, charge or current generator compatibility is claimed.
 
 The following sections retain historical checkpoint limitations where later amendments supersede them.
 
@@ -174,7 +191,8 @@ Task 9.10's initial 36 full/26 production-filtered findings are historical. The 
 types/lint, unit/browser/database checks, production build and upload dry-run. TD-057 is Verified
 locally and in exact-commit CI `37138262125` at `1b41ed49`, not an accepted security exception.
 Post-deploy verification remains separate release evidence. No deployed exploit or hosted configuration change
-is claimed. Current total: 50 Verified, seven non-Verified; clinical, commercial, operational and
+is claimed. TD-058 subsequently records the I8 restricted-safety review defect, now Verified locally
+and hosted; current total: 51 Verified, seven non-Verified. Clinical, commercial, operational and
 live-accessibility acceptance gates remain unchanged.
 
 ## Sprint 10.4 Queue Is Read-Only and Local
