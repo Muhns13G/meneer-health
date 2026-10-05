@@ -10,6 +10,7 @@ import { z } from "zod";
 import type { RecoveryArchiveStore } from "@/application/recovery/recovery-job";
 
 export const governedRecoverySchemas = [
+  "commerce_private",
   "public",
   "audit_private",
   "fulfilment_private",
