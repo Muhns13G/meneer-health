@@ -112,6 +112,13 @@ The [eight added tasks](../02-implementation-plans/phase-02/annexures/sprint-10-
 follow 10.7/10.8 and precede expanded 10.9/10.10 closure. Existing 10.6 code at `b2a3a1e` remains
 complete locally; external-link activation/configuration stays inactive and is not required for the
 new path. Hosted medical access, escalation, instruments and end-to-end proof remain pending.
+Task I1's [frozen engineering contract](../02-implementation-plans/phase-02/annexures/sprint-10-i1-medical-intake-contract.md)
+now preserves 24 source items in eight sections, verified against the original DOCX hash and all
+three rendered pages. On 5 October the owner approved the technical/access/safety/lifecycle defaults
+and authorised a Meneer-side sex field. Collection 1.1.0 adds explicit unselected input, not assumed
+male or gender identity; the original 24 items remain unchanged. The extension needs clinical
+publication review and has no claim of original Dr Zee approval. I1 is completed-contract-frozen
+with private appointment/safety-configuration/publication gates; I2 may begin locally, not hosted.
 
 ## Sprint 10.8 Own-Client Case Progress — 5 October 2026
 

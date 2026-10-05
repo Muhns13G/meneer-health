@@ -579,10 +579,10 @@
     {
       "id": "DR-018",
       "path": "docs/07-decisions/DR-018-meneer-hosted-medical-intake.md",
-      "status": "approved-direction-controls-pending",
-      "last_updated": "2026-10-04",
+      "status": "approved-engineering-release-gated",
+      "last_updated": "2026-10-05",
       "authority_for": [
-        "owner-attested clinician approval of questionnaire questions",
+        "owner-attested clinician approval of original questionnaire questions, distinct from the owner-approved sex extension",
         "first-party protected intake and manual generator transfer direction",
         "bloods not required for initial onboarding or submission",
         "external-link prerequisites superseded without runtime activation"
@@ -591,8 +591,8 @@
     {
       "id": "phase-02-sprint-10-medical-intake-amendment",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md",
-      "status": "planned-contract-details-pending",
-      "last_updated": "2026-10-04",
+      "status": "engineering-contract-frozen-implementation-pending",
+      "last_updated": "2026-10-05",
       "authority_for": [
         "eight added intake tasks 2.10.I1 through 2.10.I8",
         "questionnaire access escalation rights and generator mapping acceptance",
@@ -769,6 +769,26 @@
         "assigned claim and optimistic command boundary",
         "payload-bound replay and atomic audit",
         "pending recipient and deposit activation gates"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-10-intake-task-01",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-i1-medical-intake-contract.md",
+      "status": "completed-contract-frozen-release-gated",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "exact source questionnaire catalogue and excluded reviewer material",
+        "owner-approved engineering field branching access safety and lifecycle contract",
+        "separately attributed sex extension and clinical publication appointment gates before live collection"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-10-i1-question-catalogue-v1",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-i1-question-catalogue-v1.json",
+      "status": "engineering-frozen-publication-gated",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "24 exact source items and eight section labels plus separate owner-approved sex extension; not a live publication"
       ]
     },
     {

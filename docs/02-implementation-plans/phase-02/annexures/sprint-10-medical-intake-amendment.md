@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-10-medical-intake-amendment
-status: planned-contract-details-pending
-last_updated: 2026-10-04
+status: engineering-contract-frozen-implementation-pending
+last_updated: 2026-10-05
 depends_on: [DR-018, phase-02-sprint-09, phase-02-sprint-10-task-06]
 primary_debt: [TD-009, TD-037, TD-038, TD-043]
 source_commit: b2a3a1e
@@ -85,10 +85,21 @@ the repository owner retains staging, commit, push and deployment control.
 
 ## Outstanding Inputs and Closure
 
-I1 records the remaining operational inputs: authorised reviewers/transcribers; responsible safety
-recipient and fallback; exact safety routing; requiredness/units and branch changes; generator field
-mapping; signature representation; medical retention and processing schedules. Approval of the
-question wording is **not** reopened. Public/marketing copy is unchanged.
+Task I1's [frozen engineering contract](sprint-10-i1-medical-intake-contract.md) and
+[source catalogue](sprint-10-i1-question-catalogue-v1.json) now verify all eight sections and 24 source
+items against the original DOCX hash and three rendered pages. They preserve the approved prompts,
+separate reviewer notes and freeze owner-approved field/branch/access/safety/lifecycle defaults.
+On 5 October the owner authorised an additional Meneer-side sex field and approved the remaining
+recommendations. Collection version 1.1.0 adds that explicit unselected field without rewriting the
+24 original items or claiming Dr Zee approved the addition. No automatic male answer or gender
+identity inference. Private clinical appointments, safety response configuration and domain
+publication/retention/processing evidence remain pre-launch gates. I1 is complete at contract level;
+I2 may implement synthetic local persistence/contracts. No live collection or provider-code change.
+
+I1 freezes field/branch/signature/grant/hold semantics and retention engineering baselines. Remaining
+operational inputs are private reviewer/transcriber and primary/fallback appointments, safety-response
+configuration and reviewed publications/processing schedules. The owner-approved sex extension needs
+clinical publication review; the original question wording is not reopened. Public copy is unchanged.
 
 The packet is planned, not implemented. Existing TD-009/TD-037/TD-038/TD-043 cover its hand-off,
 rights, accessibility and routed-support obligations; no new defect or debt ID is asserted merely

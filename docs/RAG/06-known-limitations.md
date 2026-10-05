@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
@@ -89,6 +89,17 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Task I1 Frozen; Clinical Publication and Appointment Gates Remain
+
+The [I1 packet](../02-implementation-plans/phase-02/annexures/sprint-10-i1-medical-intake-contract.md)
+and JSON catalogue preserve the approved original questionnaire. The owner approved remaining
+engineering recommendations and an explicit sex field on 5 October; collection 1.1.0 has no default
+male or gender-identity inference. This new field is not covered by Dr Zee's original approval.
+Technical controls/grants are frozen for local I2. Private clinical primary/fallback appointments,
+safety deadlines/guidance, recipient agreements and domain publication approval remain pre-launch
+gates. Missing configuration fails closed; no invented appointments, clinical scores, mandatory
+bloods/deposit prerequisite, provider-code modification or live collection is claimed.
+
 ## Task 10.8 Local Completion and Hosted Release Gate
 
 The [own-client progress packet](../02-implementation-plans/phase-02/annexures/sprint-10-8-client-case-progress.md)
@@ -130,9 +141,10 @@ inside Meneer with purpose-bound manual transfer. No such collection/access exis
 profile/queue permissions do not authorise medical answers. The external intake URL is no longer a
 required input for this path; leave that implementation inactive. Clinician question approval is
 owner-attested, not a signed publication or proof of provider compatibility. Blood results are not
-an initial submission gate. Field/access/retention/instrument mapping and safety-response ownership
-remain I1 inputs, followed by eight implementation/verification tasks before Sprint 10 closure.
-Do not claim operational readiness or reopen question wording because those controls are pending.
+an initial submission gate. I1 now freezes engineering fields/access/retention/hold semantics plus
+the separately attributed sex extension. Clinical publication, private safety appointments and
+response configuration remain release gates. I2–I8 implementation/verification still precedes
+Sprint 10 closure. Do not claim operational readiness or change original wording to resolve these gates.
 
 The following sections retain historical checkpoint limitations where later amendments supersede them.
 

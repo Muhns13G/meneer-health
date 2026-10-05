@@ -161,8 +161,11 @@ link delivery, provider API or clinical authority is approved by this amendment.
 
 The owner confirms Dr Zee approved Mikhail's questions unchanged and bloods are not an initial
 onboarding/submission prerequisite. A separate medical module, authorised manual transfer and eight
-additional Sprint-10 tasks are planned. Field/access/escalation/processing decisions remain pending;
-clinical decisions stay external. No questionnaire, hosted collection, live transfer or debt closure
+additional Sprint-10 tasks are planned. On 5 October the owner approved I1's engineering defaults
+and a separately attributed explicit sex field, without a male default or provider-code change.
+Original question text remains unchanged; clinical review of the addition and private appointments,
+safety response configuration and domain publication stay pre-launch gates. I1 is complete at contract
+level; I2–I8 are not implemented. Clinical decisions stay external. No hosted collection, live transfer or debt closure
 is implemented by this decision. See [DR-018](../07-decisions/DR-018-meneer-hosted-medical-intake.md).
 
 | ID      | Decision needed                                                                                                                                                                                                | Related debt   |
