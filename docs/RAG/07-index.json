@@ -960,6 +960,20 @@
       ]
     },
     {
+      "id": "phase-02-sprint-11-9-sandbox-journey",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md",
+      "status": "in-progress-provider-preflight-passed",
+      "source_commit": "a6382de",
+      "last_updated": "2026-10-06",
+      "authority_for": [
+        "owner authorised bounded hosted schema and synthetic sandbox rehearsal",
+        "actual current-adapter uncompleted test Sessions exact lines metadata retries and expiry",
+        "explicit evidence-class matrix and pending hosted payment exception proof",
+        "owner deployment and disabled baseline restoration obligations",
+        "Task 11.9 not complete; TD-010 remains In progress"
+      ]
+    },
+    {
       "id": "phase-02-sprint-11-8-payment-reconciliation",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md",
       "status": "completed-local-reconciliation-boundary",

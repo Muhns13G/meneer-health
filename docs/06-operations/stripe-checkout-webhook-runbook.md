@@ -23,7 +23,9 @@ Task [11.8](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-re
 is completed locally. Signed exact-refund confirmation, bounded verified-failure retries,
 provider-checked unpaid credit release and native deposit readiness are implemented. Separate
 duplicate-capture full refunds, final dispute resolution and immutable replacement deposit offers
-are locally verified. No Task 11.9 hosted/provider activation is claimed; TD-010 stays In progress.
+are locally verified. Task 11.9's actual uncompleted-provider Session preflight now passes, and the
+eight approved schema migrations have been applied hosted without seed data. Authenticated
+hosted/captured-payment acceptance and activation are not claimed; TD-010 stays In progress.
 
 ### Reconciliation Controls Before Hosted Release
 
@@ -109,7 +111,7 @@ or public payment journey is active. TD-010 approval and a reviewed release rema
 - Newly journalled provider exceptions create content-free owned alerts; staff views expose only
   opaque references, coded reasons and state. Alert records are not evidence of delivered email.
 - Never force-clear conflicting captures or disputes. Preserve their evidence and holds until the
-  outstanding 11.8 outcomes are implemented and independently verified. Do not refund an unrelated
+  current provider/hosted outcomes are independently verified. Do not refund an unrelated
   PaymentIntent merely because a valid event names a known order.
 - A clean native review deposit can supply monetary readiness; identity, consent, medical safety,
   approval, pharmacy, custody and delivery controls remain independent. Paid never means dispensed.
@@ -156,3 +158,11 @@ bun --env-file=.env.production.local run test:payments:provider
 This creates no-charge Checkout Sessions for all three scenarios, validates the remote sandbox
 objects and opaque metadata, and applies a signed webhook to reset local Supabase data. It does not
 complete a payment, deploy an endpoint, or prove live/hosted readiness.
+
+For the **current Sprint-11 adapter**, use the separately approved
+[`test:payments:pilot-provider` packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md).
+It creates uncompleted deposit, credited-order/delivery and zero-balance Sessions, verifies actual
+provider objects/retries/lines/metadata, expires only its returned Sessions and checks terminal unpaid
+state. It neither resets a database nor confirms payments. Task 11.9 still requires captured-payment,
+authenticated hosted, exception and restoration evidence; do not use this narrower command to close
+TD-010. Test-account history and inline catalogue artifacts remain visible to the account owner.

@@ -101,6 +101,15 @@ sources:
 
 ## Sprint 11.8 Is Locally Complete, Not Hosted Provider Proof
 
+Task [11.9](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
+is in progress. Actual provider Session creation/retry/line-item/metadata/expiration checks passed,
+but none completed a payment. The eight approved Sprint-11 migrations have now been applied hosted
+without seeds; independent history and service-readable baseline checks passed. Direct private SQL
+proof remains pending. The owner must deploy Sprint-11 code before
+the authenticated hosted payment/exception rehearsal. No disposable hosted identity/configuration
+has yet been created, and no live money is authorised. This supersedes historical local-only schema
+notes below, not independent commercial, clinical or activation gates.
+
 The [local reconciliation completion](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
 confirms exact signed refund jobs and permits one replacement after independently verified failure.
 Pending, uncertain or contradictory evidence cannot be retried blindly. Provider-checked unpaid
