@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-10-task-07
-status: hosted-cron-transport-fix-retest-pending
-last_updated: 2026-10-04
+status: completed-hosted-verified
+last_updated: 2026-10-05
 primary_debt: [TD-009, TD-043]
 source_commit: 3deab6f
 ---
@@ -53,9 +53,10 @@ The foundation started on clean `itws-I`; Task 10.6 was committed at `b2a3a1e`.
 
 ## Completion and Activation Boundaries
 
-Task 10.7 local implementation and hosted database/provider synthetic acceptance pass. The later
-deployed rehearsal below exposed a Workers transport compatibility defect; its local fix requires
-owner deployment and a successful scheduled email retest before full task closure. Mode is disabled.
+Task 10.7 local implementation, hosted database/provider acceptance, routed administrator proof and
+corrected deployed Cron delivery now pass. On 5 October 2026, the owner confirmed the retest email
+arrived at the support mailbox, completing the final acceptance check. Task 2.10.7 is formally closed.
+Mode is restored to disabled; task closure does not activate the pilot.
 On 4 October 2026, the owner explicitly approved all seven pending Sprint 10 migrations. Linked
 CLI dry-run identified exactly those files; `db push --linked --yes` applied them without seed or
 role changes. Hosted history now matches all 28 local filename versions, with no history repair.
@@ -126,6 +127,26 @@ owner until separately designated. Resending/reopening failed or uncertain deliv
 not exposed; it needs a reviewed reconciliation design. Apply DR-005 retention, not indefinite
 retention; no automatic purge is claimed. See the audit integration runbook for activation steps.
 
+### Corrected Cron Retest — 4 October 2026
+
+- Owner authorised another bounded synthetic rehearsal after deploying the fix. Active owner
+  version `5d41fb96-a5b1-4608-87e8-69665f48e5a1` contains `manual`, not the retired `error` redirect.
+  Temporary version `98122961-f0df-4d39-9e33-f40fea9fbea8` preserved its code hash exactly.
+- An isolated synthetic tenant and system-attributed audit fact exercised the normal alert trigger.
+  No Auth identity was needed: the earlier real routed MFA/response proof remains separate evidence.
+  A real `*/5 * * * *` invocation completed with no exceptions. Exactly one attempt was persisted
+  as accepted at **14:41:02 SAST**. Brevo reports delivery at **14:41:04 SAST**; owner mailbox
+  confirmation was supplied separately on **5 October 2026**. That confirmation proves receipt,
+  not an exact mailbox arrival time or a human acknowledgement of a live operational alert.
+- Restoration version `38272556-8945-4362-861c-fdcaaf0129d8` is deployed at 100%, with unchanged
+  corrected code, disabled mode, retained server-only Brevo key and no synthetic tenant binding.
+  Approved locked cleanup temporarily disabled only four necessary append-only triggers and restored
+  them before commit. Only retest audit/alert/transport/tenant fixtures were removed.
+- The focused dispatch/HTTP suite again passed **16 tests**. The transport defect is resolved;
+  no further code/deployment retest is outstanding. Owner-confirmed receipt completes task acceptance
+  and formal closure on **5 October 2026**. Real-pilot activation and wider TD-009/TD-043 closure
+  remain out of scope.
+
 ## Validation
 
 - Local reset applied all 28 migrations. **897 pgTAP checks across 22 files** passed, including audit
@@ -141,8 +162,9 @@ retention; no automatic purge is claimed. See the audit integration runbook for 
 - Typecheck, ESLint, Prettier, SQL lint, production build, client-bundle/MCP-absence, Cloudflare
   generated type check, discovery policy and portability checks passed. Cloudflare upload dry-run
   succeeded without deployment. The new route tree was tool-generated, not manually edited.
-- Hosted database/provider synthetic evidence is recorded above. Deployed Worker Cron/browser
-  acceptance and GitHub CI evidence are not claimed.
+- Hosted database/provider, deployed Cron and scripted routed administrator evidence are recorded
+  above, including owner-confirmed mailbox receipt. Manual visual browser and GitHub CI proof
+  are not claimed for this corrected retest.
 
 ## Deviations, Lessons and Debt
 

@@ -37,6 +37,10 @@ and routed MFA/administrator response passed, but the send remained uncertain be
 `redirect: "error"`. The adapter's local `manual` fix needs owner deployment and successful scheduled
 email/mailbox receipt retesting. Mode was restored to disabled, temporary tenant binding removed and
 the original empty suspended baseline verified. Never treat an `ok` Cron outcome as provider acceptance.
+The subsequently authorised corrected retest did prove one persisted accepted send and Brevo-reported
+delivery at 14:41 SAST on 4 October 2026. The owner confirmed receipt on 5 October, formally closing
+Task 2.10.7. Earlier pending-release statements are superseded. Disabled mode was restored,
+the disposable tenant binding removed and only synthetic fixtures deleted; pilot activation is separate.
 
 ### Alert Delivery and Response
 

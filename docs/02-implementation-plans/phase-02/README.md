@@ -55,6 +55,9 @@ was additionally exercised through deployed Cron and routed administrator endpoi
 an uncertain send because Workers rejected `redirect: "error"`; the adapter now uses `manual`.
 The owner must deploy this fix and repeat successful scheduled email/receipt proof. The approved
 temporary configuration was restored to disabled mode and the empty suspended baseline was verified.
+The subsequent authorised corrected Cron retest passed: one accepted send and Brevo-reported delivery
+at 14:41 SAST on 4 October 2026. Owner-confirmed receipt on 5 October formally closes Task 2.10.7;
+disabled mode and baseline were restored. Earlier release-pending statements are historical checkpoints.
 Real-client activation is still subject to the seven
 existing clinical, commercial and operational acceptance gates.
 

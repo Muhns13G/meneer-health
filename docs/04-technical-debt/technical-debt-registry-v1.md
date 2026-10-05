@@ -53,6 +53,10 @@ administrator response/revocation. A Workers redirect-mode defect retained the s
 the local `manual` fix requires owner deployment and successful scheduled email/mailbox receipt retest.
 Mode is restored to disabled and the synthetic baseline is clean. TD-009 and TD-043 retain
 their status and hosted/operational acceptance requirements. No new debt ID is added.
+The subsequent corrected Cron retest verified one accepted send and Brevo-reported delivery at
+14:41 SAST on 4 October 2026, resolving the transport defect. Owner-confirmed mailbox receipt on
+5 October formally closes Task 2.10.7; disabled mode and the suspended empty baseline were restored.
+Wider TD-009/TD-043 debts stay open; earlier pending statements describe historical checkpoints.
 
 Task 9.6 adds locally verified atomic profile/receipt activation and an accessible document-first
 form, with separate actions, focused validation, pending-state controls and durable retry evidence.
