@@ -52,6 +52,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   before an authorised reset without printing row content.
 - `bun --env-file=.env.production.local run test:payments:provider` performs the explicit no-charge
   Stripe sandbox exercise; never run it in ordinary CI or with live credentials.
+- `test:payments:pilot-provider` exercises the current deposit/credited-order adapter with expressly
+  approved uncompleted test Sessions. Require `PILOT_STRIPE_EXERCISE_CONFIRM=uncompleted-test-checkouts-only`
+  and the approved `STRIPE_CHECKOUT_ACCOUNT_ID`; expire only its exact returned Sessions. It is not
+  captured-payment or hosted-journey proof and must never run in ordinary CI.
 - `bun run exercise:incident` runs the payload-free dependency/break-glass incident rehearsal.
 - `bun run exercise:recovery` encrypts a synthetic logical backup, restores it into an isolated
   temporary database, and reconciles record counts/checksums without contacting hosted services.

@@ -57,7 +57,10 @@ refund settlement or cancel clinical/supply workflows. Task 11.8 is completed at
 refund settlement, verified-failure refund retries, provider-checked unpaid credit release,
 content-free owned exceptions and the native deposit-readiness bridge. Genuine duplicate-capture
 full refunds, attributed final dispute resolution and safe replacement deposit offers with fresh
-acceptance are locally verified. Tasks 11.9–11.10 remain planned; no hosted/provider activation is claimed.
+acceptance are locally verified. Task 11.9 is
+[in progress](annexures/sprint-11-9-sandbox-journey-evidence.md): actual current-adapter uncompleted
+test Sessions, exact line items, retry identity and unpaid expiration inspection passed. Full
+hosted/captured-payment proof is not yet accepted. Task 11.10 remains planned.
 TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
@@ -76,7 +79,7 @@ refunds and staff reconciliation before considering any live credential or real 
 | 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Completed locally           |
 | 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Completed locally           |
 | 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | Completed locally           |
-| 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | Planned                     |
+| 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | In progress                 |
 | 11.10 | Reconcile evidence and issue the Sprint 11 completion report; keep live mode disabled.                               | All             | Planned                     |
 
 ## Acceptance Gate

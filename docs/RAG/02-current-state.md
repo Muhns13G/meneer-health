@@ -111,6 +111,21 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 11.9 — Provider Preflight Passed; Hosted Journey Pending
+
+The [11.9 evidence packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
+records actual current-adapter test Sessions for the R999 deposit, a synthetic credited-order/delivery
+balance and zero additional payment. Exact provider line items, opaque metadata, stable retries,
+expiration and terminal unpaid inspection passed; all three Sessions were expired, with no payment
+completed. The owner approved bounded hosted migrations/fixtures/configuration/cleanup and test-money
+transactions. The eight committed Sprint-11 migrations were applied without seeds or role changes;
+an independent dry run confirmed no pending migrations and the service-readable baseline remained
+unchanged. Direct private SQL proof is pending. The real pilot remains suspended with no Auth
+identity created.
+The active Worker inventory still identifies the disabled I8 restoration; owner deployment of
+Sprint-11 code is required before authenticated hosted testing. TD-010 remains In progress;
+neither Task 11.9 nor the Sprint is closed. The following 11.8/earlier notes are task-specific history.
+
 ## Sprint 11.8 — Completed Local Reconciliation Boundary
 
 The [11.8 packet](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)

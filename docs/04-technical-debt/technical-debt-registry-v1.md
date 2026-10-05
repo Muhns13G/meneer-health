@@ -41,6 +41,17 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Sprint 11.9 — Provider Preflight Passed, Hosted Journey Pending
+
+The [11.9 packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
+records actual deposit/credited-order/zero-balance test Sessions, exact provider lines/metadata,
+stable retries and terminal unpaid expiration inspection. None completed a payment. All eight
+owner-approved Sprint-11 migrations were applied hosted without seeds or role changes; independent
+history and service-readable baseline checks passed. The real pilot stays suspended with zero Auth
+users. Direct private SQL and authenticated captured-payment/refund/dispute/exception proof remain;
+the owner must deploy Sprint-11 code before the hosted rehearsal. Task 11.9 and TD-010 stay In progress.
+No new debt ID; totals remain 58 items, 51 Verified and seven non-Verified.
+
 ### Sprint 11.8 Reconciliation — Completed Locally
 
 The [local completion packet](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
