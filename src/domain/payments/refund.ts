@@ -17,6 +17,17 @@ export const refundCommandSchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("read"), offerId: z.uuid() }).strict(),
   z.object({ action: z.literal("reconcile"), offerId: z.uuid(), requestKey: z.uuid() }).strict(),
   z
+    .object({ action: z.literal("replace_deposit"), offerId: z.uuid(), requestKey: z.uuid() })
+    .strict(),
+  z
+    .object({
+      action: z.literal("own_dispute"),
+      offerId: z.uuid(),
+      reference: z.uuid(),
+      requestKey: z.uuid(),
+    })
+    .strict(),
+  z
     .object({
       action: z.literal("retry"),
       offerId: z.uuid(),
@@ -65,6 +76,30 @@ export const refundViewSchema = z
       )
       .max(20),
     expiresAt: z.iso.datetime({ offset: true }),
+    canReplaceDeposit: z.boolean().optional().default(false),
+    replacementAuthorised: z.boolean().optional().default(false),
+    disputes: z
+      .array(
+        z
+          .object({
+            reference: z.uuid(),
+            status: z.enum([
+              "needs_response",
+              "under_review",
+              "warning_needs_response",
+              "warning_under_review",
+              "warning_closed",
+              "won",
+              "lost",
+            ]),
+            owned: z.boolean(),
+            reconciled: z.boolean(),
+          })
+          .strict(),
+      )
+      .max(20)
+      .optional()
+      .default([]),
     exceptions: z
       .array(
         z

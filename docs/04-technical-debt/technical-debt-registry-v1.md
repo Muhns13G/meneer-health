@@ -41,15 +41,15 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### Sprint 11.8 Reconciliation Checkpoint — In Progress
+### Sprint 11.8 Reconciliation — Completed Locally
 
-The [local checkpoint](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
+The [local completion packet](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
 adds signed exact-refund settlement, verified-failure bounded retries, provider-checked unpaid credit
 release, owned coded exceptions and a native R999 deposit-readiness bridge. None is hosted acceptance.
-Task 11.8 remains In progress: genuinely separate duplicate captures require full original-method
-refund reconciliation, final disputes require attributed outcome resolution, and expired/failed
-deposits require a safe replacement Checkout path. These are existing TD-010 obligations, not waived
-or moved to future considerations. No new debt ID; 58 total, 51 Verified, seven non-Verified.
+Task 11.8 is completed locally: separate duplicate captures have full original-method refunds;
+final disputes have attributed, provider-checked outcomes; expired/failed deposits have immutable
+replacement offers requiring fresh acceptance. TD-010 remains In progress pending Task 11.9
+provider/hosted proof and Sprint closure. No new debt ID; 58 total, 51 Verified, seven non-Verified.
 
 ### Sprint 10 Closure — Current Authority
 

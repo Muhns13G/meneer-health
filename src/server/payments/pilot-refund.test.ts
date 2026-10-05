@@ -1,6 +1,7 @@
 import { expect, it, vi } from "vitest";
 import type Stripe from "stripe";
 import { PilotRefundProvider, dispatchRefund } from "./pilot-refund";
+import { describe } from "vitest";
 const input = {
   refundId: "a4700000-0000-4000-8000-000000000001",
   accountId: "acct_synthetic12345",
@@ -52,6 +53,144 @@ it("uses the original PaymentIntent and a durable idempotency key without custom
     },
     { idempotencyKey: `pilot-refund:${input.refundId}` },
   );
+});
+
+describe("independent reconciliation observations", () => {
+  function observation() {
+    const plan = {
+      kind: "duplicate" as const,
+      reference: input.refundId,
+      eventId: "evt_duplicate12345",
+      intentId: input.refundId,
+      tenantId: input.refundId,
+      accountId: input.accountId,
+      sessionId: "cs_test_duplicate12345",
+      paymentIntentId: "pi_duplicate12345",
+      retainedPaymentIntentId: "pi_retained12345",
+      amountMinor: 99900,
+    };
+    const session = {
+      id: plan.sessionId,
+      livemode: false,
+      status: "complete",
+      payment_status: "paid",
+      mode: "payment",
+      currency: "zar",
+      amount_total: 99900,
+      payment_intent: plan.paymentIntentId,
+      client_reference_id: plan.intentId,
+      metadata: { orderId: plan.intentId, tenantId: plan.tenantId },
+    };
+    const payment = {
+      livemode: false,
+      status: "succeeded",
+      currency: "zar",
+      amount_received: 99900,
+    };
+    const dispute = {
+      id: "dp_synthetic12345",
+      livemode: false,
+      payment_intent: plan.paymentIntentId,
+      currency: "zar",
+      amount: 99900,
+      status: "won",
+    };
+    const client = {
+      accounts: { retrieveCurrent: vi.fn(async () => ({ id: input.accountId })) },
+      checkout: { sessions: { retrieve: vi.fn(async () => session) } },
+      paymentIntents: { retrieve: vi.fn(async (id: string) => ({ id, ...payment })) },
+      disputes: { retrieve: vi.fn(async () => dispute) },
+    };
+    return {
+      plan,
+      session,
+      payment,
+      dispute,
+      client,
+      provider: new PilotRefundProvider(
+        "rk_test_synthetic_only",
+        input.accountId,
+        client as unknown as Stripe,
+      ),
+    };
+  }
+  it("proves two separate captures and returns only an opaque observation", async () => {
+    const h = observation();
+    expect(await h.provider.inspectException(h.plan)).toEqual({
+      reference: h.plan.reference,
+      kind: "duplicate",
+      eventId: h.plan.eventId,
+    });
+    expect(h.client.paymentIntents.retrieve.mock.calls.map(([id]) => id)).toEqual([
+      h.plan.paymentIntentId,
+      h.plan.retainedPaymentIntentId,
+    ]);
+    await expect(
+      h.provider.inspectException({ ...h.plan, retainedPaymentIntentId: h.plan.paymentIntentId }),
+    ).rejects.toThrow();
+    await expect(
+      h.provider.inspectException({ ...h.plan, accountId: "acct_foreign12345" }),
+    ).rejects.toThrow();
+  });
+  it("rejects live, unbound, unpaid, changed-amount and unsettled duplicates", async () => {
+    for (const patch of [
+      { livemode: true },
+      { payment_status: "unpaid" },
+      { amount_total: 1 },
+      { payment_intent: "pi_foreign12345" },
+      { metadata: { orderId: crypto.randomUUID(), tenantId: input.refundId } },
+    ]) {
+      const h = observation();
+      Object.assign(h.session, patch);
+      await expect(h.provider.inspectException(h.plan)).rejects.toThrow();
+    }
+    for (const patch of [
+      { livemode: true },
+      { status: "processing" },
+      { amount_received: 0 },
+      { currency: "usd" },
+    ]) {
+      const h = observation();
+      Object.assign(h.payment, patch);
+      await expect(h.provider.inspectException(h.plan)).rejects.toThrow();
+    }
+  });
+  it("requires the exact independently observed terminal dispute, not an ownership claim", async () => {
+    for (const status of ["won", "lost", "warning_closed"] as const) {
+      const h = observation();
+      h.dispute.status = status;
+      const plan = {
+        kind: "dispute",
+        reference: h.plan.reference,
+        eventId: h.plan.eventId,
+        accountId: input.accountId,
+        disputeId: h.dispute.id,
+        paymentIntentId: h.plan.paymentIntentId,
+        amountMinor: 99900,
+        status,
+      };
+      expect(await h.provider.inspectException(plan)).toEqual({
+        reference: h.plan.reference,
+        kind: "dispute",
+        eventId: h.plan.eventId,
+      });
+      for (const patch of [
+        { status: "under_review" },
+        { livemode: true },
+        { amount: 1 },
+        { payment_intent: "pi_foreign12345" },
+      ]) {
+        Object.assign(h.dispute, patch);
+        await expect(h.provider.inspectException(plan)).rejects.toThrow();
+        Object.assign(h.dispute, {
+          status,
+          livemode: false,
+          amount: 99900,
+          payment_intent: h.plan.paymentIntentId,
+        });
+      }
+    }
+  });
 });
 it("rejects live keys, account mismatch, live/unsettled captures and changed provider amounts", async () => {
   expect(() => new PilotRefundProvider("rk_live_invalid", input.accountId)).toThrow();

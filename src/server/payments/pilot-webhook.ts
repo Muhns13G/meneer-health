@@ -75,6 +75,7 @@ export async function verifyPilotReceipt(
     "payment_intent.payment_failed",
     "charge.refunded",
     "charge.dispute.created",
+    "charge.dispute.updated",
     "charge.dispute.closed",
     "refund.created",
     "refund.updated",

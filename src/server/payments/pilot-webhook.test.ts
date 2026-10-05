@@ -28,6 +28,30 @@ function payload(patch: Record<string, unknown> = {}) {
 }
 const signature = (body: string) =>
   client.webhooks.generateTestHeaderString({ payload: body, secret });
+it("normalizes dispute updates and terminal outcomes without retaining evidence or customer data", async () => {
+  for (const status of ["under_review", "won", "lost", "warning_closed"]) {
+    const raw = payload({
+      type: "charge.dispute.updated",
+      data: {
+        object: {
+          id: "dp_synthetic12345",
+          payment_intent: "pi_synthetic12345",
+          amount: 99900,
+          currency: "zar",
+          status,
+          evidence: { customer_email_address: "private@example.invalid" },
+        },
+      },
+    });
+    const event = await verifyPilotReceipt(raw, signature(raw), secret, account, client);
+    expect(event).toMatchObject({
+      eventType: "charge.dispute.updated",
+      disputeId: "dp_synthetic12345",
+      disputeStatus: status,
+    });
+    expect(JSON.stringify(event)).not.toMatch(/evidence|private@example/);
+  }
+});
 it("verifies a real SDK signature before stripping customer/medical fields", async () => {
   const raw = payload();
   const result = await verifyPilotReceipt(raw, signature(raw), secret, account, client);

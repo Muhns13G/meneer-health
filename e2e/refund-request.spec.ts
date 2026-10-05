@@ -106,6 +106,11 @@ test("assigned staff reviews coded evidence and submits a sandbox refund without
     return route.fulfill({
       json: {
         requestState: "queued",
+        canReplaceDeposit: body.action !== "replace_deposit",
+        replacementAuthorised: body.action === "replace_deposit",
+        disputes: [
+          { reference, status: "lost", owned: body.action === "own_dispute", reconciled: true },
+        ],
         refunds:
           body.action === "read"
             ? []
@@ -135,6 +140,13 @@ test("assigned staff reviews coded evidence and submits a sandbox refund without
   await expect(page.getByText("R999.00 — refund submitted")).toBeVisible();
   await page.getByRole("button", { name: "Reconcile verified payment evidence" }).click();
   await expect(page.getByText("R999.00 — refund confirmed")).toBeVisible();
+  await page.getByRole("button", { name: "Take ownership of dispute review" }).click();
+  await expect(page.getByText("Lost funds cannot authorise paid progression.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Take ownership of dispute review" })).toHaveCount(
+    0,
+  );
+  await page.getByRole("button", { name: "Authorise replacement deposit Checkout" }).click();
+  await expect(page.getByText(/The client must review and accept the new offer/)).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Queue retry after verified failure" }),
   ).toHaveCount(0);
