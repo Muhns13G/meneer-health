@@ -7,6 +7,7 @@ last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
   - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md
@@ -88,6 +89,17 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Task 10.9 Rehearsal Is Not Pilot Activation
+
+The [reliability packet](../02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md)
+reuses nine rollback-only local SQL suites plus actual local Auth/concurrency and controlled browser
+checks. It neither contacts the protocol generator nor proves external clinical compatibility.
+Payment-ready positive fixtures exist only inside rolled-back synthetic tests; production adapters
+remain closed pending Sprint 11. Current-generator access remains an owner-excepted I8 pre-launch
+dependency with a committed reactivation checklist. Task 10.10 and existing activation gates remain.
+The evidence packet discloses a non-reproduced initial SQL interruption; do not describe it as a
+diagnosed production defect or claim every validation attempt passed.
 
 ## Task I1 Frozen; Clinical Publication and Appointment Gates Remain
 

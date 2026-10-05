@@ -3,12 +3,13 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-04
+last_updated: 2026-10-05
 audience: internal
 sensitivity: internal
 source_baseline: 8077a9a
 runtime_baseline: b5389b3
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-7-operations-audit-alerts.md
   - docs/07-decisions/DR-018-meneer-hosted-medical-intake.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-10-medical-intake-amendment.md
@@ -100,6 +101,17 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Task 10.9 Reliability Packet
+
+The [cross-boundary rehearsal](../02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md)
+adds a fixed local rollback-only command/CI packet: nine suites, 411 assertions, unchanged baseline
+counts/payment-adapter definitions. Full SQL passes 1,017 assertions and Vitest 673 tests. Real local
+workforce MFA, competing claims, replay/release and revocation passed with fixture cleanup. New
+controlled browser checks cover stale commands, missing readiness and transport uncertainty; all
+34 targeted desktop/mobile checks and the production build passed. Task 10.9 is complete at the
+bounded local engineering boundary. No new hosted proof or activation is claimed. Task 10.10
+remains planned; I1–I8 is already closed with the owner's external-generator exception.
 
 ## First Party Medical Intake Plan — 4 October 2026
 

@@ -813,6 +813,17 @@
       ]
     },
     {
+      "id": "phase-02-sprint-10-task-09",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-9-cross-boundary-rehearsal.md",
+      "status": "completed-local-rehearsal-with-activation-gates",
+      "last_updated": "2026-10-05",
+      "authority_for": [
+        "fixed local rollback-only reliability packet and baseline payment-adapter restoration",
+        "queue outage abandonment replay authority and browser failure scenarios",
+        "separation of local evidence from hosted clinical commercial activation gates"
+      ]
+    },
+    {
       "id": "phase-02-sprint-10-task-08",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-10-8-client-case-progress.md",
       "status": "completed-locally-with-release-gates",

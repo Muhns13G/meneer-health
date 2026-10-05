@@ -75,7 +75,7 @@ break glass. No staff queue/UI, migration or hosted activation is delivered by t
 | 10.7     | Implement append-only audit facts and alerts for access, assignment, override, hand-off and exception events.                                   | Audit              | Completed and closed; hosted verified with owner-confirmed receipt             |
 | 10.8     | Add client-visible non-clinical status projection without revealing internal notes or clinical state.                                           | Client portal      | Completed locally; hosted migration/release proof gated                        |
 | 10.I1–I8 | Deliver the separately protected first-party questionnaire, authorised manual transfer and medical lifecycle under the intake amendment.        | DR-018, TD-009     | Completed; current external-generator walkthrough explicitly excepted by owner |
-| 10.9     | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Planned                                                                        |
+| 10.9     | Rehearse success, duplicate, wrong-assignment, stale-state, unavailable-portal and abandoned-case scenarios.                                    | Reliability        | Completed; bounded local rehearsal, activation gates unchanged                 |
 | 10.10    | Reconcile evidence and issue the Sprint 10 completion report.                                                                                   | All                | Planned                                                                        |
 
 Task 10.2 adds eight deny-default tables and `operations.record@1`; see the
@@ -127,7 +127,12 @@ mailbox visibility and scoped cleanup are in the
 owner explicitly excepted the unavailable current-generator walkthrough from I8 closeout; provider
 entitlement/compatibility remains a pre-launch dependency. Final intake mode is disabled and the
 real tenant remains suspended. Task 10.9 may now proceed after the owner's commit.
-The payment adapter remains false until Sprint 11. Tasks 10.9–10.10 remain planned. All seven Sprint
+The payment adapter remains false until Sprint 11. Task 10.9's
+[cross-boundary rehearsal](annexures/sprint-10-9-cross-boundary-rehearsal.md) adds a repeatable
+rollback-only local packet, generator-outage/abandonment assertions and controlled browser failure
+checks. The packet passes 411 assertions, full SQL 1,017, Vitest 673, real local MFA/concurrency,
+34 targeted desktop/mobile browser checks and production build. Task 10.9 is complete at this
+bounded engineering boundary; Task 10.10 remains planned. All seven Sprint
 10 migrations were applied hosted with explicit owner approval on 4 October 2026. No seed/role
 import or pilot activation occurred; independent checks retain one suspended tenant and zero
 subjects/Auth users, cases, attempts and alerts. No real-client or scheduled Worker activation is claimed.
