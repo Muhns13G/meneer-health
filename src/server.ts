@@ -192,7 +192,13 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
                 boundedRequest,
               );
             }
-            if (["/portal/support/command", "/staff/support/command"].includes(pathname)) {
+            if (
+              [
+                "/portal/support/command",
+                "/staff/support/command",
+                "/staff/support/followup",
+              ].includes(pathname)
+            ) {
               return createSupportHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
               );

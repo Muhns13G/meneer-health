@@ -7,6 +7,7 @@ last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
@@ -114,7 +115,12 @@ Purpose routing/coverage controls are locally implemented in
 but no actual roster or hosted route is activated. Private evidence references require independent
 review; they are not domain approval. A support receipt is not human acknowledgement, clinical
 review or financial completion. General support cannot replace clinical/emergency care.
-Staff follow-up/resend is Task 12.4, and hosted inbox/failure/
+Staff follow-up/resend is implemented locally in
+[Task 12.4](../02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md).
+Queue viewing is not acknowledgement; review resolution is not transport or treatment success.
+Uncertain resend needs independent current non-acceptance evidence; no such hosted evidence was
+created. Suppression is not overridable, attempts/budget are not reset, and later delivery facts
+reopen review. No hosted migration, real email or roster activation occurred. Hosted inbox/failure/
 acknowledgement/fallback proof Task 12.8. Actual free-tier quota must be verified before activation.
 TD-037, TD-038 and TD-043 stay Open; there is no new pilot permission or blanket tracking change.
 

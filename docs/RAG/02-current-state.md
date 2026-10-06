@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 7db0e0c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
@@ -135,7 +136,12 @@ disabled; no actual message or hosted migration was performed for this task.
 is implemented locally: `/portal/support`, private current primary/alternate coverage, minimal
 purpose requests, atomic generic receipts and purpose-specific AAL2 human acknowledgement.
 Routes default unavailable; no owners, clinical deadlines or hosted policies were activated.
-Tasks 12.4–12.10 remain; TD-037/038/043 are not closed by local notification/support evidence.
+[Task 12.4](../02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md)
+is locally implemented: `/staff/support`, exact-purpose support follow-up, minimal delivery review,
+administrator-only coverage and immutable audited requeue. Resend preserves suppression, current
+recipient, quota, attempt and independent uncertainty-proof gates; dispatch contains late delivery
+or expired proof. No email or hosted migration occurred. Tasks 12.5–12.10 remain;
+TD-037/038/043 are not closed by local notification/support evidence.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

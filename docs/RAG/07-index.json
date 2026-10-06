@@ -1069,6 +1069,16 @@
       ]
     },
     {
+      "id": "phase-02-sprint-12-4",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md",
+      "status": "completed-local",
+      "authority_for": [
+        "purpose-scoped staff support and minimal delivery review",
+        "immutable acknowledgement resolution and independent guarded resend",
+        "local-only proof with suppression quota and late-delivery containment"
+      ]
+    },
+    {
       "id": "phase-02-sprint-13",
       "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
       "status": "planned",
