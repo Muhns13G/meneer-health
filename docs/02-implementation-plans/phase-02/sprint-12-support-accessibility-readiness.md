@@ -44,7 +44,13 @@ TD-037 acceptance remain; neither is claimed complete from automated evidence al
 Task 12.6's [journey announcements](annexures/sprint-12-6-journey-announcements.md) is locally
 complete: controlled desktop/mobile pending, failure, retry, focus and progress checks pass,
 with owner-confirmed representative VoiceOver pending/result acceptance. In-scope input/button
-reuse and hydration defects are resolved. TD-038 stays Open for staff/released reconciliation.
+reuse and hydration defects are resolved. TD-038 stays Open for released-flow reconciliation.
+
+Task 12.7's [staff accessibility packet](annexures/sprint-12-7-staff-accessibility.md) implements
+local staff focus, contained table scrolling, expiry and private recovery. Automated evidence and
+owner-confirmed representative staff VoiceOver/browser zoom close local Task 12.7 acceptance.
+No client-only confirmation is reused. Tasks 12.8–12.10 remain; hosted/debt closure
+is not inferred from intercepted presentation checks.
 
 | Task  | Commit-sized outcome                                                                                                            | Gate           | Status               |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------- |
@@ -54,7 +60,7 @@ reuse and hydration defects are resolved. TD-038 stays Open for staff/released r
 | 12.4  | Add staff follow-up and failed-delivery queues without exposing sensitive content to email providers.                           | Operations     | Completed (local)    |
 | 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Completed (local)    |
 | 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Completed (local)    |
-| 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Planned              |
+| 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Completed (local)    |
 | 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Planned              |
 | 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Planned              |
 | 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned              |

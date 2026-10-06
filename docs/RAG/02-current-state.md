@@ -11,6 +11,7 @@ runtime_baseline: 5f958cd
 sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-7-staff-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
@@ -157,6 +158,14 @@ adds persistent pending/result announcements, settled-result focus, questionnair
 and hydration-safe invitation/sign-out controls. The owner confirmed representative local VoiceOver
 pending and result announcements are clear. Local automated verification passes, closing 12.6; this does
 not close released-flow TD-038 or activate any hosted workflow.
+
+Task [12.7](../02-implementation-plans/phase-02/annexures/sprint-12-7-staff-accessibility.md)
+implements local staff keyboard/reflow, settled-result focus, contained table scrolling and
+private-data expiry/recovery. A stalled alert read now expires before transport completes;
+late responses cannot restore work. Passing automated checks and owner-confirmed representative
+staff VoiceOver/browser zoom close local 12.7 acceptance, distinct from client checks.
+Hosted support, debt reconciliation and sprint closure
+remain Tasks 12.8–12.10. TD-037/TD-038 remain Open.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

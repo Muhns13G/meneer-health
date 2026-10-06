@@ -9,6 +9,7 @@ sensitivity: internal
 sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-7-staff-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
@@ -137,7 +138,14 @@ Task [12.6](../02-implementation-plans/phase-02/annexures/sprint-12-6-journey-an
 is locally complete with passing automated checks and representative owner-confirmed VoiceOver
 pending/result acceptance. Controlled browser
 responses prove presentation, focus and uncertainty handling, not provider execution or released
-acceptance. Staff review and hosted/released reconciliation remain Tasks 12.7–12.9; TD-038 stays Open.
+acceptance. Hosted/released reconciliation remains Tasks 12.8–12.9; TD-038 stays Open.
+
+Task [12.7](../02-implementation-plans/phase-02/annexures/sprint-12-7-staff-accessibility.md)
+adds local staff presentation and expiry/recovery verification. Intercepted synthetic responses
+cannot prove hosted authority or provider execution. Automated checks and owner-confirmed
+representative staff VoiceOver/browser zoom close local Task 12.7; client acceptance is not
+substituted. Wider released
+acceptance and TD-037/TD-038 reconciliation remain open. No new debt ID is introduced.
 
 ## Current Sprint 11 Closure Boundary
 
