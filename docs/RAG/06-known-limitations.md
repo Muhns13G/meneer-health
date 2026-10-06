@@ -113,13 +113,21 @@ staff TOTP/AAL2, assignment/role/case denials, R999 genuine signed funding, paid
 R800 capped product credit and separately captured R100 delivery passed. Cleanup refunded the test
 captures, removed the disposable identities and restored the disabled configuration/empty baseline.
 Hosted refund-read hit a 503 from passing the transferred original Request at Worker dispatch.
-The local bounded-request fix needs owner deployment and retesting. The approved confirmed-remainder
-SQL fix is applied hosted. Its approved ACL follow-up passes locally but remains pending hosted:
-Supabase returns HTTP 500 FGA authentication errors for login-role and read-only management requests.
-Do not claim the retired inner function's restricted hosted ACL is restored without independent proof.
-Original-method refund, zero-balance completion and remaining failure/dispute/exception proof are not
+The owner deployed the bounded-request fix; the repeat hosted operational refund commands and
+genuine signed R199/R800/R100 original-method confirmations passed. An earlier 503 despite provider
+success remains undiagnosed; response failure is not permission to resubmit money. The approved confirmed-remainder
+SQL fix and its approved ACL follow-up are applied hosted. Independent history and privilege checks
+confirm the retired primitive is not service-role executable. Forward configuration-only restoration
+to `c6af1c24-958d-4e35-865e-baf541d4f99e` preserved the source checksum and restored disabled modes
+with the full empty private/public baseline. The real pilot remains suspended.
+Duplicate/uncertain refund and remaining failure/dispute/exception proof are not
 accepted. No live money is authorised. This supersedes historical local-only schema
 notes below, not independent commercial, clinical or activation gates.
+Actual R0 Checkout returned completed/paid with no PaymentIntent and exposed the current hosted
+reconciler's zero-status mismatch. The owner-approved narrow migration is now hosted, independently
+verified and successfully retested: exact zero-total/no-PaymentIntent classification, R999 credit
+once and no supply advancement. The SDK-signed synthetic hosted tamper/replay/conflict/out-of-order
+packet passed too. Current disabled restoration version is `b88bb4fc-7fc3-491f-bc83-cf193cc740b7`.
 
 The [local reconciliation completion](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
 confirms exact signed refund jobs and permits one replacement after independently verified failure.
