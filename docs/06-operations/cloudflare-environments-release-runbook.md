@@ -18,6 +18,18 @@ merges, deployments, promotions, rollbacks, and Cloudflare settings. A contribut
 only under the owner's explicit, bounded instruction; that permission does not become standing
 authorization for later releases.
 
+## Sprint 12.3 Support Release Boundary
+
+[Task 12.3](../02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md)
+adds `/portal/support` and private client/workforce support commands. No additional Worker secret
+or binding is required. Apply its migration only after explicit approval and the notification
+prerequisite; this task applied neither to hosted Supabase. No coverage policies are seeded.
+Privately verify primary/alternate purpose authority, finite coverage, mailbox controls, absence/
+failure evidence and clinical authority/deadline/after-hours guidance before configuring a policy.
+Missing or ambiguous coverage remains unavailable. Keep transport disabled pending a separately
+authorised 12.8 rehearsal; do not publish purpose aliases or claim clinical support from local
+tests or a generic receipt. Staff follow-up UI is Task 12.4. Existing release approvals still apply.
+
 ## Sprint 12.2 Notification Release Boundary
 
 [Task 12.2](../02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md)

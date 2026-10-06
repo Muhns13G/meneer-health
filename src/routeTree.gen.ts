@@ -29,6 +29,7 @@ import { Route as PortalIntakeRouteImport } from './routes/portal.intake'
 import { Route as PortalOrderRouteImport } from './routes/portal.order'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as PortalRightsRouteImport } from './routes/portal.rights'
+import { Route as PortalSupportRouteImport } from './routes/portal.support'
 import { Route as StaffAlertsRouteImport } from './routes/staff.alerts'
 import { Route as StaffIntakeRouteImport } from './routes/staff.intake'
 import { Route as StaffQueueRouteImport } from './routes/staff.queue'
@@ -139,6 +140,11 @@ const PortalRightsRoute = PortalRightsRouteImport.update({
   path: '/portal/rights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalSupportRoute = PortalSupportRouteImport.update({
+  id: '/portal/support',
+  path: '/portal/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaffAlertsRoute = StaffAlertsRouteImport.update({
   id: '/staff/alerts',
   path: '/staff/alerts',
@@ -206,6 +212,7 @@ export interface FileRoutesByFullPath {
   '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
@@ -237,6 +244,7 @@ export interface FileRoutesByTo {
   '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
@@ -269,6 +277,7 @@ export interface FileRoutesById {
   '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
@@ -302,6 +311,7 @@ export interface FileRouteTypes {
     | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
+    | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
     | '/staff/queue'
@@ -333,6 +343,7 @@ export interface FileRouteTypes {
     | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
+    | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
     | '/staff/queue'
@@ -364,6 +375,7 @@ export interface FileRouteTypes {
     | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
+    | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
     | '/staff/queue'
@@ -396,6 +408,7 @@ export interface RootRouteChildren {
   PortalOrderRoute: typeof PortalOrderRoute
   PortalProfileRoute: typeof PortalProfileRoute
   PortalRightsRoute: typeof PortalRightsRoute
+  PortalSupportRoute: typeof PortalSupportRoute
   StaffAlertsRoute: typeof StaffAlertsRoute
   StaffIntakeRoute: typeof StaffIntakeRoute
   StaffQueueRoute: typeof StaffQueueRoute
@@ -550,6 +563,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalRightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/support': {
+      id: '/portal/support'
+      path: '/portal/support'
+      fullPath: '/portal/support'
+      preLoaderRoute: typeof PortalSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/staff/alerts': {
       id: '/staff/alerts'
       path: '/staff/alerts'
@@ -636,6 +656,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortalOrderRoute: PortalOrderRoute,
   PortalProfileRoute: PortalProfileRoute,
   PortalRightsRoute: PortalRightsRoute,
+  PortalSupportRoute: PortalSupportRoute,
   StaffAlertsRoute: StaffAlertsRoute,
   StaffIntakeRoute: StaffIntakeRoute,
   StaffQueueRoute: StaffQueueRoute,

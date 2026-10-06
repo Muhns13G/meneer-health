@@ -4,6 +4,7 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { portalViewSchema, type PortalView } from "@/domain/identity/patient-portal";
 import { PatientRightsPanel } from "./PatientRightsPanel";
+import { SupportPanel } from "./SupportPanel";
 import { PortalHandoffPanel } from "./PortalHandoffPanel";
 import { PaymentStatusPanel } from "./PaymentStatusPanel";
 import { ClientCaseProgress } from "./ClientCaseProgress";
@@ -31,7 +32,11 @@ const stateLabels = {
   declined: "Declined",
 };
 
-export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "rights" }) {
+export function PatientPortalPage({
+  mode,
+}: {
+  mode: "overview" | "profile" | "rights" | "support";
+}) {
   const [state, setState] = useState<ViewState>({ stage: "loading" });
   const controller = useRef<AbortController | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -138,7 +143,9 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "ri
             ? "Your profile"
             : mode === "rights"
               ? "Your account and data requests"
-              : "Your Meneer account"}
+              : mode === "support"
+                ? "Your support requests"
+                : "Your Meneer account"}
         </h1>
         {state.stage !== "ready" ? (
           <section className="mt-8" aria-live="polite">
@@ -195,8 +202,17 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "ri
               >
                 Corrections and requests
               </Link>
+              <Link
+                to="/portal/support"
+                className="text-gold underline underline-offset-4"
+                aria-current={mode === "support" ? "page" : undefined}
+              >
+                Support requests
+              </Link>
             </nav>
-            {mode === "rights" ? (
+            {mode === "support" ? (
+              <SupportPanel onInvalidate={() => setState({ stage: "signed-out" })} />
+            ) : mode === "rights" ? (
               <PatientRightsPanel
                 profile={state.view.account.profile}
                 onInvalidate={() => void load()}

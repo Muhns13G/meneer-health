@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 7db0e0c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md
@@ -129,8 +130,12 @@ handling. [Task 12.2](../02-implementation-plans/phase-02/annexures/sprint-12-2-
 is now implemented locally: atomic generic notification intents, current recipient checks, bounded
 dispatch, a shared 50-attempt daily non-Auth budget and independently attributed private delivery
 facts. Managed Auth and existing operations/safety templates remain intact. Hosted settings remain
-disabled; no actual message or hosted migration was performed for this task. Tasks 12.3–12.10
-remain; TD-037/038/043 are not closed by local notification evidence.
+disabled; no actual message or hosted migration was performed for this task.
+[Task 12.3](../02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md)
+is implemented locally: `/portal/support`, private current primary/alternate coverage, minimal
+purpose requests, atomic generic receipts and purpose-specific AAL2 human acknowledgement.
+Routes default unavailable; no owners, clinical deadlines or hosted policies were activated.
+Tasks 12.4–12.10 remain; TD-037/038/043 are not closed by local notification/support evidence.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,
