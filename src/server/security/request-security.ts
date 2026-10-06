@@ -37,6 +37,7 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/api/measurement/events", "protected-command"],
   ["/api/payments/checkout", "protected-command"],
   ["/api/payments/stripe/webhook", "provider-callback"],
+  ["/api/notifications/brevo/webhook", "provider-callback"],
   ["/account/verify", "protected-command"],
   ["/account/activate", "protected-command"],
   ["/portal/rights/command", "protected-command"],

@@ -130,6 +130,18 @@ test("inactive payment endpoints stay hidden without local provider configuratio
   }
 });
 
+test("default-off notification receipts stay hidden without provider configuration", async ({
+  request,
+  baseURL,
+}) => {
+  const response = await request.post(`${baseURL}/api/notifications/brevo/webhook`, {
+    data: { event: "delivered", "message-id": "synthetic@relay.example.invalid", ts_event: 1 },
+  });
+  expect(response.status()).toBe(404);
+  expect(response.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+  expect(await response.text()).toBe("");
+});
+
 test("default-off measurement endpoints stay hidden without explicit activation", async ({
   request,
   baseURL,
