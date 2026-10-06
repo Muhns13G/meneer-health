@@ -42,6 +42,9 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run test:operations:rehearsal` runs nine fixed rollback-only local SQL suites, checking
   complete TAP results, baseline table counts and unchanged payment-adapter definitions. Never
   supply hosted environment configuration or copy its synthetic fixtures to hosted services.
+- `bun run test:notifications` runs a local-only eight-request shared-budget race using disposable
+  synthetic notification fixtures, then restores journal counts and append-only triggers. It
+  requires an empty local notification journal, rejects hosted variables and sends no emails.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.

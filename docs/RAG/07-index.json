@@ -1049,6 +1049,16 @@
       ]
     },
     {
+      "id": "phase-02-sprint-12-2",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md",
+      "status": "completed-local",
+      "authority_for": [
+        "atomic private notification intents and recipient authority",
+        "shared non-Auth budget bounded dispatch and delivery attribution",
+        "local-only evidence with hosted delivery and support gates retained"
+      ]
+    },
+    {
       "id": "phase-02-sprint-13",
       "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
       "status": "planned",

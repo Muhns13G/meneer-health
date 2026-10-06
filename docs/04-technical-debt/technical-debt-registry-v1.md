@@ -125,6 +125,12 @@ Do not interpret older task/migration-pending checkpoints below as the current i
 
 TD-058 accrued during I8 and is Verified after the approved local/hosted correction. Current totals:
 **58 items, 51 Verified, seven non-Verified**: TD-006, TD-007, TD-009, TD-010, TD-037, TD-038, TD-043.
+
+Task [12.2](../02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md)
+adds locally verified atomic generic notifications, shared non-Auth quota, owned failure reasons
+and private attributed delivery evidence. TD-043 remains Open: purpose-owner/alternate coverage,
+staff follow-up, hosted inbox/failure/acknowledgement/fallback and release accessibility evidence
+remain Sprint 12 work. No new debt ID, hosted activation or debt-status change is introduced.
 No additional confirmed defect ID accrued at 10.9/10.10. The unreproduced SQL interruption, implicit
 SQL-initialisation warning and informational index candidates remain explicit review observations
 in the completion report. Pilot/payment activation is not claimed by sprint closure.
