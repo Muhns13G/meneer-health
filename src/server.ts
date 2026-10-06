@@ -21,6 +21,7 @@ import { createRefundHttpHandler } from "./server/payments/refund-http";
 import { runScheduledRefunds } from "./server/payments/refund-dispatch";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
+import { createSupportHttpHandler } from "./server/support/support-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
 import { createAlertHttpHandler } from "./server/operations/alert-http";
@@ -188,6 +189,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               ].includes(pathname)
             ) {
               return createQueueHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (["/portal/support/command", "/staff/support/command"].includes(pathname)) {
+              return createSupportHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
               );
             }

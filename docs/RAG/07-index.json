@@ -1059,6 +1059,16 @@
       ]
     },
     {
+      "id": "phase-02-sprint-12-3",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md",
+      "status": "completed-local",
+      "authority_for": [
+        "private purpose support coverage and current primary alternate authority",
+        "secure minimal receipt human acknowledgement and emergency separation",
+        "local proof with hosted roster delivery and fallback gates retained"
+      ]
+    },
+    {
       "id": "phase-02-sprint-13",
       "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
       "status": "planned",

@@ -7,6 +7,7 @@ last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md
@@ -108,7 +109,12 @@ sources:
 adds private atomic notification intents, shared non-Auth budget, bounded retries and attributed
 delivery facts. Default configuration remains disabled. No hosted migration, real email or provider
 callback configuration was performed. Provider acceptance is not delivered/read/acknowledged.
-Purpose owners/coverage are Task 12.3, staff follow-up/resend Task 12.4, and hosted inbox/failure/
+Purpose routing/coverage controls are locally implemented in
+[Task 12.3](../02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md),
+but no actual roster or hosted route is activated. Private evidence references require independent
+review; they are not domain approval. A support receipt is not human acknowledgement, clinical
+review or financial completion. General support cannot replace clinical/emergency care.
+Staff follow-up/resend is Task 12.4, and hosted inbox/failure/
 acknowledgement/fallback proof Task 12.8. Actual free-tier quota must be verified before activation.
 TD-037, TD-038 and TD-043 stay Open; there is no new pilot permission or blanket tracking change.
 
