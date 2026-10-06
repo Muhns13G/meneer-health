@@ -962,8 +962,8 @@
     {
       "id": "phase-02-sprint-11-9-sandbox-journey",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md",
-      "status": "in-progress-exception-matrix",
-      "source_commit": "e690e37",
+      "status": "completed-sandbox-hosted-boundary",
+      "source_commit": "5f958cd",
       "last_updated": "2026-10-06",
       "authority_for": [
         "owner authorised bounded hosted schema and synthetic sandbox rehearsal",
@@ -981,9 +981,12 @@
         "approved duplicate aggregate refund fix with genuine refund once and retained original readiness",
         "owner confirmed three generic alerts with hosted AAL2 response and wrong-role denial",
         "independent disabled restoration proof after immediate assertion failure and bounded observation correction",
-        "explicit evidence-class matrix and pending hosted payment exception proof",
+        "completed evidence-class matrix distinguishing genuine provider proof from hosted rollback-only payment exception fault injection",
         "owner deployment and disabled baseline restoration obligations",
-        "Task 11.9 not complete; TD-010 remains In progress"
+        "genuine asynchronous pending refund denial and exact terminal duplicate refund confirmation",
+        "hosted rollback-only uncertainty bounded retry late-original and independence fault packets",
+        "final exact disabled empty restoration and compatible transitive security patch",
+        "Task 11.9 accepted at synthetic sandbox boundary; Task 11.10 planned and TD-010 release gates remain"
       ]
     },
     {

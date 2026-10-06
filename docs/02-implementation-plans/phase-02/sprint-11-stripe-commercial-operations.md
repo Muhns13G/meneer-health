@@ -58,7 +58,9 @@ refund settlement, verified-failure refund retries, provider-checked unpaid cred
 content-free owned exceptions and the native deposit-readiness bridge. Genuine duplicate-capture
 full refunds, attributed final dispute resolution and safe replacement deposit offers with fresh
 acceptance are locally verified. Task 11.9 is
-[in progress](annexures/sprint-11-9-sandbox-journey-evidence.md): actual current-adapter uncompleted
+[completed at the sandbox/hosted boundary](annexures/sprint-11-9-sandbox-journey-evidence.md).
+The following paragraphs preserve earlier verification checkpoints, not current open work:
+actual current-adapter uncompleted
 test Sessions, exact line items, retry identity and unpaid expiration inspection passed. Genuine
 hosted signed-expiry transport and invalid-signature denial also passed with scoped restoration.
 Authenticated synthetic patient/staff scope checks, actual R999 funding, the paid-review bridge and
@@ -92,18 +94,25 @@ refunds and staff reconciliation before considering any live credential or real 
 
 ## Commit-Sized Task Plan
 
-| Task  | Commit-sized outcome                                                                                                 | Gate            | Status                      |
-| ----- | -------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------------- |
-| 11.1  | Freeze approved pilot scenarios, price versions, terms versions, payment timing and exception matrix.                | TD-010          | Completed at contract level |
-| 11.2  | Seed the approved test-mode price catalogue and readiness rules; reject browser-supplied amounts.                    | TD-010          | Completed locally           |
-| 11.3  | Implement the authenticated client review-and-pay boundary with explicit line items and no health metadata.          | Checkout        | Completed locally           |
-| 11.4  | Enable test-mode Checkout creation behind environment, identity, consent, workflow and release gates.                | Checkout        | Completed locally           |
-| 11.5  | Enable signed raw-body webhooks with durable idempotency, replay/conflict detection and out-of-order reconciliation. | Provider events | Completed locally           |
-| 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Completed locally           |
-| 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Completed locally           |
-| 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | Completed locally           |
-| 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | In progress                 |
-| 11.10 | Reconcile evidence and issue the Sprint 11 completion report; keep live mode disabled.                               | All             | Planned                     |
+Current acceptance supersedes the historical progress paragraphs above: Task 11.9's complete
+synthetic sandbox/hosted matrix is accepted in its evidence packet, including genuine pending/full
+duplicate refund, uncertainty/bounded retry, late-original and operational-independence rollback
+proof, and exact disabled/empty restoration. No live release is implied. TD-010 retains actual
+reviewed publications, commercial/tax/operations approval and release obligations. Task 11.10
+remains the next separate commit-sized Sprint-report closure task.
+
+| Task  | Commit-sized outcome                                                                                                 | Gate            | Status                        |
+| ----- | -------------------------------------------------------------------------------------------------------------------- | --------------- | ----------------------------- |
+| 11.1  | Freeze approved pilot scenarios, price versions, terms versions, payment timing and exception matrix.                | TD-010          | Completed at contract level   |
+| 11.2  | Seed the approved test-mode price catalogue and readiness rules; reject browser-supplied amounts.                    | TD-010          | Completed locally             |
+| 11.3  | Implement the authenticated client review-and-pay boundary with explicit line items and no health metadata.          | Checkout        | Completed locally             |
+| 11.4  | Enable test-mode Checkout creation behind environment, identity, consent, workflow and release gates.                | Checkout        | Completed locally             |
+| 11.5  | Enable signed raw-body webhooks with durable idempotency, replay/conflict detection and out-of-order reconciliation. | Provider events | Completed locally             |
+| 11.6  | Implement client and staff payment status projections based only on reconciled provider evidence.                    | False success   | Completed locally             |
+| 11.7  | Implement cancellation/refund requests, automated eligible reversals and staff exception handling.                   | TD-010          | Completed locally             |
+| 11.8  | Implement reconciliation for expired, failed, duplicate, disputed and refunded test transactions.                    | Operations      | Completed locally             |
+| 11.9  | Complete no-charge Stripe sandbox exercises for success and every required failure/exception path.                   | Hosted proof    | Completed at sandbox boundary |
+| 11.10 | Reconcile evidence and issue the Sprint 11 completion report; keep live mode disabled.                               | All             | Planned                       |
 
 ## Acceptance Gate
 
