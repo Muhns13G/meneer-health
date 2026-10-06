@@ -1035,8 +1035,18 @@
     {
       "id": "phase-02-sprint-12",
       "path": "docs/02-implementation-plans/phase-02/sprint-12-support-accessibility-readiness.md",
-      "status": "planned",
+      "status": "in-progress",
       "authority_for": ["pilot notifications", "support routing", "live accessibility"]
+    },
+    {
+      "id": "phase-02-sprint-12-1",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-12-1-notification-contract.md",
+      "status": "completed-contract",
+      "authority_for": [
+        "notification events templates and recipient authority",
+        "delivery evidence retry and privacy contract",
+        "Sprint 12 prerequisite reconciliation without pilot activation"
+      ]
     },
     {
       "id": "phase-02-sprint-13",
