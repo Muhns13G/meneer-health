@@ -52,6 +52,7 @@ it("shows a committed receipt without claiming human acknowledgement", async () 
   await waitFor(() =>
     expect(screen.getByRole("status")).toHaveTextContent("not human acknowledgement"),
   );
+  expect(screen.getByRole("status")).toHaveFocus();
   const body = JSON.parse(fetcher.mock.calls[1]![1].body);
   expect(Object.keys(body).sort()).toEqual(["action", "purpose", "requestKey", "urgent"]);
   expect(fetcher.mock.calls[1]![1].headers["Idempotency-Key"]).toBe(body.requestKey);
@@ -73,6 +74,7 @@ it("retains the same request key across uncertain retry and clears cached availa
   await waitFor(() => expect(submit).toBeEnabled());
   fireEvent.click(submit);
   await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("do not assume"));
+  expect(screen.getByRole("status")).toHaveFocus();
   expect(submit).toBeDisabled();
   fireEvent.click(refresh);
   await waitFor(() => expect(submit).toBeEnabled());
@@ -81,6 +83,28 @@ it("retains the same request key across uncertain retry and clears cached availa
   expect(JSON.parse(fetcher.mock.calls[1]![1].body).requestKey).toBe(
     JSON.parse(fetcher.mock.calls[3]![1].body).requestKey,
   );
+});
+
+it("announces pending work without moving focus until the result is available", async () => {
+  let resolve!: (response: Response) => void;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(() => new Promise<Response>((done) => (resolve = done))),
+  );
+  render(<SupportPanel onInvalidate={vi.fn()} />);
+  const refresh = screen.getByRole("button", { name: "Refresh support availability and status" });
+  refresh.focus();
+  fireEvent.click(refresh);
+  expect(screen.getByRole("status")).toHaveTextContent("Checking…");
+  expect(screen.getByRole("status")).toHaveAttribute("aria-live", "polite");
+  expect(screen.getByRole("status")).not.toHaveFocus();
+  expect(screen.getByRole("combobox")).toBeDisabled();
+  resolve(Response.json(view));
+  await waitFor(() => expect(screen.getByRole("status")).toHaveFocus());
+  expect(screen.getByRole("status")).toHaveTextContent(
+    "Support availability and request status updated.",
+  );
+  expect(screen.getByRole("combobox")).toBeEnabled();
 });
 it("invalidates the parent session on authority loss", async () => {
   const invalidate = vi.fn();

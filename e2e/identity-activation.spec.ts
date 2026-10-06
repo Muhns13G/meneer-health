@@ -17,7 +17,10 @@ test("activation fails closed without proof and keeps no-store discovery control
   page,
 }) => {
   await isolateExternalFonts(page);
+  // The first routed page compiles its client modules on the cold local dev server.
+  const unavailable = page.waitForResponse("**/account/activate/instruments", { timeout: 30_000 });
   const response = await page.goto("/account/activate");
+  expect((await unavailable).status()).toBeGreaterThanOrEqual(400);
   expect(response?.status()).toBe(200);
   expect(response?.headers()["cache-control"]).toContain("no-store");
   expect(response?.headers()["x-robots-tag"]).toContain("noindex");
@@ -34,9 +37,12 @@ test("exact documents precede profile; separate actions, retry and durable succe
     route.fulfill({ json: { verifiedEmail: "activation@example.invalid", documents } }),
   );
   const bodies: Record<string, unknown>[] = [];
+  let releaseSave!: () => void;
+  const savePending = new Promise<void>((resolve) => (releaseSave = resolve));
   await page.route("**/account/activate", async (route) => {
     if (route.request().method() !== "POST") return route.continue();
     bodies.push(route.request().postDataJSON());
+    await savePending;
     await route.fulfill({ status: bodies.length === 1 ? 503 : 204, body: "" });
   });
   await page.goto("/account/activate");
@@ -52,6 +58,7 @@ test("exact documents precede profile; separate actions, retry and durable succe
   await page.getByRole("button", { name: "Continue to profile" }).focus();
   await page.keyboard.press("Enter");
   await expect(page.getByRole("heading", { name: "Your minimum profile" })).toBeFocused();
+  await expect(page.getByRole("status")).toContainText("Step 2 of 2");
   await page.getByRole("button", { name: "Set up account", exact: true }).click();
   await expect(page.getByRole("alert")).toBeFocused();
   await expect(page.getByLabel("Given name", { exact: true })).toHaveAttribute(
@@ -72,11 +79,14 @@ test("exact documents precede profile; separate actions, retry and durable succe
   await checkboxes.nth(1).check();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.getByRole("button", { name: "Set up account", exact: true }).click();
+  await expect(page.getByRole("button", { name: "Saving…", exact: true })).toBeDisabled();
+  releaseSave();
   await expect(page.getByRole("alert")).toBeFocused();
   await expect(page.getByRole("alert")).toContainText("could not confirm");
   await expect(page.getByRole("link", { name: "Sign in to continue" })).toHaveCount(0);
   await page.getByRole("button", { name: "Set up account", exact: true }).click();
   await expect(page.getByRole("link", { name: "Sign in to continue" })).toBeVisible();
+  await expect(page.getByRole("status")).toBeFocused();
   expect(bodies[0]).toEqual(bodies[1]);
   expect(bodies[0]).not.toHaveProperty("email");
   expect(bodies[0]).not.toHaveProperty("password");

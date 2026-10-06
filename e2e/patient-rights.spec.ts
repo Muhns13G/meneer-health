@@ -59,6 +59,7 @@ test("correction waits for durable success; requests acknowledge receipt only", 
   await page.getByLabel("Given name", { exact: true }).fill("Corrected");
   await page.getByRole("button", { name: "Save correction" }).click();
   await expect(page.getByRole("status")).toContainText("No completion was confirmed");
+  await expect(page.getByRole("status")).toBeFocused();
   fail = false;
   await page.getByRole("button", { name: "Save correction" }).click();
   await expect(page.getByLabel("Given name", { exact: true })).toHaveValue("Corrected");
@@ -68,6 +69,7 @@ test("correction waits for durable success; requests acknowledge receipt only", 
   await page.getByLabel("I understand this records a request only.").check();
   await page.getByRole("button", { name: "Record request" }).click();
   await expect(page.getByRole("status")).toContainText("This confirms receipt only");
+  await expect(page.getByRole("status")).toBeFocused();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   expect(

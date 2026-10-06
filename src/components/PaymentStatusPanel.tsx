@@ -19,6 +19,10 @@ function PaymentStatusContent({ caseId }: { caseId?: string }) {
   const [page, setPage] = useState<PaymentStatusPage | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const resultRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (!busy && message) resultRef.current?.focus();
+  }, [busy, message]);
   const active = useRef<AbortController | null>(null);
   const expiry = useRef<ReturnType<typeof setTimeout> | null>(null);
   const clearTimer = () => {
@@ -105,11 +109,9 @@ function PaymentStatusContent({ caseId }: { caseId?: string }) {
       >
         {busy ? "Checking…" : "Refresh payment status"}
       </button>
-      {message && (
-        <p role="status" aria-live="polite" className="mt-3">
-          {message}
-        </p>
-      )}
+      <p ref={resultRef} tabIndex={-1} role="status" aria-live="polite" className="mt-3">
+        {message}
+      </p>
       {page && (
         <>
           <ul className="mt-4 space-y-4">
