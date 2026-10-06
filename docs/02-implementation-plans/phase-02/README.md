@@ -26,8 +26,11 @@ and live accessibility proof remain. Task 12.3's
 private verified-coverage gates, secure requests and exact-purpose AAL2 owner acknowledgement.
 Task 12.4's [staff support follow-up](annexures/sprint-12-4-staff-support-followup.md) adds locally
 verified purpose queues, minimal delivery review and governed resend; no roster, provider evidence
-or hosted service is activated. Tasks 12.5–12.10 remain. Phase 02 is not closed; no
-framework rebuild is selected or completed.
+or hosted service is activated. Tasks 12.6–12.10 remain. Phase 02 is not closed; no
+framework rebuild is selected or completed. Task 12.5's
+[client-form accessibility](annexures/sprint-12-5-client-form-accessibility.md) is locally complete:
+controlled checks passed and the owner confirmed VoiceOver and actual browser zoom acceptance.
+Released-flow acceptance remains in the later sprint verification. TD-037 retains its wider scope.
 
 ## Current Intake Amendment
 

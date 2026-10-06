@@ -35,6 +35,11 @@ Missing/unverified coverage stays unavailable. No real pilot or hosted configura
 Task 12.4's [staff follow-up](annexures/sprint-12-4-staff-support-followup.md) is implemented locally:
 purpose queues, minimal delivery review, immutable human responses and guarded requeue with
 suppression, shared-budget and late-evidence containment. Hosted acceptance remains Task 12.8.
+Task 12.5's [client-form accessibility packet](annexures/sprint-12-5-client-form-accessibility.md)
+adds the controlled routed-form matrix and local VoiceOver review harness. Assisted review has
+owner-confirmed email/code and profile/contact labels plus privacy-checkbox state. The owner's
+subsequent VoiceOver and browser-zoom acceptance closes local Task 12.5. Released-flow and wider
+TD-037 acceptance remain; neither is claimed complete from automated evidence alone.
 
 | Task  | Commit-sized outcome                                                                                                            | Gate           | Status               |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------- |
@@ -42,7 +47,7 @@ suppression, shared-budget and late-evidence containment. Hosted acceptance rema
 | 12.2  | Implement generic invitation, account, payment, hand-off, exception and support notifications with durable delivery status.     | Notifications  | Completed (local)    |
 | 12.3  | Implement verified privacy, complaint and clinical/adverse-event routes with owner, hours, fallback and acknowledgement.        | TD-043         | Completed (local)    |
 | 12.4  | Add staff follow-up and failed-delivery queues without exposing sensitive content to email providers.                           | Operations     | Completed (local)    |
-| 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Planned              |
+| 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Completed (local)    |
 | 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Planned              |
 | 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Planned              |
 | 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Planned              |
