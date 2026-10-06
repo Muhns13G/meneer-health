@@ -1079,6 +1079,16 @@
       ]
     },
     {
+      "id": "phase-02-sprint-12-5",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md",
+      "status": "completed-local-acceptance",
+      "authority_for": [
+        "routed client-form keyboard reflow and display regression scope",
+        "synthetic local VoiceOver review harness and owner-confirmed local acceptance",
+        "TD-037 remains open until actual assistive-technology release evidence"
+      ]
+    },
+    {
       "id": "phase-02-sprint-13",
       "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
       "status": "planned",

@@ -7,6 +7,7 @@ last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
@@ -123,6 +124,13 @@ created. Suppression is not overridable, attempts/budget are not reset, and late
 reopen review. No hosted migration, real email or roster activation occurred. Hosted inbox/failure/
 acknowledgement/fallback proof Task 12.8. Actual free-tier quota must be verified before activation.
 TD-037, TD-038 and TD-043 stay Open; there is no new pilot permission or blanket tracking change.
+Task [12.5](../02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md)
+adds local routed-form keyboard/display tests and the synthetic VoiceOver harness. Axe, semantic
+names, emulated forced colours and root-text scaling do not prove actual screen-reader speech,
+browser-menu zoom or released-flow acceptance. Assisted VoiceOver review has owner-confirmed
+email/code and profile/contact-preference labels plus privacy-checkbox state. The owner's later
+VoiceOver and browser-zoom pass confirmations close local Task 12.5 acceptance. Released-flow
+and wider Sprint 12 accessibility acceptance remain; TD-037 stays Open for that scope.
 
 ## Current Sprint 11 Closure Boundary
 

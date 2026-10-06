@@ -144,6 +144,12 @@ in the completion report. Pilot/payment activation is not claimed by sprint clos
 
 ### Historical Task Checkpoints
 
+Task [12.5](../02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md)
+adds controlled routed-client keyboard/reflow/display and expanded questionnaire checks. A local
+synthetic VoiceOver review harness is supplied; the owner confirmed VoiceOver and browser zoom
+checks pass, closing local Task 12.5 acceptance. Released-flow and wider accessibility acceptance
+remain. TD-037 stays Open for that wider scope; no new debt ID.
+
 Task I1's [medical-intake engineering contract](../02-implementation-plans/phase-02/annexures/sprint-10-i1-medical-intake-contract.md)
 is frozen following owner approval on 5 October. It preserves 24 original source items and adds one
 explicit unselected sex field with separate provenance, never an assumed male value. I2 may implement
