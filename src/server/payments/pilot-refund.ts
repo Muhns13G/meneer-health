@@ -45,7 +45,8 @@ export const exceptionInspectionSchema = z.discriminatedUnion("kind", [
       reference: z.uuid(),
       eventId: z.string().regex(/^evt_[A-Za-z0-9_]{8,120}$/),
       accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
-      disputeId: z.string().regex(/^dp_[A-Za-z0-9_]{8,120}$/),
+      // Match the webhook boundary; provider retrieval still proves exact account/lineage/status.
+      disputeId: z.string().regex(/^(?:du|dp)_[A-Za-z0-9_]{8,120}$/),
       paymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
       amountMinor: z.int().nonnegative().max(100_000_000),
       status: z.enum(["won", "lost", "warning_closed"]),

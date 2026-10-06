@@ -24,7 +24,12 @@ export const pilotProviderReceiptSchema = z
     paymentStatus: z.enum(["paid", "unpaid", "no_payment_required"]).nullable(),
     refundMinor: minor,
     chargeId: optionalId("ch"),
-    disputeId: optionalId("dp"),
+    // Stripe's observed provider Disputes use du_; retain the existing dp_ fixture form.
+    // Syntax is not authority: account, signature and PaymentIntent lineage are checked separately.
+    disputeId: z
+      .string()
+      .regex(/^(?:du|dp)_[A-Za-z0-9_]{8,120}$/)
+      .nullable(),
     disputeStatus: z
       .enum([
         "warning_needs_response",
