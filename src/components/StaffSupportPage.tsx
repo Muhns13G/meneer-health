@@ -75,8 +75,8 @@ export function StaffSupportPage() {
     };
   }, []);
   useEffect(() => {
-    status.current?.focus();
-  }, [message]);
+    if (!pending) status.current?.focus();
+  }, [message, pending]);
   async function load(mutation?: Mutation) {
     if (busy.current) return;
     busy.current = true;

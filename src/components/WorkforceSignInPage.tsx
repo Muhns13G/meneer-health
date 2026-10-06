@@ -26,6 +26,7 @@ export function WorkforceSignInPage() {
   const [enrollment, setEnrollment] = useState<z.infer<typeof enrollmentView>["enrollment"]>(null);
   const [session, setSession] = useState<z.infer<typeof sessionView> | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const status = useRef<HTMLParagraphElement>(null);
   const requestKey = useRef<string | null>(null);
   useEffect(() => {
     setHydrated(true);
@@ -33,6 +34,16 @@ export function WorkforceSignInPage() {
   useEffect(() => {
     if (stage !== "request") formRef.current?.querySelector<HTMLInputElement>("input")?.focus();
   }, [stage]);
+  useEffect(() => {
+    // A successful step keeps focus on its new code field; failures and session results are focused.
+    if (
+      !busy &&
+      message &&
+      (stage === "request" || stage === "complete" || message.startsWith("Access could"))
+    ) {
+      status.current?.focus();
+    }
+  }, [busy, message, stage]);
 
   async function post(path: string, fields: Record<string, string>) {
     return fetch(path, {
@@ -310,8 +321,14 @@ export function WorkforceSignInPage() {
           ) : null}
         </section>
       )}
-      <p role="status" aria-live="polite" className="mt-6 text-muted-foreground">
-        {message}
+      <p
+        ref={status}
+        tabIndex={-1}
+        role="status"
+        aria-live="polite"
+        className="mt-6 text-muted-foreground"
+      >
+        {busy ? "Checking workforce access…" : message}
       </p>
     </main>
   );
