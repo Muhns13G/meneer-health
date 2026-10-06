@@ -9,6 +9,16 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 # Phase 02 — Minimum Pilot Enablement
 
+## Current Delivery Checkpoint — 6 October 2026
+
+Sprint 11 is [completed with activation gates](../../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
+through committed implementation/evidence `7db0e0c`; Task 11.10 supplies the closure report.
+The complete sandbox/hosted deposit, credit, refund, Dispute and exception matrix passed with
+cleanup and disabled restoration. Historical local-only/unapplied/payment-proof-pending paragraphs
+below are not current gaps. Real pricing/terms/authority approvals remain under TD-010; seven
+activation debts remain non-Verified. The pilot stays suspended, live mode disabled, and Sprints
+12–13 remain planned. Phase 02 is not closed; no framework rebuild is selected or completed.
+
 ## Current Intake Amendment
 
 Sprint 10 is [completed with activation gates](../../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md),

@@ -3,10 +3,11 @@ rag_id: meneer-platform-evolution
 title: Meneer Platform Evolution and Migration Contract
 status: owner-confirmed-portable-direction
 authority: strategic
-last_updated: 2026-10-05
+last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/00-blueprints/master-blueprint-v1.md
@@ -34,6 +35,14 @@ sources:
 ---
 
 # Meneer Platform Evolution and Migration Contract
+
+Current delivery checkpoint, 6 October: Sprint 11 is
+[completed with activation gates](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md).
+The native deposit readiness/credit/refund and private commercial journey have local and bounded
+hosted/sandbox proof; payment/clinical/supply state remains independent. This is TanStack/Cloudflare
+v1 engineering closure, not live pilot approval, Next.js/Laravel implementation or Phase 02 closure.
+Seven activation debts, Sprint 12 operational/accessibility review, Sprint 13 go/no-go and generator
+reactivation remain. The following earlier checkpoints are historical, not current missing code.
 
 Current delivery checkpoint: Sprint 10's staff queue, protected first-party medical intake and
 governed manual bridge are [completed with activation gates](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md).

@@ -7,6 +7,8 @@ last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
@@ -98,6 +100,18 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Current Sprint 11 Closure Boundary
+
+The [Sprint 11 report](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
+closes Tasks 11.1–11.10 at implementation/evidence checkpoint `7db0e0c`. Complete bounded
+local and hosted sandbox commercial/exception proof exists; older proof-pending notes below are
+historical. Actual real catalogue/rates, supplier/tax/provider acceptance, reviewed publications,
+professional/pharmacy/custody rights and financial authority are not approved by synthetic tests.
+Modes remain disabled and the real pilot suspended. TD-006/007/009/010 remain In progress;
+TD-037/038/043 remain Open. Sprint 12 owns operational/assistive-technology acceptance; Sprint 13
+owns go/no-go. Neither live payments, generator compatibility nor Phase 02 closure is claimed.
+Task 11.10 is documentation-only; no new hosted inventory or exact-commit CI is implied.
 
 ## Sprint 11.8 Is Locally Complete, Not Hosted Provider Proof
 

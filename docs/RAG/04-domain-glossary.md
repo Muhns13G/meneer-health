@@ -3,12 +3,31 @@ rag_id: meneer-domain-glossary
 title: Meneer Domain and Delivery Glossary
 status: working
 authority: derived
-last_updated: 2026-10-04
+last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 ---
 
 # Meneer Domain and Delivery Glossary
+
+## Current Commercial Verification Terms
+
+See the [Sprint 11 report](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
+for completed implementation and exact evidence classes. These definitions do not enable real transactions.
+
+- **Review deposit:** one R999 case payment before paid review/manual transfer, not a membership fee.
+- **Capped first-order credit:** product credit up to the approved subtotal; delivery stays separate
+  and unused deposit returns to its original funding method after commercial completion.
+- **Commercial completion:** exact provider-reconciled accepted money or no-cost Session evidence,
+  not clinical approval, generator completion, dispensing or delivery.
+- **Genuine provider proof:** an actual sandbox object/event independently correlated with hosted
+  processing; a success redirect or locally signed fixture is insufficient.
+- **Hosted rollback-only fault injection:** synthetic normalized facts submitted within a fixed
+  isolated transaction and rolled back. It is not proof of a real bank failure or clinical decision.
+- **Verified-failure retry:** one immutable replacement after independently verified provider failure;
+  pending/uncertain money remains reserved and cannot be blindly resent.
+- **Completed with activation gates:** implementation/rehearsal/report acceptance is complete while
+  real catalogue/publications, professional/provider authority and owner release remain required.
 
 ## Medical Intake Amendment Terms
 

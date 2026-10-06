@@ -3,7 +3,7 @@ rag_id: meneer-decision-register
 title: Meneer Decision Register
 status: active
 authority: mixed
-last_updated: 2026-10-05
+last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 ---
@@ -11,6 +11,15 @@ sensitivity: internal
 # Meneer Decision Register
 
 ## Usage
+
+### Sprint 11 Engineering Closure — 6 October 2026
+
+The [completion report](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
+accepts Tasks 11.1–11.10 at the synthetic sandbox/hosted boundary through `7db0e0c`. It reconciles
+the existing owner-approved credit/refund decisions, actual provider fixes and bounded fault proof;
+it does not create a new pricing policy, waive TD-010, approve terms or enable live payments.
+Seven activation debts remain. Sprint 12/release owns operational/accessibility acceptance and
+Sprint 13 the go/no-go. Exact-commit CI for this closure batch remains the owner's next action.
 
 ### Sprint 11.1 Commercial Clarifications — 5 October 2026
 

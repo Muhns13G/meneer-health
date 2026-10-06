@@ -3,10 +3,11 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-10-05
+last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
   - docs/00-blueprints/master-blueprint-v1.md
@@ -58,6 +59,17 @@ sources:
 ---
 
 # Meneer Project Context
+
+## Current Authority — Sprint 11 Closure
+
+Sprint 11 is [completed with activation gates](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
+at committed implementation/evidence `7db0e0c`. The private deposit/credited-order, refund and
+reconciliation journey exists with complete synthetic local/hosted sandbox proof and disabled
+restoration. Protected first-party medical intake was completed in Sprint 10, not still planned.
+The real pilot stays suspended, live payment mode disabled, and no real catalogue/terms/clinical
+release is inferred. The registry has 58 items, 51 Verified and seven non-Verified. Sprint 12
+operational/accessibility acceptance and Sprint 13 go/no-go remain; Phase 02 is not closed.
+Older delivery counts and planned/unimplemented statements below are historical checkpoints.
 
 ## Current Intake Direction
 
