@@ -17,7 +17,10 @@ The complete sandbox/hosted deposit, credit, refund, Dispute and exception matri
 cleanup and disabled restoration. Historical local-only/unapplied/payment-proof-pending paragraphs
 below are not current gaps. Real pricing/terms/authority approvals remain under TD-010; seven
 activation debts remain non-Verified. The pilot stays suspended, live mode disabled, and Sprints
-12–13 remain planned. Phase 02 is not closed; no framework rebuild is selected or completed.
+12 is now in progress and 13 remains planned. Task 12.1's
+[notification contract](annexures/sprint-12-1-notification-contract.md) is complete at contract level;
+runtime delivery and live accessibility proof remain. Phase 02 is not closed; no framework rebuild
+is selected or completed.
 
 ## Current Intake Amendment
 

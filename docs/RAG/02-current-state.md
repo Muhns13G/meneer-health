@@ -120,7 +120,11 @@ closing all ten tasks at the engineering/synthetic boundary. Implementation and 
 11.9 evidence are committed at `7db0e0c`; this documentation batch awaits owner commit/CI.
 `runtime_baseline` names the owner-deployed checkpoint, not metadata-proven Git identity: exact
 version/checksum and disabled restoration are in the report. TD-010 retains real release approval;
-Sprint 12 and Sprint 13 remain, not unfinished Sprint 11 implementation.
+Sprint 12 and Sprint 13 remain, not unfinished Sprint 11 implementation. Sprint 12 is now in
+progress: [Task 12.1's notification contract](../02-implementation-plans/phase-02/annexures/sprint-12-1-notification-contract.md)
+is complete at contract level. It preserves managed Auth, existing generic operations/safety
+templates and approval boundaries while specifying durable non-Auth delivery and owned failure
+handling. Tasks 12.2–12.10 remain; TD-037/038/043 are not closed by this documentation task.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

@@ -1,10 +1,10 @@
 ---
 plan_id: phase-02-sprint-12
 title: Notifications, Support, and Live Accessibility Readiness
-status: planned
+status: in-progress
 primary_debt: [TD-037, TD-038, TD-043]
 depends_on: [phase-02-sprint-09, phase-02-sprint-10, phase-02-sprint-11]
-last_updated: 2026-10-04
+last_updated: 2026-10-06
 owner: "@Muhns13G"
 ---
 
@@ -24,18 +24,23 @@ and the actual routed forms and stepped/asynchronous flows must receive live acc
 
 ## Commit-Sized Task Plan
 
-| Task  | Commit-sized outcome                                                                                                            | Gate           | Status  |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | ------- |
-| 12.1  | Freeze notification events, templates, recipients, privacy rules, resend/rate behaviour and delivery evidence.                  | Communications | Planned |
-| 12.2  | Implement generic invitation, account, payment, hand-off, exception and support notifications with durable delivery status.     | Notifications  | Planned |
-| 12.3  | Implement verified privacy, complaint and clinical/adverse-event routes with owner, hours, fallback and acknowledgement.        | TD-043         | Planned |
-| 12.4  | Add staff follow-up and failed-delivery queues without exposing sensitive content to email providers.                           | Operations     | Planned |
-| 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Planned |
-| 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Planned |
-| 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Planned |
-| 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Planned |
-| 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Planned |
-| 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned |
+Task 12.1's [notification contract](annexures/sprint-12-1-notification-contract.md) reconciles the
+completed Sprint 9–11 baseline and freezes the conservative implementation packet. It is complete
+at contract level only; notification implementation, support coverage and live accessibility
+evidence remain Tasks 12.2–12.9. No real pilot or hosted configuration is activated.
+
+| Task  | Commit-sized outcome                                                                                                            | Gate           | Status               |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------- |
+| 12.1  | Freeze notification events, templates, recipients, privacy rules, resend/rate behaviour and delivery evidence.                  | Communications | Completed (contract) |
+| 12.2  | Implement generic invitation, account, payment, hand-off, exception and support notifications with durable delivery status.     | Notifications  | Planned              |
+| 12.3  | Implement verified privacy, complaint and clinical/adverse-event routes with owner, hours, fallback and acknowledgement.        | TD-043         | Planned              |
+| 12.4  | Add staff follow-up and failed-delivery queues without exposing sensitive content to email providers.                           | Operations     | Planned              |
+| 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Planned              |
+| 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Planned              |
+| 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Planned              |
+| 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Planned              |
+| 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Planned              |
+| 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned              |
 
 ## Acceptance Gate
 
