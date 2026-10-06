@@ -59,8 +59,16 @@ content-free owned exceptions and the native deposit-readiness bridge. Genuine d
 full refunds, attributed final dispute resolution and safe replacement deposit offers with fresh
 acceptance are locally verified. Task 11.9 is
 [in progress](annexures/sprint-11-9-sandbox-journey-evidence.md): actual current-adapter uncompleted
-test Sessions, exact line items, retry identity and unpaid expiration inspection passed. Full
-hosted/captured-payment proof is not yet accepted. Task 11.10 remains planned.
+test Sessions, exact line items, retry identity and unpaid expiration inspection passed. Genuine
+hosted signed-expiry transport and invalid-signature denial also passed with scoped restoration.
+Authenticated synthetic patient/staff scope checks, actual R999 funding, the paid-review bridge and
+R100 delivery capture after R800 capped credit subsequently passed. Test captures/fixtures were
+refunded/removed and disabled configuration restored. The approved confirmed-remainder SQL fix is
+hosted; the locally corrected Worker refund request-body dispatch awaits owner deployment and retest.
+The approved restricted-ACL follow-up passes locally but is pending hosted because Supabase
+login-role and read-only management requests return HTTP 500 FGA authentication errors.
+Refund, zero-balance and remaining failure/dispute/exception acceptance is still pending.
+Task 11.10 remains planned.
 TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in

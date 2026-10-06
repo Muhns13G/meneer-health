@@ -41,15 +41,24 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### Sprint 11.9 — Provider Preflight Passed, Hosted Journey Pending
+### Sprint 11.9 — Captures Passed, Refund/Exception Proof Pending
 
 The [11.9 packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 records actual deposit/credited-order/zero-balance test Sessions, exact provider lines/metadata,
 stable retries and terminal unpaid expiration inspection. None completed a payment. All eight
 owner-approved Sprint-11 migrations were applied hosted without seeds or role changes; independent
 history and service-readable baseline checks passed. The real pilot stays suspended with zero Auth
-users. Direct private SQL and authenticated captured-payment/refund/dispute/exception proof remain;
-the owner must deploy Sprint-11 code before the hosted rehearsal. Task 11.9 and TD-010 stay In progress.
+users. Direct private SQL and genuine hosted signed-expiry transport proof passed, including
+invalid-signature denial, unmatched/pending handling, no settlement and scoped restoration.
+The owner deployed Sprint-11 code. Subsequent authenticated synthetic rehearsals proved sealed patient
+sessions, staff AAL2 and scope denials, actual R999 signed funding and separately captured R100 delivery
+after capped R800 product credit. Scoped cleanup refunded test captures and restored the empty baseline.
+The owner-approved confirmed-remainder SQL fix is applied hosted. A Worker refund dispatch/body bug
+is fixed locally but awaits owner deployment. The approved follow-up restoring the retired-function
+ACL passes locally but remains pending hosted due to Supabase HTTP 500 FGA authentication errors.
+Refund, zero-balance and remaining failure/dispute/owned-exception proof remain outstanding.
+These findings are tracked under TD-010, not silently deferred or marked Verified.
+Task 11.9 and TD-010 stay In progress.
 No new debt ID; totals remain 58 items, 51 Verified and seven non-Verified.
 
 ### Sprint 11.8 Reconciliation — Completed Locally

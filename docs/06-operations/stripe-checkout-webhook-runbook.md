@@ -25,7 +25,22 @@ provider-checked unpaid credit release and native deposit readiness are implemen
 duplicate-capture full refunds, final dispute resolution and immutable replacement deposit offers
 are locally verified. Task 11.9's actual uncompleted-provider Session preflight now passes, and the
 eight approved schema migrations have been applied hosted without seed data. Authenticated
-hosted/captured-payment acceptance and activation are not claimed; TD-010 stays In progress.
+full hosted payment-matrix acceptance and activation are not claimed; TD-010 stays In progress.
+The separate transport-only operator exercise verified genuine signed Stripe expiry delivery and
+durable unmatched/pending handling without settlement. Its isolated tenant/service fixture and
+endpoint were removed, and the owner-deployed disabled Worker configuration restored. This does
+not prove authenticated Checkout, captured-payment, refund or dispute acceptance. Subsequent isolated
+authenticated proof verified actual R999 funding and R100 delivery capture after capped R800 credit,
+plus staff AAL2/assignment/role/case checks and the native paid-review bridge. Cleanup refunded test
+captures and restored the suspended empty baseline. Full Task 11.9 acceptance remains open.
+
+Hosted refund-read found a Worker routing defect: `executeWithRequestTimeout` transfers the body to
+a new Request, so refund dispatch must use `boundedRequest`, not the original request. The local fix
+requires owner source deployment before the next rehearsal. The approved confirmed-unused-remainder
+SQL fix is hosted. The approved ACL follow-up passes locally but hosted application is pending due
+to Supabase HTTP 500 FGA authentication errors. Retry after management access recovers, then verify
+migration history and denial of service-role execution on the retained inner primitive independently.
+Do not infer successful refunds from the capture or from applying a migration.
 
 ### Reconciliation Controls Before Hosted Release
 

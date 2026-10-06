@@ -111,7 +111,7 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 11.9 — Provider Preflight Passed; Hosted Journey Pending
+## Sprint 11.9 — Hosted Captures Passed; Refund/Exception Proof Pending
 
 The [11.9 evidence packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 records actual current-adapter test Sessions for the R999 deposit, a synthetic credited-order/delivery
@@ -120,10 +120,29 @@ expiration and terminal unpaid inspection passed; all three Sessions were expire
 completed. The owner approved bounded hosted migrations/fixtures/configuration/cleanup and test-money
 transactions. The eight committed Sprint-11 migrations were applied without seeds or role changes;
 an independent dry run confirmed no pending migrations and the service-readable baseline remained
-unchanged. Direct private SQL proof is pending. The real pilot remains suspended with no Auth
-identity created.
-The active Worker inventory still identifies the disabled I8 restoration; owner deployment of
-Sprint-11 code is required before authenticated hosted testing. TD-010 remains In progress;
+unchanged. Direct SQL additionally verified 30 empty, protected private commerce tables and ten
+service-only governed RPCs. The owner deployed Sprint-11 code; a temporary configuration-only
+rehearsal verified genuine signed Stripe expiry delivery, invalid-signature denial and durable
+unmatched/pending handling without settlement. Its endpoint and isolated tenant/service fixture
+were removed and the original disabled Worker configuration restored. Subsequent disposable Auth
+rehearsals verified own-client sealed sessions, real staff TOTP/AAL2, assignment/role/case denials,
+accepted R999 Checkout, genuine signed deposit funding and the paid-review bridge without supply
+advancement. The synthetic R800 product order consumed capped credit once and captured only R100
+delivery. This supersedes the earlier transport-only/no-capture checkpoint. Captured test money was
+refunded during cleanup; independent baseline verification again found zero Auth users, one suspended
+pilot and only its 12 provider gates.
+
+A confirmed-remainder refund defect was reproduced locally and fixed by owner-approved hosted
+migration `20261006013000_refund_after_confirmed_remainder.sql`. Hosted staff refund-read then
+returned 503: the Worker dispatch passed the transferred original Request instead of its timeout-bound
+replacement. The local `src/server.ts` correction and regression coverage await owner deployment.
+A follow-up ACL migration is approved and passes locally, but hosted application is pending:
+Supabase's login-role and read-only management requests return HTTP 500 FGA authentication errors.
+It removes an inadvertently restored service-role grant to the retired inner primitive. Do not
+claim the restricted hosted ACL is restored until migration history and privileges are verified.
+Product/refund retesting,
+zero-balance completion and the remaining failure/dispute/exception matrix are still outstanding.
+The real pilot remains suspended. TD-010 remains In progress;
 neither Task 11.9 nor the Sprint is closed. The following 11.8/earlier notes are task-specific history.
 
 ## Sprint 11.8 — Completed Local Reconciliation Boundary

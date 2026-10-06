@@ -1,7 +1,34 @@
 import { expect, it, vi } from "vitest";
 import { createRefundHttpHandler } from "./refund-http";
 import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
+import { executeWithRequestTimeout } from "@/server/security/request-security";
+import { readFileSync } from "node:fs";
 const id = "a4700000-0000-4000-8000-000000000001";
+it.each(["/portal/payments/refund", "/staff/payments/refund"])(
+  "reads the transferred JSON body through the timeout boundary at %s",
+  async (path) => {
+    const h = setup();
+    const original = h.request({ action: "read", offerId: id }, path);
+    const response = await executeWithRequestTimeout(original, h.handler);
+    expect(response.status).toBe(200);
+    expect(h.deps.command).toHaveBeenCalledWith(
+      path.startsWith("/staff/"),
+      { sealed: true },
+      { action: "read", offerId: id },
+    );
+    expect(h.deps.provider.submit).not.toHaveBeenCalled();
+    // The Worker entry must pass the replacement Request, not the transferred original stream.
+    const entry = readFileSync("src/server.ts", "utf8");
+    expect(entry).toMatch(/createRefundHttpHandler\([^)]*\)\(\s*boundedRequest,?\s*\)/);
+    expect(entry).not.toMatch(/createRefundHttpHandler\([^)]*\)\(request\)/);
+    const stale = setup();
+    const staleRequest = stale.request({ action: "read", offerId: id }, path);
+    expect(
+      (await executeWithRequestTimeout(staleRequest, () => stale.handler(staleRequest))).status,
+    ).toBe(503);
+    expect(stale.deps.command).not.toHaveBeenCalled();
+  },
+);
 it("records only independently inspected exception references and denies browser observation commands", async () => {
   const h = setup();
   const inspectException = vi.fn(async () => ({
