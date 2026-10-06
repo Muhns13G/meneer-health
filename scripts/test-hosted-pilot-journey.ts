@@ -14,10 +14,12 @@ const tenant = "e1191000-0000-4000-8000-000000000001";
 const service = "e1191000-0000-4000-8000-000000000020";
 const account = "acct_1U32UbFfj16Nnr1i";
 // Owner-confirmed current code, configuration-only disabled baseline; never restore older source.
-const baselineVersion = "b88bb4fc-7fc3-491f-bc83-cf193cc740b7";
+const baselineVersion = "f7ddeaa9-e71a-46d3-872a-b740ed43c95b";
 const scenario = process.env.HOSTED_PILOT_JOURNEY_SCENARIO ?? "credited-refund";
 invariant(
-  ["credited-refund", "zero-balance", "replacement"].includes(scenario),
+  ["credited-refund", "zero-balance", "replacement", "dispute-won", "dispute-lost"].includes(
+    scenario,
+  ),
   "SCENARIO_INVALID",
 );
 const zeroBalance = scenario === "zero-balance";
@@ -621,7 +623,9 @@ try {
   let observed = false;
   for (let i = 0; i < 12; i++) {
     const r = await sql(
-      `select count(*)=1 as funded from commerce_private.deposit_funding f join commerce_private.settlements s on s.intent_id=f.source_intent_id where f.tenant_id='${tenant}' and s.paid_confirmed and f.amount_minor=99900`,
+      scenario.startsWith("dispute-")
+        ? `select exists(select 1 from commerce_private.checkout_intents i join commerce_private.settlements s on s.intent_id=i.id join commerce_private.intent_payment_bindings b on b.intent_id=i.id join commerce_private.receipt_applications a on a.intent_id=i.id join commerce_private.provider_receipts p on p.account_id=a.account_id and p.event_id=a.event_id where i.tenant_id='${tenant}' and i.session_id='${session}' and s.paid_confirmed and p.event_type='checkout.session.completed' and p.amount_minor=99900 and p.payment_intent_id=b.payment_intent_id) as funded`
+        : `select count(*)=1 as funded from commerce_private.deposit_funding f join commerce_private.settlements s on s.intent_id=f.source_intent_id where f.tenant_id='${tenant}' and s.paid_confirmed and f.amount_minor=99900`,
     );
     if (r[0]?.funded === true) {
       observed = true;
@@ -634,7 +638,8 @@ try {
     JSON.stringify({
       exercise: "hosted-commerce",
       actualCapturedDeposit: true,
-      genuineSignedFunding: true,
+      genuineSignedFunding: !scenario.startsWith("dispute-"),
+      genuineSignedCapture: true,
       amountMinor: 99900,
     }),
   );
@@ -662,336 +667,465 @@ try {
     "operations",
   );
   invariant(wrongCase.status === 403, `WRONG_CASE_STATUS_${wrongCase.status}`);
-  const bridge = await sql(
-    `select intake_private.review_payment_ready('e1191000-0000-4000-8000-000000000003') as review_ready,
-    identity_private.handoff_payment_ready('${caseId}') as handoff_ready,
-    (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
-    false,
-  );
-  invariant(
-    bridge[0]?.review_ready === true &&
-      bridge[0]?.handoff_ready === true &&
-      bridge[0]?.no_supply === true,
-    "PAID_BRIDGE_INVALID",
-  );
-  await sql(
-    `select commerce_private.prepare_offer('${tenant}','${patient.subjectId}','${caseId}',
-    jsonb_build_object('scenario','approved_product_order','items',jsonb_build_array(jsonb_build_object('priceId','e1191000-0000-4000-8000-000000000013','quantity',1)),
-    'deliveryQuoteId','e1191000-0000-4000-8000-000000000014','requestKey',gen_random_uuid()))`,
-    false,
-  );
-  const productRead = await request("/portal/order/command", { action: "read" }, "patient");
-  invariant(productRead.status === 200, `PRODUCT_READ_STATUS_${productRead.status}`);
-  const product = orderReviewResultSchema.parse(await productRead.json()).review;
-  invariant(
-    product?.scenario === "approved_product_order" &&
-      product.creditMinor === (zeroBalance ? 99900 : 80000) &&
-      product.deliveryMinor === (zeroBalance ? 0 : 10000) &&
-      product.amountTotalMinor === (zeroBalance ? 0 : 10000) &&
-      product.unusedDepositRefundMinor === (zeroBalance ? 0 : 19900) &&
-      !product.acceptance,
-    "PRODUCT_CREDIT_INVALID",
-  );
-  const acceptedProduct = await request(
-    "/portal/order/command",
-    {
-      action: "accept",
-      offerId: product.offerId,
-      publicationId: product.terms.publicationId,
-      snapshotHash: product.snapshotHash,
-      contentHash: product.terms.contentHash,
-      accepted: true,
-      requestKey: crypto.randomUUID(),
-    },
-    "patient",
-  );
-  invariant(acceptedProduct.status === 200, `PRODUCT_ACCEPT_STATUS_${acceptedProduct.status}`);
-  const productCheckout = await request(
-    "/portal/order/command",
-    { action: "checkout", offerId: product.offerId, requestKey: crypto.randomUUID() },
-    "patient",
-  );
-  invariant(productCheckout.status === 200, `PRODUCT_CHECKOUT_STATUS_${productCheckout.status}`);
-  const productBody = (await productCheckout.json()) as { checkoutUrl: string };
-  invariant(
-    new URL(productBody.checkoutUrl).origin === "https://checkout.stripe.com",
-    "PRODUCT_CHECKOUT_URL_INVALID",
-  );
-  const productIntent = await sql(
-    `select session_id from commerce_private.checkout_intents where offer_id='${product.offerId}'`,
-  );
-  invariant(typeof productIntent[0]?.session_id === "string", "PRODUCT_SESSION_MISSING");
-  const productSession = String(productIntent[0]!.session_id);
-  createdSessions.add(productSession);
-  writeFileSync(artifact, JSON.stringify({ checkoutUrl: productBody.checkoutUrl }), {
-    mode: 0o600,
-  });
-  console.log(
-    JSON.stringify({
-      exercise: "hosted-commerce-product",
-      cappedCredit: true,
-      separateDelivery: true,
-      independentAssignment: true,
-      wrongRoleDenied: true,
-      awaitingOfficialTestCheckout: true,
-      artifact,
-    }),
-  );
-  const productLines = createInterface({ input: process.stdin, terminal: false });
-  const productTimeout = setTimeout(() => productLines.close(), 15 * 60 * 1000);
-  let productConfirmed = false;
-  for await (const line of productLines)
-    if (line.trim() === "paid") {
-      productConfirmed = true;
-      break;
-    }
-  clearTimeout(productTimeout);
-  productLines.close();
-  invariant(productConfirmed, "PRODUCT_COMPLETION_NOT_CONFIRMED");
-  let productPaid = await stripe.checkout.sessions.retrieve(productSession);
-  for (let i = 0; i < 12 && productPaid.status === "open"; i++) {
-    await delay(5000);
-    productPaid = await stripe.checkout.sessions.retrieve(productSession);
-  }
-  invariant(
-    !productPaid.livemode &&
-      productPaid.amount_total === (zeroBalance ? 0 : 10000) &&
-      productPaid.status === "complete" &&
-      (zeroBalance
-        ? ["paid", "no_payment_required"].includes(productPaid.payment_status)
-        : productPaid.payment_status === "paid") &&
-      (!zeroBalance || productPaid.payment_intent === null),
-    "PRODUCT_CAPTURE_MISSING",
-  );
-  let productApplied = false;
-  for (let i = 0; i < 12; i++) {
-    const result = await sql(
-      `select exists(select 1 from commerce_private.credit_reservations r join commerce_private.offers o on o.id=r.offer_id join commerce_private.checkout_intents ci on ci.offer_id=o.id join commerce_private.settlements s on s.intent_id=ci.id where o.id='${product.offerId}' and r.state='applied' and r.credit_minor=${zeroBalance ? 99900 : 80000} and r.unused_refund_minor=${zeroBalance ? 0 : 19900} and ${zeroBalance ? "s.no_additional_payment and not s.paid_confirmed" : "s.paid_confirmed"}) as applied`,
-    );
-    if (result[0]?.applied === true) {
-      productApplied = true;
-      break;
-    }
-    await delay(5000);
-  }
-  invariant(productApplied, "PRODUCT_ALLOCATION_NOT_APPLIED");
-  if (zeroBalance) {
-    const zero = await sql(
-      `select (select count(*)=1 from commerce_private.credit_reservations where offer_id='${product.offerId}' and state='applied') as allocated_once,
-      (select count(*)=0 from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='${product.offerId}') as no_unused_refund,
-      (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
-    );
-    invariant(
-      zero[0]?.allocated_once && zero[0]?.no_unused_refund && zero[0]?.no_supply,
-      "ZERO_BALANCE_BOUNDARY_FAILED",
-    );
-    console.log(
-      JSON.stringify({
-        exercise: "hosted-commerce-zero",
-        genuineZeroTotalCompletion: true,
-        additionalPaymentIntent: false,
-        creditAppliedOnce: true,
-        noSupplyAdvancement: true,
-      }),
-    );
-  } else {
-    const refundRead = await request(
-      "/staff/payments/refund",
-      { action: "read", offerId: product.offerId },
-      "operations",
-    );
-    invariant(refundRead.status === 200, `REFUND_READ_STATUS_${refundRead.status}`);
-    let refundView = refundViewSchema.parse(await refundRead.json());
-    invariant(
-      refundView.refunds.some((r) => r.amountMinor === 19900),
-      "UNUSED_REFUND_NOT_RESERVED",
-    );
-    const reviewCommand = {
-      action: "review",
-      offerId: product.offerId,
-      reason: "product_before_release",
-      evidenceId: "e1191000-0000-4000-8000-000000000016",
-      requestKey: crypto.randomUUID(),
-    };
-    if (scenario !== "replacement") {
-      const noFinance = await request("/staff/payments/refund", reviewCommand, "operations");
-      invariant(noFinance.status === 403, `FINANCE_GRANT_DENIAL_STATUS_${noFinance.status}`);
-    }
-    await sql(
-      `insert into commerce_private.refund_authorities values('${caseId}','${actors.get("operations")!.subjectId}',gen_random_uuid(),'${actors.get("admin")!.subjectId}',now()+interval '2 hours',null) on conflict do nothing`,
-      false,
-    );
-    // Complete the already queued unused refund first, using the actual deployed provider adapter.
-    for (const refund of refundView.refunds)
-      if (refund.state === "queued") {
-        const dispatched = await request(
-          "/staff/payments/refund",
-          {
-            action: "dispatch",
-            offerId: product.offerId,
-            refundId: refund.reference,
-            requestKey: crypto.randomUUID(),
-          },
-          "operations",
-        );
-        invariant(dispatched.status === 200, `UNUSED_DISPATCH_STATUS_${dispatched.status}`);
-      }
-    let unusedConfirmed = false;
+  if (scenario.startsWith("dispute-")) {
+    const paymentId =
+      typeof paid.payment_intent === "string" ? paid.payment_intent : paid.payment_intent?.id;
+    invariant(paymentId, "DISPUTE_PAYMENT_MISSING");
+    let dispute: Stripe.Dispute | undefined;
     for (let i = 0; i < 18; i++) {
-      const result = await sql(
-        `select exists(select 1 from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='${product.offerId}' and d.reason='unused_deposit' and j.amount_minor=19900 and j.state='confirmed') as confirmed`,
-      );
-      if (result[0]?.confirmed === true) {
-        unusedConfirmed = true;
+      const list = await stripe.disputes.list({ payment_intent: paymentId, limit: 10 });
+      invariant(list.data.length <= 1 && !list.has_more, "DISPUTE_LINEAGE_AMBIGUOUS");
+      if (list.data[0]) {
+        dispute = list.data[0];
         break;
       }
       await delay(5000);
     }
-    invariant(unusedConfirmed, "UNUSED_REFUND_NOT_CONFIRMED");
-    const reviewed = await request("/staff/payments/refund", reviewCommand, "operations");
-    invariant(reviewed.status === 200, `PRODUCT_REFUND_REVIEW_STATUS_${reviewed.status}`);
-    refundView = refundViewSchema.parse(await reviewed.json());
-    for (const refund of refundView.refunds)
-      if (refund.state === "queued") {
-        const dispatched = await request(
+    invariant(
+      dispute &&
+        !dispute.livemode &&
+        dispute.amount === 99900 &&
+        dispute.currency === "zar" &&
+        dispute.status === "needs_response",
+      "OPEN_PROVIDER_DISPUTE_MISSING",
+    );
+    let view = refundViewSchema.parse(
+      await (
+        await request(
           "/staff/payments/refund",
-          {
-            action: "dispatch",
-            offerId: product.offerId,
-            refundId: refund.reference,
-            requestKey: crypto.randomUUID(),
-          },
+          { action: "read", offerId: review.offerId },
           "operations",
+        )
+      ).json(),
+    );
+    for (let i = 0; view.disputes.length === 0 && i < 18; i++) {
+      await delay(5000);
+      const read = await request(
+        "/staff/payments/refund",
+        { action: "read", offerId: review.offerId },
+        "operations",
+      );
+      invariant(read.status === 200, "DISPUTE_READ_FAILED");
+      view = refundViewSchema.parse(await read.json());
+    }
+    invariant(
+      view.disputes.length > 0 && view.disputes.every((d) => !d.owned && !d.reconciled),
+      "SIGNED_OPEN_DISPUTE_MISSING",
+    );
+    const held = await sql(
+      `select not commerce_private.deposit_ready('${caseId}') as review_held,not identity_private.handoff_payment_ready('${caseId}') as handoff_held,(select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
+    );
+    invariant(
+      held[0]?.review_held && held[0]?.handoff_held && held[0]?.no_supply,
+      "OPEN_DISPUTE_NOT_HELD",
+    );
+    await sql(
+      `insert into commerce_private.refund_authorities values('${caseId}','${actors.get("operations")!.subjectId}',gen_random_uuid(),'${actors.get("admin")!.subjectId}',now()+interval '2 hours',null)`,
+      false,
+    );
+    const own = await request(
+      "/staff/payments/refund",
+      {
+        action: "own_dispute",
+        offerId: review.offerId,
+        reference: view.disputes[0]!.reference,
+        requestKey: crypto.randomUUID(),
+      },
+      "operations",
+    );
+    invariant(
+      own.status === 200 && refundViewSchema.parse(await own.json()).disputes.every((d) => d.owned),
+      "DISPUTE_OWNERSHIP_FAILED",
+    );
+    const outcome = scenario === "dispute-won" ? "won" : "lost";
+    await stripe.disputes.update(dispute.id, {
+      evidence: { uncategorized_text: outcome === "won" ? "winning_evidence" : "losing_evidence" },
+      submit: true,
+    });
+    let terminal = await stripe.disputes.retrieve(dispute.id);
+    for (let i = 0; terminal.status !== outcome && i < 18; i++) {
+      await delay(5000);
+      terminal = await stripe.disputes.retrieve(dispute.id);
+    }
+    invariant(
+      !terminal.livemode && terminal.status === outcome,
+      "PROVIDER_TERMINAL_DISPUTE_MISSING",
+    );
+    let terminalSigned = false;
+    for (let i = 0; i < 18; i++) {
+      const r = await sql(
+        `select exists(select 1 from commerce_private.provider_receipts where account_id='${account}' and dispute_id='${dispute.id}' and dispute_status='${outcome}' and event_type='charge.dispute.closed') as present`,
+      );
+      if (r[0]?.present) {
+        terminalSigned = true;
+        break;
+      }
+      await delay(5000);
+    }
+    invariant(terminalSigned, "GENUINE_TERMINAL_DISPUTE_MISSING");
+    const reconciled = await request(
+      "/staff/payments/refund",
+      { action: "reconcile", offerId: review.offerId, requestKey: crypto.randomUUID() },
+      "operations",
+    );
+    invariant(reconciled.status === 200, "TERMINAL_DISPUTE_RECONCILE_FAILED");
+    const result =
+      await sql(`select exists(select 1 from commerce_private.dispute_outcomes where account_id='${account}' and dispute_id='${dispute.id}' and status='${outcome}' and actor_id='${actors.get("operations")!.subjectId}') as attributed,
+      (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply,
+      not identity_private.handoff_payment_ready('${caseId}') as handoff_held`);
+    invariant(
+      result[0]?.attributed &&
+        result[0]?.no_supply &&
+        (outcome !== "lost" || result[0]?.handoff_held),
+      "TERMINAL_DISPUTE_BOUNDARY_FAILED",
+    );
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-dispute",
+        genuineOpenDelivery: true,
+        genuineTerminalDelivery: true,
+        currentProviderCorroboration: true,
+        outcome,
+        attributedStaffReconciliation: true,
+        noSupplyAdvancement: true,
+        lostMoneyHeld: outcome === "lost",
+      }),
+    );
+  } else {
+    const bridge = await sql(
+      `select intake_private.review_payment_ready('e1191000-0000-4000-8000-000000000003') as review_ready,
+    identity_private.handoff_payment_ready('${caseId}') as handoff_ready,
+    (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
+      false,
+    );
+    invariant(
+      bridge[0]?.review_ready === true &&
+        bridge[0]?.handoff_ready === true &&
+        bridge[0]?.no_supply === true,
+      "PAID_BRIDGE_INVALID",
+    );
+    await sql(
+      `select commerce_private.prepare_offer('${tenant}','${patient.subjectId}','${caseId}',
+    jsonb_build_object('scenario','approved_product_order','items',jsonb_build_array(jsonb_build_object('priceId','e1191000-0000-4000-8000-000000000013','quantity',1)),
+    'deliveryQuoteId','e1191000-0000-4000-8000-000000000014','requestKey',gen_random_uuid()))`,
+      false,
+    );
+    const productRead = await request("/portal/order/command", { action: "read" }, "patient");
+    invariant(productRead.status === 200, `PRODUCT_READ_STATUS_${productRead.status}`);
+    const product = orderReviewResultSchema.parse(await productRead.json()).review;
+    invariant(
+      product?.scenario === "approved_product_order" &&
+        product.creditMinor === (zeroBalance ? 99900 : 80000) &&
+        product.deliveryMinor === (zeroBalance ? 0 : 10000) &&
+        product.amountTotalMinor === (zeroBalance ? 0 : 10000) &&
+        product.unusedDepositRefundMinor === (zeroBalance ? 0 : 19900) &&
+        !product.acceptance,
+      "PRODUCT_CREDIT_INVALID",
+    );
+    const acceptedProduct = await request(
+      "/portal/order/command",
+      {
+        action: "accept",
+        offerId: product.offerId,
+        publicationId: product.terms.publicationId,
+        snapshotHash: product.snapshotHash,
+        contentHash: product.terms.contentHash,
+        accepted: true,
+        requestKey: crypto.randomUUID(),
+      },
+      "patient",
+    );
+    invariant(acceptedProduct.status === 200, `PRODUCT_ACCEPT_STATUS_${acceptedProduct.status}`);
+    const productCheckout = await request(
+      "/portal/order/command",
+      { action: "checkout", offerId: product.offerId, requestKey: crypto.randomUUID() },
+      "patient",
+    );
+    invariant(productCheckout.status === 200, `PRODUCT_CHECKOUT_STATUS_${productCheckout.status}`);
+    const productBody = (await productCheckout.json()) as { checkoutUrl: string };
+    invariant(
+      new URL(productBody.checkoutUrl).origin === "https://checkout.stripe.com",
+      "PRODUCT_CHECKOUT_URL_INVALID",
+    );
+    const productIntent = await sql(
+      `select session_id from commerce_private.checkout_intents where offer_id='${product.offerId}'`,
+    );
+    invariant(typeof productIntent[0]?.session_id === "string", "PRODUCT_SESSION_MISSING");
+    const productSession = String(productIntent[0]!.session_id);
+    createdSessions.add(productSession);
+    writeFileSync(artifact, JSON.stringify({ checkoutUrl: productBody.checkoutUrl }), {
+      mode: 0o600,
+    });
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-commerce-product",
+        cappedCredit: true,
+        separateDelivery: true,
+        independentAssignment: true,
+        wrongRoleDenied: true,
+        awaitingOfficialTestCheckout: true,
+        artifact,
+      }),
+    );
+    const productLines = createInterface({ input: process.stdin, terminal: false });
+    const productTimeout = setTimeout(() => productLines.close(), 15 * 60 * 1000);
+    let productConfirmed = false;
+    for await (const line of productLines)
+      if (line.trim() === "paid") {
+        productConfirmed = true;
+        break;
+      }
+    clearTimeout(productTimeout);
+    productLines.close();
+    invariant(productConfirmed, "PRODUCT_COMPLETION_NOT_CONFIRMED");
+    let productPaid = await stripe.checkout.sessions.retrieve(productSession);
+    for (let i = 0; i < 12 && productPaid.status === "open"; i++) {
+      await delay(5000);
+      productPaid = await stripe.checkout.sessions.retrieve(productSession);
+    }
+    invariant(
+      !productPaid.livemode &&
+        productPaid.amount_total === (zeroBalance ? 0 : 10000) &&
+        productPaid.status === "complete" &&
+        (zeroBalance
+          ? ["paid", "no_payment_required"].includes(productPaid.payment_status)
+          : productPaid.payment_status === "paid") &&
+        (!zeroBalance || productPaid.payment_intent === null),
+      "PRODUCT_CAPTURE_MISSING",
+    );
+    let productApplied = false;
+    for (let i = 0; i < 12; i++) {
+      const result = await sql(
+        `select exists(select 1 from commerce_private.credit_reservations r join commerce_private.offers o on o.id=r.offer_id join commerce_private.checkout_intents ci on ci.offer_id=o.id join commerce_private.settlements s on s.intent_id=ci.id where o.id='${product.offerId}' and r.state='applied' and r.credit_minor=${zeroBalance ? 99900 : 80000} and r.unused_refund_minor=${zeroBalance ? 0 : 19900} and ${zeroBalance ? "s.no_additional_payment and not s.paid_confirmed" : "s.paid_confirmed"}) as applied`,
+      );
+      if (result[0]?.applied === true) {
+        productApplied = true;
+        break;
+      }
+      await delay(5000);
+    }
+    invariant(productApplied, "PRODUCT_ALLOCATION_NOT_APPLIED");
+    if (zeroBalance) {
+      const zero = await sql(
+        `select (select count(*)=1 from commerce_private.credit_reservations where offer_id='${product.offerId}' and state='applied') as allocated_once,
+      (select count(*)=0 from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='${product.offerId}') as no_unused_refund,
+      (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
+      );
+      invariant(
+        zero[0]?.allocated_once && zero[0]?.no_unused_refund && zero[0]?.no_supply,
+        "ZERO_BALANCE_BOUNDARY_FAILED",
+      );
+      console.log(
+        JSON.stringify({
+          exercise: "hosted-commerce-zero",
+          genuineZeroTotalCompletion: true,
+          additionalPaymentIntent: false,
+          creditAppliedOnce: true,
+          noSupplyAdvancement: true,
+        }),
+      );
+    } else {
+      const refundRead = await request(
+        "/staff/payments/refund",
+        { action: "read", offerId: product.offerId },
+        "operations",
+      );
+      invariant(refundRead.status === 200, `REFUND_READ_STATUS_${refundRead.status}`);
+      let refundView = refundViewSchema.parse(await refundRead.json());
+      invariant(
+        refundView.refunds.some((r) => r.amountMinor === 19900),
+        "UNUSED_REFUND_NOT_RESERVED",
+      );
+      const reviewCommand = {
+        action: "review",
+        offerId: product.offerId,
+        reason: "product_before_release",
+        evidenceId: "e1191000-0000-4000-8000-000000000016",
+        requestKey: crypto.randomUUID(),
+      };
+      if (scenario !== "replacement") {
+        const noFinance = await request("/staff/payments/refund", reviewCommand, "operations");
+        invariant(noFinance.status === 403, `FINANCE_GRANT_DENIAL_STATUS_${noFinance.status}`);
+      }
+      await sql(
+        `insert into commerce_private.refund_authorities values('${caseId}','${actors.get("operations")!.subjectId}',gen_random_uuid(),'${actors.get("admin")!.subjectId}',now()+interval '2 hours',null) on conflict do nothing`,
+        false,
+      );
+      // Complete the already queued unused refund first, using the actual deployed provider adapter.
+      for (const refund of refundView.refunds)
+        if (refund.state === "queued") {
+          const dispatched = await request(
+            "/staff/payments/refund",
+            {
+              action: "dispatch",
+              offerId: product.offerId,
+              refundId: refund.reference,
+              requestKey: crypto.randomUUID(),
+            },
+            "operations",
+          );
+          invariant(dispatched.status === 200, `UNUSED_DISPATCH_STATUS_${dispatched.status}`);
+        }
+      let unusedConfirmed = false;
+      for (let i = 0; i < 18; i++) {
+        const result = await sql(
+          `select exists(select 1 from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='${product.offerId}' and d.reason='unused_deposit' and j.amount_minor=19900 and j.state='confirmed') as confirmed`,
         );
-        if (dispatched.status !== 200) {
-          // A response failure is not permission to resubmit money. Retain coarse database evidence
-          // before scoped cleanup so provider success and persistence failure can be distinguished.
-          const diagnostics = await sql(
-            `select j.amount_minor,j.state,j.dispatch_started_at is not null as claimed,
+        if (result[0]?.confirmed === true) {
+          unusedConfirmed = true;
+          break;
+        }
+        await delay(5000);
+      }
+      invariant(unusedConfirmed, "UNUSED_REFUND_NOT_CONFIRMED");
+      const reviewed = await request("/staff/payments/refund", reviewCommand, "operations");
+      invariant(reviewed.status === 200, `PRODUCT_REFUND_REVIEW_STATUS_${reviewed.status}`);
+      refundView = refundViewSchema.parse(await reviewed.json());
+      for (const refund of refundView.refunds)
+        if (refund.state === "queued") {
+          const dispatched = await request(
+            "/staff/payments/refund",
+            {
+              action: "dispatch",
+              offerId: product.offerId,
+              refundId: refund.reference,
+              requestKey: crypto.randomUUID(),
+            },
+            "operations",
+          );
+          if (dispatched.status !== 200) {
+            // A response failure is not permission to resubmit money. Retain coarse database evidence
+            // before scoped cleanup so provider success and persistence failure can be distinguished.
+            const diagnostics = await sql(
+              `select j.amount_minor,j.state,j.dispatch_started_at is not null as claimed,
           (select count(*) from commerce_private.refund_dispatch_facts f where f.job_id=j.id) as dispatch_facts,
           (select count(*) from commerce_private.refund_provider_facts f where f.job_reference=j.id) as provider_facts,
           s.reconciliation_required,s.refunded_minor
           from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id
           join commerce_private.settlements s on s.intent_id=j.source_intent_id
           where d.offer_id='${product.offerId}' order by j.amount_minor`,
-          );
-          console.log(JSON.stringify({ exercise: "refund-response-diagnostics", diagnostics }));
-          const reread = await request(
-            "/staff/payments/refund",
-            { action: "read", offerId: product.offerId },
-            "operations",
-          );
-          console.log(
-            JSON.stringify({ exercise: "refund-response-reread", status: reread.status }),
+            );
+            console.log(JSON.stringify({ exercise: "refund-response-diagnostics", diagnostics }));
+            const reread = await request(
+              "/staff/payments/refund",
+              { action: "read", offerId: product.offerId },
+              "operations",
+            );
+            console.log(
+              JSON.stringify({ exercise: "refund-response-reread", status: reread.status }),
+            );
+          }
+          invariant(
+            dispatched.status === 200,
+            `PRODUCT_REFUND_DISPATCH_STATUS_${dispatched.status}`,
           );
         }
-        invariant(dispatched.status === 200, `PRODUCT_REFUND_DISPATCH_STATUS_${dispatched.status}`);
+      let allConfirmed = false;
+      for (let i = 0; i < 18; i++) {
+        const result = await sql(
+          `select count(*)=3 and bool_and(j.state='confirmed') and sum(j.amount_minor)=109900 as confirmed from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='${product.offerId}'`,
+        );
+        if (result[0]?.confirmed === true) {
+          allConfirmed = true;
+          break;
+        }
+        await delay(5000);
       }
-    let allConfirmed = false;
-    for (let i = 0; i < 18; i++) {
-      const result = await sql(
-        `select count(*)=3 and bool_and(j.state='confirmed') and sum(j.amount_minor)=109900 as confirmed from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='${product.offerId}'`,
-      );
-      if (result[0]?.confirmed === true) {
-        allConfirmed = true;
-        break;
-      }
-      await delay(5000);
+      invariant(allConfirmed, "ORIGINAL_METHOD_REFUNDS_NOT_CONFIRMED");
     }
-    invariant(allConfirmed, "ORIGINAL_METHOD_REFUNDS_NOT_CONFIRMED");
-  }
-  // SDK-signed adversarial envelopes are explicitly synthetic, not genuine Stripe deliveries.
-  // Run only after money acceptance: intentional late/conflicting receipts must quarantine it.
-  invariant(hook.secret, "REHEARSAL_SIGNING_SECRET_MISSING");
-  const proofId = `evt_s11proof${crypto.randomUUID().replaceAll("-", "")}`;
-  const envelope = {
-    id: proofId,
-    object: "event",
-    api_version: "2026-07-29.dahlia",
-    type: "checkout.session.completed",
-    livemode: false,
-    created: Math.floor(Date.now() / 1000),
-    data: { object: productPaid },
-  };
-  const payload = JSON.stringify(envelope);
-  const signature = await stripe.webhooks.generateTestHeaderStringAsync({
-    payload,
-    secret: hook.secret,
-  });
-  const sendProof = (body: string, signed: string) =>
-    fetch(origin + "/api/payments/stripe/webhook", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Stripe-Signature": signed },
-      body,
-    });
-  const badRaw = await sendProof(payload + " ", signature);
-  invariant(badRaw.status === 400, `RAW_TAMPER_STATUS_${badRaw.status}`);
-  const first = await sendProof(payload, signature);
-  invariant(first.status === 200, `PROOF_FIRST_STATUS_${first.status}`);
-  const replay = await sendProof(payload, signature);
-  invariant(
-    replay.status === 200 && ((await replay.json()) as { replayed?: boolean }).replayed === true,
-    "DURABLE_REPLAY_FAILED",
-  );
-  const conflicting = JSON.stringify({
-    ...envelope,
-    data: { object: { ...productPaid, amount_total: 1 } },
-  });
-  const conflict = await sendProof(
-    conflicting,
-    await stripe.webhooks.generateTestHeaderStringAsync({
-      payload: conflicting,
+    // SDK-signed adversarial envelopes are explicitly synthetic, not genuine Stripe deliveries.
+    // Run only after money acceptance: intentional late/conflicting receipts must quarantine it.
+    invariant(hook.secret, "REHEARSAL_SIGNING_SECRET_MISSING");
+    const proofId = `evt_s11proof${crypto.randomUUID().replaceAll("-", "")}`;
+    const envelope = {
+      id: proofId,
+      object: "event",
+      api_version: "2026-07-29.dahlia",
+      type: "checkout.session.completed",
+      livemode: false,
+      created: Math.floor(Date.now() / 1000),
+      data: { object: productPaid },
+    };
+    const payload = JSON.stringify(envelope);
+    const signature = await stripe.webhooks.generateTestHeaderStringAsync({
+      payload,
       secret: hook.secret,
-    }),
-  );
-  invariant(conflict.status === 200, `CONFLICT_ACK_STATUS_${conflict.status}`);
-  const lateId = `evt_s11late${crypto.randomUUID().replaceAll("-", "")}`;
-  const late = JSON.stringify({
-    ...envelope,
-    id: lateId,
-    type: "checkout.session.expired",
-    created: envelope.created - 60,
-    data: { object: { ...productPaid, status: "expired", payment_status: "unpaid" } },
-  });
-  const outOfOrder = await sendProof(
-    late,
-    await stripe.webhooks.generateTestHeaderStringAsync({ payload: late, secret: hook.secret }),
-  );
-  invariant(outOfOrder.status === 200, `OUT_OF_ORDER_ACK_STATUS_${outOfOrder.status}`);
-  const held = await sql(`select
+    });
+    const sendProof = (body: string, signed: string) =>
+      fetch(origin + "/api/payments/stripe/webhook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Stripe-Signature": signed },
+        body,
+      });
+    const badRaw = await sendProof(payload + " ", signature);
+    invariant(badRaw.status === 400, `RAW_TAMPER_STATUS_${badRaw.status}`);
+    const first = await sendProof(payload, signature);
+    invariant(first.status === 200, `PROOF_FIRST_STATUS_${first.status}`);
+    const replay = await sendProof(payload, signature);
+    invariant(
+      replay.status === 200 && ((await replay.json()) as { replayed?: boolean }).replayed === true,
+      "DURABLE_REPLAY_FAILED",
+    );
+    const conflicting = JSON.stringify({
+      ...envelope,
+      data: { object: { ...productPaid, amount_total: 1 } },
+    });
+    const conflict = await sendProof(
+      conflicting,
+      await stripe.webhooks.generateTestHeaderStringAsync({
+        payload: conflicting,
+        secret: hook.secret,
+      }),
+    );
+    invariant(conflict.status === 200, `CONFLICT_ACK_STATUS_${conflict.status}`);
+    const lateId = `evt_s11late${crypto.randomUUID().replaceAll("-", "")}`;
+    const late = JSON.stringify({
+      ...envelope,
+      id: lateId,
+      type: "checkout.session.expired",
+      created: envelope.created - 60,
+      data: { object: { ...productPaid, status: "expired", payment_status: "unpaid" } },
+    });
+    const outOfOrder = await sendProof(
+      late,
+      await stripe.webhooks.generateTestHeaderStringAsync({ payload: late, secret: hook.secret }),
+    );
+    invariant(outOfOrder.status === 200, `OUT_OF_ORDER_ACK_STATUS_${outOfOrder.status}`);
+    const held = await sql(`select
     (select count(*)=1 from commerce_private.provider_receipts where account_id='${account}' and event_id='${proofId}') as receipt_once,
     exists(select 1 from commerce_private.provider_exceptions where account_id='${account}' and event_id='${proofId}' and reason='EVENT_CONFLICT') as conflict_held,
     exists(select 1 from commerce_private.settlements s join commerce_private.checkout_intents i on i.id=s.intent_id where i.offer_id='${product.offerId}' and s.reconciliation_required) as settlement_held,
     (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`);
-  invariant(
-    held[0]?.receipt_once &&
-      held[0]?.conflict_held &&
-      held[0]?.settlement_held &&
-      held[0]?.no_supply,
-    "WEBHOOK_EXCEPTION_BOUNDARY_FAILED",
-  );
-  console.log(
-    JSON.stringify({
-      exercise: "hosted-webhook-adversarial",
-      evidenceClass: "sdk-signed-synthetic-envelopes",
-      rawTamperRejected: true,
-      durableReplay: true,
-      conflictHeld: true,
-      outOfOrderAcknowledged: true,
-      noSupplyAdvancement: true,
-    }),
-  );
+    invariant(
+      held[0]?.receipt_once &&
+        held[0]?.conflict_held &&
+        held[0]?.settlement_held &&
+        held[0]?.no_supply,
+      "WEBHOOK_EXCEPTION_BOUNDARY_FAILED",
+    );
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-webhook-adversarial",
+        evidenceClass: "sdk-signed-synthetic-envelopes",
+        rawTamperRejected: true,
+        durableReplay: true,
+        conflictHeld: true,
+        outOfOrderAcknowledged: true,
+        noSupplyAdvancement: true,
+      }),
+    );
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-commerce-product",
+        actualDeliveryCapture: !zeroBalance,
+        verifiedCreditAppliedOnce: true,
+        unusedDepositRefund: !zeroBalance,
+        productRefundOriginalMethods: !zeroBalance,
+        independentlyGrantedAal2: !zeroBalance,
+      }),
+    );
+  }
   passed = true;
-  console.log(
-    JSON.stringify({
-      exercise: "hosted-commerce-product",
-      actualDeliveryCapture: !zeroBalance,
-      verifiedCreditAppliedOnce: true,
-      unusedDepositRefund: !zeroBalance,
-      productRefundOriginalMethods: !zeroBalance,
-      independentlyGrantedAal2: !zeroBalance,
-    }),
-  );
 } catch (error) {
   console.error(
     error instanceof Error && /^[A-Z_0-9]+$/.test(error.message)
@@ -1019,6 +1153,36 @@ try {
         const intent = await stripe.paymentIntents.retrieve(id, { expand: ["latest_charge"] });
         const charge = intent.latest_charge;
         invariant(charge && typeof charge !== "string", "CLEANUP_CAPTURE_MISSING");
+        if (charge.disputed) {
+          const disputes = await stripe.disputes.list({ payment_intent: id, limit: 10 });
+          invariant(
+            disputes.data.length === 1 && !disputes.has_more && !disputes.data[0]!.livemode,
+            "CLEANUP_DISPUTE_LINEAGE_INVALID",
+          );
+          let d = disputes.data[0]!;
+          if (d.status === "lost" && scenario === "dispute-lost") {
+            // Authorised persistent sandbox loss: returned by the simulated issuer, not refundable.
+            console.log(
+              JSON.stringify({
+                exercise: "sandbox-loss-cleanup",
+                terminalProviderLoss: true,
+                liveMoney: false,
+              }),
+            );
+            continue;
+          }
+          if (d.status !== "won") {
+            await stripe.disputes.update(d.id, {
+              evidence: { uncategorized_text: "winning_evidence" },
+              submit: true,
+            });
+            for (let i = 0; d.status !== "won" && i < 18; i++) {
+              await delay(5000);
+              d = await stripe.disputes.retrieve(d.id);
+            }
+            invariant(d.status === "won", "CLEANUP_DISPUTE_NOT_TERMINAL");
+          }
+        }
         if (charge.amount_refunded < charge.amount) {
           const refund = await stripe.refunds.create(
             { payment_intent: id, amount: charge.amount - charge.amount_refunded },

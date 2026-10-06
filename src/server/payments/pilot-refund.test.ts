@@ -157,38 +157,64 @@ describe("independent reconciliation observations", () => {
   });
   it("requires the exact independently observed terminal dispute, not an ownership claim", async () => {
     for (const status of ["won", "lost", "warning_closed"] as const) {
-      const h = observation();
-      h.dispute.status = status;
-      const plan = {
-        kind: "dispute",
-        reference: h.plan.reference,
-        eventId: h.plan.eventId,
-        accountId: input.accountId,
-        disputeId: h.dispute.id,
-        paymentIntentId: h.plan.paymentIntentId,
-        amountMinor: 99900,
-        status,
-      };
-      expect(await h.provider.inspectException(plan)).toEqual({
-        reference: h.plan.reference,
-        kind: "dispute",
-        eventId: h.plan.eventId,
-      });
-      for (const patch of [
-        { status: "under_review" },
-        { livemode: true },
-        { amount: 1 },
-        { payment_intent: "pi_foreign12345" },
-      ]) {
-        Object.assign(h.dispute, patch);
-        await expect(h.provider.inspectException(plan)).rejects.toThrow();
-        Object.assign(h.dispute, {
+      for (const disputeId of ["du_synthetic12345", "dp_synthetic12345"]) {
+        const h = observation();
+        h.dispute.id = disputeId;
+        h.dispute.status = status;
+        const plan = {
+          kind: "dispute",
+          reference: h.plan.reference,
+          eventId: h.plan.eventId,
+          accountId: input.accountId,
+          disputeId: h.dispute.id,
+          paymentIntentId: h.plan.paymentIntentId,
+          amountMinor: 99900,
           status,
-          livemode: false,
-          amount: 99900,
-          payment_intent: h.plan.paymentIntentId,
+        };
+        expect(await h.provider.inspectException(plan)).toEqual({
+          reference: h.plan.reference,
+          kind: "dispute",
+          eventId: h.plan.eventId,
         });
+        for (const patch of [
+          { status: "under_review" },
+          { livemode: true },
+          { amount: 1 },
+          { payment_intent: "pi_foreign12345" },
+        ]) {
+          Object.assign(h.dispute, patch);
+          await expect(h.provider.inspectException(plan)).rejects.toThrow();
+          Object.assign(h.dispute, {
+            status,
+            livemode: false,
+            amount: 99900,
+            payment_intent: h.plan.paymentIntentId,
+          });
+        }
       }
+    }
+  });
+  it("rejects unrelated or malformed dispute IDs before contacting the provider", async () => {
+    for (const disputeId of [
+      "ch_synthetic12345",
+      "du_short",
+      "du_synthetic/12345",
+      `du_${"a".repeat(121)}`,
+    ]) {
+      const h = observation();
+      await expect(
+        h.provider.inspectException({
+          kind: "dispute",
+          reference: h.plan.reference,
+          eventId: h.plan.eventId,
+          accountId: input.accountId,
+          disputeId,
+          paymentIntentId: h.plan.paymentIntentId,
+          amountMinor: 99900,
+          status: "won",
+        }),
+      ).rejects.toThrow();
+      expect(h.client.disputes.retrieve).not.toHaveBeenCalled();
     }
   });
 });

@@ -1,7 +1,7 @@
 ---
 task_id: phase-02-sprint-11-9
 title: Stripe Sandbox and Hosted Journey Evidence
-status: in-progress-hosted-zero-webhook-passed
+status: in-progress-dispute-fix-awaiting-owner-deployment
 last_updated: 2026-10-06
 source_commit: 25f2fbc
 primary_debt: [TD-010]
@@ -220,6 +220,57 @@ cleanup passed. The corrected asynchronous packet passed hosted. Exact cleanup t
 boundaries, restoring forward disabled configuration-only version
 `b88bb4fc-7fc3-491f-bc83-cf193cc740b7` with the same source checksum and empty private/public baseline.
 
+### Genuine Decline, Expiry and Fresh Replacement Acceptance
+
+The next isolated run used Stripe's official decline card. The browser displayed a decline;
+independent retrieval proved `card_declined`, `requires_payment_method`, unpaid Checkout and zero
+money received. Expiring the exact original Session produced genuine signed expiry. Staff's hosted
+reconciliation independently retrieved that unpaid terminal attempt, and an independently granted
+AAL2 operations actor authorised one bounded replacement. The client received a distinct offer
+without acceptance; Checkout before fresh acceptance was denied. After fresh acceptance, actual
+replacement R999 capture and signed funding passed, followed by the credited R800 product/R100
+delivery and R199/R800/R100 original-method operational refunds. Webhook adversarial checks passed
+again. Exact cleanup/restoration passed every boundary; disabled forward version is
+`a3406b7a-79c5-4ea9-b5d7-fe9f36226cba`. No clinical or supply progression was inferred from money.
+Late-original capture and separate duplicate/dispute/uncertainty proof remain acceptance obligations.
+The dispute-write preflight against a deliberately nonexistent synthetic ID returned
+404/resource_missing rather than permission denial; no provider object was changed by that probe.
+
+### Genuine Dispute Investigation — Provider Identifier Defect
+
+The official dispute card produced an actual R999 sandbox capture and `needs_response` Dispute.
+Independent provider retrieval confirmed its exact payment lineage, amount/currency, test mode and
+automatic dispute event. Its signed open event did not reach the database within the bounded test.
+The test correctly failed `SIGNED_OPEN_DISPUTE_MISSING`, rather than treating provider creation or
+ownership as acceptance. Local verification of that exact provider event reproduced a Zod rejection
+at `disputeId`: genuine IDs use **`du_`**, while both the webhook and independent reconciliation
+inspector assumed **`dp_`** only. Stripe's [Dispute reference](https://docs.stripe.com/api/disputes/object)
+also shows `du_` identifiers. No production pricing or clinical wording caused this failure.
+
+Both validators now locally accept bounded `du_` and retained `dp_` forms. They still reject unrelated
+prefixes, short/oversized/path-containing IDs; signature, live/account, PaymentIntent, currency,
+amount and exact terminal-state checks remain independent. Tests cover both forms and negative
+provider observations. Retesting the corrected local normalizer against the exact existing provider
+event passed with exact lineage; the signature for that diagnostic was a local dummy signature,
+**not** a replayed genuine delivery. No hosted schema change is needed for this text-identifier fix.
+The owner must deploy these source changes before another hosted dispute acceptance attempt.
+
+Final local Dispute-fix validation passes **121 Vitest files / 752 tests**, strict typecheck,
+portability, production build, ESLint and whitespace checks. The database was unchanged by this
+identifier fix; its preceding complete checkpoint remains **30 files / 1,350 assertions**.
+Independent hosted private-baseline verification after cleanup passed again (zero Auth users and
+private commerce rows, forced RLS, restricted table/RPC access, enabled triggers, pilot suspended).
+No source deployment, Git staging/commit/push or branch switch was performed by the agent.
+
+Cleanup of the unsuccessful open-dispute rehearsal submitted official `winning_evidence` only to
+its exact sandbox Dispute, independently confirmed `won`, then fully refunded its exact capture.
+Stripe had zero webhook endpoints afterward. Sessions/identities/application fixtures were removed;
+disabled forward configuration-only restoration and complete baseline checks passed. Latest restored
+version is `f7ddeaa9-e71a-46d3-872a-b740ed43c95b`. Provider-managed test history remains as authorised.
+The cleanup win is **not** accepted staff/hosted terminal-dispute proof. Won/lost/conflicting-lineage,
+duplicate capture, refund uncertainty, late-original capture and owned-alert/operational-independence
+checks remain outstanding. Task 11.9 and TD-010 remain In progress.
+
 | Boundary                                | Evidence required                                                                                                                        | Current status                                                                                                          |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | Current adapter Sessions and retries    | Actual deposit, credited order and zero-balance objects; exact metadata/lines and terminal unpaid inspection                             | Passed, three Sessions expired                                                                                          |
@@ -229,9 +280,9 @@ boundaries, restoring forward disabled configuration-only version
 | Captured deposit and paid review bridge | Test Checkout completion, actual event delivery, one authoritative deposit; no clinical/safety/dispatch advancement                      | Actual R999 capture, signed funding and readiness passed; no supply advancement                                         |
 | Credited product and zero-balance order | Current release/acceptance, exact capped credit, separate delivery, no double allocation or inferred supply                              | R800 capped credit/R100 capture and genuine R0/no-PaymentIntent credit-once completion passed                           |
 | Webhook integrity                       | Invalid signature, modified raw body, replay, conflicts, orphan and out-of-order evidence with durable acknowledgement                   | Genuine expiry/orphan and invalid signature passed; SDK-signed hosted tamper/replay/conflict/out-of-order packet passed |
-| Failure and replacement                 | Decline, cancellation/expiry, fresh bounded replacement approval/acceptance, late original capture                                       | Local proof exists; provider/hosted proof pending                                                                       |
+| Failure and replacement                 | Decline, cancellation/expiry, fresh bounded replacement approval/acceptance, late original capture                                       | Genuine decline/expiry and hosted approval/fresh acceptance/replacement capture passed; late-original capture pending   |
 | Original-method refunds                 | Full/partial/unused-credit and separate duplicate capture; immutable jobs; actual settlement, uncertainty and bounded retry              | R199/R800/R100 operational refunds and signed confirmation passed; duplicate/uncertainty paths pending                  |
-| Disputes                                | Current provider-correlated open and terminal outcomes, attributed ownership, won/lost/conflict holds                                    | Local proof exists; provider/hosted proof pending                                                                       |
+| Disputes                                | Current provider-correlated open and terminal outcomes, attributed ownership, won/lost/conflict holds                                    | Actual provider open found; du identifier fix local pending owner deployment and hosted won/lost/conflict retests       |
 | Operational independence                | Clinical rejection, dependency failure, owned exception/alert delivery, reconciliation without altering clinical/supply state            | Hosted rehearsal pending                                                                                                |
 | Restoration                             | Revoke disposable sessions, scope cleanup to exact fixtures, restore disabled modes, inspect private/public baseline                     | Authenticated fixtures/captures cleaned; disabled/private/public baseline restored                                      |
 
@@ -304,6 +355,13 @@ Modified implementation/regressions are `src/server.ts`,
 
 No application UI, marketing wording, dependency version, secret file, generated output or Git
 index was changed. Hosted schema changes are owner-authorised migration application, not activation.
+
+The zero-total follow-up adds `20261006073500_zero_total_paid_checkout.sql` (owner-approved/applied
+hosted) and `pilot_zero_checkout.test.sql` (rollback-only). The current Dispute fix modifies
+`src/server/payments/pilot-webhook.ts`, `pilot-webhook.test.ts`, `pilot-refund.ts` and
+`pilot-refund.test.ts`. It requires owner source deployment, not another database migration.
+The operator harness now supports separate zero-balance, replacement and won/lost dispute scenarios;
+unproved scenarios remain open regardless of the harness's implementation.
 
 ## Latest Deployment Checkpoint
 

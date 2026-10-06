@@ -66,6 +66,11 @@ in hosted reconciliation. The owner-approved narrow migration is now hosted with
 verified history/ACL and successful genuine R0/credit-once acceptance. SDK-signed synthetic hosted
 tamper/replay/conflict/out-of-order checks passed, with exact disabled/private/public restoration.
 This remains within TD-010's existing settlement scope, not a new debt ID.
+Genuine decline/expiry and bounded replacement with fresh acceptance/capture passed. Actual Stripe
+`du_` Dispute IDs exposed a `dp_`-only validation defect at both webhook and provider inspection.
+The narrow source fix is locally verified but requires owner deployment and hosted dispute retest.
+Exact cleanup won/refunded the test object and restored all baselines. This is an unresolved hosted
+verification obligation within TD-010, not an additional debt ID or a verified dispute outcome.
 Task 11.9 and TD-010 stay In progress.
 No new debt ID; totals remain 58 items, 51 Verified and seven non-Verified.
 

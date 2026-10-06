@@ -154,6 +154,12 @@ once and no supply advancement passed. SDK-signed synthetic hosted raw-tamper, r
 out-of-order checks also passed; these are not labelled genuine provider delivery. Exact cleanup
 restored disabled version `b88bb4fc-7fc3-491f-bc83-cf193cc740b7`. Decline/replacement,
 duplicate/uncertain refund, dispute and owned-exception proof remain open. No real pilot activation occurred.
+Genuine decline/expiry and independently approved fresh replacement acceptance/capture subsequently
+passed, including credited-order refunds. A real provider Dispute exposed `du_` IDs rejected by our
+`dp_`-only webhook/inspector validators. Both are corrected and regression-tested locally; owner
+deployment is required before hosted dispute retesting. Cleanup won/refunded the exact sandbox
+Dispute/capture and restored disabled version `f7ddeaa9-e71a-46d3-872a-b740ed43c95b` and the empty
+baseline. That cleanup outcome does not close the hosted dispute acceptance row.
 The real pilot remains suspended. TD-010 remains In progress;
 neither Task 11.9 nor the Sprint is closed. The following 11.8/earlier notes are task-specific history.
 

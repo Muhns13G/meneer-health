@@ -52,6 +52,41 @@ it("normalizes dispute updates and terminal outcomes without retaining evidence 
     expect(JSON.stringify(event)).not.toMatch(/evidence|private@example/);
   }
 });
+it("accepts current du dispute IDs while rejecting unrelated or malformed identifiers", async () => {
+  for (const disputeId of [
+    "du_synthetic12345",
+    "dp_synthetic12345",
+    "ch_synthetic12345",
+    "du_short",
+    "du_synthetic/12345",
+    `du_${"a".repeat(121)}`,
+  ]) {
+    const raw = payload({
+      type: "charge.dispute.created",
+      data: {
+        object: {
+          id: disputeId,
+          payment_intent: "pi_synthetic12345",
+          charge: "ch_synthetic12345",
+          amount: 99900,
+          currency: "zar",
+          status: "needs_response",
+          metadata: {},
+        },
+      },
+    });
+    const normalized = verifyPilotReceipt(raw, signature(raw), secret, account, client);
+    if (disputeId === "du_synthetic12345" || disputeId === "dp_synthetic12345") {
+      expect(await normalized).toMatchObject({
+        disputeId,
+        paymentIntentId: "pi_synthetic12345",
+        disputeStatus: "needs_response",
+        tenantId: null,
+        intentId: null,
+      });
+    } else await expect(normalized).rejects.toThrow();
+  }
+});
 it("verifies a real SDK signature before stripping customer/medical fields", async () => {
   const raw = payload();
   const result = await verifyPilotReceipt(raw, signature(raw), secret, account, client);
