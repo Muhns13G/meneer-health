@@ -2,7 +2,15 @@
 
 ## Document Status
 
-Current checkpoint, 5 October 2026: Sprint 10 is
+Current checkpoint, 6 October 2026: Sprint 11 is
+[completed with activation gates](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
+through `7db0e0c`, with server-owned deposit/credit/refund and complete synthetic sandbox/hosted
+verification. Modes were restored disabled and the real pilot stays suspended. Seven activation
+debts remain; Sprint 12 operational/accessibility acceptance and Sprint 13 go/no-go remain.
+Phase 02 is in progress and no framework migration is selected. This supersedes earlier pending
+payment implementation statements, not actual catalogue/publication/provider/release requirements.
+
+Historical checkpoint, 5 October 2026: Sprint 10 is
 [completed with activation gates](../03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md),
 including protected DR-018 medical intake and the owner's current-generator exception. Staff queue,
 manual-transfer controls and own-client status exist and have bounded local/hosted evidence.
@@ -18,7 +26,7 @@ existing pilot-activation obligations remain unchanged.
 
 - **Status:** Initial planning baseline
 - **Date:** 2026-08-05
-- **Last amended:** 2026-10-05
+- **Last amended:** 2026-10-06
 - **Scope:** Product, clinical operations, platform architecture, governance, and delivery
 - **Current implementation:** Lovable-origin TanStack Start v1 MVP with repository-owned Cloudflare
   configuration; `itws-I-preview` temporarily remains the Cloudflare production branch serving

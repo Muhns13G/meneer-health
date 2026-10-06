@@ -17,7 +17,10 @@ synthetic sandbox/hosted matrix now passes: genuine pending-refund denial/termin
 duplicate refund once/retained deposit, separately labelled normalized-fact rollback packets for
 uncertainty/bounded retry, late-original quarantine and clinical/dependency independence, and exact
 disabled/empty restoration. Final disabled version: `2e42efee-b854-40ae-8e12-b20b2b4e4b09`.
-No source upload or live activation occurred; Task 11.10 and TD-010 release obligations remain.
+No source upload or live activation occurred. Task 11.10 now closes the engineering sprint in the
+[completion report](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md);
+TD-010's real commercial/publication/provider/release obligations remain. Do not reactivate any
+mode from a completed sandbox test alone; use a new owner-approved release and current baseline.
 
 Run the operator journey in an interactive terminal. A noninteractive invocation now fails before
 creating hosted fixtures. After interruption, first inspect exact Session/refund, active-version,

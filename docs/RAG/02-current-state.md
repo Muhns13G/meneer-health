@@ -6,9 +6,11 @@ authority: observed-summary
 last_updated: 2026-10-06
 audience: internal
 sensitivity: internal
-source_baseline: 14a965a
-runtime_baseline: 9630cfe
+source_baseline: 7db0e0c
+runtime_baseline: 5f958cd
 sources:
+  - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-7-cancellation-refund-commands.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-6-payment-status-projections.md
@@ -112,6 +114,13 @@ sources:
 # Meneer v1 Verified Current State
 
 ## Sprint 11.9 — Completed Synthetic Sandbox/Hosted Boundary
+
+Sprint 11.10 now issues the [Sprint completion report](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md),
+closing all ten tasks at the engineering/synthetic boundary. Implementation and final accepted
+11.9 evidence are committed at `7db0e0c`; this documentation batch awaits owner commit/CI.
+`runtime_baseline` names the owner-deployed checkpoint, not metadata-proven Git identity: exact
+version/checksum and disabled restoration are in the report. TD-010 retains real release approval;
+Sprint 12 and Sprint 13 remain, not unfinished Sprint 11 implementation.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

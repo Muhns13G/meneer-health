@@ -11,6 +11,11 @@ primary_debt: [TD-010]
 
 ## Current Acceptance — 6 October 2026
 
+The owner committed this accepted packet at `7db0e0c`. Task 11.10's
+[Sprint completion report](../../../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
+now reconciles the full sprint; references below to an awaiting commit or future Sprint report
+describe the recorded 11.9 checkpoint. No new hosted run or exact-commit CI is inferred here.
+
 Task 11.9 is accepted at the **synthetic sandbox/hosted verification boundary**, not live pilot
 activation. This section supersedes the incomplete checkpoints below, which remain an audit trail.
 The owner-deployed implementation checkpoint is `5f958cd`; the added verification packets and

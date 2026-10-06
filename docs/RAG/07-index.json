@@ -875,8 +875,8 @@
     {
       "id": "phase-02-sprint-11",
       "path": "docs/02-implementation-plans/phase-02/sprint-11-stripe-commercial-operations.md",
-      "status": "in-progress",
-      "last_updated": "2026-10-05",
+      "status": "completed-with-activation-gates",
+      "last_updated": "2026-10-06",
       "authority_for": ["Stripe sandbox activation", "commercial operations", "payment exceptions"]
     },
     {
@@ -986,7 +986,7 @@
         "genuine asynchronous pending refund denial and exact terminal duplicate refund confirmation",
         "hosted rollback-only uncertainty bounded retry late-original and independence fault packets",
         "final exact disabled empty restoration and compatible transitive security patch",
-        "Task 11.9 accepted at synthetic sandbox boundary; Task 11.10 planned and TD-010 release gates remain"
+        "Task 11.9 accepted at synthetic sandbox boundary; Sprint 11 report closes Task 11.10 and TD-010 release gates remain"
       ]
     },
     {
@@ -2292,6 +2292,21 @@
       ],
       "implementation_checkpoint": "3950b15",
       "last_updated": "2026-10-02"
+    },
+    {
+      "id": "phase-02-sprint-11-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md",
+      "status": "completed-with-activation-gates",
+      "implementation_checkpoint": "7db0e0c",
+      "inventory_baseline": "5c7a0a0",
+      "last_updated": "2026-10-06",
+      "authority_for": [
+        "Sprint 11 Tasks 11.1 through 11.10 engineering and synthetic sandbox acceptance",
+        "commercial decisions corrections deviations lessons and exact 100-path inventory",
+        "genuine provider proof versus SDK-signed and hosted rollback-only fault injection",
+        "58 debts 51 Verified seven retained activation gates and TD-010 release obligations",
+        "disabled hosted restoration no live pilot approval and Sprint 12 handoff"
+      ]
     },
     {
       "id": "phase-02-sprint-10-completion",
