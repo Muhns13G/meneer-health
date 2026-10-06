@@ -25,6 +25,7 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   let answers: unknown = {};
   let version = 0;
   let state = "draft";
+  let failNextSave = false;
   const publication = {
     id,
     catalogueHash: "a".repeat(64),
@@ -37,6 +38,10 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   };
   await page.route("**/portal/intake/command", async (route) => {
     const command = route.request().postDataJSON();
+    if (command.action === "save" && failNextSave) {
+      failNextSave = false;
+      return route.fulfill({ status: 503, body: "" });
+    }
     if (command.action !== "read") {
       answers = command.answers;
       version++;
@@ -100,11 +105,22 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   await page.getByLabel("Height (cm)").fill("180");
   await page.getByLabel("Weight (kg)").fill("80");
   await page.getByRole("combobox", { name: "Sex", exact: true }).selectOption("male");
+  failNextSave = true;
+  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await expect(page.getByRole("status")).toContainText("save could not be confirmed");
+  await expect(page.getByRole("status")).toBeFocused();
+  await page.getByRole("button", { name: "Save draft", exact: true }).click();
+  await expect(page.getByRole("status")).toHaveText("Your draft is saved.");
+  await expect(page.getByRole("status")).toBeFocused();
   for (let section = 2; section <= 8; section++) {
     await page.getByRole("button", { name: "Next section" }).click();
     await expect(
       page.getByRole("heading", { name: catalogue.sections[section - 1]!.title, exact: true }),
-    ).toBeVisible();
+    ).toBeFocused();
+    await expect(page.getByRole("progressbar", { name: "Questionnaire progress" })).toHaveAttribute(
+      "aria-valuenow",
+      String(section),
+    );
     if (section === 7) await page.getByRole("checkbox", { name: "Peptides", exact: true }).check();
     if (section === 2) {
       await page
@@ -143,13 +159,16 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   }
   await page.getByRole("button", { name: "Review answers", exact: true }).click();
   await expect(
+    page.getByRole("heading", { name: "Review your answers", exact: true }),
+  ).toBeFocused();
+  await expect(
     page.getByRole("button", { name: "Confirm and submit questionnaire" }),
   ).toBeVisible();
   expect((await new AxeBuilder({ page }).include("main").analyze()).violations).toEqual([]);
   await page.getByRole("button", { name: "Confirm and submit questionnaire" }).click();
   await expect(
     page.getByRole("heading", { name: "Questionnaire received", exact: true }),
-  ).toBeVisible();
+  ).toBeFocused();
   expect(page.url()).toMatch(/\/portal\/intake$/);
   expect(
     await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),

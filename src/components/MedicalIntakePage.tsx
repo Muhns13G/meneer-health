@@ -108,6 +108,11 @@ export function MedicalIntakePage() {
   const [ack, setAck] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const flowHeading = useRef<HTMLHeadingElement>(null);
+  const resultRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (!busy && message) resultRef.current?.focus();
+  }, [busy, message]);
   const [editing, setEditing] = useState(false);
   const [noticeChoice, setNoticeChoice] = useState(false);
   const [transferChoice, setTransferChoice] = useState(false);
@@ -203,7 +208,7 @@ export function MedicalIntakePage() {
         return;
       }
     }
-    heading.current?.focus();
+    (flowHeading.current ?? heading.current)?.focus();
   }, [step, review, status, focusRequest]);
   useEffect(() => {
     if (Object.keys(errors).length) errorSummary.current?.focus();
@@ -627,7 +632,9 @@ export function MedicalIntakePage() {
           </section>
         ) : !ack ? (
           <section className="mt-8">
-            <h2 className="font-serif text-2xl">Before you begin</h2>
+            <h2 ref={flowHeading} tabIndex={-1} className="font-serif text-2xl">
+              Before you begin
+            </h2>
             <p className="mt-5 whitespace-pre-wrap">{view.publication.privacy}</p>
             <label className="mt-6 flex gap-3">
               <input
@@ -644,7 +651,7 @@ export function MedicalIntakePage() {
             >
               Continue
             </button>
-            <p role="status" aria-live="polite" className="mt-5">
+            <p ref={resultRef} tabIndex={-1} role="status" aria-live="polite" className="mt-5">
               {busy ? "Recording your acknowledgement…" : message}
             </p>
           </section>
@@ -706,7 +713,9 @@ export function MedicalIntakePage() {
             ) : null}
             {!editing ? (
               <section className="mt-8">
-                <h2 className="font-serif text-2xl">Questionnaire received</h2>
+                <h2 ref={flowHeading} tabIndex={-1} className="font-serif text-2xl">
+                  Questionnaire received
+                </h2>
                 <p className="mt-3">
                   Receipt is not clinical approval, a prescription, payment or delivery
                   confirmation.
@@ -768,13 +777,20 @@ export function MedicalIntakePage() {
                     aria-valuemin={1}
                     aria-valuemax={8}
                     aria-valuenow={step}
+                    aria-valuetext={
+                      review
+                        ? "Review your answers"
+                        : `Section ${step} of 8 — ${catalogue.sections[step - 1]!.title}`
+                    }
                     className="mt-6 text-sm"
                   >
                     Section {step} of 8
                   </div>
                   {review ? (
                     <section className="mt-8">
-                      <h2 className="font-serif text-2xl">Review your answers</h2>
+                      <h2 ref={flowHeading} tabIndex={-1} className="font-serif text-2xl">
+                        Review your answers
+                      </h2>
                       <p className="mt-3">
                         Only selected category answers will be submitted. Unselected category
                         answers stay in the private draft only.
@@ -820,7 +836,9 @@ export function MedicalIntakePage() {
                     </section>
                   ) : (
                     <section className="mt-8">
-                      <h2 className="font-serif text-2xl">{catalogue.sections[step - 1]!.title}</h2>
+                      <h2 ref={flowHeading} tabIndex={-1} className="font-serif text-2xl">
+                        {catalogue.sections[step - 1]!.title}
+                      </h2>
                       {step === 7 ? (
                         <fieldset id="categories" className="mt-6">
                           <legend>Choose the categories you want to discuss</legend>
@@ -882,11 +900,21 @@ export function MedicalIntakePage() {
                           Save draft
                         </button>
                         {step < 8 ? (
-                          <button type="button" disabled={busy} onClick={() => setStep(step + 1)}>
+                          <button
+                            key="next-section"
+                            type="button"
+                            disabled={busy}
+                            onClick={(event) => {
+                              // The next render replaces this with a submit control. Do not let
+                              // the advancing click submit the new final-section form as well.
+                              event.preventDefault();
+                              setStep(step + 1);
+                            }}
+                          >
                             Next section
                           </button>
                         ) : (
-                          <button type="submit" disabled={busy}>
+                          <button key="review-answers" type="submit" disabled={busy}>
                             Review answers
                           </button>
                         )}
@@ -896,7 +924,7 @@ export function MedicalIntakePage() {
                 </fieldset>
               </form>
             )}
-            <p role="status" aria-live="polite" className="mt-6">
+            <p ref={resultRef} tabIndex={-1} role="status" aria-live="polite" className="mt-6">
               {busy ? "Checking and saving privately…" : message}
             </p>
             {view.record ? (

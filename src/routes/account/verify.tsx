@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
@@ -16,8 +16,14 @@ export const Route = createFileRoute("/account/verify")({
 });
 
 function VerifyInvitationPage() {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
   const [pending, setPending] = useState(false);
   const [result, setResult] = useState<"accepted" | "rejected" | "unavailable" | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!pending && result) resultRef.current?.focus();
+  }, [pending, result]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -93,13 +99,20 @@ function VerifyInvitationPage() {
           </div>
           <button
             type="submit"
-            disabled={pending}
+            disabled={!hydrated || pending}
             className="rounded-full bg-gold px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-50"
           >
             {pending ? "Checking…" : "Verify code"}
           </button>
         </form>
-        <div role="status" aria-live="polite" className="mt-6 text-sm text-muted-foreground">
+        <div
+          ref={resultRef}
+          tabIndex={-1}
+          role="status"
+          aria-live="polite"
+          className="mt-6 text-sm text-muted-foreground"
+        >
+          {pending && "Checking…"}
           {result === "accepted" && (
             <>
               <p>Your code was verified.</p>

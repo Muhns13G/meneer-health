@@ -10,6 +10,7 @@ source_baseline: 7db0e0c
 runtime_baseline: 5f958cd
 sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
@@ -150,6 +151,12 @@ confirmed email/code and profile/contact-preference labels plus the privacy chec
 The owner subsequently confirmed VoiceOver works and actual browser zoom checks pass, closing
 local Task 12.5 acceptance. Released-browser and wider TD-037 acceptance remain. No runtime wording,
 hosted activation or schema changed.
+
+Task [12.6](../02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md)
+adds persistent pending/result announcements, settled-result focus, questionnaire section progress
+and hydration-safe invitation/sign-out controls. The owner confirmed representative local VoiceOver
+pending and result announcements are clear. Local automated verification passes, closing 12.6; this does
+not close released-flow TD-038 or activate any hosted workflow.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

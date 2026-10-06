@@ -1089,6 +1089,16 @@
       ]
     },
     {
+      "id": "phase-02-sprint-12-6",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md",
+      "status": "completed-local-acceptance",
+      "authority_for": [
+        "routed client journey focus progress and asynchronous announcement verification",
+        "owner-confirmed representative local VoiceOver pending and result acceptance",
+        "TD-038 remains open for staff and released-flow reconciliation"
+      ]
+    },
+    {
       "id": "phase-02-sprint-13",
       "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
       "status": "planned",

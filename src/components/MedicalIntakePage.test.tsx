@@ -74,6 +74,10 @@ it("preserves source prompts, branch choices and erases visible information on p
   await renderWithRouter(<MedicalIntakePage />);
   await screen.findByText(catalogue.sections[0]!.title);
   for (let section = 1; section <= 8; section++) {
+    expect(
+      screen.getByRole("heading", { name: catalogue.sections[section - 1]!.title }),
+    ).toHaveFocus();
+    expect(screen.queryByRole("heading", { name: "Review your answers" })).not.toBeInTheDocument();
     for (const item of catalogue.items.filter((i) => i.section === section)) {
       if (item.id.startsWith("category_") && item.id !== "category_peptides") continue;
       if (item.id === "doctor_review_consent")

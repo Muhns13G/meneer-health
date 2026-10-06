@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
@@ -16,7 +16,13 @@ export const Route = createFileRoute("/account/sign-out")({
 });
 
 function SignOutPage() {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => setHydrated(true), []);
   const [state, setState] = useState<"ready" | "pending" | "done" | "failed">("ready");
+  const resultRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (state === "done" || state === "failed") resultRef.current?.focus();
+  }, [state]);
   async function signOut() {
     setState("pending");
     try {
@@ -41,13 +47,20 @@ function SignOutPage() {
         <p className="mt-5 text-muted-foreground">End this account session on this device.</p>
         <button
           type="button"
-          disabled={state === "pending" || state === "done"}
+          disabled={!hydrated || state === "pending" || state === "done"}
           onClick={signOut}
           className="mt-8 rounded-full bg-gold px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-50"
         >
           {state === "pending" ? "Signing out…" : "Sign out"}
         </button>
-        <div role="status" aria-live="polite" className="mt-6 text-sm text-muted-foreground">
+        <div
+          ref={resultRef}
+          tabIndex={-1}
+          role="status"
+          aria-live="polite"
+          className="mt-6 text-sm text-muted-foreground"
+        >
+          {state === "pending" && "Signing out…"}
           {state === "done" && "You have signed out."}
           {state === "failed" &&
             "Sign-out could not be confirmed. Please try again or contact support."}
