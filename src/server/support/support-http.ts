@@ -2,6 +2,10 @@ import "@tanstack/react-start/server-only";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import {
+  staffFollowupCommandSchema,
+  staffFollowupViewSchema,
+} from "@/domain/support/staff-followup";
+import {
   supportCommandSchema,
   supportResultSchema,
   staffSupportCommandSchema,
@@ -57,9 +61,12 @@ export function createSupportHttpHandler(
 ) {
   return async (request: Request) => {
     const url = new URL(request.url);
-    const staff = url.pathname === "/staff/support/command";
+    const followup = url.pathname === "/staff/support/followup";
+    const staff = followup || url.pathname === "/staff/support/command";
     if (
-      !["/portal/support/command", "/staff/support/command"].includes(url.pathname) ||
+      !["/portal/support/command", "/staff/support/command", "/staff/support/followup"].includes(
+        url.pathname,
+      ) ||
       url.search ||
       !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname)
     )
@@ -97,9 +104,13 @@ export function createSupportHttpHandler(
         },
       );
       if (!inspected.allowed) return reply(inspected.response.status);
-      const parsed = (staff ? staffSupportCommandSchema : supportCommandSchema).safeParse(
-        inspected.value.body,
-      );
+      const parsed = (
+        followup
+          ? staffFollowupCommandSchema
+          : staff
+            ? staffSupportCommandSchema
+            : supportCommandSchema
+      ).safeParse(inspected.value.body);
       if (!parsed.success) return reply(422);
       if (
         parsed.data.action !== "read" &&
@@ -126,12 +137,17 @@ export function createSupportHttpHandler(
         );
         if (
           authorised.identity.assurance !== "aal2" ||
-          ![
+          (![
             "auditor:privacy_review",
             "support:support",
             "operations:operations",
             "clinician:care_delivery",
-          ].includes(`${authorised.context.role}:${authorised.context.purpose}`)
+          ].includes(`${authorised.context.role}:${authorised.context.purpose}`) &&
+            !(
+              followup &&
+              authorised.context.role === "admin" &&
+              authorised.context.purpose === "security_administration"
+            ))
         )
           return reply(403);
         context = {
@@ -155,7 +171,11 @@ export function createSupportHttpHandler(
             ).context;
       }
       const { data, error } = await rpc(
-        staff ? "staff_support_command" : "patient_support_command",
+        followup
+          ? "staff_support_followup"
+          : staff
+            ? "staff_support_command"
+            : "patient_support_command",
         { p_context: context, p_command: parsed.data },
       );
       if (error)
@@ -169,9 +189,12 @@ export function createSupportHttpHandler(
                 : 503,
         );
       const valid = staff
-        ? (parsed.data.action === "read" ? supportViewSchema.shape.requests : z.uuid()).safeParse(
-            data,
-          )
+        ? (parsed.data.action === "read"
+            ? followup
+              ? staffFollowupViewSchema
+              : supportViewSchema.shape.requests
+            : z.uuid()
+          ).safeParse(data)
         : supportResultSchema.safeParse(data);
       return valid.success ? reply(200, valid.data) : reply(503);
     } catch (error) {

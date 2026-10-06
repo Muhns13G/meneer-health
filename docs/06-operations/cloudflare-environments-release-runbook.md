@@ -18,6 +18,17 @@ merges, deployments, promotions, rollbacks, and Cloudflare settings. A contribut
 only under the owner's explicit, bounded instruction; that permission does not become standing
 authorization for later releases.
 
+## Sprint 12.4 Staff Follow-up Release Boundary
+
+[Task 12.4](../02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md)
+adds `/staff/support` and `/staff/support/followup`. No new Worker binding/secret is required.
+Its migration follows 12.2/12.3 and has not been applied to hosted services by this task. Only current
+purpose owners can view/respond; administrators see coverage only. Manual requeue preserves the
+existing sender, quota, attempt cap and suppression. Independently reviewed uncertain non-acceptance
+proof must be exact-lease, time-limited and privately authorised; the UI cannot fabricate it.
+Late callback or expired proof contains requeue before dispatch. Keep transport disabled until
+the owner-authorised 12.8 exercise; no local queue review establishes live delivery or pilot approval.
+
 ## Sprint 12.3 Support Release Boundary
 
 [Task 12.3](../02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md)

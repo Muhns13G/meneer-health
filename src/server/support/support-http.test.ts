@@ -198,3 +198,93 @@ it("denies query-based targeting and wrong methods", async () => {
   ).toBe(401);
   expect(h.rpc).not.toHaveBeenCalled();
 });
+it("reads strict purpose follow-up through AAL2 authority and rejects provider payloads", async () => {
+  const h = await setup();
+  const view = { cases: [], notifications: [], coverage: [] };
+  h.rpc.mockResolvedValueOnce({ data: view, error: null });
+  const response = await executeWithRequestTimeout(
+    h.request({ action: "read" }, {}, true, "/staff/support/followup"),
+    h.handler,
+  );
+  expect(response.status).toBe(200);
+  expect(await response.json()).toEqual(view);
+  expect(h.rpc).toHaveBeenCalledWith(
+    "staff_support_followup",
+    expect.objectContaining({
+      p_context: expect.objectContaining({ purpose: "privacy_review", subjectId: id }),
+    }),
+  );
+  h.rpc.mockResolvedValueOnce({ data: { ...view, email: "secret@example.invalid" }, error: null });
+  expect(
+    (await h.handler(h.request({ action: "read" }, {}, true, "/staff/support/followup"))).status,
+  ).toBe(503);
+  const calls = h.rpc.mock.calls.length;
+  expect(
+    (
+      await h.handler(
+        h.request(
+          { action: "resend", reference: id, requestKey: id, reason: "timeout" },
+          {},
+          true,
+          "/staff/support/followup",
+        ),
+      )
+    ).status,
+  ).toBe(422);
+  expect(
+    (
+      await h.handler(
+        h.request(
+          {
+            action: "resend",
+            reference: id,
+            requestKey: id,
+            reason: "confirmed_non_acceptance",
+            recipient: "secret@example.invalid",
+          },
+          {},
+          true,
+          "/staff/support/followup",
+        ),
+      )
+    ).status,
+  ).toBe(422);
+  expect(h.rpc.mock.calls).toHaveLength(calls);
+});
+it("queues an exact audited resend command without contacting any email provider", async () => {
+  const h = await setup();
+  h.rpc.mockResolvedValueOnce({ data: id, error: null });
+  const command = {
+    action: "resend",
+    reference: id,
+    requestKey: id,
+    reason: "confirmed_non_acceptance",
+  };
+  const response = await h.handler(h.request(command, {}, true, "/staff/support/followup"));
+  expect(response.status).toBe(200);
+  expect(await response.json()).toBe(id);
+  expect(h.rpc).toHaveBeenCalledWith(
+    "staff_support_followup",
+    expect.objectContaining({ p_command: command }),
+  );
+  expect(
+    (
+      await h.handler(
+        h.request(command, { "Idempotency-Key": "wrong" }, true, "/staff/support/followup"),
+      )
+    ).status,
+  ).toBe(422);
+});
+it("limits administrator access to the coverage follow-up route", async () => {
+  const h = await setup();
+  h.workforce.authorise.mockResolvedValue({
+    identity: { assurance: "aal2" },
+    context: { role: "admin", purpose: "security_administration", tenantId: id, subjectId: id },
+  });
+  h.rpc.mockResolvedValue({ data: { cases: [], notifications: [], coverage: [] }, error: null });
+  // Complete provider identity is still required even for administrators.
+  expect(
+    (await h.handler(h.request({ action: "read" }, {}, true, "/staff/support/followup"))).status,
+  ).toBe(503);
+  expect((await h.handler(h.request({ action: "read" }, {}, true))).status).toBe(403);
+});

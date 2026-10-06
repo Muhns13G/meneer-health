@@ -34,6 +34,7 @@ import { Route as StaffAlertsRouteImport } from './routes/staff.alerts'
 import { Route as StaffIntakeRouteImport } from './routes/staff.intake'
 import { Route as StaffQueueRouteImport } from './routes/staff.queue'
 import { Route as StaffSignInRouteImport } from './routes/staff.sign-in'
+import { Route as StaffSupportRouteImport } from './routes/staff.support'
 import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
 import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
 import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
@@ -165,6 +166,11 @@ const StaffSignInRoute = StaffSignInRouteImport.update({
   path: '/staff/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffSupportRoute = StaffSupportRouteImport.update({
+  id: '/staff/support',
+  path: '/staff/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiJourneyIntentRoute = ApiJourneyIntentRouteImport.update({
   id: '/api/journey/intent',
   path: '/api/journey/intent',
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
+  '/staff/support': typeof StaffSupportRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -249,6 +256,7 @@ export interface FileRoutesByTo {
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
+  '/staff/support': typeof StaffSupportRoute
   '/portal': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -282,6 +290,7 @@ export interface FileRoutesById {
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
+  '/staff/support': typeof StaffSupportRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
     | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
+    | '/staff/support'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -348,6 +358,7 @@ export interface FileRouteTypes {
     | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
+    | '/staff/support'
     | '/portal'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
+    | '/staff/support'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -413,6 +425,7 @@ export interface RootRouteChildren {
   StaffIntakeRoute: typeof StaffIntakeRoute
   StaffQueueRoute: typeof StaffQueueRoute
   StaffSignInRoute: typeof StaffSignInRoute
+  StaffSupportRoute: typeof StaffSupportRoute
   PortalIndexRoute: typeof PortalIndexRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
   ApiMeasurementConsentRoute: typeof ApiMeasurementConsentRoute
@@ -598,6 +611,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff/support': {
+      id: '/staff/support'
+      path: '/staff/support'
+      fullPath: '/staff/support'
+      preLoaderRoute: typeof StaffSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/journey/intent': {
       id: '/api/journey/intent'
       path: '/api/journey/intent'
@@ -661,6 +681,7 @@ const rootRouteChildren: RootRouteChildren = {
   StaffIntakeRoute: StaffIntakeRoute,
   StaffQueueRoute: StaffQueueRoute,
   StaffSignInRoute: StaffSignInRoute,
+  StaffSupportRoute: StaffSupportRoute,
   PortalIndexRoute: PortalIndexRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,
   ApiMeasurementConsentRoute: ApiMeasurementConsentRoute,

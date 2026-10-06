@@ -173,6 +173,9 @@ export function StaffQueuePage() {
       <a href="/staff/sign-in" className="mt-4 inline-block underline">
         Staff session and sign-out
       </a>
+      <a href="/staff/support" className="ml-5 inline-block underline">
+        Support and delivery follow-up
+      </a>
       <form
         className="mt-8 flex flex-wrap items-end gap-4"
         onSubmit={(event) => {

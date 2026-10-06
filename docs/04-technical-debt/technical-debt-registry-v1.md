@@ -132,8 +132,11 @@ and private attributed delivery evidence. Task
 [12.3](../02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md) adds
 locally verified private coverage gates, purpose-only secure requests and exact-owner AAL2 human
 acknowledgement. No coverage policy is seeded or hosted service activated.
+Task [12.4](../02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md)
+now locally verifies purpose-scoped staff support, minimal delivery review, immutable responses
+and guarded resend without sensitive email payloads or quota/suppression bypass.
 TD-043 remains Open: actual purpose-owner/alternate coverage,
-staff follow-up, hosted inbox/failure/acknowledgement/fallback and release accessibility evidence
+hosted inbox/failure/acknowledgement/fallback and release accessibility evidence
 remain Sprint 12 work. No new debt ID, hosted activation or debt-status change is introduced.
 No additional confirmed defect ID accrued at 10.9/10.10. The unreproduced SQL interruption, implicit
 SQL-initialisation warning and informational index candidates remain explicit review observations

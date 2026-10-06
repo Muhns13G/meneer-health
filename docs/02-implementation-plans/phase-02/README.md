@@ -20,11 +20,13 @@ activation debts remain non-Verified. The pilot stays suspended, live mode disab
 12 is now in progress and 13 remains planned. Task 12.1's
 [notification contract](annexures/sprint-12-1-notification-contract.md) is complete at contract level;
 Task 12.2's [durable notifications](annexures/sprint-12-2-durable-notifications.md) are complete
-locally, including atomic intents, shared sender budget and private delivery facts. Hosted delivery,
-staff follow-up and live accessibility proof remain. Task 12.3's
+locally, including atomic intents, shared sender budget and private delivery facts. Hosted delivery
+and live accessibility proof remain. Task 12.3's
 [purpose support routing](annexures/sprint-12-3-purpose-support-routing.md) is complete locally:
 private verified-coverage gates, secure requests and exact-purpose AAL2 owner acknowledgement.
-No roster or hosted support service is activated; Tasks 12.4–12.10 remain. Phase 02 is not closed; no
+Task 12.4's [staff support follow-up](annexures/sprint-12-4-staff-support-followup.md) adds locally
+verified purpose queues, minimal delivery review and governed resend; no roster, provider evidence
+or hosted service is activated. Tasks 12.5–12.10 remain. Phase 02 is not closed; no
 framework rebuild is selected or completed.
 
 ## Current Intake Amendment
