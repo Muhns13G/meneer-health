@@ -16,6 +16,15 @@ begin
  for r in select relation from exercise_baseline loop
   execute format('insert into exercise_rows select %L::regclass,ctid from %s t where exists(select 1 from jsonb_each_text(to_jsonb(t)) j join exercise_roots x on x.id=j.value) on conflict do nothing',r.relation,r.relation);
  end loop;
+ -- Orphan exceptions deliberately have no intent_id and no receipt FK. Prove their exact
+ -- composite receipt lineage to an already marked fixture row; never scope by account alone.
+ insert into exercise_rows
+ select 'commerce_private.provider_exceptions'::regclass,x.ctid
+ from commerce_private.provider_exceptions x
+ join commerce_private.provider_receipts p on p.account_id=x.account_id and p.event_id=x.event_id
+ join exercise_rows owned on owned.rel='commerce_private.provider_receipts'::regclass
+  and owned.tid=p.ctid
+ on conflict do nothing;
  loop
   changed:=0;
   for f in select c.conrelid,c.confrelid,c.conkey,c.confkey from pg_constraint c

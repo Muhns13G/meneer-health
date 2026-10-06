@@ -71,13 +71,19 @@ owner deployment was restored forward with disabled configuration-only modes, un
 checksum and full private/public baseline. Duplicate/uncertain refund and remaining
 failure/dispute/exception acceptance is still pending.
 Task 11.10 remains planned.
+The approved duplicate aggregate-refund migration and hosted repeat now prove full duplicate refund
+once, unchanged original funding and restored readiness. Owned generic alert receipt, AAL2 response
+and wrong-role denial passed. Independent follow-up verified disabled source-preserving restoration
+and the protected empty baseline after an immediate assertion failed. Uncertainty/retry,
+late-original capture and clinical/dependency independence still keep Task 11.9 In progress.
 Actual R0 completion exposed a paid/no-PaymentIntent status mismatch; the narrow zero-total
 migration is now owner-approved/applied hosted with independent history/ACL and successful genuine
 R0/no-PaymentIntent/credit-once proof. SDK-signed synthetic hosted webhook adversarial checks passed.
 Genuine decline/expiry/fresh replacement capture and refunds passed. The actual sandbox Dispute
-exposed `du_` IDs rejected by `dp_`-only validators. The narrow source fix is locally verified;
-owner deployment and hosted dispute retest are now the immediate prerequisite. Exact cleanup and
-disabled restoration passed; cleanup's provider win is not staff/hosted dispute acceptance.
+exposed `du_` IDs rejected by `dp_`-only validators. The owner deployed the narrow source fix;
+genuine open/terminal won and lost delivery, attributed independent reconciliation and synthetic
+contradictory terminal holds now pass. Exact cleanup and disabled restoration passed. Duplicate,
+uncertain refund, late-original capture and operational-independence acceptance remain open.
 TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
