@@ -50,6 +50,11 @@ Stripe may report `paid` at R0. The owner-approved narrow zero-total migration i
 genuine R0/no-PaymentIntent/credit-once acceptance passed. Never attempt a refund for a nonexistent
 zero-total PaymentIntent. Hosted SDK-signed synthetic tamper/replay/conflict/out-of-order checks also
 passed; distinguish these from genuine captured/zero-total provider deliveries in reports.
+Genuine decline/expiry/fresh replacement capture/refund proof passed. Stripe's actual Dispute IDs
+use `du_`; the webhook and independent inspector previously rejected them with a `dp_`-only regex.
+Both narrow validator corrections are local pending owner deployment/hosted dispute retest. Never
+infer accepted dispute delivery from the provider object's existence, cleanup win or a local dummy
+signature. Current restored disabled version is `f7ddeaa9-e71a-46d3-872a-b740ed43c95b`.
 
 ### Reconciliation Controls Before Hosted Release
 

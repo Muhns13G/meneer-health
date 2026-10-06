@@ -128,6 +128,11 @@ reconciler's zero-status mismatch. The owner-approved narrow migration is now ho
 verified and successfully retested: exact zero-total/no-PaymentIntent classification, R999 credit
 once and no supply advancement. The SDK-signed synthetic hosted tamper/replay/conflict/out-of-order
 packet passed too. Current disabled restoration version is `b88bb4fc-7fc3-491f-bc83-cf193cc740b7`.
+Genuine decline/expiry/fresh replacement capture and ensuing refunds passed afterward. Genuine
+Dispute delivery is blocked by the deployed `dp_`-only assumption: Stripe issued `du_`. The webhook
+and independent inspector fixes are local pending owner source deployment and hosted retest.
+Cleanup won/refunded the exact test object and restored disabled version
+`f7ddeaa9-e71a-46d3-872a-b740ed43c95b`; this is not terminal-dispute acceptance proof.
 
 The [local reconciliation completion](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
 confirms exact signed refund jobs and permits one replacement after independently verified failure.

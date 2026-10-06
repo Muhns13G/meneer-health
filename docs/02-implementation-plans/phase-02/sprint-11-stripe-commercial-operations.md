@@ -74,6 +74,10 @@ Task 11.10 remains planned.
 Actual R0 completion exposed a paid/no-PaymentIntent status mismatch; the narrow zero-total
 migration is now owner-approved/applied hosted with independent history/ACL and successful genuine
 R0/no-PaymentIntent/credit-once proof. SDK-signed synthetic hosted webhook adversarial checks passed.
+Genuine decline/expiry/fresh replacement capture and refunds passed. The actual sandbox Dispute
+exposed `du_` IDs rejected by `dp_`-only validators. The narrow source fix is locally verified;
+owner deployment and hosted dispute retest are now the immediate prerequisite. Exact cleanup and
+disabled restoration passed; cleanup's provider win is not staff/hosted dispute acceptance.
 TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
