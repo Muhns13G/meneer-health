@@ -115,6 +115,9 @@ export function StaffAlertsPage() {
         <a className="underline" href="/staff/sign-in">
           Staff sign-in
         </a>
+        <a className="underline" href="/staff/support">
+          Support and delivery follow-up
+        </a>
       </div>
       <ul className="mt-8 space-y-4">
         {alerts.map((alert) => (
