@@ -68,9 +68,16 @@ tamper/replay/conflict/out-of-order checks passed, with exact disabled/private/p
 This remains within TD-010's existing settlement scope, not a new debt ID.
 Genuine decline/expiry and bounded replacement with fresh acceptance/capture passed. Actual Stripe
 `du_` Dispute IDs exposed a `dp_`-only validation defect at both webhook and provider inspection.
-The narrow source fix is locally verified but requires owner deployment and hosted dispute retest.
-Exact cleanup won/refunded the test object and restored all baselines. This is an unresolved hosted
-verification obligation within TD-010, not an additional debt ID or a verified dispute outcome.
+The owner deployed the narrow source fix. Genuine open and terminal won/lost delivery, attributed
+independent provider reconciliation and synthetic conflicting-terminal holds now pass, without
+supply advancement. Exact cleanup restored all baselines. Duplicate/uncertain refund, late-original
+capture and operational-independence/owned-alert acceptance remain obligations within TD-010;
+the interrupted duplicate rehearsal required exact disposable-session cleanup before restarting.
+The approved aggregate-refund migration and hosted repeat now prove full duplicate refund once,
+unchanged original deposit and restored readiness. Owned generic alert delivery is owner-confirmed
+(three messages), with AAL2 response and wrong-role denial. Independent follow-up verifies disabled
+source-preserving restoration and the empty protected baseline after the immediate assertion failed.
+Refund uncertainty/retry, late-original capture and clinical/dependency independence remain open.
 Task 11.9 and TD-010 stay In progress.
 No new debt ID; totals remain 58 items, 51 Verified and seven non-Verified.
 

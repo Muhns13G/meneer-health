@@ -119,10 +119,15 @@ select is((select count(*) from commerce_private.duplicate_captures),1::bigint,'
 create temporary table duplicate_job as select id from commerce_private.refund_jobs where duplicate_capture_id is not null;
 select lives_ok($$select pg_temp.command(23,'dispatch',jsonb_build_object('refundId',(select id from duplicate_job)))$$,'duplicate refund claims original extra PaymentIntent');
 select throws_ok($$select pg_temp.command(23,'retry',jsonb_build_object('refundId',(select id from duplicate_job)))$$,'40001','REFUND_RECONCILIATION_REQUIRED','uncertain refund cannot be retried');
+select lives_ok($$select pg_temp.event(23,'evt_duplicateaggregate123','charge.refunded','{"paymentIntentId":"pi_extra12345678","refundMinor":99900}')$$,'duplicate aggregate refund held before exact job confirmation');
+select ok(not commerce_private.deposit_ready('a3000000-0000-4000-8000-000000000023'),'aggregate alone cannot clear retained funding hold');
 select lives_ok($$select pg_temp.event(23,'evt_duplicaterefund123','refund.updated',jsonb_build_object('intentId',null,'tenantId',null,'sessionId',null,'paymentIntentId','pi_extra12345678','refundId','re_extra12345678','refundReference',(select id from duplicate_job),'refundStatus','succeeded'))$$,'independent signed refund confirms exact duplicate');
 select is((select state from commerce_private.refund_jobs where id=(select id from duplicate_job)),'confirmed','duplicate original-method refund confirmed');
 select is((select refunded_minor from commerce_private.settlements s join commerce_private.checkout_intents i on i.id=s.intent_id where i.offer_id=(select offer from completion_orders where n=23)),0,'retained deposit refund total unchanged');
 select ok(commerce_private.deposit_ready('a3000000-0000-4000-8000-000000000023'),'single retained funding resumes after exact refund');
+select lives_ok($$select pg_temp.event(23,'evt_duplicateaggregatebad123','charge.refunded','{"paymentIntentId":"pi_extra12345678","refundMinor":99901}')$$,'contradictory aggregate is durably held');
+select ok(not commerce_private.deposit_ready('a3000000-0000-4000-8000-000000000023'),'confirmed duplicate cannot clear contradictory aggregate');
+select is((select refunded_minor from commerce_private.settlements s join commerce_private.checkout_intents i on i.id=s.intent_id where i.offer_id=(select offer from completion_orders where n=23)),0,'aggregate observations never refund the retained payment');
 select lives_ok($$select pg_temp.event(26,'evt_duplicateretry123','checkout.session.completed','{"sessionId":"cs_test_retryextra123","paymentIntentId":"pi_retryextra12345","paymentStatus":"paid"}')$$,'second synthetic duplicate isolated');
 select lives_ok($$select pg_temp.observe(26)$$,'second duplicate full refund reserved');
 create temporary table retry_job as select j.id from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id=(select offer from completion_orders where n=26);

@@ -1,9 +1,9 @@
 ---
 task_id: phase-02-sprint-11-9
 title: Stripe Sandbox and Hosted Journey Evidence
-status: in-progress-dispute-fix-awaiting-owner-deployment
+status: in-progress-exception-matrix
 last_updated: 2026-10-06
-source_commit: 25f2fbc
+source_commit: e690e37
 primary_debt: [TD-010]
 ---
 
@@ -271,22 +271,99 @@ The cleanup win is **not** accepted staff/hosted terminal-dispute proof. Won/los
 duplicate capture, refund uncertainty, late-original capture and owned-alert/operational-independence
 checks remain outstanding. Task 11.9 and TD-010 remain In progress.
 
-| Boundary                                | Evidence required                                                                                                                        | Current status                                                                                                          |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Current adapter Sessions and retries    | Actual deposit, credited order and zero-balance objects; exact metadata/lines and terminal unpaid inspection                             | Passed, three Sessions expired                                                                                          |
-| Hosted schema                           | Eight approved migration versions independently matched; private grants/RLS and unchanged baseline checked                               | Passed; 30 private tables empty and protected                                                                           |
-| Deployed baseline                       | Owner-deployed Sprint-11 SHA/version, disabled modes and scoped temporary configuration                                                  | Owner confirmed; transport configuration restored                                                                       |
-| Authenticated client/staff              | Disposable own-client sealed session; assigned staff AAL2 plus independent financial grant; wrong tenant/role/assignment/session denials | Sealed session, real AAL2, scope and independent financial-grant denials/success passed                                 |
-| Captured deposit and paid review bridge | Test Checkout completion, actual event delivery, one authoritative deposit; no clinical/safety/dispatch advancement                      | Actual R999 capture, signed funding and readiness passed; no supply advancement                                         |
-| Credited product and zero-balance order | Current release/acceptance, exact capped credit, separate delivery, no double allocation or inferred supply                              | R800 capped credit/R100 capture and genuine R0/no-PaymentIntent credit-once completion passed                           |
-| Webhook integrity                       | Invalid signature, modified raw body, replay, conflicts, orphan and out-of-order evidence with durable acknowledgement                   | Genuine expiry/orphan and invalid signature passed; SDK-signed hosted tamper/replay/conflict/out-of-order packet passed |
-| Failure and replacement                 | Decline, cancellation/expiry, fresh bounded replacement approval/acceptance, late original capture                                       | Genuine decline/expiry and hosted approval/fresh acceptance/replacement capture passed; late-original capture pending   |
-| Original-method refunds                 | Full/partial/unused-credit and separate duplicate capture; immutable jobs; actual settlement, uncertainty and bounded retry              | R199/R800/R100 operational refunds and signed confirmation passed; duplicate/uncertainty paths pending                  |
-| Disputes                                | Current provider-correlated open and terminal outcomes, attributed ownership, won/lost/conflict holds                                    | Actual provider open found; du identifier fix local pending owner deployment and hosted won/lost/conflict retests       |
-| Operational independence                | Clinical rejection, dependency failure, owned exception/alert delivery, reconciliation without altering clinical/supply state            | Hosted rehearsal pending                                                                                                |
-| Restoration                             | Revoke disposable sessions, scope cleanup to exact fixtures, restore disabled modes, inspect private/public baseline                     | Authenticated fixtures/captures cleaned; disabled/private/public baseline restored                                      |
+| Boundary                                | Evidence required                                                                                                                        | Current status                                                                                                            |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Current adapter Sessions and retries    | Actual deposit, credited order and zero-balance objects; exact metadata/lines and terminal unpaid inspection                             | Passed, three Sessions expired                                                                                            |
+| Hosted schema                           | Eight approved migration versions independently matched; private grants/RLS and unchanged baseline checked                               | Passed; 30 private tables empty and protected                                                                             |
+| Deployed baseline                       | Owner-deployed Sprint-11 SHA/version, disabled modes and scoped temporary configuration                                                  | Owner confirmed; transport configuration restored                                                                         |
+| Authenticated client/staff              | Disposable own-client sealed session; assigned staff AAL2 plus independent financial grant; wrong tenant/role/assignment/session denials | Sealed session, real AAL2, scope and independent financial-grant denials/success passed                                   |
+| Captured deposit and paid review bridge | Test Checkout completion, actual event delivery, one authoritative deposit; no clinical/safety/dispatch advancement                      | Actual R999 capture, signed funding and readiness passed; no supply advancement                                           |
+| Credited product and zero-balance order | Current release/acceptance, exact capped credit, separate delivery, no double allocation or inferred supply                              | R800 capped credit/R100 capture and genuine R0/no-PaymentIntent credit-once completion passed                             |
+| Webhook integrity                       | Invalid signature, modified raw body, replay, conflicts, orphan and out-of-order evidence with durable acknowledgement                   | Genuine expiry/orphan and invalid signature passed; SDK-signed hosted tamper/replay/conflict/out-of-order packet passed   |
+| Failure and replacement                 | Decline, cancellation/expiry, fresh bounded replacement approval/acceptance, late original capture                                       | Genuine decline/expiry and hosted approval/fresh acceptance/replacement capture passed; late-original capture pending     |
+| Original-method refunds                 | Full/partial/unused-credit and separate duplicate capture; immutable jobs; actual settlement, uncertainty and bounded retry              | R199/R800/R100 and separate R999 duplicate refunds passed; original funding retained; uncertainty/retry proof pending     |
+| Disputes                                | Current provider-correlated open and terminal outcomes, attributed ownership, won/lost/conflict holds                                    | Genuine open and terminal won/lost, attributed independent reconciliation and synthetic conflicting-terminal holds passed |
+| Operational independence                | Clinical rejection, dependency failure, owned exception/alert delivery, reconciliation without altering clinical/supply state            | Generic alert receipt, AAL2 response and wrong-role denial passed; clinical/dependency proof pending                      |
+| Restoration                             | Revoke disposable sessions, scope cleanup to exact fixtures, restore disabled modes, inspect private/public baseline                     | Authenticated fixtures/captures cleaned; disabled/private/public baseline restored                                        |
 
 ## Operator Command
+
+### Deployed Disputes and Interruption Recovery — 6 October
+
+The owner deployed `e690e37`. Version `49d35b39-9631-4f1e-9478-aec8c6d9909e`
+was observed; Cloudflare metadata does not independently identify its Git SHA. Genuine signed
+open and closed Disputes now reach the hosted ledger. Separate official sandbox won/lost runs
+passed current provider corroboration, attributed AAL2 staff reconciliation and no supply
+advancement. Lost money remained held. SDK-signed contradictory terminal envelopes were explicitly
+injected and stayed held after reconciliation; they are not second genuine provider outcomes.
+Both complete runs restored disabled configuration and the full empty application/Auth baseline.
+The lost sandbox issuer outcome remains persistent test-account history, not a live-money loss.
+
+Management `read_only` uses a role without private-function execution. The fixed approved boolean
+checks therefore use the existing operator role, without new grants or changed application authority.
+Exact cleanup also now follows orphan exception composite receipt lineage: these rows have neither
+an intent ID nor a receipt foreign key. Account-wide deletion is never used.
+
+The interrupted duplicate rehearsal timed out waiting for confirmation and restored disabled
+version `20d1c447-2a16-4fc8-b3b3-8d861feea219`, but its expired Auth-token revocation failed.
+On resume, rollback-only root/count diagnostics showed no unrelated application rows. Exact
+disposable provider sessions were revoked, the four fixture identities and their application graph
+were removed, and the complete baseline passed; the real pilot stayed suspended.
+
+The restarted duplicate rehearsal genuinely captured a distinct R999 payment, held signed binding
+mismatch evidence, independently reconciled it and confirmed its full original-method refund.
+It then failed a harness assertion expecting retry rejection HTTP 409: the existing HTTP boundary
+maps database command rejection to coarse 503. No production guard was weakened. The harness now
+requires that response plus independent confirmation that the immutable confirmed refund remains
+the only duplicate refund job. That run cleaned up fully and restored disabled version
+`7fc142a3-3768-4c20-bbd7-34f3b17c25f7`.
+
+Two subsequent isolated repeats confirmed the real remaining defect: the extra capture's signed
+aggregate `charge.refunded` receipt stays held as `BINDING_MISMATCH` after its exact full refund
+job is confirmed. The original deposit therefore remains unavailable even though its refund total
+is untouched. Both runs completed exact cleanup; the latest disabled forward version is
+`0bdb10a6-bf5a-4364-b273-ccdb445af8d7`. Neither run reached the optional email alert step.
+
+Local migration `20261006105250_reconcile_duplicate_aggregate_refund.sql` resolves only a matching
+full aggregate receipt for an independently correlated duplicate with a confirmed full refund.
+It preserves private-function ACLs and does not change the retained settlement. A clean local reset
+and all **30 database suites / 1,355 assertions** pass, including pre-confirmation denial and a
+contradictory-amount hold. Hosted application requires separate approval and an isolated provider
+repeat before this acceptance row can pass. The full Vitest run stalled without results and was
+stopped; it is not recorded as passing.
+Refund uncertainty/bounded retry, late-original capture and operational-independence/owned-alert
+acceptance remain open. Task 11.9 is not complete.
+
+### Approved Aggregate Fix and Hosted Duplicate Repeat — 6 October
+
+The owner approved hosted application of `20261006105250_reconcile_duplicate_aggregate_refund.sql`.
+Independent hosted inspection verifies the aggregate guard and unchanged denial of private-function
+execution to anon/authenticated/service_role. The separately approved single migration-history
+correction aligns Supabase's assigned version `20261006105940` with the local filename
+`20261006105250`; no application data or schema was changed by that correction.
+
+The isolated repeat passed genuine distinct R999 captures, signed duplicate hold, independent
+provider corroboration, full original-method extra-payment refund, one confirmed immutable refund
+job and denied retry. The original deposit refund total stayed zero and deposit readiness resumed.
+No supply advanced. The duplicate is deliberate sandbox provider fault injection, not an application
+path that permits a second capture.
+
+The production alert scheduler/adapter ran locally against only the isolated hosted tenant; this
+does not claim a Cloudflare Cron activation. Brevo accepted the generic alerts, and the owner
+confirmed **three emails arrived** at `support@meneerhealth.co.za`. Hosted administrator AAL2
+acknowledgement/resolution, wrong-role denial and no supply advancement passed.
+
+Provider Sessions/captures, disposable webhook endpoint and database/Auth fixtures were cleaned up.
+The immediate Worker restoration assertion failed, so this run exited nonzero despite acceptance
+assertions passing. Independent follow-up verified the forward disabled version
+`46c4f110-255e-4139-b73c-cde04e77b9ef`, unchanged source, order command 412 and webhook 404. The hosted
+private baseline passed again: zero private rows/Auth identities, suspended pilot, forced RLS and
+append-only triggers enabled. The harness now bounds endpoint observation retries while retaining
+exact statuses and exclusive active-version checks; that revised harness has not yet been rerun.
+
+Duplicate/refund and owned-alert acceptance are now evidenced; refund uncertainty/bounded retry,
+late-original capture and clinical/dependency operational-independence proof still prevent full
+Task 11.9 closure. Nothing here activates the real pilot or marks TD-010 Verified.
 
 Only after approval, with the ignored restricted sandbox configuration:
 

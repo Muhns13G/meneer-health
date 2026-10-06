@@ -129,10 +129,18 @@ verified and successfully retested: exact zero-total/no-PaymentIntent classifica
 once and no supply advancement. The SDK-signed synthetic hosted tamper/replay/conflict/out-of-order
 packet passed too. Current disabled restoration version is `b88bb4fc-7fc3-491f-bc83-cf193cc740b7`.
 Genuine decline/expiry/fresh replacement capture and ensuing refunds passed afterward. Genuine
-Dispute delivery is blocked by the deployed `dp_`-only assumption: Stripe issued `du_`. The webhook
-and independent inspector fixes are local pending owner source deployment and hosted retest.
-Cleanup won/refunded the exact test object and restored disabled version
-`f7ddeaa9-e71a-46d3-872a-b740ed43c95b`; this is not terminal-dispute acceptance proof.
+Dispute delivery exposed the former `dp_`-only assumption: Stripe issued `du_`. The owner deployed
+the narrow corrections, and genuine open/terminal won/lost, attributed current-provider reconciliation
+and synthetic contradictory-terminal holds now pass without supply advancement. Full Task 11.9
+exception acceptance remains open. Exact interruption recovery restored the complete empty
+application/Auth baseline; see the evidence packet for current disabled restoration checkpoints.
+The duplicate aggregate `charge.refunded` hold is fixed by approved hosted migration
+`20261006105250_reconcile_duplicate_aggregate_refund.sql`; the provider repeat passed refund once,
+retained original funding and denied retry. All 1,355 database assertions pass. Owned alert receipt
+and AAL2 response are evidenced. An immediate restoration assertion failed; independent follow-up
+verified unchanged source, disabled endpoints and the empty protected baseline. The updated bounded
+observation harness is not yet rerun. Uncertainty/retry, late-original capture and clinical/dependency
+independence still prevent Task 11.9 closure.
 
 The [local reconciliation completion](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
 confirms exact signed refund jobs and permits one replacement after independently verified failure.

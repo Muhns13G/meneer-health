@@ -7,6 +7,8 @@ import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
 import { orderReviewResultSchema } from "../src/domain/payments/order-review";
 import { refundViewSchema } from "../src/domain/payments/refund";
+import { runScheduledOperationsAlerts } from "../src/server/operations/alert-dispatch";
+import { operationsAlertListSchema } from "../src/application/operations/alert-projection";
 
 // Authorised operator-only hosted proof. Never CI, live credentials, source deployment or real data.
 const origin = "https://meneerhealth.co.za";
@@ -14,15 +16,26 @@ const tenant = "e1191000-0000-4000-8000-000000000001";
 const service = "e1191000-0000-4000-8000-000000000020";
 const account = "acct_1U32UbFfj16Nnr1i";
 // Owner-confirmed current code, configuration-only disabled baseline; never restore older source.
-const baselineVersion = "f7ddeaa9-e71a-46d3-872a-b740ed43c95b";
+const baselineVersion = "46c4f110-255e-4139-b73c-cde04e77b9ef";
 const scenario = process.env.HOSTED_PILOT_JOURNEY_SCENARIO ?? "credited-refund";
 invariant(
-  ["credited-refund", "zero-balance", "replacement", "dispute-won", "dispute-lost"].includes(
-    scenario,
-  ),
+  [
+    "credited-refund",
+    "zero-balance",
+    "replacement",
+    "dispute-won",
+    "dispute-lost",
+    "duplicate",
+  ].includes(scenario),
   "SCENARIO_INVALID",
 );
 const zeroBalance = scenario === "zero-balance";
+const alertDelivery = process.env.HOSTED_PILOT_ALERT_DELIVERY_CONFIRM === "generic-support-only";
+invariant(
+  !process.env.HOSTED_PILOT_ALERT_DELIVERY_CONFIRM || alertDelivery,
+  "ALERT_DELIVERY_GUARD_REJECTED",
+);
+invariant(!alertDelivery || process.env.BREVO_API_KEY?.startsWith("xkeysib-"), "ALERT_KEY_MISSING");
 const previousConfiguration = "d6662c59-8cf3-4786-acaa-0c202c094fd4";
 const previousJourneyConfiguration = process.env.HOSTED_PILOT_PREVIOUS_CONFIGURATION_VERSION;
 const nodeDirectory = process.env.HOSTED_PILOT_NODE_DIRECTORY;
@@ -667,7 +680,195 @@ try {
     "operations",
   );
   invariant(wrongCase.status === 403, `WRONG_CASE_STATUS_${wrongCase.status}`);
-  if (scenario.startsWith("dispute-")) {
+  if (scenario === "duplicate") {
+    invariant(
+      paid.client_reference_id &&
+        paid.metadata?.orderId === paid.client_reference_id &&
+        paid.metadata.tenantId === tenant,
+      "DUPLICATE_SOURCE_INVALID",
+    );
+    // Deliberately bypass only the provider's normal stable creation key to inject a duplicate
+    // sandbox charge. No production creation/release rule is changed and no real money moves.
+    const extra = await stripe.checkout.sessions.create(
+      {
+        mode: "payment",
+        integration_identifier: "meneer_duplicate_proof_xqtdvzmp",
+        adaptive_pricing: { enabled: false },
+        client_reference_id: paid.client_reference_id,
+        metadata: { orderId: paid.client_reference_id, tenantId: tenant },
+        payment_intent_data: { metadata: { orderId: paid.client_reference_id, tenantId: tenant } },
+        success_url: origin + "/portal/order",
+        cancel_url: origin + "/portal/order",
+        expires_at: Math.floor(Date.now() / 1000) + 3600,
+        line_items: [
+          {
+            price_data: {
+              currency: "zar",
+              unit_amount: 99900,
+              product_data: { name: "SYNTHETIC duplicate-capture fault injection" },
+            },
+            quantity: 1,
+          },
+        ],
+      },
+      { idempotencyKey: `s11-duplicate:${paid.client_reference_id}` },
+    );
+    createdSessions.add(extra.id);
+    invariant(
+      !extra.livemode &&
+        extra.url &&
+        new URL(extra.url).origin === "https://checkout.stripe.com" &&
+        extra.amount_total === 99900 &&
+        extra.id !== session,
+      "DUPLICATE_SESSION_INVALID",
+    );
+    writeFileSync(artifact, JSON.stringify({ checkoutUrl: extra.url }), { mode: 0o600 });
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-duplicate-capture",
+        awaitingOfficialExtraCheckout: true,
+        artifact,
+        evidenceClass: "intentional-sandbox-provider-fault-injection",
+      }),
+    );
+    const extraLines = createInterface({ input: process.stdin, terminal: false });
+    const extraTimeout = setTimeout(() => extraLines.close(), 15 * 60 * 1000);
+    let extraConfirmed = false;
+    for await (const line of extraLines)
+      if (line.trim() === "paid") {
+        extraConfirmed = true;
+        break;
+      }
+    clearTimeout(extraTimeout);
+    extraLines.close();
+    invariant(extraConfirmed, "EXTRA_CAPTURE_NOT_CONFIRMED");
+    const captured = await stripe.checkout.sessions.retrieve(extra.id);
+    invariant(
+      !captured.livemode &&
+        captured.status === "complete" &&
+        captured.payment_status === "paid" &&
+        captured.amount_total === 99900 &&
+        captured.payment_intent !== paid.payment_intent,
+      "DISTINCT_PROVIDER_CAPTURE_MISSING",
+    );
+    let held = false;
+    for (let i = 0; i < 18; i++) {
+      const p = await sql(
+        `select exists(select 1 from commerce_private.provider_receipts p join commerce_private.provider_exceptions e on e.account_id=p.account_id and e.event_id=p.event_id where p.tenant_boundary='${tenant}' and p.session_id='${extra.id}' and p.payment_status='paid' and e.reason='BINDING_MISMATCH') as held`,
+      );
+      if (p[0]?.held) {
+        held = true;
+        break;
+      }
+      await delay(5000);
+    }
+    invariant(held, "GENUINE_DUPLICATE_NOT_HELD");
+    await sql(
+      `insert into commerce_private.refund_authorities values('${caseId}','${actors.get("operations")!.subjectId}',gen_random_uuid(),'${actors.get("admin")!.subjectId}',now()+interval '2 hours',null)`,
+      false,
+    );
+    const reconcile = await request(
+      "/staff/payments/refund",
+      { action: "reconcile", offerId: review.offerId, requestKey: crypto.randomUUID() },
+      "operations",
+    );
+    invariant(reconcile.status === 200, "PROVIDER_DUPLICATE_RECONCILIATION_FAILED");
+    const view = refundViewSchema.parse(await reconcile.json());
+    invariant(
+      view.refunds.length === 1 &&
+        view.refunds[0]?.amountMinor === 99900 &&
+        view.refunds[0]?.state === "queued",
+      "EXACT_DUPLICATE_REFUND_MISSING",
+    );
+    const job = view.refunds[0]!;
+    const dispatch = await request(
+      "/staff/payments/refund",
+      {
+        action: "dispatch",
+        offerId: review.offerId,
+        refundId: job.reference,
+        requestKey: crypto.randomUUID(),
+      },
+      "operations",
+    );
+    invariant(dispatch.status === 200, "DUPLICATE_REFUND_DISPATCH_FAILED");
+    let refunded = false;
+    for (let i = 0; i < 18; i++) {
+      const p = await sql(
+        `select exists(select 1 from commerce_private.refund_jobs where id='${job.reference}' and state='confirmed' and duplicate_capture_id is not null and amount_minor=99900) as confirmed`,
+      );
+      if (p[0]?.confirmed) {
+        refunded = true;
+        break;
+      }
+      await delay(5000);
+    }
+    invariant(refunded, "GENUINE_DUPLICATE_REFUND_NOT_CONFIRMED");
+    const retry = await request(
+      "/staff/payments/refund",
+      {
+        action: "retry",
+        offerId: review.offerId,
+        refundId: job.reference,
+        requestKey: crypto.randomUUID(),
+      },
+      "operations",
+    );
+    // The retained HTTP boundary maps a rejected SQL command to its coarse 503 response;
+    // it does not expose SQLSTATE 40001 as 409. Prove immutable money state as well as denial.
+    invariant(retry.status === 503, "CONFIRMED_DUPLICATE_RETRY_NOT_DENIED");
+    const retryProof = await sql(
+      `select (select count(*)=1 from commerce_private.refund_jobs where duplicate_capture_id is not null) as once,
+      exists(select 1 from commerce_private.refund_jobs where id='${job.reference}' and state='confirmed' and amount_minor=99900) as unchanged`,
+    );
+    invariant(retryProof[0]?.once && retryProof[0]?.unchanged, "CONFIRMED_RETRY_CHANGED_MONEY");
+    const again = await request(
+      "/staff/payments/refund",
+      { action: "reconcile", offerId: review.offerId, requestKey: crypto.randomUUID() },
+      "operations",
+    );
+    invariant(again.status === 200, "DUPLICATE_FINAL_RECONCILIATION_FAILED");
+    const retained = await sql(
+      `select commerce_private.deposit_ready('${caseId}') as ready,
+      exists(select 1 from commerce_private.settlements s join commerce_private.checkout_intents i on i.id=s.intent_id where i.session_id='${session}' and s.refunded_minor=0 and s.paid_confirmed and not s.reconciliation_required) as original_retained,
+      (select count(*)=1 from commerce_private.refund_jobs where duplicate_capture_id is not null) as refund_once,
+      (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
+      false,
+    );
+    console.log(JSON.stringify({ exercise: "duplicate-retained-boundary", ...retained[0] }));
+    if (!retained[0]?.ready || !retained[0]?.original_retained) {
+      const reasons = await sql(
+        `select e.reason,p.event_type,count(*)::integer as pending_count
+        from commerce_private.provider_exceptions e
+        join commerce_private.provider_receipts p on p.account_id=e.account_id and p.event_id=e.event_id
+        left join commerce_private.exception_resolutions x on x.exception_id=e.id
+        where x.exception_id is null and e.intent_id in
+        (select i.id from commerce_private.checkout_intents i join commerce_private.offers o on o.id=i.offer_id where o.case_id='${caseId}')
+        group by e.reason,p.event_type`,
+      );
+      console.log(JSON.stringify({ exercise: "duplicate-retained-hold-reasons", reasons }));
+    }
+    invariant(
+      retained[0]?.ready &&
+        retained[0]?.original_retained &&
+        retained[0]?.refund_once &&
+        retained[0]?.no_supply,
+      "DUPLICATE_RETAINED_FUNDS_BOUNDARY_FAILED",
+    );
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-duplicate-capture",
+        actualDistinctTestCaptures: true,
+        genuineSignedDuplicateHeld: true,
+        independentProviderCorroboration: true,
+        genuineFullOriginalMethodRefund: true,
+        retainedDepositUnchanged: true,
+        refundOnce: true,
+        confirmedRetryDenied: true,
+        noSupplyAdvancement: true,
+      }),
+    );
+  } else if (scenario.startsWith("dispute-")) {
     const paymentId =
       typeof paid.payment_intent === "string" ? paid.payment_intent : paid.payment_intent?.id;
     invariant(paymentId, "DISPUTE_PAYMENT_MISSING");
@@ -714,6 +915,9 @@ try {
     );
     const held = await sql(
       `select not commerce_private.deposit_ready('${caseId}') as review_held,not identity_private.handoff_payment_ready('${caseId}') as handoff_held,(select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
+      // Management read_only uses a restricted role without private-function EXECUTE. These
+      // approved fixed boolean SELECTs need the existing operator role, not a new database grant.
+      false,
     );
     invariant(
       held[0]?.review_held && held[0]?.handoff_held && held[0]?.no_supply,
@@ -769,10 +973,12 @@ try {
       "operations",
     );
     invariant(reconciled.status === 200, "TERMINAL_DISPUTE_RECONCILE_FAILED");
-    const result =
-      await sql(`select exists(select 1 from commerce_private.dispute_outcomes where account_id='${account}' and dispute_id='${dispute.id}' and status='${outcome}' and actor_id='${actors.get("operations")!.subjectId}') as attributed,
+    const result = await sql(
+      `select exists(select 1 from commerce_private.dispute_outcomes where account_id='${account}' and dispute_id='${dispute.id}' and status='${outcome}' and actor_id='${actors.get("operations")!.subjectId}') as attributed,
       (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply,
-      not identity_private.handoff_payment_ready('${caseId}') as handoff_held`);
+      not identity_private.handoff_payment_ready('${caseId}') as handoff_held`,
+      false,
+    );
     invariant(
       result[0]?.attributed &&
         result[0]?.no_supply &&
@@ -789,6 +995,55 @@ try {
         attributedStaffReconciliation: true,
         noSupplyAdvancement: true,
         lostMoneyHeld: outcome === "lost",
+      }),
+    );
+    // Deliberate contradictory terminal lineage is an SDK-signed adversarial envelope, not a
+    // second provider outcome. The real provider remains terminal above; conflicts must stay held.
+    invariant(hook.secret, "DISPUTE_PROOF_SECRET_MISSING");
+    const contraryId = `evt_s11disputeconflict${crypto.randomUUID().replaceAll("-", "")}`;
+    const contrary = JSON.stringify({
+      id: contraryId,
+      object: "event",
+      api_version: "2026-07-29.dahlia",
+      livemode: false,
+      type: "charge.dispute.closed",
+      created: Math.floor(Date.now() / 1000) + 1,
+      data: { object: { ...terminal, status: outcome === "won" ? "lost" : "won" } },
+    });
+    const contradictory = await fetch(origin + "/api/payments/stripe/webhook", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Stripe-Signature": await stripe.webhooks.generateTestHeaderStringAsync({
+          payload: contrary,
+          secret: hook.secret,
+        }),
+      },
+      body: contrary,
+    });
+    invariant(contradictory.status === 200, "DISPUTE_CONFLICT_ACK_FAILED");
+    const conflictReconcile = await request(
+      "/staff/payments/refund",
+      { action: "reconcile", offerId: review.offerId, requestKey: crypto.randomUUID() },
+      "operations",
+    );
+    invariant(conflictReconcile.status === 200, "DISPUTE_CONFLICT_RECONCILE_FAILED");
+    const conflictProof = await sql(
+      `select not identity_private.handoff_payment_ready('${caseId}') as held,
+      exists(select 1 from commerce_private.settlements s join commerce_private.checkout_intents i on i.id=s.intent_id where i.offer_id='${review.offerId}' and s.reconciliation_required) as reconcile_held,
+      (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
+      false,
+    );
+    invariant(
+      conflictProof[0]?.held && conflictProof[0]?.reconcile_held && conflictProof[0]?.no_supply,
+      "CONTRADICTORY_DISPUTE_NOT_HELD",
+    );
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-dispute-conflict",
+        evidenceClass: "sdk-signed-synthetic-terminal-contradiction",
+        heldAfterStaffReconciliation: true,
+        noSupplyAdvancement: true,
       }),
     );
   } else {
@@ -1125,6 +1380,58 @@ try {
       }),
     );
   }
+  if (alertDelivery) {
+    // This invokes the production scheduler/adapter locally against only the isolated hosted
+    // tenant. It is not a claim that Cloudflare Cron was enabled; its separate proof is Task 10.7.
+    const alertBefore = await sql(
+      `select count(*) as n from audit_private.operations_alerts where tenant_id='${tenant}' and code='OPERATIONS_EXCEPTION' and owner='technology-operations'`,
+    );
+    invariant(Number(alertBefore[0]?.n) > 0, "OWNED_MONEY_ALERT_MISSING");
+    await runScheduledOperationsAlerts({
+      ...process.env,
+      OPERATIONS_ALERTS_MODE: "brevo",
+      OPERATIONS_ALERTS_TENANT_ID: tenant,
+    });
+    await login("admin");
+    const wrongActor = await request("/staff/alerts/read", {}, "operations", true);
+    invariant(wrongActor.status === 403, "ALERT_WRONG_ROLE_NOT_DENIED");
+    const alertRead = await request("/staff/alerts/read", {}, "admin", true);
+    invariant(alertRead.status === 200, "HOSTED_ALERT_READ_FAILED");
+    const alertValue = (await alertRead.json()) as { alerts: unknown };
+    const alerts = operationsAlertListSchema.parse(alertValue.alerts);
+    const sent = alerts.find(
+      (a) =>
+        a.delivery === "accepted" &&
+        a.code === "OPERATIONS_EXCEPTION" &&
+        a.owner === "technology-operations",
+    );
+    invariant(sent, "BREVO_ALERT_NOT_ACCEPTED");
+    for (const action of ["acknowledged", "resolved"]) {
+      const response = await request(
+        "/staff/alerts/respond",
+        { alertId: sent.id, action, requestKey: crypto.randomUUID() },
+        "admin",
+        true,
+      );
+      invariant(response.status === 200, "HOSTED_ALERT_RESPONSE_FAILED");
+    }
+    const noSupply = await sql(
+      `select count(*)=0 as no_supply from public.fulfilment_cases where tenant_id='${tenant}'`,
+    );
+    invariant(noSupply[0]?.no_supply, "ALERT_RESPONSE_ADVANCED_SUPPLY");
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-money-alert",
+        productionSchedulerAgainstIsolatedHostedTenant: true,
+        workerCronEnabled: false,
+        brevoAccepted: true,
+        receiptConfirmationRequired: true,
+        adminAal2AcknowledgementAndResolution: true,
+        wrongRoleDenied: true,
+        noSupplyAdvancement: true,
+      }),
+    );
+  }
   passed = true;
 } catch (error) {
   console.error(
@@ -1235,11 +1542,20 @@ try {
       ]);
     }
     invariant((await activeVersion()) === restoredVersion, "WORKER_RESTORE_FAILED");
-    invariant(
-      (await request("/portal/order/command", { action: "read" })).status === 412 &&
-        (await request("/api/payments/stripe/webhook", {})).status === 404,
-      "RESTORED_COMMERCE_NOT_DISABLED",
-    );
+    let disabledEndpoints = false;
+    // Deployment metadata can settle before every endpoint serves the new disabled version.
+    // Retry observations only; never redeploy, bypass a guard or accept a different status.
+    for (let attempt = 0; attempt < 6; attempt++) {
+      invariant((await activeVersion()) === restoredVersion, "RESTORATION_DEPLOYMENT_CHANGED");
+      const orderStatus = (await request("/portal/order/command", { action: "read" })).status;
+      const webhookStatus = (await request("/api/payments/stripe/webhook", {})).status;
+      if (orderStatus === 412 && webhookStatus === 404) {
+        disabledEndpoints = true;
+        break;
+      }
+      if (attempt < 5) await delay(5000);
+    }
+    invariant(disabledEndpoints, "RESTORED_COMMERCE_NOT_DISABLED");
   } catch {
     failures.push("worker");
   }
@@ -1263,8 +1579,13 @@ try {
     }
     const proof = await sql(readFileSync("scripts/sql/sprint-11-hosted-baseline.sql", "utf8"));
     invariant((proof[0]?.evidence as { passed?: boolean })?.passed, "BASELINE_RESTORE_FAILED");
-  } catch {
+  } catch (error) {
     failures.push("database-auth");
+    console.error(
+      error instanceof Error && /^[A-Z_0-9]+$/.test(error.message)
+        ? error.message
+        : "DATABASE_AUTH_RESTORATION_FAILED",
+    );
   }
   rmSync(artifact, { force: true });
   console.log(

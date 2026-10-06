@@ -52,9 +52,12 @@ zero-total PaymentIntent. Hosted SDK-signed synthetic tamper/replay/conflict/out
 passed; distinguish these from genuine captured/zero-total provider deliveries in reports.
 Genuine decline/expiry/fresh replacement capture/refund proof passed. Stripe's actual Dispute IDs
 use `du_`; the webhook and independent inspector previously rejected them with a `dp_`-only regex.
-Both narrow validator corrections are local pending owner deployment/hosted dispute retest. Never
-infer accepted dispute delivery from the provider object's existence, cleanup win or a local dummy
-signature. Current restored disabled version is `f7ddeaa9-e71a-46d3-872a-b740ed43c95b`.
+Both narrow validator corrections are owner-deployed. Genuine open and terminal won/lost delivery,
+independent provider corroboration and attributed staff reconciliation passed. Deliberately injected
+SDK-signed contradictory terminal evidence stayed held. Never infer accepted dispute delivery from
+the provider object's existence, cleanup win or a local dummy signature. See the current Task 11.9
+packet for each forward disabled restoration checkpoint. Interrupted runs require exact scoped
+session/fixture recovery before a new rehearsal; expired Auth tokens alone do not prove revocation.
 
 ### Reconciliation Controls Before Hosted Release
 
@@ -195,3 +198,11 @@ provider objects/retries/lines/metadata, expires only its returned Sessions and 
 state. It neither resets a database nor confirms payments. Task 11.9 still requires captured-payment,
 authenticated hosted, exception and restoration evidence; do not use this narrower command to close
 TD-010. Test-account history and inline catalogue artifacts remain visible to the account owner.
+
+The isolated 11.9 repeat now proves full duplicate refund once, retained original deposit readiness
+and denied confirmed retry after the approved aggregate-refund fix. Generic owned-alert receipt
+(three emails) is owner-confirmed, with hosted administrator AAL2 response and wrong-role denial.
+The immediate restoration check failed; independent follow-up verified unchanged source, disabled
+order/webhook endpoints and the protected empty baseline. The harness now retries endpoint
+observations only within a fixed bound and never changes the required statuses or deployment guard.
+Refund uncertainty/retry, late-original capture and clinical/dependency independence remain pending.

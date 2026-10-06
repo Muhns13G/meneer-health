@@ -156,10 +156,20 @@ restored disabled version `b88bb4fc-7fc3-491f-bc83-cf193cc740b7`. Decline/replac
 duplicate/uncertain refund, dispute and owned-exception proof remain open. No real pilot activation occurred.
 Genuine decline/expiry and independently approved fresh replacement acceptance/capture subsequently
 passed, including credited-order refunds. A real provider Dispute exposed `du_` IDs rejected by our
-`dp_`-only webhook/inspector validators. Both are corrected and regression-tested locally; owner
-deployment is required before hosted dispute retesting. Cleanup won/refunded the exact sandbox
-Dispute/capture and restored disabled version `f7ddeaa9-e71a-46d3-872a-b740ed43c95b` and the empty
-baseline. That cleanup outcome does not close the hosted dispute acceptance row.
+`dp_`-only webhook/inspector validators. Both are corrected and owner-deployed at `e690e37`.
+Genuine signed open and terminal won/lost delivery, current provider corroboration and attributed
+staff reconciliation passed; lost money remained held. SDK-signed contradictory terminal envelopes
+stayed held without supply advancement. Exact cleanup and forward disabled restoration passed.
+The interrupted duplicate run's expired-token cleanup failure was recovered through rollback-only
+scope checks and exact disposable-session/fixture cleanup; the complete baseline passed again.
+The extra capture's aggregate refund hold is fixed by the approved hosted migration; the isolated
+repeat passed full duplicate refund once, denied retry, unchanged original settlement and restored
+deposit readiness. All 30 local database suites / 1,355 assertions pass. Generic owned alerts arrived
+(three emails confirmed by the owner), with administrator AAL2 response and wrong-role denial.
+Follow-up verified disabled Worker version `46c4f110-255e-4139-b73c-cde04e77b9ef`, unchanged source,
+412/404 endpoints and the empty protected hosted baseline after an immediate restoration assertion
+failed. The revised bounded observation harness is not yet rerun. Refund uncertainty/retry,
+late-original capture and clinical/dependency independence remain open; see the 11.9 evidence packet.
 The real pilot remains suspended. TD-010 remains In progress;
 neither Task 11.9 nor the Sprint is closed. The following 11.8/earlier notes are task-specific history.
 
