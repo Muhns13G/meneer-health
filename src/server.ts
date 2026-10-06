@@ -152,7 +152,9 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
                 boundedRequest,
               );
             if (["/portal/payments/refund", "/staff/payments/refund"].includes(pathname))
-              return createRefundHttpHandler(env as unknown as CommerceReviewBindings)(request);
+              return createRefundHttpHandler(env as unknown as CommerceReviewBindings)(
+                boundedRequest,
+              );
             if (["/portal/payments/read", "/staff/payments/read"].includes(pathname))
               return createPaymentStatusHttpHandler(env as unknown as CommerceReviewBindings)(
                 boundedRequest,

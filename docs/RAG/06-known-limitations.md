@@ -104,10 +104,21 @@ sources:
 Task [11.9](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 is in progress. Actual provider Session creation/retry/line-item/metadata/expiration checks passed,
 but none completed a payment. The eight approved Sprint-11 migrations have now been applied hosted
-without seeds; independent history and service-readable baseline checks passed. Direct private SQL
-proof remains pending. The owner must deploy Sprint-11 code before
-the authenticated hosted payment/exception rehearsal. No disposable hosted identity/configuration
-has yet been created, and no live money is authorised. This supersedes historical local-only schema
+without seeds; independent history, service-readable and private SQL baseline checks passed.
+The owner deployed Sprint-11 code. A temporary transport-only configuration and isolated tenant/service
+fixture proved genuine signed expiry delivery, invalid-signature rejection and unmatched/pending
+handling with no settlement. Both configuration and fixtures were restored/removed. Disposable
+Auth identities and captured payments were subsequently exercised in isolation: sealed patient sessions,
+staff TOTP/AAL2, assignment/role/case denials, R999 genuine signed funding, paid-review readiness,
+R800 capped product credit and separately captured R100 delivery passed. Cleanup refunded the test
+captures, removed the disposable identities and restored the disabled configuration/empty baseline.
+Hosted refund-read hit a 503 from passing the transferred original Request at Worker dispatch.
+The local bounded-request fix needs owner deployment and retesting. The approved confirmed-remainder
+SQL fix is applied hosted. Its approved ACL follow-up passes locally but remains pending hosted:
+Supabase returns HTTP 500 FGA authentication errors for login-role and read-only management requests.
+Do not claim the retired inner function's restricted hosted ACL is restored without independent proof.
+Original-method refund, zero-balance completion and remaining failure/dispute/exception proof are not
+accepted. No live money is authorised. This supersedes historical local-only schema
 notes below, not independent commercial, clinical or activation gates.
 
 The [local reconciliation completion](../02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md)
@@ -122,8 +133,9 @@ contradictory money cannot authorise progression. Replacement deposits preserve 
 require a current unpaid inspection, bounded approval and new client acceptance, and reject late-money
 replay. Dispute ownership is not provider evidence submission; staff respond in Stripe's Dashboard.
 No new debt ID or business-policy deviation is introduced; TD-010 retains provider/release obligations.
-Local mocked/browser/SQL proof is not hosted provider proof. Eight Sprint 11 migrations have not been
-applied hosted by this task; dispatch remains disabled by default and Task 11.9 is not accepted.
+Local mocked/browser/SQL proof is not hosted provider proof. The eight original Sprint 11 migrations
+and approved confirmed-remainder fix are applied hosted; dispatch remains disabled by default and
+Task 11.9 is not accepted.
 Earlier task-specific checkpoints below are historical and must be read with this current boundary.
 
 ## Sprint 11.7 Refund Commands Are Local, Not Activated or Settled
