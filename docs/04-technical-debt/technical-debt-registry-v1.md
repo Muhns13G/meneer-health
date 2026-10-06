@@ -41,7 +41,7 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### Sprint 11.9 — Captures Passed, Refund/Exception Proof Pending
+### Sprint 11.9 — Captures and Refunds Passed, Exception Proof Pending
 
 The [11.9 packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 records actual deposit/credited-order/zero-balance test Sessions, exact provider lines/metadata,
@@ -54,10 +54,18 @@ The owner deployed Sprint-11 code. Subsequent authenticated synthetic rehearsals
 sessions, staff AAL2 and scope denials, actual R999 signed funding and separately captured R100 delivery
 after capped R800 product credit. Scoped cleanup refunded test captures and restored the empty baseline.
 The owner-approved confirmed-remainder SQL fix is applied hosted. A Worker refund dispatch/body bug
-is fixed locally but awaits owner deployment. The approved follow-up restoring the retired-function
-ACL passes locally but remains pending hosted due to Supabase HTTP 500 FGA authentication errors.
-Refund, zero-balance and remaining failure/dispute/owned-exception proof remain outstanding.
+was corrected and owner-deployed. Repeat hosted operational refund read/review/dispatch, independent
+financial grant denial/success and genuine signed R199/R800/R100 original-method confirmations passed.
+The approved retired-function ACL is independently verified. Forward disabled configuration-only
+restoration preserved source checksum and the full private/public baseline. An earlier response 503
+despite provider refund success is undiagnosed and must not trigger blind resubmission.
+Duplicate/uncertain refund and remaining failure/dispute/owned-exception proof remain outstanding.
 These findings are tracked under TD-010, not silently deferred or marked Verified.
+Actual completed R0 Checkout returned paid/no PaymentIntent, revealing a zero-status assumption
+in hosted reconciliation. The owner-approved narrow migration is now hosted with independently
+verified history/ACL and successful genuine R0/credit-once acceptance. SDK-signed synthetic hosted
+tamper/replay/conflict/out-of-order checks passed, with exact disabled/private/public restoration.
+This remains within TD-010's existing settlement scope, not a new debt ID.
 Task 11.9 and TD-010 stay In progress.
 No new debt ID; totals remain 58 items, 51 Verified and seven non-Verified.
 

@@ -184,5 +184,28 @@ select is(pg_temp.refund('review','product_before_release','a4900000-0000-4000-8
 select is((select sum(j.amount_minor)::integer from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='a4800000-0000-4000-8000-000000000002'),109900,'remainder plus product and delivery return exactly both captures');
 select is(pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002','a4900000-0000-4000-8000-000000000004')->>'requestState','queued','same cancellation safely replays after the confirmed remainder');
 select throws_ok($$select pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002',gen_random_uuid())$$,'40001','REFUND_RECONCILIATION_REQUIRED','new cancellation cannot refund either original capture twice');
+-- Exercise the response/confirmation race through the public command, not only allocation.
+create temporary table remainder_product_jobs as
+ select j.id,j.amount_minor,j.payment_intent_id,j.source_intent_id
+ from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id
+ where d.offer_id='a4800000-0000-4000-8000-000000000002' and j.state='queued';
+select lives_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object(
+ 'action','dispatch','offerId','a4800000-0000-4000-8000-000000000002',
+ 'refundId',(select id from remainder_product_jobs where amount_minor=10000),'requestKey',gen_random_uuid()))$$,
+ 'delivery refund dispatch after confirmed remainder succeeds');
+select lives_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object(
+ 'action','record','offerId','a4800000-0000-4000-8000-000000000002',
+ 'refundId',(select id from remainder_product_jobs where amount_minor=10000),
+ 'providerId','re_syntheticdeliveryreply','state','submitted'))$$,
+ 'delivery provider response is persisted through the current wrapper');
+select lives_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object(
+ 'action','dispatch','offerId','a4800000-0000-4000-8000-000000000002',
+ 'refundId',(select id from remainder_product_jobs where amount_minor=80000),'requestKey',gen_random_uuid()))$$,
+ 'credited product refund dispatch after confirmed remainder succeeds');
+select lives_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object(
+ 'action','record','offerId','a4800000-0000-4000-8000-000000000002',
+ 'refundId',(select id from remainder_product_jobs where amount_minor=80000),
+ 'providerId','re_syntheticproductreply','state','submitted'))$$,
+ 'credited product provider response is persisted through the current wrapper');
 select * from finish();
 rollback;

@@ -111,7 +111,7 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 11.9 — Hosted Captures Passed; Refund/Exception Proof Pending
+## Sprint 11.9 — Hosted Captures and Refunds Passed; Exception Proof Pending
 
 The [11.9 evidence packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 records actual current-adapter test Sessions for the R999 deposit, a synthetic credited-order/delivery
@@ -135,13 +135,25 @@ pilot and only its 12 provider gates.
 A confirmed-remainder refund defect was reproduced locally and fixed by owner-approved hosted
 migration `20261006013000_refund_after_confirmed_remainder.sql`. Hosted staff refund-read then
 returned 503: the Worker dispatch passed the transferred original Request instead of its timeout-bound
-replacement. The local `src/server.ts` correction and regression coverage await owner deployment.
-A follow-up ACL migration is approved and passes locally, but hosted application is pending:
-Supabase's login-role and read-only management requests return HTTP 500 FGA authentication errors.
-It removes an inadvertently restored service-role grant to the retired inner primitive. Do not
-claim the restricted hosted ACL is restored until migration history and privileges are verified.
-Product/refund retesting,
-zero-balance completion and the remaining failure/dispute/exception matrix are still outstanding.
+replacement. The owner confirmed the `src/server.ts` correction was deployed. The repeat hosted
+run passed operational refund read/review/dispatch and genuine signed confirmation of R199 unused
+deposit, R800 product and R100 delivery returned to their original methods. Independent financial
+grant denial/success also passed. An earlier dispatch returned 503 despite provider refund success;
+its cause is unconfirmed, and the harness never blindly resubmits money after a failed response.
+A follow-up ACL migration is now applied hosted. Independent migration-history and privilege
+checks confirm the retired inner primitive is no longer executable by the service role. The earlier
+HTTP 500 FGA authentication failure did not persist on the approved retry.
+The rehearsal restored forward to disabled configuration-only version
+`c6af1c24-958d-4e35-865e-baf541d4f99e`, checking identical source checksum and exclusive version
+ownership. No source upload or forced old-secret rollback occurred. Private/public baseline checks
+passed after exact fixture, Auth and endpoint cleanup. Actual Stripe R0 completion subsequently
+returned `paid` with no PaymentIntent, exposing the reconciler's exclusive `no_payment_required`
+assumption. The owner-approved `20261006073500_zero_total_paid_checkout.sql` is now applied hosted
+with independently verified history/ACL. Genuine R0 completion, no PaymentIntent/capture, R999 credit
+once and no supply advancement passed. SDK-signed synthetic hosted raw-tamper, replay, conflict and
+out-of-order checks also passed; these are not labelled genuine provider delivery. Exact cleanup
+restored disabled version `b88bb4fc-7fc3-491f-bc83-cf193cc740b7`. Decline/replacement,
+duplicate/uncertain refund, dispute and owned-exception proof remain open. No real pilot activation occurred.
 The real pilot remains suspended. TD-010 remains In progress;
 neither Task 11.9 nor the Sprint is closed. The following 11.8/earlier notes are task-specific history.
 

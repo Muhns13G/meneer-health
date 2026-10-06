@@ -36,11 +36,20 @@ captures and restored the suspended empty baseline. Full Task 11.9 acceptance re
 
 Hosted refund-read found a Worker routing defect: `executeWithRequestTimeout` transfers the body to
 a new Request, so refund dispatch must use `boundedRequest`, not the original request. The local fix
-requires owner source deployment before the next rehearsal. The approved confirmed-unused-remainder
-SQL fix is hosted. The approved ACL follow-up passes locally but hosted application is pending due
-to Supabase HTTP 500 FGA authentication errors. Retry after management access recovers, then verify
-migration history and denial of service-role execution on the retained inner primitive independently.
+was deployed by the owner; operational read/review/dispatch and genuine signed R199/R800/R100
+original-method refunds passed in the repeat rehearsal. An earlier dispatch 503 despite provider
+success remains undiagnosed: inspect current provider/ledger evidence, never blindly resubmit.
+The approved confirmed-unused-remainder
+SQL fix and the approved ACL follow-up are hosted; independent history and privilege checks confirm
+the retired inner primitive is not service-role executable. Restoration is forward configuration-only:
+verify unchanged script checksum, exclusive owned active version, disabled endpoint statuses and full
+private/public baseline. Do not force an old-version rollback across secret changes or upload source.
 Do not infer successful refunds from the capture or from applying a migration.
+For actual zero-total Sessions, inspect exact total and absent PaymentIntent as well as completion:
+Stripe may report `paid` at R0. The owner-approved narrow zero-total migration is now hosted and
+genuine R0/no-PaymentIntent/credit-once acceptance passed. Never attempt a refund for a nonexistent
+zero-total PaymentIntent. Hosted SDK-signed synthetic tamper/replay/conflict/out-of-order checks also
+passed; distinguish these from genuine captured/zero-total provider deliveries in reports.
 
 ### Reconciliation Controls Before Hosted Release
 

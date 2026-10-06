@@ -64,11 +64,16 @@ hosted signed-expiry transport and invalid-signature denial also passed with sco
 Authenticated synthetic patient/staff scope checks, actual R999 funding, the paid-review bridge and
 R100 delivery capture after R800 capped credit subsequently passed. Test captures/fixtures were
 refunded/removed and disabled configuration restored. The approved confirmed-remainder SQL fix is
-hosted; the locally corrected Worker refund request-body dispatch awaits owner deployment and retest.
-The approved restricted-ACL follow-up passes locally but is pending hosted because Supabase
-login-role and read-only management requests return HTTP 500 FGA authentication errors.
-Refund, zero-balance and remaining failure/dispute/exception acceptance is still pending.
+hosted; the owner deployed the Worker request-body fix and repeat hosted operational refund commands
+plus genuine signed R199/R800/R100 original-method confirmation passed.
+The approved restricted-ACL follow-up is now applied hosted and independently verified. A newer
+owner deployment was restored forward with disabled configuration-only modes, unchanged source
+checksum and full private/public baseline. Duplicate/uncertain refund and remaining
+failure/dispute/exception acceptance is still pending.
 Task 11.10 remains planned.
+Actual R0 completion exposed a paid/no-PaymentIntent status mismatch; the narrow zero-total
+migration is now owner-approved/applied hosted with independent history/ACL and successful genuine
+R0/no-PaymentIntent/credit-once proof. SDK-signed synthetic hosted webhook adversarial checks passed.
 TD-010 remains In progress.
 
 Connect the existing inactive Stripe/payment foundation to the real invite-only pilot workflow in
