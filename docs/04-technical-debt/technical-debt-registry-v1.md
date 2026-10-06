@@ -144,11 +144,18 @@ in the completion report. Pilot/payment activation is not claimed by sprint clos
 
 ### Historical Task Checkpoints
 
+Task [12.7](../02-implementation-plans/phase-02/annexures/sprint-12-7-staff-accessibility.md)
+implements local staff accessibility, masked recovery and expiry containment, including stalled
+alert reads. Automated proof and owner-confirmed representative staff VoiceOver/browser zoom
+close local Task 12.7 acceptance.
+TD-037/TD-038 stay Open for broader released-flow reconciliation; no new debt ID or hosted
+activation permission is introduced.
+
 Task [12.6](../02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md)
 closes local client pending/result announcement and transition-focus verification. Automated
 checks pass and the owner confirmed representative local VoiceOver pending/results are clear.
-TD-038 remains Open until staff and
-released-flow acceptance are reconciled in Tasks 12.7–12.9; no new debt ID or activation permission.
+TD-038 remains Open until released-flow acceptance is reconciled in Tasks 12.8–12.9;
+no new debt ID or activation permission.
 
 Task [12.5](../02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md)
 adds controlled routed-client keyboard/reflow/display and expanded questionnaire checks. A local

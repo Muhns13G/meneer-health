@@ -18,6 +18,10 @@ export function StaffAlertsPage() {
   const [busy, setBusy] = useState(false);
   const controller = useRef<AbortController | null>(null);
   const expiry = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const status = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (!busy) status.current?.focus();
+  }, [busy, message]);
   useEffect(
     () => () => {
       controller.current?.abort();
@@ -47,6 +51,15 @@ export function StaffAlertsPage() {
       const authority = sessionSchema.parse(await session.json());
       const deadline = Date.parse(authority.expiresAt);
       if (deadline <= Date.now()) throw new Error("Session expired. Sign in with staff MFA.");
+      expiry.current = setTimeout(
+        () => {
+          current.abort();
+          setAlerts([]);
+          setBusy(false);
+          setMessage("Session expired. Sign in with staff MFA.");
+        },
+        Math.min(deadline - Date.now(), 2_147_483_647),
+      );
       const post = (path: string, fields: Record<string, string>) =>
         fetch(path, {
           method: "POST",
@@ -75,14 +88,6 @@ export function StaffAlertsPage() {
       setMessage(
         value.length ? "Alerts loaded. Reviewing is not acknowledgement." : "No alerts to review.",
       );
-      expiry.current = setTimeout(
-        () => {
-          current.abort();
-          setAlerts([]);
-          setMessage("Session expired. Sign in with staff MFA.");
-        },
-        Math.min(deadline - Date.now(), 2_147_483_647),
-      );
     } catch (error) {
       if (!current.signal.aborted)
         setMessage(
@@ -101,10 +106,10 @@ export function StaffAlertsPage() {
         Internal, nonclinical alerts. Provider acceptance does not prove mailbox delivery or
         resolution.
       </p>
-      <p role="status" className="my-4">
+      <p ref={status} tabIndex={-1} role="status" aria-live="polite" className="my-4">
         {message}
       </p>
-      <div className="flex gap-4">
+      <div className="flex flex-wrap gap-4">
         <button
           disabled={busy || !hydrated}
           className="rounded-full border border-border px-5 py-3"

@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, expect, it, vi } from "vitest";
 import { StaffAlertsPage } from "./StaffAlertsPage";
@@ -18,6 +18,7 @@ const session = () =>
 afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
+  vi.useRealTimers();
 });
 it("requires explicit acknowledgement and re-reads state after the receipt", async () => {
   const send = vi
@@ -51,4 +52,40 @@ it("clears prior alert data when the fresh session is rejected", async () => {
   await userEvent.click(screen.getByRole("button", { name: "Load alerts" }));
   expect(await screen.findByText(/Access unavailable/)).toBeVisible();
   expect(screen.queryByText("ACCESS DENIED")).toBeNull();
+  expect(screen.getByRole("status")).toHaveFocus();
+});
+it("expires during a stalled read and rejects its late private response", async () => {
+  vi.useFakeTimers();
+  let finish!: (response: Response) => void;
+  const send = vi
+    .fn()
+    .mockResolvedValueOnce(
+      Response.json({
+        role: "admin",
+        expiresAt: new Date(Date.now() + 1000).toISOString(),
+      }),
+    )
+    .mockImplementationOnce(
+      () =>
+        new Promise<Response>((resolve) => {
+          finish = resolve;
+        }),
+    );
+  vi.stubGlobal("fetch", send);
+  render(<StaffAlertsPage />);
+  await act(async () => {
+    fireEvent.click(screen.getByRole("button", { name: "Load alerts" }));
+  });
+  expect(screen.getByRole("status")).toHaveTextContent("Checking live");
+  await act(async () => {
+    vi.advanceTimersByTime(1001);
+  });
+  expect(screen.getByRole("status")).toHaveTextContent("Session expired");
+  expect(screen.getByRole("status")).toHaveFocus();
+  expect(screen.getByRole("button", { name: "Load alerts" })).toBeEnabled();
+  await act(async () => {
+    finish(Response.json({ alerts: [alert] }));
+  });
+  expect(screen.queryByText("ACCESS DENIED")).toBeNull();
+  expect(screen.getByRole("status")).toHaveTextContent("Session expired");
 });

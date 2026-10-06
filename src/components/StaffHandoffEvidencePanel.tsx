@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   evidenceKindSchema,
   handoffEvidenceCommandSchema,
@@ -15,6 +15,12 @@ export function StaffHandoffEvidencePanel({
 }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const status = useRef<HTMLParagraphElement>(null);
+  const controller = useRef<AbortController | null>(null);
+  useEffect(() => () => controller.current?.abort(), []);
+  useEffect(() => {
+    if (!busy && message) status.current?.focus();
+  }, [busy, message]);
   const disabled =
     busy ||
     !detail.handoff?.attemptId ||
@@ -44,7 +50,9 @@ export function StaffHandoffEvidencePanel({
             return;
           }
           setBusy(true);
-          setMessage("");
+          setMessage("Checking inspected record evidence…");
+          const current = new AbortController();
+          controller.current = current;
           try {
             const result = await fetch("/staff/queue/evidence", {
               method: "POST",
@@ -53,19 +61,22 @@ export function StaffHandoffEvidencePanel({
               redirect: "error",
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
               body: new URLSearchParams(parsed.data),
+              signal: current.signal,
             });
+            if (current.signal.aborted) return;
             if (!result.ok) {
               onInvalidate();
               return;
             }
             const value = evidenceResultSchema.parse(await result.json());
+            if (current.signal.aborted) return;
             setMessage(
               `Verified evidence reference: ${value.evidenceId}. Give this reference to the case claimant for reconciliation.`,
             );
           } catch {
-            onInvalidate();
+            if (!current.signal.aborted) onInvalidate();
           } finally {
-            setBusy(false);
+            if (!current.signal.aborted) setBusy(false);
           }
         }}
       >
@@ -106,7 +117,7 @@ export function StaffHandoffEvidencePanel({
         >
           Verify inspected record
         </button>
-        <p role="status" aria-live="polite">
+        <p ref={status} tabIndex={-1} role="status" aria-live="polite" className="break-all">
           {message}
         </p>
       </form>
