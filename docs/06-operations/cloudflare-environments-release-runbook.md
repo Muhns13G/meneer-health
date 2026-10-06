@@ -2,7 +2,7 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-08-10
+last_updated: 2026-10-06
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -17,6 +17,23 @@ Cloudflare Workers is the approved host for the TanStack v1 pilot. The Worker is
 merges, deployments, promotions, rollbacks, and Cloudflare settings. A contributor or agent may act
 only under the owner's explicit, bounded instruction; that permission does not become standing
 authorization for later releases.
+
+## Sprint 12.2 Notification Release Boundary
+
+[Task 12.2](../02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md)
+is implemented locally only. Keep `TRANSACTIONAL_NOTIFICATIONS_MODE=disabled`; the new migration
+is not hosted-application evidence. Only an expressly approved isolated rehearsal may apply it
+and configure `TRANSACTIONAL_NOTIFICATIONS_TENANT_ID`, the existing server-only Brevo/Supabase
+credentials and a new dedicated `TRANSACTIONAL_NOTIFICATION_WEBHOOK_SECRET`.
+
+The private receipt endpoint is `/api/notifications/brevo/webhook`, POST JSON only, with a matching
+`x-meneer-notification-secret` custom header at Brevo. Use a dedicated random base64url credential
+of at least 43 characters, never an existing API/encryption/Auth secret or query parameter. Keep
+credentials in ignored/hosted secret stores; no provider payload or secret is release evidence.
+The 50-attempt shared UTC-day budget covers all non-Auth sender claims; verify actual free-tier
+allocation and Auth headroom before enabling. Task 12.8 must prove delivery/failure, callback
+authentication and retry, owned acknowledgement/fallback, scoped cleanup and disabled restoration.
+Acceptance alone is not delivery; this release does not publish clinical coverage or enable pilot.
 
 ## Runtime Contract
 

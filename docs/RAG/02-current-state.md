@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 7db0e0c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-11-8-payment-reconciliation.md
@@ -124,7 +125,12 @@ Sprint 12 and Sprint 13 remain, not unfinished Sprint 11 implementation. Sprint 
 progress: [Task 12.1's notification contract](../02-implementation-plans/phase-02/annexures/sprint-12-1-notification-contract.md)
 is complete at contract level. It preserves managed Auth, existing generic operations/safety
 templates and approval boundaries while specifying durable non-Auth delivery and owned failure
-handling. Tasks 12.2–12.10 remain; TD-037/038/043 are not closed by this documentation task.
+handling. [Task 12.2](../02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md)
+is now implemented locally: atomic generic notification intents, current recipient checks, bounded
+dispatch, a shared 50-attempt daily non-Auth budget and independently attributed private delivery
+facts. Managed Auth and existing operations/safety templates remain intact. Hosted settings remain
+disabled; no actual message or hosted migration was performed for this task. Tasks 12.3–12.10
+remain; TD-037/038/043 are not closed by local notification evidence.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

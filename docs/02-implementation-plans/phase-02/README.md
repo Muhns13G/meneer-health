@@ -19,8 +19,10 @@ below are not current gaps. Real pricing/terms/authority approvals remain under 
 activation debts remain non-Verified. The pilot stays suspended, live mode disabled, and Sprints
 12 is now in progress and 13 remains planned. Task 12.1's
 [notification contract](annexures/sprint-12-1-notification-contract.md) is complete at contract level;
-runtime delivery and live accessibility proof remain. Phase 02 is not closed; no framework rebuild
-is selected or completed.
+Task 12.2's [durable notifications](annexures/sprint-12-2-durable-notifications.md) are complete
+locally, including atomic intents, shared sender budget and private delivery facts. Hosted delivery,
+purpose routing, staff follow-up and live accessibility proof remain. Phase 02 is not closed; no
+framework rebuild is selected or completed.
 
 ## Current Intake Amendment
 

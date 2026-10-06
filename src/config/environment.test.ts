@@ -56,6 +56,9 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "TRANSACTIONAL_NOTIFICATION_WEBHOOK_SECRET",
+      "TRANSACTIONAL_NOTIFICATIONS_MODE",
+      "TRANSACTIONAL_NOTIFICATIONS_TENANT_ID",
       "COMMERCE_REVIEW_MODE",
       "COMMERCE_REVIEW_TENANT_ID",
       "COMMERCE_CHECKOUT_MODE",

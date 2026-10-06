@@ -26,13 +26,14 @@ and the actual routed forms and stepped/asynchronous flows must receive live acc
 
 Task 12.1's [notification contract](annexures/sprint-12-1-notification-contract.md) reconciles the
 completed Sprint 9–11 baseline and freezes the conservative implementation packet. It is complete
-at contract level only; notification implementation, support coverage and live accessibility
-evidence remain Tasks 12.2–12.9. No real pilot or hosted configuration is activated.
+at contract level. Task 12.2's [durable notifications](annexures/sprint-12-2-durable-notifications.md)
+are implemented and verified locally; support coverage, staff follow-up, hosted delivery and live
+accessibility evidence remain Tasks 12.3–12.9. No real pilot or hosted configuration is activated.
 
 | Task  | Commit-sized outcome                                                                                                            | Gate           | Status               |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------- |
 | 12.1  | Freeze notification events, templates, recipients, privacy rules, resend/rate behaviour and delivery evidence.                  | Communications | Completed (contract) |
-| 12.2  | Implement generic invitation, account, payment, hand-off, exception and support notifications with durable delivery status.     | Notifications  | Planned              |
+| 12.2  | Implement generic invitation, account, payment, hand-off, exception and support notifications with durable delivery status.     | Notifications  | Completed (local)    |
 | 12.3  | Implement verified privacy, complaint and clinical/adverse-event routes with owner, hours, fallback and acknowledgement.        | TD-043         | Planned              |
 | 12.4  | Add staff follow-up and failed-delivery queues without exposing sensitive content to email providers.                           | Operations     | Planned              |
 | 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Planned              |

@@ -143,6 +143,10 @@ describe("current public request boundary", () => {
       request("/api/payments/stripe/webhook", { method: "POST" }),
       allowRate,
     );
+    const notificationWebhook = await inspectPublicRequest(
+      request("/api/notifications/brevo/webhook", { method: "POST" }),
+      allowRate,
+    );
     const measurementConsent = await inspectPublicRequest(
       request("/api/measurement/consent", { method: "POST" }),
       allowRate,
@@ -159,6 +163,9 @@ describe("current public request boundary", () => {
     expect(journey.allowed && journey.decision.routeClass).toBe("protected-command");
     expect(checkout.allowed && checkout.decision.routeClass).toBe("protected-command");
     expect(webhook.allowed && webhook.decision.routeClass).toBe("provider-callback");
+    expect(notificationWebhook.allowed && notificationWebhook.decision.routeClass).toBe(
+      "provider-callback",
+    );
     expect(measurementConsent.allowed && measurementConsent.decision.routeClass).toBe(
       "protected-command",
     );
