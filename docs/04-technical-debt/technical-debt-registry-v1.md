@@ -41,7 +41,15 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### Sprint 11.9 — Captures and Refunds Passed, Exception Proof Pending
+### Sprint 11.9 — Synthetic Sandbox/Hosted Acceptance Completed
+
+Current acceptance supersedes the historical checkpoints below. The final fixed hosted exception
+packets and genuine asynchronous duplicate-refund run passed, including exact restoration of the
+original fresh-run fingerprints and disabled unchanged-source configuration. TD-010's engineering
+sandbox/hosted obligation is now evidenced; its actual publication/commercial/tax/operations and
+live-release approvals remain In progress. Task 11.10 still owns the Sprint report. The transitive
+source-map-js advisory found during closeout was patched to 1.2.2 in the lockfile; both audits pass.
+No unresolved new debt ID accrued. Totals remain 58 items, 51 Verified and seven non-Verified.
 
 The [11.9 packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 records actual deposit/credited-order/zero-balance test Sessions, exact provider lines/metadata,
@@ -78,7 +86,8 @@ unchanged original deposit and restored readiness. Owned generic alert delivery 
 (three messages), with AAL2 response and wrong-role denial. Independent follow-up verifies disabled
 source-preserving restoration and the empty protected baseline after the immediate assertion failed.
 Refund uncertainty/retry, late-original capture and clinical/dependency independence remain open.
-Task 11.9 and TD-010 stay In progress.
+At that earlier checkpoint Task 11.9 and TD-010 remained In progress; the current acceptance above
+closes Task 11.9's synthetic proof while retaining TD-010's actual release approvals.
 No new debt ID; totals remain 58 items, 51 Verified and seven non-Verified.
 
 ### Sprint 11.8 Reconciliation — Completed Locally

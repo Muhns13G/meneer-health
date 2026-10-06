@@ -101,6 +101,14 @@ sources:
 
 ## Sprint 11.8 Is Locally Complete, Not Hosted Provider Proof
 
+Current Task 11.9 acceptance supersedes the historical incomplete checkpoints below: the synthetic
+sandbox/hosted matrix now passes, including genuine pending-refund retry denial and terminal
+duplicate-refund settlement, fixed uncertainty/retry/late-original/independence rollback packets,
+and exact disabled/empty restoration. Fault-injected normalized facts are not genuine provider
+deliveries or real clinical approval. Task 11.10's report, owner commit/remote CI for the final packet,
+and TD-010's real commercial/publication/live-release prerequisites remain separate. No live payment
+or pilot activation is authorised by these tests.
+
 Task [11.9](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 is in progress. Actual provider Session creation/retry/line-item/metadata/expiration checks passed,
 but none completed a payment. The eight approved Sprint-11 migrations have now been applied hosted

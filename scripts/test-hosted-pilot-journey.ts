@@ -16,7 +16,7 @@ const tenant = "e1191000-0000-4000-8000-000000000001";
 const service = "e1191000-0000-4000-8000-000000000020";
 const account = "acct_1U32UbFfj16Nnr1i";
 // Owner-confirmed current code, configuration-only disabled baseline; never restore older source.
-const baselineVersion = "46c4f110-255e-4139-b73c-cde04e77b9ef";
+const baselineVersion = "2e42efee-b854-40ae-8e12-b20b2b4e4b09";
 const scenario = process.env.HOSTED_PILOT_JOURNEY_SCENARIO ?? "credited-refund";
 invariant(
   [
@@ -30,6 +30,12 @@ invariant(
   "SCENARIO_INVALID",
 );
 const zeroBalance = scenario === "zero-balance";
+const pendingRefund =
+  process.env.HOSTED_PILOT_REFUND_PENDING_CONFIRM === "official-pending-test-card";
+invariant(
+  !process.env.HOSTED_PILOT_REFUND_PENDING_CONFIRM || (pendingRefund && scenario === "duplicate"),
+  "PENDING_REFUND_GUARD_REJECTED",
+);
 const alertDelivery = process.env.HOSTED_PILOT_ALERT_DELIVERY_CONFIRM === "generic-support-only";
 invariant(
   !process.env.HOSTED_PILOT_ALERT_DELIVERY_CONFIRM || alertDelivery,
@@ -44,6 +50,7 @@ const artifact = "/private/tmp/meneer-11-9-checkout.json";
 function invariant(value: unknown, code: string): asserts value {
   if (!value) throw new Error(code);
 }
+invariant(process.stdin.isTTY, "INTERACTIVE_TERMINAL_REQUIRED");
 invariant(
   process.env.HOSTED_PILOT_JOURNEY_CONFIRM === "isolated-sandbox-capture-only" &&
     key?.startsWith("rk_test_") &&
@@ -681,6 +688,31 @@ try {
   );
   invariant(wrongCase.status === 403, `WRONG_CASE_STATUS_${wrongCase.status}`);
   if (scenario === "duplicate") {
+    await sql(
+      `insert into commerce_private.refund_authorities values('${caseId}','${actors.get("operations")!.subjectId}',gen_random_uuid(),'${actors.get("admin")!.subjectId}',now()+interval '2 hours',null)`,
+      false,
+    );
+    for (const packet of ["sprint-11-independence-rollback", "sprint-11-late-attempt-rollback"]) {
+      const proof = await sql(
+        template(packet, {
+          operations: actors.get("operations")!.subjectId!,
+          patient: patient.subjectId!,
+          offer: review.offerId,
+        }),
+        false,
+      );
+      invariant(
+        proof.length === 1 && Object.values(proof[0]!).every((v) => v === true),
+        "ROLLBACK_PROOF_FAILED",
+      );
+      console.log(
+        JSON.stringify({
+          exercise: packet,
+          evidenceClass: "hosted-rollback-only-fault-injection",
+          ...proof[0],
+        }),
+      );
+    }
     invariant(
       paid.client_reference_id &&
         paid.metadata?.orderId === paid.client_reference_id &&
@@ -727,6 +759,7 @@ try {
       JSON.stringify({
         exercise: "hosted-duplicate-capture",
         awaitingOfficialExtraCheckout: true,
+        officialPendingRefundCard: pendingRefund,
         artifact,
         evidenceClass: "intentional-sandbox-provider-fault-injection",
       }),
@@ -763,10 +796,6 @@ try {
       await delay(5000);
     }
     invariant(held, "GENUINE_DUPLICATE_NOT_HELD");
-    await sql(
-      `insert into commerce_private.refund_authorities values('${caseId}','${actors.get("operations")!.subjectId}',gen_random_uuid(),'${actors.get("admin")!.subjectId}',now()+interval '2 hours',null)`,
-      false,
-    );
     const reconcile = await request(
       "/staff/payments/refund",
       { action: "reconcile", offerId: review.offerId, requestKey: crypto.randomUUID() },
@@ -781,6 +810,30 @@ try {
       "EXACT_DUPLICATE_REFUND_MISSING",
     );
     const job = view.refunds[0]!;
+    const faultProof = await sql(
+      template("sprint-11-refund-fault-rollback", {
+        operations: actors.get("operations")!.subjectId!,
+        offer: review.offerId,
+        job: job.reference,
+      }),
+      false,
+    );
+    invariant(
+      faultProof.length === 1 && Object.values(faultProof[0]!).every((v) => v === true),
+      "REFUND_FAULT_PROOF_FAILED",
+    );
+    const rollbackRestored = await sql(
+      `select state='queued' and dispatch_started_at is null as restored from commerce_private.refund_jobs where id='${job.reference}'`,
+    );
+    invariant(rollbackRestored[0]?.restored, "REFUND_FAULT_ROLLBACK_FAILED");
+    console.log(
+      JSON.stringify({
+        exercise: "hosted-refund-fault",
+        evidenceClass: "hosted-rollback-only-fault-injection",
+        ...faultProof[0],
+        rollbackRestored: true,
+      }),
+    );
     const dispatch = await request(
       "/staff/payments/refund",
       {
@@ -792,8 +845,43 @@ try {
       "operations",
     );
     invariant(dispatch.status === 200, "DUPLICATE_REFUND_DISPATCH_FAILED");
+    if (pendingRefund) {
+      const pendingView = refundViewSchema.parse(await dispatch.json());
+      const pendingJob = pendingView.refunds.find((r) => r.reference === job.reference);
+      const providerRefunds = await stripe.refunds.list({
+        payment_intent: String(captured.payment_intent),
+        limit: 10,
+      });
+      invariant(
+        pendingJob?.state === "pending" &&
+          !providerRefunds.has_more &&
+          providerRefunds.data.length === 1 &&
+          providerRefunds.data[0]?.status === "pending" &&
+          providerRefunds.data[0]?.amount === 99900 &&
+          providerRefunds.data[0]?.metadata?.refund_reference === job.reference,
+        "GENUINE_PENDING_REFUND_NOT_OBSERVED",
+      );
+      const pendingRetry = await request(
+        "/staff/payments/refund",
+        {
+          action: "retry",
+          offerId: review.offerId,
+          refundId: job.reference,
+          requestKey: crypto.randomUUID(),
+        },
+        "operations",
+      );
+      invariant(pendingRetry.status === 503, "GENUINE_PENDING_RETRY_ALLOWED");
+      console.log(
+        JSON.stringify({
+          exercise: "hosted-pending-refund",
+          genuineProviderPending: true,
+          deployedPendingRetryDenied: true,
+        }),
+      );
+    }
     let refunded = false;
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < (pendingRefund ? 180 : 18); i++) {
       const p = await sql(
         `select exists(select 1 from commerce_private.refund_jobs where id='${job.reference}' and state='confirmed' and duplicate_capture_id is not null and amount_minor=99900) as confirmed`,
       );
@@ -1491,14 +1579,17 @@ try {
           }
         }
         if (charge.amount_refunded < charge.amount) {
-          const refund = await stripe.refunds.create(
+          let refund = await stripe.refunds.create(
             { payment_intent: id, amount: charge.amount - charge.amount_refunded },
             { idempotencyKey: `s11-9-cleanup-${createdSession}` },
           );
-          invariant(
-            (await stripe.refunds.retrieve(refund.id)).status === "succeeded",
-            "CLEANUP_REFUND_UNCONFIRMED",
-          );
+          // An official asynchronous test refund can remain pending after acceptance. Poll only
+          // this exact refund; never submit another refund because confirmation is delayed.
+          for (let i = 0; refund.status === "pending" && i < (pendingRefund ? 180 : 60); i++) {
+            await delay(5000);
+            refund = await stripe.refunds.retrieve(refund.id);
+          }
+          invariant(refund.status === "succeeded", "CLEANUP_REFUND_UNCONFIRMED");
         }
       }
     }

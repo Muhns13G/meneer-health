@@ -1,13 +1,118 @@
 ---
 task_id: phase-02-sprint-11-9
 title: Stripe Sandbox and Hosted Journey Evidence
-status: in-progress-exception-matrix
+status: completed-sandbox-hosted-boundary
 last_updated: 2026-10-06
-source_commit: e690e37
+source_commit: 5f958cd
 primary_debt: [TD-010]
 ---
 
 # Task 2.11.9 — Sandbox and Hosted Journey Proof
+
+## Current Acceptance — 6 October 2026
+
+Task 11.9 is accepted at the **synthetic sandbox/hosted verification boundary**, not live pilot
+activation. This section supersedes the incomplete checkpoints below, which remain an audit trail.
+The owner-deployed implementation checkpoint is `5f958cd`; the added verification packets and
+compatible lockfile patch are local changes awaiting owner commit. Worker metadata does not prove
+a Git SHA. Configuration-only versions retained source checksum
+`df4b36b263f0ebd3627d6c54fe9a69fd07c20eaac973910d8aeadcdaa1f346d9`.
+
+The final `duplicate` rehearsal with `official-pending-test-card` exited **0**. It verified real
+sealed patient sessions, workforce TOTP/AAL2, email-only denial, accepted R999 deposit Checkout,
+genuine signed funding, a distinct intentional sandbox duplicate, independent provider correlation,
+full original-method duplicate refund exactly once, confirmed retry denial, retained original
+deposit funding/readiness and no supply advancement. The official asynchronous test card produced
+a genuinely pending refund; the deployed retry endpoint denied it while pending. The genuine
+terminal refund was then confirmed through the hosted ledger and independently retrieved from
+Stripe. No pending response was treated as settlement or permission to resend money.
+
+Three fixed hosted packets additionally passed and rolled back:
+
+- Uncertain dispatch reservation and pending retry denials; independently represented verified
+  failure before one immutable retry edge; replacement confirmation with retained deposit unchanged.
+- An expired linked original's late normalized capture is quarantined, funding remains once and
+  supply does not advance.
+- Clinical rejection and dependency failure block product progression while approved full-refund
+  reasons can reserve evidenced reversals without changing clinical, intake, case or fulfilment state.
+
+These are explicitly **hosted rollback-only normalized-fact fault injection**, not genuine Stripe
+deliveries or real clinical decisions. They supplement the genuine Checkout/refund/dispute evidence;
+they do not claim that an expired Checkout was actually charged or that a real bank refund failed.
+The SQL helper's ambiguous `state` parameter was corrected to `provider_status`; this was a test
+packet defect, not a production schema change. No new migration was needed.
+
+An interrupted earlier process left four synthetic Auth identities and two captured sandbox
+Sessions. Before restarting, exact scope checks recovered only that identified fixture graph,
+removed its disposable endpoint and restored disabled configuration on unchanged source. Both exact
+captures were refunded; independent retrieval subsequently confirmed both full refunds. The
+pre-exercise in-memory fingerprints were lost in the interruption, so this recovery used the
+committed empty application baseline and preserved the existing suspended tenant/12 provider gates;
+it does not claim recovery of the lost historical fingerprints. The final fresh run did retain its
+own original count/fingerprint inventory and verified exact restoration against it.
+
+Final restoration passed with **no failed boundaries**, disabled version
+`2e42efee-b854-40ae-8e12-b20b2b4e4b09`, no source upload, zero Auth identities/application fixtures,
+one suspended real pilot, 12 preserved provider gates, private grants/RLS and append-only triggers
+intact. Sandbox provider history and inactive configuration versions remain as authorised. The
+harness's `fullTaskComplete:false` field deliberately reports that one scenario is not whole-task
+acceptance; this document reconciles the separately verified scenario matrix. Task 11.10 still owns
+the Sprint completion report. TD-010 retains reviewed commercial/publication/live-release gates.
+
+The closeout audit also found and fixed `GHSA-68fv-2mgg-jv7q`: only the transitive `source-map-js`
+lockfile resolution changed from 1.2.1 to 1.2.2, within every consumer's existing compatible range.
+No direct dependency, override or broad upgrade was retained. Frozen install and both full/production
+audits passed. See the [reviewed advisory](https://github.com/advisories/GHSA-68fv-2mgg-jv7q).
+
+Owner staging/commit and remote CI for this final packet remain separate actions; no Git index or
+branch was changed.
+
+## Final Local and Hosted Validation — 6 October 2026
+
+| Check                                                               | Result                                                                                                                                             |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Strict TypeScript, ESLint, full Vitest                              | Passed; 122 files / 759 tests                                                                                                                      |
+| Fresh local schema reset and pgTAP                                  | Passed; 30 suites / 1,358 assertions, including pending-refund regression                                                                          |
+| Desktop Chromium and Pixel 7 Playwright/axe                         | Passed; 202 checks                                                                                                                                 |
+| Node 22 production build / Cloudflare upload dry run                | Passed; no deployment performed                                                                                                                    |
+| Portability, discovery, generated routes and Worker types           | Passed                                                                                                                                             |
+| Synthetic encrypted recovery                                        | Passed; 57 records restored and reconciled; heartbeat payload-free                                                                                 |
+| Frozen lockfile installation, full and production dependency audits | Passed; no reported advisories after compatible transitive patch                                                                                   |
+| Final hosted service-readable/private baseline                      | Passed independently; zero Auth users, empty application/private fixtures, suspended pilot, preserved provider gates and protected grants/triggers |
+| Final hosted disabled endpoints                                     | Passed independently; order/refund commands 412, Stripe webhook 404                                                                                |
+| Exact final sandbox capture cleanup                                 | Independently confirmed one full succeeded original-method refund for each of the two exact captures                                               |
+
+The serialized local integration matrix also passed: schema lint; Sprint-9 identity security
+(five rollback-only suites / 168 assertions); Sprint-10 operations (nine rollback-only suites /
+513 assertions); Auth, workforce TOTP/AAL2/session/queue, contextual authorisation, workflow commands,
+audit/inbox/outbox, security evidence, measurement, lifecycle, signed payments and fulfilment.
+The dependency/break-glass incident exercise passed. Final repository formatting and whitespace
+checks passed. Local Supabase services were stopped after verification.
+
+The local database packet was rerun only after a fresh synthetic reset: earlier reused fixtures
+had expired/mutated state and were not a clean regression baseline. Node 22 browser tests ran with
+the required local process permissions after a sandbox-only inspector bind denial; that denial is
+not recorded as a product failure or as a passing browser run. No patient data or production
+credentials were supplied to local tests.
+
+## Final Closeout Change Inventory
+
+This table covers this final acceptance packet; the cumulative Task 11.9 inventory below preserves
+the earlier committed changes and migrations.
+
+| Category                               | Files and purpose                                                                                                                                                                                                                  |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Modified harness                       | `scripts/test-hosted-pilot-journey.ts`: interactive preflight, genuine pending-refund proof, exact asynchronous cleanup polling and final disabled baseline                                                                        |
+| Modified database regression           | `supabase/tests/database/pilot_reconciliation_completion.test.sql`: pending retry denials before verified failure                                                                                                                  |
+| New operator-only SQL packets          | `scripts/sql/sprint-11-refund-fault-rollback.sql`, `scripts/sql/sprint-11-late-attempt-rollback.sql`, `scripts/sql/sprint-11-independence-rollback.sql`: fixed isolated fault injection, rolled back without production migrations |
+| New packet guard regression            | `scripts/lib/sprint11-hosted-exception-packets.test.ts`: isolation, rollback, public-wrapper, TTY and semantic guards                                                                                                              |
+| Modified lockfile                      | `bun.lock`: compatible `source-map-js` 1.2.2 security patch only                                                                                                                                                                   |
+| Modified acceptance/operations records | This annexure; Sprint 11 implementation plan; Stripe operations runbook; technical-debt registry                                                                                                                                   |
+| Modified derived context               | `docs/RAG/02-current-state.md`, `docs/RAG/06-known-limitations.md`, `docs/RAG/07-index.json`                                                                                                                                       |
+
+No new technical-debt ID is required for the corrected test packet or resolved dependency finding.
+TD-010 remains In progress for real commercial/publication/release approval, not missing sandbox
+exception verification. Task 11.10 is still required before the Sprint itself is closed.
 
 ## Mission and Authority
 
@@ -76,7 +181,7 @@ is authorised. Deployment remains the owner's action. The real pilot must stay s
   Inactive configuration-version history and expired Stripe test objects remain provider-managed
   history, not active integrations.
 
-## Remaining Acceptance Matrix
+## Acceptance Evidence and Historical Checkpoints
 
 ### Authenticated Capture and Refund Regression Checkpoint
 
@@ -271,20 +376,20 @@ The cleanup win is **not** accepted staff/hosted terminal-dispute proof. Won/los
 duplicate capture, refund uncertainty, late-original capture and owned-alert/operational-independence
 checks remain outstanding. Task 11.9 and TD-010 remain In progress.
 
-| Boundary                                | Evidence required                                                                                                                        | Current status                                                                                                            |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Current adapter Sessions and retries    | Actual deposit, credited order and zero-balance objects; exact metadata/lines and terminal unpaid inspection                             | Passed, three Sessions expired                                                                                            |
-| Hosted schema                           | Eight approved migration versions independently matched; private grants/RLS and unchanged baseline checked                               | Passed; 30 private tables empty and protected                                                                             |
-| Deployed baseline                       | Owner-deployed Sprint-11 SHA/version, disabled modes and scoped temporary configuration                                                  | Owner confirmed; transport configuration restored                                                                         |
-| Authenticated client/staff              | Disposable own-client sealed session; assigned staff AAL2 plus independent financial grant; wrong tenant/role/assignment/session denials | Sealed session, real AAL2, scope and independent financial-grant denials/success passed                                   |
-| Captured deposit and paid review bridge | Test Checkout completion, actual event delivery, one authoritative deposit; no clinical/safety/dispatch advancement                      | Actual R999 capture, signed funding and readiness passed; no supply advancement                                           |
-| Credited product and zero-balance order | Current release/acceptance, exact capped credit, separate delivery, no double allocation or inferred supply                              | R800 capped credit/R100 capture and genuine R0/no-PaymentIntent credit-once completion passed                             |
-| Webhook integrity                       | Invalid signature, modified raw body, replay, conflicts, orphan and out-of-order evidence with durable acknowledgement                   | Genuine expiry/orphan and invalid signature passed; SDK-signed hosted tamper/replay/conflict/out-of-order packet passed   |
-| Failure and replacement                 | Decline, cancellation/expiry, fresh bounded replacement approval/acceptance, late original capture                                       | Genuine decline/expiry and hosted approval/fresh acceptance/replacement capture passed; late-original capture pending     |
-| Original-method refunds                 | Full/partial/unused-credit and separate duplicate capture; immutable jobs; actual settlement, uncertainty and bounded retry              | R199/R800/R100 and separate R999 duplicate refunds passed; original funding retained; uncertainty/retry proof pending     |
-| Disputes                                | Current provider-correlated open and terminal outcomes, attributed ownership, won/lost/conflict holds                                    | Genuine open and terminal won/lost, attributed independent reconciliation and synthetic conflicting-terminal holds passed |
-| Operational independence                | Clinical rejection, dependency failure, owned exception/alert delivery, reconciliation without altering clinical/supply state            | Generic alert receipt, AAL2 response and wrong-role denial passed; clinical/dependency proof pending                      |
-| Restoration                             | Revoke disposable sessions, scope cleanup to exact fixtures, restore disabled modes, inspect private/public baseline                     | Authenticated fixtures/captures cleaned; disabled/private/public baseline restored                                        |
+| Boundary                                | Evidence required                                                                                                                        | Current status                                                                                                                          |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Current adapter Sessions and retries    | Actual deposit, credited order and zero-balance objects; exact metadata/lines and terminal unpaid inspection                             | Passed, three Sessions expired                                                                                                          |
+| Hosted schema                           | Eight approved migration versions independently matched; private grants/RLS and unchanged baseline checked                               | Passed; 30 private tables empty and protected                                                                                           |
+| Deployed baseline                       | Owner-deployed Sprint-11 SHA/version, disabled modes and scoped temporary configuration                                                  | Owner confirmed; transport configuration restored                                                                                       |
+| Authenticated client/staff              | Disposable own-client sealed session; assigned staff AAL2 plus independent financial grant; wrong tenant/role/assignment/session denials | Sealed session, real AAL2, scope and independent financial-grant denials/success passed                                                 |
+| Captured deposit and paid review bridge | Test Checkout completion, actual event delivery, one authoritative deposit; no clinical/safety/dispatch advancement                      | Actual R999 capture, signed funding and readiness passed; no supply advancement                                                         |
+| Credited product and zero-balance order | Current release/acceptance, exact capped credit, separate delivery, no double allocation or inferred supply                              | R800 capped credit/R100 capture and genuine R0/no-PaymentIntent credit-once completion passed                                           |
+| Webhook integrity                       | Invalid signature, modified raw body, replay, conflicts, orphan and out-of-order evidence with durable acknowledgement                   | Genuine expiry/orphan and invalid signature passed; SDK-signed hosted tamper/replay/conflict/out-of-order packet passed                 |
+| Failure and replacement                 | Decline, cancellation/expiry, fresh bounded replacement approval/acceptance, late original capture                                       | Genuine decline/expiry/replacement capture passed; rollback-only late-original quarantine and funding-once proof passed                 |
+| Original-method refunds                 | Full/partial/unused-credit and separate duplicate capture; immutable jobs; actual settlement, uncertainty and bounded retry              | Genuine R199/R800/R100/R999 refunds and pending retry denial passed; rollback-only uncertainty/verified-failure/retry-once proof passed |
+| Disputes                                | Current provider-correlated open and terminal outcomes, attributed ownership, won/lost/conflict holds                                    | Genuine open and terminal won/lost, attributed independent reconciliation and synthetic conflicting-terminal holds passed               |
+| Operational independence                | Clinical rejection, dependency failure, owned exception/alert delivery, reconciliation without altering clinical/supply state            | Generic alert receipt/AAL2 response passed; rollback-only clinical/dependency blocks and unchanged protected-state proof passed         |
+| Restoration                             | Revoke disposable sessions, scope cleanup to exact fixtures, restore disabled modes, inspect private/public baseline                     | Authenticated fixtures/captures cleaned; disabled/private/public baseline restored                                                      |
 
 ## Operator Command
 
@@ -382,7 +487,7 @@ abandonment cleanup; its [line-item API](https://docs.stripe.com/api/checkout/se
 supports independent exact-line inspection. Stripe best-practices guidance influenced restricted
 test credentials, hosted Checkout, opaque metadata and explicit evidence provenance.
 
-## Validation and Closure
+## Historical Validation Checkpoints
 
 The new transport exercise passed against the hosted Worker and Stripe sandbox. Its setup and
 cleanup were first validated together in a rollback-only hosted transaction. Strict TypeScript,
@@ -430,7 +535,7 @@ Modified implementation/regressions are `src/server.ts`,
 `20261006013000_refund_after_confirmed_remainder.sql` (applied hosted) and
 `20261006014500_restore_retired_refund_primitive_acl.sql` (applied hosted; ACL independently verified).
 
-No application UI, marketing wording, dependency version, secret file, generated output or Git
+At this historical checkpoint, no application UI, marketing wording, dependency version, secret file, generated output or Git
 index was changed. Hosted schema changes are owner-authorised migration application, not activation.
 
 The zero-total follow-up adds `20261006073500_zero_total_paid_checkout.sql` (owner-approved/applied
@@ -440,7 +545,7 @@ hosted) and `pilot_zero_checkout.test.sql` (rollback-only). The current Dispute 
 The operator harness now supports separate zero-balance, replacement and won/lost dispute scenarios;
 unproved scenarios remain open regardless of the harness's implementation.
 
-## Latest Deployment Checkpoint
+## Historical Deployment Checkpoint
 
 The subsequent read-only inspection found active version `a7899e75-1d58-4cb6-abbf-d244465bac77`
 (6 October 2026, 07:45 UTC), replacing the previously restored disabled owner version. Commerce

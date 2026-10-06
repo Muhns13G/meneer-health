@@ -12,6 +12,19 @@ sensitivity: internal
 
 ## Current Boundary
 
+Current Task 11.9 acceptance supersedes historical incomplete checkpoints below. The complete
+synthetic sandbox/hosted matrix now passes: genuine pending-refund denial/terminal confirmation,
+duplicate refund once/retained deposit, separately labelled normalized-fact rollback packets for
+uncertainty/bounded retry, late-original quarantine and clinical/dependency independence, and exact
+disabled/empty restoration. Final disabled version: `2e42efee-b854-40ae-8e12-b20b2b4e4b09`.
+No source upload or live activation occurred; Task 11.10 and TD-010 release obligations remain.
+
+Run the operator journey in an interactive terminal. A noninteractive invocation now fails before
+creating hosted fixtures. After interruption, first inspect exact Session/refund, active-version,
+Auth and fixture state; never assume a stopped process ran its finally block. A pending refund
+requires polling its existing ID, never a second refund submission. Preserve evidence provenance:
+normalized rollback facts do not become genuine Stripe events because they ran hosted.
+
 Sprint 11 now supplies protected `/portal/payments/*` and `/staff/payments/*` commerce boundaries,
 plus the guarded `/api/payments/stripe/webhook` callback. The
 [11.1 contract](../02-implementation-plans/phase-02/annexures/sprint-11-1-commercial-payment-contract.md)

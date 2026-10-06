@@ -111,7 +111,18 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 11.9 — Hosted Captures and Refunds Passed; Exception Proof Pending
+## Sprint 11.9 — Completed Synthetic Sandbox/Hosted Boundary
+
+Current acceptance supersedes the historical checkpoints in this section. The final hosted run
+passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,
+retained original deposit/readiness and no supply advancement. Fixed rollback-only hosted packets
+proved uncertain/pending denial, verified-failure bounded retry, retired-original capture quarantine,
+clinical/dependency blocking and financial/clinical independence. These normalized facts are fault
+injection, not genuine provider deliveries. Exact cleanup and source-preserving disabled restoration
+passed at `2e42efee-b854-40ae-8e12-b20b2b4e4b09`: no Auth/application fixtures, real pilot suspended.
+Implementation checkpoint `5f958cd` is owner-deployed; local final verification/docs await owner
+commit and remote CI. The compatible transitive source-map-js 1.2.2 lockfile patch passes both audits.
+Task 11.10 remains planned. TD-010's actual commercial/publication/live-release gates remain open.
 
 The [11.9 evidence packet](../02-implementation-plans/phase-02/annexures/sprint-11-9-sandbox-journey-evidence.md)
 records actual current-adapter test Sessions for the R999 deposit, a synthetic credited-order/delivery
