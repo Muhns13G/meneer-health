@@ -199,7 +199,7 @@ export function SupportPanel({ onInvalidate }: { onInvalidate: () => void }) {
         Request secure follow-up
       </button>
       <p ref={status} tabIndex={-1} role="status" aria-live="polite">
-        {message}
+        {pending ? "Checking…" : message}
       </p>
       {view ? (
         <ul aria-label="Your support requests">

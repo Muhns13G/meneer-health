@@ -144,6 +144,12 @@ in the completion report. Pilot/payment activation is not claimed by sprint clos
 
 ### Historical Task Checkpoints
 
+Task [12.6](../02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md)
+closes local client pending/result announcement and transition-focus verification. Automated
+checks pass and the owner confirmed representative local VoiceOver pending/results are clear.
+TD-038 remains Open until staff and
+released-flow acceptance are reconciled in Tasks 12.7–12.9; no new debt ID or activation permission.
+
 Task [12.5](../02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md)
 adds controlled routed-client keyboard/reflow/display and expanded questionnaire checks. A local
 synthetic VoiceOver review harness is supplied; the owner confirmed VoiceOver and browser zoom

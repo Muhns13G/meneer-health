@@ -242,7 +242,7 @@ export function PatientRightsPanel({
         aria-live="polite"
         className="mt-6 break-words text-sm text-muted-foreground"
       >
-        {message}
+        {pending ? "Checking…" : message}
       </p>
       <button
         type="button"

@@ -30,6 +30,7 @@ function ActivateAccountPage() {
   const heading = useRef<HTMLHeadingElement>(null);
   const profileHeading = useRef<HTMLHeadingElement>(null);
   const errorSummary = useRef<HTMLDivElement>(null);
+  const completion = useRef<HTMLDivElement>(null);
   const commandAttempt = useRef<{ payload: string; key: string } | null>(null);
 
   useEffect(() => {
@@ -56,6 +57,7 @@ function ActivateAccountPage() {
   }, []);
   useEffect(() => {
     if (stage === "profile") profileHeading.current?.focus();
+    else if (stage === "complete") completion.current?.focus();
     else if (stage !== "loading") heading.current?.focus();
   }, [stage]);
   useEffect(() => {
@@ -371,7 +373,7 @@ function ActivateAccountPage() {
           </>
         )}
         {stage === "complete" && (
-          <div role="status" className="mt-8">
+          <div ref={completion} tabIndex={-1} role="status" aria-live="polite" className="mt-8">
             <p>
               Your account profile and both document actions have been saved. No payment or clinical
               consent has been collected.

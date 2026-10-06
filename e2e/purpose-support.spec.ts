@@ -51,7 +51,11 @@ test("secure support separates receipt, emergency care and expired authority", a
   await page.getByRole("checkbox").uncheck();
   await submit.focus();
   await page.keyboard.press("Enter");
-  await expect(page.getByRole("status")).toContainText("not human acknowledgement");
+  const supportStatus = page
+    .getByRole("region", { name: "Secure support requests" })
+    .getByRole("status");
+  await expect(supportStatus).toContainText("not human acknowledgement");
+  await expect(supportStatus).toBeFocused();
   expect(requests).toHaveLength(2);
   expect(requests[1]).toEqual({
     action: "request",

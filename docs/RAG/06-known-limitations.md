@@ -8,6 +8,7 @@ audience: internal
 sensitivity: internal
 sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-3-purpose-support-routing.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md
@@ -131,6 +132,12 @@ browser-menu zoom or released-flow acceptance. Assisted VoiceOver review has own
 email/code and profile/contact-preference labels plus privacy-checkbox state. The owner's later
 VoiceOver and browser-zoom pass confirmations close local Task 12.5 acceptance. Released-flow
 and wider Sprint 12 accessibility acceptance remain; TD-037 stays Open for that scope.
+
+Task [12.6](../02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md)
+is locally complete with passing automated checks and representative owner-confirmed VoiceOver
+pending/result acceptance. Controlled browser
+responses prove presentation, focus and uncertainty handling, not provider execution or released
+acceptance. Staff review and hosted/released reconciliation remain Tasks 12.7–12.9; TD-038 stays Open.
 
 ## Current Sprint 11 Closure Boundary
 
