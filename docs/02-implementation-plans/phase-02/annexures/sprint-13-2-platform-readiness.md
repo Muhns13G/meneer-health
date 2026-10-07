@@ -1,12 +1,83 @@
 ---
 plan_id: phase-02-sprint-13-2
 title: Platform Readiness Verification
-status: in-progress
+status: completed
 last_updated: 2026-10-07
 owner: "@Muhns13G"
 ---
 
 # Task 13.2 — Platform Readiness
+
+## Final closure — 7 October 2026
+
+**Task 13.2 is completed for the suspended-pilot rehearsal scope.** This final checkpoint supersedes
+the historical in-progress observations below. It is not real-pilot activation or Phase 02 closure.
+
+- Main CI `37648076586` passed on attempt 2 at `4e0747101069414785a228f3ddf096933dfcaf85`.
+  Attempt 1 stalled at Chromium installation and was cancelled; no application fix was required.
+  Preview CI `37648026404` passed at `7543aadd298f7018376bfc89a8921ae151496af9` and
+  development CI `37648098646` passed at `1e167a54427b83d9571400c2b4b42ca0c79514b8`.
+- The recovery and migration proofs below are accepted. Offline key custody is owner-confirmed;
+  primary responder is **Mansoer Gallie — System Architect**, alternate is
+  **Mikhail Robertson — Product Owner**.
+- Known-good rollback baseline for subsequent releases is Worker version
+  **`3710baa2-8c24-48c2-b974-fef118d8a98b`**, currently at 100% traffic. Authenticated build
+  `0d2b69a3-baec-4c35-ad52-2922fa8f546b` explicitly shows preview commit `7543aadd` and that
+  Current Version ID, Bun 1.3.14, Node 22.23.2, both transport modes disabled and the 60/60s
+  rate-limit binding. Preview CI and the build passed; critical canonical HTTP probes passed.
+  This is an accepted return-to-baseline target after a future release, not a request to roll back
+  the already healthy current deployment.
+- Compatibility is bounded to hosted migration `20261007102500` and the present binding catalogue,
+  disabled pilot/transports and key references. The latest migration changes only two volatility
+  declarations, not function signatures, tables, bodies or ACLs. Recovery-runner corrections are
+  GitHub-side, not a changed Worker API or data format. Any future schema, secret or mode change
+  invalidates automatic reuse of this acceptance: recheck compatibility before owner promotion.
+  Never reverse the security migration or restore data simply to roll back Worker code.
+- Cloudflare remains on **`itws-I-preview`**, including the draft video. GitHub's hourly recovery
+  runner uses `main`. Hourly scheduling is enabled following successful manual production R2 proof;
+  a first unattended scheduled success has not yet been observed and is not claimed.
+
+The runbook expressly accepts immutable history, successful upload validation and compatibility
+review without a needless canonical rollback. No rollback, branch change, Git staging/commit or
+new fixture/pilot activation was performed. Auth/private-Storage recovery coverage, future scheduled
+delivery/alert observations and later rehearsal/release debt remain their explicit pre-intake gates;
+this platform checkpoint does not waive them or prematurely close Sprint 13.
+
+## Historical acceptance checkpoint — superseded by final closure
+
+This checkpoint supersedes earlier absent-secret, disabled-schedule and pending-restore observations.
+Cloudflare remains owner-selected **`itws-I-preview`**; the default-branch GitHub backup workflow
+runs separately from `main`.
+
+- The approved volatility migration was applied using the linked CLI, without seeds or role changes.
+  Independent read-only metadata confirms history version `20261007102500`, both predicates
+  `VOLATILE`, and zero execute grants to `anon`, `authenticated` or `service_role` on those primitives.
+- Exact-main commit `4e0747101069414785a228f3ddf096933dfcaf85` passed synthetic R2 workflow
+  `37648408802`: encrypted durable storage, download/decrypt/restore of three records, exact synthetic
+  object deletion, and payload-free success heartbeat after verification.
+- The same commit passed production-source R2 workflow `37648718186`: encrypted durable storage,
+  download/decrypt/isolated restore and reconciliation of 13 baseline application records. The
+  production recovery object was retained under the existing private EU/35-day policy. No hosted
+  database restore or pilot activation occurred.
+- After successful reconciliation, the owner-authorised repository variable
+  `RECOVERY_EXPORT_ENABLED=true` was set and read back. Hourly execution is enabled; these manual
+  successes are not evidence of a later unattended scheduled run. Auth/private-Storage coverage
+  remains a separate pre-intake gate, not covered by the application-schema export.
+- Offline encryption-key custody is owner-confirmed. **Mansoer Gallie — System Architect** is the
+  named primary recovery responder. The owner appoints **Mikhail Robertson — Product Owner** as
+  alternate. This resolves the named-responder acceptance gap; it does not prove an alert drill.
+- Current Worker version is `3710baa2-8c24-48c2-b974-fef118d8a98b`, 100% traffic, deployed
+  `2026-10-07T15:57:08.662461Z`. The preview commit's Cloudflare build
+  `0d2b69a3-baec-4c35-ad52-2922fa8f546b` passed. Final exact-source rollback compatibility acceptance
+  remains open; immutable history alone is not that acceptance.
+- Canonical homepage, peptides and order portal return 200 with CSP/HSTS; private routes are
+  `no-store`. The disabled notification callback returns 404 with `no-store`.
+
+At this checkpoint, main CI `37648076586` and preview CI `37648026404` are still in progress.
+The owner reports passing CI, but the refreshed GitHub API still reports these exact runs in progress.
+Task status remains **in progress**, pending their actual outcomes
+and compatible rollback acceptance. Do not treat the passing recovery workflow as full CI or pilot
+go approval.
 
 Task 13.1 is committed at `95e73b7`. This packet records read-only observations, not pilot
 activation, secret-value verification or an end-to-end rehearsal. No Git mutation, hosted settings
@@ -83,7 +154,7 @@ recovery before promotion; no canonical rollback test was performed.
 | Recovery runner          | Hourly workflow exists but `RECOVERY_EXPORT_ENABLED=false`. Recent scheduled runs skipped. Four recovery secrets exist by name; `SUPABASE_DB_URL` absent from repository Actions secret inventory. Production exports are not operational.                               |
 | Rollback                 | Immutable deployment history available; owner-controlled rollback procedure documented. No rollback performed and no exact-source last-verified rollback target selected yet.                                                                                            |
 
-## Remaining Acceptance Work
+## Historical Remaining Acceptance Work — Superseded by Final Closure
 
 ### Additional readiness corrections — 7 October 2026
 
@@ -140,7 +211,7 @@ Auth/private-Storage coverage and named recovery responders remain acceptance ga
    provisioning and hourly activation. Confirm independent key custody and Auth/private-Storage
    recovery coverage. Do not enable exports merely to complete a checklist.
 
-Task 13.2 remains **in progress**. The suspended-pilot baseline is intact; this evidence does not
+At this earlier checkpoint, Task 13.2 remained **in progress**. The suspended-pilot baseline was intact; this evidence did not
 authorise Tasks 13.3 onward to create hosted fixtures or activate the real pilot.
 
 ## Owner-confirmed release and recovery boundary

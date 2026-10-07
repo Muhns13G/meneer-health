@@ -1157,10 +1157,10 @@
     {
       "id": "phase-02-sprint-13-2",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md",
-      "status": "in-progress",
+      "status": "completed",
       "authority_for": [
         "read-only deployed source database security monitoring and recovery readiness evidence",
-        "portable CI screenshot fixes and remaining platform acceptance gates"
+        "verified CI recovery responder and compatible rollback baseline acceptance"
       ]
     },
     {

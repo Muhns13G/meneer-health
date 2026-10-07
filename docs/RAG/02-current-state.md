@@ -123,20 +123,20 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 13.2 — Readiness Checks, Not Yet Accepted
+## Sprint 13.2 — Platform Readiness Completed
 
-The [platform evidence packet](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md)
-ties the active Worker version to preview commit `ad13febd`; hosted migration parity, 125-table RLS
-and denied client-role SELECT grants pass. Security Advisor has zero errors/warnings and 125
-deny-default informational notices, but separate hosted function lint has unresolved warnings.
-The uptime monitor is Up; the recovery heartbeat is Down with an ongoing missed-export incident.
-Hourly exports remain disabled. The Actions database connection secret is now provisioned and a
-read-only session-pooler connection passed. The owner confirms offline recovery-key custody and
-retains `itws-I-preview` as Cloudflare's canonical deployment branch. CI `37606869524` and
-`37606984109` passed the owner-committed screenshot fixes. Additional local recovery corrections
-include measurement-schema coverage, standard libpq connection variables and an isolated
-production-restore verifier; hosted off-site acceptance is still pending their owner release.
-Task 13.2 is in progress, not pilot approval.
+The [completed platform evidence packet](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md)
+ties Worker `3710baa2-8c24-48c2-b974-fef118d8a98b` to preview commit `7543aadd`. This verified
+immutable version is the compatible fallback baseline for subsequent releases, with hosted schema
+`20261007102500` and current disabled modes/bindings. No actual rollback was performed.
+Hosted 125-table RLS/client-denial and advisor checks pass; the two time-sensitive volatility
+corrections are approved/applied and restricted ACLs verified. Other classified lint notices are
+not represented as a clean lint result. All three branch CI runs passed, including main attempt 2.
+Production R2 workflow `37648718186` downloaded/decrypted/restored and reconciled 13 baseline
+application records. Hourly exports on `main` are enabled; first unattended success is not yet
+observed. Cloudflare stays on `itws-I-preview`. Offline key custody is confirmed; primary responder
+is Mansoer Gallie (System Architect), alternate Mikhail Robertson (Product Owner). Auth/private-Storage
+coverage and later rehearsal/release gates remain pre-intake requirements. No pilot activation occurred.
 
 ## Sprint 13.1 — Rehearsal Contract Complete, Execution Gated
 

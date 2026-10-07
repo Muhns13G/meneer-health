@@ -169,6 +169,15 @@ this repository policy and must be reconciled before promotion.
 
 ## Rollback
 
+Task 13.2's accepted known-good fallback baseline for subsequent releases is version
+`3710baa2-8c24-48c2-b974-fef118d8a98b`, built from `itws-I-preview` commit `7543aadd` by build
+`0d2b69a3-baec-4c35-ad52-2922fa8f546b`. See the
+[final platform evidence](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md)
+for passing CI, exact version/source proof and hosted schema `20261007102500` compatibility.
+Keep current bindings, disabled activation modes and key references compatible; re-review after
+any future change. This currently healthy version is a return target after a later release, not
+authorization to roll back now. Worker rollback does not reverse migrations or restore data.
+
 1. Stop promotion and record the failing route, time, Ray ID, deployment/version ID, and symptoms.
 2. The owner selects the last verified version under **Deployments → ... → Rollback**, or runs
    `bunx wrangler rollback VERSION_ID` after replacing `VERSION_ID` with the recorded target.
