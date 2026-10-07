@@ -135,6 +135,39 @@ activation and observed runs, not closed by preparing code.
 
 ## Remaining Acceptance Work
 
+### Historical archive disposition verified
+
+On 8 October the owner authorised private download/decryption of the exact two older R2 objects.
+AES-GCM decryption and manifest SHA-256 checks pass. Their manifest creation timestamps are
+`2026-10-07T16:02:37.439Z` and `2026-10-07T20:37:04.400Z`, matching the manual and scheduled
+production runs. Parsing `pg_restore --data-only` COPY output without executing archived SQL
+finds exactly **13 records each**: one `public.tenants` row and 12
+`public.fulfilment_provider_gates` rows; every other archived table is empty. No rehearsal-table
+records or row contents were emitted. This proves record-count/provenance disposition, not a new
+full isolated restore or byte-for-byte match to today's database. The runners already supplied
+their original isolated restore proofs. An initial inspection used an incorrect expected gate
+table name and failed closed; the name was checked against the committed migration and the
+same bounded inspection then passed for both archives.
+
+Exact downloaded encrypted files and decrypted dumps were removed in `finally`; the R2 originals
+remain private and retained under the approved 35-day lifecycle. No remote deletion occurred.
+Archive disposition and hosted minimal telemetry are now closed. Only dispatcher credential
+provisioning, owner deployment and consecutive verified hourly runs remain for this packet.
+
+The owner's first dispatcher deployment was rejected because compatibility date `2026-10-08`
+was still in the future for Cloudflare's UTC validation during early-morning SAST. Configuration
+now pins `2026-10-07`. The subsequent secret command created the Worker and installed the token,
+but that is not proof that the dispatcher source or cron was deployed. The owner must rerun the
+deploy command; the existing secret need not be entered again.
+
+Owner deployment is now verified: version `84d314d2-9c0e-48f4-be88-7c0fe96add36` is at
+100%, deployed **01:51:58 SAST on 8 October**, with the named secret present. Owner output confirms
+the `17 * * * *` trigger. At the immediate post-deployment check no new recovery run had appeared.
+The next three nominal trigger times are **02:17, 03:17 and 04:17 SAST on 8 October**; actual
+accepted dispatch, successful runner completion and verified restore/heartbeat evidence must be
+recorded, not assumed from deployment. Credential scope/expiry is owner-managed and its value
+was neither retrieved nor printed. Task 13.7 remains in progress solely for observed cadence.
+
 1. Finish archive provenance against the exact fixture windows/private manifests; current inventory
    and run summaries are consistent with two baseline archives. Database deletion is not backup
    deletion. Preserve these recovery objects; any content inspection or deletion requires specific
@@ -149,6 +182,7 @@ activation and observed runs, not closed by preparing code.
 
 **13.7 is in progress, not completed.** Local reconciliation and first unattended recovery proof
 are verified, including fresh hosted audit/cleanup and a real incident response. Sustained cadence,
-historical archive disposition remain open. Hosted minimal telemetry and actual alert receipt
-are verified. Archive-download authority and dispatcher activation are pending owner action.
+dispatcher activation and sustained cadence remain open. Hosted minimal telemetry, historical
+archive disposition and actual alert receipt are verified. Credential provisioning and owner
+deployment are pending; do not label code preparation as operational activation.
 The full quality/AT matrix, debt review and release decision remain 13.8–13.10.
