@@ -41,6 +41,16 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Sprint 12 Closure — Completed With Activation Gates
+
+The [completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+closes Tasks 12.1–12.10 at committed implementation/evidence `654f51f` plus the owner-pending
+closure batch. Local regression and isolated hosted support evidence are accepted at their
+recorded scope; TD-037/TD-038/TD-043 remain Open for released accessibility and real operational
+activation. TD-059 was discovered and Verified through narrow remediation below. Current totals:
+**59 items — 52 Verified, seven non-Verified**. Earlier totals/checkpoints below are historical.
+No real pilot activation or exact-commit CI pass is claimed before owner commit/push.
+
 ### Task 12.9 — Acceptance Reconciled, Activation Debts Retained
 
 The [acceptance matrix](../02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md)
@@ -560,6 +570,24 @@ dependency-policy/enforcement evidence; TD-057 remains an immutable newly discov
 locally Verified after bounded remediation. Both audits and local regression pass; owner
 commit/exact-commit CI and post-deploy verification are not claimed in advance. TD-006, TD-007,
 TD-009, TD-010, TD-037, TD-038 and TD-043 retain their original acceptance gates.
+
+## TD-059 — Cloudflare Development Tooling sharp Advisory
+
+Discovered 7 October 2026 during Task 12.10 final audit: Miniflare pins `sharp@0.35.4`
+through the Cloudflare Vite plugin and Wrangler. Priority P1; status **Verified** after patched
+installation, clean full/production audits, build/dry-run and browser regression. The two local
+media-configuration failures and focused 2/2 retest are separately recorded, not hidden.
+[GHSA-wq5f-xc86-pv6w](https://github.com/advisories/GHSA-wq5f-xc86-pv6w) identifies `0.35.5`
+as patched. A single `sharp: 0.35.5` override and synchronized `bun.lock` implement the narrow fix;
+frozen installation and full/production audits pass. No application dependency or broad upgrade
+is introduced. The [Sprint 12 report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+records final evidence. Remove the override only when parent tooling naturally resolves a patched
+compatible version, then repeat frozen installation, audits, build and browser regression.
+
+Sprint 12 closure retains TD-006/007/009/010/037/038/043. Historical totals above predate TD-059;
+current total after final validation is **59 items — 52 Verified, seven non-Verified**.
+Engineering closure does not appoint real support owners, install unattended provider push or
+complete released-flow assistive-technology acceptance.
 
 ## Registry Maintenance Rules
 

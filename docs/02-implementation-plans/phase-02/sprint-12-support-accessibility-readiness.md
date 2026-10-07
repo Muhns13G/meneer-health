@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-12
 title: Notifications, Support, and Live Accessibility Readiness
-status: in-progress
+status: completed-with-activation-gates
 primary_debt: [TD-037, TD-038, TD-043]
 depends_on: [phase-02-sprint-09, phase-02-sprint-10, phase-02-sprint-11]
 last_updated: 2026-10-07
@@ -9,6 +9,16 @@ owner: "@Muhns13G"
 ---
 
 # Sprint 12 — Notifications, Support, and Live Accessibility Readiness
+
+## Closure Checkpoint — 7 October 2026
+
+Tasks 12.1–12.10 are complete at their recorded engineering/local/hosted-synthetic boundaries.
+The [completion report](../../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+records final validation, decisions, deviations, lessons, debt and all 88 modified/new files.
+Implementation/evidence is committed at `654f51f`; this closure batch awaits owner commit and
+exact-commit GitHub CI. TD-037/TD-038/TD-043 retain their explicit release/activation requirements.
+TD-059 was discovered and narrowly remediated during the final audit. No hosted settings, real
+coverage or pilot activation changed. Earlier pending checkpoints below are historical.
 
 ## Mission
 
@@ -56,8 +66,8 @@ fault/retry/uncertainty/suppression guards and scoped restoration passed. Provid
 verified then replayed; automatic provider push and real coverage activation are not claimed.
 Task 12.9's [debt reconciliation](annexures/sprint-12-9-debt-reconciliation.md) is complete:
 TD-037/TD-038 retain released-flow review and TD-043 retains actual coverage/provider activation
-requirements. No unsupported Verified status is assigned. Task 12.10 remains for final reporting
-and validation; debt reconciliation does not activate the pilot.
+requirements. No unsupported Verified status is assigned. Task 12.10 now supplies final reporting
+and validation; sprint closure does not activate the pilot.
 
 | Task  | Commit-sized outcome                                                                                                            | Gate           | Status                       |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | ---------------------------- |
@@ -70,7 +80,7 @@ and validation; debt reconciliation does not activate the pilot.
 | 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Completed (local)            |
 | 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Completed (hosted synthetic) |
 | 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Completed (reconciled)       |
-| 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned                      |
+| 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Completed (closure)          |
 
 ## Acceptance Gate
 

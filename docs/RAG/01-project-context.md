@@ -3,10 +3,11 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-10-06
+last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
   - docs/03-completion-reports/phase-02/sprint-09-identity-profile-consent.md
@@ -60,7 +61,14 @@ sources:
 
 # Meneer Project Context
 
-## Current Authority — Sprint 11 Closure
+## Current Authority — Sprint 12 Closure
+
+Sprint 12 is completed with activation gates in the
+[completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md).
+Tasks 12.1–12.10 have engineering/local/isolated-hosted evidence, not blanket released accessibility
+or real support approval. Registry: 59 items, 52 Verified and seven non-Verified after TD-059's
+narrow remediation. Sprint 13 remains planned; owner commit and exact-commit CI of this batch remain.
+The following Sprint 11 checkpoint is historical.
 
 Sprint 11 is [completed with activation gates](../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
 at committed implementation/evidence `7db0e0c`. The private deposit/credited-order, refund and
@@ -88,6 +96,14 @@ See the [evidence](../01-audits/td-057-dependency-remediation-2026-10-03.md); ow
 at the design boundary, not permission to activate the pilot.
 
 ## Product Intent
+
+Current Sprint 12 checkpoint: the
+[completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+supersedes earlier pending Sprint 12 paragraphs. Engineering, representative local accessibility
+and isolated hosted support evidence are distinguished from release acceptance. TD-037/TD-038/
+TD-043 remain gated; Sprint 13 and Phase 02 closure are not implied. Final audit additionally
+discovered TD-059 in Cloudflare development tooling; the narrow patched resolution is Verified
+with clean audits and regression. Historical registry totals above predate that finding.
 
 Meneer is intended to become a South African direct-to-consumer men's health service. Its proposed experience combines discreet condition-led discovery, structured intake, consultation with an authorised clinician, prescribing where appropriate, pharmacy fulfilment, neutral delivery, and ongoing support.
 
