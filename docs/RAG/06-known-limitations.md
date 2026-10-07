@@ -112,9 +112,11 @@ sources:
 # Meneer Known Limitations and Answer Guardrails
 
 Task [13.2](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md) remains
-in progress: exact deployed source is identified, but CI needs the local portable screenshot fixes,
-hosted function-lint warnings need classification, and production-format recovery/independent key
-custody and compatible rollback acceptance remain open. Better Stack uptime is Up but backup
+in progress: owner-committed screenshot fixes passed CI and offline recovery-key custody is
+confirmed. The database connection secret is provisioned. Additional recovery corrections require
+owner release and provider-backed production-format restore proof; hosted application of the narrow
+function-volatility correction, responder appointments and compatible rollback acceptance remain
+open. Cloudflare deliberately remains on `itws-I-preview`. Better Stack uptime is Up but backup
 heartbeat is Down. Do not equate configured private storage, secret names or prior synthetic backup
 proof with current hourly production recovery. No real pilot activation is authorised.
 
