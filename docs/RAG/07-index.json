@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-07",
+    "last_updated": "2026-10-08",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -1178,7 +1178,7 @@
     {
       "id": "phase-02-sprint-13-5",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md",
-      "status": "in-progress",
+      "status": "completed",
       "authority_for": ["first-party medical transfer and independent protocol bridge rehearsal"]
     },
     {

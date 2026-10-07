@@ -3,10 +3,11 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-07
+last_updated: 2026-10-08
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
@@ -112,15 +113,15 @@ sources:
 # Meneer Known Limitations and Answer Guardrails
 
 Task [13.5](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
-is in progress, not completed. Fresh bounded hosted/payment/cleanup approvals do not include a
-new schema migration or source deployment. TD-062's local medical grant/transfer conflict fix
-is approved/applied with matching history and access boundaries, but fresh runtime acceptance remains
-pending. TD-063 identified the missing first-party ready/preparation transition. The owner-approved
-first-party preparation fix is now implemented/tested locally; its new migration `20261007204237`,
-owner deployment and fresh protected hosted acceptance remain pending. A fixture state update
-still cannot substitute for that proof.
-Local synthetic payment substitutions and transfer references are not hosted funding, external
-generator delivery or actual provider acknowledgement. Generator access remains a separate gate.
+is completed at its expressly authorised Meneer-only synthetic boundary. Both migrations received
+separate approval/application. Fresh real intake-created case, AAL2/grants/consent, actual R999
+sandbox capture/signed funding, preparation-bound recording, replay/409/fault denials and different-
+actor nonclinical reconciliation pass; exact successful refund and independent baseline/trigger/
+Auth/settings restoration pass. TD-062/TD-063 are Verified in their stated scopes. No seeded ready
+state or synthetic paid flag substitutes for that proof. The transfer/acknowledgement references
+remain synthetic Meneer-only: no generator was accessed and no external health data was sent.
+Generator entitlement, current input/output compatibility, actual provider acknowledgement and
+clinical approval remain separate gates. Released browser/AT acceptance remains Task 13.8.
 
 Task [13.4](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md)
 is completed for isolated workforce/claim and R999 sandbox-deposit proof, including genuine signed
@@ -130,7 +131,7 @@ product/refund/failure acceptance, current generator compatibility or full relea
 Saved Stripe values and the suspended-pilot tenant pointer form the approved disabled baseline;
 they do not prove recovery of unreadable original secrets. Stripe retains refunded test records;
 the first unpaid Session is expired, not capture proof. The real pilot remains suspended and all
-commerce modes disabled. Tasks 13.5 onward remain outstanding.
+commerce modes disabled. Tasks 13.6 onward remain outstanding.
 
 Task [13.3](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md) is
 completed for the approved isolated synthetic onboarding/intake rehearsal, not real pilot readiness.
