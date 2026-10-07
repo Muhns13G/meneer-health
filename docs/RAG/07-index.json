@@ -102,6 +102,16 @@
   ],
   "authoritative_sources": [
     {
+      "id": "sprint-13-6-recovery-rehearsal",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md",
+      "status": "verified-completion",
+      "authority_for": [
+        "Local rollback-only recovery and controlled browser proof",
+        "Bounded hosted refund, injected transport faults, support and revocation proof with independent cleanup",
+        "Generator reactivation deferred until actual manual generation"
+      ]
+    },
+    {
       "id": "td-057-dependency-remediation",
       "path": "docs/01-audits/td-057-dependency-remediation-2026-10-03.md",
       "status": "verified-local-and-ci",

@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
@@ -124,6 +125,19 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 13.6 — Synthetic Recovery Rehearsal Completed
+
+The [13.6 packet](../02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md)
+records 334 passing rollback-only local database assertions with unchanged row/security/trigger/
+function fingerprints, focused application tests and four new passing controlled desktop/mobile
+outage/retry/revocation checks. Hosted signed decline/hold, clean capture/routed cancellation/refund,
+injected notification faults/suppression/alternate escalation and client/workforce denials pass.
+Both approved captures are fully refunded and independent final 127-table/13-row, zero-Auth,
+original-trigger and disabled same-source restoration passes. Earlier stopped attempts remain
+recorded explicitly. Task 13.6 is complete; Task 13.7 is next, and Sprint 13 is not closed.
+The generator remains inactive until actual manual generation is required; onboarding is the
+current focus and the real pilot remains suspended.
+
 ## Sprint 13.5 — Meneer-Only Protocol Bridge Rehearsal Completed
 
 The [13.5 packet](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
@@ -142,7 +156,7 @@ the temporary medical tenant binding, retaining the existing keyring. Canonical 
 baseline, not unreadable original secrets. TD-062/TD-063 are Verified in their stated scopes;
 **63 items — 56 Verified, seven non-Verified**. Acknowledgement is synthetic Meneer-only, not
 external delivery or clinical approval. Generator entitlement/mapping/output proof and the released
-walkthrough remain separately gated; Task 13.6 is next, the pilot remains suspended.
+walkthrough remain separately gated; Task 13.6 is complete and 13.7 is next, the pilot remains suspended.
 
 ## Sprint 13.4 — Assignment/Payment Rehearsal Completed
 

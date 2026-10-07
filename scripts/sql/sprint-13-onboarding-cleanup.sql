@@ -51,7 +51,9 @@ create temporary table exercise_triggers on commit drop as
  and (t.tgname like '%append_only' or t.tgname like '%immutable'
    -- Task 13.4's manifested checkout has a named immutable-delete guard.
    -- Only this exact relation/trigger joins the locked, restored cleanup boundary.
-   or (t.tgrelid='commerce_private.checkout_intents'::regclass and t.tgname='checkout_intents_guard'));
+   or (t.tgrelid='commerce_private.checkout_intents'::regclass and t.tgname='checkout_intents_guard')
+   -- Task 13.6's manifested refunded job has its own immutable-delete guard.
+   or (t.tgrelid='commerce_private.refund_jobs'::regclass and t.tgname='refund_jobs_guard'));
 do $$declare r record;f record; joins text;blocked boolean;remaining integer;changed integer;n bigint;h text;
 begin
  for r in select * from exercise_triggers loop

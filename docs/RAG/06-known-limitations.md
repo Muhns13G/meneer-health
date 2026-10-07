@@ -112,6 +112,17 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+Task [13.6](../02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md)
+is completed at its bounded synthetic scope. Its local 334-assertion rollback-only packet and four controlled
+desktop/mobile recovery checks pass. A genuine hosted declined-then-paid Session correctly held
+funding for reconciliation; that attempt stopped and its exact capture was refunded, with
+independent empty-baseline/disabled-runtime restoration. The separately authorised clean capture
+passed routed cancellation and signed refund confirmation; no-payment continuation passed hosted
+fault journals, suppression/alternate escalation and session/role denials. Final independent
+127-table/13-row, zero-Auth, original-trigger and disabled same-source restoration passes. Injected
+notification errors are not actual Brevo outages. Task 13.7 onward, full released AT/matrix and
+pilot activation remain outstanding; generator entitlement is not implied.
+
 Task [13.5](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
 is completed at its expressly authorised Meneer-only synthetic boundary. Both migrations received
 separate approval/application. Fresh real intake-created case, AAL2/grants/consent, actual R999
@@ -131,7 +142,7 @@ product/refund/failure acceptance, current generator compatibility or full relea
 Saved Stripe values and the suspended-pilot tenant pointer form the approved disabled baseline;
 they do not prove recovery of unreadable original secrets. Stripe retains refunded test records;
 the first unpaid Session is expired, not capture proof. The real pilot remains suspended and all
-commerce modes disabled. Tasks 13.6 onward remain outstanding.
+commerce modes disabled. Task 13.6 is complete; Tasks 13.7 onward remain outstanding.
 
 Task [13.3](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md) is
 completed for the approved isolated synthetic onboarding/intake rehearsal, not real pilot readiness.

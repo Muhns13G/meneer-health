@@ -47,7 +47,7 @@ implemented journey and the operating team can recover safely from expected fail
 | 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | Completed             |
 | 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Completed             |
 | 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | Completed (synthetic) |
-| 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Planned               |
+| 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Completed (synthetic) |
 | 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Planned               |
 | 13.8  | Run the full local and hosted-safe validation matrix and complete manual desktop/mobile accessibility walkthroughs.                       | Quality            | Planned               |
 | 13.9  | Review every transferred debt item and record Verified, still-gated or scope-removed status without dilution.                             | Debt               | Planned               |
@@ -65,7 +65,14 @@ Worker settings are disabled with the temporary medical tenant binding removed. 
 are Verified in their stated scopes: **63 items — 56 Verified, seven non-Verified**. Two earlier
 incomplete, fully cleaned harness attempts remain recorded honestly. Current generator access/
 compatibility remains a named external gate, not substituted by synthetic acknowledgement.
-Task 13.6 is next; the real pilot stays suspended and Sprint 13 is not closed.
+Task [13.6 recovery rehearsal](annexures/sprint-13-6-recovery-rehearsal.md) is completed at its
+bounded synthetic scope: 334 rollback-only SQL assertions, controlled desktop/mobile recovery,
+genuine declined-payment hold, clean signed capture/routed cancellation/refund, hosted injected
+notification faults/suppression/alternate escalation, and client/workforce revocation denials pass.
+Both approved sandbox captures are fully refunded; independent final row/trigger/Auth/settings
+restoration passes at same-source version `2d26803d-2c7b-4a9a-ac18-64c9bb2ad58d`. Stopped harness
+attempts remain explicit, not relabelled passing. Task 13.7 is next. Generator reactivation remains
+deferred until manual generation is needed; the real pilot is suspended and Sprint 13 is not closed.
 
 Task [13.4 assignment/payment rehearsal](annexures/sprint-13-4-assignment-payment-rehearsal.md)
 is completed at its isolated synthetic boundary. Fresh AAL2/assignment/claim/replay/conflict/denial
