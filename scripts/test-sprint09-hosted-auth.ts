@@ -1,4 +1,5 @@
 import { createInterface } from "node:readline";
+import { execFileSync } from "node:child_process";
 
 import { createClient } from "@supabase/supabase-js";
 
@@ -6,11 +7,14 @@ import { createClient } from "@supabase/supabase-js";
 // OTP input, provider tokens and browser cookies remain in memory and are never logged.
 const origin = "https://meneerhealth.co.za";
 const email = "support@meneerhealth.co.za";
+// Task 13.3 reuses only this client-side Auth driver, not Sprint 9 SQL/configuration.
+const sprint13 =
+  process.env.SPRINT13_HOSTED_ONBOARDING_CONFIRM === "isolated-support-onboarding-only";
 function invariant(value: unknown, message: string): asserts value {
   if (!value) throw new Error(message);
 }
 invariant(
-  process.env.SPRINT09_HOSTED_AUTH_CONFIRM === "disposable-support-mailbox-only" &&
+  (process.env.SPRINT09_HOSTED_AUTH_CONFIRM === "disposable-support-mailbox-only" || sprint13) &&
     process.env.SUPABASE_URL === "https://gibfpolrdjotwvewgfsz.supabase.co" &&
     process.env.SUPABASE_SECRET_KEY,
   "HOSTED_AUTH_GUARD_REJECTED",
@@ -85,8 +89,19 @@ async function rememberCookie(response: Response, name: string, keyName: string,
 
 const preactivation = "__Host-meneer-preactivation";
 const session = "__Host-meneer-session";
+// Prevent a pseudo-terminal from echoing submitted OTP lines into the terminal transcript.
+const terminalState = process.stdin.isTTY
+  ? execFileSync("stty", ["-g"], { encoding: "utf8", stdio: ["inherit", "pipe", "pipe"] }).trim()
+  : undefined;
+if (terminalState) execFileSync("stty", ["-echo"], { stdio: ["inherit", "ignore", "pipe"] });
 const lines = createInterface({ input: process.stdin, terminal: false });
-console.log(JSON.stringify({ ready: true, exercise: "sprint09-hosted-auth", tokensLogged: false }));
+console.log(
+  JSON.stringify({
+    ready: true,
+    exercise: sprint13 ? "sprint13-hosted-onboarding" : "sprint09-hosted-auth",
+    tokensLogged: false,
+  }),
+);
 try {
   for await (const line of lines) {
     const input = JSON.parse(line) as { action: string; code?: string };
@@ -285,6 +300,8 @@ try {
   process.exitCode = 1;
 } finally {
   lines.close();
+  if (terminalState)
+    execFileSync("stty", [terminalState], { stdio: ["inherit", "ignore", "pipe"] });
   for (const token of accessTokens) await admin.auth.admin.signOut(token, "global");
   if (userId) {
     const result = await admin.auth.admin.deleteUser(userId);

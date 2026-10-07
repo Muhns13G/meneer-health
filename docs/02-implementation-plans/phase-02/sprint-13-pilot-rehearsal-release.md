@@ -44,7 +44,7 @@ implemented journey and the operating team can recover safely from expected fail
 | ----- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------- |
 | 13.1  | Freeze the rehearsal script, test identities, expected evidence, stop conditions, owners and cleanup plan.                                | Release governance | Completed (contract) |
 | 13.2  | Verify exact deployed version, environment bindings, secrets, hosted migrations, RLS/advisors, monitoring, backup and rollback readiness. | Platform           | Completed            |
-| 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | Planned              |
+| 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | In progress          |
 | 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Planned              |
 | 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | Planned              |
 | 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Planned              |
@@ -54,6 +54,11 @@ implemented journey and the operating team can recover safely from expected fail
 | 13.10 | Issue the Sprint 13 and Phase 02 completion reports plus explicit pilot go/no-go, rollback and first-client checklist.                    | Release            | Planned              |
 
 ## Acceptance Gate
+
+Task [13.3 onboarding rehearsal](annexures/sprint-13-3-onboarding-rehearsal.md) is in progress from
+committed 13.2 closure `e0ab390`. Fresh hosted fixture/configuration/email/cleanup authority is
+received; historical approvals do not carry forward. Independent SQL baseline passes across all
+125 application tables. No hosted onboarding completion is yet claimed.
 
 The [completed 13.2 platform evidence packet](annexures/sprint-13-2-platform-readiness.md) records
 exact deployed-source provenance, database restrictions/advisor review, approved hosted volatility

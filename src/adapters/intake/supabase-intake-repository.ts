@@ -13,7 +13,7 @@ export class SupabaseIntakeRepository implements IntakeRepository {
     const { data, error } = await this.client.rpc(name, args);
     if (error) {
       if (error.code === "42501") throw new IdentityRejectedError();
-      if (error.code === "40001" || error.code === "23505") throw new IntakeConflictError();
+      if (["PT409", "40001", "23505"].includes(error.code)) throw new IntakeConflictError();
       throw new IdentityUnavailableError();
     }
     return data as unknown;
