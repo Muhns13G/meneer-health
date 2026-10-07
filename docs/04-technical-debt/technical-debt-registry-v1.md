@@ -41,13 +41,20 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Sprint 13.4 Preparation Finding — TD-061 In Progress
+
+Four intentional queue conflicts use serialization SQLSTATE `40001`, confirmed by static inspection
+and a read-only hosted definition count. The local narrow correction is prepared; hosted migration
+approval, owner deployment and fresh conflict/claim/cleanup proof remain outstanding. TD-060 remains
+Verified for intake only. Current totals: **61 items — 53 Verified, eight non-Verified**.
+
 ### Sprint 13.3 Rehearsal Finding — TD-060 Verified
 
 The initial hosted stale-version exercise returned 503 rather than 409. The owner-approved narrow
 migration and owner-deployed adapter now pass fresh hosted draft/replay, unchanged-version 409,
 submission and foreign-intake denial; independent encrypted-state and exact cleanup proof pass.
 TD-060 is Verified for this one RPC. Task 13.3 is completed at its synthetic boundary; the pilot
-remains suspended and intake disabled. Current totals: **60 items — 53 Verified, seven non-Verified**.
+remains suspended and intake disabled. Totals at that checkpoint: **60 items — 53 Verified, seven non-Verified**.
 Sprint 12 totals below are historical; other RPC conflict-code review remains Task 13.9.
 
 ### Sprint 12 Closure — Completed With Activation Gates
@@ -622,6 +629,25 @@ own-client projection and foreign-intake denial. Review presentation passed in c
 desktop/mobile tests, not a new hosted browser/AT claim. Independent encrypted-record/receipt proof
 passed; exact cleanup restored all 125 table fingerprints, original triggers and zero Auth users/
 sessions. Final identical-code Worker `f8aed8c4-1e33-4e06-a93f-34130cfdc6d8` restores disabled intake.
+
+## TD-061 — Queue RPC Business Conflicts Use Serialization SQLSTATE
+
+Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target: Task 13.4
+before hosted claim-conflict rehearsal. Evidence: [assignment/payment packet](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md).
+
+`public.command_operations_queue(uuid,uuid,text,uuid,uuid,uuid,jsonb)` has four intentional
+`QUEUE_CONFLICT` raises using `40001`. Static inspection and read-only hosted definition counting
+confirm the reachable misuse; no fresh hosted retry/503 failure was induced or claimed.
+
+Prepared migration `20261007220000` changes only these four raises to `PT409` and asserts unchanged
+owner, ACL, security-definer and configuration. Only the command adapter recognises the new code;
+genuine serialization errors and other RPCs remain unchanged. Acceptance requires local SQL and
+adapter/HTTP regression, explicit hosted migration approval, owner-deployed adapter, fresh immediate
+409 on stale/changed-payload commands with unchanged claim/version, exact replay success and
+independent scoped cleanup proof. Do not mark Verified from static tests alone.
+
+Local preparation passes 33 application tests, 103 rollback-only queue SQL assertions, strict
+TypeScript, focused lint and migration security-metadata guards. Hosted acceptance remains pending.
 
 ## Registry Maintenance Rules
 

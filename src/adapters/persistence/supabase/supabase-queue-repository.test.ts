@@ -122,6 +122,7 @@ describe("minimum server queue repository", () => {
     expect(rpc).not.toHaveBeenCalled();
   });
   it.each([
+    ["PT409", QueueConflictError],
     ["40001", QueueConflictError],
     ["55000", QueueReadinessError],
     ["42501", IdentityRejectedError],
