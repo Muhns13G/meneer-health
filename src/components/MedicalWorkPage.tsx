@@ -51,7 +51,7 @@ export function MedicalWorkPage() {
   const [evidence, setEvidence] = useState("");
   const [deadline, setDeadline] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
-  const [operation, setOperation] = useState("record_transfer");
+  const [operation, setOperation] = useState("prepare_transfer");
   const [references, setReferences] = useState<Record<string, string>>({});
   const [grantFields, setGrantFields] = useState<string[]>([]);
   const heading = useRef<HTMLHeadingElement>(null);
@@ -157,7 +157,11 @@ export function MedicalWorkPage() {
         z.object({ reference: z.uuid(), outcome: z.literal("recorded") })
           .strict()
           .parse(v);
-        setMessage("The attributed response is recorded. This is not treatment approval.");
+        setMessage(
+          body.action === "prepare_transfer"
+            ? "Transfer preparation recorded. No information has been sent. Reload the queue for the current case version."
+            : "The attributed response is recorded. This is not treatment approval.",
+        );
         setItems([]);
         setEvidence("");
       }
@@ -193,7 +197,7 @@ export function MedicalWorkPage() {
           <select
             className="mt-3 block w-full rounded-xl border bg-surface px-4 py-3"
             value={purpose}
-            disabled={busy}
+            disabled={!hydrated || busy}
             onChange={(e) => {
               clear();
               setPurpose(e.target.value as typeof purpose);
@@ -224,7 +228,7 @@ export function MedicalWorkPage() {
           {items.map((item) => (
             <li key={item.intakeId}>
               <button
-                disabled={busy}
+                disabled={!hydrated || busy}
                 className="break-all text-left text-gold underline"
                 onClick={() => void send({ action: "read", intakeId: item.intakeId, purpose })}
               >
@@ -296,8 +300,9 @@ export function MedicalWorkPage() {
           <p className="mt-4 text-muted-foreground">
             These commands recheck server authority. References must identify existing approved
             records; entering a reference never grants access. Transcription requires the
-            authoritative review deposit, which remains unavailable until Sprint 11. No protocol is
-            generated or sent here.
+            authoritative review deposit. Prepare the current submitted snapshot before external
+            work; preparation does not send information or approve treatment. After preparation,
+            reload the queue for its current case version. No protocol is generated or sent here.
           </p>
           <form
             method="post"
@@ -313,7 +318,7 @@ export function MedicalWorkPage() {
                 command.purpose = purpose;
                 command.fields = grantFields;
               }
-              if (operation === "record_transfer")
+              if (operation === "prepare_transfer" || operation === "record_transfer")
                 command.caseVersion = Number(references.caseVersion);
               void send(command);
             }}
@@ -323,7 +328,7 @@ export function MedicalWorkPage() {
               <select
                 className="mt-3 block w-full rounded-xl border bg-surface px-4 py-3"
                 value={operation}
-                disabled={busy}
+                disabled={!hydrated || busy}
                 onChange={(e) => {
                   setOperation(e.target.value);
                   setReferences({});
@@ -333,6 +338,7 @@ export function MedicalWorkPage() {
                 {[
                   ["approve_grant", "Clinical approval of medical grant"],
                   ["activate_grant", "Independent security activation"],
+                  ["prepare_transfer", "Prepare authorised manual transfer"],
                   ["record_transfer", "Record deliberate manual transfer"],
                   ["reconcile_transfer", "Independently reconcile transfer"],
                   [
@@ -354,21 +360,23 @@ export function MedicalWorkPage() {
               ? ["intakeId", "snapshotId", "targetSubjectId", "rosterReference", "expiresAt"]
               : operation === "activate_grant" || operation === "dispose"
                 ? ["approvalId"]
-                : operation === "record_transfer"
-                  ? ["intakeId", "snapshotId", "caseVersion", "externalReference"]
-                  : operation === "reconcile_transfer"
-                    ? ["transferId", "evidenceReference"]
-                    : operation === "reconcile_provider_disposition"
-                      ? ["transferId", "approvalId", "evidenceReference"]
-                      : operation === "approve_disposition"
-                        ? ["intakeId", "snapshotId", "eligibleAt", "evidenceReference"]
-                        : ["intakeId", "evidenceReference"]
+                : operation === "prepare_transfer"
+                  ? ["intakeId", "snapshotId", "caseVersion"]
+                  : operation === "record_transfer"
+                    ? ["intakeId", "snapshotId", "caseVersion", "externalReference"]
+                    : operation === "reconcile_transfer"
+                      ? ["transferId", "evidenceReference"]
+                      : operation === "reconcile_provider_disposition"
+                        ? ["transferId", "approvalId", "evidenceReference"]
+                        : operation === "approve_disposition"
+                          ? ["intakeId", "snapshotId", "eligibleAt", "evidenceReference"]
+                          : ["intakeId", "evidenceReference"]
             ).map((key) => (
               <label className="block" key={key}>
                 {key.replaceAll(/([A-Z])/g, " $1")}
                 <input
                   required
-                  disabled={busy}
+                  disabled={!hydrated || busy}
                   autoComplete="off"
                   type={key === "caseVersion" ? "number" : "text"}
                   min={key === "caseVersion" ? 1 : undefined}

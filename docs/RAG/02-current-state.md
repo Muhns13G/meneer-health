@@ -131,8 +131,15 @@ exact row/security/function restoration; corrected packet rerun passes 517 asser
 targeted tests pass. Hosted fixture/configuration/
 cleanup and a fresh signed R999 sandbox deposit/exact refund are explicitly approved, but no new
 hosted resource is created yet. TD-062's six-raise/four-RPC narrow medical conflict correction is
-prepared and locally tested; hosted migration approval and owner handler deployment are required.
-Current totals: **62 items — 54 Verified, eight non-Verified**. Generator entitlement/mapping/output
+prepared and locally tested; the owner-approved hosted migration is now applied with six corrected
+raises and retained access/history boundaries verified read-only. TD-063 records a missing
+first-party preparation transition: readiness is always false but recording requires a ready case;
+tests previously seeded that state. Owner-approved first-party preparation is now implemented
+locally with immutable bounded intents and record binding. Local schema replay, 116 focused SQL/
+546 packet assertions, production build and 4/4 controlled browser checks pass. New migration
+approval, owner deployment and fresh genuinely paid hosted workflow/cleanup remain required;
+no seeded hosted state substitutes for that proof.
+Current totals: **63 items — 54 Verified, nine non-Verified**. Generator entitlement/mapping/output
 proof remains externally gated; the real pilot remains suspended.
 
 ## Sprint 13.4 — Assignment/Payment Rehearsal Completed

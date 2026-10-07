@@ -41,13 +41,23 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Sprint 13.5 Workflow Finding — TD-063 In Progress
+
+The first-party medical transfer RPC requires a ready case, but the only current queue readiness
+transition depends on a permanently false legacy readiness contract. Positive local transfer
+fixtures manually set ready state; they are not end-to-end workflow proof. Read-only hosted
+definitions confirm the gap. An explicit guarded first-party preparation command is recommended;
+owner direction is approved and guarded preparation is implemented/tested locally. New hosted
+migration approval, owner deployment and fresh acceptance remain outstanding. Current totals:
+**63 items — 54 Verified, nine non-Verified**.
+
 ### Sprint 13.5 Preparation Finding — TD-062 In Progress
 
 Six intentional medical grant/transfer business conflicts still use serialization SQLSTATE in
 four RPCs, confirmed statically and by read-only hosted definition counts. The narrow local
 correction is prepared; separate hosted approval, owner deployment and runtime/replay/cleanup
 acceptance remain outstanding. TD-060/061 remain Verified in their own scopes. Current totals:
-**62 items — 54 Verified, eight non-Verified**.
+**62 items — 54 Verified, eight non-Verified** at that earlier preparation checkpoint.
 
 ### Sprint 13.4 Rehearsal Finding — TD-061 Verified
 
@@ -680,6 +690,39 @@ Local migration guards and 87 SQL assertions plus five HTTP mapping tests pass. 
 separate hosted migration approval, owner deployment, fresh routed stale/replay/independence proof
 with unchanged durable state and exact cleanup. Fixture/payment approvals alone do not authorise
 this schema change. Do not mark Verified from static/local tests alone.
+
+The owner-approved migration is now applied with matching history and independently verified
+six `PT409` raises and retained access boundaries. Fresh routed runtime/replay/cleanup proof remains
+pending; the newly found TD-063 preparation gap must be resolved before a positive full journey.
+
+## TD-063 — Missing First-Party Medical Transfer Preparation Transition
+
+Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target:
+Task 13.5 before real medical transfer or claims of end-to-end pilot readiness. Evidence:
+[protocol bridge packet](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md).
+
+`operations_readiness` always returns false; `mark_ready` requires true, while the selected
+first-party `record_medical_transfer` requires a case already ready. No first-party preparation
+command supplies that transition. Existing positive tests manually set ready state as a fixture.
+Source trace and read-only hosted definition checks confirm the gap, not a newly induced hosted
+incident. A seeded ready state cannot substitute for authenticated workflow proof.
+
+Recommend an explicit, idempotent, audited first-party preparation command checking exact current
+snapshot, recipient/notice/client authorisation, restriction/safety, authoritative deposit, bounded
+medical grant, AAL2, assignment/claim and version before advancing ready. Recording must bind and
+revalidate that preparation; independent reconciliation remains separate and nonclinical.
+Acceptance requires owner workflow direction, local positive/denial/replay/expiry/audit checks,
+separately approved hosted schema and owner deployment, a fresh genuinely paid protected journey
+without manually seeded state, and independent exact cleanup. Alternatively explicitly retain
+transfer as unavailable; that does not establish pilot readiness. No clinical/safety bypass.
+
+The owner approved the first-party command. Local migration `20261007204237` adds immutable
+bounded preparation/record binding; HTTP/UI only submit references and do not activate legacy
+readiness. Clean replay, 116 focused SQL assertions, 546 full packet assertions, production build
+and 4/4 controlled desktop/mobile browser checks pass. Preparation/replay deny changed authority,
+restriction, safety hold, grant revocation, released claim, suspended account and wall-clock expiry;
+failed audit rolls back intent/state. Hosted migration approval, owner deployment, genuine paid
+protected workflow and exact cleanup are still required; not Verified from local proof alone.
 
 ## Registry Maintenance Rules
 

@@ -59,7 +59,8 @@ hashes are consistency evidence, not a cryptographic clinical record seal.
 Existing positive local fixtures replace only the case-specific payment function inside the
 rollback transaction. That visible substitution is not hosted funding, Stripe settlement or
 generator evidence. This packet must never be adapted to hosted by replacing its container target,
-nor copied with the local seed. No schema migration or production guard change is proposed.
+nor copied with the local seed. The packet itself changes no schema or production guard;
+the separately reviewed narrow TD-062 correction is recorded below.
 
 ## Hosted Packet — Approved, New Correction Still Gated
 
@@ -101,10 +102,79 @@ Local migration/security guards and 87 SQL assertions across three suites pass, 
 case version, changed transfer replay and changed independent reconciliation. Five HTTP error-
 mapping tests pass alongside local packet guard tests. This correction needs separate explicit
 hosted migration approval and owner-deployed handler before the hosted conflict packet runs.
+The owner committed preparation at `ef7d3a3` and explicitly approved hosted application. The
+linked dry-run contained only `20261007201957`, with no seeds/roles; application succeeded.
+Independent read-only verification confirms the six `PT409` raises (1/1/2/2), retained security-
+definer and anonymous/browser denial/service-wrapper boundaries, and matching migration history.
+The migration's unchanged owner/ACL/configuration guards passed atomically. Fresh active Cloudflare
+version `6ae5b581-0219-4a2d-a646-73a4829e48fd` serves 100%, script ETag
+`da37d24c1ce2fa01145b0dfb5f2a5847448d2dde40e477ff569c6e7ef5bd3fbc`, after the owner-reported
+latest branch deployment. This is a runtime metadata checkpoint, not independently mapped Git SHA
+or authenticated medical command proof. Auth users/sessions remain zero and the real pilot suspended.
+Canonical order/intake commands remain disabled (412); Stripe webhook remains disabled (404).
+TD-062 remains
+in progress until fresh routed conflict/replay/cleanup proof passes; configuration presence or
+owner deployment alone is not that proof. No disposable hosted resources have been created here.
+
 The CLI-generated timestamp precedes previously applied `20261007220000`; local validation used
 `migration up --local --include-all`. Hosted dry-run must be reviewed for exactly this pending
 migration before any approved application; no seed or unrelated migration is authorised.
 The linked dry-run with `--include-all` confirms exactly this one migration and no seeds/roles.
+
+## TD-063 — First-Party Preparation Implemented Locally, Hosted Proof Pending
+
+The whole-journey trace found a real capability gap hidden by positive fixture setup. The retained
+`identity_private.operations_readiness(uuid)` still returns `paymentReadiness=integration_pending`
+and `ready=false`. `command_operations_queue` requires this readiness before `mark_ready` can
+advance `onboarding_pending` to `ready_for_handoff`. Meanwhile `record_medical_transfer` requires
+the case already be `ready_for_handoff`. At discovery no first-party preparation action bridged
+these states; client transfer authorisation recorded consent without moving the case.
+
+Read-only hosted function-definition flags independently confirm all three conditions. The
+positive medical-transfer SQL tests previously set the case state as a fixture, then used their
+rollback-only synthetic payment function. Those tests prove the isolated transfer machinery;
+they do not prove a live case can reach it through the first-party workflow. Do not set a hosted
+case to ready through fixture SQL and call that end-to-end proof, or unlock the legacy external-
+link readiness as a shortcut. The approved additional sandbox capture has not been created.
+
+The owner approved implementation. New first-party `prepare_transfer` rechecks the exact submitted snapshot,
+client recipient/notice authorisation, no restriction/unresolved safety hold, authoritative deposit,
+live bounded medical-transfer grant, AAL2, active assignment/current claim and expected case version.
+It persists a payload-free preparation intent and idempotent audit before external work; only then
+advances to `ready_for_handoff`. `record_transfer` binds that preparation and rechecks the same
+live guards, including exact replay, while acknowledgement remains separate independent nonclinical
+evidence. Staff controls and stale/replay/restriction/expiry/audit-failure tests are implemented.
+It does not auto-clear safety holds,
+approve protocols, invoke the generator or make a paid flag medical authority.
+
+Migration `20261007204237_first_party_medical_transfer_preparation.sql` is applied **locally only**.
+Two forced-RLS, service-hidden immutable journals bind grant/claim/client-authorisation/snapshot/
+case versions and the recorded transfer. The intent expires within 15 minutes and no later than
+grant, assignment, client authorisation or publication validity. Expiry, release or replaced
+authority does not create a resend permission. Preparation requires the assigned current claimant
+to hold an independently approved medical-transfer grant; ordinary staff membership is insufficient.
+Existing recording-function owner, ACL, security-definer and configuration are asserted unchanged;
+the legacy external-link readiness remains closed and unchanged. No clinical protocol approval.
+
+The staff HTTP handler accepts only intake/snapshot/version/request references, and the UI defaults
+to preparation, states that nothing was sent, and requires reloading the current case version
+before recording. Browser testing found editable pre-hydration fields could lose early input;
+all affected controls now remain disabled until hydration, preserving native required validation.
+No private values enter URL/storage, and existing state-clearing/status focus behaviour is retained.
+
+Clean local schema replay passes. Final local evidence: **116 focused SQL assertions** across three
+suites, **546 assertions** in the nine-suite fingerprint packet, **94 application tests across ten suites**,
+production build/client canary/MCP absence, TypeScript/ESLint/portability/discovery/generated checks,
+SQL lint with no errors and **4/4 desktop/mobile controlled browser checks** including axe/reflow, exact reference payload,
+no claimed external delivery and stale-conflict/no-auto-retry. Browser responses are controlled;
+they do not replace hosted Auth/database/provider proof. An initial legacy packet interruption
+was followed by isolated and complete passing reruns; no guard/assertion was relaxed.
+
+Hosted application of this new migration needs fresh explicit approval and owner deployment of
+the new handler/control. Capture a new schema baseline after application (two additional private
+tables); do not reuse the old 125-table hardcoded deposit driver. Then complete the already
+approved fresh hosted paid preparation/record/reconciliation/cleanup packet. Until it passes,
+TD-063 and Task 13.5 remain in progress; current generator compatibility stays separately gated.
 
 Before any mutation, verify exact source/runtime/schema, suspended pilot, empty application/Auth
 baseline, existing secret metadata, provider quota and unchanged configuration. Persist a private
@@ -126,14 +196,16 @@ gate. TD-009/007/043 retain their real-provider/domain/operating criteria regard
 
 ## Status
 
-Task 13.5 is **in progress**. Initial local packet passed 514 assertions; after the narrow correction,
+Task 13.5 is **in progress**. Earlier local packet passed 514 assertions; after the narrow correction,
 the instrumented full rerun passes **517 assertions across nine suites**, with exact row/security/
 function restoration. One initial corrected-packet run stopped with a generic failure; adding
 safe suite/reason diagnostics and repeating the packet passed. The interruption was not reproduced
 or conclusively diagnosed; no assertion or production guard was weakened. Final local regression
 passes **90 tests across nine suites**, strict TypeScript, focused ESLint and formatting/whitespace
-checks. The local test stack is stopped. Fresh hosted fixture/configuration/payment/cleanup
-approvals are received, but new migration approval, owner handler deployment and bounded driver
-execution remain outstanding; current external generator compatibility is gated.
-No hosted data/configuration, source deployment,
+checks. The subsequent preparation implementation and stronger validation are recorded above.
+Fresh hosted fixture/configuration/payment/cleanup
+approvals are received and the approved TD-062 migration is applied. TD-063's first-party
+preparation is implemented/tested locally; new hosted migration approval, owner deployment and
+fresh bounded driver acceptance are required before closure. Current external
+generator compatibility remains gated. No disposable hosted data/configuration, source deployment,
 branch switch, staging, commit or push has been performed by this task.
