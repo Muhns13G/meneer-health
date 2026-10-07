@@ -38,4 +38,5 @@ export const portalAccountFixture: PortalAccount = {
     },
   ],
   workflows: [],
+  operationsCases: [],
 };

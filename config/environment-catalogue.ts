@@ -15,6 +15,70 @@ export type EnvironmentCatalogueEntry = {
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   {
+    name: "MEDICAL_INTAKE_TENANT_ID",
+    purpose:
+      "Explicit tenant scope for reviewed clinical safety notification dispatch; never inferred from client input.",
+    owner: "Clinical and release owners",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation:
+      "Change only under reviewed release; isolated fixture binding removed after rehearsal.",
+  },
+  {
+    name: "MEDICAL_INTAKE_MODE",
+    purpose:
+      "Explicit opt-in for reviewed protected intake; disabled until isolated release proof and domain approval.",
+    owner: "Clinical, privacy and release owners",
+    sensitivity: "public",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation:
+      "Keep disabled during synthetic-only development; no real tenant activation inferred.",
+  },
+  {
+    name: "MEDICAL_INTAKE_KEYRING_JSON",
+    purpose:
+      "Dedicated versioned 32-byte AES-GCM medical payload keys, never reused from session, journey or recovery keys.",
+    owner: "Medical data and security custodian",
+    sensitivity: "secret",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation:
+      "Authorised key rotation retains old decryption keys until governed re-encryption and retention complete; never log values.",
+  },
+  ...["OPERATIONS_ALERTS_MODE", "OPERATIONS_ALERTS_TENANT_ID", "BREVO_API_KEY"].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Opt-in generic internal operations alert delivery; disabled until hosted rehearsal.",
+      owner: "Operations and release owner",
+      sensitivity: name === "BREVO_API_KEY" ? "secret" : "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "Review on provider or tenant change; API credentials are distinct from SMTP credentials.",
+    }),
+  ),
+  ...["HANDOFF_INTAKE_URL", "HANDOFF_DESTINATION_ID", "HANDOFF_DESTINATION_VERSION"].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Owner-configured private patient-intake channel; exact digest/version requires separate AAL2 admin approval.",
+      owner: "Provider hand-off and release owner",
+      sensitivity: name === "HANDOFF_INTAKE_URL" ? "secret" : "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "Reapprove the recipient and reauthorise clients whenever URL or version changes; never log the link.",
+    }),
+  ),
+  {
     name: "SUPABASE_URL",
     purpose:
       "Server-only endpoint for the selected Supabase PostgreSQL and managed identity adapters.",

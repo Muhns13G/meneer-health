@@ -25,6 +25,9 @@ identity, authority, and release gates are approved. A producer may emit a major
 every registered consumer supports it.
 
 Migration candidates must consume the JSON fixtures without rewriting their expected observations.
+`operations.record@1` describes internal, strict queue/evidence records with opaque references;
+it is neither a staff browser projection nor a command granting database access. The staff
+aggregate remains separate from clinical, payment and fulfilment workflow states.
 An intentional difference changes the capability disposition and requires approval; an unexplained
 difference is a stop condition. Use the v1-to-v2 rehearsal template under `docs/06-operations/`
 before any real cutover.

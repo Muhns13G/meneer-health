@@ -1,6 +1,23 @@
 import { z } from "zod";
 import { activationDocumentSchema } from "./pilot-activation";
 
+export const clientCaseStatusSchema = z.enum([
+  "waiting",
+  "action_required",
+  "handoff_pending",
+  "handoff_recorded",
+  "paused",
+  "completed",
+]);
+export const clientCaseProjectionSchema = z
+  .object({
+    reference: z.uuid(),
+    status: clientCaseStatusSchema,
+    updatedAt: z.iso.datetime({ offset: true }),
+  })
+  .strict();
+export type ClientCaseProjection = z.infer<typeof clientCaseProjectionSchema>;
+
 export const portalAccountSchema = z
   .object({
     profile: z
@@ -38,6 +55,7 @@ export const portalAccountSchema = z
         })
         .strict(),
     ),
+    operationsCases: z.array(clientCaseProjectionSchema).max(100),
   })
   .strict()
   .refine(

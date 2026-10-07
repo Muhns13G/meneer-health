@@ -4,6 +4,117 @@ import { expect, test } from "@playwright/test";
 import { portalAccountFixture } from "../src/test/patient-portal-fixture";
 import { isolateExternalFonts } from "./helpers";
 
+test("own case progress remains coarse, private and clears on renewed-session denial", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  const statuses = ["waiting", "handoff_pending", "handoff_recorded", "paused", "completed"];
+  await page.route("**/portal/account", (route) =>
+    route.fulfill({
+      json: {
+        account: {
+          ...portalAccountFixture,
+          operationsCases: statuses.map((status, index) => ({
+            reference: `c8000000-0000-4000-8000-${String(index + 1).padStart(12, "0")}`,
+            status,
+            updatedAt: "2026-10-05T00:00:00Z",
+          })),
+        },
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      },
+    }),
+  );
+  await page.route("**/account/session/renew", (route) => route.fulfill({ status: 401, body: "" }));
+  await Promise.all([
+    page.waitForResponse((response) => new URL(response.url()).pathname === "/portal/account"),
+    page.goto("/portal"),
+  ]);
+  const progress = page.getByRole("region", { name: "Your case progress" });
+  for (const label of ["Waiting", "Hand-off pending", "Hand-off recorded", "Paused", "Completed"])
+    await expect(progress.getByRole("heading", { name: label, exact: true })).toBeVisible();
+  await expect(progress.getByText(/does not confirm treatment, payment or delivery/)).toBeVisible();
+  await expect(
+    page.getByText(/provider_review_pending|unable_to_complete|authorisation_stale/),
+  ).toHaveCount(0);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await page.getByRole("button", { name: "Refresh account and session" }).focus();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("status")).toContainText("Sign in with an active invited account");
+  await expect(progress).toHaveCount(0);
+  expect(
+    await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
+  ).toEqual({ local: 0, session: 0 });
+  expect(page.url()).toBe("http://127.0.0.1:8085/portal");
+  expect(errors).toEqual([]);
+});
+
+test("extra internal case fields fail closed without displaying any account data", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  await page.route("**/portal/account", (route) =>
+    route.fulfill({
+      json: {
+        account: {
+          ...portalAccountFixture,
+          operationsCases: [
+            {
+              reference: "c8000000-0000-4000-8000-000000000001",
+              status: "completed",
+              updatedAt: "2026-10-05T00:00:00Z",
+              outcome: "unable_to_complete",
+            },
+          ],
+        },
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      },
+    }),
+  );
+  await page.goto("/portal");
+  await expect(page.getByRole("status")).toContainText("temporarily unavailable");
+  await expect(page.getByRole("heading", { name: "Your case progress" })).toHaveCount(0);
+  await expect(page.getByText("Synthetic", { exact: true })).toHaveCount(0);
+});
+
+test("private intake is unavailable anonymously and does not imply provider receipt", async ({
+  page,
+  request,
+}) => {
+  await isolateExternalFonts(page);
+  expect(
+    (
+      await request.post("/portal/handoff/open", {
+        form: { requestKey: "b6000000-0000-4000-8000-000000000011" },
+        headers: { origin: "http://127.0.0.1:8085" },
+      })
+    ).status(),
+  ).toBe(401);
+  await page.route("**/portal/account", (route) =>
+    route.fulfill({
+      json: {
+        account: portalAccountFixture,
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      },
+    }),
+  );
+  let body = "";
+  await page.route("**/portal/handoff/open", (route) => {
+    body = route.request().postData() ?? "";
+    return route.fulfill({ status: 412, body: "" });
+  });
+  await page.goto("/portal");
+  await page.getByRole("button", { name: "Continue to private intake" }).click();
+  await expect(page.getByText("Your hand-off is not ready yet.", { exact: false })).toBeVisible();
+  expect([...new URLSearchParams(body).keys()]).toEqual(["requestKey"]);
+  expect(page.url()).toBe("http://127.0.0.1:8085/portal");
+  expect(
+    await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
+  ).toEqual({ local: 0, session: 0 });
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});
+
 test("portal shells deny data without a session and preserve private response policies", async ({
   page,
   request,

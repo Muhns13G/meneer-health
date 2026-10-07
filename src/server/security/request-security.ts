@@ -13,6 +13,20 @@ const correlationPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 const idempotencyPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$/;
 const directEndpointPrefixes = ["/api", "/.mcp"] as const;
 const registeredPostRoutes = new Map<string, RequestRouteClass>([
+  ["/staff/queue/read", "protected-command"],
+  ["/staff/alerts/read", "protected-command"],
+  ["/staff/alerts/respond", "protected-command"],
+  ["/staff/queue/detail", "protected-command"],
+  ["/staff/queue/command", "protected-command"],
+  ["/staff/queue/handoff", "protected-command"],
+  ["/staff/queue/evidence", "protected-command"],
+  ["/staff/queue/destination", "protected-command"],
+  ["/portal/handoff/open", "protected-command"],
+  ["/staff/sign-in", "protected-command"],
+  ["/staff/mfa", "protected-command"],
+  ["/staff/session", "protected-command"],
+  ["/staff/invite", "protected-command"],
+  ["/staff/sign-out", "protected-command"],
   ["/api/journey/intent", "protected-command"],
   ["/api/measurement/consent", "protected-command"],
   ["/api/measurement/events", "protected-command"],
@@ -21,6 +35,8 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/account/verify", "protected-command"],
   ["/account/activate", "protected-command"],
   ["/portal/rights/command", "protected-command"],
+  ["/portal/intake/command", "protected-command"],
+  ["/staff/intake/command", "protected-command"],
   ["/account/sign-in", "protected-command"],
   ["/account/recover", "protected-command"],
   ["/account/sign-out", "protected-command"],
@@ -263,6 +279,8 @@ export async function inspectPublicRequest(
   if (
     [
       "/account/verify",
+      "/staff/sign-in",
+      "/staff/session",
       "/account/activate",
       "/account/sign-in",
       "/account/recover",

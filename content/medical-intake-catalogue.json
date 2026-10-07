@@ -1,0 +1,197 @@
+{
+  "catalogueId": "meneer-medical-history",
+  "sourceSha256": "76d412344cd59d1ae66c7a0fb97a58e41f0802467f094a18ae8df8c1443d467a",
+  "sourceQuestionVersion": "1.0.0",
+  "collectionVersion": "1.1.0",
+  "controlVersion": "1.0.0",
+  "sections": [
+    {
+      "id": 1,
+      "title": "1. About you"
+    },
+    {
+      "id": 2,
+      "title": "2. Your health today"
+    },
+    {
+      "id": 3,
+      "title": "3. Family history"
+    },
+    {
+      "id": 4,
+      "title": "4. Lifestyle"
+    },
+    {
+      "id": 5,
+      "title": "5. Mental wellbeing"
+    },
+    {
+      "id": 6,
+      "title": "6. Sexual health and STIs"
+    },
+    {
+      "id": 7,
+      "title": "7. Category-specific sections (shown conditionally, based on what the patient selects)"
+    },
+    {
+      "id": 8,
+      "title": "8. Declaration and consent"
+    }
+  ],
+  "items": [
+    {
+      "id": "full_name",
+      "section": 1,
+      "prompt": "Full name",
+      "choices": null
+    },
+    {
+      "id": "date_of_birth",
+      "section": 1,
+      "prompt": "Date of birth",
+      "choices": null
+    },
+    {
+      "id": "identity_document",
+      "section": 1,
+      "prompt": "ID or passport number",
+      "choices": null
+    },
+    {
+      "id": "contact",
+      "section": 1,
+      "prompt": "Contact number and email",
+      "choices": null
+    },
+    {
+      "id": "measurements",
+      "section": 1,
+      "prompt": "Height and weight",
+      "choices": null
+    },
+    {
+      "id": "gp_contact",
+      "section": 1,
+      "prompt": "GP name and contact details (optional)",
+      "choices": null
+    },
+    {
+      "id": "health_history",
+      "section": 2,
+      "prompt": "Tell us about your health in your own words — any conditions you're currently managing or have been diagnosed with in the past, any hospital admissions or surgeries, and anything else you think we should know.",
+      "choices": null
+    },
+    {
+      "id": "medications",
+      "section": 2,
+      "prompt": "Current medications — prescription, over-the-counter, and supplements (name, dose, frequency)",
+      "choices": null
+    },
+    {
+      "id": "allergies",
+      "section": 2,
+      "prompt": "Known allergies — medications, food, other — and the reaction",
+      "choices": null
+    },
+    {
+      "id": "diagnosed_conditions",
+      "section": 2,
+      "prompt": "Do you have any of the following diagnosed conditions? Heart disease / high blood pressure / diabetes / kidney disease / liver disease / thyroid disorder",
+      "choices": null
+    },
+    {
+      "id": "family_history",
+      "section": 3,
+      "prompt": "Are there health conditions that run in your family — particularly heart disease, diabetes, prostate cancer, or other cancers? Tell us what you know, including age of onset if you know it.",
+      "choices": null
+    },
+    {
+      "id": "lifestyle",
+      "section": 4,
+      "prompt": "Tell us about your day-to-day habits — smoking, alcohol, exercise, and any recreational drug or unsupervised steroid or peptide use. Honesty here helps us keep you safe, and everything you share is confidential.",
+      "choices": null
+    },
+    {
+      "id": "mental_history",
+      "section": 5,
+      "prompt": "How would you describe your mental health at the moment? Include any past or current diagnoses — for example depression or anxiety — and any medication you're on for this.",
+      "choices": null
+    },
+    {
+      "id": "mental_safety",
+      "section": 5,
+      "prompt": "Over the last 2 weeks, have you had thoughts that you would be better off dead, or of hurting yourself in some way?",
+      "choices": ["Yes", "No"]
+    },
+    {
+      "id": "sexual_history",
+      "section": 6,
+      "prompt": "Tell us about your sexual health history — any STIs you've had in the past and whether they were treated, your last screening if you've had one, and anything currently on your mind.",
+      "choices": null
+    },
+    {
+      "id": "sti_symptoms",
+      "section": 6,
+      "prompt": "Do you currently have any of the following symptoms: unusual discharge, sores, pain when urinating, or a new rash in the genital area?",
+      "choices": ["Yes", "No"]
+    },
+    {
+      "id": "category_ed",
+      "section": 7,
+      "prompt": "Tell us about what you've been experiencing — how long it's been going on, whether it happens in some situations more than others, and whether you still get erections at other times (e.g. on waking).",
+      "choices": null
+    },
+    {
+      "id": "category_hair",
+      "section": 7,
+      "prompt": "Tell us about your hair loss — the pattern, whether it runs in your family, and anything you've tried before and how it went.",
+      "choices": null
+    },
+    {
+      "id": "category_weight",
+      "section": 7,
+      "prompt": "Tell us about your weight history — what you've tried before, including any prescription weight-loss medication, how it went, and anything about your relationship with food you think is relevant.",
+      "choices": null
+    },
+    {
+      "id": "category_trt",
+      "section": 7,
+      "prompt": "Tell us what's been going on — energy, libido, mood, sleep, or anything else — and whether you've used TRT before, prescribed or otherwise.",
+      "choices": null
+    },
+    {
+      "id": "category_peptides",
+      "section": 7,
+      "prompt": "Tell us what you're hoping to achieve, any peptides you've used before, and whether you have any autoimmune conditions or a current or recent cancer diagnosis.",
+      "choices": null
+    },
+    {
+      "id": "accuracy_declaration",
+      "section": 8,
+      "prompt": "I confirm the information I've given is accurate and complete to the best of my knowledge.",
+      "choices": null
+    },
+    {
+      "id": "doctor_review_consent",
+      "section": 8,
+      "prompt": "I consent to a Meneer-affiliated doctor reviewing this information and prescribing treatment if appropriate.",
+      "choices": null
+    },
+    {
+      "id": "signature",
+      "section": 8,
+      "prompt": "Signature and date",
+      "choices": null
+    }
+  ],
+  "extensions": [
+    {
+      "id": "sex",
+      "section": 1,
+      "prompt": "Sex",
+      "choices": ["Male", "Female", "Intersex", "Prefer not to say"],
+      "values": ["male", "female", "intersex", "prefer_not_to_say"],
+      "defaultValue": null
+    }
+  ]
+}

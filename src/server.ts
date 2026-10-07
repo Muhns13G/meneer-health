@@ -10,6 +10,17 @@ import { env } from "cloudflare:workers";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
+import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
+import { createQueueHttpHandler } from "./server/operations/queue-http";
+import { createAlertHttpHandler } from "./server/operations/alert-http";
+import { runScheduledOperationsAlerts } from "./server/operations/alert-dispatch";
+import { runMedicalSafetyDispatch } from "./server/intake/safety-dispatch";
+import { createStaffIntakeHttpHandler } from "./server/intake/staff-intake-http";
+import {
+  createPatientIntakeHttpHandler,
+  type IntakeBindings,
+} from "./server/intake/patient-intake-http";
+import { createPortalHandoffHttpHandler } from "./server/operations/portal-handoff-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
 import {
@@ -45,10 +56,41 @@ const handleRequest = createStartHandler(async (context) => {
   return applySsrResponsePolicy(context.request, result, nonce);
 });
 
-export type ServerEntry = { fetch: RequestHandler<Register> };
+export type ServerEntry = {
+  fetch: RequestHandler<Register>;
+  scheduled?: (
+    controller: ScheduledController,
+    bindings: Env,
+    context: ExecutionContext,
+  ) => Promise<void>;
+};
 
 export function createServerEntry(entry: ServerEntry): ServerEntry {
   return {
+    async scheduled(_controller, bindings) {
+      try {
+        const outcomes = await Promise.allSettled([
+          runScheduledOperationsAlerts(bindings as unknown as Record<string, unknown>),
+          runMedicalSafetyDispatch(bindings as unknown as Record<string, unknown>),
+        ]);
+        if (outcomes.some((result) => result.status === "rejected"))
+          throw new Error("SCHEDULED_DEPENDENCY_FAILED");
+      } catch {
+        emitTelemetry({
+          contract: "telemetry.event",
+          version: 1,
+          occurredAt: new Date().toISOString(),
+          environment: "production",
+          event: "request.denied",
+          severity: "critical",
+          outcome: "failed",
+          correlationId: crypto.randomUUID(),
+          reasonCode: "INTERNAL_FAILURE",
+          statusClass: "5xx",
+        });
+        throw new Error("OPERATIONS_ALERT_JOB_FAILED");
+      }
+    },
     async fetch(...args) {
       if (serverEnvironment.bundleCanary.length === 0) {
         throw new Error("Server configuration is invalid.");
@@ -86,6 +128,44 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/staff/intake/command")
+              return createStaffIntakeHttpHandler(env as unknown as IntakeBindings)(boundedRequest);
+            if (pathname === "/portal/intake/command")
+              return createPatientIntakeHttpHandler(env as unknown as IntakeBindings)(
+                boundedRequest,
+              );
+            if (["/staff/alerts/read", "/staff/alerts/respond"].includes(pathname)) {
+              return createAlertHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (
+              [
+                "/staff/queue/read",
+                "/staff/queue/detail",
+                "/staff/queue/command",
+                "/staff/queue/handoff",
+                "/staff/queue/evidence",
+                "/staff/queue/destination",
+              ].includes(pathname)
+            ) {
+              return createQueueHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (
+              (boundedRequest.method === "POST" && pathname.startsWith("/staff/")) ||
+              pathname === "/staff/session"
+            ) {
+              return createWorkforceHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (pathname === "/portal/handoff/open") {
+              return createPortalHandoffHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
             if (pathname === "/portal/rights/command") {
               return createPatientRightsHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,

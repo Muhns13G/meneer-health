@@ -4,6 +4,8 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { portalViewSchema, type PortalView } from "@/domain/identity/patient-portal";
 import { PatientRightsPanel } from "./PatientRightsPanel";
+import { PortalHandoffPanel } from "./PortalHandoffPanel";
+import { ClientCaseProgress } from "./ClientCaseProgress";
 
 type ViewState =
   | { stage: "loading" | "signed-out" | "unavailable" | "expired" }
@@ -287,6 +289,14 @@ export function PatientPortalPage({ mode }: { mode: "overview" | "profile" | "ri
                     </article>
                   ))}
                 </section>
+                <ClientCaseProgress cases={state.view.account.operationsCases} />
+                <Link
+                  to="/portal/intake"
+                  className="mt-8 inline-block text-gold underline underline-offset-4"
+                >
+                  Your medical questionnaire
+                </Link>
+                <PortalHandoffPanel />
                 <section className="mt-10" aria-labelledby="account-progress">
                   <h2 id="account-progress" className="font-serif text-2xl text-foreground">
                     Non-clinical progress

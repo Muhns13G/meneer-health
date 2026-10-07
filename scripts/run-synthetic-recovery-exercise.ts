@@ -22,6 +22,7 @@ const governedSchemas = [
   "identity_private",
   "lifecycle_private",
   "payments_private",
+  "intake_private",
 ] as const;
 
 function docker(args: string[]): Buffer {
@@ -45,23 +46,28 @@ function databaseFingerprint(database: string): {
 } {
   const tableNames = sql(
     database,
-    "select tablename from pg_tables where schemaname = 'public' order by tablename",
+    "select schemaname || '.' || tablename from pg_tables where schemaname in ('public','intake_private') order by schemaname,tablename",
   )
     .split("\n")
-    .filter((name) => /^[a-z][a-z0-9_]*$/.test(name) && name !== "recovery_exercises");
+    .filter(
+      (name) =>
+        /^[a-z][a-z0-9_]*\.[a-z][a-z0-9_]*$/.test(name) && name !== "public.recovery_exercises",
+    );
   const counts: Record<string, number> = {};
   const facts: string[] = [];
   let total = 0;
   for (const table of tableNames) {
     const result = sql(
       database,
-      `select count(*)::text || '|' || coalesce(md5(string_agg(row_data, E'\\n' order by row_data)), md5('')) from (select to_jsonb(t)::text as row_data from public.${table} t) rows`,
+      `select count(*)::text || '|' || coalesce(md5(string_agg(row_data, E'\\n' order by row_data)), md5('')) from (select to_jsonb(t)::text as row_data from ${table} t) rows`,
     );
     const [countText, checksum] = result.split("|");
     const count = Number(countText);
     if (!Number.isSafeInteger(count) || checksum === undefined)
       throw new Error("RECOVERY_FINGERPRINT_INVALID");
-    counts[table] = count;
+    const countKey = table.startsWith("public.") ? table.slice(7) : table.replace(".", "__");
+    if (Object.hasOwn(counts, countKey)) throw new Error("RECOVERY_COUNT_KEY_COLLISION");
+    counts[countKey] = count;
     total += count;
     facts.push(`${table}|${count}|${checksum}`);
   }

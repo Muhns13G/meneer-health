@@ -15,6 +15,8 @@ import {
   recoveryManifestSchema,
 } from "./lifecycle";
 import { telemetryEventSchema } from "./observability";
+import { operationsRecordSchema } from "./operations";
+import { medicalIntakeRecordSchema } from "./medical-intake";
 import { measurementConsentCommandSchema, measurementEventSchema } from "./measurement";
 import { paymentCheckoutCommandSchema, verifiedPaymentProviderEventSchema } from "./payments";
 import { publicClaimRegisterSchema } from "./public-claims";
@@ -25,6 +27,8 @@ import { supportsContractMajor } from "./versioning";
 import { workflowTransitionCommandSchema } from "./workflows";
 
 const registeredSchemas: Readonly<Record<string, z.ZodType>> = {
+  "operations.record": operationsRecordSchema,
+  "medical-intake.record": medicalIntakeRecordSchema,
   "audit.fact": auditFactSchema,
   "error.response": errorContractSchema,
   "fulfilment.partner": verifiedFulfilmentPartnerEventSchema,
