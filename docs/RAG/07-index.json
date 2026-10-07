@@ -24,6 +24,16 @@
   },
   "documents": [
     {
+      "id": "sprint-13-7-evidence-reconciliation",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md",
+      "title": "Cross-Record Evidence and Recovery Reconciliation",
+      "type": "implementation-annexure",
+      "status": "in-progress",
+      "authority": "observed-evidence",
+      "priority": 2,
+      "topics": ["audit", "recovery", "cleanup", "monitoring", "sprint-13"]
+    },
+    {
       "id": "meneer-rag-governance",
       "path": "docs/RAG/00-governance.md",
       "title": "Meneer RAG Governance",

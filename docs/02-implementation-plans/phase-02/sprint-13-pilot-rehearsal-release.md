@@ -48,7 +48,7 @@ implemented journey and the operating team can recover safely from expected fail
 | 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Completed             |
 | 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | Completed (synthetic) |
 | 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Completed (synthetic) |
-| 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Planned               |
+| 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | In progress           |
 | 13.8  | Run the full local and hosted-safe validation matrix and complete manual desktop/mobile accessibility walkthroughs.                       | Quality            | Planned               |
 | 13.9  | Review every transferred debt item and record Verified, still-gated or scope-removed status without dilution.                             | Debt               | Planned               |
 | 13.10 | Issue the Sprint 13 and Phase 02 completion reports plus explicit pilot go/no-go, rollback and first-client checklist.                    | Release            | Planned               |
