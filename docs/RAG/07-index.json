@@ -1164,6 +1164,12 @@
       ]
     },
     {
+      "id": "phase-02-sprint-13-3",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md",
+      "status": "in-progress",
+      "authority_for": ["synthetic onboarding and first-party intake rehearsal scope and evidence"]
+    },
+    {
       "id": "phase-01-sprint-01",
       "path": "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
       "status": "completed",

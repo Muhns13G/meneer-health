@@ -111,6 +111,17 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+Task [13.3](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md) is
+in progress. Local service regressions and read-only baseline checks are preparation, not real
+invitation delivery, routed account/intake completion or cleanup evidence. Fresh bounded hosted
+authority has been received, including scoped cleanup; historical scenario helpers must not reuse
+old fixture IDs/configuration. Independent SQL confirms the empty application baseline except the
+one tenant and 12 provider gates. Real email Auth/profile/receipt/session/recovery proof now passes,
+but the hosted stale-intake-version check returns 503 rather than 409 (TD-060 In progress).
+The local narrow migration and adapter correction require hosted approval, owner deployment and
+fresh submission/denial proof. Exact scoped cleanup restored all table fingerprints and trigger
+state; Auth users/sessions are zero and intake is disabled again. Do not claim Task 13.3 completed.
+
 Task [13.2](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md) is
 completed for suspended-pilot readiness: exact deployment provenance, all three CI runs, hosted
 volatility correction, primary/alternate responders, offline key custody and production R2 restore

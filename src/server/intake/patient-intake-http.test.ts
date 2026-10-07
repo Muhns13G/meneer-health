@@ -1,6 +1,9 @@
 import { expect, it, vi } from "vitest";
 import { createPatientIntakeHttpHandler } from "./patient-intake-http";
-import type { MedicalIntakeService } from "@/application/intake/medical-intake-service";
+import {
+  IntakeConflictError,
+  type MedicalIntakeService,
+} from "@/application/intake/medical-intake-service";
 import { sealPatientSession, patientSessionCookieName } from "../identity/patient-session-cookie";
 const id = "d3000000-0000-4000-8000-000000000001";
 async function harness() {
@@ -87,6 +90,15 @@ it("is disabled without explicit release mode", async () => {
     ).status,
   ).toBe(412);
   expect(h.execute).not.toHaveBeenCalled();
+});
+it("returns a private 409 for a permanent intake conflict without disclosing details", async () => {
+  const h = await harness();
+  h.execute.mockRejectedValueOnce(new IntakeConflictError());
+  const response = await h.handler(h.request());
+  expect(response.status).toBe(409);
+  expect(response.headers.get("cache-control")).toContain("no-store");
+  expect(await response.text()).toBe("");
+  expect(h.execute).toHaveBeenCalledTimes(1);
 });
 it("does not enable another tenant during a bounded rehearsal", async () => {
   const h = await harness();

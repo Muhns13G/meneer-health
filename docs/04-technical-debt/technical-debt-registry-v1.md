@@ -41,6 +41,14 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Sprint 13.3 Rehearsal Finding — TD-060 In Progress
+
+The hosted questionnaire stale-version exercise returned 503 rather than the required 409.
+TD-060 records the intentional intake-conflict SQLSTATE defect; the affected rehearsal stopped
+before submission. Disposable application/Auth evidence was cleaned and disabled configuration
+restored. Current totals: **60 items — 52 Verified, eight non-Verified**. The Sprint 12 totals
+below describe their earlier checkpoint. Task 13.3 is not completed by the local patch.
+
 ### Sprint 12 Closure — Completed With Activation Gates
 
 The [completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
@@ -585,9 +593,31 @@ records final evidence. Remove the override only when parent tooling naturally r
 compatible version, then repeat frozen installation, audits, build and browser regression.
 
 Sprint 12 closure retains TD-006/007/009/010/037/038/043. Historical totals above predate TD-059;
-current total after final validation is **59 items — 52 Verified, seven non-Verified**.
+Sprint 12 total after final validation is **59 items — 52 Verified, seven non-Verified**.
 Engineering closure does not appoint real support owners, install unattended provider push or
 complete released-flow assistive-technology acceptance.
+
+## TD-060 — Medical Intake RPC Business Conflicts Use Serialization SQLSTATE
+
+Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target: Task 13.3
+before questionnaire activation. Evidence: [onboarding rehearsal packet](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md).
+
+Hosted draft/replay succeeded, but a deliberately stale version returned **503**, not **409**.
+`public.patient_intake_write(jsonb,jsonb)` has two intentional `INTAKE_CONFLICT` raises using
+`40001`. Supabase documents automatic transaction retry behaviour for this SQLSTATE in PostgREST;
+it is not the correct code for a permanent business conflict. This finding is consistent with the
+observed response, not a claim that provider retry logs were independently inspected.
+
+The proposed migration changes only those two intentional raises to `PT409`, asserting unchanged
+owner, ACL, security-definer setting and function configuration. The adapter recognises `PT409`;
+genuine serialization errors and other RPC functions are unchanged. Other intentional `40001`
+uses outside this narrow function remain a Task 13.9 reconciliation consideration, not covered by
+this patch's acceptance.
+
+Acceptance: local SQL/adapter/HTTP regressions pass; explicitly approved hosted application and
+owner deployment complete; a fresh isolated rehearsal proves draft/replay, immediate stale-version
+409 with no state/version change, review/submission, own-client denial and exact cleanup. Do not
+mark Verified from source edits, local tests or cleanup alone.
 
 ## Registry Maintenance Rules
 
