@@ -111,6 +111,16 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+Task [13.4](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md)
+is in preparation, not completed. Fresh bounded sandbox/cleanup approvals and read-only account/
+migration preflight are received; local regressions and a deposit-only SQL packet do not prove
+hosted assignment, claims, capture or signed funding. Saved local Stripe values are approved as
+a disabled restoration baseline, not proof of original hosted secret values; the disabled tenant
+pointer still needs resolution. TD-061 covers four intentional queue conflicts using `40001`,
+confirmed by static inspection and a read-only hosted count, not a deliberately induced hosted
+failure. Its local correction requires fresh hosted migration approval and owner deployment;
+a validated dedicated driver is also required. No hosted resources were created here.
+
 Task [13.3](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md) is
 completed for the approved isolated synthetic onboarding/intake rehearsal, not real pilot readiness.
 Actual email Auth/profile/receipt/session/recovery proof passes. The owner-approved migration

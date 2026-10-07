@@ -123,6 +123,20 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 13.4 — Assignment/Payment Rehearsal In Preparation
+
+The [13.4 packet](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md)
+starts from clean committed 13.3 closure `33430fc`. Fresh bounded hosted fixture/configuration,
+one R999 sandbox capture/exact refund and scoped cleanup approvals are received. Read-only Stripe
+test account/zero-webhook preflight and hosted migration parity pass; 47 local queue/payment tests
+pass. A new deposit-only prerequisite SQL packet is prepared but not applied. The dedicated driver,
+rollback validation and final disabled tenant pointer precede execution. The owner approved saved
+local Stripe values as a disabled restoration baseline, not exact restoration of unknown values.
+TD-061 records four intentional queue conflicts using `40001`, confirmed read-only on hosted;
+the narrow local `PT409` correction requires fresh hosted approval and owner source deployment.
+Current registry totals are **61 items — 53 Verified, eight non-Verified**. No new hosted
+identity, webhook, payment, binding or source deployment has been created by this task.
+
 ## Sprint 13.3 — Onboarding Rehearsal Completed
 
 The [13.3 packet](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md)
@@ -139,7 +153,7 @@ Exact cleanup restored all 125 table fingerprints, 13 baseline rows and original
 Auth users/sessions are zero. Final Worker `f8aed8c4-1e33-4e06-a93f-34130cfdc6d8` preserves the fresh
 owner-deployed script ETag, restores disabled intake and removes the temporary tenant binding.
 The canonical intake route returns 412; the real pilot remains suspended. Task 13.3 is completed
-and TD-060 Verified; registry totals are 60 items, 53 Verified and seven non-Verified. Other RPC
+and TD-060 Verified; registry totals at that checkpoint were 60 items, 53 Verified and seven non-Verified. Other RPC
 conflict-code review remains Task 13.9; historical backup artefact disposition remains Task 13.7.
 
 ## Sprint 13.2 — Platform Readiness Completed
