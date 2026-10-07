@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import {
   assertLocalEvidenceEnvironment,
   buildSprint13EvidenceSuite,
@@ -35,5 +36,17 @@ describe("Sprint 13.7 evidence packet", () => {
     expect(evidenceBaselineSql).toContain("pg_get_functiondef");
     expect(evidenceBaselineSql).toContain("pg_get_triggerdef");
     expect(evidenceBaselineSql).toContain("relforcerowsecurity");
+  });
+  it("keeps the separately approved hosted audit fixture rollback-only and transport-free", () => {
+    const sql = readFileSync("scripts/sql/sprint-13-evidence-audit.sql", "utf8");
+    expect(sql).toMatch(/\nbegin;/);
+    expect(sql).toMatch(/rollback;\s*$/);
+    expect(sql).not.toMatch(/^\s*(commit|alter|grant|revoke|truncate|delete)\b/im);
+    expect(sql).toContain("EVIDENCE_FIXTURE_COLLISION");
+    expect(sql).toContain("EVIDENCE_CROSS_RECORD_FAILED");
+    expect(sql).toContain("EVIDENCE_IMMUTABILITY_FAILED");
+    expect(sql).toContain("EVIDENCE_TAMPER_NOT_DETECTED");
+    expect(sql).not.toContain("insert into auth.");
+    expect(sql).not.toContain("payment.confirm");
   });
 });
