@@ -41,13 +41,14 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### Sprint 13.3 Rehearsal Finding — TD-060 In Progress
+### Sprint 13.3 Rehearsal Finding — TD-060 Verified
 
-The hosted questionnaire stale-version exercise returned 503 rather than the required 409.
-TD-060 records the intentional intake-conflict SQLSTATE defect; the affected rehearsal stopped
-before submission. Disposable application/Auth evidence was cleaned and disabled configuration
-restored. Current totals: **60 items — 52 Verified, eight non-Verified**. The Sprint 12 totals
-below describe their earlier checkpoint. Task 13.3 is not completed by the local patch.
+The initial hosted stale-version exercise returned 503 rather than 409. The owner-approved narrow
+migration and owner-deployed adapter now pass fresh hosted draft/replay, unchanged-version 409,
+submission and foreign-intake denial; independent encrypted-state and exact cleanup proof pass.
+TD-060 is Verified for this one RPC. Task 13.3 is completed at its synthetic boundary; the pilot
+remains suspended and intake disabled. Current totals: **60 items — 53 Verified, seven non-Verified**.
+Sprint 12 totals below are historical; other RPC conflict-code review remains Task 13.9.
 
 ### Sprint 12 Closure — Completed With Activation Gates
 
@@ -599,7 +600,7 @@ complete released-flow assistive-technology acceptance.
 
 ## TD-060 — Medical Intake RPC Business Conflicts Use Serialization SQLSTATE
 
-Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target: Task 13.3
+Priority **P1**; status **Verified**. Owner: `@Muhns13G` / System Architect. Target: Task 13.3
 before questionnaire activation. Evidence: [onboarding rehearsal packet](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md).
 
 Hosted draft/replay succeeded, but a deliberately stale version returned **503**, not **409**.
@@ -608,16 +609,19 @@ Hosted draft/replay succeeded, but a deliberately stale version returned **503**
 it is not the correct code for a permanent business conflict. This finding is consistent with the
 observed response, not a claim that provider retry logs were independently inspected.
 
-The proposed migration changes only those two intentional raises to `PT409`, asserting unchanged
+The approved/applied migration changes only those two intentional raises to `PT409`, asserting unchanged
 owner, ACL, security-definer setting and function configuration. The adapter recognises `PT409`;
 genuine serialization errors and other RPC functions are unchanged. Other intentional `40001`
 uses outside this narrow function remain a Task 13.9 reconciliation consideration, not covered by
 this patch's acceptance.
 
-Acceptance: local SQL/adapter/HTTP regressions pass; explicitly approved hosted application and
-owner deployment complete; a fresh isolated rehearsal proves draft/replay, immediate stale-version
-409 with no state/version change, review/submission, own-client denial and exact cleanup. Do not
-mark Verified from source edits, local tests or cleanup alone.
+Acceptance passed on 7 October: 112 local SQL assertions and 20 adapter/service/HTTP tests;
+explicitly approved hosted migration `20261007180000` and owner deployment; fresh hosted
+draft/replay, immediate stale-version 409 with draft version still 1, submission/version 2,
+own-client projection and foreign-intake denial. Review presentation passed in controlled local
+desktop/mobile tests, not a new hosted browser/AT claim. Independent encrypted-record/receipt proof
+passed; exact cleanup restored all 125 table fingerprints, original triggers and zero Auth users/
+sessions. Final identical-code Worker `f8aed8c4-1e33-4e06-a93f-34130cfdc6d8` restores disabled intake.
 
 ## Registry Maintenance Rules
 

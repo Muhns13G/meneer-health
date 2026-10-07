@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-13-3
 title: Synthetic Onboarding and First-Party Intake Rehearsal
-status: in-progress
+status: completed
 last_updated: 2026-10-07
 owner: "@Muhns13G"
 depends_on: [phase-02-sprint-13-2]
@@ -50,7 +50,8 @@ The approved disposable prerequisites have now been created. The existing intera
 helpers are historical scenario-specific tools; do not reuse their fixed tenant IDs or old restoration
 versions as Sprint 13 authority. Review/adapt the harness before executing it.
 
-Task status is **in progress**. Planning or local regressions do not close the hosted rehearsal.
+Task status is **completed** at the isolated synthetic boundary recorded below. This is not pilot
+activation or proof of real legal/clinical approval.
 
 Local preparation passed **42 tests across five service suites**: invitation verification, account
 activation, patient sessions, own-client portal and medical intake. These deterministic checks use
@@ -111,8 +112,9 @@ The narrow local migration `20261007180000_medical_intake_business_conflict_stat
 only those two `INTAKE_CONFLICT` raises to `PT409` and asserts unchanged ACL/owner/security/config.
 The adapter recognises `PT409`. Local SQL reset/migration validation and **112 pgTAP assertions**
 pass; **20 targeted adapter/service/HTTP tests**, including the explicit private HTTP 409 regression,
-and strict TypeScript pass. The new migration has **not** been applied hosted and the
-adapter fix has **not** been owner-deployed. Other RPC conflicts remain outside this narrow patch.
+and strict TypeScript pass. At that checkpoint the migration and adapter were not hosted.
+The approved hosted correction and subsequent retest are recorded below. Other RPC conflicts
+remain outside this narrow patch.
 
 ESLint, focused Prettier checks, production build/client-bundle/MCP-absence checks and generated
 route-tree checks pass. The local synthetic Supabase stack was stopped after validation. Files
@@ -132,6 +134,54 @@ the hosted intake route again returns **412**. Historical immutable Worker versi
 deployment evidence, not active settings. No payment/generator action or real clinical approval
 occurred. Hourly encrypted backup artefact disposition remains part of Task 13.7 cleanup review.
 
-Next: explicit approval to apply the narrow migration, owner commit/deployment of the adapter,
-then a fresh bounded questionnaire rehearsal through submission and exact cleanup. Do not mark
-Task 13.3 complete from the local fix or successful cleanup.
+## Approved Correction, Fresh Retest and Closure
+
+On 7 October the owner approved the narrow migration and confirmed all branches were updated and
+Cloudflare deployed. Local source was clean at `975839d`. Linked CLI dry-run identified only
+`20261007180000_medical_intake_business_conflict_status.sql`; the approved push applied it without
+seeds. A second dry-run reported no pending migrations; independent SQL confirms its exact history
+version. The migration's guards require two exact intentional conflicts and unchanged security
+metadata before committing.
+
+The freshly deployed baseline was Worker **`48891bd0-54b5-4f4d-a134-8602045d1050`**, script ETag
+`e73ba4a40aa4c39fd457c1fc0a0665f7b0a9067bc75d4e441bcbc07850f14e8b`. Owner deployment is confirmed
+by the owner; a separate provider build-to-Git-SHA mapping was not collected in this retest.
+Configuration-only rehearsal version **`36e5aa56-669f-4d6e-ac5d-f4949c88c332`** preserved that ETag
+and scoped intake to the disposable tenant only. No agent source deployment occurred.
+
+The first fresh invitation was sent before its application fixture was prepared: verification
+returned **422**, not a pass. Its Auth identity and exact application identity roots were removed
+with the approved rollback-tested cleanup, restoring the original baseline before restarting.
+The replacement invitation was correctly prepared as reserved; the owner's fresh code confirmed
+receipt before it was marked delivered. Verification returned **204**, synthetic instruments
+**200**, and routed activation **204**. No OTP was retained in the evidence pack.
+
+The full hosted questionnaire packet then passed: notice read, encrypted draft save and exact replay
+**200**; stale-version write **409**; subsequent read still **draft/version 1**; submission **200**;
+final own-client read **submitted/version 2**; foreign intake **401**; routed sign-out **204**.
+Private/no-store and no-CORS checks passed throughout. The separate generated-code session
+prerequisite is not counted as new email-delivery proof. No bloods were supplied, no deposit bypass
+was used, and no transfer/payment/generator action occurred.
+
+Independent SQL confirms one profile, two account receipts, the exact medical notice receipt,
+one submitted version-2 intake and one version-2 snapshot with **AES-256-GCM ciphertext**, no
+transfer, and the suspended real pilot. Only booleans/counts were printed, never answers/envelopes.
+Section/branch/review presentation and publication mismatch/stale-document regression remain
+local controlled evidence; they are not represented as additional hosted browser/AT acceptance.
+The real released-flow walkthrough remains Task 13.8.
+
+Rollback-only cleanup was re-proven before committing exact-root deletion. Independent reconciliation
+restored **all 125 table count/fingerprints**, **13 original application rows**, and exact original
+trigger state. The disposable provider identity was deleted; Auth users and sessions are **zero**.
+Fresh configuration-only restoration preserved the deployed ETag, restored disabled mode and
+removed the temporary tenant binding. Final Worker is **`f8aed8c4-1e33-4e06-a93f-34130cfdc6d8`**;
+canonical intake again returns **412**. No old source version was rolled back.
+
+Private aggregate cleanup manifests are under
+`/var/folders/vb/y3j62bbj68vg8t8f08g4zqww0000gn/T/meneer-sprint13-retest-468umI`.
+Both interactive helpers are closed. Immutable provider versions and any scheduled encrypted backup
+artefacts are historical evidence; their disposition remains Task 13.7, not a claim of removal here.
+
+**Task 13.3 completed; TD-060 Verified** for this one corrected RPC. Other intentional serialization
+codes remain a Task 13.9 audit consideration. Sprint 13, release approval, provider review and pilot
+activation are not closed by this task. Closure documentation remains unstaged for owner commit.

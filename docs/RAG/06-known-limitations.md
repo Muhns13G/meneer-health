@@ -112,15 +112,16 @@ sources:
 # Meneer Known Limitations and Answer Guardrails
 
 Task [13.3](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md) is
-in progress. Local service regressions and read-only baseline checks are preparation, not real
-invitation delivery, routed account/intake completion or cleanup evidence. Fresh bounded hosted
-authority has been received, including scoped cleanup; historical scenario helpers must not reuse
-old fixture IDs/configuration. Independent SQL confirms the empty application baseline except the
-one tenant and 12 provider gates. Real email Auth/profile/receipt/session/recovery proof now passes,
-but the hosted stale-intake-version check returns 503 rather than 409 (TD-060 In progress).
-The local narrow migration and adapter correction require hosted approval, owner deployment and
-fresh submission/denial proof. Exact scoped cleanup restored all table fingerprints and trigger
-state; Auth users/sessions are zero and intake is disabled again. Do not claim Task 13.3 completed.
+completed for the approved isolated synthetic onboarding/intake rehearsal, not real pilot readiness.
+Actual email Auth/profile/receipt/session/recovery proof passes. The owner-approved migration
+`20261007180000` and owner-deployed adapter were followed by a passing fresh hosted draft/replay/
+409/submission/own-client/foreign-denial packet, closing TD-060 at its one-RPC scope. Independent
+encrypted-record checks and exact cleanup restored all 125 table fingerprints and trigger states;
+Auth users/sessions are zero, intake is disabled and the real pilot remains suspended. Controlled
+local presentation and document mismatch regressions are not additional hosted browser/AT proof;
+Task 13.8 still owns the released walkthrough. Other RPC conflict codes require Task 13.9 review,
+and historical backup artefact disposition belongs to Task 13.7. No payment or generator exercise
+was performed. Do not reuse old fixture IDs/settings as standing authority for later tasks.
 
 Task [13.2](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md) is
 completed for suspended-pilot readiness: exact deployment provenance, all three CI runs, hosted
