@@ -111,14 +111,14 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
-Task [13.2](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md) remains
-in progress: owner-committed screenshot fixes passed CI and offline recovery-key custody is
-confirmed. The database connection secret is provisioned. Additional recovery corrections require
-owner release and provider-backed production-format restore proof; hosted application of the narrow
-function-volatility correction, responder appointments and compatible rollback acceptance remain
-open. Cloudflare deliberately remains on `itws-I-preview`. Better Stack uptime is Up but backup
-heartbeat is Down. Do not equate configured private storage, secret names or prior synthetic backup
-proof with current hourly production recovery. No real pilot activation is authorised.
+Task [13.2](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md) is
+completed for suspended-pilot readiness: exact deployment provenance, all three CI runs, hosted
+volatility correction, primary/alternate responders, offline key custody and production R2 restore
+proof passed. The current verified immutable Worker is accepted as a fallback after subsequent
+releases, subject to schema/binding compatibility re-review. Cloudflare remains on `itws-I-preview`;
+hourly recovery runs separately on `main`. First unattended scheduled success is not yet observed.
+Auth/private-Storage recovery coverage and later rehearsal/release gates remain explicit pre-intake
+requirements. No real-pilot activation, actual rollback or Phase 02 closure is authorised by this task.
 
 ## Sprint 12.2 — Local Notifications, Not Activated Delivery
 
