@@ -57,7 +57,9 @@ const hostedRecoveryEnvironmentSchema = z
 
 export type HostedRecoveryEnvironment = z.infer<typeof hostedRecoveryEnvironmentSchema>;
 
-export function readHostedRecoveryEnvironment(input: NodeJS.ProcessEnv): HostedRecoveryEnvironment {
+export function readHostedRecoveryEnvironment(
+  input: Readonly<Record<string, string | undefined>>,
+): HostedRecoveryEnvironment {
   const result = hostedRecoveryEnvironmentSchema.safeParse(input);
   if (!result.success) throw new Error("HOSTED_RECOVERY_CONFIGURATION_INVALID");
   return Object.freeze(result.data);

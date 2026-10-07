@@ -14,8 +14,11 @@ import {
   recoveryArchiveContract,
   recoveryManifestContract,
 } from "./lifecycle";
+import { measurementConsentContract, measurementEventContract } from "./measurement";
 import { telemetryEventContract } from "./observability";
 import { paymentCheckoutContract, paymentProviderEventContract } from "./payments";
+import { publicClaimRegisterContract } from "./public-claims";
+import { publicContentCatalogueContract } from "./public-content";
 import { requestSecurityDecisionContract } from "./security";
 import { workflowTransitionContract } from "./workflows";
 
@@ -39,6 +42,38 @@ export type ContractSchemaRegistryEntry = z.infer<typeof contractSchemaRegistryE
 const allGenerations = ["v1-tanstack", "v2-nextjs", "v3-laravel-react"] as const;
 
 export const contractSchemaRegistry = [
+  {
+    definition: measurementConsentContract,
+    schemaExport: "measurementConsentCommandSchema",
+    source: "contracts/measurement.ts",
+    databaseMigration: "20260813193459",
+    supportedGenerations: allGenerations,
+    compatibility: "strict-major",
+  },
+  {
+    definition: measurementEventContract,
+    schemaExport: "measurementEventSchema",
+    source: "contracts/measurement.ts",
+    databaseMigration: "20260813193459",
+    supportedGenerations: allGenerations,
+    compatibility: "strict-major",
+  },
+  {
+    definition: publicClaimRegisterContract,
+    schemaExport: "publicClaimRegisterSchema",
+    source: "contracts/public-claims.ts",
+    databaseMigration: null,
+    supportedGenerations: allGenerations,
+    compatibility: "strict-major",
+  },
+  {
+    definition: publicContentCatalogueContract,
+    schemaExport: "publicContentCatalogueSchema",
+    source: "contracts/public-content.ts",
+    databaseMigration: null,
+    supportedGenerations: allGenerations,
+    compatibility: "strict-major",
+  },
   {
     definition: errorResponseContract,
     schemaExport: "errorContractSchema",

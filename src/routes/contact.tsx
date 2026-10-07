@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { publicContent } from "@content/public-content";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
@@ -7,8 +8,8 @@ import { supportChannels } from "@/lib/support-channels";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Meneer" },
-      { name: "description", content: "Get in touch with the Meneer team." },
+      { title: publicContent.metadata.contact.title },
+      { name: "description", content: publicContent.metadata.contact.description },
       { name: "robots", content: "index, follow" },
     ],
     links: [{ rel: "canonical", href: getCanonicalPublicUrl("/contact") }],

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, type RefObject } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { publicContent } from "@content/public-content";
 import { ProfileErrorSummary, ProfileFields } from "@/components/ProfileFields";
 import { StepProgress } from "@/components/SteppedFlow";
 import {
@@ -15,10 +16,10 @@ import { useSteppedFlowFocus } from "@/hooks/use-stepped-flow-focus";
 export const Route = createFileRoute("/start")({
   head: () => ({
     meta: [
-      { title: "Start your private consult — Meneer" },
+      { title: publicContent.metadata.start.title },
       {
         name: "description",
-        content: "A few private questions. A real doctor. Treatment at your door.",
+        content: publicContent.metadata.start.description,
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -55,7 +56,7 @@ const conditions: { id: Condition; label: string; body: string }[] = [
   },
 ];
 
-const phaseLabels = ["Choose condition", "Consent", "Create account", "Questionnaire"];
+const phaseLabels = publicContent.journey.intakeProgress;
 
 // Preserved prototype: exported for controlled tests but not routed until activation is approved.
 export function PreservedStartFlow() {
@@ -317,13 +318,7 @@ function QuestionnaireStep({ headingRef }: { headingRef: RefObject<HTMLHeadingEl
   );
 }
 
-const confirmationTimeline = [
-  { title: "Blood work, if required", when: "Before review" },
-  { title: "Your doctor reviews your questionnaire and results", when: "Within 48h" },
-  { title: "Video consultation with your doctor", when: "Required, 15–20 minutes" },
-  { title: "Prescription and treatment plan", when: "Same day as consult" },
-  { title: "Medication delivered to your door", when: "2–3 business days" },
-];
+const confirmationTimeline = publicContent.journey.confirmation;
 
 function Confirmation({ headingRef }: { headingRef: RefObject<HTMLHeadingElement | null> }) {
   return (
@@ -350,8 +345,8 @@ function Confirmation({ headingRef }: { headingRef: RefObject<HTMLHeadingElement
             You're in, meneer.
           </h1>
           <p className="mt-5 text-muted-foreground text-lg leading-relaxed">
-            One of our doctors will be in touch within 48 hours to schedule your virtual
-            consultation. We'll reach out via WhatsApp — keep an eye out.
+            {publicContent.journey.confirmationContact} We'll reach out via WhatsApp — keep an eye
+            out.
           </p>
 
           <div className="mt-12">

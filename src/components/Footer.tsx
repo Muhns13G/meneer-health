@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { publicContent } from "@content/public-content";
 import logoAsset from "@/assets/brand/meneer-mark.png";
 
 export function Footer() {
@@ -9,22 +10,21 @@ export function Footer() {
           <img src={logoAsset} alt="Meneer MNR mark" className="h-7 w-auto" />
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
             <p className="font-serif text-foreground">
-              Meneer<span className="text-gold">.</span>{" "}
-              <span className="text-muted-foreground text-sm ml-2">© 2026</span>
+              {publicContent.brand.name}
+              <span className="text-gold">.</span>{" "}
+              <span className="text-muted-foreground text-sm ml-2">
+                © {publicContent.brand.copyrightYear}
+              </span>
             </p>
-            <p className="text-muted-foreground text-sm">Back to your best.</p>
+            <p className="text-muted-foreground text-sm">{publicContent.brand.tagline}</p>
           </div>
         </div>
         <nav className="flex items-center gap-6 text-sm text-muted-foreground">
-          <Link to="/privacy" className="hover:text-foreground transition-colors">
-            Privacy Policy
-          </Link>
-          <Link to="/terms" className="hover:text-foreground transition-colors">
-            Terms
-          </Link>
-          <Link to="/contact" className="hover:text-foreground transition-colors">
-            Contact
-          </Link>
+          {publicContent.navigation.footer.map((item) => (
+            <Link key={item.to} to={item.to} className="hover:text-foreground transition-colors">
+              {item.label}
+            </Link>
+          ))}
         </nav>
       </div>
     </footer>

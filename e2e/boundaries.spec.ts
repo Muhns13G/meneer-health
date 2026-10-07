@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { campaignRedirects, retiredRoutes } from "./fixtures";
+import { campaignRedirects, retiredMcpMutationRoutes, retiredRoutes } from "./fixtures";
 import { isolateExternalFonts, monitorPage } from "./helpers";
 
 test.describe("retired and unknown routes", () => {
@@ -16,6 +16,30 @@ test.describe("retired and unknown routes", () => {
       expect(findings).toEqual([
         "console:error: Failed to load resource: the server responded with a status of 404 (Not Found)",
       ]);
+    });
+  }
+
+  for (const probe of retiredMcpMutationRoutes) {
+    test(`POST ${probe.path} fails closed without protocol material`, async ({
+      request,
+      baseURL,
+    }) => {
+      const response = await request.post(`${baseURL}${probe.path}`, {
+        data: { jsonrpc: "2.0", id: 1, method: "tools/list" },
+        headers: {
+          Accept: "application/json, text/event-stream",
+          Origin: "https://mcp-boundary-canary.invalid",
+        },
+      });
+      const body = await response.text();
+      const payload = JSON.parse(body) as { error?: { code?: string } };
+
+      expect(response.status()).toBe(probe.status);
+      expect(response.headers()["content-type"]).toContain("application/json");
+      expect(response.headers()["access-control-allow-origin"]).toBeUndefined();
+      expect(response.headers()["set-cookie"]).toBeUndefined();
+      expect(payload.error?.code).toBe(probe.errorCode);
+      expect(body).not.toMatch(/about_meneer|list_treatments|how_it_works|tools\/list/i);
     });
   }
 });
@@ -93,6 +117,24 @@ test("inactive payment endpoints stay hidden without local provider configuratio
   baseURL,
 }) => {
   for (const path of ["/api/payments/checkout", "/api/payments/stripe/webhook"]) {
+    const response = await request.post(`${baseURL}${path}`, {
+      data: { synthetic: true },
+      headers: { Origin: baseURL ?? "http://127.0.0.1:8085" },
+    });
+    expect(response.status()).toBe(404);
+    expect(response.headers()["cache-control"]).toBe("private, no-store, max-age=0");
+    await expect(response.json()).resolves.toMatchObject({
+      contract: "error.response",
+      error: { code: "NOT_FOUND" },
+    });
+  }
+});
+
+test("default-off measurement endpoints stay hidden without explicit activation", async ({
+  request,
+  baseURL,
+}) => {
+  for (const path of ["/api/measurement/consent", "/api/measurement/events"]) {
     const response = await request.post(`${baseURL}${path}`, {
       data: { synthetic: true },
       headers: { Origin: baseURL ?? "http://127.0.0.1:8085" },
