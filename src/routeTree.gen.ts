@@ -9,50 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as StartRouteImport } from './routes/start'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as PosterThanksRouteImport } from './routes/poster-thanks'
-import { Route as PosterRouteImport } from './routes/poster'
-import { Route as PeptidesRouteImport } from './routes/peptides'
-import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PeptidesRouteImport } from './routes/peptides'
+import { Route as PosterRouteImport } from './routes/poster'
+import { Route as PosterThanksRouteImport } from './routes/poster-thanks'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as StartRouteImport } from './routes/start'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AccountActivateRouteImport } from './routes/account/activate'
+import { Route as AccountRecoverRouteImport } from './routes/account/recover'
+import { Route as AccountSignInRouteImport } from './routes/account/sign-in'
+import { Route as AccountSignOutRouteImport } from './routes/account/sign-out'
+import { Route as AccountVerifyRouteImport } from './routes/account/verify'
 import { Route as GoDadsRouteImport } from './routes/go/dads'
-import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
-import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
-import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
+import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalProfileRouteImport } from './routes/portal.profile'
+import { Route as PortalRightsRouteImport } from './routes/portal.rights'
 import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
+import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
+import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
+import { Route as ApiPaymentsCheckoutRouteImport } from './routes/api/payments/checkout'
 import { Route as ApiPaymentsStripeWebhookRouteImport } from './routes/api/payments/stripe/webhook'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StartRoute = StartRouteImport.update({
-  id: '/start',
-  path: '/start',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PosterThanksRoute = PosterThanksRouteImport.update({
-  id: '/poster-thanks',
-  path: '/poster-thanks',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PosterRoute = PosterRouteImport.update({
-  id: '/poster',
-  path: '/poster',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PeptidesRoute = PeptidesRouteImport.update({
-  id: '/peptides',
-  path: '/peptides',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -60,14 +43,59 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const PeptidesRoute = PeptidesRouteImport.update({
+  id: '/peptides',
+  path: '/peptides',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GoThanksDadRoute = GoThanksDadRouteImport.update({
-  id: '/go/thanks-dad',
-  path: '/go/thanks-dad',
+const PosterRoute = PosterRouteImport.update({
+  id: '/poster',
+  path: '/poster',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PosterThanksRoute = PosterThanksRouteImport.update({
+  id: '/poster-thanks',
+  path: '/poster-thanks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartRoute = StartRouteImport.update({
+  id: '/start',
+  path: '/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountActivateRoute = AccountActivateRouteImport.update({
+  id: '/account/activate',
+  path: '/account/activate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRecoverRoute = AccountRecoverRouteImport.update({
+  id: '/account/recover',
+  path: '/account/recover',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountSignInRoute = AccountSignInRouteImport.update({
+  id: '/account/sign-in',
+  path: '/account/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountSignOutRoute = AccountSignOutRouteImport.update({
+  id: '/account/sign-out',
+  path: '/account/sign-out',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountVerifyRoute = AccountVerifyRouteImport.update({
+  id: '/account/verify',
+  path: '/account/verify',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoDadsRoute = GoDadsRouteImport.update({
@@ -75,14 +103,29 @@ const GoDadsRoute = GoDadsRouteImport.update({
   path: '/go/dads',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
-  id: '/api/payments/checkout',
-  path: '/api/payments/checkout',
+const GoThanksDadRoute = GoThanksDadRouteImport.update({
+  id: '/go/thanks-dad',
+  path: '/go/thanks-dad',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiMeasurementEventsRoute = ApiMeasurementEventsRouteImport.update({
-  id: '/api/measurement/events',
-  path: '/api/measurement/events',
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/portal/',
+  path: '/portal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalProfileRoute = PortalProfileRouteImport.update({
+  id: '/portal/profile',
+  path: '/portal/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRightsRoute = PortalRightsRouteImport.update({
+  id: '/portal/rights',
+  path: '/portal/rights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiJourneyIntentRoute = ApiJourneyIntentRouteImport.update({
+  id: '/api/journey/intent',
+  path: '/api/journey/intent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiMeasurementConsentRoute = ApiMeasurementConsentRouteImport.update({
@@ -90,9 +133,14 @@ const ApiMeasurementConsentRoute = ApiMeasurementConsentRouteImport.update({
   path: '/api/measurement/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiJourneyIntentRoute = ApiJourneyIntentRouteImport.update({
-  id: '/api/journey/intent',
-  path: '/api/journey/intent',
+const ApiMeasurementEventsRoute = ApiMeasurementEventsRouteImport.update({
+  id: '/api/measurement/events',
+  path: '/api/measurement/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPaymentsCheckoutRoute = ApiPaymentsCheckoutRouteImport.update({
+  id: '/api/payments/checkout',
+  path: '/api/payments/checkout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPaymentsStripeWebhookRoute =
@@ -111,8 +159,16 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/activate': typeof AccountActivateRoute
+  '/account/recover': typeof AccountRecoverRoute
+  '/account/sign-in': typeof AccountSignInRoute
+  '/account/sign-out': typeof AccountSignOutRoute
+  '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/rights': typeof PortalRightsRoute
+  '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
   '/api/measurement/events': typeof ApiMeasurementEventsRoute
@@ -128,8 +184,16 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/activate': typeof AccountActivateRoute
+  '/account/recover': typeof AccountRecoverRoute
+  '/account/sign-in': typeof AccountSignInRoute
+  '/account/sign-out': typeof AccountSignOutRoute
+  '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/rights': typeof PortalRightsRoute
+  '/portal': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
   '/api/measurement/events': typeof ApiMeasurementEventsRoute
@@ -146,8 +210,16 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
+  '/account/activate': typeof AccountActivateRoute
+  '/account/recover': typeof AccountRecoverRoute
+  '/account/sign-in': typeof AccountSignInRoute
+  '/account/sign-out': typeof AccountSignOutRoute
+  '/account/verify': typeof AccountVerifyRoute
   '/go/dads': typeof GoDadsRoute
   '/go/thanks-dad': typeof GoThanksDadRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/rights': typeof PortalRightsRoute
+  '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
   '/api/measurement/events': typeof ApiMeasurementEventsRoute
@@ -165,8 +237,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/activate'
+    | '/account/recover'
+    | '/account/sign-in'
+    | '/account/sign-out'
+    | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/profile'
+    | '/portal/rights'
+    | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
     | '/api/measurement/events'
@@ -182,8 +262,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/activate'
+    | '/account/recover'
+    | '/account/sign-in'
+    | '/account/sign-out'
+    | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/profile'
+    | '/portal/rights'
+    | '/portal'
     | '/api/journey/intent'
     | '/api/measurement/consent'
     | '/api/measurement/events'
@@ -199,8 +287,16 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/start'
     | '/terms'
+    | '/account/activate'
+    | '/account/recover'
+    | '/account/sign-in'
+    | '/account/sign-out'
+    | '/account/verify'
     | '/go/dads'
     | '/go/thanks-dad'
+    | '/portal/profile'
+    | '/portal/rights'
+    | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
     | '/api/measurement/events'
@@ -217,8 +313,16 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
+  AccountActivateRoute: typeof AccountActivateRoute
+  AccountRecoverRoute: typeof AccountRecoverRoute
+  AccountSignInRoute: typeof AccountSignInRoute
+  AccountSignOutRoute: typeof AccountSignOutRoute
+  AccountVerifyRoute: typeof AccountVerifyRoute
   GoDadsRoute: typeof GoDadsRoute
   GoThanksDadRoute: typeof GoThanksDadRoute
+  PortalProfileRoute: typeof PortalProfileRoute
+  PortalRightsRoute: typeof PortalRightsRoute
+  PortalIndexRoute: typeof PortalIndexRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
   ApiMeasurementConsentRoute: typeof ApiMeasurementConsentRoute
   ApiMeasurementEventsRoute: typeof ApiMeasurementEventsRoute
@@ -228,46 +332,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/start': {
-      id: '/start'
-      path: '/start'
-      fullPath: '/start'
-      preLoaderRoute: typeof StartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/poster-thanks': {
-      id: '/poster-thanks'
-      path: '/poster-thanks'
-      fullPath: '/poster-thanks'
-      preLoaderRoute: typeof PosterThanksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/poster': {
-      id: '/poster'
-      path: '/poster'
-      fullPath: '/poster'
-      preLoaderRoute: typeof PosterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/peptides': {
-      id: '/peptides'
-      path: '/peptides'
-      fullPath: '/peptides'
-      preLoaderRoute: typeof PeptidesRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -277,18 +346,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/peptides': {
+      id: '/peptides'
+      path: '/peptides'
+      fullPath: '/peptides'
+      preLoaderRoute: typeof PeptidesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/go/thanks-dad': {
-      id: '/go/thanks-dad'
-      path: '/go/thanks-dad'
-      fullPath: '/go/thanks-dad'
-      preLoaderRoute: typeof GoThanksDadRouteImport
+    '/poster': {
+      id: '/poster'
+      path: '/poster'
+      fullPath: '/poster'
+      preLoaderRoute: typeof PosterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/poster-thanks': {
+      id: '/poster-thanks'
+      path: '/poster-thanks'
+      fullPath: '/poster-thanks'
+      preLoaderRoute: typeof PosterThanksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start': {
+      id: '/start'
+      path: '/start'
+      fullPath: '/start'
+      preLoaderRoute: typeof StartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/activate': {
+      id: '/account/activate'
+      path: '/account/activate'
+      fullPath: '/account/activate'
+      preLoaderRoute: typeof AccountActivateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/recover': {
+      id: '/account/recover'
+      path: '/account/recover'
+      fullPath: '/account/recover'
+      preLoaderRoute: typeof AccountRecoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/sign-in': {
+      id: '/account/sign-in'
+      path: '/account/sign-in'
+      fullPath: '/account/sign-in'
+      preLoaderRoute: typeof AccountSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/sign-out': {
+      id: '/account/sign-out'
+      path: '/account/sign-out'
+      fullPath: '/account/sign-out'
+      preLoaderRoute: typeof AccountSignOutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/verify': {
+      id: '/account/verify'
+      path: '/account/verify'
+      fullPath: '/account/verify'
+      preLoaderRoute: typeof AccountVerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/go/dads': {
@@ -298,18 +430,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoDadsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/payments/checkout': {
-      id: '/api/payments/checkout'
-      path: '/api/payments/checkout'
-      fullPath: '/api/payments/checkout'
-      preLoaderRoute: typeof ApiPaymentsCheckoutRouteImport
+    '/go/thanks-dad': {
+      id: '/go/thanks-dad'
+      path: '/go/thanks-dad'
+      fullPath: '/go/thanks-dad'
+      preLoaderRoute: typeof GoThanksDadRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/measurement/events': {
-      id: '/api/measurement/events'
-      path: '/api/measurement/events'
-      fullPath: '/api/measurement/events'
-      preLoaderRoute: typeof ApiMeasurementEventsRouteImport
+    '/portal/': {
+      id: '/portal/'
+      path: '/portal'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/profile': {
+      id: '/portal/profile'
+      path: '/portal/profile'
+      fullPath: '/portal/profile'
+      preLoaderRoute: typeof PortalProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal/rights': {
+      id: '/portal/rights'
+      path: '/portal/rights'
+      fullPath: '/portal/rights'
+      preLoaderRoute: typeof PortalRightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/journey/intent': {
+      id: '/api/journey/intent'
+      path: '/api/journey/intent'
+      fullPath: '/api/journey/intent'
+      preLoaderRoute: typeof ApiJourneyIntentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/measurement/consent': {
@@ -319,11 +472,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiMeasurementConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/journey/intent': {
-      id: '/api/journey/intent'
-      path: '/api/journey/intent'
-      fullPath: '/api/journey/intent'
-      preLoaderRoute: typeof ApiJourneyIntentRouteImport
+    '/api/measurement/events': {
+      id: '/api/measurement/events'
+      path: '/api/measurement/events'
+      fullPath: '/api/measurement/events'
+      preLoaderRoute: typeof ApiMeasurementEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/payments/checkout': {
+      id: '/api/payments/checkout'
+      path: '/api/payments/checkout'
+      fullPath: '/api/payments/checkout'
+      preLoaderRoute: typeof ApiPaymentsCheckoutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/payments/stripe/webhook': {
@@ -345,8 +505,16 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   StartRoute: StartRoute,
   TermsRoute: TermsRoute,
+  AccountActivateRoute: AccountActivateRoute,
+  AccountRecoverRoute: AccountRecoverRoute,
+  AccountSignInRoute: AccountSignInRoute,
+  AccountSignOutRoute: AccountSignOutRoute,
+  AccountVerifyRoute: AccountVerifyRoute,
   GoDadsRoute: GoDadsRoute,
   GoThanksDadRoute: GoThanksDadRoute,
+  PortalProfileRoute: PortalProfileRoute,
+  PortalRightsRoute: PortalRightsRoute,
+  PortalIndexRoute: PortalIndexRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,
   ApiMeasurementConsentRoute: ApiMeasurementConsentRoute,
   ApiMeasurementEventsRoute: ApiMeasurementEventsRoute,

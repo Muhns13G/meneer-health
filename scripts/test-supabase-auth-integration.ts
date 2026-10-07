@@ -54,26 +54,13 @@ async function run(): Promise<void> {
     secretKey: status.SECRET_KEY,
   });
   const email = `synthetic-auth-${crypto.randomUUID()}@example.invalid`;
-  const now = new Date();
   let providerSubject: string | undefined;
 
   try {
     const governanceRepository = new SupabaseIdentityGovernanceRepository(serverClient);
-    const invitation = await governanceRepository.createPatientInvitation({
-      tenantId: "10000000-0000-4000-8000-000000000001",
-      contactDigest: createHash("sha256").update(`synthetic:${email}`).digest("hex"),
-      expiresAt: new Date(now.getTime() + 15 * 60 * 1_000),
-    });
-
     const created = await serverClient.auth.admin.createUser({ email, email_confirm: true });
     invariant(!created.error && created.data.user, "Synthetic managed user creation failed.");
     providerSubject = created.data.user.id;
-    const boundInvitation = await governanceRepository.bindInvitationProviderSubject(
-      invitation.id,
-      providerSubject,
-      new Date(),
-    );
-
     const generated = await serverClient.auth.admin.generateLink({ type: "magiclink", email });
     invariant(!generated.error, "Synthetic passwordless link generation failed.");
     const verified = await browserBoundaryClient.auth.verifyOtp({
@@ -103,12 +90,6 @@ async function run(): Promise<void> {
       providerSubject,
     );
     invariant(internalSubject?.status === "active", "Stable internal subject mapping failed.");
-    await governanceRepository.acceptPatientInvitation(
-      boundInvitation.id,
-      internalSubject.id,
-      new Date(),
-    );
-
     const recoveryCase = await governanceRepository.createRecoveryCase({
       subjectId: internalSubject.id,
       recoveryClass: "patient",

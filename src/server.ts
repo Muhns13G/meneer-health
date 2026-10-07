@@ -7,8 +7,19 @@ import {
 } from "@tanstack/react-start/server";
 import type { Register } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
+import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
+import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
+import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
 
 import { initialiseServerEnvironment } from "./server/config/environment.server";
+import {
+  createPatientVerificationHttpHandler,
+  type PatientVerificationBindings,
+} from "./server/identity/patient-verification-http";
+import {
+  createPatientSessionHttpHandler,
+  type PatientSessionBindings,
+} from "./server/identity/patient-session-http";
 import {
   classifyTelemetryEnvironment,
   durationBucket,
@@ -16,6 +27,7 @@ import {
   statusClass,
 } from "./server/observability/telemetry";
 import { applyResponsePolicy } from "./server/security/response-policy";
+import { applySsrResponsePolicy } from "./server/security/ssr-response-policy";
 import {
   applyCorrelationHeader,
   executeWithRequestTimeout,
@@ -25,13 +37,12 @@ import {
 
 const serverEnvironment = initialiseServerEnvironment();
 const handleRequest = createStartHandler(async (context) => {
-  const nonce = crypto.randomUUID().replaceAll("-", "");
+  const nonce = context.router.options.ssr?.nonce;
+  if (!nonce) throw new Error("SSR nonce is missing.");
 
-  context.router.update({ ssr: { nonce } });
+  const result = await defaultStreamHandler(context);
 
-  const response = await defaultStreamHandler(context);
-
-  return applyResponsePolicy(context.request, response, nonce);
+  return applySsrResponsePolicy(context.request, result, nonce);
 });
 
 export type ServerEntry = { fetch: RequestHandler<Register> };
@@ -73,7 +84,46 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
       try {
         response = await executeWithRequestTimeout(
           request,
-          (boundedRequest) => Promise.resolve(entry.fetch(boundedRequest, args[1])),
+          (boundedRequest) => {
+            const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/portal/rights/command") {
+              return createPatientRightsHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (pathname === "/portal/account") {
+              return createPatientPortalHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (
+              (boundedRequest.method === "POST" && pathname === "/account/activate") ||
+              pathname === "/account/activate/instruments"
+            ) {
+              return createPatientActivationHttpHandler(
+                env as unknown as PatientVerificationBindings,
+              )(boundedRequest);
+            }
+            if (boundedRequest.method === "POST" && pathname === "/account/verify") {
+              return createPatientVerificationHttpHandler(
+                env as unknown as PatientVerificationBindings,
+              )(boundedRequest);
+            }
+            if (
+              boundedRequest.method === "POST" &&
+              [
+                "/account/sign-in",
+                "/account/recover",
+                "/account/sign-out",
+                "/account/session/renew",
+              ].includes(pathname)
+            ) {
+              return createPatientSessionHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            return Promise.resolve(entry.fetch(boundedRequest, args[1]));
+          },
           undefined,
           () => {
             timedOut = true;

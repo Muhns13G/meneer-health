@@ -31,6 +31,16 @@ export const PUBLIC_ROUTE_POLICIES = [
     canonicalPath: "/terms",
   },
   { path: "/start", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/verify", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/activate", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/sign-in", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/recover", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/sign-out", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal/profile", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal/rights", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal/rights/command", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/portal/account", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/peptides", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/poster", routeClass: "campaign", indexing: "noindex-nofollow" },
   { path: "/poster-thanks", routeClass: "campaign", indexing: "noindex-nofollow" },
@@ -57,7 +67,15 @@ export const INDEXABLE_PUBLIC_ROUTES = PUBLIC_ROUTE_POLICIES.filter(
   (route) => route.indexing === "index-follow",
 );
 
-const ROBOTS_DISALLOW_PATHS = ["/api/", "/go/", "/peptides", "/poster", "/start"] as const;
+const ROBOTS_DISALLOW_PATHS = [
+  "/account/",
+  "/portal",
+  "/api/",
+  "/go/",
+  "/peptides",
+  "/poster",
+  "/start",
+] as const;
 
 const prohibitedIntentQueryKeys = new Set([
   "condition",

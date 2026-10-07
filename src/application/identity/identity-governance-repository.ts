@@ -8,10 +8,12 @@ import type {
 } from "@/domain/access/identity";
 import type { SubjectId, TenantId } from "@/domain/access/models";
 
-export type CreatePatientInvitation = Readonly<{
+export type ReservePatientInvitation = Readonly<{
   tenantId: TenantId;
   contactDigest: string;
   expiresAt: Date;
+  providerSessionId: string;
+  requestKey: string;
 }>;
 
 export type CreateRecoveryCase = Readonly<{
@@ -43,18 +45,26 @@ export type AddServiceIdentityCredential = Readonly<{
 }>;
 
 export interface IdentityGovernanceRepository {
-  createPatientInvitation(input: CreatePatientInvitation): Promise<IdentityInvitation>;
-  bindInvitationProviderSubject(
-    invitationId: string,
-    providerSubject: string,
+  findDeliveredPatientInvitation(
+    contactDigest: string,
     observedAt: Date,
-  ): Promise<IdentityInvitation>;
+  ): Promise<IdentityInvitation | null>;
+  reservePatientInvitation(input: ReservePatientInvitation): Promise<string>;
+  completePatientInvitationDelivery(
+    invitationId: string,
+    providerSubject: string | null,
+    failed: boolean,
+  ): Promise<void>;
   acceptPatientInvitation(
     invitationId: string,
     subjectId: SubjectId,
     acceptedAt: Date,
   ): Promise<IdentityInvitation>;
   createRecoveryCase(input: CreateRecoveryCase): Promise<IdentityRecoveryCase>;
+  findActivePatientRecoveryCase(
+    subjectId: SubjectId,
+    now: Date,
+  ): Promise<IdentityRecoveryCase | null>;
   approveWorkforceRecovery(
     recoveryCaseId: string,
     approverSubjectId: SubjectId,

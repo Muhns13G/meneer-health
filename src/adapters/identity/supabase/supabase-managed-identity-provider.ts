@@ -90,7 +90,13 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
   async invitePatient(email: string, redirectTo: string): Promise<string> {
     try {
       const { data, error } = await this.client.auth.admin.inviteUserByEmail(email, { redirectTo });
-      if (error || !data.user) rejected();
+      if (
+        error ||
+        !data.user ||
+        data.user.email?.trim().toLowerCase() !== email.trim().toLowerCase()
+      ) {
+        rejected();
+      }
       return data.user.id;
     } catch (error) {
       if (error instanceof IdentityRejectedError) throw error;
@@ -103,12 +109,53 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
   }
 
   async requestRecovery(email: string, redirectTo: string): Promise<void> {
-    await this.requestOtp(email, redirectTo);
+    try {
+      const { error } = await this.client.auth.resetPasswordForEmail(email, { redirectTo });
+      if (error) rejected();
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
   }
 
   async verifyEmailOtp(email: string, token: string): Promise<ManagedSession> {
     try {
       const { data, error } = await this.client.auth.verifyOtp({ email, token, type: "email" });
+      if (error) rejected();
+      return mapSession(data.session);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
+  async verifyInvitationOtp(email: string, token: string): Promise<ManagedSession> {
+    try {
+      const { data, error } = await this.client.auth.verifyOtp({ email, token, type: "invite" });
+      if (error) rejected();
+      return mapSession(data.session);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
+  async verifyRecoveryOtp(email: string, token: string): Promise<ManagedSession> {
+    try {
+      const { data, error } = await this.client.auth.verifyOtp({ email, token, type: "recovery" });
+      if (error) rejected();
+      return mapSession(data.session);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
+  async refreshSession(refreshToken: string): Promise<ManagedSession> {
+    try {
+      const { data, error } = await this.client.auth.refreshSession({
+        refresh_token: refreshToken,
+      });
       if (error) rejected();
       return mapSession(data.session);
     } catch (error) {

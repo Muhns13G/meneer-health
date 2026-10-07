@@ -59,6 +59,17 @@ describe("current public request boundary", () => {
     });
   });
 
+  it("serves the code-entry page on GET while treating its POST as protected", async () => {
+    const display = await inspectPublicRequest(request("/account/verify"), allowRate);
+    const submit = await inspectPublicRequest(
+      request("/account/verify", { method: "POST" }),
+      allowRate,
+    );
+    expect(display.allowed).toBe(true);
+    expect(submit.allowed).toBe(true);
+    if (submit.allowed) expect(submit.decision.routeClass).toBe("protected-command");
+  });
+
   it("denies bodies on read requests before routing", async () => {
     const result = await inspectPublicRequest(
       request("/", { method: "GET", headers: { "Content-Length": "1" } }),

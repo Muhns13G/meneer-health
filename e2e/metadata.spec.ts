@@ -8,6 +8,26 @@ const expectedSocialImage =
   /^https:\/\/meneerhealth\.co\.za\/(?:src\/assets\/brand\/meneer-mark\.png|assets\/meneer-mark-[A-Za-z0-9_-]+\.png)$/;
 
 test.describe("favicon and social metadata", () => {
+  test("SSR bootstrap scripts share the request CSP nonce before hydration", async ({ page }) => {
+    const response = await page.goto("/");
+    expect(response?.status()).toBe(200);
+    const csp = response!.headers()["content-security-policy"];
+    const nonce = csp.match(/'nonce-([a-f0-9]{32})'/)?.[1];
+    expect(nonce).toBeDefined();
+    const html = await response!.text();
+    const inlineScripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/g)].filter(
+      ([, attributes, content]) =>
+        content.trim() && !/type=["']application\/(?:ld\+)?json["']/.test(attributes),
+    );
+    expect(inlineScripts.length).toBeGreaterThan(0);
+    for (const [, attributes] of inlineScripts) {
+      expect(attributes).toContain(`nonce="${nonce}"`);
+    }
+    await page.waitForLoadState("networkidle");
+    await expect(page.locator('meta[property="csp-nonce"]')).toHaveAttribute("content", nonce!);
+    await expect(page).toHaveTitle(activeRoutes.find((route) => route.path === "/")!.title);
+  });
+
   for (const route of activeRoutes) {
     test(`${route.path} renders the approved placeholder metadata`, async ({ page, request }) => {
       await page.goto(route.path);

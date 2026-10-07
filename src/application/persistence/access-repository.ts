@@ -10,7 +10,9 @@ export interface AccessRepository {
   findTenantById(tenantId: TenantId): Promise<Tenant | null>;
   findSubjectById(subjectId: SubjectId): Promise<Subject | null>;
   findSubjectByExternalIdentity(provider: string, providerSubject: string): Promise<Subject | null>;
+  findSubjectByVerifiedEmail(email: string): Promise<Subject | null>;
   listMemberships(subjectId: SubjectId): Promise<readonly TenantMembership[]>;
+  hasPilotAccountEvidence(tenantId: TenantId, subjectId: SubjectId): Promise<boolean>;
 }
 
 export class PersistenceUnavailableError extends Error {

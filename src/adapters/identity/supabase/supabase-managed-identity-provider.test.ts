@@ -41,6 +41,17 @@ function rootClient(overrides: Record<string, unknown> = {}): SupabaseClient {
         error: null,
       }),
       signInWithOtp: vi.fn().mockResolvedValue({ error: null }),
+      resetPasswordForEmail: vi.fn().mockResolvedValue({ error: null }),
+      refreshSession: vi.fn().mockResolvedValue({
+        data: {
+          session: {
+            access_token: syntheticSession.accessToken,
+            refresh_token: syntheticSession.refreshToken,
+            expires_at: syntheticSession.expiresAt.getTime() / 1_000,
+          },
+        },
+        error: null,
+      }),
       verifyOtp: vi.fn().mockResolvedValue({
         data: {
           session: {
@@ -53,7 +64,12 @@ function rootClient(overrides: Record<string, unknown> = {}): SupabaseClient {
       }),
       admin: {
         inviteUserByEmail: vi.fn().mockResolvedValue({
-          data: { user: { id: "20000000-0000-4000-8000-000000000001" } },
+          data: {
+            user: {
+              id: "20000000-0000-4000-8000-000000000001",
+              email: "patient.one@example.invalid",
+            },
+          },
           error: null,
         }),
         signOut: vi.fn().mockResolvedValue({ error: null }),
@@ -160,10 +176,27 @@ describe("SupabaseManagedIdentityProvider", () => {
       syntheticSession,
     );
     await expect(
+      provider.verifyInvitationOtp("patient.one@example.invalid", "654321"),
+    ).resolves.toEqual(syntheticSession);
+    await expect(
+      provider.verifyRecoveryOtp("patient.one@example.invalid", "112233"),
+    ).resolves.toEqual(syntheticSession);
+    await expect(provider.refreshSession("synthetic-refresh-token")).resolves.toEqual(
+      syntheticSession,
+    );
+    expect(client.auth.verifyOtp).toHaveBeenNthCalledWith(2, {
+      email: "patient.one@example.invalid",
+      token: "654321",
+      type: "invite",
+    });
+    await expect(
       provider.revokeSessions("synthetic-access-token", "global"),
     ).resolves.toBeUndefined();
 
-    expect(client.auth.signInWithOtp).toHaveBeenCalledTimes(2);
+    expect(client.auth.signInWithOtp).toHaveBeenCalledTimes(1);
+    expect(client.auth.resetPasswordForEmail).toHaveBeenCalledWith("patient.one@example.invalid", {
+      redirectTo: "https://example.invalid/auth/confirm",
+    });
     expect(client.auth.signInWithOtp).toHaveBeenCalledWith({
       email: "patient.one@example.invalid",
       options: {

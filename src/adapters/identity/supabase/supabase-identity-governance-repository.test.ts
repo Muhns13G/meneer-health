@@ -41,14 +41,73 @@ function queuedClient(results: Array<{ data: unknown; error: unknown }>): Supaba
     is: vi.fn().mockReturnThis(),
     not: vi.fn().mockReturnThis(),
     in: vi.fn().mockReturnThis(),
+    limit: vi
+      .fn()
+      .mockImplementation(() => Promise.resolve(results.shift() ?? { data: null, error: null })),
     single: terminal,
     maybeSingle: terminal,
   };
-  return { from: vi.fn(() => query) } as unknown as SupabaseClient;
+  return {
+    from: vi.fn(() => query),
+    rpc: vi.fn(async () => results.shift()),
+  } as unknown as SupabaseClient;
 }
 
 describe("SupabaseIdentityGovernanceRepository", () => {
-  it("creates, provider-binds, and accepts a bounded patient invitation", async () => {
+  it("finds only a single delivered, unexpired, provider-bound invitation", async () => {
+    const bound = { ...invitationRow, provider_subject: "provider-subject" };
+    const client = queuedClient([{ data: [bound], error: null }]);
+    const repository = new SupabaseIdentityGovernanceRepository(client);
+    await expect(
+      repository.findDeliveredPatientInvitation("a".repeat(64), new Date("2030-01-01")),
+    ).resolves.toMatchObject({ id: bound.id, providerSubject: "provider-subject" });
+    expect(client.from).toHaveBeenCalledWith("identity_invitations");
+  });
+
+  it("fails closed on absent, ambiguous or unbound invitations", async () => {
+    const client = queuedClient([
+      { data: [], error: null },
+      { data: [invitationRow, invitationRow], error: null },
+      { data: [invitationRow], error: null },
+    ]);
+    const repository = new SupabaseIdentityGovernanceRepository(client);
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await expect(
+        repository.findDeliveredPatientInvitation("a".repeat(64), new Date("2030-01-01")),
+      ).resolves.toBeNull();
+    }
+  });
+
+  it("reserves and completes invitation delivery only through governed RPCs", async () => {
+    const client = queuedClient([
+      { data: invitationRow.id, error: null },
+      { data: true, error: null },
+    ]);
+    const repository = new SupabaseIdentityGovernanceRepository(client);
+    const id = await repository.reservePatientInvitation({
+      tenantId: invitationRow.tenant_id,
+      contactDigest: invitationRow.contact_digest,
+      expiresAt: new Date(invitationRow.expires_at),
+      providerSessionId: "20000000-0000-4000-8000-000000000001",
+      requestKey: "30000000-0000-4000-8000-000000000001",
+    });
+    await expect(
+      repository.completePatientInvitationDelivery(id, "provider-subject", false),
+    ).resolves.toBeUndefined();
+    expect(client.rpc).toHaveBeenNthCalledWith(
+      1,
+      "reserve_patient_invitation",
+      expect.objectContaining({ p_contact_digest: invitationRow.contact_digest }),
+    );
+    expect(client.rpc).toHaveBeenNthCalledWith(
+      2,
+      "complete_patient_invitation_delivery",
+      expect.objectContaining({ p_invitation_id: invitationRow.id, p_failed: false }),
+    );
+    expect(client.from).not.toHaveBeenCalled();
+  });
+
+  it("accepts a provider-bound, unexpired patient invitation", async () => {
     const bound = { ...invitationRow, provider_subject: "provider-subject" };
     const accepted = {
       ...bound,
@@ -57,26 +116,12 @@ describe("SupabaseIdentityGovernanceRepository", () => {
       accepted_at: "2030-01-01T00:05:00.000Z",
     };
     const repository = new SupabaseIdentityGovernanceRepository(
-      queuedClient([
-        { data: invitationRow, error: null },
-        { data: bound, error: null },
-        { data: accepted, error: null },
-      ]),
+      queuedClient([{ data: accepted, error: null }]),
     );
 
-    const created = await repository.createPatientInvitation({
-      tenantId: invitationRow.tenant_id,
-      contactDigest: invitationRow.contact_digest,
-      expiresAt: new Date(invitationRow.expires_at),
-    });
-    const providerBound = await repository.bindInvitationProviderSubject(
-      created.id,
-      "provider-subject",
-      new Date("2030-01-01T00:01:00.000Z"),
-    );
     await expect(
       repository.acceptPatientInvitation(
-        providerBound.id,
+        bound.id,
         accepted.accepted_by_subject_id,
         new Date(accepted.accepted_at),
       ),
@@ -186,10 +231,12 @@ describe("SupabaseIdentityGovernanceRepository", () => {
     );
 
     await expect(
-      repository.createPatientInvitation({
+      repository.reservePatientInvitation({
         tenantId: invitationRow.tenant_id,
         contactDigest: "raw-email",
         expiresAt: new Date(invitationRow.expires_at),
+        providerSessionId: "20000000-0000-4000-8000-000000000001",
+        requestKey: "30000000-0000-4000-8000-000000000001",
       }),
     ).rejects.toEqual(new IdentityGovernanceRejectedError());
     await expect(
