@@ -2,14 +2,14 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-06
+last_updated: 2026-10-07
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
 
 # Phase 02 — Minimum Pilot Enablement
 
-## Current Delivery Checkpoint — 6 October 2026
+## Current Delivery Checkpoint — 7 October 2026
 
 Sprint 11 is [completed with activation gates](../../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
 through committed implementation/evidence `7db0e0c`; Task 11.10 supplies the closure report.
@@ -28,7 +28,10 @@ Task 12.4's [staff support follow-up](annexures/sprint-12-4-staff-support-follow
 verified purpose queues, minimal delivery review and governed resend; no roster, provider evidence
 or real hosted service is activated. Task 12.8's isolated hosted support rehearsal is verified
 complete, including exact provider delivery attribution/replay, faults and scoped restoration.
-Automatic provider push and real coverage remain gated. Tasks 12.9–12.10 remain. Phase 02 is not closed; no
+Automatic provider push and real coverage remain gated.
+Task 12.9's [debt reconciliation](annexures/sprint-12-9-debt-reconciliation.md) is complete;
+TD-037/TD-038/TD-043 retain explicit unmet release/activation criteria. Task 12.10 remains.
+Phase 02 is not closed; no
 framework rebuild is selected or completed. Task 12.5's
 [client-form accessibility](annexures/sprint-12-5-client-form-accessibility.md) is locally complete:
 controlled checks passed and the owner confirmed VoiceOver and actual browser zoom acceptance.

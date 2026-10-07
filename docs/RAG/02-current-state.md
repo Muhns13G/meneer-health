@@ -3,12 +3,14 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-06
+last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
-source_baseline: 7db0e0c
+source_baseline: c724e96
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-7-staff-accessibility.md
@@ -178,7 +180,13 @@ checks (192), focused support/notification tests (54), TypeScript and lint pass.
 configuration was restored, temporary bindings removed and sessions/fixtures cleaned. Independent
 aggregate-only verification confirms 22 checked tables empty, Auth empty, pilot suspended and
 security controls intact. Automatic provider push was not configured; real purpose/clinical
-coverage and activation remain gated under TD-043. Tasks 12.9/12.10 remain.
+coverage and activation remain gated under TD-043. Task 12.10 remains after the reconciliation below.
+
+Current reconciliation: [Task 12.9](../02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md)
+is complete at the evidence/registry boundary. TD-037 and TD-038 retain released-flow form and
+transition review; TD-043 retains actual support coverage and provider activation requirements.
+No debt status changes or new debt ID are justified by representative local acceptance and the
+isolated rehearsal alone. Task 12.10 remains; the pilot is not activated by reconciliation.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

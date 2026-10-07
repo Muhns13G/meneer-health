@@ -54,7 +54,10 @@ No client-only confirmation is reused. Task 12.8's
 genuine AAL2 support/alternate handling, real generic deliveries, attributed callback replay,
 fault/retry/uncertainty/suppression guards and scoped restoration passed. Provider events were
 verified then replayed; automatic provider push and real coverage activation are not claimed.
-Tasks 12.9–12.10 remain; TD-043 retains its wider operational gates.
+Task 12.9's [debt reconciliation](annexures/sprint-12-9-debt-reconciliation.md) is complete:
+TD-037/TD-038 retain released-flow review and TD-043 retains actual coverage/provider activation
+requirements. No unsupported Verified status is assigned. Task 12.10 remains for final reporting
+and validation; debt reconciliation does not activate the pilot.
 
 | Task  | Commit-sized outcome                                                                                                            | Gate           | Status                       |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | ---------------------------- |
@@ -66,7 +69,7 @@ Tasks 12.9–12.10 remain; TD-043 retains its wider operational gates.
 | 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Completed (local)            |
 | 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Completed (local)            |
 | 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Completed (hosted synthetic) |
-| 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Planned                      |
+| 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Completed (reconciled)       |
 | 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned                      |
 
 ## Acceptance Gate
