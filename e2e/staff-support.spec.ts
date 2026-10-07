@@ -82,7 +82,7 @@ test("staff review keeps receipt and delivery separate, re-reads and clears on d
   await expect(page.getByRole("status")).toContainText("outcomes remain separate");
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.screenshot({
-    path: `/private/tmp/meneer-staff-support-${test.info().project.name}.png`,
+    path: test.info().outputPath("staff-support.png"),
     fullPage: true,
   });
   denied = true;

@@ -123,6 +123,17 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 13.2 — Readiness Checks, Not Yet Accepted
+
+The [platform evidence packet](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md)
+ties the active Worker version to preview commit `ad13febd`; hosted migration parity, 125-table RLS
+and denied client-role SELECT grants pass. Security Advisor has zero errors/warnings and 125
+deny-default informational notices, but separate hosted function lint has unresolved warnings.
+The uptime monitor is Up; the recovery heartbeat is Down with an ongoing missed-export incident.
+Hourly exports remain disabled and the Actions database connection secret is absent. Latest CI
+`37602735614` failed macOS-only screenshot paths; portable test-output fixes are local and require
+owner commit/push plus passing exact-commit CI. Task 13.2 is in progress, not pilot approval.
+
 ## Sprint 13.1 — Rehearsal Contract Complete, Execution Gated
 
 Sprint 12 closure is committed at `08dc68c`; Task
