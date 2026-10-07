@@ -135,9 +135,13 @@ acknowledgement. No coverage policy is seeded or hosted service activated.
 Task [12.4](../02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md)
 now locally verifies purpose-scoped staff support, minimal delivery review, immutable responses
 and guarded resend without sensitive email payloads or quota/suppression bypass.
-TD-043 remains Open: actual purpose-owner/alternate coverage,
-hosted inbox/failure/acknowledgement/fallback and release accessibility evidence
-remain Sprint 12 work. No new debt ID, hosted activation or debt-status change is introduced.
+Task [12.8](../02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md)
+now verifies isolated hosted inbox delivery, exact attributed receipt/replay, failure/backoff,
+uncertainty/suppression, real AAL2 acknowledgement and alternate-owner handling with scoped cleanup.
+TD-043 remains Open: actual purpose-owner/alternate and clinical coverage, unattended authenticated
+provider webhook configuration, quota/headroom and released-flow reconciliation remain activation
+criteria. Synthetic coverage is not an actual appointment. No new debt ID, real pilot activation
+or debt-status change is introduced; Task 12.9 owns reconciliation.
 No additional confirmed defect ID accrued at 10.9/10.10. The unreproduced SQL interruption, implicit
 SQL-initialisation warning and informational index candidates remain explicit review observations
 in the completion report. Pilot/payment activation is not claimed by sprint closure.

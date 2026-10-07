@@ -4,7 +4,7 @@ title: Notifications, Support, and Live Accessibility Readiness
 status: in-progress
 primary_debt: [TD-037, TD-038, TD-043]
 depends_on: [phase-02-sprint-09, phase-02-sprint-10, phase-02-sprint-11]
-last_updated: 2026-10-06
+last_updated: 2026-10-07
 owner: "@Muhns13G"
 ---
 
@@ -49,21 +49,25 @@ reuse and hydration defects are resolved. TD-038 stays Open for released-flow re
 Task 12.7's [staff accessibility packet](annexures/sprint-12-7-staff-accessibility.md) implements
 local staff focus, contained table scrolling, expiry and private recovery. Automated evidence and
 owner-confirmed representative staff VoiceOver/browser zoom close local Task 12.7 acceptance.
-No client-only confirmation is reused. Tasks 12.8–12.10 remain; hosted/debt closure
-is not inferred from intercepted presentation checks.
+No client-only confirmation is reused. Task 12.8's
+[hosted support rehearsal](annexures/sprint-12-8-hosted-support-rehearsal.md) is verified complete:
+genuine AAL2 support/alternate handling, real generic deliveries, attributed callback replay,
+fault/retry/uncertainty/suppression guards and scoped restoration passed. Provider events were
+verified then replayed; automatic provider push and real coverage activation are not claimed.
+Tasks 12.9–12.10 remain; TD-043 retains its wider operational gates.
 
-| Task  | Commit-sized outcome                                                                                                            | Gate           | Status               |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------- |
-| 12.1  | Freeze notification events, templates, recipients, privacy rules, resend/rate behaviour and delivery evidence.                  | Communications | Completed (contract) |
-| 12.2  | Implement generic invitation, account, payment, hand-off, exception and support notifications with durable delivery status.     | Notifications  | Completed (local)    |
-| 12.3  | Implement verified privacy, complaint and clinical/adverse-event routes with owner, hours, fallback and acknowledgement.        | TD-043         | Completed (local)    |
-| 12.4  | Add staff follow-up and failed-delivery queues without exposing sensitive content to email providers.                           | Operations     | Completed (local)    |
-| 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Completed (local)    |
-| 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Completed (local)    |
-| 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Completed (local)    |
-| 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | In progress          |
-| 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Planned              |
-| 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned              |
+| Task  | Commit-sized outcome                                                                                                            | Gate           | Status                       |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------- | -------------- | ---------------------------- |
+| 12.1  | Freeze notification events, templates, recipients, privacy rules, resend/rate behaviour and delivery evidence.                  | Communications | Completed (contract)         |
+| 12.2  | Implement generic invitation, account, payment, hand-off, exception and support notifications with durable delivery status.     | Notifications  | Completed (local)            |
+| 12.3  | Implement verified privacy, complaint and clinical/adverse-event routes with owner, hours, fallback and acknowledgement.        | TD-043         | Completed (local)            |
+| 12.4  | Add staff follow-up and failed-delivery queues without exposing sensitive content to email providers.                           | Operations     | Completed (local)            |
+| 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Completed (local)            |
+| 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Completed (local)            |
+| 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Completed (local)            |
+| 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Completed (hosted synthetic) |
+| 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Planned                      |
+| 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned                      |
 
 ## Acceptance Gate
 

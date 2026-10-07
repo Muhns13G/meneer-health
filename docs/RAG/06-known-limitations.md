@@ -125,7 +125,14 @@ Uncertain resend needs independent current non-acceptance evidence; no such host
 created. Suppression is not overridable, attempts/budget are not reset, and later delivery facts
 reopen review. No hosted migration, real email or roster activation occurred. Hosted inbox/failure/
 acknowledgement/fallback proof Task 12.8. Actual free-tier quota must be verified before activation.
-TD-037, TD-038 and TD-043 stay Open; there is no new pilot permission or blanket tracking change.
+The statements above describe the earlier local task boundaries. Task
+[12.8](../02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md)
+now passes isolated hosted generic inbox delivery, exact provider-reference matching and callback
+replay, fault/retry/uncertainty/suppression, real AAL2 response and alternate handling. All fixtures
+and temporary configuration were removed; the real pilot remains suspended. No automatic Brevo
+webhook was installed, actual roster/clinical authority remains unapproved and quota/headroom must
+be verified before activation. TD-037, TD-038 and TD-043 stay Open for Task 12.9 reconciliation;
+there is no new pilot permission or blanket tracking change.
 Task [12.5](../02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md)
 adds local routed-form keyboard/display tests and the synthetic VoiceOver harness. Axe, semantic
 names, emulated forced colours and root-text scaling do not prove actual screen-reader speech,
