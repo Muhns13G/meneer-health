@@ -125,6 +125,19 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 13.7 — Evidence Reconciliation In Progress
+
+The [13.7 packet](../02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md)
+adds a fixed local-only rollback runner: seven suites/418 SQL assertions and 16 guard tests pass,
+with exact row/security/trigger/function restoration. Fresh hosted read-only evidence confirms
+zero Auth users/sessions, zero Storage objects/audit events, suspended pilot and valid empty chains.
+Origin scheduled recovery run `37683201774` succeeded with a verified encrypted 13-record round
+trip and payload-free heartbeat. This proves the first unattended success, not sustained hourly
+RPO: current Better Stack uptime is Up but recovery heartbeat is Down with an ongoing incident.
+Hosted cross-record chain attestation before cleanup, historical archive disposition and recovery
+cadence/alert reconciliation remain open. Auth/private Storage recovery is still a pre-intake gate.
+No fresh fixtures, payment, email, generator or pilot activation is claimed; 13.7 is not closed.
+
 ## Sprint 13.6 — Synthetic Recovery Rehearsal Completed
 
 The [13.6 packet](../02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md)

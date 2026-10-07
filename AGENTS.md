@@ -46,6 +46,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   locally, comparing exact row/security/trigger/function fingerprints after each rollback. Both
   runner layers disable dotenv autoload; inherited hosted/provider variables are rejected. Never
   adapt its fixed container target to hosted or copy the local seed into hosted services.
+- `bun run test:evidence:rehearsal` runs seven fixed rollback-only local audit, payment, handoff,
+  notification and lifecycle suites, requiring exact row/security/trigger/function restoration.
+  Use `bun --no-env-file`; inherited hosted/provider configuration is rejected. It sends no emails,
+  creates no provider records and is not authority to replay fixtures against hosted Supabase.
 - `bun run test:notifications` runs a local-only eight-request shared-budget race using disposable
   synthetic notification fixtures, then restores journal counts and append-only triggers. It
   requires an empty local notification journal, rejects hosted variables and sends no emails.
