@@ -127,7 +127,7 @@ export class SupabaseQueueRepository {
       p_command: input,
     });
     if (error?.code === "42501") throw new IdentityRejectedError();
-    if (error?.code === "40001") throw new QueueConflictError();
+    if (error?.code === "PT409" || error?.code === "40001") throw new QueueConflictError();
     if (error?.code === "55000") throw new QueueReadinessError();
     if (error) throw new IdentityUnavailableError();
     const parsed = queueCommandResultSchema.safeParse(data);
