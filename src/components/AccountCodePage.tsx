@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
@@ -12,10 +12,22 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
   const [completed, setCompleted] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const recovery = mode === "recover";
+  const formRef = useRef<HTMLFormElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const previousStage = useRef(stage);
 
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (previousStage.current !== stage) {
+      previousStage.current = stage;
+      formRef.current?.querySelector<HTMLInputElement>("input")?.focus();
+    } else if (!pending && message) {
+      resultRef.current?.focus();
+    }
+  }, [stage, pending, message]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -76,6 +88,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
         </p>
         {!completed && (
           <form
+            ref={formRef}
             method="post"
             action={`/account/${mode}`}
             className="mt-8 space-y-5"
@@ -90,6 +103,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
                   Email address
                 </label>
                 <input
+                  key="email"
                   id="account-email"
                   name="email"
                   type="email"
@@ -105,6 +119,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
                   Six-digit code
                 </label>
                 <input
+                  key="code"
                   id="account-code"
                   name="code"
                   type="text"
@@ -136,6 +151,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
         {stage === "verify" && !completed && (
           <button
             type="button"
+            disabled={pending}
             onClick={() => {
               setStage("request");
               setMessage("");
@@ -145,8 +161,14 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
             Use another email address
           </button>
         )}
-        <div role="status" aria-live="polite" className="mt-6 text-sm text-muted-foreground">
-          {message}
+        <div
+          ref={resultRef}
+          tabIndex={-1}
+          role="status"
+          aria-live="polite"
+          className="mt-6 text-sm text-muted-foreground"
+        >
+          {pending ? "Checking…" : message}
         </div>
         {completed && !recovery ? (
           <Link to="/portal" className="mt-6 inline-block text-gold underline underline-offset-4">

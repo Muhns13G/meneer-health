@@ -21,10 +21,13 @@ import { createRefundHttpHandler } from "./server/payments/refund-http";
 import { runScheduledRefunds } from "./server/payments/refund-dispatch";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
+import { createSupportHttpHandler } from "./server/support/support-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
 import { createAlertHttpHandler } from "./server/operations/alert-http";
 import { runScheduledOperationsAlerts } from "./server/operations/alert-dispatch";
+import { runScheduledTransactionalNotifications } from "./server/notifications/notification-dispatch";
+import { createNotificationReceiptHandler } from "./server/notifications/notification-receipts";
 import { runMedicalSafetyDispatch } from "./server/intake/safety-dispatch";
 import { createStaffIntakeHttpHandler } from "./server/intake/staff-intake-http";
 import {
@@ -83,6 +86,7 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
         const outcomes = await Promise.allSettled([
           runScheduledOperationsAlerts(bindings as unknown as Record<string, unknown>),
           runMedicalSafetyDispatch(bindings as unknown as Record<string, unknown>),
+          runScheduledTransactionalNotifications(bindings as unknown as Record<string, unknown>),
           runScheduledRefunds(bindings as unknown as Record<string, unknown>),
         ]);
         if (outcomes.some((result) => result.status === "rejected"))
@@ -140,6 +144,10 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/api/notifications/brevo/webhook")
+              return createNotificationReceiptHandler(env as unknown as Record<string, unknown>)(
+                boundedRequest,
+              );
             if (
               pathname === "/api/payments/stripe/webhook" &&
               (env as unknown as PilotWebhookBindings).COMMERCE_WEBHOOK_MODE === "sandbox"
@@ -181,6 +189,17 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               ].includes(pathname)
             ) {
               return createQueueHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
+            }
+            if (
+              [
+                "/portal/support/command",
+                "/staff/support/command",
+                "/staff/support/followup",
+              ].includes(pathname)
+            ) {
+              return createSupportHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
               );
             }

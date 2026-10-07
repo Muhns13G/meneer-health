@@ -8,6 +8,10 @@ function RefundContent({ offerId, staff }: { offerId: string; staff: boolean }) 
   const [view, setView] = useState<RefundView | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const resultRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (!busy && message) resultRef.current?.focus();
+  }, [busy, message]);
   const [confirmed, setConfirmed] = useState(false);
   const [reason, setReason] = useState("no_review");
   const [evidenceId, setEvidenceId] = useState("");
@@ -92,11 +96,9 @@ function RefundContent({ offerId, staff }: { offerId: string; staff: boolean }) 
       >
         Check cancellation / refund request
       </button>
-      {message && (
-        <p role="status" className="mt-3 text-sm">
-          {message}
-        </p>
-      )}
+      <p ref={resultRef} tabIndex={-1} role="status" aria-live="polite" className="mt-3 text-sm">
+        {message}
+      </p>
       {view && (
         <>
           <p className="mt-3">Request: {view.requestState.replaceAll("_", " ")}</p>

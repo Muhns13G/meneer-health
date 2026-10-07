@@ -55,6 +55,13 @@ export function MedicalWorkPage() {
   const [references, setReferences] = useState<Record<string, string>>({});
   const [grantFields, setGrantFields] = useState<string[]>([]);
   const heading = useRef<HTMLHeadingElement>(null);
+  const status = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (!busy) {
+      if (view) heading.current?.focus();
+      else if (message) status.current?.focus();
+    }
+  }, [busy, view, message]);
   const sequence = useRef(0);
   const controller = useRef<AbortController | null>(null);
   const clear = useCallback(() => {
@@ -133,6 +140,7 @@ export function MedicalWorkPage() {
       if (seq !== sequence.current) return;
       if (body.action === "list") {
         const list = listSchema.parse(v);
+        if (Date.parse(list.expiresAt) <= Date.now()) throw new Error("authority");
         setItems(list.items);
         setDeadline(list.expiresAt);
         setMessage(
@@ -153,7 +161,6 @@ export function MedicalWorkPage() {
         setItems([]);
         setEvidence("");
       }
-      heading.current?.focus();
     } catch (error) {
       if (seq === sequence.current && !current.signal.aborted) {
         setItems([]);
@@ -210,7 +217,7 @@ export function MedicalWorkPage() {
         >
           Load granted work
         </button>
-        <p role="status" aria-live="polite" className="mt-6">
+        <p ref={status} tabIndex={-1} role="status" aria-live="polite" className="mt-6">
           {busy ? "Rechecking private authority…" : message}
         </p>
         <ul className="mt-8 space-y-4">

@@ -41,6 +41,7 @@ export function StaffQueuePage() {
   const [exceptionCode, setExceptionCode] = useState(operationsExceptionCodeSchema.options[0]);
   const requestRef = useRef<AbortController | null>(null);
   const detailHeading = useRef<HTMLHeadingElement>(null);
+  const status = useRef<HTMLParagraphElement>(null);
   const sequence = useRef(0);
   const expiryTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -160,8 +161,11 @@ export function StaffQueuePage() {
     };
   }, []);
   useEffect(() => {
-    if (detail) detailHeading.current?.focus();
-  }, [detail]);
+    if (!busy) {
+      if (detail) detailHeading.current?.focus();
+      else status.current?.focus();
+    }
+  }, [busy, detail, message]);
 
   return (
     <main className="container-x max-w-5xl py-16">
@@ -172,6 +176,9 @@ export function StaffQueuePage() {
       </p>
       <a href="/staff/sign-in" className="mt-4 inline-block underline">
         Staff session and sign-out
+      </a>
+      <a href="/staff/support" className="ml-5 inline-block underline">
+        Support and delivery follow-up
       </a>
       <form
         className="mt-8 flex flex-wrap items-end gap-4"
@@ -208,12 +215,17 @@ export function StaffQueuePage() {
           Apply filter / refresh
         </button>
       </form>
-      <p role="status" aria-live="polite" className="mt-6">
+      <p ref={status} tabIndex={-1} role="status" aria-live="polite" className="mt-6">
         {message}
       </p>
       {page && (
         <section aria-label="Assigned cases" className="mt-6" aria-busy={busy}>
-          <div className="overflow-x-auto">
+          <div
+            role="region"
+            aria-label="Assigned cases table"
+            tabIndex={0}
+            className="overflow-x-auto"
+          >
             <table className="w-full text-left">
               <caption className="sr-only">
                 Assigned cases, oldest first. Maximum 25 per page.
@@ -284,7 +296,7 @@ export function StaffQueuePage() {
           aria-label="Assigned case detail"
           className="mt-8 rounded border border-border p-6"
         >
-          <h2 ref={detailHeading} tabIndex={-1} className="font-serif text-2xl">
+          <h2 ref={detailHeading} tabIndex={-1} className="break-all font-serif text-2xl">
             Case {detail.caseId}
           </h2>
           <p className="mt-3">

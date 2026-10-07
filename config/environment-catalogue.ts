@@ -14,6 +14,30 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
+  {
+    name: "TRANSACTIONAL_NOTIFICATION_WEBHOOK_SECRET",
+    purpose:
+      "Dedicated server-only custom-header credential for attributed Brevo delivery receipts.",
+    owner: "Security and release owner",
+    sensitivity: "secret",
+    environments: ["local", "production"],
+    required: false,
+    exposure: "server",
+    rotation:
+      "Generate independently before authorised rehearsal; never reuse an API or encryption key.",
+  },
+  ...["TRANSACTIONAL_NOTIFICATIONS_MODE", "TRANSACTIONAL_NOTIFICATIONS_TENANT_ID"].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose: "Opt-in scoped generic client notifications; shared budget, disabled by default.",
+      owner: "Operations and release owner",
+      sensitivity: "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation: "Enable only after sender, recipient authority and hosted delivery rehearsal pass.",
+    }),
+  ),
   ...[
     "COMMERCE_REVIEW_MODE",
     "COMMERCE_REVIEW_TENANT_ID",

@@ -29,10 +29,12 @@ import { Route as PortalIntakeRouteImport } from './routes/portal.intake'
 import { Route as PortalOrderRouteImport } from './routes/portal.order'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as PortalRightsRouteImport } from './routes/portal.rights'
+import { Route as PortalSupportRouteImport } from './routes/portal.support'
 import { Route as StaffAlertsRouteImport } from './routes/staff.alerts'
 import { Route as StaffIntakeRouteImport } from './routes/staff.intake'
 import { Route as StaffQueueRouteImport } from './routes/staff.queue'
 import { Route as StaffSignInRouteImport } from './routes/staff.sign-in'
+import { Route as StaffSupportRouteImport } from './routes/staff.support'
 import { Route as ApiJourneyIntentRouteImport } from './routes/api/journey/intent'
 import { Route as ApiMeasurementConsentRouteImport } from './routes/api/measurement/consent'
 import { Route as ApiMeasurementEventsRouteImport } from './routes/api/measurement/events'
@@ -139,6 +141,11 @@ const PortalRightsRoute = PortalRightsRouteImport.update({
   path: '/portal/rights',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalSupportRoute = PortalSupportRouteImport.update({
+  id: '/portal/support',
+  path: '/portal/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaffAlertsRoute = StaffAlertsRouteImport.update({
   id: '/staff/alerts',
   path: '/staff/alerts',
@@ -157,6 +164,11 @@ const StaffQueueRoute = StaffQueueRouteImport.update({
 const StaffSignInRoute = StaffSignInRouteImport.update({
   id: '/staff/sign-in',
   path: '/staff/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffSupportRoute = StaffSupportRouteImport.update({
+  id: '/staff/support',
+  path: '/staff/support',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiJourneyIntentRoute = ApiJourneyIntentRouteImport.update({
@@ -206,10 +218,12 @@ export interface FileRoutesByFullPath {
   '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
+  '/staff/support': typeof StaffSupportRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -237,10 +251,12 @@ export interface FileRoutesByTo {
   '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
+  '/staff/support': typeof StaffSupportRoute
   '/portal': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -269,10 +285,12 @@ export interface FileRoutesById {
   '/portal/order': typeof PortalOrderRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
+  '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
+  '/staff/support': typeof StaffSupportRoute
   '/portal/': typeof PortalIndexRoute
   '/api/journey/intent': typeof ApiJourneyIntentRoute
   '/api/measurement/consent': typeof ApiMeasurementConsentRoute
@@ -302,10 +320,12 @@ export interface FileRouteTypes {
     | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
+    | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
+    | '/staff/support'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -333,10 +353,12 @@ export interface FileRouteTypes {
     | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
+    | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
+    | '/staff/support'
     | '/portal'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -364,10 +386,12 @@ export interface FileRouteTypes {
     | '/portal/order'
     | '/portal/profile'
     | '/portal/rights'
+    | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
     | '/staff/queue'
     | '/staff/sign-in'
+    | '/staff/support'
     | '/portal/'
     | '/api/journey/intent'
     | '/api/measurement/consent'
@@ -396,10 +420,12 @@ export interface RootRouteChildren {
   PortalOrderRoute: typeof PortalOrderRoute
   PortalProfileRoute: typeof PortalProfileRoute
   PortalRightsRoute: typeof PortalRightsRoute
+  PortalSupportRoute: typeof PortalSupportRoute
   StaffAlertsRoute: typeof StaffAlertsRoute
   StaffIntakeRoute: typeof StaffIntakeRoute
   StaffQueueRoute: typeof StaffQueueRoute
   StaffSignInRoute: typeof StaffSignInRoute
+  StaffSupportRoute: typeof StaffSupportRoute
   PortalIndexRoute: typeof PortalIndexRoute
   ApiJourneyIntentRoute: typeof ApiJourneyIntentRoute
   ApiMeasurementConsentRoute: typeof ApiMeasurementConsentRoute
@@ -550,6 +576,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalRightsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/support': {
+      id: '/portal/support'
+      path: '/portal/support'
+      fullPath: '/portal/support'
+      preLoaderRoute: typeof PortalSupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/staff/alerts': {
       id: '/staff/alerts'
       path: '/staff/alerts'
@@ -576,6 +609,13 @@ declare module '@tanstack/react-router' {
       path: '/staff/sign-in'
       fullPath: '/staff/sign-in'
       preLoaderRoute: typeof StaffSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff/support': {
+      id: '/staff/support'
+      path: '/staff/support'
+      fullPath: '/staff/support'
+      preLoaderRoute: typeof StaffSupportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/journey/intent': {
@@ -636,10 +676,12 @@ const rootRouteChildren: RootRouteChildren = {
   PortalOrderRoute: PortalOrderRoute,
   PortalProfileRoute: PortalProfileRoute,
   PortalRightsRoute: PortalRightsRoute,
+  PortalSupportRoute: PortalSupportRoute,
   StaffAlertsRoute: StaffAlertsRoute,
   StaffIntakeRoute: StaffIntakeRoute,
   StaffQueueRoute: StaffQueueRoute,
   StaffSignInRoute: StaffSignInRoute,
+  StaffSupportRoute: StaffSupportRoute,
   PortalIndexRoute: PortalIndexRoute,
   ApiJourneyIntentRoute: ApiJourneyIntentRoute,
   ApiMeasurementConsentRoute: ApiMeasurementConsentRoute,

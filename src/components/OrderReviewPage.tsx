@@ -14,6 +14,10 @@ export function OrderReviewPage() {
   const [status, setStatus] = useState("Loading your order…");
   const [accepted, setAccepted] = useState(false);
   const [busy, setBusy] = useState(false);
+  const resultRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    if (!busy && status) resultRef.current?.focus();
+  }, [busy, status]);
   const controller = useRef<AbortController | null>(null);
   const sequence = useRef(0);
   const acceptKey = useRef<string | null>(null);
@@ -56,6 +60,7 @@ export function OrderReviewPage() {
     const abort = new AbortController();
     controller.current = abort;
     setBusy(true);
+    setStatus(accept ? "Checking…" : "Loading your order…");
     const key = accept ? (acceptKey.current ??= crypto.randomUUID()) : crypto.randomUUID();
     const body = acceptReview
       ? {
@@ -140,7 +145,7 @@ export function OrderReviewPage() {
       <Nav />
       <main className="container-x max-w-3xl py-16">
         <h1 className="font-serif text-3xl">Review your order</h1>
-        <p role="status" aria-live="polite" className="mt-4">
+        <p ref={resultRef} tabIndex={-1} role="status" aria-live="polite" className="mt-4">
           {status}
         </p>
         {review ? (
