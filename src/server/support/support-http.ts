@@ -182,7 +182,7 @@ export function createSupportHttpHandler(
         return reply(
           error.code === "42501"
             ? 403
-            : ["40001", "23505", "55000"].includes(error.code ?? "")
+            : ["PT409", "40001", "23505", "55000"].includes(error.code ?? "")
               ? 409
               : error.code === "P0001"
                 ? 429
