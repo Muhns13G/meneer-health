@@ -6,9 +6,10 @@ authority: observed-summary
 last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
-source_baseline: 654f51f
+source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md
@@ -121,6 +122,18 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 13.1 — Rehearsal Contract Complete, Execution Gated
+
+Sprint 12 closure is committed at `08dc68c`; Task
+[13.1](../02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md)
+now freezes the ten-task Sprint 13 script, synthetic actor roles, evidence provenance, stop
+conditions and exact-resource cleanup. No new runtime/schema/hosted mutation or clinical approval
+is claimed. Latest inspected preview CI `37586367138` failed the sharp advisory already patched
+locally in the closure commit; no exact-commit closure run was returned. Owner source reconciliation
+and passing CI precede hosted execution and 13.2 platform acceptance. Earlier Sprint 13-planned
+statements below are historical. Seven release debts remain; Phase 02 and pilot activation are
+not closed. Generator subscription/current compatibility still requires its separate checklist.
 
 ## Sprint 11.9 — Completed Synthetic Sandbox/Hosted Boundary
 

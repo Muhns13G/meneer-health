@@ -7,6 +7,7 @@ last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
   - docs/03-completion-reports/phase-02/sprint-10-staff-queue-protocol-handoff.md
@@ -62,6 +63,12 @@ sources:
 # Meneer Project Context
 
 ## Current Authority — Sprint 12 Closure
+
+Sprint 13 has begun at the contract boundary: [13.1](../02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md)
+defines the synthetic rehearsal and cleanup packet against closure commit `08dc68c`. Passing
+exact-code CI/platform readiness and fresh bounded hosted approvals are still required. This is
+not a new runtime, clinical approval or pilot activation; seven existing debts remain. Older
+Sprint 13-planned checkpoints below are superseded by this contract, not by execution evidence.
 
 Sprint 12 is completed with activation gates in the
 [completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md).

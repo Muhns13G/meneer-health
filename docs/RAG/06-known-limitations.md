@@ -7,6 +7,7 @@ last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md
@@ -111,6 +112,13 @@ sources:
 # Meneer Known Limitations and Answer Guardrails
 
 ## Sprint 12.2 — Local Notifications, Not Activated Delivery
+
+Sprint 13.1's [rehearsal contract](../02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md)
+is completed planning, not execution proof. Latest inspected preview CI failed the already locally
+patched sharp advisory; exact deployed-code CI, baseline/platform proof and fresh bounded hosted
+authorisations remain prerequisites. No current generator access, real support appointment,
+released accessibility acceptance or pilot go decision is inferred. Earlier Sprint 13-planned
+statements are historical; the seven retained release debts remain unchanged.
 
 Task 12.10's [completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
 supersedes earlier pending task statements, not the release/activation limitations. Its final
