@@ -17,6 +17,7 @@ export const governedRecoverySchemas = [
   "identity_private",
   "intake_private",
   "lifecycle_private",
+  "measurement_private",
   "payments_private",
 ] as const;
 
@@ -219,13 +220,28 @@ export function createProductionLogicalDump(
   const dumpName = "recovery.dump";
   const dumpPath = join(outputDirectory, dumpName);
   try {
+    const connection = new URL(databaseUrl);
+    if (
+      connection.protocol !== "postgresql:" ||
+      connection.searchParams.get("sslmode") !== "require"
+    ) {
+      throw new Error("HOSTED_RECOVERY_DATABASE_CONNECTION_INVALID");
+    }
+    const connectionEnvironment = {
+      PGHOST: connection.hostname,
+      PGPORT: connection.port || "5432",
+      PGUSER: decodeURIComponent(connection.username),
+      PGPASSWORD: decodeURIComponent(connection.password),
+      PGDATABASE: decodeURIComponent(connection.pathname.slice(1)),
+      PGSSLMODE: "require",
+      PGCONNECT_TIMEOUT: "15",
+    };
     command(
       "docker",
       [
         "run",
         "--rm",
-        "-e",
-        "PGDATABASE",
+        ...Object.keys(connectionEnvironment).flatMap((name) => ["-e", name]),
         "-v",
         `${outputDirectory}:/recovery`,
         "postgres:17.6-alpine",
@@ -238,7 +254,7 @@ export function createProductionLogicalDump(
         `/recovery/${dumpName}`,
       ],
       {
-        env: { ...process.env, PGDATABASE: databaseUrl },
+        env: { ...process.env, ...connectionEnvironment },
         maxBuffer: 16 * 1024 * 1024,
       },
     );

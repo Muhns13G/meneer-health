@@ -130,9 +130,13 @@ ties the active Worker version to preview commit `ad13febd`; hosted migration pa
 and denied client-role SELECT grants pass. Security Advisor has zero errors/warnings and 125
 deny-default informational notices, but separate hosted function lint has unresolved warnings.
 The uptime monitor is Up; the recovery heartbeat is Down with an ongoing missed-export incident.
-Hourly exports remain disabled and the Actions database connection secret is absent. Latest CI
-`37602735614` failed macOS-only screenshot paths; portable test-output fixes are local and require
-owner commit/push plus passing exact-commit CI. Task 13.2 is in progress, not pilot approval.
+Hourly exports remain disabled. The Actions database connection secret is now provisioned and a
+read-only session-pooler connection passed. The owner confirms offline recovery-key custody and
+retains `itws-I-preview` as Cloudflare's canonical deployment branch. CI `37606869524` and
+`37606984109` passed the owner-committed screenshot fixes. Additional local recovery corrections
+include measurement-schema coverage, standard libpq connection variables and an isolated
+production-restore verifier; hosted off-site acceptance is still pending their owner release.
+Task 13.2 is in progress, not pilot approval.
 
 ## Sprint 13.1 — Rehearsal Contract Complete, Execution Gated
 

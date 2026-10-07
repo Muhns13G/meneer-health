@@ -57,9 +57,11 @@ implemented journey and the operating team can recover safely from expected fail
 
 The [13.2 platform evidence packet](annexures/sprint-13-2-platform-readiness.md) records verified
 read-only checks and remaining acceptance work. Exact deployed-source provenance, monitoring refresh
-and security-advisor inspection are verified. CI failed portable screenshot paths, now fixed locally;
-passing remote CI, function-lint classification, recovery readiness and compatible rollback acceptance
-remain open. Hourly recovery scheduling remains disabled and its heartbeat is Down.
+and security-advisor inspection are verified. Owner-committed screenshot fixes passed both remote CI
+runs. Recovery-key custody is confirmed and the Actions database connection is provisioned. Additional
+local recovery corrections require owner release and provider-backed restore proof; hosted volatility
+correction, responder appointments and compatible rollback acceptance remain open. Cloudflare stays
+on `itws-I-preview`. Hourly recovery scheduling remains disabled and its heartbeat is Down.
 
 - One synthetic invitee completes the full minimum journey with durable, reconcilable evidence.
 - Each failure leaves an honest recoverable state and reaches the correct owner.

@@ -85,6 +85,50 @@ recovery before promotion; no canonical rollback test was performed.
 
 ## Remaining Acceptance Work
 
+### Additional readiness corrections — 7 October 2026
+
+Local migration `20261007102500_time_sensitive_authority_volatility.sql` corrects two
+time-sensitive authority predicates to `VOLATILE`, without changing their bodies or access controls.
+The new volatility/ACL regression and the staff queue, support follow-up and commerce catalogue
+packets passed together: **181 assertions across four SQL suites**. Hosted application still requires
+explicit approval. Remaining lint notices about valid literal conversions and unused locals must not
+be represented as runtime failures or as a clean lint result.
+
+The recovery export schema allowlist now includes `measurement_private`; its exact nine-schema
+inventory is covered by the recovery adapter regression (**8 tests passed**). This source correction
+still needs the owner's normal commit/release process.
+
+The owner authorised connection-secret provisioning, encrypted production-format export/isolated
+restore proof and hourly activation **only after reconciliation passes**. Execution remains blocked
+because neither `SUPABASE_DB_URL` nor `SUPABASE_DB_PASSWORD` is present in the ignored local
+environment. Independent off-device key custody and named primary/alternate responders also remain
+unconfirmed. The connection-provisioning observations above are superseded by the follow-up below.
+
+### Connection provisioning and CI follow-up
+
+Both exact-commit CI runs completed successfully: `37606869524` (`itws-I`,
+`7f12b0d3d191c9275e258eb148e29bf19c3709cf`) and `37606984109` (`itws-I-preview`,
+`8c44f6dd73418ec3eddca7f947cd8387ab9aa3af`). These results precede the additional local
+recovery corrections; they do not verify those uncommitted changes.
+
+The owner supplied the database connection and authorised provisioning. `SUPABASE_DB_URL` was
+saved only in the ignored local environment and the repository Actions secret. The session-pooler
+connection on port 5432 passed an actual read-only PostgreSQL connection check. No password reset
+was performed. Credentials disclosed in chat should be rotated through a separately authorised
+credential-change process, not copied into evidence documents.
+
+The connection check exposed a tooling issue: placing a complete URI in `PGDATABASE` did not select
+the remote connection. The production dump adapter now splits the validated TLS-required URL into
+standard `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` and `PGSSLMODE` environment
+variables, with a connection timeout. Credential values remain absent from command arguments.
+The eight adapter tests pass; type checking passed before this additional connection correction.
+
+`main` still lacks the measurement-schema correction. Its production recovery path does not yet
+perform the required isolated restore/reconciliation. No export was dispatched and
+`RECOVERY_EXPORT_ENABLED` remains `false`. Complete the restore implementation and owner release,
+then prove the off-site round trip before enabling the authorised schedule. Independent key custody,
+Auth/private-Storage coverage and named recovery responders remain acceptance gates.
+
 1. Record passing exact-commit CI after the owner pushes the portable screenshot/readiness fixes.
    Active deployed source provenance is now verified above.
 2. Complete hosted security/advisor and required binding/configuration compatibility review without
@@ -98,3 +142,31 @@ recovery before promotion; no canonical rollback test was performed.
 
 Task 13.2 remains **in progress**. The suspended-pilot baseline is intact; this evidence does not
 authorise Tasks 13.3 onward to create hosted fixtures or activate the real pilot.
+
+## Owner-confirmed release and recovery boundary
+
+The owner confirms an offline copy of `RECOVERY_ENCRYPTION_KEY_BASE64` exists. Cloudflare will
+continue serving **`itws-I-preview`**, deliberately retaining its draft peptide video. Do not switch
+its production branch to `main`. The scheduled GitHub recovery workflow is a separate release path
+on the default branch; the owner reports `main` is updated, but new local readiness corrections
+still need the owner's commit/push before an exact-source hosted workflow dispatch can verify them.
+
+The production runner now verifies the downloaded encrypted archive, decrypts it, restores the
+logical dump into a disposable PostgreSQL instance and reconciles per-table counts and row digests
+across all nine governed application schemas before success heartbeat delivery. It retains the
+production recovery object, while synthetic objects remain scoped cleanup targets. Source fingerprints
+are compared before/after export and with the restore; a changed source fails closed. This does not
+constitute an Auth/Storage export or permission to restore into hosted Supabase.
+
+Local adapter/proof/job regressions pass: **15 assertions across three test files**, including
+credential-free command arguments, malformed fingerprint rejection and reconciliation mismatch.
+Hosted R2 round-trip acceptance and hourly activation remain pending the owner's release of these
+corrections; no false success heartbeat was emitted.
+
+The authorised hosted export/disposable local restore **passed for all 125 application tables and
+13 baseline records**. Per-table counts and row digests reconciled. An initial attempt exposed the
+fresh database's default `public` schema collision; the disposable bootstrap now drops only that
+empty local schema before restoration. The retest passed. Plaintext dump/fingerprint working files
+and the disposable database container were removed after each attempt. This direct restore proof
+does not yet establish download/decryption from R2; that exact-source workflow step remains pending
+the owner commit/push. Lint, type checking, formatting and all 15 recovery assertions pass.
