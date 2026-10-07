@@ -144,7 +144,10 @@ on 8 October. The owner confirmed actual incident-alert receipt on 8 October. Th
 does not establish sustained hourly cadence. A subsequent bounded observation verifies a strict
 production telemetry event without emitting private payloads. A separate pinned hourly dispatcher
 is prepared with eight passing tests and upload dry-run; owner credential provisioning/deployment
-and observed cadence remain pending. Historical archive inspection also remains pending; 13.7 is
+is now complete at dispatcher version `84d314d2-9c0e-48f4-be88-7c0fe96add36`; the secret is present
+and the owner confirms the hourly trigger. Consecutive verified hourly runs remain pending.
+Approved inspection verifies both older archives' encryption,
+checksums and 13 baseline-only records, with local archive/dump cleanup and remote retention; 13.7 is
 not closed. No new
 payment, email exercise, generator or pilot activation occurred.
 
