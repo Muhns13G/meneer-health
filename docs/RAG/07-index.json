@@ -1176,6 +1176,12 @@
       "authority_for": ["isolated workforce assignment and signed sandbox review-deposit rehearsal"]
     },
     {
+      "id": "phase-02-sprint-13-5",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md",
+      "status": "in-progress",
+      "authority_for": ["first-party medical transfer and independent protocol bridge rehearsal"]
+    },
+    {
       "id": "phase-01-sprint-01",
       "path": "docs/02-implementation-plans/phase-01/sprint-01-pilot-risk-containment.md",
       "status": "completed",

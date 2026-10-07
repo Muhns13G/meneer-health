@@ -41,12 +41,20 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Sprint 13.5 Preparation Finding — TD-062 In Progress
+
+Six intentional medical grant/transfer business conflicts still use serialization SQLSTATE in
+four RPCs, confirmed statically and by read-only hosted definition counts. The narrow local
+correction is prepared; separate hosted approval, owner deployment and runtime/replay/cleanup
+acceptance remain outstanding. TD-060/061 remain Verified in their own scopes. Current totals:
+**62 items — 54 Verified, eight non-Verified**.
+
 ### Sprint 13.4 Rehearsal Finding — TD-061 Verified
 
 Four intentional queue conflicts used serialization SQLSTATE `40001`. The explicitly approved narrow
 migration, owner-deployed adapter and fresh hosted stale/changed-request 409, replay, claim ownership
 and independently verified scoped cleanup pass. TD-061 is Verified for this one RPC; TD-060 remains
-Verified for intake only. Current totals: **61 items — 54 Verified, seven non-Verified**.
+Verified for intake only. Totals at that checkpoint: **61 items — 54 Verified, seven non-Verified**.
 
 ### Sprint 13.3 Rehearsal Finding — TD-060 Verified
 
@@ -657,6 +665,21 @@ fingerprints, 13 baseline rows, original triggers and zero Auth users/sessions. 
 Worker `26678aba-8b3d-4e58-85a2-cc57016c31f8` restores disabled commerce and the suspended real
 pilot. Earlier verifier/cleanup defects were corrected and independently reconciled; they do not
 invalidate the fresh successful packet. Other RPC conflict-code review remains Task 13.9.
+
+## TD-062 — Medical Grant/Transfer Business Conflicts Use Serialization SQLSTATE
+
+Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target: Task 13.5
+before hosted conflict/replay rehearsal. Evidence: [protocol bridge packet](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md).
+
+Six intentional `MEDICAL_CONFLICT` raises in four medical grant/transfer RPCs use `40001`.
+Static inspection and read-only hosted counts confirm reachable misuse; no new hosted 503/retry
+failure is claimed. CLI-created migration `20261007201957` changes only those six raises to
+`PT409`, asserting unchanged owner/ACL/security-definer/configuration. The staff HTTP handler
+maps `PT409` to private 409; clinical/payment/snapshot/recipient guards and other RPCs are unchanged.
+Local migration guards and 87 SQL assertions plus five HTTP mapping tests pass. Acceptance needs
+separate hosted migration approval, owner deployment, fresh routed stale/replay/independence proof
+with unchanged durable state and exact cleanup. Fixture/payment approvals alone do not authorise
+this schema change. Do not mark Verified from static/local tests alone.
 
 ## Registry Maintenance Rules
 

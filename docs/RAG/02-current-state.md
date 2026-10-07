@@ -123,6 +123,18 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 13.5 — Protocol Bridge Rehearsal In Progress
+
+The [13.5 packet](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
+starts from committed `bfc2138`. Initial local rollback-only packet passes 514 assertions with
+exact row/security/function restoration; corrected packet rerun passes 517 assertions and 90
+targeted tests pass. Hosted fixture/configuration/
+cleanup and a fresh signed R999 sandbox deposit/exact refund are explicitly approved, but no new
+hosted resource is created yet. TD-062's six-raise/four-RPC narrow medical conflict correction is
+prepared and locally tested; hosted migration approval and owner handler deployment are required.
+Current totals: **62 items — 54 Verified, eight non-Verified**. Generator entitlement/mapping/output
+proof remains externally gated; the real pilot remains suspended.
+
 ## Sprint 13.4 — Assignment/Payment Rehearsal Completed
 
 The [13.4 packet](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md)

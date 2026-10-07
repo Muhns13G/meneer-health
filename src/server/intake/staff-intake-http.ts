@@ -281,7 +281,7 @@ export function createStaffIntakeHttpHandler(bindings: IntakeBindings) {
       return response(
         message === "P0001"
           ? 412
-          : message === "40001"
+          : message === "PT409" || message === "40001"
             ? 409
             : message === "42501" || message === "IDENTITY_REJECTED"
               ? 403
