@@ -20,6 +20,16 @@ authorization for later releases.
 
 ## Sprint 12.4 Staff Follow-up Release Boundary
 
+Current checkpoint: [Task 12.8](../02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md)
+has passed the isolated hosted support/notification rehearsal. Earlier local-only statements below
+describe their respective task checkpoints. Exact provider-verified delivery projections were
+replayed through the authenticated hosted callback; automatic Brevo push was not installed.
+Temporary bindings and the dedicated secret were removed, mode restored to disabled and all
+test fixtures/sessions cleaned. Real coverage, provider webhook setup, quota/headroom and debt/
+released-flow reconciliation remain activation gates. Publishing settings is not itself proof of
+live readiness: probe the expected unauthenticated 401 before ingestion; disabled mode returns 404.
+No owner source deployment was needed for the final verification-harness corrections.
+
 [Task 12.4](../02-implementation-plans/phase-02/annexures/sprint-12-4-staff-support-followup.md)
 adds `/staff/support` and `/staff/support/followup`. No new Worker binding/secret is required.
 Its migration follows 12.2/12.3 and has not been applied to hosted services by this task. Only current

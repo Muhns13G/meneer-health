@@ -165,14 +165,20 @@ private-data expiry/recovery. A stalled alert read now expires before transport 
 late responses cannot restore work. Passing automated checks and owner-confirmed representative
 staff VoiceOver/browser zoom close local 12.7 acceptance, distinct from client checks.
 Hosted support, debt reconciliation and sprint closure
-remain Tasks 12.8–12.10. TD-037/TD-038 remain Open.
+are now followed by debt reconciliation and sprint closure in Tasks 12.9–12.10. TD-037/TD-038 remain Open.
 
-Task 12.8 is in progress: isolated hosted Auth/TOTP, emergency containment, request replay and
-wrong-purpose denial passed, followed by scoped cleanup. A business-conflict SQLSTATE `40001`
-caused PostgREST retries and HTTP timeouts. A narrowly guarded `PT409` migration and HTTP mapping
-fix pass 120 local SQL checks, nine HTTP tests and TypeScript, but await explicit hosted migration
-approval and owner deployment. Notification transport/failure/retry and remaining staff acceptance
-are not yet closed; see the Sprint-12.8 hosted rehearsal annexure.
+Task [12.8](../02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md)
+is verified complete within the isolated hosted synthetic boundary: genuine Auth/TOTP/AAL2,
+emergency containment, request replay, wrong-purpose denial, acknowledgement/resolution ordering
+and alternate-owner handling passed. Owner-approved support and notification `PT409` corrections
+are hosted, preserving security metadata. Two actual generic deliveries were matched to exact
+accepted references, ingested through the hosted callback and replayed without duplicate facts;
+staff delivery projection, failure/backoff, uncertainty and suppression checks passed. Local SQL
+checks (192), focused support/notification tests (54), TypeScript and lint pass. Disabled Worker
+configuration was restored, temporary bindings removed and sessions/fixtures cleaned. Independent
+aggregate-only verification confirms 22 checked tables empty, Auth empty, pilot suspended and
+security controls intact. Automatic provider push was not configured; real purpose/clinical
+coverage and activation remain gated under TD-043. Tasks 12.9/12.10 remain.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,
