@@ -111,6 +111,13 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+Task [13.2](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md) remains
+in progress: exact deployed source is identified, but CI needs the local portable screenshot fixes,
+hosted function-lint warnings need classification, and production-format recovery/independent key
+custody and compatible rollback acceptance remain open. Better Stack uptime is Up but backup
+heartbeat is Down. Do not equate configured private storage, secret names or prior synthetic backup
+proof with current hourly production recovery. No real pilot activation is authorised.
+
 ## Sprint 12.2 — Local Notifications, Not Activated Delivery
 
 Sprint 13.1's [rehearsal contract](../02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md)
