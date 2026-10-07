@@ -40,6 +40,7 @@
     "test:authz": "bun run scripts/test-supabase-authorisation-integration.ts",
     "test:identity:security": "bun run scripts/test-sprint09-security.ts",
     "test:operations:rehearsal": "bun run scripts/test-sprint10-rehearsal.ts",
+    "test:recovery:rehearsal": "bun --no-env-file run scripts/test-sprint13-recovery-rehearsal.ts",
     "test:notifications": "bun run scripts/test-notifications-concurrency.ts",
     "test:identity:hosted-denials": "bun run scripts/test-sprint09-hosted-http.ts",
     "test:commands": "bun run scripts/test-supabase-workflow-commands-integration.ts",
