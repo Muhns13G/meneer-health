@@ -136,7 +136,17 @@ trip and payload-free heartbeat. This proves the first unattended success, not s
 RPO: current Better Stack uptime is Up but recovery heartbeat is Down with an ongoing incident.
 Hosted cross-record chain attestation before cleanup, historical archive disposition and recovery
 cadence/alert reconciliation remain open. Auth/private Storage recovery is still a pre-intake gate.
-No fresh fixtures, payment, email, generator or pilot activation is claimed; 13.7 is not closed.
+An explicitly approved hosted audit-only rollback transaction now verifies three linked chain
+facts, command/outbox/inbox/response lineage, replay deduplication, immutability and tamper detection;
+independent exact baseline restoration passes. Approved production recovery run `37701825733`
+reconciles 13 records and automatically resolves acknowledged incident `1028695803` at 01:22 SAST
+on 8 October. The owner confirmed actual incident-alert receipt on 8 October. This manual response
+does not establish sustained hourly cadence. A subsequent bounded observation verifies a strict
+production telemetry event without emitting private payloads. A separate pinned hourly dispatcher
+is prepared with eight passing tests and upload dry-run; owner credential provisioning/deployment
+and observed cadence remain pending. Historical archive inspection also remains pending; 13.7 is
+not closed. No new
+payment, email exercise, generator or pilot activation occurred.
 
 ## Sprint 13.6 — Synthetic Recovery Rehearsal Completed
 
