@@ -192,6 +192,12 @@ for (const surface of [
       await page.getByRole("button", { name: "Load granted work" }).click();
       await page.getByRole("button", { name: /^Intake / }).click();
       await expect(page.getByText("Synthetic protected client")).toBeVisible();
+    } else if (surface === "sign-in") {
+      // SSR deliberately disables submission until hydration. Measure the ready presentation,
+      // not a changing pre-hydration opacity while axe samples foreground/background colours.
+      await expect(page.getByRole("button", { name: "Send code", exact: true })).toBeEnabled({
+        timeout: 30_000,
+      });
     } else if (surface === "sign-in-session") {
       await page.getByRole("button", { name: "Resume existing session" }).click();
       await expect(page.getByRole("region", { name: "Staff session" })).toBeVisible();

@@ -1,5 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, type Page } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 // Presentation proof, not screen-reader speech or hosted authority proof.
 export async function checkClientFormPresentation(page: Page) {
@@ -69,7 +69,7 @@ export async function checkClientFormPresentation(page: Page) {
     expect((await axe.analyze()).violations).toEqual([]);
     if (mode === "forced-colours")
       await page.screenshot({
-        path: `/private/tmp/meneer-client-form-${new URL(page.url()).pathname.replaceAll("/", "-")}.png`,
+        path: test.info().outputPath("client-form-forced-colours.png"),
         fullPage: true,
       });
   }
