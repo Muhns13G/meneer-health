@@ -123,25 +123,24 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 13.3 — Onboarding Rehearsal In Progress
+## Sprint 13.3 — Onboarding Rehearsal Completed
 
 The [13.3 packet](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md)
-starts from committed platform closure `e0ab390`. Read-only hosted baseline passes with suspended
-pilot and zero Auth users; 42 local onboarding/intake service tests pass. Fresh hosted fixture,
-email, temporary-configuration and scoped cleanup approvals are received. Independent read-only
-SQL confirmed 125 application tables with 13 baseline rows and zero Auth users/sessions before
-mutation. Fresh setup and exact-root cleanup passed rollback-only checks; approved disposable
-onboarding prerequisites and one Auth invitation now exist. Actual invitation delivery/verification,
-replay denial and routed account activation pass; independent SQL verifies one profile and two
-exact publication/version/hash receipts. Real email sign-in, own-client portal, renewal and replay,
-tamper, expiry and provider-revocation denials pass; actual email recovery passed too. Hosted intake
-draft/replay passed but stale-version denial returned 503 instead of 409, opening TD-060 In progress.
-The narrow local `PT409` migration/adapter fix awaits hosted approval and owner deployment.
-112 local SQL assertions and 2/2 controlled desktop/mobile questionnaire browser checks pass.
-Actual cleanup restored all 125 table fingerprints, trigger state and zero Auth users/sessions.
-Final identical-code Worker `9a050fe7-bc6f-44fd-8de8-10a732669b8b` restores disabled intake and removes
-the temporary tenant binding. No payment, generator action or real-pilot activation occurred.
-Task 13.3 remains in progress; registry totals are 60 items, 52 Verified and eight non-Verified.
+records actual email invitation/sign-in/recovery, secure sessions, renewal/replay/tamper/expiry/
+revocation denials, routed synthetic activation and independently verified account receipts.
+The initial stale-intake-version 503 opened TD-060; the owner-approved narrow `PT409` migration
+`20261007180000` is now applied, and the owner confirmed the adapter's deployment at source
+checkpoint `975839d`. Fresh hosted draft/replay, immediate 409 with unchanged draft version 1,
+submission/version 2, own-client projection and foreign-intake denial all pass. Independent SQL
+confirms encrypted intake/snapshot and notice receipt, with no transfer or payment. Local evidence
+includes 112 SQL assertions, 20 targeted tests and 2/2 controlled desktop/mobile questionnaire checks;
+this does not substitute for Task 13.8's released browser/AT walkthrough.
+Exact cleanup restored all 125 table fingerprints, 13 baseline rows and original trigger states;
+Auth users/sessions are zero. Final Worker `f8aed8c4-1e33-4e06-a93f-34130cfdc6d8` preserves the fresh
+owner-deployed script ETag, restores disabled intake and removes the temporary tenant binding.
+The canonical intake route returns 412; the real pilot remains suspended. Task 13.3 is completed
+and TD-060 Verified; registry totals are 60 items, 53 Verified and seven non-Verified. Other RPC
+conflict-code review remains Task 13.9; historical backup artefact disposition remains Task 13.7.
 
 ## Sprint 13.2 — Platform Readiness Completed
 
