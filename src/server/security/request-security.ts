@@ -13,6 +13,11 @@ const correlationPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/;
 const idempotencyPattern = /^[A-Za-z0-9][A-Za-z0-9._:-]{15,127}$/;
 const directEndpointPrefixes = ["/api", "/.mcp"] as const;
 const registeredPostRoutes = new Map<string, RequestRouteClass>([
+  ["/portal/order/command", "protected-command"],
+  ["/portal/payments/read", "protected-command"],
+  ["/staff/payments/read", "protected-command"],
+  ["/portal/payments/refund", "protected-command"],
+  ["/staff/payments/refund", "protected-command"],
   ["/staff/queue/read", "protected-command"],
   ["/staff/alerts/read", "protected-command"],
   ["/staff/alerts/respond", "protected-command"],

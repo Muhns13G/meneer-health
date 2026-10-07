@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { PaymentStatusPanel } from "./PaymentStatusPanel";
 import { StaffHandoffControls } from "./StaffHandoffControls";
 import { StaffHandoffEvidencePanel } from "./StaffHandoffEvidencePanel";
 import { handoffResultSchema, type HandoffCommand } from "@/application/operations/handoff-command";
@@ -462,6 +463,10 @@ export function StaffQueuePage() {
             key={`evidence:${detail.caseId}:${detail.version}`}
             detail={detail}
             onInvalidate={() => void load({ state, cursor: null }, detail.caseId)}
+          />
+          <PaymentStatusPanel
+            key={`payments:${detail.caseId}:${detail.version}`}
+            caseId={detail.caseId}
           />
           <button
             className={`${buttonClass} mt-6`}

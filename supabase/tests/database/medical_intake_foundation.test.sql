@@ -90,5 +90,172 @@ perform public.patient_intake_read(pg_temp.intake_context(),'d2000000-0000-4000-
 select throws_ok($test$do $$begin
 update intake_private.publications set status='withdrawn';
 perform public.patient_intake_read(pg_temp.intake_context(),'d2000000-0000-4000-8000-000000000001');end$$$test$,'42501','INTAKE_NOT_ACTIVE','withdrawn medical publication denies access');
+-- Task 11.3: rolled-back synthetic submitted-intake fixture, never clinical/payment authority.
+update intake_private.intakes set safety_hold=false;
+select commerce_private.prepare_offer('10000000-0000-4000-8000-000000000001',
+(select subject_id from portal_context),(select case_id from intake_private.intakes limit 1),
+jsonb_build_object('scenario','review_deposit','items','[]'::jsonb,'requestKey',gen_random_uuid()));
+select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}')$$,
+'42501','COMMERCE_TERMS_UNAVAILABLE','unpublished terms cannot be accepted');
+insert into commerce_private.order_publications(id,tenant_id,scenario,instrument_version,supplier,body,
+content_hash,approval_reference,effective_at,expires_at,status) values(
+'a2200000-0000-4000-8000-000000000001','10000000-0000-4000-8000-000000000001','review_deposit',
+'1.1.0','Synthetic supplier','Synthetic order terms',repeat('0',64),gen_random_uuid(),now()-interval '1 day',now()+interval '1 day','published');
+create function pg_temp.order_accept() returns jsonb language sql as $$
+select jsonb_build_object('action','accept','offerId',r->>'offerId','publicationId',r->'terms'->>'publicationId',
+'snapshotHash',r->>'snapshotHash','contentHash',r->'terms'->>'contentHash','accepted',true,
+'requestKey','a2300000-0000-4000-8000-000000000001') from
+(select public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}')->'review' r) x$$;
+select ok(not has_function_privilege('anon','public.patient_order_review(jsonb,jsonb)','execute'),'anonymous review RPC denied');
+select ok(not has_function_privilege('authenticated','public.patient_order_review(jsonb,jsonb)','execute'),'direct browser RPC denied');
+select ok(not has_table_privilege('service_role','commerce_private.order_acceptances','insert'),'service cannot fabricate receipt directly');
+select is(public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}')->'review'->>'amountTotalMinor','99900','own exact offer disclosed');
+select ok(not(public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}')->'review' ? 'tenantId'),'projection excludes authority and provider internals');
+select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept()||'{"accepted":false}')$$,
+'22023','COMMERCE_INVALID','unchecked acceptance denied');
+select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept()||'{"publicationId":null}')$$,
+'22023','COMMERCE_INVALID','null publication cannot bypass exact binding');
+select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept()||jsonb_build_object('snapshotHash',repeat('f',64)))$$,
+'40001','COMMERCE_CONFLICT','changed order hash denied');
+select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept()||jsonb_build_object('contentHash',repeat('f',64)))$$,
+'40001','COMMERCE_CONFLICT','changed publication hash denied');
+select lives_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept())$$,'durable own acceptance succeeds');
+select lives_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept())$$,'exact acceptance replay succeeds');
+select is((select count(*)::integer from commerce_private.order_acceptances),1,'only one acceptance receipt');
+select ok(exists(select 1 from public.audit_events where action='commerce.order.accept'),'acceptance atomically audited');
+select throws_ok($$update commerce_private.order_acceptances set content_hash=repeat('f',64)$$,'55000','APPEND_ONLY_RECORD','acceptance immutable');
+select throws_ok($$update commerce_private.order_publications set body='changed'$$,'42501','COMMERCE_PUBLICATION_IMMUTABLE','published order terms immutable');
+select throws_ok($test$do $$begin
+insert into commerce_private.order_publications(tenant_id,scenario,instrument_version,supplier,body,
+content_hash,approval_reference,effective_at,expires_at,status) values(
+'10000000-0000-4000-8000-000000000001','review_deposit','1.2.0','Synthetic supplier',
+'Synthetic replacement terms',repeat('0',64),gen_random_uuid(),clock_timestamp(),now()+interval '1 day','published');
+perform public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}');end$$$test$,
+'40001','COMMERCE_CONFLICT','old receipt cannot accept newly published terms');
+select throws_ok($test$do $$begin update commerce_private.order_publications set status='withdrawn';
+perform public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}');end$$$test$,
+'42501','COMMERCE_TERMS_UNAVAILABLE','withdrawn order terms deny review');
+select throws_ok($$select public.patient_order_review(pg_temp.intake_context()||jsonb_build_object('tenantId','10000000-0000-4000-8000-000000000002'),'{"action":"read"}')$$,
+'42501','PORTAL_REJECTED','wrong tenant review denied');
+select throws_ok($test$do $$begin update public.identity_sessions set status='revoked',revoked_at=now(),revocation_reason='synthetic'
+where id='97000000-0000-4000-8000-000000000006';
+perform public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept());end$$$test$,'42501','PORTAL_REJECTED','revoked session cannot accept');
+-- Task 11.4: sandbox creation intent only, no provider call or paid/clinical inference.
+create function pg_temp.checkout(key uuid default 'a3200000-0000-4000-8000-000000000001') returns jsonb language sql as $$
+select public.patient_prepare_checkout(pg_temp.intake_context(),(pg_temp.order_accept()->>'offerId')::uuid,key,'acct_synthetic12345')$$;
+select throws_ok($$select pg_temp.checkout()$$,'42501','COMMERCE_RELEASE_DISABLED','no database release means no Checkout');
+insert into commerce_private.checkout_releases values('10000000-0000-4000-8000-000000000001',
+'acct_synthetic12345',gen_random_uuid(),now()+interval '1 day',true);
+select ok(not has_function_privilege('anon','public.patient_prepare_checkout(jsonb,uuid,uuid,text)','execute'),'anonymous cannot create intent');
+select ok(not has_table_privilege('service_role','commerce_private.checkout_intents','UPDATE'),'service cannot mark Checkout paid or mutate payload');
+select is(pg_temp.checkout()->>'amountTotalMinor','99900','only accepted server amount reaches intent');
+select is(pg_temp.checkout()->>'intentId',pg_temp.checkout('a3200000-0000-4000-8000-000000000002')->>'intentId','fresh transport retry reuses one commercial intent');
+select is((select count(*)::integer from commerce_private.checkout_intents),1,'one provider creation identity per offer');
+select is((select state from commerce_private.checkout_intents),'preparing','intent does not imply provider success or paid');
+select throws_ok($$update commerce_private.checkout_intents set payload='{}'$$,'42501','CHECKOUT_INTENT_IMMUTABLE','frozen provider params cannot change');
+select throws_ok($test$do $$begin update commerce_private.checkout_releases set enabled=false;
+perform pg_temp.checkout();end$$$test$,'42501','COMMERCE_RELEASE_DISABLED','release revocation denies replay');
+select throws_ok($$select public.patient_prepare_checkout(pg_temp.intake_context(),
+(pg_temp.order_accept()->>'offerId')::uuid,gen_random_uuid(),'acct_wrong12345')$$,
+'42501','COMMERCE_RELEASE_DISABLED','wrong provider account denied');
+select throws_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
+(pg_temp.checkout()->>'intentId')::uuid,'cs_live_synthetic12345','https://checkout.stripe.com/c/pay/synthetic')$$,
+'22023','COMMERCE_INVALID','live session cannot attach');
+select lives_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
+(pg_temp.checkout()->>'intentId')::uuid,'cs_test_synthetic12345','https://checkout.stripe.com/c/pay/synthetic')$$,'test session attaches after revalidation');
+select is((select state from commerce_private.checkout_intents),'open','session attachment means open, never paid');
+select throws_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
+(pg_temp.checkout()->>'intentId')::uuid,'cs_test_other12345','https://checkout.stripe.com/c/pay/synthetic')$$,'40001','COMMERCE_CONFLICT','second session for same intent denied');
+select is(intake_private.review_payment_ready((select case_id from intake_private.intakes limit 1)),false,'open Checkout cannot open paid review');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','pending','open Session cannot show confirmed money');
+-- Task 11.5: minimal verified-event fixture; raw signature verification is separately SDK tested.
+create function pg_temp.event_body(event text,kind text default 'checkout.session.completed',status text default 'paid')
+ returns jsonb language sql as $$select jsonb_build_object('eventId',event,'fingerprint',repeat('a',64),'eventType',kind,
+ 'intentId',(select id from commerce_private.checkout_intents where session_id='cs_test_synthetic12345'),'tenantId','10000000-0000-4000-8000-000000000001',
+ 'sessionId','cs_test_synthetic12345','paymentIntentId','pi_synthetic12345','amountMinor',99900,'currency','zar',
+'paymentStatus',status,'refundMinor',null,'chargeId',null,'disputeId',null,'disputeStatus',null,'occurredAt',now())$$;
+create function pg_temp.apply_event(e jsonb) returns jsonb language sql as $$select public.apply_pilot_provider_event(
+'80000000-0000-4000-8000-000000000002','10000000-0000-4000-8000-000000000001','acct_synthetic12345',e)$$;
+select ok(not has_function_privilege('anon','public.apply_pilot_provider_event(uuid,uuid,text,jsonb)','execute'),'browser cannot forge verified events');
+select ok(not has_table_privilege('service_role','commerce_private.settlements','update'),'service cannot mark settlement directly');
+select throws_ok($$select public.apply_pilot_provider_event('80000000-0000-4000-8000-000000000001',
+'10000000-0000-4000-8000-000000000001','acct_synthetic12345',pg_temp.event_body('evt_scope00001'))$$,
+'42501','WEBHOOK_SERVICE_REJECTED','wrong tenant service cannot process');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_unpaid0001','checkout.session.completed','unpaid'))->>'outcome','applied','unpaid completion retained without settlement');
+select is((select paid_confirmed from commerce_private.settlements),false,'unpaid completion never means paid');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','pending','unpaid completion remains pending in own-client view');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001'))->>'outcome','applied','verified matching paid event settles');
+select is((select paid_confirmed from commerce_private.settlements),true,'confirmed money fact persisted');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','confirmed','matching provider evidence confirms client payment view');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001'))->>'replayed','true','exact event replay identified');
+select is((select count(*)::integer from commerce_private.provider_receipts),2,'replay creates no second receipt');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_paid000001')||jsonb_build_object('fingerprint',repeat('b',64)))->>'outcome','pending','conflicting event ID quarantined');
+select is((select reconciliation_required from commerce_private.settlements),true,'conflict requires owned reconciliation');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_badamount01')||'{"amountMinor":1}')->>'outcome','pending','wrong amount cannot settle');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_wrongsession1')||'{"sessionId":"cs_test_other12345"}')->>'outcome','pending','wrong session quarantined');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_expired0001','checkout.session.expired','unpaid'))->>'outcome','pending','out-of-order expiry cannot overwrite confirmed capture');
+select is((select paid_confirmed from commerce_private.settlements),true,'expiry never erases actual money evidence');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_refund00001','charge.refunded',null)||jsonb_build_object(
+'refundMinor',20000,'chargeId','ch_synthetic12345','sessionId',null))->>'outcome','pending','partial refund recorded for reconciliation');
+select is((select refunded_minor from commerce_private.settlements),20000,'partial refund amount retained');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_refundolder1','charge.refunded',null)||jsonb_build_object(
+'refundMinor',10000,'chargeId','ch_synthetic12345','sessionId',null))->>'outcome','pending','older refund snapshot retained');
+select is((select refunded_minor from commerce_private.settlements),20000,'older event does not reduce refunded amount');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_dispute0001','charge.dispute.closed',null)||jsonb_build_object(
+'disputeId','dp_synthetic12345','disputeStatus','won','sessionId',null))->>'outcome','pending','dispute closure still needs independent reconciliation');
+select is((select dispute_seen from commerce_private.settlements),true,'dispute facts retained without clinical inference');
+select throws_ok($$update commerce_private.provider_receipts set fingerprint=repeat('f',64)$$,'55000','APPEND_ONLY_RECORD','verified receipt history immutable');
+select is(intake_private.review_payment_ready((select case_id from intake_private.intakes limit 1)),false,'settlement facts do not activate the paid-review adapter');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_orphan00001','charge.dispute.created',null)||jsonb_build_object(
+'intentId',null,'tenantId',null,'paymentIntentId','pi_unmatched12345','sessionId',null,'disputeId','dp_unmatched12345',
+'disputeStatus','needs_response'))->>'outcome','pending','orphan dispute retained for later correlation');
+select is((select reason from commerce_private.provider_exceptions where event_id='evt_orphan00001'),'UNMATCHED','orphan is an owned exception not dropped');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_unknown0001','customer.updated',null))->>'outcome','ignored','unsupported signed type durably ignored');
+select is((select count(*)::integer from commerce_private.provider_receipts where event_id='evt_unknown0001'),1,'unsupported receipt retained');
+select throws_ok($test$do $$begin update public.service_identities set status='revoked' where id='80000000-0000-4000-8000-000000000002';
+perform pg_temp.apply_event(pg_temp.event_body('evt_revoked0001'));end$$$test$,'42501','WEBHOOK_SERVICE_REJECTED','revoked service cannot mutate receipt ledger');
+-- Isolated second synthetic offer/receipt/intent: prove correlation when refund arrives first.
+insert into commerce_private.offers(id,tenant_id,subject_id,case_id,request_key,selection,snapshot,expires_at)
+select 'a4500000-0000-4000-8000-000000000001',tenant_id,subject_id,case_id,gen_random_uuid(),selection,snapshot,expires_at
+from commerce_private.offers order by created_at limit 1;
+insert into commerce_private.order_acceptances(id,offer_id,publication_id,subject_id,tenant_id,session_id,content_hash,snapshot_hash,request_key,assurance)
+select 'a4500000-0000-4000-8000-000000000002','a4500000-0000-4000-8000-000000000001',publication_id,subject_id,tenant_id,session_id,
+content_hash,snapshot_hash,gen_random_uuid(),assurance from commerce_private.order_acceptances limit 1;
+insert into commerce_private.checkout_intents(id,offer_id,tenant_id,subject_id,acceptance_id,provider_account_id,request_key,payload,
+creation_deadline,provider_expires_epoch,state,session_id,checkout_url)
+select 'a4500000-0000-4000-8000-000000000003','a4500000-0000-4000-8000-000000000001',tenant_id,subject_id,
+'a4500000-0000-4000-8000-000000000002',provider_account_id,gen_random_uuid(),payload,creation_deadline,provider_expires_epoch,
+'open','cs_test_reordered12345','https://checkout.stripe.com/c/pay/synthetic-reordered' from commerce_private.checkout_intents limit 1;
+select is(pg_temp.apply_event(pg_temp.event_body('evt_earlyrefund01','charge.refunded',null)||jsonb_build_object('intentId',null,'tenantId',null,
+'sessionId',null,'paymentIntentId','pi_reordered12345','chargeId','ch_reordered12345','refundMinor',20000))->>'outcome','pending','early refund waits for correlation');
+select is(pg_temp.apply_event(pg_temp.event_body('evt_laterpaid001')||jsonb_build_object('intentId','a4500000-0000-4000-8000-000000000003',
+'sessionId','cs_test_reordered12345','paymentIntentId','pi_reordered12345'))->>'outcome','applied','later valid Session establishes binding');
+select is((select refunded_minor from commerce_private.settlements where intent_id='a4500000-0000-4000-8000-000000000003'),20000,'previous orphan refund correlates automatically');
+select is((select reconciliation_required from commerce_private.settlements where intent_id='a4500000-0000-4000-8000-000000000003'),true,'correlated refund remains owned monetary exception');
+-- Task 11.6: scoped own-client projection retains money plus independent exceptions.
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','confirmed','later expiry and failure do not erase captured money');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'refundedMinor','20000','cumulative provider refund facts projected');
+select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'requiresReview','true','contradictory money facts require review');
+select is((select count(*) from jsonb_object_keys(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0)),9::bigint,'projection has exactly nine permitted fields');
+select ok(position('pi_synthetic' in public.read_patient_payment_status(pg_temp.intake_context())::text)=0,'no provider identifiers leave payment view');
+select ok(not has_function_privilege('authenticated','public.read_patient_payment_status(jsonb,jsonb)','execute'),'browser direct own-status RPC denied');
+select throws_ok($$select public.read_patient_payment_status(pg_temp.intake_context()||jsonb_build_object('subjectId','20000000-0000-4000-8000-000000000001'))$$,'42501','PORTAL_REJECTED','forged patient subject denied');
+select throws_ok($$select public.read_patient_payment_status(pg_temp.intake_context()||jsonb_build_object('purpose','operations'))$$,'42501','INTAKE_REJECTED','patient purpose override denied');
+select throws_ok($$select public.read_patient_payment_status(pg_temp.intake_context(),'{"id":"a4600000-0000-4000-8000-000000000001"}')$$,'22023','PAYMENT_CURSOR_INVALID','partial cursor denied');
+select throws_ok($test$do $$begin update public.identity_sessions set status='revoked',revoked_at=clock_timestamp(),revocation_reason='synthetic-test' where id='97000000-0000-4000-8000-000000000006';perform public.read_patient_payment_status(pg_temp.intake_context());end$$$test$,'42501','PORTAL_REJECTED','revoked session clears financial access');
+select ok(exists(select 1 from public.audit_events where action='commerce.status.read' and metadata='{}'),'financial reads auditable without contents');
+insert into commerce_private.offers(id,tenant_id,subject_id,case_id,request_key,selection,snapshot,created_at,expires_at)
+select ('a4600000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,tenant_id,subject_id,case_id,gen_random_uuid(),selection,snapshot,
+ now()+interval '1 minute',now()+interval '1 hour' from commerce_private.offers cross join generate_series(10,35) n
+ where id='a4500000-0000-4000-8000-000000000001';
+select is(jsonb_array_length(public.read_patient_payment_status(pg_temp.intake_context())->'payments'),25,'financial history bounded to 25 rows');
+select is(jsonb_array_length(public.read_patient_payment_status(pg_temp.intake_context(),public.read_patient_payment_status(pg_temp.intake_context())->'nextCursor')->'payments'),3,'stable second page neither skips nor duplicates');
+-- Cancellation request is not a clinical cancellation or a refund fact.
+select is(public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4500000-0000-4000-8000-000000000001","requestKey":"a4700000-0000-4000-8000-000000000021"}')->>'requestState','requested','own authenticated client records request');
+select is(public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4500000-0000-4000-8000-000000000001","requestKey":"a4700000-0000-4000-8000-000000000021"}')->>'requestState','requested','request replay does not imply refund');
+select is((select count(*) from commerce_private.cancellation_requests),1::bigint,'one request per original offer');
+select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4700000-0000-4000-8000-000000000099","requestKey":"a4700000-0000-4000-8000-000000000021"}')$$,'42501','REFUND_REJECTED','unknown or foreign offer indistinguishable');
+select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4500000-0000-4000-8000-000000000001","requestKey":"a4700000-0000-4000-8000-000000000021","amountMinor":99900}')$$,'22023','REFUND_COMMAND_INVALID','client cannot select refund amount');
+select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"review","offerId":"a4500000-0000-4000-8000-000000000001"}')$$,'22023','REFUND_COMMAND_INVALID','patient cannot classify eligibility');
 select * from finish();
 rollback;

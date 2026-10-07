@@ -88,11 +88,36 @@ select throws_ok($$select public.read_operations_alerts('a3000000-0000-4000-8000
   '10000000-0000-4000-8000-000000000001')$$,'42501','OPERATIONS_ALERT_REJECTED','operators cannot browse tenant security alerts');
 select throws_ok($$select public.sweep_operations_alerts('10000000-0000-4000-8000-000000000001',0)$$,
   '22023','OPERATIONS_ALERT_INPUT_INVALID','overdue interval is explicitly bounded');
+-- Task 11.6: no broader finance access than the existing assigned-case authority.
+insert into commerce_private.offers(tenant_id,subject_id,case_id,request_key,selection,snapshot,expires_at)
+select tenant_id,subject_id,id,gen_random_uuid(),'{}',
+ '{"scenario":"review_deposit","amountTotalMinor":99900}',now()+interval '1 hour'
+ from public.operations_cases where id='a3000000-0000-4000-8000-000000000010';
+create function pg_temp.payment_status(target uuid default 'a3000000-0000-4000-8000-000000000010')
+returns jsonb language sql as $$select public.read_staff_payment_status(
+ 'a3000000-0000-4000-8000-000000000001','a3000000-0000-4000-8000-000000000002',
+ 'queue@example.invalid','a3000000-0000-4000-8000-000000000003',
+ (select subject_id from queue_actor),'10000000-0000-4000-8000-000000000001',target)$$;
+select ok(not has_function_privilege('authenticated','public.read_staff_payment_status(uuid,uuid,text,uuid,uuid,uuid,uuid,jsonb)','execute'),'staff browser direct RPC denied');
+select ok(not has_schema_privilege('service_role','commerce_private','usage'),'no private finance browsing for service');
+set local role service_role;
+select is(pg_temp.payment_status()->'payments'->0->>'status','not_started','assigned AAL2 operator sees no invented capture');
+select is(jsonb_array_length(pg_temp.payment_status('a3000000-0000-4000-8000-000000000011')->'payments'),0,'another assigned case does not inherit financial history');
+reset role;
+select throws_ok($$select pg_temp.payment_status(null)$$,'42501','QUEUE_REJECTED','no broad financial listing');
+select throws_ok($$select pg_temp.payment_status('a3000000-0000-4000-8000-000000000099')$$,'42501','QUEUE_REJECTED','unknown payment case indistinguishable');
+select throws_ok($test$do $$begin update public.operations_assignments set revoked_at=now();perform pg_temp.payment_status();end$$$test$,'42501','QUEUE_REJECTED','revoked assignment denies payment view');
+select throws_ok($test$do $$begin update auth.sessions set aal='aal1';perform pg_temp.payment_status();end$$$test$,'42501','WORKFORCE_REJECTED','provider AAL1 cannot view staff payment facts');
+select throws_ok($test$do $$begin delete from public.operations_assignments;update public.tenant_memberships set role='support' where subject_id=(select subject_id from queue_actor);perform pg_temp.payment_status();end$$$test$,'42501','QUEUE_REJECTED','support role cannot inherit operations payment view');
+select throws_ok($test$do $$begin update public.tenants set status='suspended';perform pg_temp.payment_status();end$$$test$,'42501','WORKFORCE_REJECTED','tenant suspension denies financial view');
+select throws_ok($test$do $$begin delete from auth.sessions where id='a3000000-0000-4000-8000-000000000002';perform pg_temp.payment_status();end$$$test$,'42501','WORKFORCE_REJECTED','provider revocation denies financial view');
+select ok(audit_private.verify_audit_chain('10000000-0000-4000-8000-000000000001'),'payment reads preserve central hash chain');
 create function pg_temp.fail_central_audit() returns trigger language plpgsql as $$begin
   raise exception using errcode='55000',message='SYNTHETIC_CENTRAL_AUDIT_FAILURE'; end$$;
 create trigger synthetic_central_audit_failure before insert on public.audit_events
 for each row execute function pg_temp.fail_central_audit();
 select throws_ok($$select pg_temp.queue()$$,'55000','SYNTHETIC_CENTRAL_AUDIT_FAILURE','audit failure prevents list disclosure');
+select throws_ok($$select pg_temp.payment_status()$$,'55000','SYNTHETIC_CENTRAL_AUDIT_FAILURE','audit failure prevents financial disclosure');
 select throws_ok($$update public.operations_assignments set revoked_at=clock_timestamp()$$,
   '55000','SYNTHETIC_CENTRAL_AUDIT_FAILURE','assignment change rolls back if central audit fails');
 select is((select count(*) from public.operations_assignments where revoked_at is not null),0::bigint,'failed audit leaves assignment authority unchanged');

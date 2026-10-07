@@ -7,7 +7,18 @@ import {
 } from "@tanstack/react-start/server";
 import type { Register } from "@tanstack/react-router";
 import { env } from "cloudflare:workers";
+import {
+  createPilotWebhookHandler,
+  type PilotWebhookBindings,
+} from "./server/payments/pilot-webhook";
+import {
+  createOrderReviewHttpHandler,
+  type CommerceReviewBindings,
+} from "./server/payments/order-review-http";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
+import { createPaymentStatusHttpHandler } from "./server/payments/payment-status-http";
+import { createRefundHttpHandler } from "./server/payments/refund-http";
+import { runScheduledRefunds } from "./server/payments/refund-dispatch";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
@@ -72,6 +83,7 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
         const outcomes = await Promise.allSettled([
           runScheduledOperationsAlerts(bindings as unknown as Record<string, unknown>),
           runMedicalSafetyDispatch(bindings as unknown as Record<string, unknown>),
+          runScheduledRefunds(bindings as unknown as Record<string, unknown>),
         ]);
         if (outcomes.some((result) => result.status === "rejected"))
           throw new Error("SCHEDULED_DEPENDENCY_FAILED");
@@ -128,6 +140,25 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (
+              pathname === "/api/payments/stripe/webhook" &&
+              (env as unknown as PilotWebhookBindings).COMMERCE_WEBHOOK_MODE === "sandbox"
+            )
+              return createPilotWebhookHandler(env as unknown as PilotWebhookBindings)(
+                boundedRequest,
+              );
+            if (pathname === "/portal/order/command")
+              return createOrderReviewHttpHandler(env as unknown as CommerceReviewBindings)(
+                boundedRequest,
+              );
+            if (["/portal/payments/refund", "/staff/payments/refund"].includes(pathname))
+              return createRefundHttpHandler(env as unknown as CommerceReviewBindings)(
+                boundedRequest,
+              );
+            if (["/portal/payments/read", "/staff/payments/read"].includes(pathname))
+              return createPaymentStatusHttpHandler(env as unknown as CommerceReviewBindings)(
+                boundedRequest,
+              );
             if (pathname === "/staff/intake/command")
               return createStaffIntakeHttpHandler(env as unknown as IntakeBindings)(boundedRequest);
             if (pathname === "/portal/intake/command")

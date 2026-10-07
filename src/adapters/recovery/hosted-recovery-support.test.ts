@@ -6,6 +6,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import {
   createProductionLogicalDump,
+  governedRecoverySchemas,
   createSyntheticLogicalDump,
   readHostedRecoveryEnvironment,
   restoreAndReconcileSyntheticLogicalDump,
@@ -24,6 +25,9 @@ const validEnvironment = {
 } as const;
 
 describe("hosted recovery support", () => {
+  it("includes private commerce in governed logical exports", () => {
+    expect(governedRecoverySchemas).toContain("commerce_private");
+  });
   it("accepts a complete synthetic configuration without a database credential", () => {
     expect(readHostedRecoveryEnvironment(validEnvironment)).toMatchObject({
       RECOVERY_EXPORT_SOURCE: "synthetic",

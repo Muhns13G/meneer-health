@@ -56,6 +56,12 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "COMMERCE_REVIEW_MODE",
+      "COMMERCE_REVIEW_TENANT_ID",
+      "COMMERCE_CHECKOUT_MODE",
+      "COMMERCE_WEBHOOK_MODE",
+      "COMMERCE_REFUND_MODE",
+      "STRIPE_CHECKOUT_ACCOUNT_ID",
       "MEDICAL_INTAKE_TENANT_ID",
       "MEDICAL_INTAKE_MODE",
       "MEDICAL_INTAKE_KEYRING_JSON",
