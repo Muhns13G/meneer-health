@@ -17,7 +17,7 @@ The complete sandbox/hosted deposit, credit, refund, Dispute and exception matri
 cleanup and disabled restoration. Historical local-only/unapplied/payment-proof-pending paragraphs
 below are not current gaps. Real pricing/terms/authority approvals remain under TD-010; seven
 activation debts remain non-Verified. The pilot stays suspended, live mode disabled, and Sprints
-12 is now in progress and 13 remains planned. Task 12.1's
+12 is completed with activation gates and 13 remains planned. Task 12.1's
 [notification contract](annexures/sprint-12-1-notification-contract.md) is complete at contract level;
 Task 12.2's [durable notifications](annexures/sprint-12-2-durable-notifications.md) are complete
 locally, including atomic intents, shared sender budget and private delivery facts. Hosted delivery
@@ -30,7 +30,11 @@ or real hosted service is activated. Task 12.8's isolated hosted support rehears
 complete, including exact provider delivery attribution/replay, faults and scoped restoration.
 Automatic provider push and real coverage remain gated.
 Task 12.9's [debt reconciliation](annexures/sprint-12-9-debt-reconciliation.md) is complete;
-TD-037/TD-038/TD-043 retain explicit unmet release/activation criteria. Task 12.10 remains.
+TD-037/TD-038/TD-043 retain explicit unmet release/activation criteria. Task 12.10's
+[completion report](../../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+records the complete sprint inventory, final validation and release handoff.
+The closure batch awaits owner commit/exact-commit CI. Registry: 59 items, 52 Verified and seven
+non-Verified, including newly discovered and remediated TD-059. No pilot activation is inferred.
 Phase 02 is not closed; no
 framework rebuild is selected or completed. Task 12.5's
 [client-form accessibility](annexures/sprint-12-5-client-form-accessibility.md) is locally complete:

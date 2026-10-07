@@ -2,7 +2,7 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-10-06
+last_updated: 2026-10-07
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -18,7 +18,13 @@ merges, deployments, promotions, rollbacks, and Cloudflare settings. A contribut
 only under the owner's explicit, bounded instruction; that permission does not become standing
 authorization for later releases.
 
-## Sprint 12.4 Staff Follow-up Release Boundary
+## Sprint 12 Closure and Staff Follow-up Release Boundary
+
+Task 12.10's [completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+records final regression and the owner-controlled commit/CI handoff. No new hosted configuration,
+email, deployment or pilot activation is performed by closure. Before real use, complete TD-037/
+TD-038 released accessibility and TD-043 actual coverage, unattended authenticated provider delivery
+and quota/headroom acceptance. Preserve disabled settings until the approved release decision.
 
 Current checkpoint: [Task 12.8](../02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md)
 has passed the isolated hosted support/notification rehearsal. Earlier local-only statements below

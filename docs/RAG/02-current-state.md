@@ -6,9 +6,10 @@ authority: observed-summary
 last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
-source_baseline: c724e96
+source_baseline: 654f51f
 runtime_baseline: 5f958cd
 sources:
+  - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
@@ -180,13 +181,21 @@ checks (192), focused support/notification tests (54), TypeScript and lint pass.
 configuration was restored, temporary bindings removed and sessions/fixtures cleaned. Independent
 aggregate-only verification confirms 22 checked tables empty, Auth empty, pilot suspended and
 security controls intact. Automatic provider push was not configured; real purpose/clinical
-coverage and activation remain gated under TD-043. Task 12.10 remains after the reconciliation below.
+coverage and activation remain gated under TD-043. Task 12.10 is completed in the report below.
 
 Current reconciliation: [Task 12.9](../02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md)
 is complete at the evidence/registry boundary. TD-037 and TD-038 retain released-flow form and
 transition review; TD-043 retains actual support coverage and provider activation requirements.
 No debt status changes or new debt ID are justified by representative local acceptance and the
-isolated rehearsal alone. Task 12.10 remains; the pilot is not activated by reconciliation.
+isolated rehearsal alone. Task 12.10's
+[completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+supplies the final inventory, validation and handoff. Earlier pending-task paragraphs above are
+historical task checkpoints, not reopened implementation gaps. The pilot is not activated by closure.
+Sprint 12 is completed with activation gates. Final local regression includes 829 unit tests,
+1,550 database assertions and 270 full-run browser passes plus two exact configuration-corrected
+retests; no single clean 272/272 run is claimed. The narrowly remediated sharp advisory is TD-059
+Verified. Registry: 59 items, 52 Verified and seven non-Verified. Owner commit/exact-commit CI remain;
+Sprint 13 is planned and Phase 02 stays in progress.
 
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,

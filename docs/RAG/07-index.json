@@ -1035,7 +1035,7 @@
     {
       "id": "phase-02-sprint-12",
       "path": "docs/02-implementation-plans/phase-02/sprint-12-support-accessibility-readiness.md",
-      "status": "in-progress",
+      "status": "completed-with-activation-gates",
       "authority_for": ["pilot notifications", "support routing", "live accessibility"]
     },
     {
@@ -1126,6 +1126,16 @@
         "criterion-by-criterion TD-037 TD-038 TD-043 acceptance reconciliation",
         "retained released-flow and actual operational activation requirements",
         "no debt status waiver or pilot activation"
+      ]
+    },
+    {
+      "id": "phase-02-sprint-12-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md",
+      "status": "completed-with-activation-gates",
+      "authority_for": [
+        "Sprint 12 mission delivery decisions deviations lessons and complete file inventory",
+        "final local validation and owner commit CI handoff",
+        "retained accessibility operational activation debts and TD-059 remediation"
       ]
     },
     {

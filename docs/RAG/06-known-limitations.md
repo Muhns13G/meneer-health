@@ -7,6 +7,7 @@ last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
@@ -110,6 +111,16 @@ sources:
 # Meneer Known Limitations and Answer Guardrails
 
 ## Sprint 12.2 — Local Notifications, Not Activated Delivery
+
+Task 12.10's [completion report](../03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md)
+supersedes earlier pending task statements, not the release/activation limitations. Its final
+audit found TD-059 in development-only Cloudflare tooling; the narrow patched resolution has
+clean full/production audits, build and browser regression; TD-059 is Verified. No hosted configuration is
+changed by closure. Previously recorded registry totals predate TD-059.
+Sprint 12 is completed with activation gates. The browser run's two absent preview-media failures
+were retested successfully with permanent-branch media disabled; this is not a single clean full
+run. Owner commit/exact-commit CI remain. Registry: 59 items, 52 Verified and seven non-Verified;
+TD-037/TD-038/TD-043 release criteria are not waived.
 
 [Task 12.2](../02-implementation-plans/phase-02/annexures/sprint-12-2-durable-notifications.md)
 adds private atomic notification intents, shared non-Auth budget, bounded retries and attributed
