@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-06
+**Last amended:** 2026-10-07
 
 ## Registry Purpose
 
@@ -40,6 +40,18 @@ claims, products, operating/commercial paths, forms, stepped flows or support ch
 closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
+
+### Task 12.9 — Acceptance Reconciled, Activation Debts Retained
+
+The [acceptance matrix](../02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md)
+reconciles committed 12.5–12.8 implementation and evidence at baseline `c724e96`.
+TD-037/TD-038 retain their released-form/transition assistive-technology review requirements;
+representative owner-confirmed local acceptance is not silently expanded to every released flow.
+TD-043 has accepted isolated hosted support/delivery/failure/response proof but retains actual
+purpose/clinical appointments, approved coverage/escalation, unattended authenticated provider
+push and quota/headroom before activation. All three remain Open. Task 12.9 is complete as
+reconciliation, not waiver or blanket debt closure. Totals remain 58 items, 51 Verified and seven
+non-Verified; Task 12.10 owns final sprint reporting/validation.
 
 ### Sprint 11 Closure — Completed With Activation Gates
 

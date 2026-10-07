@@ -3,10 +3,12 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-06
+last_updated: 2026-10-07
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-12-8-hosted-support-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-6-journey-announcements.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-7-staff-accessibility.md
@@ -133,6 +135,12 @@ and temporary configuration were removed; the real pilot remains suspended. No a
 webhook was installed, actual roster/clinical authority remains unapproved and quota/headroom must
 be verified before activation. TD-037, TD-038 and TD-043 stay Open for Task 12.9 reconciliation;
 there is no new pilot permission or blanket tracking change.
+
+Task [12.9](../02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md)
+has now completed the criterion-by-criterion reconciliation. TD-037/TD-038 remain Open for
+released-form/transition review; TD-043 remains Open for actual approved coverage, unattended
+authenticated provider callback, quota/headroom and released acceptance. This is a named
+activation packet, not unimplemented local engineering or an inferred production pass.
 Task [12.5](../02-implementation-plans/phase-02/annexures/sprint-12-5-client-form-accessibility.md)
 adds local routed-form keyboard/display tests and the synthetic VoiceOver harness. Axe, semantic
 names, emulated forced colours and root-text scaling do not prove actual screen-reader speech,
