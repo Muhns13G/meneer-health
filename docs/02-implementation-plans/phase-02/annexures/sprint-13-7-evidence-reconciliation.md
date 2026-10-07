@@ -78,6 +78,61 @@ enablement; do not infer an hourly success stream from the cron expression. The 
 invocations is not conclusively diagnosed here. No false heartbeat, incident acknowledgement,
 resolution or monitor-policy relaxation was performed.
 
+## Authorised Hosted Audit and Incident Response — 8 October
+
+After explicit owner approval, `scripts/sql/sprint-13-evidence-audit.sql` passed locally and on
+hosted Supabase in a single rollback-only transaction. An isolated suspended tenant, synthetic
+subject/workflow and service identity produced **three non-empty hash-chain facts**. The committed
+command receipt, version-one outbox, verified inbox and reconciliation response share their exact
+correlation/causation lineage. Command and inbox replay create no duplicate evidence. Ordinary
+audit updates are blocked by the unchanged immutable trigger; changing only the isolated chain
+head detects corruption, and restoring it verifies the chain again before rollback.
+
+The declared patient/AAL1 context is a SQL fixture, **not** a new authenticated-session proof.
+No payment, email, provider transfer, clinical approval, Auth identity or pilot activation occurred.
+Independent before/after aggregate evidence matches exact rows, security settings, governed
+functions and triggers. Subsequent reads confirm zero Auth users/sessions, Storage objects,
+audit events and fixture tenants; the original pilot remains suspended. No immutable trigger was
+disabled. PostgreSQL audit sequence values advance despite rollback; harmless monotonic gaps are
+expected and the shared sequence was not reset.
+
+The owner separately authorised one controlled production recovery export and acknowledgement
+of incident `1028695803`. Run
+[37701825733](https://github.com/Muhns13G/meneer-health/actions/runs/37701825733), source SHA
+`c1fd50ebd3110f5b5ea9517dd64fa859882149f9`, completed successfully at **01:22 SAST on 8 October**:
+encrypted durable write, downloaded/decrypted isolated restore, **13 records** reconciled and
+zero heartbeat payload fields. This creates another retained baseline archive, not a synthetic
+object to delete. The workflow verified the new object's round trip; older objects were not
+downloaded or removed.
+
+Better Stack records detection/email dispatch at **23:52 SAST on 7 October**, acknowledgement
+under Mansoer Gallie's account at **01:22 SAST on 8 October**, and automatic recovery at **01:22**.
+The incident lasted approximately **89 minutes**. On 8 October the owner confirmed actual receipt
+of the incident alert email, closing the delivery-evidence gap; no exact inbox-arrival timestamp
+was supplied. No manual success ping, forced resolve,
+heartbeat-policy relaxation or source deployment occurred. The workflow is active on default
+branch `main`, with the intended hourly cron and enabled job variable, but current run history
+still does not establish sustained hourly execution. Manual recovery does not fix that gap.
+
+A bounded, own-IP-only Wrangler observation emitted no raw request data, but did **not** capture
+a schema-valid hosted telemetry event. It is an inconclusive observation, not passing telemetry
+proof. Local strict-schema tests remain valid.
+
+The subsequent bounded observation on 8 October captured a production `request.completed` event
+from an anonymous synthetic 404 request and validated it against the strict telemetry contract.
+Only event/environment/validation booleans were emitted; no raw request, URL, header, cookie,
+correlation identifier or private payload was printed. Removing the own-IP filter corrected the
+inconclusive observation; this does not certify all historical/provider logs. The hosted minimal
+application-telemetry observation gap is closed.
+
+The owner approved preparation of a separate hourly dispatcher. Its
+[activation runbook](../../../../operations/recovery-dispatcher/README.md) explicitly separates
+dispatch acceptance from verified backup completion, pins the workflow/ref and retains the
+existing alert threshold. It has no database/R2/encryption/heartbeat credentials. GitHub's
+repository-level Actions credential is broader than one workflow and needs owner provisioning;
+no credential was created and no Worker was deployed. Sustained hourly evidence remains pending
+activation and observed runs, not closed by preparing code.
+
 ## Remaining Acceptance Work
 
 1. Finish archive provenance against the exact fixture windows/private manifests; current inventory
@@ -85,17 +140,15 @@ resolution or monitor-policy relaxation was performed.
    deletion. Preserve these recovery objects; any content inspection or deletion requires specific
    authority. No download, decryption or deletion has occurred at this checkpoint.
 2. Resolve the actual missed recovery cadence and record alert delivery/acknowledgement/response.
-   The current Down heartbeat is a genuine acceptance gap, not a reason to widen its grace period
-   or manually send success. Historical delivery drills remain historical, not a new drill.
-3. Verify a fresh bounded hosted cross-record audit chain **before** scoped fixture removal and
-   reconcile its workflow/receipt/response links. Prior drivers independently proved specific
-   records but did not retain a complete cross-domain chain attestation. Obtain fresh isolated
-   fixture/cleanup authority; no new payment is required merely to test chain mechanics, and
-   synthetic money references must never be represented as new capture proof.
-4. Record actual hosted minimal-telemetry observation without collecting private payloads or
-   treating query-string logging configuration as proven redaction. Define Auth/Storage recovery
-   disposition and retain remaining release gates explicitly.
+   The incident above recovered automatically and actual email receipt is confirmed. Sustained
+   hourly cadence still requires evidence; do not widen grace or manually send success.
+3. Hosted audit-only chain and exact rollback cleanup are now verified above. They supplement,
+   rather than replace, the earlier genuine payment and authenticated provider-boundary proofs.
+4. Hosted minimal-telemetry observation is now verified. Auth/Storage recovery remains an explicit
+   pre-intake release gate; do not treat application-schema recovery as coverage of those systems.
 
 **13.7 is in progress, not completed.** Local reconciliation and first unattended recovery proof
-are verified; wider hosted audit, monitoring and historical archive disposition remain open.
+are verified, including fresh hosted audit/cleanup and a real incident response. Sustained cadence,
+historical archive disposition remain open. Hosted minimal telemetry and actual alert receipt
+are verified. Archive-download authority and dispatcher activation are pending owner action.
 The full quality/AT matrix, debt review and release decision remain 13.8–13.10.

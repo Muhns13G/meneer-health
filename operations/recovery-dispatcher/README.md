@@ -1,0 +1,33 @@
+# Recovery schedule dispatcher
+
+Prepared for Task 13.7; **not deployed or operationally verified**.
+
+This separate Worker requests the pinned `Muhns13G/meneer-health` recovery workflow on `main`
+hourly. It does not access the database, R2, encryption key or backup heartbeat. HTTP requests
+return 404. A GitHub 204 means accepted dispatch, not a completed or recoverable backup.
+
+## Owner-controlled activation
+
+1. Create a fine-grained GitHub token restricted to this repository, with Actions read/write and
+   a short explicit expiry. This permission can control other Actions in the repository: GitHub
+   does not scope it to a single workflow. Do not reuse a broad personal token. Provisioning this
+   security-sensitive access requires explicit owner approval.
+2. The owner deploys with `bunx wrangler deploy --config operations/recovery-dispatcher/wrangler.jsonc`.
+   Add `GITHUB_RECOVERY_DISPATCH_TOKEN` using Wrangler secret input, never a command-line value or Git.
+   The short initial deployment window before the secret is present fails closed.
+3. Avoid duplicate routine exports: after the external trigger is proven, the owner can remove the
+   original GitHub schedule in a separately reviewed commit. Until then both triggers may export;
+   the existing concurrency group prevents simultaneous execution, not duplicate queued exports.
+4. Observe at least three consecutive hourly dispatches, successful encrypted exports and isolated
+   restore reconciliation, with Better Stack remaining Up. Record actual run start/completion
+   intervals. Runner queue delays remain possible; external dispatch is not an hourly RPO guarantee.
+5. Keep the existing one-hour/15-minute heartbeat policy. Missing success must alert. Never send a
+   heartbeat from this dispatcher or resolve an incident before successful recovery verification.
+6. Document token expiry/renewal and monitor dispatch failures. Disable/remove the separate Worker
+   if the owner rejects activation; do not change the public application's Worker configuration.
+
+Validation: `bun run test -- scripts/lib/recovery-dispatcher.test.ts`; upload-only validation:
+`bunx wrangler deploy --config operations/recovery-dispatcher/wrangler.jsonc --dry-run`.
+
+GitHub's native scheduled events may be delayed or dropped:
+[official troubleshooting guidance](https://docs.github.com/en/actions/how-tos/troubleshoot-workflows).
