@@ -45,7 +45,7 @@ implemented journey and the operating team can recover safely from expected fail
 | 13.1  | Freeze the rehearsal script, test identities, expected evidence, stop conditions, owners and cleanup plan.                                | Release governance | Completed (contract) |
 | 13.2  | Verify exact deployed version, environment bindings, secrets, hosted migrations, RLS/advisors, monitoring, backup and rollback readiness. | Platform           | Completed            |
 | 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | Completed            |
-| 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | In progress          |
+| 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Completed            |
 | 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | Planned              |
 | 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Planned              |
 | 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Planned              |
@@ -56,14 +56,16 @@ implemented journey and the operating team can recover safely from expected fail
 ## Acceptance Gate
 
 Task [13.4 assignment/payment rehearsal](annexures/sprint-13-4-assignment-payment-rehearsal.md)
-is in preparation from clean committed 13.3 closure `33430fc`. Restricted test-account/zero-webhook
-read-only preflight and 47 local tests pass; hosted migrations are current. Fresh fixture/configuration,
-capture/refund and guarded cleanup approvals are received. A new deposit-only SQL packet is prepared;
-the owner approved saved local Stripe values as a disabled restoration baseline, not exact recovery
-of unknown hosted secrets. A dedicated validated driver and final disabled tenant pointer remain
-pending. TD-061 records four queue business conflicts using serialization SQLSTATE; its narrow
-local correction requires tests, fresh hosted migration approval and owner deployment. No hosted mutation
-or payment has occurred in this task. Do not execute the old broad Sprint 11 driver as 13.4 authority.
+is completed at its isolated synthetic boundary. Fresh AAL2/assignment/claim/replay/conflict/denial
+proof, authenticated exact R999 acceptance/Checkout, actual sandbox capture, genuine signed funding
+and client/assigned-staff confirmed projections pass. The explicitly approved migration closes
+TD-061 for this one queue RPC. One exact successful R999 provider refund and removal of the webhook,
+Auth fixtures and application evidence are independently verified; all 125 baseline fingerprints,
+13 rows and original trigger states match, Auth users/sessions are zero, and the real pilot remains
+suspended. Same-source final Worker `26678aba-8b3d-4e58-85a2-cc57016c31f8` restores all commerce
+modes disabled plus the owner-approved saved Stripe/suspended-tenant baseline. Earlier verifier/
+cleanup defects and expired unpaid Session are retained honestly in the packet. Stripe retains
+the refunded sandbox transaction. Task 13.5 is next, not pilot activation or Sprint 13 closure.
 
 Task [13.3 onboarding rehearsal](annexures/sprint-13-3-onboarding-rehearsal.md) is completed at its
 isolated synthetic boundary. Real email Auth/session/profile/receipt evidence and the corrected

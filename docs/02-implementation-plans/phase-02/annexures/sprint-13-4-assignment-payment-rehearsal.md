@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-13-4
 title: Assignment and Sandbox Review-Deposit Rehearsal
-status: in-progress
+status: completed
 last_updated: 2026-10-07
 owner: "@Muhns13G"
 depends_on: [phase-02-sprint-13-3]
@@ -56,6 +56,8 @@ the saved service identity has no hosted row and remains inert. The account ID i
 verified constant above, not a missing local environment value. Do not remove pre-existing secrets,
 rotate keys or claim exact restoration of unknown values. Before configuration changes, explicitly
 settle the final disabled tenant pointer, whose original secret value is also unreadable.
+The owner subsequently approved restoring that pointer to the suspended real-pilot tenant
+`80000000-0000-4000-8000-000000000001`, with all four commerce modes disabled.
 
 Capture current runtime/source and aggregate table/Auth/trigger/configuration baseline immediately
 before execution. Stop on unrelated data, live key/account mismatch, concurrent deployment, unsafe
@@ -78,32 +80,140 @@ failure was deliberately provoked. TD-060 covers intake only and is not repurpos
 The local migration `20261007220000_operations_queue_business_conflict_status.sql` changes only
 those four raises to `PT409`, asserting unchanged owner, ACL, security-definer and configuration.
 Only the queue command adapter gains `PT409` recognition; real serialization failures and other
-RPCs remain unchanged. Local validation is required; hosted application of this new migration
-needs fresh approval, and source deployment remains owner-controlled. The hosted claim-conflict
-packet must not run until both are ready.
+RPCs remain unchanged. Local validation, fresh hosted approval and owner deployment were required
+before execution; the following records their completion. Source deployment remains owner-controlled.
 
 Local correction validation passes: **33 tests across four suites**, strict TypeScript and focused
 ESLint. The locally applied migration's metadata guards pass, and **103 SQL assertions** across
 queue commands/projections pass, including all four conflict branches, exact replay, unchanged
 audit/claim ownership and authority denials. This is not hosted 409 or payment proof.
 
+The owner committed preparation at `8aaf059` and explicitly approved hosted application. CLI
+dry-run contained only `20261007220000_operations_queue_business_conflict_status.sql`, with no
+seeds or other migrations; application succeeded. Independent read-only verification confirms
+four `PT409` conflict raises, no intentional `40001` in this function, security-definer retained,
+anonymous/browser execution denied, service-wrapper execution allowed and the matching history
+version. The migration's unchanged owner/ACL/configuration assertions passed atomically.
+
+At preflight, Cloudflare served version `55f8c095-fea6-45f8-aa15-24050087c608` at 100%, with script ETag
+`73343c58921177836d9fc29d1b50e14d75e4966033d8a8c528ff769fc67b536b`. This is a fresh
+runtime checkpoint after the owner's branch update, not independent source-SHA mapping or
+authenticated claim-conflict proof. All commerce mode/tenant and Stripe bindings are write-only
+secrets. Exact old values cannot be read from this metadata. No configuration, Auth fixture,
+webhook or payment was created by this verification.
+
 The new `scripts/sql/sprint-13-payment-setup.sql` scopes prerequisites to `e134…` with five distinct
 Auth identities, two operations actors and a separate administrator/negative-role clinician.
 It deliberately seeds no assignment, claim, Checkout, provider receipt, settlement or deposit
-funding; no product gate/order is included. Its static safety tests are preparation only; runtime
-substitution, rollback-only SQL/setup/cleanup and the dedicated driver still require validation.
+funding; no product gate/order is included. Its static safety tests were preparation only;
+runtime substitution, rollback-only SQL/setup/cleanup and the dedicated driver are validated below.
 
 ## Preparation Evidence and Status
+
+The dedicated operator-only driver is `scripts/test-sprint13-hosted-payment.ts`. Its six static
+safety tests, strict TypeScript and focused lint pass. It uses a private 0600 resource manifest,
+fresh baseline/runtime checks, actual provider sessions/TOTP, routed claim/version/replay commands,
+one authenticated deposit Checkout and actual signed provider delivery. It creates no product
+order, transfer, approval, dispensing or generator action; outbound operations alerts stay disabled.
+
+The first hosted attempt passed rollback-only setup/cleanup, genuine AAL2 and email-only denial,
+unassigned/wrong-role/wrong-case denials, actual claim/replay and immediate stale/changed-payload
+409s. Independent SQL confirmed sole ownership, unchanged version and one replay receipt; explicit
+release/reclaim between assigned operators passed. Its Checkout was created but **not paid**.
+The verifier incorrectly called a deliberately private readiness function using the management
+read-only role. Its permission denial stopped the run before card entry. The verifier now uses
+the approved operator connection for that SELECT without changing the function ACL.
+
+The exact uncompleted Session was expired, its webhook removed and same-source configuration
+restored forward to disabled version `315822bb-eee5-4200-9746-f79e34c21987`. Provider sessions
+were revoked. Fixture cleanup initially stopped on `CHECKOUT_INTENT_IMMUTABLE`: the generic
+onboarding cleanup did not include `commerce_private.checkout_intents.checkout_intents_guard`.
+Only that exact named immutable-delete trigger is now included within the previously approved
+locked transaction; it is re-enabled before commit. Completed independent cleanup verifies all
+125 original fingerprints, 13 baseline rows, zero Auth users/sessions and no disabled triggers.
+The private failed-attempt manifest is retained as failure evidence, not rewritten as success.
+
+The fresh corrected attempt passed. Neither the uncompleted Checkout nor the first attempt is
+payment/settlement evidence; closure relies on the fresh successful packet below.
+
+## Verified Hosted Result — 7 October 2026
+
+The fresh deposit-only packet passed rollback-proven setup/cleanup, genuine provider TOTP/AAL2,
+email-only/unassigned/wrong-role/wrong-case denials, actual claim/release/reclaim, exact replay,
+immediate stale/changed-payload 409s and foreign-operator release denial. Independent SQL confirmed
+unchanged conflict version/ownership, one replay receipt and the final claimed case at version 6.
+This closes TD-061's specific queue-conflict scope; other RPCs are not covered by this fix.
+
+The client read the exact synthetic R999 deposit and accepted current publication/content/snapshot
+hashes through `/portal/order/command`; Checkout was created by the existing authenticated adapter.
+Independent account/Session/opaque-reference/amount/currency checks passed. Before capture, funding
+was absent and deposit eligibility false. The browser displayed **Meneer Health sandbox — Review
+deposit — ZAR 999.00**; only official test card `4242` and synthetic `.invalid` contact/name were
+submitted, with no saved payment method. Stripe returned to `/portal/order`; that separate browser
+had no rehearsal client cookie, so its sign-in-required state is not authenticated portal proof.
+
+Actual Stripe retrieval confirmed `livemode=false`, complete/paid, ZAR 99900 and the exact
+PaymentIntent. The disposable endpoint's genuine signed `checkout.session.completed` delivery
+matched immutable receipt/application, payment binding, paid settlement and exactly one R999
+funding fact. No generated test signature or manually seeded paid flag substitutes for this proof.
+Private deposit/readiness functions confirmed paid-review eligibility; authenticated client and
+assigned-staff `/payments/read` projections both passed their strict schema and showed one
+confirmed R999 review deposit, zero refund at observation, no dispute and no reconciliation hold.
+Case remained `onboarding_pending` at version 6; no handoff or fulfilment row was created.
+
+Exact provider cleanup succeeded: the sole captured test PaymentIntent received one **R999
+original-method refund**, independently re-retrieved as `succeeded`, matching the exact PaymentIntent
+and full amount. Stripe retains this refunded test-account transaction. The earlier uncompleted
+Session remains expired; no real money moved. All disposable webhook endpoints are removed.
+
+Final Worker version **`26678aba-8b3d-4e58-85a2-cc57016c31f8`** serves 100% with unchanged script
+ETag `73343c58921177836d9fc29d1b50e14d75e4966033d8a8c528ff769fc67b536b`. Forward restoration
+sets all four commerce modes disabled, the owner-approved suspended real-pilot tenant pointer and
+the owner-approved saved local Stripe restoration values. This is a new agreed disabled baseline,
+not proof of matching unreadable previous secret values. No source build/deployment or Git action
+was performed by the agent. Canonical review/refund routes return 412 and webhook returns 404.
+
+Guarded cleanup restored all **125 original table fingerprints**, **13 baseline rows**, all original
+trigger states and **zero Auth users/sessions**. A second independent read-only inventory confirms
+those results and the one suspended real pilot. The successful private manifest is retained outside
+Git (`meneer-sprint13-payment-sxBmsP`); it contains resource references/counts/checksums, not secrets,
+questionnaire answers or real patient data. The failed-attempt manifest remains separately retained.
 
 Local targeted regression passed **47 tests across eight suites**: queue command/projection/HTTP,
 order review/domain/HTTP, Checkout adapter, signed webhook and provider-proof guards. These are
 controlled local tests, not hosted claims, capture or signed-delivery proof.
 
-The three new SQL-packet safety tests also pass (50 targeted tests total), as do strict TypeScript,
-focused ESLint, changed-document formatting and whitespace checks. No local SQL execution or
-hosted rollback validation of the new setup is claimed yet.
+At preparation, the three new SQL-packet safety tests also passed (50 targeted tests total),
+alongside strict TypeScript, focused ESLint, formatting and whitespace checks. Hosted rollback
+setup/cleanup validation then passed in both recorded attempts. Final combined regression passes
+**65 tests across ten suites** (including six driver/packet guard tests), strict TypeScript,
+focused ESLint, changed-document formatting and whitespace checks. No new source build or full
+browser/AT matrix is claimed; Task 13.8 owns that broader validation.
 
-Task remains **in progress**. The dedicated driver, complete disabled restoration configuration,
-approved hosted queue correction and owner deployment, actual hosted payment/
-claims packet and independently verified cleanup are required before closure. Source staging,
-commits, pushes and deployment remain owner-controlled. Real pilot activation remains unavailable.
+### Operator Invocation
+
+This driver is intentionally not ordinary CI or an automatic `package.json` script. Only execute
+under fresh explicit fixture/configuration/capture/refund/cleanup permission, with the exact current
+100%-active baseline version and approved saved-local disabled restoration values. It requires an
+interactive terminal, rejects CI/live keys, and never outputs credentials. The approved current
+packet used these non-secret confirmations:
+
+```sh
+SPRINT13_PAYMENT_BASELINE_VERSION="<verified-current-worker-version>" \
+SPRINT13_PAYMENT_CONFIRM=isolated-deposit-capture-refund-only \
+SPRINT13_PAYMENT_RESTORE_CONFIRM=saved-stripe-disabled-suspended-pilot \
+SPRINT13_NODE_DIRECTORY="<approved-node-22-bin-directory>" \
+bun --env-file=.env.production.local run scripts/test-sprint13-hosted-payment.ts
+```
+
+The private `checkout.json` identifies only the exact test Session URL. Use an official test card
+through Stripe's visible Checkout, then enter `paid`; the driver independently checks actual
+provider capture and signed storage rather than trusting that input. It refunds/expires only the
+manifested Session, removes its exact endpoint, restores same-source disabled configuration and
+verifies scoped database/Auth/trigger baselines. Preserve manifests on failure and reconcile them;
+do not run another exercise over unresolved fixtures or assume `finally` means cleanup succeeded.
+
+Task **2.13.4 is completed at its isolated synthetic boundary**. Source staging, commits, pushes
+and deployment remain owner-controlled. Real pilot activation remains unavailable. Task 13.5's
+manual handoff/provider compatibility, 13.6's full application refund/failure paths, 13.7's wider
+evidence reconciliation and 13.8's released browser/AT matrix are not claimed by this packet.
