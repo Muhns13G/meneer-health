@@ -111,6 +111,13 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+Task [13.5](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
+is in progress, not completed. Fresh bounded hosted/payment/cleanup approvals do not include a
+new schema migration or source deployment. TD-062's local medical grant/transfer conflict fix
+requires separately approved hosted application and owner-deployed handler before runtime proof.
+Local synthetic payment substitutions and transfer references are not hosted funding, external
+generator delivery or actual provider acknowledgement. Generator access remains a separate gate.
+
 Task [13.4](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md)
 is completed for isolated workforce/claim and R999 sandbox-deposit proof, including genuine signed
 funding, confirmed projections, exact successful refund and independently verified cleanup.
