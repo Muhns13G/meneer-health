@@ -63,6 +63,24 @@ idempotency headers; staff sign-out requires the explicit `action=sign-out` form
 
 ## Medical Rights and Provider Copies
 
+### First-Party Preparation — Local Implementation, Release Gated
+
+Task 13.5 adds `prepare_transfer` on the protected staff intake command endpoint. Before manual
+external work, the assigned current claimant needs an independently approved medical-transfer
+grant for the exact submitted snapshot, current client recipient/notice authorisation and verified
+deposit. Account/instruments, safety/restriction/holds, AAL2, assignment and case version are live
+guards, not checkboxes or supplied paid flags. Preparation sends nothing and approves no protocol.
+It records a bounded immutable intent and advances ready atomically with audit; refresh the queue
+for the incremented case version before `record_transfer`. Recording/replay rechecks authority and
+binds that intent; a different assigned operator independently reconciles opaque evidence without
+medical answers. Expiry or an uncertain external action is not permission to automatically resend.
+
+The new migration `20261007204237` is local-only until explicitly approved; deploy the reviewed
+handler/control through the owner. Keep intake/commerce disabled outside the already bounded
+synthetic rehearsal. Capture a fresh schema baseline including both additional private preparation
+journals, then verify the genuine paid transition, replay/denials and exact cleanup. A controlled
+browser response or synthetic provider reference is not actual generator delivery/acknowledgement.
+
 Own exports include retained submitted-version history. Restriction prevents ordinary display,
 review and transfer; retained-data export is separately authorised. An unresolved safety hold is
 not silently cancelled: only its independently approved medical-safety grant can remain usable.

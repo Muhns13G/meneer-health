@@ -86,6 +86,10 @@ before transfer rather than bypassing the requirement.
 
 ## 5. Verify the Governed Manual Bridge and Failure Paths
 
+- [ ] Use the first-party preparation command from Task 13.5 only after its schema/runtime release
+      and hosted acceptance. It binds current snapshot, client authorisation, medical grant, claim,
+      paid readiness and finite expiry before external work; it sends nothing. Refresh case version
+      before recording; expired or uncertain preparation is not permission to resend automatically.
 - [ ] Rehearse exact submitted-version/field/purpose grants, independent approval, AAL2, recipient
       authorisation, transfer receipt and independent reconciliation. Routine operations assignment
       must not confer medical access.

@@ -60,8 +60,11 @@ progress from committed 13.4 closure `bfc2138`. A new local-only nine-suite pack
 row/security/function fingerprints, with initial 514-assertion restoration proof. Fresh isolated
 hosted fixture/configuration/cleanup and one additional sandbox deposit/refund scopes are approved.
 TD-062 records six intentional medical grant/transfer conflicts using serialization SQLSTATE;
-a locally tested narrow migration/HTTP correction needs separate hosted approval and owner
-deployment before the hosted conflict packet. Current generator access/compatibility remains a
+a locally tested narrow migration/HTTP correction is now explicitly approved/applied and read-only
+verified. TD-063 identifies a missing first-party preparation transition masked by positive SQL
+fixtures; the owner-approved guarded preparation is now implemented/tested locally. Its new
+migration, owner deployment and fresh hosted paid/replay/cleanup acceptance remain required.
+Current generator access/compatibility remains a
 named external gate, not substituted by synthetic acknowledgement. Real pilot stays suspended.
 
 Task [13.4 assignment/payment rehearsal](annexures/sprint-13-4-assignment-payment-rehearsal.md)

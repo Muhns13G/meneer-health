@@ -114,7 +114,11 @@ sources:
 Task [13.5](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
 is in progress, not completed. Fresh bounded hosted/payment/cleanup approvals do not include a
 new schema migration or source deployment. TD-062's local medical grant/transfer conflict fix
-requires separately approved hosted application and owner-deployed handler before runtime proof.
+is approved/applied with matching history and access boundaries, but fresh runtime acceptance remains
+pending. TD-063 identified the missing first-party ready/preparation transition. The owner-approved
+first-party preparation fix is now implemented/tested locally; its new migration `20261007204237`,
+owner deployment and fresh protected hosted acceptance remain pending. A fixture state update
+still cannot substitute for that proof.
 Local synthetic payment substitutions and transfer references are not hosted funding, external
 generator delivery or actual provider acknowledgement. Generator access remains a separate gate.
 
