@@ -48,7 +48,10 @@ create temporary table exercise_triggers on commit drop as
  select t.tgrelid,t.tgname,t.tgenabled from pg_trigger t
  where not t.tgisinternal and (t.tgtype & 8)=8
  and t.tgrelid in(select distinct rel from exercise_rows)
- and (t.tgname like '%append_only' or t.tgname like '%immutable');
+ and (t.tgname like '%append_only' or t.tgname like '%immutable'
+   -- Task 13.4's manifested checkout has a named immutable-delete guard.
+   -- Only this exact relation/trigger joins the locked, restored cleanup boundary.
+   or (t.tgrelid='commerce_private.checkout_intents'::regclass and t.tgname='checkout_intents_guard'));
 do $$declare r record;f record; joins text;blocked boolean;remaining integer;changed integer;n bigint;h text;
 begin
  for r in select * from exercise_triggers loop
