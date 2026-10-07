@@ -104,27 +104,27 @@ select is(pg_temp.item()->>'state','failed','definite failure separately project
 select is(pg_temp.item(2)->>'state','uncertain','uncertainty separately projected');
 select is(pg_temp.item(3)->>'state','accepted','provider acceptance is not delivery');
 select ok(not (pg_temp.item()->>'canResend')::boolean,'resend requires acknowledgement');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend'))$$,'40001','FOLLOWUP_CONFLICT','unreviewed resend denied');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend'))$$,'PT409','FOLLOWUP_CONFLICT','unreviewed resend denied');
 select throws_ok($$select pg_temp.follow(5,pg_temp.cmd())$$,'42501','FOLLOWUP_REJECTED','operations cannot handle privacy transport');
 select throws_ok($$select pg_temp.follow(3,pg_temp.cmd())$$,'42501','FOLLOWUP_REJECTED','clinical cannot handle unrelated privacy transport');
 select throws_ok($$select pg_temp.follow(7,pg_temp.cmd())$$,'42501','FOLLOWUP_REJECTED','administrator cannot impersonate purpose owner');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resolved'))$$,'40001','FOLLOWUP_CONFLICT','resolution requires owner acknowledgement');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resolved'))$$,'PT409','FOLLOWUP_CONFLICT','resolution requires owner acknowledgement');
 create temporary table ack_receipt as select pg_temp.follow(cmd=>pg_temp.cmd(k=>'f1420000-0000-4000-8000-000000000001')) value;
 select is(pg_temp.follow(cmd=>pg_temp.cmd(k=>'f1420000-0000-4000-8000-000000000001')),(select value from ack_receipt),'same-key acknowledgement replay exact');
 select is((select count(*) from audit_private.notification_followup_actions),1::bigint,'replay not duplicated');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resolved',k=>'f1420000-0000-4000-8000-000000000001'))$$,'40001','FOLLOWUP_CONFLICT','changed replay conflicts');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resolved',k=>'f1420000-0000-4000-8000-000000000001'))$$,'PT409','FOLLOWUP_CONFLICT','changed replay conflicts');
 select ok((pg_temp.item()->>'canResend')::boolean,'acknowledged definite nonacceptance eligible');
-select throws_ok($t$do $$begin insert into audit_private.transactional_suppressions(tenant_id,subject_id,reason) values('10000000-0000-4000-8000-000000000001',(select subject_id from rights_context),'provider_suppressed');perform pg_temp.follow(cmd=>pg_temp.cmd('resend'));end$$$t$,'40001','FOLLOWUP_CONFLICT','suppression never overridden');
-select throws_ok($t$do $$begin update public.client_profiles set contact_preference='whatsapp' where subject_id=(select subject_id from rights_context);perform pg_temp.follow(cmd=>pg_temp.cmd('resend'));end$$$t$,'40001','FOLLOWUP_CONFLICT','unavailable channel cannot resend');
-select throws_ok($t$do $$begin update public.subject_contacts set normalized_value='changed@example.invalid' where subject_id=(select subject_id from rights_context) and kind='email';perform pg_temp.follow(cmd=>pg_temp.cmd('resend'));end$$$t$,'40001','FOLLOWUP_CONFLICT','changed contact cannot resend');
+select throws_ok($t$do $$begin insert into audit_private.transactional_suppressions(tenant_id,subject_id,reason) values('10000000-0000-4000-8000-000000000001',(select subject_id from rights_context),'provider_suppressed');perform pg_temp.follow(cmd=>pg_temp.cmd('resend'));end$$$t$,'PT409','FOLLOWUP_CONFLICT','suppression never overridden');
+select throws_ok($t$do $$begin update public.client_profiles set contact_preference='whatsapp' where subject_id=(select subject_id from rights_context);perform pg_temp.follow(cmd=>pg_temp.cmd('resend'));end$$$t$,'PT409','FOLLOWUP_CONFLICT','unavailable channel cannot resend');
+select throws_ok($t$do $$begin update public.subject_contacts set normalized_value='changed@example.invalid' where subject_id=(select subject_id from rights_context) and kind='email';perform pg_temp.follow(cmd=>pg_temp.cmd('resend'));end$$$t$,'PT409','FOLLOWUP_CONFLICT','changed contact cannot resend');
 select lives_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',k=>'f1420000-0000-4000-8000-000000000002'))$$,'nonacceptance retry queues, does not send');
 select is((select state from audit_private.transactional_dispatch where notification_id='f1400000-0000-4000-8000-000000000001'),'pending','manual retry pending');
 select is((select attempt from audit_private.transactional_dispatch where notification_id='f1400000-0000-4000-8000-000000000001'),1,'resend does not reset attempts');
 select lives_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',k=>'f1420000-0000-4000-8000-000000000002'))$$,'exact resend replay idempotent');
 select is((select count(*) from audit_private.notification_followup_actions where action='resend'),1::bigint,'no duplicate resend fact');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend'))$$,'40001','FOLLOWUP_CONFLICT','fresh retry cannot duplicate pending send');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend'))$$,'PT409','FOLLOWUP_CONFLICT','fresh retry cannot duplicate pending send');
 select lives_ok($$select pg_temp.follow(cmd=>pg_temp.cmd(num=>2))$$,'uncertain item acknowledged for review');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',2))$$,'40001','FOLLOWUP_CONFLICT','unreconciled uncertainty cannot resend');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',2))$$,'PT409','FOLLOWUP_CONFLICT','unreconciled uncertainty cannot resend');
 insert into audit_private.notification_nonacceptance_evidence(notification_id,lease_id,reviewed_by_subject_id,evidence_sha256,approval_reference,expires_at)
 values('f1400000-0000-4000-8000-000000000002','f1410000-0000-4000-8000-000000000002',
 '20000000-0000-4000-8000-000000000003',repeat('a',64),gen_random_uuid(),clock_timestamp()+interval '1 hour');
@@ -147,15 +147,15 @@ select is((select state from audit_private.transactional_dispatch where notifica
 rollback to savepoint stale_proof;
 select ok(not has_function_privilege('service_role','audit_private.claim_transactional_before_followup(uuid)','execute'),'retired inner sender cannot bypass followup reconciliation');
 select lives_ok($$select pg_temp.follow(cmd=>pg_temp.cmd(num=>3))$$,'accepted transport may be reviewed');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',3))$$,'40001','FOLLOWUP_CONFLICT','accepted transport never resends');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',3))$$,'PT409','FOLLOWUP_CONFLICT','accepted transport never resends');
 select lives_ok($$select pg_temp.follow(cmd=>pg_temp.cmd(num=>4))$$,'exhausted item review allowed');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',4))$$,'40001','FOLLOWUP_CONFLICT','three attempts cap cannot be reset');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',4))$$,'PT409','FOLLOWUP_CONFLICT','three attempts cap cannot be reset');
 select lives_ok($$select pg_temp.follow(cmd=>pg_temp.cmd(num=>5))$$,'provider evidence item review');
 insert into audit_private.transactional_message_bindings(lease_id,message_hash) values('f1410000-0000-4000-8000-000000000005',repeat('b',64));
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',5))$$,'40001','FOLLOWUP_CONFLICT','provider acceptance binding blocks blind resend');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',5))$$,'PT409','FOLLOWUP_CONFLICT','provider acceptance binding blocks blind resend');
 insert into audit_private.transactional_provider_deliveries(lease_id,event,occurred_at) values('f1410000-0000-4000-8000-000000000005','soft_bounce',clock_timestamp());
 select is(pg_temp.item(5)->>'state','delivery_failed','attributed delivery failure is visible');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',5))$$,'40001','FOLLOWUP_CONFLICT','provider failure requires secure followup not duplicate transport');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',5))$$,'PT409','FOLLOWUP_CONFLICT','provider failure requires secure followup not duplicate transport');
 select lives_ok($$select pg_temp.follow(cmd=>pg_temp.cmd(num=>6))$$,'budget fixture acknowledged');
 savepoint quota;
 insert into audit_private.operations_alert_attempts(lease_id,alert_id,attempt,recorded_at)
@@ -168,7 +168,7 @@ insert into audit_private.transactional_attempts(lease_id,notification_id,attemp
 select gen_random_uuid(),id,1 from audit_private.transactional_notifications n where not exists(select 1 from audit_private.transactional_attempts where notification_id=n.id) and id::text not like 'f1400000%'
 limit (50-audit_private.notification_budget_used());
 select is(audit_private.notification_budget_used(),50::bigint,'shared daily budget exhausted');
-select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',6))$$,'40001','FOLLOWUP_CONFLICT','manual resend cannot bypass shared budget');
+select throws_ok($$select pg_temp.follow(cmd=>pg_temp.cmd('resend',6))$$,'PT409','FOLLOWUP_CONFLICT','manual resend cannot bypass shared budget');
 rollback to savepoint quota;
 select throws_ok($$update audit_private.notification_followup_actions set reason='review_started'$$,'55000','APPEND_ONLY_RECORD','responses immutable');
 select throws_ok($$delete from audit_private.notification_nonacceptance_evidence$$,'55000','APPEND_ONLY_RECORD','independent evidence immutable');
