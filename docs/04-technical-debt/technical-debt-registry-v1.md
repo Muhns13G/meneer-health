@@ -41,12 +41,12 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### Sprint 13.4 Preparation Finding — TD-061 In Progress
+### Sprint 13.4 Rehearsal Finding — TD-061 Verified
 
-Four intentional queue conflicts use serialization SQLSTATE `40001`, confirmed by static inspection
-and a read-only hosted definition count. The local narrow correction is prepared; hosted migration
-approval, owner deployment and fresh conflict/claim/cleanup proof remain outstanding. TD-060 remains
-Verified for intake only. Current totals: **61 items — 53 Verified, eight non-Verified**.
+Four intentional queue conflicts used serialization SQLSTATE `40001`. The explicitly approved narrow
+migration, owner-deployed adapter and fresh hosted stale/changed-request 409, replay, claim ownership
+and independently verified scoped cleanup pass. TD-061 is Verified for this one RPC; TD-060 remains
+Verified for intake only. Current totals: **61 items — 54 Verified, seven non-Verified**.
 
 ### Sprint 13.3 Rehearsal Finding — TD-060 Verified
 
@@ -632,7 +632,7 @@ sessions. Final identical-code Worker `f8aed8c4-1e33-4e06-a93f-34130cfdc6d8` res
 
 ## TD-061 — Queue RPC Business Conflicts Use Serialization SQLSTATE
 
-Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target: Task 13.4
+Priority **P1**; status **Verified**. Owner: `@Muhns13G` / System Architect. Target: Task 13.4
 before hosted claim-conflict rehearsal. Evidence: [assignment/payment packet](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md).
 
 `public.command_operations_queue(uuid,uuid,text,uuid,uuid,uuid,jsonb)` has four intentional
@@ -647,7 +647,16 @@ adapter/HTTP regression, explicit hosted migration approval, owner-deployed adap
 independent scoped cleanup proof. Do not mark Verified from static tests alone.
 
 Local preparation passes 33 application tests, 103 rollback-only queue SQL assertions, strict
-TypeScript, focused lint and migration security-metadata guards. Hosted acceptance remains pending.
+TypeScript, focused lint and migration security-metadata guards. The owner-approved migration is
+now applied at matching hosted history version `20261007220000`; read-only verification confirms
+four `PT409` raises and the retained wrapper/anonymous/browser/security-definer boundaries.
+Fresh hosted acceptance passed on 7 October: immediate stale/changed-request 409s, exact replay
+success, unchanged conflict version/sole ownership/one command receipt, explicit release/reclaim
+and foreign-operator release denial. Independent final cleanup restored all 125 original table
+fingerprints, 13 baseline rows, original triggers and zero Auth users/sessions. Final same-source
+Worker `26678aba-8b3d-4e58-85a2-cc57016c31f8` restores disabled commerce and the suspended real
+pilot. Earlier verifier/cleanup defects were corrected and independently reconciled; they do not
+invalidate the fresh successful packet. Other RPC conflict-code review remains Task 13.9.
 
 ## Registry Maintenance Rules
 

@@ -112,14 +112,14 @@ sources:
 # Meneer Known Limitations and Answer Guardrails
 
 Task [13.4](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md)
-is in preparation, not completed. Fresh bounded sandbox/cleanup approvals and read-only account/
-migration preflight are received; local regressions and a deposit-only SQL packet do not prove
-hosted assignment, claims, capture or signed funding. Saved local Stripe values are approved as
-a disabled restoration baseline, not proof of original hosted secret values; the disabled tenant
-pointer still needs resolution. TD-061 covers four intentional queue conflicts using `40001`,
-confirmed by static inspection and a read-only hosted count, not a deliberately induced hosted
-failure. Its local correction requires fresh hosted migration approval and owner deployment;
-a validated dedicated driver is also required. No hosted resources were created here.
+is completed for isolated workforce/claim and R999 sandbox-deposit proof, including genuine signed
+funding, confirmed projections, exact successful refund and independently verified cleanup.
+TD-061 is Verified only for queue conflicts. This is not live-payment activation, application
+product/refund/failure acceptance, current generator compatibility or full released accessibility.
+Saved Stripe values and the suspended-pilot tenant pointer form the approved disabled baseline;
+they do not prove recovery of unreadable original secrets. Stripe retains refunded test records;
+the first unpaid Session is expired, not capture proof. The real pilot remains suspended and all
+commerce modes disabled. Tasks 13.5 onward remain outstanding.
 
 Task [13.3](../02-implementation-plans/phase-02/annexures/sprint-13-3-onboarding-rehearsal.md) is
 completed for the approved isolated synthetic onboarding/intake rehearsal, not real pilot readiness.

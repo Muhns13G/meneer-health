@@ -123,19 +123,20 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 13.4 — Assignment/Payment Rehearsal In Preparation
+## Sprint 13.4 — Assignment/Payment Rehearsal Completed
 
 The [13.4 packet](../02-implementation-plans/phase-02/annexures/sprint-13-4-assignment-payment-rehearsal.md)
-starts from clean committed 13.3 closure `33430fc`. Fresh bounded hosted fixture/configuration,
-one R999 sandbox capture/exact refund and scoped cleanup approvals are received. Read-only Stripe
-test account/zero-webhook preflight and hosted migration parity pass; 47 local queue/payment tests
-pass. A new deposit-only prerequisite SQL packet is prepared but not applied. The dedicated driver,
-rollback validation and final disabled tenant pointer precede execution. The owner approved saved
-local Stripe values as a disabled restoration baseline, not exact restoration of unknown values.
-TD-061 records four intentional queue conflicts using `40001`, confirmed read-only on hosted;
-the narrow local `PT409` correction requires fresh hosted approval and owner source deployment.
-Current registry totals are **61 items — 53 Verified, eight non-Verified**. No new hosted
-identity, webhook, payment, binding or source deployment has been created by this task.
+records actual AAL2/assignment/claim/release/replay/409/denial proof, authenticated R999 terms
+acceptance/Checkout, a genuine sandbox capture and signed settlement/funding, plus client and
+assigned-staff confirmed payment projections. Payment did not advance clinical/transfer/supply
+state. The exact test capture is fully refunded, independently confirmed as succeeded; Stripe
+retains its test records. All disposable webhooks/identities/app fixtures are removed, all 125
+baseline fingerprints/13 rows/original triggers match, and Auth users/sessions are zero.
+Final same-source Worker `26678aba-8b3d-4e58-85a2-cc57016c31f8` restores disabled commerce and
+the owner-approved saved Stripe/suspended-pilot tenant baseline, not unknown original secret values.
+Earlier verifier/cleanup defects are resolved and recorded without relabelling the unpaid first
+attempt. TD-061 is **Verified** at its one-queue-RPC scope; current totals are **61 items —
+54 Verified, seven non-Verified**. Task 13.5 is next; the real pilot remains suspended.
 
 ## Sprint 13.3 — Onboarding Rehearsal Completed
 
