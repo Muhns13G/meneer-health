@@ -11,6 +11,13 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Current Delivery Checkpoint — 7 October 2026
 
+Sprint 13 is now in progress. Task [13.1](annexures/sprint-13-1-rehearsal-contract.md) freezes the
+rehearsal/evidence/stop/cleanup contract against committed Sprint 12 closure `08dc68c`. Seven
+activation debts remain unchanged (59 total / 52 Verified). The latest inspected preview CI still
+failed the already patched sharp advisory; exact-code CI and platform verification precede hosted
+execution. No hosted changes, emails, payment records, provider purchase or pilot activation occur
+in this planning slice. Later Sprint 13-planned checkpoints below are historical.
+
 Sprint 11 is [completed with activation gates](../../03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md)
 through committed implementation/evidence `7db0e0c`; Task 11.10 supplies the closure report.
 The complete sandbox/hosted deposit, credit, refund, Dispute and exception matrix passed with

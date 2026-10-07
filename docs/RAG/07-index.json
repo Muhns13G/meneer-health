@@ -1141,8 +1141,18 @@
     {
       "id": "phase-02-sprint-13",
       "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
-      "status": "planned",
+      "status": "in-progress",
       "authority_for": ["end-to-end pilot rehearsal", "pilot release decision", "Phase 02 closure"]
+    },
+    {
+      "id": "phase-02-sprint-13-1",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md",
+      "status": "completed-contract-execution-gated",
+      "authority_for": [
+        "Sprint 13 rehearsal script identities owners evidence stop conditions and cleanup",
+        "exact-code CI platform and bounded hosted authorisation prerequisites",
+        "seven retained release debts and current generator compatibility dependency"
+      ]
     },
     {
       "id": "phase-01-sprint-01",
