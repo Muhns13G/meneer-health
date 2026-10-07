@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-07
+**Last amended:** 2026-10-08
 
 ## Registry Purpose
 
@@ -41,22 +41,27 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### Sprint 13.5 Workflow Finding — TD-063 In Progress
+### Sprint 13.5 Workflow Finding — TD-063 Verified
 
 The first-party medical transfer RPC requires a ready case, but the only current queue readiness
 transition depends on a permanently false legacy readiness contract. Positive local transfer
 fixtures manually set ready state; they are not end-to-end workflow proof. Read-only hosted
 definitions confirm the gap. An explicit guarded first-party preparation command is recommended;
-owner direction is approved and guarded preparation is implemented/tested locally. New hosted
-migration approval, owner deployment and fresh acceptance remain outstanding. Current totals:
-**63 items — 54 Verified, nine non-Verified**.
+owner direction and the narrow migration were separately approved; guarded preparation is
+implemented, owner-deployed and hosted. Fresh real intake-created case, signed sandbox funding,
+protected preparation/record/replay/denial and independent reconciliation pass without seeded
+ready state. Exact refund and independent baseline/trigger/Auth/settings restoration pass.
+Current totals: **63 items — 56 Verified, seven non-Verified**. Provider acknowledgement remains
+synthetic Meneer-only; the original external/domain/operating gates are not waived.
 
-### Sprint 13.5 Preparation Finding — TD-062 In Progress
+### Sprint 13.5 Preparation Finding — TD-062 Verified
 
 Six intentional medical grant/transfer business conflicts still use serialization SQLSTATE in
 four RPCs, confirmed statically and by read-only hosted definition counts. The narrow local
-correction is prepared; separate hosted approval, owner deployment and runtime/replay/cleanup
-acceptance remain outstanding. TD-060/061 remain Verified in their own scopes. Current totals:
+correction received separate hosted approval/application and owner deployment. Fresh protected
+record/reconciliation stale/changed-replay 409s, exact replay, self-review denial and unchanged
+state/cleanup checks pass; all six corrected raises/history/access metadata are verified.
+TD-060/061 remain Verified in their own scopes. Earlier totals:
 **62 items — 54 Verified, eight non-Verified** at that earlier preparation checkpoint.
 
 ### Sprint 13.4 Rehearsal Finding — TD-061 Verified
@@ -678,7 +683,7 @@ invalidate the fresh successful packet. Other RPC conflict-code review remains T
 
 ## TD-062 — Medical Grant/Transfer Business Conflicts Use Serialization SQLSTATE
 
-Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target: Task 13.5
+Priority **P1**; status **Verified**. Owner: `@Muhns13G` / System Architect. Target: Task 13.5
 before hosted conflict/replay rehearsal. Evidence: [protocol bridge packet](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md).
 
 Six intentional `MEDICAL_CONFLICT` raises in four medical grant/transfer RPCs use `40001`.
@@ -692,12 +697,16 @@ with unchanged durable state and exact cleanup. Fixture/payment approvals alone 
 this schema change. Do not mark Verified from static/local tests alone.
 
 The owner-approved migration is now applied with matching history and independently verified
-six `PT409` raises and retained access boundaries. Fresh routed runtime/replay/cleanup proof remains
-pending; the newly found TD-063 preparation gap must be resolved before a positive full journey.
+six `PT409` raises and retained access boundaries. Fresh Task 13.5 passes actual grant approval/
+activation/client authorisation, stale recording and changed transfer/reconciliation replay 409s,
+exact idempotent references, independent actor acceptance/self-denial and unchanged-state fault
+checks. Exact provider refund and independently verified fingerprint/trigger/Auth/settings cleanup
+pass. Verified for the six named raises/four RPCs, not a blanket correction of other conflict RPCs
+or real provider acknowledgement. TD-063's protected preparation is also verified below.
 
 ## TD-063 — Missing First-Party Medical Transfer Preparation Transition
 
-Priority **P1**; status **In progress**. Owner: `@Muhns13G` / System Architect. Target:
+Priority **P1**; status **Verified**. Owner: `@Muhns13G` / System Architect. Target:
 Task 13.5 before real medical transfer or claims of end-to-end pilot readiness. Evidence:
 [protocol bridge packet](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md).
 
@@ -721,8 +730,14 @@ bounded preparation/record binding; HTTP/UI only submit references and do not ac
 readiness. Clean replay, 116 focused SQL assertions, 546 full packet assertions, production build
 and 4/4 controlled desktop/mobile browser checks pass. Preparation/replay deny changed authority,
 restriction, safety hold, grant revocation, released claim, suspended account and wall-clock expiry;
-failed audit rolls back intent/state. Hosted migration approval, owner deployment, genuine paid
-protected workflow and exact cleanup are still required; not Verified from local proof alone.
+failed audit rolls back intent/state. Separate hosted migration approval/application and owner
+runtime deployment are complete. Fresh actual intake-created case, AAL2/exact grant/client consent,
+genuine signed R999 sandbox funding, unpaid denial, protected preparation/record binding, exact
+replay/stale/changed conflicts, four rollback authority/safety fault denials and independent
+nonclinical reconciliation pass without seeding ready state. The exact capture is refunded;
+independent 127-table/13-row fingerprints, original triggers, zero Auth/sessions and disabled
+same-source runtime with temporary tenant binding removed pass. Verified at this protected
+Meneer-only boundary; no generator access, external transfer, clinical approval or pilot activation.
 
 ## Registry Maintenance Rules
 

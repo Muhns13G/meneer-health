@@ -3,12 +3,13 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-07
+last_updated: 2026-10-08
 audience: internal
 sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-12-9-debt-reconciliation.md
@@ -123,24 +124,25 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 13.5 — Protocol Bridge Rehearsal In Progress
+## Sprint 13.5 — Meneer-Only Protocol Bridge Rehearsal Completed
 
 The [13.5 packet](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
-starts from committed `bfc2138`. Initial local rollback-only packet passes 514 assertions with
-exact row/security/function restoration; corrected packet rerun passes 517 assertions and 90
-targeted tests pass. Hosted fixture/configuration/
-cleanup and a fresh signed R999 sandbox deposit/exact refund are explicitly approved, but no new
-hosted resource is created yet. TD-062's six-raise/four-RPC narrow medical conflict correction is
-prepared and locally tested; the owner-approved hosted migration is now applied with six corrected
-raises and retained access/history boundaries verified read-only. TD-063 records a missing
-first-party preparation transition: readiness is always false but recording requires a ready case;
-tests previously seeded that state. Owner-approved first-party preparation is now implemented
-locally with immutable bounded intents and record binding. Local schema replay, 116 focused SQL/
-546 packet assertions, production build and 4/4 controlled browser checks pass. New migration
-approval, owner deployment and fresh genuinely paid hosted workflow/cleanup remain required;
-no seeded hosted state substitutes for that proof.
-Current totals: **63 items — 54 Verified, nine non-Verified**. Generator entitlement/mapping/output
-proof remains externally gated; the real pilot remains suspended.
+records both owner-approved hosted migrations and owner-reported runtime source `3d68aed`.
+Local clean replay/116 focused SQL/546 packet assertions/94 application tests/build and 4/4
+controlled browser checks precede fresh hosted actual intake-created case, AAL2, bounded independent
+grant/client consent, R999 sandbox Checkout/capture/genuine signed funding, protected preparation/
+record/replay/conflict/fault-denial and independent nonclinical reconciliation proof. No case was
+seeded ready. Two incomplete harness attempts were fully cleaned and are not relabelled passes.
+The exact R999 capture is fully refunded, one matching provider refund `succeeded`; the disposable
+webhook is removed. Independent checks match all 127 table fingerprints/13 rows and original
+trigger states, Auth users/sessions zero and one suspended pilot. Final 100% same-source Worker
+`a6f15689-a354-4d27-a70e-fa5faa8498e5` restores intake/all commerce modes disabled and removes
+the temporary medical tenant binding, retaining the existing keyring. Canonical commands return
+412 and the disabled Stripe callback 404. Saved Stripe values are the owner-approved restoration
+baseline, not unreadable original secrets. TD-062/TD-063 are Verified in their stated scopes;
+**63 items — 56 Verified, seven non-Verified**. Acknowledgement is synthetic Meneer-only, not
+external delivery or clinical approval. Generator entitlement/mapping/output proof and the released
+walkthrough remain separately gated; Task 13.6 is next, the pilot remains suspended.
 
 ## Sprint 13.4 — Assignment/Payment Rehearsal Completed
 

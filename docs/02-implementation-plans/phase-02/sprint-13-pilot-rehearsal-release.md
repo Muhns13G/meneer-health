@@ -11,7 +11,7 @@ depends_on:
     phase-02-sprint-11,
     phase-02-sprint-12,
   ]
-last_updated: 2026-10-07
+last_updated: 2026-10-08
 owner: "@Muhns13G"
 ---
 
@@ -40,32 +40,32 @@ implemented journey and the operating team can recover safely from expected fail
 
 ## Commit-Sized Task Plan
 
-| Task  | Commit-sized outcome                                                                                                                      | Gate               | Status               |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------- |
-| 13.1  | Freeze the rehearsal script, test identities, expected evidence, stop conditions, owners and cleanup plan.                                | Release governance | Completed (contract) |
-| 13.2  | Verify exact deployed version, environment bindings, secrets, hosted migrations, RLS/advisors, monitoring, backup and rollback readiness. | Platform           | Completed            |
-| 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | Completed            |
-| 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Completed            |
-| 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | In progress          |
-| 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Planned              |
-| 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Planned              |
-| 13.8  | Run the full local and hosted-safe validation matrix and complete manual desktop/mobile accessibility walkthroughs.                       | Quality            | Planned              |
-| 13.9  | Review every transferred debt item and record Verified, still-gated or scope-removed status without dilution.                             | Debt               | Planned              |
-| 13.10 | Issue the Sprint 13 and Phase 02 completion reports plus explicit pilot go/no-go, rollback and first-client checklist.                    | Release            | Planned              |
+| Task  | Commit-sized outcome                                                                                                                      | Gate               | Status                |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | --------------------- |
+| 13.1  | Freeze the rehearsal script, test identities, expected evidence, stop conditions, owners and cleanup plan.                                | Release governance | Completed (contract)  |
+| 13.2  | Verify exact deployed version, environment bindings, secrets, hosted migrations, RLS/advisors, monitoring, backup and rollback readiness. | Platform           | Completed             |
+| 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | Completed             |
+| 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Completed             |
+| 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | Completed (synthetic) |
+| 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Planned               |
+| 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Planned               |
+| 13.8  | Run the full local and hosted-safe validation matrix and complete manual desktop/mobile accessibility walkthroughs.                       | Quality            | Planned               |
+| 13.9  | Review every transferred debt item and record Verified, still-gated or scope-removed status without dilution.                             | Debt               | Planned               |
+| 13.10 | Issue the Sprint 13 and Phase 02 completion reports plus explicit pilot go/no-go, rollback and first-client checklist.                    | Release            | Planned               |
 
 ## Acceptance Gate
 
-Task [13.5 protocol bridge rehearsal](annexures/sprint-13-5-protocol-bridge-rehearsal.md) is in
-progress from committed 13.4 closure `bfc2138`. A new local-only nine-suite packet compares exact
-row/security/function fingerprints, with initial 514-assertion restoration proof. Fresh isolated
-hosted fixture/configuration/cleanup and one additional sandbox deposit/refund scopes are approved.
-TD-062 records six intentional medical grant/transfer conflicts using serialization SQLSTATE;
-a locally tested narrow migration/HTTP correction is now explicitly approved/applied and read-only
-verified. TD-063 identifies a missing first-party preparation transition masked by positive SQL
-fixtures; the owner-approved guarded preparation is now implemented/tested locally. Its new
-migration, owner deployment and fresh hosted paid/replay/cleanup acceptance remain required.
-Current generator access/compatibility remains a
-named external gate, not substituted by synthetic acknowledgement. Real pilot stays suspended.
+Task [13.5 protocol bridge rehearsal](annexures/sprint-13-5-protocol-bridge-rehearsal.md) is
+completed at its authorised Meneer-only synthetic boundary. Both narrow migrations are approved/
+hosted; owner-deployed preparation, real intake-created case, genuine AAL2/grants/client consent,
+R999 sandbox capture/signed funding, routed preparation/record/replays/409s, fault denials and
+independent nonclinical reconciliation pass. The exact capture is fully refunded; all 127 baseline
+fingerprints/13 rows and original triggers match, Auth users/sessions are zero, and same-source
+Worker settings are disabled with the temporary medical tenant binding removed. TD-062/TD-063
+are Verified in their stated scopes: **63 items — 56 Verified, seven non-Verified**. Two earlier
+incomplete, fully cleaned harness attempts remain recorded honestly. Current generator access/
+compatibility remains a named external gate, not substituted by synthetic acknowledgement.
+Task 13.6 is next; the real pilot stays suspended and Sprint 13 is not closed.
 
 Task [13.4 assignment/payment rehearsal](annexures/sprint-13-4-assignment-payment-rehearsal.md)
 is completed at its isolated synthetic boundary. Fresh AAL2/assignment/claim/replay/conflict/denial

@@ -63,7 +63,7 @@ idempotency headers; staff sign-out requires the explicit `action=sign-out` form
 
 ## Medical Rights and Provider Copies
 
-### First-Party Preparation — Local Implementation, Release Gated
+### First-Party Preparation — Synthetic Hosted Proof, Real Use Gated
 
 Task 13.5 adds `prepare_transfer` on the protected staff intake command endpoint. Before manual
 external work, the assigned current claimant needs an independently approved medical-transfer
@@ -75,11 +75,14 @@ for the incremented case version before `record_transfer`. Recording/replay rech
 binds that intent; a different assigned operator independently reconciles opaque evidence without
 medical answers. Expiry or an uncertain external action is not permission to automatically resend.
 
-The new migration `20261007204237` is local-only until explicitly approved; deploy the reviewed
-handler/control through the owner. Keep intake/commerce disabled outside the already bounded
-synthetic rehearsal. Capture a fresh schema baseline including both additional private preparation
-journals, then verify the genuine paid transition, replay/denials and exact cleanup. A controlled
-browser response or synthetic provider reference is not actual generator delivery/acknowledgement.
+The separately approved migration `20261007204237` is now hosted; the owner deployed the reviewed
+handler/control. [Task 13.5](../02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md)
+proves actual submitted intake/case linkage, genuine signed sandbox deposit, protected transition/
+record binding/replay/denials and independent nonclinical reconciliation, then exact refund and
+independent restoration of 127-table baseline/Auth/triggers/disabled settings. Keep intake/commerce
+disabled outside a freshly approved bounded rehearsal or formal release decision. The temporary
+medical tenant binding was removed; the existing keyring was not rotated. A controlled browser
+response or synthetic Meneer provider reference is not actual generator delivery/acknowledgement.
 
 Own exports include retained submitted-version history. Restriction prevents ordinary display,
 review and transfer; retained-data export is separately authorised. An unresolved safety hold is

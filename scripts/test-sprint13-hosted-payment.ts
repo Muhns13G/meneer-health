@@ -11,12 +11,24 @@ import Stripe from "stripe";
 import { orderReviewResultSchema } from "../src/domain/payments/order-review";
 import { paymentStatusPageSchema } from "../src/domain/payments/payment-status";
 import { queueCommandResultSchema } from "../src/application/operations/queue-command";
+import {
+  buildHostedBridgeSetup,
+  prepareHostedBridgeIntake,
+  submitHostedBridgeIntake,
+  runHostedPaidBridge,
+  type HostedBridgePorts,
+} from "./lib/sprint13-hosted-bridge";
 
-// Explicitly authorised deposit-only hosted exercise. Never CI, source deployment or live money.
+// Explicitly authorised deposit/paid-bridge hosted exercises. Never CI, source deployment or live money.
 const origin = "https://meneerhealth.co.za";
-const tenant = "e1340000-0000-4000-8000-000000000001";
-const caseId = "e1340000-0000-4000-8000-000000000010";
-const service = "e1340000-0000-4000-8000-000000000020";
+const scenario = process.env.SPRINT13_PAYMENT_SCENARIO ?? "deposit";
+if (!["deposit", "medical-bridge"].includes(scenario))
+  throw new Error("SPRINT13_SCENARIO_REJECTED");
+const medicalBridge = scenario === "medical-bridge";
+const fixturePrefix = medicalBridge ? "e1350000" : "e1340000";
+const tenant = `${fixturePrefix}-0000-4000-8000-000000000001`;
+let caseId = `${fixturePrefix}-0000-4000-8000-000000000010`;
+const service = `${fixturePrefix}-0000-4000-8000-000000000020`;
 const realPilot = "80000000-0000-4000-8000-000000000001";
 const account = "acct_1U32UbFfj16Nnr1i";
 const uuid = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
@@ -31,7 +43,10 @@ const nodeDirectory = process.env.SPRINT13_NODE_DIRECTORY;
 invariant(
   process.stdin.isTTY &&
     !process.env.CI &&
-    process.env.SPRINT13_PAYMENT_CONFIRM === "isolated-deposit-capture-refund-only" &&
+    process.env.SPRINT13_PAYMENT_CONFIRM ===
+      (medicalBridge
+        ? "isolated-paid-medical-bridge-only"
+        : "isolated-deposit-capture-refund-only") &&
     process.env.SPRINT13_PAYMENT_RESTORE_CONFIRM === "saved-stripe-disabled-suspended-pilot" &&
     process.env.SUPABASE_URL === "https://gibfpolrdjotwvewgfsz.supabase.co" &&
     process.env.SUPABASE_SECRET_KEY &&
@@ -93,7 +108,9 @@ function wrangler(args: string[], input?: string): Promise<string> {
     child.stdin.end(input);
   });
 }
-type Version = { resources: { script: { etag: string } } };
+type Version = {
+  resources: { script: { etag: string }; bindings: { name: string; type: string }[] };
+};
 async function activeVersion() {
   const entries = JSON.parse(await wrangler(["deployments", "list", "--json"])) as {
     versions: { version_id: string; percentage: number }[];
@@ -118,7 +135,9 @@ const admin = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SECRET
 type Actor = { id: string; email: string; subjectId?: string; cookie?: string };
 const actors = new Map<string, Actor>();
 const tokens = new Set<string>();
-const directory = mkdtempSync(join(tmpdir(), "meneer-sprint13-payment-"));
+const directory = mkdtempSync(
+  join(tmpdir(), medicalBridge ? "meneer-sprint13-bridge-" : "meneer-sprint13-payment-"),
+);
 const manifestPath = join(directory, "manifest.json");
 const checkoutPath = join(directory, "checkout.json");
 let baseline: Record<string, unknown>[] = [];
@@ -135,7 +154,7 @@ function manifest(stage: string) {
   writeFileSync(
     manifestPath,
     JSON.stringify({
-      task: "2.13.4",
+      task: medicalBridge ? "2.13.5" : "2.13.4",
       stage,
       tenant,
       caseId,
@@ -172,13 +191,14 @@ function template(name: string, values: Record<string, string>) {
 function cleanupSql() {
   const roots = [
     tenant,
+    caseId,
     service,
     ...[...actors.values()].flatMap((actor) => [
       actor.id,
       ...(actor.subjectId ? [actor.subjectId] : []),
     ]),
     ...[2, 3, 4, 5, 6, 10, 11, 12, 20].map(
-      (n) => `e1340000-0000-4000-8000-${String(n).padStart(12, "0")}`,
+      (n) => `${fixturePrefix}-0000-4000-8000-${String(n).padStart(12, "0")}`,
     ),
   ];
   invariant(
@@ -308,13 +328,41 @@ async function deployedStatus(reviewStatus: number, webhookStatus: number, activ
     invariant((await activeVersion()) === active, "CONCURRENT_DEPLOYMENT_CHANGED");
     if (
       (await request("/portal/order/command", { action: "read" })).status === reviewStatus &&
-      (await request("/api/payments/stripe/webhook", {})).status === webhookStatus
+      (await request("/api/payments/stripe/webhook", {})).status === webhookStatus &&
+      (!medicalBridge ||
+        (await request("/portal/intake/command", { action: "read", intakeId: null })).status ===
+          (reviewStatus === 401 ? 401 : 412))
     )
       return;
     if (attempt < 17) await delay(5000);
   }
   throw new Error("CONFIGURATION_PROPAGATION_UNCONFIRMED");
 }
+const bridgePorts: HostedBridgePorts = {
+  tenant,
+  get caseId() {
+    return caseId;
+  },
+  actors,
+  request,
+  sql,
+  manifest,
+  async portalRead() {
+    const response = await fetch(origin + "/portal/account", {
+      headers: {
+        Origin: origin,
+        "Sec-Fetch-Site": "same-origin",
+        Cookie: actors.get("patient")!.cookie!,
+      },
+      signal: AbortSignal.timeout(30000),
+    });
+    invariant(
+      response.headers.get("cache-control")?.includes("no-store"),
+      "PORTAL_NO_STORE_MISSING",
+    );
+    return response;
+  },
+};
 try {
   invariant((await stripe.accounts.retrieveCurrent()).id === account, "STRIPE_ACCOUNT_MISMATCH");
   invariant(
@@ -333,7 +381,8 @@ try {
     (select count(*)=0 from auth.sessions) as sessions_empty,
     (select count(*)=1 from public.tenants) and exists(select 1 from public.tenants
       where id='${realPilot}' and status='suspended') as suspended_pilot,
-    exists(select 1 from supabase_migrations.schema_migrations where version='20261007220000') as correction_applied`);
+    exists(select 1 from supabase_migrations.schema_migrations where version='20261007220000')
+    ${medicalBridge ? "and exists(select 1 from supabase_migrations.schema_migrations where version='20261007204237') and exists(select 1 from supabase_migrations.schema_migrations where version='20261007201957')" : ""} as correction_applied`);
   invariant(
     Object.values(scope[0] ?? {}).length === 4 && Object.values(scope[0]!).every((v) => v === true),
     "HOSTED_SCOPE_CHANGED",
@@ -341,7 +390,7 @@ try {
   baseline = await inventory();
   baselineTriggers = await triggers();
   invariant(
-    baseline.length === 125 &&
+    baseline.length === (medicalBridge ? 127 : 125) &&
       baseline
         .filter(
           (row) =>
@@ -365,6 +414,15 @@ try {
     ),
     "OUTBOUND_ALERTS_NOT_PROVEN_DISABLED",
   );
+  if (medicalBridge) {
+    invariant(
+      !alertModes.resources.bindings.some((b) => b.name === "MEDICAL_INTAKE_TENANT_ID") &&
+        alertModes.resources.bindings.some((b) => b.name === "MEDICAL_INTAKE_KEYRING_JSON") &&
+        (await request("/portal/intake/command", { action: "read", intakeId: null })).status ===
+          412,
+      "MEDICAL_DISABLED_RESTORATION_BASELINE_CHANGED",
+    );
+  }
   for (const role of ["patient", "operations", "alternate", "admin", "clinician"]) {
     const email = `s13-${role}-${randomUUID()}@example.invalid`;
     const result = await admin.auth.admin.createUser({ email, email_confirm: true });
@@ -393,11 +451,12 @@ try {
     Buffer.from(bootstrap.data.session.access_token.split(".")[1]!, "base64url").toString(),
   ) as { session_id: string };
   invariant(uuid.test(jwt.session_id), "PROVIDER_SESSION_INVALID");
-  const setup = template("sprint-13-payment-setup", {
+  const setupSource = template("sprint-13-payment-setup", {
     ...Object.fromEntries([...actors].map(([role, actor]) => [role, actor.subjectId!])),
     patientAuth: patient.id,
     providerSession: jwt.session_id,
   });
+  const setup = medicalBridge ? buildHostedBridgeSetup(setupSource) : setupSource;
   await sql(
     setup.replace(/commit;\s*$/, "") +
       cleanupSql()
@@ -422,7 +481,9 @@ try {
       "refund.updated",
       "refund.failed",
     ],
-    description: "Disposable Sprint 13.4 deposit-only rehearsal",
+    description: medicalBridge
+      ? "Disposable Sprint 13.5 paid bridge rehearsal"
+      : "Disposable Sprint 13.4 deposit-only rehearsal",
   });
   endpoint = hook.id;
   manifest("webhook-created");
@@ -439,9 +500,14 @@ try {
       STRIPE_RESTRICTED_KEY: key,
       STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: service,
       STRIPE_WEBHOOK_SIGNING_SECRET: hook.secret,
+      ...(medicalBridge
+        ? { MEDICAL_INTAKE_MODE: "enabled", MEDICAL_INTAKE_TENANT_ID: tenant }
+        : {}),
     },
     expectedVersion,
-    "Authorised Sprint 13.4 isolated deposit configuration",
+    medicalBridge
+      ? "Authorised Sprint 13.5 isolated paid bridge configuration"
+      : "Authorised Sprint 13.4 isolated deposit configuration",
   );
   configurationAttempted = true;
   manifest("configuration-prepared");
@@ -458,6 +524,11 @@ try {
   await login("operations");
   await login("alternate");
   await login("clinician");
+  if (medicalBridge) await login("admin");
+  if (medicalBridge) {
+    caseId = await submitHostedBridgeIntake(bridgePorts);
+    manifest("actual-intake-case-linked");
+  }
   invariant(
     (await request("/staff/payments/read", { cursor: null, caseId }, "operations")).status === 403,
     "UNASSIGNED_PAYMENT_ALLOWED",
@@ -561,6 +632,7 @@ try {
     );
   }
   manifest("assignment-aal2-claims-conflicts-passed");
+  if (medicalBridge) await prepareHostedBridgeIntake(bridgePorts);
   const read = await request("/portal/order/command", { action: "read" }, "patient");
   invariant(read.status === 200, "ORDER_READ_FAILED");
   const review = orderReviewResultSchema.parse(await read.json()).review;
@@ -692,7 +764,7 @@ try {
   invariant(signed, "GENUINE_SIGNED_FUNDING_MISSING");
   const bridge = await sql(
     `select commerce_private.deposit_ready('${caseId}') as deposit_ready,
-    intake_private.review_payment_ready('e1340000-0000-4000-8000-000000000003') as review_ready,
+    intake_private.review_payment_ready('${fixturePrefix}-0000-4000-8000-000000000003') as review_ready,
     (select count(*)=1 from commerce_private.deposit_funding where tenant_id='${tenant}') as exactly_one_funding,
     (select state='onboarding_pending' and version=6 from public.operations_cases where id='${caseId}') as no_advance,
     (select count(*)=0 from public.handoff_attempts where tenant_id='${tenant}') as no_transfer,
@@ -721,6 +793,7 @@ try {
       "SETTLED_PROJECTION_FACTS_INVALID",
     );
   }
+  if (medicalBridge) await runHostedPaidBridge(bridgePorts);
   passed = true;
   manifest("capture-signed-funding-paid-review-passed");
 } catch (error) {
@@ -772,7 +845,7 @@ try {
         if (charge.amount_refunded < charge.amount) {
           let refund = await stripe.refunds.create(
             { payment_intent: paymentId, amount: charge.amount - charge.amount_refunded },
-            { idempotencyKey: `s13-4-cleanup-${session}` },
+            { idempotencyKey: `s13-${medicalBridge ? "5" : "4"}-cleanup-${session}` },
           );
           for (let attempt = 0; refund.status === "pending" && attempt < 18; attempt++) {
             await delay(5000);
@@ -813,6 +886,7 @@ try {
           STRIPE_RESTRICTED_KEY: key,
           STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: savedService,
           STRIPE_WEBHOOK_SIGNING_SECRET: savedSigningSecret,
+          ...(medicalBridge ? { MEDICAL_INTAKE_MODE: "disabled" } : {}),
         },
         current,
         "Approved saved-Stripe disabled suspended-pilot restoration",
@@ -827,6 +901,41 @@ try {
         "Restore disabled commerce after deposit-only rehearsal",
       ]);
       await deployedStatus(412, 404, restoredVersion);
+      if (medicalBridge) {
+        invariant((await activeVersion()) === restoredVersion, "CONCURRENT_RESTORATION_CHANGED");
+        const deleted = await wrangler(
+          [
+            "versions",
+            "secret",
+            "delete",
+            "MEDICAL_INTAKE_TENANT_ID",
+            "--message",
+            "Remove only disposable Sprint 13.5 medical tenant binding",
+          ],
+          "y\n",
+        );
+        const clean = deleted.match(/Created version ([a-f0-9-]{36})/)?.[1];
+        invariant(
+          clean &&
+            (await version(clean)).resources.script.etag === etag &&
+            !(await version(clean)).resources.bindings.some(
+              (b) => b.name === "MEDICAL_INTAKE_TENANT_ID",
+            ) &&
+            (await activeVersion()) === restoredVersion,
+          "MEDICAL_TENANT_REMOVAL_UNCONFIRMED",
+        );
+        restoredVersion = clean;
+        manifest("temporary-medical-tenant-removal-prepared");
+        await wrangler([
+          "versions",
+          "deploy",
+          `${restoredVersion}@100`,
+          "--yes",
+          "--message",
+          "Restore disabled commerce/intake and remove only temporary medical tenant",
+        ]);
+        await deployedStatus(412, 404, restoredVersion);
+      }
     }
   } catch {
     cleanupFailures.push("worker");

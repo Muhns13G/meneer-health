@@ -1,10 +1,10 @@
 ---
 plan_id: phase-02-sprint-13-5
 title: First-Party Medical Transfer and Protocol Bridge Rehearsal
-status: in-progress
-last_updated: 2026-10-07
+status: completed
+last_updated: 2026-10-08
 owner: "@Muhns13G"
-source_commit: bfc2138
+source_commit: 3d68aed
 depends_on: [phase-02-sprint-13-4]
 primary_debt: [TD-009, TD-007, TD-043]
 ---
@@ -62,7 +62,7 @@ generator evidence. This packet must never be adapted to hosted by replacing its
 nor copied with the local seed. The packet itself changes no schema or production guard;
 the separately reviewed narrow TD-062 correction is recorded below.
 
-## Hosted Packet — Approved, New Correction Still Gated
+## Hosted Packet — Approved and Verified at the Synthetic Boundary
 
 The owner explicitly approved an isolated tenant and disposable client, transcriber/clinician,
 independent clinical approver, security administrator and independent assigned reconciler, all
@@ -81,7 +81,8 @@ and has no 13.5 resource authority. Build a bounded task-specific packet after s
 
 The owner also approved that additional exact sandbox capture/refund. Both approvals exclude
 emails, generator access, actual health transfer, clinical approval/send, real-pilot activation
-and dispensing. They do not authorise a new schema migration or agent source deployment.
+and dispensing. Each new migration received separate explicit approval; source deployment
+remained owner-controlled.
 
 ## TD-062 — Medical Grant/Transfer Conflict Correction
 
@@ -100,8 +101,8 @@ into this patch; other RPC review remains Task 13.9.
 
 Local migration/security guards and 87 SQL assertions across three suites pass, including stale
 case version, changed transfer replay and changed independent reconciliation. Five HTTP error-
-mapping tests pass alongside local packet guard tests. This correction needs separate explicit
-hosted migration approval and owner-deployed handler before the hosted conflict packet runs.
+mapping tests pass alongside local packet guard tests. The correction required separate explicit
+hosted migration approval and owner-deployed handler before the hosted conflict packet ran.
 The owner committed preparation at `ef7d3a3` and explicitly approved hosted application. The
 linked dry-run contained only `20261007201957`, with no seeds/roles; application succeeded.
 Independent read-only verification confirms the six `PT409` raises (1/1/2/2), retained security-
@@ -112,16 +113,17 @@ version `6ae5b581-0219-4a2d-a646-73a4829e48fd` serves 100%, script ETag
 latest branch deployment. This is a runtime metadata checkpoint, not independently mapped Git SHA
 or authenticated medical command proof. Auth users/sessions remain zero and the real pilot suspended.
 Canonical order/intake commands remain disabled (412); Stripe webhook remains disabled (404).
-TD-062 remains
-in progress until fresh routed conflict/replay/cleanup proof passes; configuration presence or
-owner deployment alone is not that proof. No disposable hosted resources have been created here.
+At that earlier checkpoint TD-062 remained
+in progress pending fresh routed conflict/replay/cleanup proof; configuration presence or
+owner deployment alone is not that proof. This was the earlier pre-rehearsal checkpoint;
+the fresh routed acceptance and cleanup below now close this correction.
 
 The CLI-generated timestamp precedes previously applied `20261007220000`; local validation used
 `migration up --local --include-all`. Hosted dry-run must be reviewed for exactly this pending
 migration before any approved application; no seed or unrelated migration is authorised.
 The linked dry-run with `--include-all` confirms exactly this one migration and no seeds/roles.
 
-## TD-063 — First-Party Preparation Implemented Locally, Hosted Proof Pending
+## TD-063 — First-Party Preparation Implemented and Verified
 
 The whole-journey trace found a real capability gap hidden by positive fixture setup. The retained
 `identity_private.operations_readiness(uuid)` still returns `paymentReadiness=integration_pending`
@@ -135,7 +137,8 @@ positive medical-transfer SQL tests previously set the case state as a fixture, 
 rollback-only synthetic payment function. Those tests prove the isolated transfer machinery;
 they do not prove a live case can reach it through the first-party workflow. Do not set a hosted
 case to ready through fixture SQL and call that end-to-end proof, or unlock the legacy external-
-link readiness as a shortcut. The approved additional sandbox capture has not been created.
+link readiness as a shortcut. At that discovery checkpoint the additional sandbox capture had
+not been created.
 
 The owner approved implementation. New first-party `prepare_transfer` rechecks the exact submitted snapshot,
 client recipient/notice authorisation, no restriction/unresolved safety hold, authoritative deposit,
@@ -147,7 +150,8 @@ evidence. Staff controls and stale/replay/restriction/expiry/audit-failure tests
 It does not auto-clear safety holds,
 approve protocols, invoke the generator or make a paid flag medical authority.
 
-Migration `20261007204237_first_party_medical_transfer_preparation.sql` is applied **locally only**.
+Migration `20261007204237_first_party_medical_transfer_preparation.sql` is applied locally and,
+after separate explicit owner approval, to hosted Supabase with matching migration history.
 Two forced-RLS, service-hidden immutable journals bind grant/claim/client-authorisation/snapshot/
 case versions and the recorded transfer. The intent expires within 15 minutes and no later than
 grant, assignment, client authorisation or publication validity. Expiry, release or replaced
@@ -170,11 +174,12 @@ no claimed external delivery and stale-conflict/no-auto-retry. Browser responses
 they do not replace hosted Auth/database/provider proof. An initial legacy packet interruption
 was followed by isolated and complete passing reruns; no guard/assertion was relaxed.
 
-Hosted application of this new migration needs fresh explicit approval and owner deployment of
-the new handler/control. Capture a new schema baseline after application (two additional private
-tables); do not reuse the old 125-table hardcoded deposit driver. Then complete the already
-approved fresh hosted paid preparation/record/reconciliation/cleanup packet. Until it passes,
-TD-063 and Task 13.5 remain in progress; current generator compatibility stays separately gated.
+The owner committed/deployed the handler/control at reported source `3d68aed`. Runtime metadata
+verified the same script ETag throughout the configuration-only rehearsal; it is not an independent
+Git-SHA-to-provider-build attestation. The new baseline contains 127 application tables, including
+both preparation journals. The fresh paid packet below passes without seeding a ready case,
+intake snapshot, grant, preparation, transfer or settlement. Current generator compatibility
+stays separately gated.
 
 Before any mutation, verify exact source/runtime/schema, suspended pilot, empty application/Auth
 baseline, existing secret metadata, provider quota and unchanged configuration. Persist a private
@@ -196,16 +201,80 @@ gate. TD-009/007/043 retain their real-provider/domain/operating criteria regard
 
 ## Status
 
-Task 13.5 is **in progress**. Earlier local packet passed 514 assertions; after the narrow correction,
+Task 13.5 is **completed at its authorised Meneer-only synthetic boundary**. Earlier local packet passed 514 assertions; after the narrow correction,
 the instrumented full rerun passes **517 assertions across nine suites**, with exact row/security/
 function restoration. One initial corrected-packet run stopped with a generic failure; adding
 safe suite/reason diagnostics and repeating the packet passed. The interruption was not reproduced
 or conclusively diagnosed; no assertion or production guard was weakened. Final local regression
 passes **90 tests across nine suites**, strict TypeScript, focused ESLint and formatting/whitespace
 checks. The subsequent preparation implementation and stronger validation are recorded above.
-Fresh hosted fixture/configuration/payment/cleanup
-approvals are received and the approved TD-062 migration is applied. TD-063's first-party
-preparation is implemented/tested locally; new hosted migration approval, owner deployment and
-fresh bounded driver acceptance are required before closure. Current external
-generator compatibility remains gated. No disposable hosted data/configuration, source deployment,
-branch switch, staging, commit or push has been performed by this task.
+Both separately approved migrations are hosted with matching history. Fresh bounded acceptance
+and independent restoration pass, closing TD-062/TD-063 in their stated scopes. Current external
+generator compatibility remains gated. No source deployment, branch switch, staging, commit or
+push was performed by this task; configuration-only changes and disposable hosted fixtures were
+expressly authorised and restored/removed.
+
+## Fresh Hosted Acceptance — 7/8 October 2026
+
+The guarded interactive `medical-bridge` scenario in `scripts/test-sprint13-hosted-payment.ts`
+uses `scripts/lib/sprint13-hosted-bridge.ts`; ordinary CI must never run it. It requires fresh
+explicit resource/capture/cleanup approval, exact current Worker version, restricted sandbox key,
+approved account and saved-Stripe disabled-restoration guards. It preserves a private 0600
+manifest, validates setup/cleanup in rollback first, and stops affected paths on uncertainty.
+
+Two earlier attempts were **not passes** and created no Checkout/capture. The first tried to submit
+without first saving a draft and was rejected. The second successfully submitted and approved/
+activated the grant but failed its read assertion: the harness assigned staff to a separately
+seeded payment case, while real intake creates its own case. The response status was not logged
+by that earlier assertion. Both attempts fully restored settings, fingerprints, triggers and zero
+Auth/session baseline. The correction removes the unrelated seeded case, follows the real
+endpoint's case ID, independently verifies tenant/client linkage, then assigns and claims that
+case. No production access check was weakened. A regression proves this linkage and rejects
+mismatch. The final harness/regression packet passes 12 tests.
+
+Fresh successful acceptance proves:
+
+- Real disposable provider sessions and workforce TOTP/AAL2; email-only, unassigned, wrong-role
+  and foreign-case denials, actual queue claims/releases, exact replay and unchanged-state 409s.
+- Actual client draft/save/submission creates the case and encrypted current snapshot; independent
+  clinician grant approval and administrator activation permit only `full_name`/`sex` for the
+  assigned transcriber. Ordinary operations and the nonclinical reconciler cannot read answers.
+- Actual client transfer authorisation; unpaid preparation remains 412. Authenticated R999 terms
+  acceptance and Checkout produce one actual test capture on the approved standalone account.
+  Genuine signed `checkout.session.completed`, exact settlement lineage and deposit funding are
+  independently checked; payment alone does not advance the case or supply state.
+- Routed preparation advances the case from version 6 to 7; recording binds its immutable intent
+  and advances to 8. Exact replays return the same references; stale/changed requests return 409.
+  Rollback-only restricted-intake, unresolved-safety, revoked-grant and released-claim faults deny
+  recording and leave one preparation/no transfer/the unchanged ready case.
+- A different assigned operator reconciles opaque synthetic evidence, advancing to version 9;
+  self-reconciliation and medical answer access are denied. Exact replay is stable and changed
+  evidence conflicts. Own-client statuses are `handoff_pending` then `handoff_recorded`; one bound
+  transfer/reconciliation and AES-256-GCM intake are checked, with no fulfilment.
+
+This is **synthetic Meneer-only acknowledgement**, not delivery to Precise Wellness or a generated
+protocol. No generator access, email, real health transfer, clinical approval/send or dispensing
+occurred. The separate released browser/assistive-technology walkthrough remains Task 13.8.
+Checkout was completed with the official test card in the browser; its return browser had no
+application session. Authenticated confirmed payment/status proof came from the manifested
+sessions, not that unauthenticated return page.
+
+The exact R999 test capture was fully refunded to its original method. Independent provider
+verification finds exactly one refund for 99900 ZAR minor units, status `succeeded`, matching the
+payment, with the charge fully refunded and undisputed; refund reference
+`re_3UO2rdFfj16Nnr1i172h65Ze`. Stripe retains these test records. The temporary webhook is removed.
+All five disposable Auth identities/sessions and manifested fixtures were removed by scoped locked
+cleanup. Independent post-packet verification matches **all 127 table fingerprints/13 baseline
+rows and original trigger states**, Auth users/sessions zero, one suspended real pilot, matching
+migration history, forced preparation RLS and anonymous/browser execute denial.
+
+Final active 100% same-source Worker: `a6f15689-a354-4d27-a70e-fa5faa8498e5`; ETag
+`1417a0bc963867d14a9a1cdcc88615d822f920a5a25bb756264856c87bd4d535`.
+The temporary medical tenant binding is actually absent, existing keyring retained, intake and
+all four commerce modes disabled. Canonical order/intake commands return 412; Stripe callback
+returns 404. Restoration uses the explicitly approved saved Stripe/suspended-pilot baseline,
+not unknown original secret values. Task 13.6 is next; no pilot activation or Sprint 13 closure.
+
+Final local regression after the harness corrections: **882 tests across 135 suites pass**;
+strict TypeScript, focused ESLint and formatting/whitespace validation are recorded with this
+closure. No new runtime source change or migration was needed for the fixture-linkage correction.
