@@ -11,6 +11,7 @@ import Stripe from "stripe";
 import { orderReviewResultSchema } from "../src/domain/payments/order-review";
 import { paymentStatusPageSchema } from "../src/domain/payments/payment-status";
 import { queueCommandResultSchema } from "../src/application/operations/queue-command";
+import { runHostedRecoveryRefund, runHostedRecoverySupport } from "./lib/sprint13-hosted-recovery";
 import {
   buildHostedBridgeSetup,
   prepareHostedBridgeIntake,
@@ -22,10 +23,20 @@ import {
 // Explicitly authorised deposit/paid-bridge hosted exercises. Never CI, source deployment or live money.
 const origin = "https://meneerhealth.co.za";
 const scenario = process.env.SPRINT13_PAYMENT_SCENARIO ?? "deposit";
-if (!["deposit", "medical-bridge"].includes(scenario))
+if (!["deposit", "medical-bridge", "recovery"].includes(scenario))
   throw new Error("SPRINT13_SCENARIO_REJECTED");
 const medicalBridge = scenario === "medical-bridge";
-const fixturePrefix = medicalBridge ? "e1350000" : "e1340000";
+const recovery = scenario === "recovery";
+const supportOnly = recovery && process.env.SPRINT13_RECOVERY_SUPPORT_ONLY === "no-payment";
+// A failed-then-paid Session intentionally enters reconciliation hold. Keep its
+// negative proof separate from the clean capture used for routed refund proof.
+const declineBeforeCapture = process.env.SPRINT13_RECOVERY_PAYMENT_PATH === "decline-then-paid";
+if (
+  process.env.SPRINT13_RECOVERY_PAYMENT_PATH &&
+  !["clean", "decline-then-paid"].includes(process.env.SPRINT13_RECOVERY_PAYMENT_PATH)
+)
+  throw new Error("SPRINT13_RECOVERY_PATH_REJECTED");
+const fixturePrefix = recovery ? "e1360000" : medicalBridge ? "e1350000" : "e1340000";
 const tenant = `${fixturePrefix}-0000-4000-8000-000000000001`;
 let caseId = `${fixturePrefix}-0000-4000-8000-000000000010`;
 const service = `${fixturePrefix}-0000-4000-8000-000000000020`;
@@ -44,9 +55,11 @@ invariant(
   process.stdin.isTTY &&
     !process.env.CI &&
     process.env.SPRINT13_PAYMENT_CONFIRM ===
-      (medicalBridge
-        ? "isolated-paid-medical-bridge-only"
-        : "isolated-deposit-capture-refund-only") &&
+      (recovery
+        ? "isolated-recovery-capture-refund-only"
+        : medicalBridge
+          ? "isolated-paid-medical-bridge-only"
+          : "isolated-deposit-capture-refund-only") &&
     process.env.SPRINT13_PAYMENT_RESTORE_CONFIRM === "saved-stripe-disabled-suspended-pilot" &&
     process.env.SUPABASE_URL === "https://gibfpolrdjotwvewgfsz.supabase.co" &&
     process.env.SUPABASE_SECRET_KEY &&
@@ -154,7 +167,7 @@ function manifest(stage: string) {
   writeFileSync(
     manifestPath,
     JSON.stringify({
-      task: medicalBridge ? "2.13.5" : "2.13.4",
+      task: recovery ? "2.13.6" : medicalBridge ? "2.13.5" : "2.13.4",
       stage,
       tenant,
       caseId,
@@ -390,7 +403,7 @@ try {
   baseline = await inventory();
   baselineTriggers = await triggers();
   invariant(
-    baseline.length === (medicalBridge ? 127 : 125) &&
+    baseline.length === (recovery ? 127 : medicalBridge ? 127 : 125) &&
       baseline
         .filter(
           (row) =>
@@ -456,7 +469,14 @@ try {
     patientAuth: patient.id,
     providerSession: jwt.session_id,
   });
-  const setup = medicalBridge ? buildHostedBridgeSetup(setupSource) : setupSource;
+  const setup = medicalBridge
+    ? buildHostedBridgeSetup(setupSource)
+    : recovery
+      ? setupSource
+          .replaceAll("e1340000", "e1360000")
+          .replaceAll("synthetic-sprint13-payment", "synthetic-sprint13-recovery")
+          .replaceAll("SYNTHETIC DEPOSIT ONLY", "SYNTHETIC RECOVERY ONLY")
+      : setupSource;
   await sql(
     setup.replace(/commit;\s*$/, "") +
       cleanupSql()
@@ -481,9 +501,11 @@ try {
       "refund.updated",
       "refund.failed",
     ],
-    description: medicalBridge
-      ? "Disposable Sprint 13.5 paid bridge rehearsal"
-      : "Disposable Sprint 13.4 deposit-only rehearsal",
+    description: recovery
+      ? "Disposable Sprint 13.6 recovery rehearsal"
+      : medicalBridge
+        ? "Disposable Sprint 13.5 paid bridge rehearsal"
+        : "Disposable Sprint 13.4 deposit-only rehearsal",
   });
   endpoint = hook.id;
   manifest("webhook-created");
@@ -494,7 +516,7 @@ try {
       COMMERCE_REVIEW_MODE: "enabled",
       COMMERCE_CHECKOUT_MODE: "sandbox",
       COMMERCE_WEBHOOK_MODE: "sandbox",
-      COMMERCE_REFUND_MODE: "disabled",
+      COMMERCE_REFUND_MODE: recovery ? "sandbox" : "disabled",
       COMMERCE_REVIEW_TENANT_ID: tenant,
       STRIPE_CHECKOUT_ACCOUNT_ID: account,
       STRIPE_RESTRICTED_KEY: key,
@@ -505,9 +527,11 @@ try {
         : {}),
     },
     expectedVersion,
-    medicalBridge
-      ? "Authorised Sprint 13.5 isolated paid bridge configuration"
-      : "Authorised Sprint 13.4 isolated deposit configuration",
+    recovery
+      ? "Authorised Sprint 13.6 isolated recovery configuration"
+      : medicalBridge
+        ? "Authorised Sprint 13.5 isolated paid bridge configuration"
+        : "Authorised Sprint 13.4 isolated deposit configuration",
   );
   configurationAttempted = true;
   manifest("configuration-prepared");
@@ -524,7 +548,7 @@ try {
   await login("operations");
   await login("alternate");
   await login("clinician");
-  if (medicalBridge) await login("admin");
+  if (medicalBridge || recovery) await login("admin");
   if (medicalBridge) {
     caseId = await submitHostedBridgeIntake(bridgePorts);
     manifest("actual-intake-case-linked");
@@ -632,119 +656,153 @@ try {
     );
   }
   manifest("assignment-aal2-claims-conflicts-passed");
-  if (medicalBridge) await prepareHostedBridgeIntake(bridgePorts);
-  const read = await request("/portal/order/command", { action: "read" }, "patient");
-  invariant(read.status === 200, "ORDER_READ_FAILED");
-  const review = orderReviewResultSchema.parse(await read.json()).review;
-  invariant(
-    review?.amountTotalMinor === 99900 && !review.acceptance && !review.checkoutEnabled,
-    "DEPOSIT_REVIEW_INVALID",
-  );
-  const accepted = await request(
-    "/portal/order/command",
-    {
-      action: "accept",
-      offerId: review.offerId,
-      publicationId: review.terms.publicationId,
-      snapshotHash: review.snapshotHash,
-      contentHash: review.terms.contentHash,
-      accepted: true,
-      requestKey: randomUUID(),
-    },
-    "patient",
-  );
-  invariant(
-    accepted.status === 200 &&
-      orderReviewResultSchema.parse(await accepted.json()).review?.checkoutEnabled,
-    "DEPOSIT_ACCEPTANCE_FAILED",
-  );
-  const checkout = await request(
-    "/portal/order/command",
-    {
-      action: "checkout",
-      offerId: review.offerId,
-      requestKey: randomUUID(),
-    },
-    "patient",
-  );
-  invariant(checkout.status === 200, "CHECKOUT_FAILED");
-  const body = (await checkout.json()) as { checkoutUrl: string };
-  invariant(
-    new URL(body.checkoutUrl).origin === "https://checkout.stripe.com",
-    "CHECKOUT_ORIGIN_INVALID",
-  );
-  const linked = await sql(
-    `select session_id from commerce_private.checkout_intents where tenant_id='${tenant}'`,
-  );
-  invariant(
-    linked.length === 1 && /^cs_test_/.test(String(linked[0]?.session_id)),
-    "CHECKOUT_SESSION_INVALID",
-  );
-  session = String(linked[0]!.session_id);
-  manifest("checkout-created");
-  const unpaid = await stripe.checkout.sessions.retrieve(session);
-  invariant(
-    !unpaid.livemode &&
-      unpaid.amount_total === 99900 &&
-      unpaid.currency === "zar" &&
-      unpaid.payment_status === "unpaid",
-    "UNPAID_CHECKOUT_INVALID",
-  );
-  const lineage = await sql(`select id from commerce_private.checkout_intents
+  if (!supportOnly) {
+    if (medicalBridge) await prepareHostedBridgeIntake(bridgePorts);
+    const read = await request("/portal/order/command", { action: "read" }, "patient");
+    invariant(read.status === 200, "ORDER_READ_FAILED");
+    const review = orderReviewResultSchema.parse(await read.json()).review;
+    invariant(
+      review?.amountTotalMinor === 99900 && !review.acceptance && !review.checkoutEnabled,
+      "DEPOSIT_REVIEW_INVALID",
+    );
+    const accepted = await request(
+      "/portal/order/command",
+      {
+        action: "accept",
+        offerId: review.offerId,
+        publicationId: review.terms.publicationId,
+        snapshotHash: review.snapshotHash,
+        contentHash: review.terms.contentHash,
+        accepted: true,
+        requestKey: randomUUID(),
+      },
+      "patient",
+    );
+    invariant(
+      accepted.status === 200 &&
+        orderReviewResultSchema.parse(await accepted.json()).review?.checkoutEnabled,
+      "DEPOSIT_ACCEPTANCE_FAILED",
+    );
+    const checkout = await request(
+      "/portal/order/command",
+      {
+        action: "checkout",
+        offerId: review.offerId,
+        requestKey: randomUUID(),
+      },
+      "patient",
+    );
+    invariant(checkout.status === 200, "CHECKOUT_FAILED");
+    const body = (await checkout.json()) as { checkoutUrl: string };
+    invariant(
+      new URL(body.checkoutUrl).origin === "https://checkout.stripe.com",
+      "CHECKOUT_ORIGIN_INVALID",
+    );
+    const linked = await sql(
+      `select session_id from commerce_private.checkout_intents where tenant_id='${tenant}'`,
+    );
+    invariant(
+      linked.length === 1 && /^cs_test_/.test(String(linked[0]?.session_id)),
+      "CHECKOUT_SESSION_INVALID",
+    );
+    session = String(linked[0]!.session_id);
+    manifest("checkout-created");
+    const unpaid = await stripe.checkout.sessions.retrieve(session);
+    invariant(
+      !unpaid.livemode &&
+        unpaid.amount_total === 99900 &&
+        unpaid.currency === "zar" &&
+        unpaid.payment_status === "unpaid",
+      "UNPAID_CHECKOUT_INVALID",
+    );
+    const lineage = await sql(`select id from commerce_private.checkout_intents
     where tenant_id='${tenant}' and session_id='${session}'`);
-  invariant(
-    lineage.length === 1 &&
-      uuid.test(String(lineage[0]?.id)) &&
-      unpaid.client_reference_id === lineage[0]!.id &&
-      unpaid.metadata?.orderId === lineage[0]!.id &&
-      unpaid.metadata?.tenantId === tenant,
-    "OPAQUE_CHECKOUT_LINEAGE_INVALID",
-  );
-  // The management read-only role cannot execute this deliberately private function.
-  // Use the approved operator role for this SELECT only; do not broaden the function ACL.
-  const before = await sql(
-    `select not commerce_private.deposit_ready('${caseId}') as held,
+    invariant(
+      lineage.length === 1 &&
+        uuid.test(String(lineage[0]?.id)) &&
+        unpaid.client_reference_id === lineage[0]!.id &&
+        unpaid.metadata?.orderId === lineage[0]!.id &&
+        unpaid.metadata?.tenantId === tenant,
+      "OPAQUE_CHECKOUT_LINEAGE_INVALID",
+    );
+    // The management read-only role cannot execute this deliberately private function.
+    // Use the approved operator role for this SELECT only; do not broaden the function ACL.
+    const before = await sql(
+      `select not commerce_private.deposit_ready('${caseId}') as held,
     (select count(*)=0 from commerce_private.deposit_funding where tenant_id='${tenant}') as unfunded`,
-    false,
-  );
-  invariant(
-    before[0]?.held === true && before[0]?.unfunded === true,
-    "CHECKOUT_FABRICATED_PAYMENT",
-  );
-  writeFileSync(checkoutPath, JSON.stringify({ checkoutUrl: body.checkoutUrl }), { mode: 0o600 });
-  console.log(
-    JSON.stringify({
-      exercise: "sprint13-payment",
-      awaitingOfficialTestCheckout: true,
-      checkoutPath,
-    }),
-  );
-  const lines = createInterface({ input: process.stdin, terminal: false });
-  const timeout = setTimeout(() => lines.close(), 15 * 60 * 1000);
-  let confirmed = false;
-  for await (const line of lines)
-    if (line.trim() === "paid") {
-      confirmed = true;
-      break;
+      false,
+    );
+    invariant(
+      before[0]?.held === true && before[0]?.unfunded === true,
+      "CHECKOUT_FABRICATED_PAYMENT",
+    );
+    writeFileSync(checkoutPath, JSON.stringify({ checkoutUrl: body.checkoutUrl }), { mode: 0o600 });
+    console.log(
+      JSON.stringify({
+        exercise: "sprint13-payment",
+        awaitingOfficialTestCheckout: true,
+        checkoutPath,
+      }),
+    );
+    const lines = createInterface({ input: process.stdin, terminal: false });
+    const timeout = setTimeout(() => lines.close(), 15 * 60 * 1000);
+    let confirmed = false;
+    let failureConfirmed = false;
+    for await (const line of lines) {
+      if (recovery && line.trim() === "failed") {
+        const events = await stripe.events.list({
+          type: "payment_intent.payment_failed",
+          limit: 20,
+        });
+        const event = events.data.find((event) => {
+          const object = event.data.object as Stripe.PaymentIntent;
+          return !event.livemode && object.metadata?.orderId === lineage[0]!.id;
+        });
+        invariant(event, "RECOVERY_PROVIDER_DECLINE_UNPROVEN");
+        let received = false;
+        for (let attempt = 0; attempt < 18; attempt++) {
+          const proof = await sql(`select exists(select 1 from commerce_private.provider_receipts
+          where event_id='${event.id}' and account_id='${account}'
+          and event_type='payment_intent.payment_failed' and tenant_boundary='${tenant}') as received,
+          not exists(select 1 from commerce_private.deposit_funding where tenant_id='${tenant}') as unfunded`);
+          invariant(proof[0]?.unfunded === true, "RECOVERY_DECLINE_FABRICATED_FUNDING");
+          if (proof[0]?.received === true) {
+            received = true;
+            break;
+          }
+          await delay(5000);
+        }
+        invariant(received, "RECOVERY_SIGNED_DECLINE_MISSING");
+        failureConfirmed = true;
+        manifest("genuine-declined-payment-signed-receipt-unfunded");
+      }
+      if (line.trim() === "paid") {
+        invariant(
+          !recovery || !declineBeforeCapture || failureConfirmed,
+          "RECOVERY_DECLINE_PROOF_REQUIRED",
+        );
+        confirmed = true;
+        break;
+      }
     }
-  clearTimeout(timeout);
-  lines.close();
-  invariant(confirmed, "CHECKOUT_NOT_CONFIRMED");
-  const paid = await stripe.checkout.sessions.retrieve(session);
-  const paymentId =
-    typeof paid.payment_intent === "string" ? paid.payment_intent : paid.payment_intent?.id;
-  invariant(
-    !paid.livemode &&
-      paid.status === "complete" &&
-      paid.payment_status === "paid" &&
-      paid.amount_total === 99900 &&
-      paid.currency === "zar" &&
-      paymentId,
-    "CAPTURE_UNPROVEN",
-  );
-  let signed = false;
-  for (let attempt = 0; attempt < 18; attempt++) {
-    const result = await sql(`select exists(select 1 from commerce_private.checkout_intents i
+    clearTimeout(timeout);
+    lines.close();
+    invariant(confirmed, "CHECKOUT_NOT_CONFIRMED");
+    const paid = await stripe.checkout.sessions.retrieve(session);
+    const paymentId =
+      typeof paid.payment_intent === "string" ? paid.payment_intent : paid.payment_intent?.id;
+    invariant(
+      !paid.livemode &&
+        paid.status === "complete" &&
+        paid.payment_status === "paid" &&
+        paid.amount_total === 99900 &&
+        paid.currency === "zar" &&
+        paymentId,
+      "CAPTURE_UNPROVEN",
+    );
+    let signed = false;
+    for (let attempt = 0; attempt < 18; attempt++) {
+      const result = await sql(`select exists(select 1 from commerce_private.checkout_intents i
       join commerce_private.settlements s on s.intent_id=i.id
       join commerce_private.intent_payment_bindings b on b.intent_id=i.id
       join commerce_private.receipt_applications a on a.intent_id=i.id
@@ -755,47 +813,83 @@ try {
       and p.amount_minor=99900 and b.payment_intent_id='${paymentId}'
       and p.payment_intent_id=b.payment_intent_id and p.account_id='${account}'
       and f.amount_minor=99900) as signed`);
-    if (result[0]?.signed === true) {
-      signed = true;
-      break;
+      if (result[0]?.signed === true) {
+        signed = true;
+        break;
+      }
+      await delay(5000);
     }
-    await delay(5000);
-  }
-  invariant(signed, "GENUINE_SIGNED_FUNDING_MISSING");
-  const bridge = await sql(
-    `select commerce_private.deposit_ready('${caseId}') as deposit_ready,
+    invariant(signed, "GENUINE_SIGNED_FUNDING_MISSING");
+    const bridge = await sql(
+      `select commerce_private.deposit_ready('${caseId}') as deposit_ready,
     intake_private.review_payment_ready('${fixturePrefix}-0000-4000-8000-000000000003') as review_ready,
     (select count(*)=1 from commerce_private.deposit_funding where tenant_id='${tenant}') as exactly_one_funding,
     (select state='onboarding_pending' and version=6 from public.operations_cases where id='${caseId}') as no_advance,
     (select count(*)=0 from public.handoff_attempts where tenant_id='${tenant}') as no_transfer,
     (select count(*)=0 from public.fulfilment_cases where tenant_id='${tenant}') as no_supply`,
-    false,
-  );
-  invariant(
-    Object.values(bridge[0]!).every((value) => value === true),
-    "PAID_REVIEW_BRIDGE_INVALID",
-  );
-  for (const [role, path, payload] of [
-    ["patient", "/portal/payments/read", { cursor: null }],
-    ["operations", "/staff/payments/read", { cursor: null, caseId }],
-  ] as const) {
-    const response = await request(path, payload, role);
-    invariant(response.status === 200, "SETTLED_PROJECTION_FAILED");
-    const projection = paymentStatusPageSchema.parse(await response.json());
-    invariant(
-      projection.payments.length === 1 &&
-        projection.payments[0]?.scenario === "review_deposit" &&
-        projection.payments[0].status === "confirmed" &&
-        projection.payments[0].amountTotalMinor === 99900 &&
-        !projection.payments[0].requiresReview &&
-        !projection.payments[0].dispute &&
-        projection.payments[0].refundedMinor === 0,
-      "SETTLED_PROJECTION_FACTS_INVALID",
+      false,
     );
+    invariant(
+      Object.values(bridge[0]!).every((value) => value === true),
+      "PAID_REVIEW_BRIDGE_INVALID",
+    );
+    for (const [role, path, payload] of [
+      ["patient", "/portal/payments/read", { cursor: null }],
+      ["operations", "/staff/payments/read", { cursor: null, caseId }],
+    ] as const) {
+      const response = await request(path, payload, role);
+      invariant(response.status === 200, "SETTLED_PROJECTION_FAILED");
+      const projection = paymentStatusPageSchema.parse(await response.json());
+      invariant(
+        projection.payments.length === 1 &&
+          projection.payments[0]?.scenario === "review_deposit" &&
+          projection.payments[0].status === "confirmed" &&
+          projection.payments[0].amountTotalMinor === 99900 &&
+          !projection.payments[0].requiresReview &&
+          !projection.payments[0].dispute &&
+          projection.payments[0].refundedMinor === 0,
+        "SETTLED_PROJECTION_FACTS_INVALID",
+      );
+    }
+    if (medicalBridge) await runHostedPaidBridge(bridgePorts);
+    if (recovery) await runHostedRecoveryRefund(bridgePorts, review.offerId);
+    manifest("capture-signed-funding-paid-review-passed");
   }
-  if (medicalBridge) await runHostedPaidBridge(bridgePorts);
+  if (recovery)
+    await runHostedRecoverySupport(bridgePorts, async (name, args) => {
+      // Bootstrap verifyOtp mutates the Auth client's bearer. Never reuse it for
+      // service-role RPCs: create an independent client with no user session.
+      const serviceClient = createClient(
+        process.env.SUPABASE_URL!,
+        process.env.SUPABASE_SECRET_KEY!,
+        {
+          auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+        },
+      );
+      const result = await serviceClient.rpc(name, args).abortSignal(AbortSignal.timeout(20000));
+      invariant(!result.error, `RECOVERY_NOTIFICATION_RPC_${result.error?.code ?? "FAILED"}`);
+      return result.data as unknown;
+    });
+  if (recovery) {
+    invariant(
+      (await request("/staff/payments/read", { cursor: null, caseId }, "operations")).status ===
+        403,
+      "RECOVERY_REVOKED_WORKFORCE_ALLOWED",
+    );
+    invariant(
+      (await request("/account/sign-out", { action: "sign-out" }, "patient", true)).status === 204,
+      "RECOVERY_CLIENT_REVOCATION_FAILED",
+    );
+    const denied = await bridgePorts.portalRead();
+    invariant(
+      denied.status === 401 && (await denied.text()) === "",
+      "RECOVERY_REVOKED_CLIENT_DATA_EXPOSED",
+    );
+    actors.get("patient")!.cookie = undefined;
+    manifest("routed-client-revocation-workforce-denials-passed");
+  }
   passed = true;
-  manifest("capture-signed-funding-paid-review-passed");
+  manifest(recovery ? "recovery-packet-passed" : "capture-signed-funding-paid-review-passed");
 } catch (error) {
   console.error(
     error instanceof Error && /^[A-Z_0-9]+$/.test(error.message)
@@ -845,7 +939,9 @@ try {
         if (charge.amount_refunded < charge.amount) {
           let refund = await stripe.refunds.create(
             { payment_intent: paymentId, amount: charge.amount - charge.amount_refunded },
-            { idempotencyKey: `s13-${medicalBridge ? "5" : "4"}-cleanup-${session}` },
+            {
+              idempotencyKey: `s13-${recovery ? "6" : medicalBridge ? "5" : "4"}-cleanup-${session}`,
+            },
           );
           for (let attempt = 0; refund.status === "pending" && attempt < 18; attempt++) {
             await delay(5000);

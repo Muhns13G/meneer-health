@@ -42,6 +42,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run test:operations:rehearsal` runs nine fixed rollback-only local SQL suites, checking
   complete TAP results, baseline table counts and unchanged payment-adapter definitions. Never
   supply hosted environment configuration or copy its synthetic fixtures to hosted services.
+- `bun --no-env-file run test:recovery:rehearsal` runs the six fixed Sprint-13 recovery SQL suites
+  locally, comparing exact row/security/trigger/function fingerprints after each rollback. Both
+  runner layers disable dotenv autoload; inherited hosted/provider variables are rejected. Never
+  adapt its fixed container target to hosted or copy the local seed into hosted services.
 - `bun run test:notifications` runs a local-only eight-request shared-budget race using disposable
   synthetic notification fixtures, then restores journal counts and append-only triggers. It
   requires an empty local notification journal, rejects hosted variables and sends no emails.
