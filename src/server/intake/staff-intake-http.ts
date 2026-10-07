@@ -17,6 +17,15 @@ import { IdentityRejectedError } from "@/application/identity/managed-identity-p
 import { IdentitySessionRejectedError } from "@/application/identity/identity-session-repository";
 const purpose = z.enum(["medical_review", "medical_safety", "medical_transfer", "medical_rights"]);
 export const staffIntakeCommandSchema = z.discriminatedUnion("action", [
+  z
+    .object({
+      action: z.literal("prepare_transfer"),
+      intakeId: z.uuid(),
+      snapshotId: z.uuid(),
+      caseVersion: z.number().int().positive(),
+      requestKey: z.uuid(),
+    })
+    .strict(),
   z.object({ action: z.literal("list"), purpose }).strict(),
   z.object({ action: z.literal("read"), intakeId: z.uuid(), purpose }).strict(),
   z
@@ -248,7 +257,10 @@ export function createStaffIntakeHttpHandler(bindings: IntakeBindings) {
           p_context: c,
           p_approval_id: command.approvalId,
         });
-      else if (command.action === "record_transfer")
+      else if (command.action === "prepare_transfer") {
+        const { action: _action, ...input } = command;
+        reference = await call("prepare_medical_transfer", { p_context: c, p_command: input });
+      } else if (command.action === "record_transfer")
         reference = await call("record_medical_transfer", { p_context: c, p_command: command });
       else if (command.action === "reconcile_transfer")
         reference = await call("reconcile_medical_transfer", { p_context: c, p_command: command });
