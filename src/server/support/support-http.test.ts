@@ -146,6 +146,7 @@ it("checks principal limits and never returns false success or provider diagnost
   for (const [code, status] of [
     ["42501", 403],
     ["40001", 409],
+    ["PT409", 409],
     ["P0001", 429],
     ["unknown", 503],
   ] as const) {

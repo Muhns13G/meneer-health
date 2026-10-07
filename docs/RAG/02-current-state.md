@@ -167,6 +167,13 @@ staff VoiceOver/browser zoom close local 12.7 acceptance, distinct from client c
 Hosted support, debt reconciliation and sprint closure
 remain Tasks 12.8–12.10. TD-037/TD-038 remain Open.
 
+Task 12.8 is in progress: isolated hosted Auth/TOTP, emergency containment, request replay and
+wrong-purpose denial passed, followed by scoped cleanup. A business-conflict SQLSTATE `40001`
+caused PostgREST retries and HTTP timeouts. A narrowly guarded `PT409` migration and HTTP mapping
+fix pass 120 local SQL checks, nine HTTP tests and TypeScript, but await explicit hosted migration
+approval and owner deployment. Notification transport/failure/retry and remaining staff acceptance
+are not yet closed; see the Sprint-12.8 hosted rehearsal annexure.
+
 Current acceptance supersedes the historical checkpoints in this section. The final hosted run
 passed genuine pending-refund retry denial followed by exact full duplicate refund confirmation,
 retained original deposit/readiness and no supply advancement. Fixed rollback-only hosted packets

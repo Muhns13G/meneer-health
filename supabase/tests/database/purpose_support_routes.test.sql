@@ -83,12 +83,12 @@ select is((select count(*) from identity_private.support_cases),1::bigint,'one c
 select is((select count(*) from audit_private.transactional_notifications where source_kind='support'),1::bigint,'receipt intent atomic with case');
 select is(pg_temp.submit()->>'reference',(select id::text from request_reference),'retry returns exact case');
 select is((select count(*) from identity_private.support_cases),1::bigint,'replay creates no duplicate');
-select throws_ok($$select pg_temp.submit(pg_temp.req('complaint'))$$,'40001','SUPPORT_CONFLICT','changed replay rejected');
+select throws_ok($$select pg_temp.submit(pg_temp.req('complaint'))$$,'PT409','SUPPORT_CONFLICT','changed replay rejected');
 select is(pg_temp.submit('{"action":"read"}')->'requests'->0->>'state','received','recorded is not human acknowledgement');
 create function pg_temp.respond(n int default 1,act text default 'acknowledged',k uuid default 'f1350000-0000-4000-8000-000000000001') returns jsonb language sql as $$select public.staff_support_command(pg_temp.sc(n),jsonb_build_object('action',act,'reference',(select id from request_reference),'requestKey',k))$$;
 select throws_ok($$select pg_temp.respond(3)$$,'42501','SUPPORT_REJECTED','clinical owner cannot acknowledge privacy');
 select throws_ok($$select pg_temp.respond(5)$$,'42501','SUPPORT_REJECTED','operations cannot acknowledge privacy');
-select throws_ok($$select pg_temp.respond(act=>'resolved')$$,'40001','SUPPORT_CONFLICT','resolution requires acknowledgement first');
+select throws_ok($$select pg_temp.respond(act=>'resolved')$$,'PT409','SUPPORT_CONFLICT','resolution requires acknowledgement first');
 select throws_ok($test$do $$begin update auth.sessions set aal='aal1' where id=(select provider_session from support_actors where n=1);perform pg_temp.respond();end$$$test$,'42501','WORKFORCE_REJECTED','provider AAL1 denied');
 select throws_ok($test$do $$begin update public.tenant_memberships set status='revoked' where subject_id=(select subject_id from support_actors where n=1);perform pg_temp.respond();end$$$test$,'42501','WORKFORCE_REJECTED','revoked owner denied');
 set local role service_role;

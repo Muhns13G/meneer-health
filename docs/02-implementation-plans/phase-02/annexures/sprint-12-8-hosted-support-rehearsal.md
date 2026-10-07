@@ -32,6 +32,30 @@ or attachment was sent. Provider acceptance is not delivery or human acknowledge
 
 ## Remaining acceptance evidence
 
+### Authenticated checkpoint and blocking defect
+
+The isolated hosted rehearsal proved client sign-in, genuine staff TOTP/AAL2, email-only
+staff denial, authenticated emergency no-case/no-notification behaviour, complaint creation,
+same-request replay containment and wrong-purpose denial. The attempted resolution before
+acknowledgement correctly failed the SQL business guard, but returned HTTP 503 rather than 409.
+Direct RPC returned 504; the database guard reported SQLSTATE `40001`.
+
+Supabase documents that using `40001` for custom RPC business errors causes transaction retries:
+[official troubleshooting guidance](https://supabase.com/docs/guides/troubleshooting/high-cpu-and-infinite-transaction-retries-when-using-custom-error-codes-in-rpc-functions-77326b).
+The append-only `20261007033744_support_business_conflict_status.sql` changes only the seven
+intentional conflicts in the three support command functions to `PT409`, with guarded definition
+counts and unchanged owner, ACL, security-definer and search-path metadata. The HTTP adapter
+recognises `PT409`; existing conflict compatibility remains. Local verification passed both
+rollback-only support SQL suites (120 checks), the HTTP suite (nine tests), and TypeScript.
+This migration has **not** been applied to hosted Supabase; the HTTP change has **not** been
+deployed. Owner approval for the migration and owner deployment are required before resuming.
+
+Each completed hosted attempt revoked its test sessions, removed the isolated fixtures and
+verified the original empty support/Auth baseline with the real pilot still suspended. No
+production support coverage or durable transport acceptance is claimed. The guarded
+`scripts/test-hosted-support-rehearsal.ts` currently covers authenticated command boundaries,
+not notification transport; transport/failure/retry and alternate-owner completion remain below.
+
 The repeatable anonymous preflight is
 `HOSTED_SUPPORT_DENIALS_CONFIRM=canonical-anonymous-only bun run scripts/test-hosted-support-denials.ts`.
 Its five hosted checks passed: client read/request and staff command/follow-up deny anonymous

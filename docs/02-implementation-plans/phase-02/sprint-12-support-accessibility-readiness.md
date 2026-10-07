@@ -61,7 +61,7 @@ is not inferred from intercepted presentation checks.
 | 12.5  | Verify every live client form by keyboard, zoom/reflow, reduced motion, forced colours and representative assistive technology. | TD-037         | Completed (local)    |
 | 12.6  | Verify focus, progress, pending, success, failure and retry announcements across every live stepped/asynchronous journey.       | TD-038         | Completed (local)    |
 | 12.7  | Verify staff queue accessibility, masking, session timeout and error recovery on desktop and supported mobile widths.           | Staff UX       | Completed (local)    |
-| 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | Planned              |
+| 12.8  | Exercise support delivery, failure, acknowledgement, escalation and emergency boundaries using synthetic content.               | TD-043         | In progress          |
 | 12.9  | Reconcile TD-037, TD-038 and TD-043 only where live evidence satisfies their original acceptance criteria.                      | Debt           | Planned              |
 | 12.10 | Issue the Sprint 12 completion report and update RAG/registry evidence.                                                         | All            | Planned              |
 
