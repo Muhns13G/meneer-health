@@ -1,6 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { createHmac } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
+import { exerciseSupportTransport } from "./hosted-support-transport";
 
 // Explicitly authorised disposable rehearsal; credentials remain in memory.
 const origin = "https://meneerhealth.co.za";
@@ -240,24 +241,6 @@ try {
     console.log(
       JSON.stringify({ stage: "database-guard-diagnostic", guardCode: probe[0]?.guard_code }),
     );
-    const contexts = sql(
-      `select jsonb_build_object('tenantId','${tenant}','subjectId',s.subject_id,'sessionId',s.id,'providerSubject','${primary.id}','providerSessionId',s.provider_session_id,'verifiedEmail','${primary.email}','purpose','operations') as context from public.identity_sessions s where subject_id='${primary.subject}' order by issued_at desc limit 1;`,
-    );
-    const rpc = await client.rpc("staff_support_command", {
-      p_context: contexts[0]?.context,
-      p_command: {
-        action: "resolved",
-        reference: received.reference,
-        requestKey: crypto.randomUUID(),
-      },
-    });
-    console.log(
-      JSON.stringify({
-        stage: "provider-rpc-diagnostic",
-        rpcErrorCode: rpc.error?.code,
-        rpcStatus: rpc.status,
-      }),
-    );
   }
   invariant(premature.status === 409, `PREMATURE_RESOLUTION_STATUS_${premature.status}`);
   sql(
@@ -271,6 +254,17 @@ try {
     alternate,
   );
   invariant(resolve.status === 200, `RESOLVE_STATUS_${resolve.status}`);
+  if (process.env.HOSTED_SUPPORT_TRANSPORT_CONFIRM === "two-generic-emails-temporary-config") {
+    await exerciseSupportTransport({
+      client,
+      tenant,
+      patient,
+      alternate,
+      wrong: actors.get("wrong-purpose")!,
+      sql,
+      request,
+    });
+  }
   completed = true;
   console.log(
     JSON.stringify({
@@ -282,7 +276,8 @@ try {
       resolutionRequiresAcknowledgement: true,
       alternateEscalation: true,
       resolved: true,
-      notificationTransportProved: false,
+      notificationTransportProved:
+        process.env.HOSTED_SUPPORT_TRANSPORT_CONFIRM === "two-generic-emails-temporary-config",
       payloadLogged: false,
     }),
   );
@@ -300,6 +295,14 @@ try {
   const subjects = [...actors.values()].map((a) => a.subject).filter(Boolean);
   if (prepared) {
     const tables = [
+      "audit_private.notification_followup_actions",
+      "audit_private.notification_nonacceptance_evidence",
+      "audit_private.transactional_provider_deliveries",
+      "audit_private.transactional_message_bindings",
+      "audit_private.transactional_delivery_facts",
+      "audit_private.transactional_attempts",
+      "audit_private.transactional_dispatch",
+      "audit_private.transactional_suppressions",
       "audit_private.transactional_notifications",
       "identity_private.support_routes",
       "identity_private.support_cases",
@@ -315,6 +318,14 @@ try {
         where tgrelid in(${tableSql}) and not tgisinternal and (tgtype::int & 8)=8 and tgenabled='O';
       do $$declare r record;begin for r in select * from rehearsal_triggers loop
         execute format('alter table %s disable trigger %I',r.tgrelid::regclass,r.tgname);end loop;end$$;
+      delete from audit_private.notification_followup_actions where tenant_id='${tenant}';
+      delete from audit_private.notification_nonacceptance_evidence where notification_id in(select id from audit_private.transactional_notifications where tenant_id='${tenant}');
+      delete from audit_private.transactional_provider_deliveries where lease_id in(select a.lease_id from audit_private.transactional_attempts a join audit_private.transactional_notifications n on n.id=a.notification_id where n.tenant_id='${tenant}');
+      delete from audit_private.transactional_message_bindings where lease_id in(select a.lease_id from audit_private.transactional_attempts a join audit_private.transactional_notifications n on n.id=a.notification_id where n.tenant_id='${tenant}');
+      delete from audit_private.transactional_delivery_facts where lease_id in(select a.lease_id from audit_private.transactional_attempts a join audit_private.transactional_notifications n on n.id=a.notification_id where n.tenant_id='${tenant}');
+      delete from audit_private.transactional_attempts where notification_id in(select id from audit_private.transactional_notifications where tenant_id='${tenant}');
+      delete from audit_private.transactional_dispatch where notification_id in(select id from audit_private.transactional_notifications where tenant_id='${tenant}');
+      delete from audit_private.transactional_suppressions where tenant_id='${tenant}';
       delete from audit_private.transactional_notifications where tenant_id='${tenant}';
       delete from identity_private.support_responses where case_id in(select id from identity_private.support_cases where tenant_id='${tenant}');
       delete from identity_private.support_cases where tenant_id='${tenant}';
