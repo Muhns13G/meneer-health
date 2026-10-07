@@ -12,6 +12,10 @@ import {
   S3R2RecoveryArchiveStore,
 } from "../src/adapters/recovery/hosted-recovery-support";
 import { decryptRecoveryArchive } from "../src/application/recovery/recovery-archive";
+import {
+  readProductionRecoveryFingerprint,
+  restoreAndReconcileProductionLogicalDump,
+} from "../src/adapters/recovery/production-recovery-proof";
 import { runRecoveryExportJob } from "../src/application/recovery/recovery-job";
 
 const migrationDirectory = join(process.cwd(), "supabase", "migrations");
@@ -30,6 +34,10 @@ async function run(): Promise<void> {
   const environment = readHostedRecoveryEnvironment(process.env);
   const directory = mkdtempSync(join(tmpdir(), "meneer-hosted-recovery-"));
   try {
+    const productionFingerprint =
+      environment.RECOVERY_EXPORT_SOURCE === "production"
+        ? readProductionRecoveryFingerprint(environment.SUPABASE_DB_URL!, directory)
+        : undefined;
     const syntheticFixture =
       environment.RECOVERY_EXPORT_SOURCE === "synthetic"
         ? createSyntheticLogicalDump(directory)
@@ -38,6 +46,13 @@ async function run(): Promise<void> {
       environment.RECOVERY_EXPORT_SOURCE === "production"
         ? createProductionLogicalDump(environment.SUPABASE_DB_URL!, directory)
         : syntheticFixture!.payload;
+    if (
+      productionFingerprint &&
+      JSON.stringify(productionFingerprint) !==
+        JSON.stringify(readProductionRecoveryFingerprint(environment.SUPABASE_DB_URL!, directory))
+    ) {
+      throw new Error("HOSTED_RECOVERY_SOURCE_CHANGED_DURING_EXPORT");
+    }
     const checksum = createHash("sha256").update(payload).digest("hex");
     const backupId = randomUUID();
     const keyBytes = Uint8Array.from(
@@ -51,6 +66,7 @@ async function run(): Promise<void> {
     );
     let roundTripVerified = false;
     let syntheticObjectDeleted = false;
+    let restoredRecordCount: number | null = null;
     const outcome = await runRecoveryExportJob(
       {
         manifest: {
@@ -61,7 +77,9 @@ async function run(): Promise<void> {
           backupId,
           schemaVersion: latestSchemaVersion(),
           recordCounts: {
-            logical_archive: syntheticFixture?.recordCount ?? 1,
+            logical_archive:
+              syntheticFixture?.recordCount ??
+              productionFingerprint!.reduce((sum, table) => sum + table.count, 0),
             storage_objects: 0,
           },
           checksum,
@@ -72,42 +90,51 @@ async function run(): Promise<void> {
       },
       store,
       new HttpBackupHeartbeat(environment.BACKUP_HEARTBEAT_URL),
-      syntheticFixture
-        ? async ({ objectKey, serializedArchive }) => {
-            try {
-              const downloadedBody = await store.get(objectKey);
-              if (downloadedBody !== serializedArchive) {
-                throw new Error("HOSTED_RECOVERY_ARCHIVE_BODY_MISMATCH");
-              }
-              const restoredArchive = await decryptRecoveryArchive(
-                JSON.parse(downloadedBody),
-                keyBytes,
-              );
-              const restoredChecksum = createHash("sha256")
-                .update(restoredArchive.payload)
-                .digest("hex");
-              if (
-                restoredArchive.manifest.backupId !== backupId ||
-                restoredArchive.manifest.checksum !== checksum ||
-                restoredChecksum !== checksum
-              ) {
-                throw new Error("HOSTED_RECOVERY_ARCHIVE_RECONCILIATION_FAILED");
-              }
-              const restored = restoreAndReconcileSyntheticLogicalDump(
-                restoredArchive.payload,
-                syntheticFixture.fingerprint,
-                directory,
-              );
-              if (restored.recordCount !== syntheticFixture.recordCount) {
-                throw new Error("HOSTED_RECOVERY_RECORD_COUNT_MISMATCH");
-              }
-              roundTripVerified = true;
-            } finally {
-              await store.delete(objectKey);
-              syntheticObjectDeleted = true;
-            }
+      async ({ objectKey, serializedArchive }) => {
+        try {
+          const downloadedBody = await store.get(objectKey);
+          if (downloadedBody !== serializedArchive) {
+            throw new Error("HOSTED_RECOVERY_ARCHIVE_BODY_MISMATCH");
           }
-        : undefined,
+          const restoredArchive = await decryptRecoveryArchive(
+            JSON.parse(downloadedBody),
+            keyBytes,
+          );
+          const restoredChecksum = createHash("sha256")
+            .update(restoredArchive.payload)
+            .digest("hex");
+          if (
+            restoredArchive.manifest.backupId !== backupId ||
+            restoredArchive.manifest.checksum !== checksum ||
+            restoredChecksum !== checksum
+          ) {
+            throw new Error("HOSTED_RECOVERY_ARCHIVE_RECONCILIATION_FAILED");
+          }
+          if (syntheticFixture) {
+            const restored = restoreAndReconcileSyntheticLogicalDump(
+              restoredArchive.payload,
+              syntheticFixture.fingerprint,
+              directory,
+            );
+            if (restored.recordCount !== syntheticFixture.recordCount) {
+              throw new Error("HOSTED_RECOVERY_RECORD_COUNT_MISMATCH");
+            }
+            restoredRecordCount = restored.recordCount;
+          } else {
+            restoredRecordCount = restoreAndReconcileProductionLogicalDump(
+              restoredArchive.payload,
+              productionFingerprint!,
+              directory,
+            );
+          }
+          roundTripVerified = true;
+        } finally {
+          if (syntheticFixture) {
+            await store.delete(objectKey);
+            syntheticObjectDeleted = true;
+          }
+        }
+      },
     );
     if (!outcome.heartbeatDelivered) throw new Error("HOSTED_RECOVERY_HEARTBEAT_FAILED");
     console.log(
@@ -117,7 +144,7 @@ async function run(): Promise<void> {
         encrypted: true,
         durableWrite: true,
         roundTripVerified,
-        restoredRecordCount: syntheticFixture?.recordCount ?? null,
+        restoredRecordCount,
         syntheticObjectDeleted,
         heartbeatPayloadFields: 0,
       }),

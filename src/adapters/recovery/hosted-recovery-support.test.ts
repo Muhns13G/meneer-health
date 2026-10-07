@@ -28,6 +28,19 @@ describe("hosted recovery support", () => {
   it("includes private commerce in governed logical exports", () => {
     expect(governedRecoverySchemas).toContain("commerce_private");
   });
+  it("includes every governed application schema in the export", () => {
+    expect([...governedRecoverySchemas].sort()).toEqual([
+      "audit_private",
+      "commerce_private",
+      "fulfilment_private",
+      "identity_private",
+      "intake_private",
+      "lifecycle_private",
+      "measurement_private",
+      "payments_private",
+      "public",
+    ]);
+  });
   it("accepts a complete synthetic configuration without a database credential", () => {
     expect(readHostedRecoveryEnvironment(validEnvironment)).toMatchObject({
       RECOVERY_EXPORT_SOURCE: "synthetic",
@@ -59,15 +72,30 @@ describe("hosted recovery support", () => {
   it("runs a PostgreSQL 17 custom-format dump without placing the URL in arguments", () => {
     const directory = mkdtempSync(join(tmpdir(), "meneer-dump-test-"));
     const command = vi.fn<CommandRunner>((_executable, args, options) => {
-      expect(args).not.toContain("postgresql://secret.invalid/database");
-      expect(options.env?.PGDATABASE).toBe("postgresql://secret.invalid/database");
+      expect(args).not.toContain(
+        "postgresql://synthetic:password@secret.invalid/database?sslmode=require",
+      );
+      expect(args).not.toContain("password");
+      expect(options.env).toMatchObject({
+        PGHOST: "secret.invalid",
+        PGPORT: "5432",
+        PGUSER: "synthetic",
+        PGPASSWORD: "password",
+        PGDATABASE: "database",
+        PGSSLMODE: "require",
+        PGCONNECT_TIMEOUT: "15",
+      });
       writeFileSync(join(directory, "recovery.dump"), "synthetic dump");
       return "";
     });
     try {
       expect(
         new TextDecoder().decode(
-          createProductionLogicalDump("postgresql://secret.invalid/database", directory, command),
+          createProductionLogicalDump(
+            "postgresql://synthetic:password@secret.invalid/database?sslmode=require",
+            directory,
+            command,
+          ),
         ),
       ).toBe("synthetic dump");
       expect(command).toHaveBeenCalledOnce();
