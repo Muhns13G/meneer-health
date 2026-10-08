@@ -54,8 +54,9 @@ The [14.1 contract](annexures/sprint-14-1-mobile-invitation-contract.md) records
 links, message direction and proposed 30-day unconverted-contact/90-day minimal-audit defaults.
 The owner subsequently approves unique participant links plus email verification, with one active
 invitation per tenant/phone, no extra SMS code or routine staff approval, and staff review only for
-duplicate/mismatched contacts or existing-account conflicts. The contract is complete; 14.2 local
-schema work is next. No hosted SMS send is authorised. Sprint 13 blockers remain tracked separately.
+duplicate/mismatched contacts or existing-account conflicts. The contract is complete; the
+[14.2 foundation](annexures/sprint-14-2-private-mobile-invitation-foundation.md) records local private
+schema implementation and validation. No hosted SMS send is authorised. Sprint 13 blockers remain tracked separately.
 
 - Private tenant-scoped register: given/family names, normalized E.164 phone number, provenance,
   contact-authority evidence, responsible staff member, state and expiry. No medical answers,
@@ -92,7 +93,7 @@ schema work is next. No hosted SMS send is authorised. Sprint 13 blockers remain
 | Task  | Outcome                                                                                            | Acceptance boundary                                                                                                                                                            |
 | ----- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 14.1  | Completed: mobile invitation, binding, wording, retention and threat contract.                     | Unique link plus verified email; exceptions to staff; production sending/spend off pending provider proof.                                                                     |
-| 14.2  | Add private pre-email register, token digests, versions, expiry/revocation and journal migrations. | RLS/ACL/tenant isolation, no raw token persistence, collision/expiry/replay tests; local only.                                                                                 |
+| 14.2  | Completed locally: private register, token/claim digests, versions, expiry/revocation and journal. | RLS/ACL/tenant isolation, no raw token columns, collision/expiry/replay and retention tests; no hosted migration or sending.                                                   |
 | 14.3  | Add AAL2 staff create/review/send/resend/revoke commands and minimal register UI.                  | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
 | 14.4  | Add server-only Telnyx sender port/adapter and bounded durable delivery intents.                   | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                                 |
 | 14.5  | Add attributed delivery webhook and reconciliation/support views.                                  | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                                       |
@@ -108,7 +109,8 @@ message, migration or activation is authorised by this planning document.
 
 ## Readiness and Release Gates
 
-14.1 is completed at its contract boundary; 14.2 local implementation is ready. Parallel work does not
+14.1 is completed at its contract boundary; 14.2 is completed at its local schema boundary. 14.3
+governed staff commands/UI are next. Parallel work does not
 waive unfinished Sprint 13 quality/debt/release checks. Telnyx capability/cost inspection can be
 read-only; operational sends need explicit authority and a controlled recipient.
 

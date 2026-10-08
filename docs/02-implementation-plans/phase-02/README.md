@@ -25,13 +25,14 @@ Task [14.1](annexures/sprint-14-1-mobile-invitation-contract.md) is completed at
 to complete Sprint 14 before returning to the launch blockers, not to waive them. Message direction
 and proposed unconverted-contact/audit retention defaults are approved; unique-link plus verified
 email is selected without a second SMS challenge or routine staff confirmation. Duplicate/account
-conflicts go to staff exceptions. Local 14.2 implementation is next; no provider send has begun.
+conflicts go to staff exceptions. The [14.2 private foundation](annexures/sprint-14-2-private-mobile-invitation-foundation.md)
+is implemented and verified locally; 14.3 staff commands/UI are next. No hosted migration or provider send has begun.
 
 [Sprint 14 — Mobile Pilot Invitations](sprint-14-mobile-pilot-invitations.md) is planned as ten
 commit-sized tasks. Staff will register minimal participant contact details, send a governed
 Telnyx SMS invitation, and let participants supply and verify their own email. Invitation links
-last 48 hours; six-digit email OTPs remain valid for 15 minutes. This is approved direction, not
-implemented or activated functionality. Sprint 13's remaining evidence and release gates still
+last 48 hours; six-digit email OTPs remain valid for 15 minutes. The local storage foundation is
+implemented; delivery/redemption/conversion are not yet an operational channel. Sprint 13's remaining evidence and release gates still
 apply; final Phase 02 closure must include Sprint 14 if this onboarding extension is adopted.
 
 ## Current Delivery Checkpoint — 7 October 2026
