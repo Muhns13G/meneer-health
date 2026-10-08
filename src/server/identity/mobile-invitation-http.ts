@@ -15,6 +15,15 @@ import { inspectProtectedFormRequest } from "@/server/security/request-security"
 import { workforceServiceFor } from "./workforce-http";
 import { openWorkforceProof } from "./workforce-session-cookie";
 import type { PatientSessionBindings } from "./patient-session-http";
+import { mobileDeliveryRequestSchema } from "@/application/identity/mobile-invitation-delivery";
+import { SupabaseMobileDeliveryRepository } from "@/adapters/identity/supabase/supabase-mobile-delivery-repository";
+import { TelnyxMobileInvitationSender } from "@/adapters/identity/telnyx/telnyx-mobile-invitation-sender";
+import { readMobileDeliveryConfiguration } from "./mobile-invitation-delivery-config";
+import { readMobileReceiptConfiguration } from "./mobile-invitation-receipts";
+import { dispatchMobileInvitation } from "./mobile-invitation-delivery-service";
+import type { MobileDeliveryRequest } from "@/application/identity/mobile-invitation-delivery";
+import type { ProviderIdentity } from "@/domain/access/identity";
+import type { WorkforceProof } from "@/application/identity/workforce-session-service";
 
 function response(status: number, body?: unknown) {
   return new Response(body === undefined ? null : JSON.stringify(body), {
@@ -29,10 +38,24 @@ function response(status: number, body?: unknown) {
   });
 }
 export function createMobileInvitationHttpHandler(
-  bindings: PatientSessionBindings,
+  bindings: PatientSessionBindings & {
+    MOBILE_INVITATIONS_MODE?: unknown;
+    MOBILE_INVITATIONS_DELIVERY_READY?: unknown;
+    MOBILE_INVITATIONS_WEBHOOK_MODE?: unknown;
+    MOBILE_INVITATIONS_TENANT_ID?: unknown;
+    TELNYX_API_KEY?: unknown;
+    TELNYX_PUBLIC_KEY_BASE64?: unknown;
+    TELNYX_MESSAGING_PROFILE_ID?: unknown;
+    TELNYX_FROM_NUMBER?: unknown;
+  },
   injected?: {
     workforce: Pick<WorkforceSessionService, "authorise">;
     repository: Pick<SupabaseMobileInvitationRepository, "read" | "command">;
+    dispatch?: (
+      request: MobileDeliveryRequest,
+      identity: ProviderIdentity,
+      proof: WorkforceProof,
+    ) => ReturnType<typeof dispatchMobileInvitation>;
   },
 ) {
   return async (request: Request) => {
@@ -40,9 +63,11 @@ export function createMobileInvitationHttpHandler(
     if (
       url.search ||
       !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname) ||
-      !["/staff/mobile-invitations/read", "/staff/mobile-invitations/command"].includes(
-        url.pathname,
-      )
+      ![
+        "/staff/mobile-invitations/read",
+        "/staff/mobile-invitations/command",
+        "/staff/mobile-invitations/dispatch",
+      ].includes(url.pathname)
     )
       return response(404);
     const inspected = await inspectProtectedFormRequest(request, {
@@ -55,9 +80,10 @@ export function createMobileInvitationHttpHandler(
       return response(422);
     const fields = Object.fromEntries(inspected.value);
     const reading = url.pathname.endsWith("/read");
+    const dispatching = url.pathname.endsWith("/dispatch");
     const parsed = reading
       ? null
-      : mobileInvitationCommandSchema.safeParse({
+      : (dispatching ? mobileDeliveryRequestSchema : mobileInvitationCommandSchema).safeParse({
           ...fields,
           ...(Object.hasOwn(fields, "expectedVersion")
             ? {
@@ -88,6 +114,22 @@ export function createMobileInvitationHttpHandler(
         injected?.workforce ?? workforceServiceFor(bindings)
       ).authorise(proof);
       if (context.role !== "operations" || context.purpose !== "operations") return response(403);
+      const input = bindings as unknown as Record<string, unknown>;
+      const receiptConfig = readMobileReceiptConfiguration(input);
+      const deliveryConfig =
+        input.MOBILE_INVITATIONS_MODE === "telnyx" &&
+        input.MOBILE_INVITATIONS_DELIVERY_READY === "true"
+          ? readMobileDeliveryConfiguration(input)
+          : null;
+      const ready =
+        !!deliveryConfig &&
+        !!receiptConfig &&
+        deliveryConfig.MOBILE_INVITATIONS_TENANT_ID === context.tenantId &&
+        receiptConfig.MOBILE_INVITATIONS_TENANT_ID ===
+          deliveryConfig.MOBILE_INVITATIONS_TENANT_ID &&
+        receiptConfig.TELNYX_MESSAGING_PROFILE_ID === deliveryConfig.TELNYX_MESSAGING_PROFILE_ID &&
+        receiptConfig.TELNYX_FROM_NUMBER === deliveryConfig.TELNYX_FROM_NUMBER;
+      if (dispatching && (!ready || (injected && !injected.dispatch))) return response(503);
       const config = injected
         ? undefined
         : initialiseServerEnvironment({
@@ -95,19 +137,34 @@ export function createMobileInvitationHttpHandler(
             SUPABASE_SECRET_KEY: bindings.SUPABASE_SECRET_KEY,
           }).environment.supabase;
       if (!injected && !config) return response(503);
-      const repository =
-        injected?.repository ??
-        new SupabaseMobileInvitationRepository(
-          createClient(config!.url, config!.secretKey, {
+      const client = config
+        ? createClient(config.url, config.secretKey, {
             auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
-          }),
-        );
-      const result = response(
-        200,
-        reading
+          })
+        : null;
+      const repository = injected?.repository ?? new SupabaseMobileInvitationRepository(client!);
+      const body = dispatching
+        ? injected?.dispatch
+          ? await injected.dispatch(
+              mobileDeliveryRequestSchema.parse(parsed!.data),
+              identity,
+              proof,
+            )
+          : await dispatchMobileInvitation(
+              mobileDeliveryRequestSchema.parse(parsed!.data),
+              deliveryConfig!,
+              new SupabaseMobileDeliveryRepository(client!, identity, proof),
+              new TelnyxMobileInvitationSender(deliveryConfig!),
+            )
+        : reading
           ? await repository.read(identity, proof, fields.afterId || null)
-          : await repository.command(identity, proof, parsed!.data!),
-      );
+          : await repository.command(
+              identity,
+              proof,
+              mobileInvitationCommandSchema.parse(parsed!.data),
+            );
+      if (reading && "sendingEnabled" in body) body.sendingEnabled = body.sendingEnabled && ready;
+      const result = response(200, body);
       result.headers.set(
         "X-Session-Expires-At",
         new Date(

@@ -49,6 +49,12 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/staff/mobile-invitations", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/staff/mobile-invitations/read", routeClass: "internal", indexing: "noindex-nofollow" },
   {
+    path: "/staff/mobile-invitations/dispatch",
+    routeClass: "internal",
+    indexing: "noindex-nofollow",
+  },
+  { path: "/api/invitations/telnyx/webhook", routeClass: "internal", indexing: "noindex-nofollow" },
+  {
     path: "/staff/mobile-invitations/command",
     routeClass: "internal",
     indexing: "noindex-nofollow",

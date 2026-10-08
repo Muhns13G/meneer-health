@@ -24,6 +24,14 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-14-5",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-5-attributed-mobile-delivery.md",
+      "status": "completed-local-receipt-boundary",
+      "authority": "local-callback-command-and-rollback-evidence",
+      "priority": 1,
+      "topics": ["sprint-14", "invitations", "telnyx", "receipts", "reconciliation"]
+    },
+    {
       "id": "phase-02-sprint-14-4",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-4-mobile-delivery-intents.md",
       "status": "completed-local-delivery-boundary",

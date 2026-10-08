@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
+import { z } from "zod";
+import type { MobileDeliveryRequest } from "@/application/identity/mobile-invitation-delivery";
 import {
   mobileInvitationCommandSchema,
   mobileInvitationPageSchema,
@@ -21,7 +23,7 @@ function failure(status: number) {
   if (status === 409)
     return "Invitation changed or contact conflicts. Refresh and review; do not resend blindly.";
   if (status === 429)
-    return "Reservation or request limit reached. No SMS was sent. Wait or ask the scope owner.";
+    return "Reservation or request limit reached. Refresh before another action; ask the scope owner.";
   return "Invitation register unavailable. No private records are displayed.";
 }
 
@@ -50,14 +52,24 @@ export function StaffMobileInvitationsPage() {
     setMessage(failure(401));
   }, [clearPrivate]);
   const load = useCallback(
-    async (afterId: string | null = null, command?: MobileInvitationCommand) => {
+    async (
+      afterId: string | null = null,
+      command?: MobileInvitationCommand,
+      dispatch?: MobileDeliveryRequest,
+    ) => {
       requestRef.current?.abort();
       const controller = new AbortController();
       requestRef.current = controller;
       const current = ++sequence.current;
       setBusy(true);
       clearPrivate();
-      setMessage(command ? "Recording invitation command…" : "Loading invitation register…");
+      setMessage(
+        dispatch
+          ? "Submitting one delivery attempt…"
+          : command
+            ? "Recording invitation command…"
+            : "Loading invitation register…",
+      );
       const post = (path: string, fields: Record<string, string>) =>
         fetch(`/staff/mobile-invitations/${path}`, {
           method: "POST",
@@ -68,6 +80,27 @@ export function StaffMobileInvitationsPage() {
           body: new URLSearchParams(fields),
         });
       try {
+        if (dispatch) {
+          const sent = await post(
+            "dispatch",
+            Object.fromEntries(
+              Object.entries(dispatch).map(([key, value]) => [key, String(value)]),
+            ),
+          );
+          if (current !== sequence.current) return;
+          if (!sent.ok) {
+            setMessage(
+              "Delivery result unavailable. Refresh and review before any replacement; no automatic retry.",
+            );
+            return;
+          }
+          z.object({
+            attemptId: z.uuid().optional(),
+            outcome: z.enum(["accepted", "failed", "uncertain", "already_attempted", "disabled"]),
+          })
+            .strict()
+            .parse(await sent.json());
+        }
         if (command) {
           const response = await post(
             "command",
@@ -103,14 +136,16 @@ export function StaffMobileInvitationsPage() {
         timer.current = setTimeout(expire, Math.min(expires - Date.now(), 900_000));
         setPage(parsed);
         setMessage(
-          command
-            ? "Command recorded. Register refreshed. No SMS was sent."
-            : `${parsed.invitations.length} invitations shown. Phone numbers remain masked. Sending is not connected.`,
+          dispatch
+            ? "Delivery attempt recorded. Provider delivery is not participant acceptance. Review the refreshed status; no automatic retry."
+            : command
+              ? "Command recorded. Register refreshed. No SMS was sent."
+              : `${parsed.invitations.length} invitations shown. Phone numbers remain masked. ${parsed.sendingEnabled ? "One-shot sending configured." : "Sending disabled."}`,
         );
       } catch {
         if (current === sequence.current && !controller.signal.aborted)
           setMessage(
-            command
+            command || dispatch
               ? "Command result uncertain. Refresh before taking another action. No automatic retry was sent."
               : failure(503),
           );
@@ -184,7 +219,7 @@ export function StaffMobileInvitationsPage() {
       <h1 className="font-serif text-4xl">Mobile pilot invitations</h1>
       <p className="mt-4 text-muted-foreground">
         Prepare only expected pilot invitations. A reservation is not an SMS, delivery, registration
-        or consent. Sending is not connected yet.
+        or consent. Sending requires explicit channel readiness and a bounded reservation.
       </p>
       <nav aria-label="Staff navigation" className="my-5 flex flex-wrap gap-5">
         <a href="/staff/sign-in" className="underline">
@@ -276,10 +311,20 @@ export function StaffMobileInvitationsPage() {
                   <p className="my-3">
                     Phone {row.maskedPhone}. Status: {row.status}. Version {row.version}.{" "}
                     {row.reviewed ? "Reviewed." : "Review required."}{" "}
-                    {row.sendReserved
-                      ? "Send reserved; no SMS dispatch in this task."
-                      : "No send reservation."}
+                    {row.sendReserved ? "Send reserved." : "No send reservation."}
                   </p>
+                  {row.delivery ? (
+                    <p>
+                      Delivery: {row.delivery.status.replaceAll("_", " ")}. This is not invitation
+                      acceptance.
+                      {row.delivery.budgetReview
+                        ? " Cost exceeded its reservation; scope-owner review required."
+                        : " Reserved spend remains held."}
+                      {["uncertain", "conflict", "failed"].includes(row.delivery.status)
+                        ? " Refresh and investigate before an explicit replacement; do not resend blindly."
+                        : ""}
+                    </p>
+                  ) : null}
                   {row.expiresAt ? (
                     <p>
                       Link expiry:{" "}
@@ -290,6 +335,25 @@ export function StaffMobileInvitationsPage() {
                   ) : null}
                   {!terminal ? (
                     <div className="mt-4 flex flex-wrap gap-3">
+                      {page.sendingEnabled && row.dispatchRequestKey && row.status === "draft" ? (
+                        <button
+                          className={buttonClass}
+                          disabled={busy || !confirmed}
+                          onClick={() => {
+                            if (deadline.current <= Date.now()) {
+                              expire();
+                              return;
+                            }
+                            void load(null, undefined, {
+                              invitationId: row.id,
+                              expectedVersion: row.version,
+                              reservationRequestKey: row.dispatchRequestKey!,
+                            });
+                          }}
+                        >
+                          Send one invitation SMS for {row.givenName}
+                        </button>
+                      ) : null}
                       {row.status === "draft" && !row.reviewed ? (
                         <button
                           className={buttonClass}
