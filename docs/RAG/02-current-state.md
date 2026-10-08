@@ -127,7 +127,24 @@ sources:
 
 # Meneer v1 Verified Current State
 
-## Sprint 13.8 — Quality Matrix In Progress
+## Sprint 13.9 — Debt Reconciliation Completed
+
+Pre-13.10 [gap remediation](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md)
+is now in progress. TD-064/065 are In progress, not Verified. A guarded local 21-function conflict
+correction is prepared; hosted approval/deployment/proof remain separate. The owner requires new
+optional private blood-result uploads before launch and does not accept an onboarding-only reduction.
+Mansoer/Mikhail are appointed operational primary/alternate; Tasneem/Dr Ziyaad Noor are nominated
+clinical lead/alternate, without inferred registration or agreement proof. Internal
+[notice drafts](../05-future-considerations/pilot-notices-review-drafts.md) are unapproved and unpublished.
+
+The [13.9 packet](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md)
+accounts for every registry ID. TD-006/007/009/010 remain In progress; TD-037/038/043 remain Open
+against their original criteria despite representative 13.8 acceptance. TD-064 registers residual
+intentional serialization-code conflicts; TD-065 registers Auth/private Storage recovery coverage.
+Totals: **65 items, 56 Verified, nine non-Verified**. Historical totals below predate this review.
+13.10 remains planned; real intake, live payments and generator activation are not authorised.
+
+## Sprint 13.8 — Completed with Owner Accessibility Acceptance
 
 The [13.8 packet](../02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md)
 records fresh local static/build, 954 Node-22 unit tests, 1,599 SQL assertions, serialized integration,
@@ -136,9 +153,12 @@ incident/encrypted recovery and hosted anonymous-denial/header/media checks. Bro
 for all 280 distinct cases without relabelling the original run. Baseline CI passes on all three
 branches. The browser harness excludes dotenv autoload and uses the Node runtime; callers must also
 exclude inherited hosted credentials. Mansoer Gallie freshly confirms desktop VoiceOver, actual
-200%/400% browser zoom and phone screen-reader checks. Exact reviewed-release/device mapping and
-individual private-flow observations remain unrecorded; previous Sprint-12 confirmations are not
-carried forward. Exact committed task-change CI is also pending. Task 13.7 is now independently
+200%/400% browser zoom and phone screen-reader checks on both local development and the latest
+canonical deployment. Task 13.8 is completed on this owner-attested basis. Exact device/Worker
+versions and individual private-flow observations remain unrecorded for 13.9's evidence review;
+previous Sprint-12 confirmations are not carried forward. The owner confirms committed task-change
+CI passes; the previously verified clean checkout is
+`itws-I` at `2b8d199360e44c6ec2c9e68505958c4502c0896e`. Task 13.7 is now independently
 closed at its agreed initial threshold; no pilot or generator activation is implied.
 
 ## Sprint 14 — Approved Direction, Implementation Not Started

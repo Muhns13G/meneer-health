@@ -8,6 +8,35 @@ import {
 import type Stripe from "stripe";
 import type { SupabaseClient } from "@supabase/supabase-js";
 const id = "a3100000-0000-4000-8000-000000000001";
+it.each(["PT409", "40001", "23505"])(
+  "does not create a provider Checkout after database conflict %s",
+  async (code) => {
+    const rpc = vi.fn(async () => ({ data: null, error: { code } }));
+    const create = vi.fn();
+    const commands = createPilotCheckoutCommands(
+      { rpc } as unknown as SupabaseClient,
+      "acct_synthetic12345",
+      { create } as unknown as PilotCheckoutProvider,
+    );
+    await expect(
+      commands.checkout(
+        {
+          tenantId: id,
+          subjectId: id,
+          sessionId: id,
+          providerSubject: id,
+          providerSessionId: id,
+          verifiedEmail: "checkout@example.invalid",
+          purpose: "account",
+        },
+        id,
+        id,
+      ),
+    ).rejects.toThrow("COMMERCE_CONFLICT");
+    expect(rpc).toHaveBeenCalledOnce();
+    expect(create).not.toHaveBeenCalled();
+  },
+);
 const intent: CheckoutIntent = {
   intentId: id,
   tenantId: id,

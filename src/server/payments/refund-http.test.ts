@@ -4,6 +4,14 @@ import { IdentityRejectedError } from "@/application/identity/managed-identity-p
 import { executeWithRequestTimeout } from "@/server/security/request-security";
 import { readFileSync } from "node:fs";
 const id = "a4700000-0000-4000-8000-000000000001";
+it("returns a non-retryable conflict without dispatching a refund", async () => {
+  const h = setup();
+  h.deps.command.mockRejectedValueOnce(new Error("REFUND_CONFLICT"));
+  const response = await h.handler(h.request({ action: "read", offerId: id }));
+  expect(response.status).toBe(409);
+  expect(await response.text()).not.toContain("REFUND_CONFLICT");
+  expect(h.deps.provider.submit).not.toHaveBeenCalled();
+});
 it.each(["/portal/payments/refund", "/staff/payments/refund"])(
   "reads the transferred JSON body through the timeout boundary at %s",
   async (path) => {

@@ -118,7 +118,7 @@ select lives_ok($$select pg_temp.observe(23)$$,'duplicate observation idempotent
 select is((select count(*) from commerce_private.duplicate_captures),1::bigint,'one immutable duplicate capture');
 create temporary table duplicate_job as select id from commerce_private.refund_jobs where duplicate_capture_id is not null;
 select lives_ok($$select pg_temp.command(23,'dispatch',jsonb_build_object('refundId',(select id from duplicate_job)))$$,'duplicate refund claims original extra PaymentIntent');
-select throws_ok($$select pg_temp.command(23,'retry',jsonb_build_object('refundId',(select id from duplicate_job)))$$,'40001','REFUND_RECONCILIATION_REQUIRED','uncertain refund cannot be retried');
+select throws_ok($$select pg_temp.command(23,'retry',jsonb_build_object('refundId',(select id from duplicate_job)))$$,'PT409','REFUND_RECONCILIATION_REQUIRED','uncertain refund cannot be retried');
 select lives_ok($$select pg_temp.event(23,'evt_duplicateaggregate123','charge.refunded','{"paymentIntentId":"pi_extra12345678","refundMinor":99900}')$$,'duplicate aggregate refund held before exact job confirmation');
 select ok(not commerce_private.deposit_ready('a3000000-0000-4000-8000-000000000023'),'aggregate alone cannot clear retained funding hold');
 select lives_ok($$select pg_temp.event(23,'evt_duplicaterefund123','refund.updated',jsonb_build_object('intentId',null,'tenantId',null,'sessionId',null,'paymentIntentId','pi_extra12345678','refundId','re_extra12345678','refundReference',(select id from duplicate_job),'refundStatus','succeeded'))$$,'independent signed refund confirms exact duplicate');
@@ -155,7 +155,7 @@ select ok(commerce_private.deposit_ready('a3000000-0000-4000-8000-000000000024')
 select lives_ok($$select pg_temp.event(24,'evt_disputeolder12345','charge.dispute.updated','{"disputeId":"dp_won12345678","disputeStatus":"under_review"}',-1)$$,'older open dispute cannot overwrite observed win');
 select ok(commerce_private.deposit_ready('a3000000-0000-4000-8000-000000000024'),'older open fact remains harmless only against exact terminal lineage');
 select lives_ok($$select pg_temp.event(24,'evt_disputewon12345','charge.dispute.closed','{"disputeId":"dp_won12345678","disputeStatus":"won"}',1)$$,'exact terminal dispute replay is idempotent');
-select throws_ok($$select pg_temp.command(24,'record_exception',jsonb_build_object('reference',(select e.id from commerce_private.provider_exceptions e where e.event_id='evt_disputeolder12345'),'kind','dispute','eventId','evt_disputeolder12345'))$$,'40001','RECONCILIATION_OBSERVATION_STALE','stale independent observation cannot resolve newer evidence');
+select throws_ok($$select pg_temp.command(24,'record_exception',jsonb_build_object('reference',(select e.id from commerce_private.provider_exceptions e where e.event_id='evt_disputeolder12345'),'kind','dispute','eventId','evt_disputeolder12345'))$$,'PT409','RECONCILIATION_OBSERVATION_STALE','stale independent observation cannot resolve newer evidence');
 select lives_ok($$select pg_temp.event(25,'evt_disputelost1234','charge.dispute.closed','{"disputeId":"dp_lost12345678","disputeStatus":"lost"}')$$,'signed lost outcome recorded');
 select lives_ok($$select pg_temp.observe(25)$$,'lost outcome reconciled without inferring retained funds');
 select ok(not commerce_private.deposit_ready('a3000000-0000-4000-8000-000000000025'),'lost dispute remains monetary hold');
@@ -165,7 +165,7 @@ select ok(not commerce_private.deposit_ready('a3000000-0000-4000-8000-0000000000
 delete from commerce_private.deposit_funding where case_id='a3000000-0000-4000-8000-000000000027';
 update commerce_private.settlements s set paid_confirmed=false from commerce_private.checkout_intents i where i.id=s.intent_id and i.offer_id=(select offer from completion_orders where n=27);
 select lives_ok($$select pg_temp.event(27,'evt_expireddeposit123','checkout.session.expired','{"paymentStatus":"unpaid"}')$$,'expired unpaid attempt preserved');
-select throws_ok($$select pg_temp.command(27,'replace_deposit')$$,'40001','COMMERCE_RECONCILIATION_REQUIRED','expired webhook alone cannot authorise replacement');
+select throws_ok($$select pg_temp.command(27,'replace_deposit')$$,'PT409','COMMERCE_RECONCILIATION_REQUIRED','expired webhook alone cannot authorise replacement');
 select lives_ok($$select pg_temp.command(27,'record_terminal',jsonb_build_object('intentId',i.id,'sessionId',i.session_id,'status','expired')) from commerce_private.checkout_intents i where i.offer_id=(select offer from completion_orders where n=27)$$,'independent terminal observation recorded');
 insert into commerce_private.deposit_retry_approvals(offer_id,actor_id,request_key,approved_at,expires_at)
 select offer,(select subject_id from queue_actor),gen_random_uuid(),now()-interval '1 hour',now()-interval '45 minutes' from completion_orders where n=27;
@@ -181,7 +181,7 @@ insert into intake_private.intakes(id,tenant_id,subject_id,case_id,publication_i
 values(gen_random_uuid(),'10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001','a3000000-0000-4000-8000-000000000027','a4800000-0000-4000-8000-000000000001','submitted',gen_random_uuid());
 update public.tenant_memberships set valid_from=now()-interval '1 day' where role='patient';
 create function pg_temp.replacement(k uuid) returns jsonb language sql as $$select commerce_private.prepare_offer('10000000-0000-4000-8000-000000000001','20000000-0000-4000-8000-000000000001','a3000000-0000-4000-8000-000000000027',jsonb_build_object('scenario','review_deposit','items','[]'::jsonb,'requestKey',k))$$;
-select throws_ok($$select pg_temp.replacement((select request_key from commerce_private.offers where id=(select offer from completion_orders where n=27)))$$,'40001','COMMERCE_RECONCILIATION_REQUIRED','retired original request cannot replay into new acceptance');
+select throws_ok($$select pg_temp.replacement((select request_key from commerce_private.offers where id=(select offer from completion_orders where n=27)))$$,'PT409','COMMERCE_RECONCILIATION_REQUIRED','retired original request cannot replay into new acceptance');
 select lives_ok($$select pg_temp.replacement('a4800000-0000-4000-8000-000000000002')$$,'fresh governed replacement offer prepared');
 select is(pg_temp.replacement('a4800000-0000-4000-8000-000000000002')->>'replayed','true','replacement request idempotent');
 select is((select count(*) from commerce_private.deposit_attempt_links),1::bigint,'original attempt linked once, not deleted');

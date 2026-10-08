@@ -158,7 +158,7 @@ drop trigger synthetic_boundary_audit_failure on identity_private.handoff_bounda
 set local role service_role;
 select is(pg_temp.issue(),pg_temp.attempt(),'own live patient can issue approved link');
 select is(pg_temp.issue(),pg_temp.attempt(),'bounded same-key recovery does not duplicate issuance');
-select throws_ok($$select pg_temp.issue(gen_random_uuid())$$,'40001','HANDOFF_CONFLICT','new key cannot resend issued link');
+select throws_ok($$select pg_temp.issue(gen_random_uuid())$$,'PT409','HANDOFF_CONFLICT','new key cannot resend issued link');
 select throws_ok($$select pg_temp.verify(p_email=>'deliverer@example.invalid')$$,'42501','HANDOFF_REJECTED','deliverer cannot verify own evidence');
 select throws_ok($$select pg_temp.verify(extra=>'{"protocol":"forbidden"}')$$,'22023','HANDOFF_INPUT_INVALID','clinical fields rejected');
 select throws_ok($$select pg_temp.verify(extra=>jsonb_build_object('observedAt',now()+interval '1 day'))$$,'22023','HANDOFF_INPUT_INVALID','future observations denied');
@@ -197,7 +197,7 @@ create function pg_temp.finish_alert(outcome text) returns boolean language sql 
 set local role service_role;
 select ok(pg_temp.finish_alert('retryable'),'known throttling receipt persisted');
 select ok(pg_temp.finish_alert('retryable'),'same receipt replay idempotent');
-select throws_ok($$select pg_temp.finish_alert('accepted')$$,'40001','ALERT_CONFLICT','changed receipt cannot claim accepted');
+select throws_ok($$select pg_temp.finish_alert('accepted')$$,'PT409','ALERT_CONFLICT','changed receipt cannot claim accepted');
 reset role;
 select is((select state from audit_private.operations_alert_dispatch where alert_id=(select (value->>'alertId')::uuid from alert_test_claim)),'pending','retryable attempt queues retry');
 select ok((select next_attempt_at>clock_timestamp() from audit_private.operations_alert_dispatch where alert_id=(select (value->>'alertId')::uuid from alert_test_claim)),'retry has durable backoff');
@@ -216,7 +216,7 @@ select throws_ok($$select pg_temp.respond_alert('resolved')$$,'55000','ALERT_ACK
 select throws_ok($$select pg_temp.respond_alert('acknowledged',p_email=>'deliverer@example.invalid')$$,'42501','OPERATIONS_ALERT_REJECTED','operations role cannot acknowledge security alerts');
 select lives_ok($$select pg_temp.respond_alert('acknowledged')$$,'administrator acknowledges explicitly');
 select lives_ok($$select pg_temp.respond_alert('acknowledged')$$,'human acknowledgement exact replay');
-select throws_ok($$select pg_temp.respond_alert('resolved')$$,'40001','ALERT_CONFLICT','request key cannot change human action');
+select throws_ok($$select pg_temp.respond_alert('resolved')$$,'PT409','ALERT_CONFLICT','request key cannot change human action');
 select lives_ok($$select pg_temp.respond_alert('resolved','b6000000-0000-4000-8000-000000000051')$$,'administrator explicitly resolves acknowledged alert');
 reset role;
 select is((select count(*) from audit_private.operations_alert_responses),2::bigint,'only two immutable human responses');
@@ -232,7 +232,7 @@ select lives_ok($$select public.claim_operations_alert_notification('10000000-00
 reset role;
 select is((select outcome from audit_private.operations_alert_delivery_facts where lease_id=(select (value->>'leaseId')::uuid from alert_test_claim)),'uncertain','worker crash leaves immutable uncertainty evidence');
 select throws_ok($$select public.finish_operations_alert_notification('10000000-0000-4000-8000-000000000002',(value->>'alertId')::uuid,(value->>'leaseId')::uuid,'uncertain') from alert_test_claim$$,'42501','ALERT_REJECTED','other tenant cannot finish an attempt');
-select throws_ok($$select public.finish_operations_alert_notification('10000000-0000-4000-8000-000000000001',(value->>'alertId')::uuid,gen_random_uuid(),'accepted') from alert_test_claim$$,'40001','ALERT_CONFLICT','foreign lease cannot claim acceptance');
+select throws_ok($$select public.finish_operations_alert_notification('10000000-0000-4000-8000-000000000001',(value->>'alertId')::uuid,gen_random_uuid(),'accepted') from alert_test_claim$$,'PT409','ALERT_CONFLICT','foreign lease cannot claim acceptance');
 -- Isolated transport fixtures test retry ceilings and the shared UTC-day send budget.
 insert into audit_private.operations_alerts(tenant_id,audit_fact_id,code,owner,severity,deduplication_key)
 select tenant_id,audit_fact_id,'OPERATIONS_EXCEPTION',owner,'critical',gen_random_uuid()::text

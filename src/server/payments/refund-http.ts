@@ -138,6 +138,7 @@ export function createRefundHttpHandler(
               { [workforce ? "p_authority" : "p_context"]: context, p_command: command },
             );
             if (error?.code === "42501") throw new IdentityRejectedError();
+            if (error?.code === "PT409") throw new Error("REFUND_CONFLICT");
             if (error) throw new Error("REFUND_UNAVAILABLE");
             return data as unknown;
           },
@@ -282,7 +283,9 @@ export function createRefundHttpHandler(
       return reply(
         error instanceof IdentityRejectedError || error instanceof IdentitySessionRejectedError
           ? 403
-          : 503,
+          : error instanceof Error && error.message === "REFUND_CONFLICT"
+            ? 409
+            : 503,
       );
     }
   };
