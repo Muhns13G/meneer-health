@@ -47,6 +47,7 @@ export function createMobileInvitationHttpHandler(
     TELNYX_PUBLIC_KEY_BASE64?: unknown;
     TELNYX_MESSAGING_PROFILE_ID?: unknown;
     TELNYX_FROM_NUMBER?: unknown;
+    TELNYX_ALPHA_SENDER?: unknown;
   },
   injected?: {
     workforce: Pick<WorkforceSessionService, "authorise">;
@@ -128,7 +129,8 @@ export function createMobileInvitationHttpHandler(
         receiptConfig.MOBILE_INVITATIONS_TENANT_ID ===
           deliveryConfig.MOBILE_INVITATIONS_TENANT_ID &&
         receiptConfig.TELNYX_MESSAGING_PROFILE_ID === deliveryConfig.TELNYX_MESSAGING_PROFILE_ID &&
-        receiptConfig.TELNYX_FROM_NUMBER === deliveryConfig.TELNYX_FROM_NUMBER;
+        receiptConfig.TELNYX_FROM_NUMBER === deliveryConfig.TELNYX_FROM_NUMBER &&
+        receiptConfig.TELNYX_ALPHA_SENDER === deliveryConfig.TELNYX_ALPHA_SENDER;
       if (dispatching && (!ready || (injected && !injected.dispatch))) return response(503);
       const config = injected
         ? undefined

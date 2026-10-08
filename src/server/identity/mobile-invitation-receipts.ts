@@ -1,6 +1,7 @@
 import "@tanstack/react-start/server-only";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { matchesMobileProviderSender, mobileAlphaSenderSchema } from "./mobile-provider-sender";
 import { renderMobileInvitation } from "@/application/identity/mobile-invitation-delivery";
 import { readBoundedTextRequest } from "@/server/security/request-security";
 
@@ -9,6 +10,7 @@ const configuration = z.object({
   MOBILE_INVITATIONS_TENANT_ID: z.uuid(),
   TELNYX_MESSAGING_PROFILE_ID: z.uuid(),
   TELNYX_FROM_NUMBER: z.string().regex(/^\+[1-9][0-9]{7,14}$/),
+  TELNYX_ALPHA_SENDER: mobileAlphaSenderSchema.optional(),
   TELNYX_PUBLIC_KEY_BASE64: z.string().regex(/^[A-Za-z0-9+/]{43}=$/),
 });
 export function readMobileReceiptConfiguration(input: Record<string, unknown>) {
@@ -62,7 +64,7 @@ export async function projectMobileReceipt(
     !token ||
     p.text !== renderMobileInvitation(token).text ||
     p.messaging_profile_id !== config.TELNYX_MESSAGING_PROFILE_ID ||
-    p.from.phone_number !== config.TELNYX_FROM_NUMBER
+    !matchesMobileProviderSender(p.from.phone_number, config)
   )
     throw new Error("MOBILE_RECEIPT_INVALID");
   const status = p.to[0]!.status;
@@ -95,7 +97,9 @@ export async function projectMobileReceipt(
     occurredAt: data.occurred_at,
     tokenDigest,
     profileId: p.messaging_profile_id,
-    fromPhone: p.from.phone_number,
+    // Canonical dispatch identity: signed profile/recipient/token and exact rewrite were checked.
+    // The database correlates this to the original configured E.164 dispatch sender.
+    fromPhone: config.TELNYX_FROM_NUMBER,
     toPhone: p.to[0]!.phone_number,
     cost,
   };

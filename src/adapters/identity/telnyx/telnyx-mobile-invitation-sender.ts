@@ -1,5 +1,6 @@
 import "@tanstack/react-start/server-only";
 import { z } from "zod";
+import { matchesMobileProviderSender } from "@/server/identity/mobile-provider-sender";
 import {
   smsSegments,
   renderMobileInvitation,
@@ -112,7 +113,7 @@ export class TelnyxMobileInvitationSender implements MobileInvitationSender {
       const data = result.data.data;
       if (
         data.messaging_profile_id !== this.config.TELNYX_MESSAGING_PROFILE_ID ||
-        data.from.phone_number !== this.config.TELNYX_FROM_NUMBER ||
+        !matchesMobileProviderSender(data.from.phone_number, this.config) ||
         data.to[0]!.phone_number !== request.phone ||
         data.parts > count.segments
       )
