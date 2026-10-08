@@ -26,6 +26,69 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 describe("private staff mobile invitation register", () => {
+  it("shows minimal conflict recovery without provider identity or false acceptance", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        Response.json(
+          {
+            invitations: [{ ...row, delivery: { status: "conflict", budgetReview: true } }],
+            nextId: null,
+            reservationEnabled: true,
+            sendingEnabled: false,
+          },
+          { headers: { "X-Session-Expires-At": new Date(Date.now() + 600000).toISOString() } },
+        ),
+      ),
+    );
+    render(<StaffMobileInvitationsPage />);
+    expect(await screen.findByText(/Delivery: conflict/)).toHaveTextContent(
+      "not invitation acceptance",
+    );
+    expect(screen.getByText(/Delivery: conflict/)).toHaveTextContent("do not resend blindly");
+    expect(screen.queryByRole("button", { name: /Send one invitation SMS/ })).toBeNull();
+  });
+  it("dispatches only once after explicit confirmation and never auto-retries uncertainty", async () => {
+    const fetch = vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json(
+          {
+            invitations: [
+              {
+                ...row,
+                reviewed: true,
+                sendReserved: true,
+                dispatchRequestKey: id,
+                delivery: { status: "not_attempted", budgetReview: false },
+              },
+            ],
+            nextId: null,
+            reservationEnabled: true,
+            sendingEnabled: true,
+          },
+          { headers: { "X-Session-Expires-At": new Date(Date.now() + 600000).toISOString() } },
+        ),
+      )
+      .mockRejectedValueOnce(new Error("uncertain"));
+    vi.stubGlobal("fetch", fetch);
+    render(<StaffMobileInvitationsPage />);
+    const send = await screen.findByRole("button", {
+      name: "Send one invitation SMS for Synthetic",
+    });
+    expect(send).toBeDisabled();
+    await userEvent.click(screen.getByRole("checkbox"));
+    await userEvent.click(send);
+    await screen.findByText(/Command result uncertain/);
+    expect(fetch).toHaveBeenCalledTimes(2);
+    expect(fetch.mock.calls[1]![0]).toBe("/staff/mobile-invitations/dispatch");
+    expect(Object.fromEntries(new URLSearchParams(fetch.mock.calls[1]![1].body))).toEqual({
+      invitationId: id,
+      expectedVersion: "1",
+      reservationRequestKey: id,
+    });
+    expect(screen.queryByText("Synthetic Participant")).toBeNull();
+  });
   it("masks contacts and requires explicit confirmation before recording a review", async () => {
     const fetch = vi
       .fn()

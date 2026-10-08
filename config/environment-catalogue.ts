@@ -16,9 +16,11 @@ export type EnvironmentCatalogueEntry = {
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   ...[
     "MOBILE_INVITATIONS_MODE",
+    "MOBILE_INVITATIONS_WEBHOOK_MODE",
     "MOBILE_INVITATIONS_DELIVERY_READY",
     "MOBILE_INVITATIONS_TENANT_ID",
     "TELNYX_API_KEY",
+    "TELNYX_PUBLIC_KEY_BASE64",
     "TELNYX_MESSAGING_PROFILE_ID",
     "TELNYX_FROM_NUMBER",
   ].map(

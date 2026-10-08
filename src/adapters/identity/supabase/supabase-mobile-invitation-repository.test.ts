@@ -73,10 +73,10 @@ describe("governed Supabase mobile invitation repository", () => {
     const s = setup(null, { code, message: "private diagnostic" });
     await expect(s.repository.read(identity, proof, null)).rejects.toBeInstanceOf(errorType);
   });
-  it("rejects leaked contacts or provider-authorising projections", async () => {
+  it("rejects leaked contacts or malformed readiness projections", async () => {
     for (const data of [
       { ...page, token: "private" },
-      { ...page, sendingEnabled: true },
+      { ...page, sendingEnabled: "true" },
     ]) {
       await expect(setup(data).repository.read(identity, proof, null)).rejects.toBeInstanceOf(
         IdentityUnavailableError,

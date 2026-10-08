@@ -73,6 +73,55 @@ async function setup() {
 }
 const command = { action: "review", invitationId: id, expectedVersion: "1", requestKey: id };
 describe("private mobile invitation HTTP", () => {
+  it("keeps dispatch disabled independently of reservation authority", async () => {
+    const s = await setup();
+    expect(
+      (
+        await s.handler(
+          s.request(
+            { invitationId: id, expectedVersion: "1", reservationRequestKey: id },
+            "dispatch",
+          ),
+        )
+      ).status,
+    ).toBe(503);
+    expect(s.repository.command).not.toHaveBeenCalled();
+    expect(s.repository.read).not.toHaveBeenCalled();
+  });
+  it("dispatch requires both configurations and current purpose-scoped authority", async () => {
+    const s = await setup();
+    const dispatch = vi.fn().mockResolvedValue({ outcome: "uncertain", attemptId: id });
+    const bindings = {
+      IDENTITY_SESSION_KEY_BASE64: key,
+      REQUEST_RATE_LIMITER: { limit: s.limit },
+      MOBILE_INVITATIONS_MODE: "telnyx",
+      MOBILE_INVITATIONS_DELIVERY_READY: "true",
+      MOBILE_INVITATIONS_WEBHOOK_MODE: "telnyx",
+      MOBILE_INVITATIONS_TENANT_ID: id,
+      TELNYX_API_KEY: "synthetic-".repeat(3),
+      TELNYX_PUBLIC_KEY_BASE64: btoa("x".repeat(32)),
+      TELNYX_MESSAGING_PROFILE_ID: id,
+      TELNYX_FROM_NUMBER: "+999000000001",
+    };
+    const input = { invitationId: id, expectedVersion: "1", reservationRequestKey: id };
+    const handler = createMobileInvitationHttpHandler(bindings, {
+      workforce: s.workforce,
+      repository: s.repository,
+      dispatch,
+    });
+    expect((await handler(s.request(input, "dispatch"))).status).toBe(200);
+    expect(dispatch).toHaveBeenCalledExactlyOnceWith(
+      { ...input, expectedVersion: 1 },
+      expect.anything(),
+      expect.objectContaining({ context: proof.context }),
+    );
+    const disabled = createMobileInvitationHttpHandler(
+      { ...bindings, MOBILE_INVITATIONS_WEBHOOK_MODE: "disabled" },
+      { workforce: s.workforce, repository: s.repository, dispatch },
+    );
+    expect((await disabled(s.request(input, "dispatch"))).status).toBe(503);
+    expect(dispatch).toHaveBeenCalledTimes(1);
+  });
   it("rechecks authority and returns private expiry-bound projections", async () => {
     const s = await setup();
     const response = await s.handler(s.request());

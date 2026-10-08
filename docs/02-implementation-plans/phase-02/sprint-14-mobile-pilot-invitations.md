@@ -90,18 +90,18 @@ schema implementation and validation. No hosted SMS send is authorised. Sprint 1
 
 ## Commit-Sized Tasks
 
-| Task  | Outcome                                                                                            | Acceptance boundary                                                                                                                                                            |
-| ----- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 14.1  | Completed: mobile invitation, binding, wording, retention and threat contract.                     | Unique link plus verified email; exceptions to staff; production sending/spend off pending provider proof.                                                                     |
-| 14.2  | Completed locally: private register, token/claim digests, versions, expiry/revocation and journal. | RLS/ACL/tenant isolation, no raw token columns, collision/expiry/replay and retention tests; no hosted migration or sending.                                                   |
-| 14.3  | Completed locally: AAL2 staff commands and private register UI; sends reserve only.                | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
-| 14.4  | Add server-only Telnyx sender port/adapter and bounded durable delivery intents.                   | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                                 |
-| 14.5  | Add attributed delivery webhook and reconciliation/support views.                                  | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                                       |
-| 14.6  | Add accessible 48-hour mobile redemption and email capture/exchange.                               | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                                                |
-| 14.7  | Convert verified claims into existing governed email invitation/profile activation.                | Verify intended-participant binding, email OTP remains 900 seconds, existing-account conflicts fail closed; no session shortcuts.                                              |
-| 14.8  | Run complete local security, mobile/browser, keyboard, zoom and assistive-technology packet.       | Tenant/role/purpose/assurance denials, scanner/forward/replay/cost races, no health/token leakage; preserve existing suites.                                                   |
-| 14.9  | Conduct explicitly approved hosted Telnyx/phone/email synthetic rehearsal and cleanup.             | Owner deployment/migrations, approved controlled phone/mailbox and spend cap; actual handset receipt, link/OTP/activation and delivery reconciliation; restore gates/baseline. |
-| 14.10 | Reconcile debt, release checklist, runbooks and Sprint/Phase reports.                              | Exact-commit CI, channel/privacy/recovery readiness, approved first-cohort limits and explicit owner go/no-go.                                                                 |
+| Task  | Outcome                                                                                             | Acceptance boundary                                                                                                                                                            |
+| ----- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 14.1  | Completed: mobile invitation, binding, wording, retention and threat contract.                      | Unique link plus verified email; exceptions to staff; production sending/spend off pending provider proof.                                                                     |
+| 14.2  | Completed locally: private register, token/claim digests, versions, expiry/revocation and journal.  | RLS/ACL/tenant isolation, no raw token columns, collision/expiry/replay and retention tests; no hosted migration or sending.                                                   |
+| 14.3  | Completed locally: AAL2 staff commands and private register UI; sends reserve only.                 | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
+| 14.4  | Completed locally: add server-only Telnyx sender port/adapter and bounded durable delivery intents. | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                                 |
+| 14.5  | Completed locally: add attributed delivery webhook and reconciliation/support views.                | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                                       |
+| 14.6  | Add accessible 48-hour mobile redemption and email capture/exchange.                                | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                                                |
+| 14.7  | Convert verified claims into existing governed email invitation/profile activation.                 | Verify intended-participant binding, email OTP remains 900 seconds, existing-account conflicts fail closed; no session shortcuts.                                              |
+| 14.8  | Run complete local security, mobile/browser, keyboard, zoom and assistive-technology packet.        | Tenant/role/purpose/assurance denials, scanner/forward/replay/cost races, no health/token leakage; preserve existing suites.                                                   |
+| 14.9  | Conduct explicitly approved hosted Telnyx/phone/email synthetic rehearsal and cleanup.              | Owner deployment/migrations, approved controlled phone/mailbox and spend cap; actual handset receipt, link/OTP/activation and delivery reconciliation; restore gates/baseline. |
+| 14.10 | Reconcile debt, release checklist, runbooks and Sprint/Phase reports.                               | Exact-commit CI, channel/privacy/recovery readiness, approved first-cohort limits and explicit owner go/no-go.                                                                 |
 
 Commit after each completed task; the owner alone stages, commits, pushes and deploys. Task 14.9
 is not permission to send to the real participant list. No hosted mutation, purchase, new credential,
@@ -115,8 +115,10 @@ locally; send/resend reserve requests without issuing tokens or contacting Telny
 [14.4 delivery boundary](annexures/sprint-14-4-mobile-delivery-intents.md) is completed and verified
 locally: it adds a server-only
 one-shot sender/service and private, digest-only delivery intents with held spend and uncertain
-outcomes. Sending remains disabled; callback/reconciliation and staff dispatch wiring are next
-in 14.5, followed by participant redemption/conversion. Parallel work does not
+outcomes. [14.5](annexures/sprint-14-5-attributed-mobile-delivery.md) adds signed, attributed callback
+facts, immutable conflict reconciliation, private recovery status and guarded dispatch wiring.
+Sending remains disabled pending participant redemption/conversion and authorised provider proof.
+Parallel work does not
 waive unfinished Sprint 13 quality/debt/release checks. Telnyx capability/cost inspection can be
 read-only; operational sends need explicit authority and a controlled recipient.
 

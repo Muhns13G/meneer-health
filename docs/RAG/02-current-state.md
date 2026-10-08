@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-5-attributed-mobile-delivery.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-4-mobile-delivery-intents.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-3-governed-mobile-invitation-staff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-2-private-mobile-invitation-foundation.md
@@ -199,8 +200,11 @@ and supersession. Send/resend reserve requests only; no token issuance, hosted m
 send or pilot activation occurred. [14.4](../02-implementation-plans/phase-02/annexures/sprint-14-4-mobile-delivery-intents.md)
 adds a server-only sender/service and private durable one-shot intents: digest-only 48-hour tokens,
 current staff authority, two-segment/spend controls, uncertain holds and no automatic resend.
-No dispatch endpoint or staff send button is enabled before callbacks/redemption are ready.
-14.5 callback/reconciliation and dispatch wiring are next; operational retention sweeping,
+The local [14.5](../02-implementation-plans/phase-02/annexures/sprint-14-5-attributed-mobile-delivery.md)
+implementation adds canonical Ed25519 callbacks, exact digest/profile/destination attribution,
+immutable receipts and conflicts, masked operations/AAL2 status and guarded one-shot dispatch.
+Carrier delivery is never participant acceptance; replay, conflicting finals and late revocation
+receipts cannot activate identities or release held spend. Defaults remain disabled. Operational retention sweeping,
 redemption/email conversion and hosted/provider proof remain later task boundaries.
 
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed

@@ -57,9 +57,11 @@ describe("environment catalogue", () => {
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
       "MOBILE_INVITATIONS_MODE",
+      "MOBILE_INVITATIONS_WEBHOOK_MODE",
       "MOBILE_INVITATIONS_DELIVERY_READY",
       "MOBILE_INVITATIONS_TENANT_ID",
       "TELNYX_API_KEY",
+      "TELNYX_PUBLIC_KEY_BASE64",
       "TELNYX_MESSAGING_PROFILE_ID",
       "TELNYX_FROM_NUMBER",
       "TRANSACTIONAL_NOTIFICATION_WEBHOOK_SECRET",
