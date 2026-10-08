@@ -25,7 +25,8 @@ export async function dispatchRecovery(bindings: Bindings, fetcher: typeof fetch
       "https://api.github.com/repos/Muhns13G/meneer-health/actions/workflows/recovery-export.yml/dispatches",
       {
         method: "POST",
-        redirect: "error",
+        // workerd rejects "error" before network access. Never follow credentialed redirects.
+        redirect: "manual",
         headers: {
           Accept: "application/vnd.github+json",
           "User-Agent": "meneer-recovery-dispatcher",
