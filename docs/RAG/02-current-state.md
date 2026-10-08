@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-2-private-mobile-invitation-foundation.md
   - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
   - docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md
@@ -179,14 +180,19 @@ CI passes; the previously verified clean checkout is
 `itws-I` at `2b8d199360e44c6ec2c9e68505958c4502c0896e`. Task 13.7 is now independently
 closed at its agreed initial threshold; no pilot or generator activation is implied.
 
-## Sprint 14 — Approved Direction, Implementation Not Started
+## Sprint 14 — Contract and Local Private Foundation
 
 The owner approved the smaller SMS-invitation extension in the
 [Sprint 14 plan](../02-implementation-plans/phase-02/sprint-14-mobile-pilot-invitations.md): ten
 commit-sized tasks covering a private contact register, Telnyx delivery, 48-hour invitation links
 and participant-supplied verified email. Email OTP validity remains 900 seconds. Provider capability,
-identity binding, cost limits and hosted proof must be settled before release. This planning does
-not complete Sprint 13, activate the pilot or establish an implemented SMS channel.
+cost limits and hosted proof must be settled before release. The owner-selected binding is unique
+bearer link plus verified email, without a second SMS code or routine staff confirmation.
+[14.2](../02-implementation-plans/phase-02/annexures/sprint-14-2-private-mobile-invitation-foundation.md)
+adds five private tables and guarded token/claim, conversion-lineage and retention invariants,
+verified against local synthetic PostgreSQL only. No hosted migration, public command/UI, SMS
+send or pilot activation occurred. 14.3 governed staff commands/UI are next; operational retention
+sweeping, delivery, email conversion and hosted/provider proof remain later task boundaries.
 
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed
 
