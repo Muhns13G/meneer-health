@@ -44,6 +44,7 @@
     "test:identity:recovery": "bun --no-env-file run scripts/test-identity-disaster-recovery.ts",
     "test:evidence:rehearsal": "bun --no-env-file run scripts/test-sprint13-evidence-rehearsal.ts",
     "test:notifications": "bun run scripts/test-notifications-concurrency.ts",
+    "test:mobile:redemption": "bun --no-env-file run scripts/test-mobile-invitation-redemption.ts",
     "test:identity:hosted-denials": "bun run scripts/test-sprint09-hosted-http.ts",
     "test:commands": "bun run scripts/test-supabase-workflow-commands-integration.ts",
     "test:audit": "bun run scripts/test-supabase-audit-integration.ts",

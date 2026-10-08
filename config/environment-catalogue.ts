@@ -16,6 +16,8 @@ export type EnvironmentCatalogueEntry = {
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   ...[
     "MOBILE_INVITATIONS_MODE",
+    "MOBILE_INVITATIONS_REDEMPTION_MODE",
+    "MOBILE_INVITATION_CLAIM_KEY_BASE64",
     "MOBILE_INVITATIONS_WEBHOOK_MODE",
     "MOBILE_INVITATIONS_DELIVERY_READY",
     "MOBILE_INVITATIONS_TENANT_ID",
@@ -27,14 +29,23 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     (name): EnvironmentCatalogueEntry => ({
       name,
       purpose:
-        "Server-only one-shot mobile invitations; disabled until channel, budget and redemption approval.",
+        name === "MOBILE_INVITATION_CLAIM_KEY_BASE64"
+          ? "Dedicated 32-byte server master key; HKDF separates mobile claim sealing and resume proof."
+          : name === "MOBILE_INVITATIONS_REDEMPTION_MODE"
+            ? "Optional participant redemption switch; disabled unless explicitly set to enabled."
+            : "Server-only one-shot mobile invitations; disabled until channel, budget and redemption approval.",
       owner: "Operations and release owner",
-      sensitivity: name === "TELNYX_API_KEY" ? "secret" : "public",
+      sensitivity:
+        name === "TELNYX_API_KEY" || name === "MOBILE_INVITATION_CLAIM_KEY_BASE64"
+          ? "secret"
+          : "public",
       environments: ["local", "production"],
       required: false,
       exposure: "server",
       rotation:
-        "No real sends before attributed callbacks, decline/redemption and approved spend are verified.",
+        name === "MOBILE_INVITATION_CLAIM_KEY_BASE64"
+          ? "Rotate after exposure or ownership change; existing claims fail closed and require fresh redemption."
+          : "No real sends before attributed callbacks, decline/redemption and approved spend are verified.",
     }),
   ),
   {
