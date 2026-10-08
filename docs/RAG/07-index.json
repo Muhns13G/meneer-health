@@ -24,6 +24,14 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-14-4",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-4-mobile-delivery-intents.md",
+      "status": "completed-local-delivery-boundary",
+      "authority": "local-adapter-and-rollback-evidence",
+      "priority": 1,
+      "topics": ["sprint-14", "invitations", "telnyx", "delivery", "spend"]
+    },
+    {
       "id": "phase-02-sprint-14-3",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-3-governed-mobile-invitation-staff.md",
       "status": "completed-local-staff-boundary",

@@ -18,7 +18,7 @@ import {
 
 export class SupabaseMobileInvitationRepository {
   constructor(private readonly client: SupabaseClient) {}
-  private authority(identity: ProviderIdentity, proof: WorkforceProof) {
+  protected authority(identity: ProviderIdentity, proof: WorkforceProof) {
     if (
       !proof.sessionId ||
       identity.assurance !== "aal2" ||
@@ -36,7 +36,7 @@ export class SupabaseMobileInvitationRepository {
       p_tenant_id: proof.context.tenantId,
     };
   }
-  private async rpc(name: string, parameters: Record<string, unknown>) {
+  protected async rpc(name: string, parameters: Record<string, unknown>) {
     const { data, error } = await this.client.rpc(name, parameters);
     if (error?.code === "42501") throw new IdentityRejectedError();
     if (["PT409", "23505"].includes(error?.code ?? "")) throw new MobileInvitationConflictError();

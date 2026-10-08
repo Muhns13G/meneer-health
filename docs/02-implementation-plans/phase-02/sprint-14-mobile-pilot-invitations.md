@@ -111,8 +111,12 @@ message, migration or activation is authorised by this planning document.
 
 14.1 is completed at its contract boundary; 14.2 is completed at its local schema boundary. The
 [14.3 staff commands/UI](annexures/sprint-14-3-governed-mobile-invitation-staff.md) are implemented
-locally; send/resend reserve requests without issuing tokens or contacting Telnyx. 14.4 delivery
-intents and the server-only sender are next. Parallel work does not
+locally; send/resend reserve requests without issuing tokens or contacting Telnyx. The
+[14.4 delivery boundary](annexures/sprint-14-4-mobile-delivery-intents.md) is completed and verified
+locally: it adds a server-only
+one-shot sender/service and private, digest-only delivery intents with held spend and uncertain
+outcomes. Sending remains disabled; callback/reconciliation and staff dispatch wiring are next
+in 14.5, followed by participant redemption/conversion. Parallel work does not
 waive unfinished Sprint 13 quality/debt/release checks. Telnyx capability/cost inspection can be
 read-only; operational sends need explicit authority and a controlled recipient.
 

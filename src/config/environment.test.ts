@@ -56,6 +56,12 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "MOBILE_INVITATIONS_MODE",
+      "MOBILE_INVITATIONS_DELIVERY_READY",
+      "MOBILE_INVITATIONS_TENANT_ID",
+      "TELNYX_API_KEY",
+      "TELNYX_MESSAGING_PROFILE_ID",
+      "TELNYX_FROM_NUMBER",
       "TRANSACTIONAL_NOTIFICATION_WEBHOOK_SECRET",
       "TRANSACTIONAL_NOTIFICATIONS_MODE",
       "TRANSACTIONAL_NOTIFICATIONS_TENANT_ID",
