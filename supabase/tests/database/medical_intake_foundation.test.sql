@@ -68,8 +68,8 @@ set local role service_role;
 select is(public.patient_intake_read(pg_temp.intake_context())->'record','null'::jsonb,'no fabricated initial record');
 select is(public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command())->>'version','1','first own save succeeds');
 select is(public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command())->>'version','1','exact replay does not increment');
-select throws_ok($$select public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command()||jsonb_build_object('replayDigests',jsonb_build_array(repeat('f',64))))$$,'40001','INTAKE_CONFLICT','changed payload digest replay rejected');
-select throws_ok($$select public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command(0)||jsonb_build_object('requestKey',gen_random_uuid()))$$,'40001','INTAKE_CONFLICT','stale version rejected');
+select throws_ok($$select public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command()||jsonb_build_object('replayDigests',jsonb_build_array(repeat('f',64))))$$,'PT409','INTAKE_CONFLICT','changed payload digest replay rejected');
+select throws_ok($$select public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command(0)||jsonb_build_object('requestKey',gen_random_uuid()))$$,'PT409','INTAKE_CONFLICT','stale version rejected');
 select is(public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command(1,'save',true))->>'safetyHold','true','affirmative draft persists hold');
 select is(public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command(2,'save',false))->>'safetyHold','true','changing answer cannot clear historical hold');
 select is(public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command(3,'submit',false))->>'state','submitted','submission version commits');
@@ -116,9 +116,9 @@ select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),p
 select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept()||'{"publicationId":null}')$$,
 '22023','COMMERCE_INVALID','null publication cannot bypass exact binding');
 select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept()||jsonb_build_object('snapshotHash',repeat('f',64)))$$,
-'40001','COMMERCE_CONFLICT','changed order hash denied');
+'PT409','COMMERCE_CONFLICT','changed order hash denied');
 select throws_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept()||jsonb_build_object('contentHash',repeat('f',64)))$$,
-'40001','COMMERCE_CONFLICT','changed publication hash denied');
+'PT409','COMMERCE_CONFLICT','changed publication hash denied');
 select lives_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept())$$,'durable own acceptance succeeds');
 select lives_ok($$select public.patient_order_review(pg_temp.intake_context(),pg_temp.order_accept())$$,'exact acceptance replay succeeds');
 select is((select count(*)::integer from commerce_private.order_acceptances),1,'only one acceptance receipt');
@@ -131,7 +131,7 @@ content_hash,approval_reference,effective_at,expires_at,status) values(
 '10000000-0000-4000-8000-000000000001','review_deposit','1.2.0','Synthetic supplier',
 'Synthetic replacement terms',repeat('0',64),gen_random_uuid(),clock_timestamp(),now()+interval '1 day','published');
 perform public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}');end$$$test$,
-'40001','COMMERCE_CONFLICT','old receipt cannot accept newly published terms');
+'PT409','COMMERCE_CONFLICT','old receipt cannot accept newly published terms');
 select throws_ok($test$do $$begin update commerce_private.order_publications set status='withdrawn';
 perform public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}');end$$$test$,
 '42501','COMMERCE_TERMS_UNAVAILABLE','withdrawn order terms deny review');
@@ -165,7 +165,7 @@ select lives_ok($$select public.patient_attach_checkout(pg_temp.intake_context()
 (pg_temp.checkout()->>'intentId')::uuid,'cs_test_synthetic12345','https://checkout.stripe.com/c/pay/synthetic')$$,'test session attaches after revalidation');
 select is((select state from commerce_private.checkout_intents),'open','session attachment means open, never paid');
 select throws_ok($$select public.patient_attach_checkout(pg_temp.intake_context(),
-(pg_temp.checkout()->>'intentId')::uuid,'cs_test_other12345','https://checkout.stripe.com/c/pay/synthetic')$$,'40001','COMMERCE_CONFLICT','second session for same intent denied');
+(pg_temp.checkout()->>'intentId')::uuid,'cs_test_other12345','https://checkout.stripe.com/c/pay/synthetic')$$,'PT409','COMMERCE_CONFLICT','second session for same intent denied');
 select is(intake_private.review_payment_ready((select case_id from intake_private.intakes limit 1)),false,'open Checkout cannot open paid review');
 select is(public.read_patient_payment_status(pg_temp.intake_context())->'payments'->0->>'status','pending','open Session cannot show confirmed money');
 -- Task 11.5: minimal verified-event fixture; raw signature verification is separately SDK tested.

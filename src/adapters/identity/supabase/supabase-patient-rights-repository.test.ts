@@ -39,6 +39,7 @@ it("supplies server context and validated command to the governed RPC", async ()
 it.each([
   ["42501", IdentityRejectedError],
   ["40001", PatientRightsConflictError],
+  ["PT409", PatientRightsConflictError],
   ["XX000", IdentityUnavailableError],
 ] as const)("redacts database error %s", async (code, ErrorType) => {
   const rpc = vi.fn(async () => ({ data: null, error: { code, message: "sensitive" } }));

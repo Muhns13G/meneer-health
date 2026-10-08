@@ -88,7 +88,7 @@ export class SupabaseQueueRepository {
   }
   private referenceResult(data: unknown, error: { code?: string } | null) {
     if (error?.code === "42501") throw new IdentityRejectedError();
-    if (error?.code === "40001" || error?.code === "23505") throw new QueueConflictError();
+    if (["PT409", "40001", "23505"].includes(error?.code ?? "")) throw new QueueConflictError();
     if (error?.code === "55000") throw new QueueReadinessError();
     if (error || !z.uuid().safeParse(data).success) throw new IdentityUnavailableError();
     return data as string;
@@ -106,7 +106,7 @@ export class SupabaseQueueRepository {
       p_command: input,
     });
     if (error?.code === "42501") throw new IdentityRejectedError();
-    if (error?.code === "40001") throw new QueueConflictError();
+    if (error?.code === "PT409" || error?.code === "40001") throw new QueueConflictError();
     if (error?.code === "55000") throw new QueueReadinessError();
     if (error) throw new IdentityUnavailableError();
     const parsed = handoffResultSchema.safeParse(data);
@@ -127,7 +127,7 @@ export class SupabaseQueueRepository {
       p_command: input,
     });
     if (error?.code === "42501") throw new IdentityRejectedError();
-    if (error?.code === "40001") throw new QueueConflictError();
+    if (error?.code === "PT409" || error?.code === "40001") throw new QueueConflictError();
     if (error?.code === "55000") throw new QueueReadinessError();
     if (error) throw new IdentityUnavailableError();
     const parsed = queueCommandResultSchema.safeParse(data);

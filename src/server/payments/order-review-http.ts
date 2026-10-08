@@ -147,7 +147,7 @@ export function createOrderReviewHttpHandler(
                   throw new IdentityRejectedError();
                 throw new Error("COMMERCE_FORBIDDEN");
               }
-              if (error.code === "40001" || error.code === "23505")
+              if (["PT409", "40001", "23505"].includes(error.code))
                 throw new Error("COMMERCE_CONFLICT");
               throw new Error("COMMERCE_UNAVAILABLE");
             }

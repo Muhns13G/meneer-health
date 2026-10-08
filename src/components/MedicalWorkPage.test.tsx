@@ -4,6 +4,30 @@ import { renderWithRouter } from "@/test/render-with-router";
 import { MedicalWorkPage } from "./MedicalWorkPage";
 const id = "d3000000-0000-4000-8000-000000000001";
 afterEach(() => vi.unstubAllGlobals());
+it("prepares using only snapshot/case references and never an external delivery assertion", async () => {
+  const fetch = vi.fn<(input: unknown, init?: RequestInit) => Promise<Response>>(
+    async () => new Response(JSON.stringify({ reference: id, outcome: "recorded" })),
+  );
+  vi.stubGlobal("fetch", fetch);
+  await renderWithRouter(<MedicalWorkPage />);
+  fireEvent.change(screen.getByRole("combobox", { name: "Operation" }), {
+    target: { value: "prepare_transfer" },
+  });
+  fireEvent.change(screen.getByLabelText("intake Id"), { target: { value: id } });
+  fireEvent.change(screen.getByLabelText("snapshot Id"), { target: { value: id } });
+  fireEvent.change(screen.getByLabelText("case Version"), { target: { value: "1" } });
+  expect(screen.queryByLabelText("external Reference")).not.toBeInTheDocument();
+  fireEvent.submit(screen.getByRole("combobox", { name: "Operation" }).closest("form")!);
+  await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+  expect(JSON.parse(String(fetch.mock.calls[0]?.[1]?.body))).toEqual({
+    action: "prepare_transfer",
+    requestKey: expect.any(String),
+    intakeId: id,
+    snapshotId: id,
+    caseVersion: 1,
+  });
+  await screen.findByText(/Transfer preparation recorded. No information has been sent/);
+});
 it("does not infer medical-answer access from ordinary staff entry", async () => {
   const fetch = vi.fn(async () => new Response(null, { status: 403 }));
   vi.stubGlobal("fetch", fetch);
