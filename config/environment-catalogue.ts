@@ -14,6 +14,27 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
+  ...[
+    "MOBILE_INVITATIONS_MODE",
+    "MOBILE_INVITATIONS_DELIVERY_READY",
+    "MOBILE_INVITATIONS_TENANT_ID",
+    "TELNYX_API_KEY",
+    "TELNYX_MESSAGING_PROFILE_ID",
+    "TELNYX_FROM_NUMBER",
+  ].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Server-only one-shot mobile invitations; disabled until channel, budget and redemption approval.",
+      owner: "Operations and release owner",
+      sensitivity: name === "TELNYX_API_KEY" ? "secret" : "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "No real sends before attributed callbacks, decline/redemption and approved spend are verified.",
+    }),
+  ),
   {
     name: "TRANSACTIONAL_NOTIFICATION_WEBHOOK_SECRET",
     purpose:
