@@ -10,6 +10,7 @@ source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-5-attributed-mobile-delivery.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-6-mobile-redemption.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-4-mobile-delivery-intents.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-3-governed-mobile-invitation-staff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-2-private-mobile-invitation-foundation.md
@@ -206,6 +207,13 @@ immutable receipts and conflicts, masked operations/AAL2 status and guarded one-
 Carrier delivery is never participant acceptance; replay, conflicting finals and late revocation
 receipts cannot activate identities or release held spend. Defaults remain disabled. Operational retention sweeping,
 redemption/email conversion and hosted/provider proof remain later task boundaries.
+
+[14.6](../02-implementation-plans/phase-02/annexures/sprint-14-6-mobile-redemption.md)
+adds local-only deliberate redemption/decline and immutable email capture: an inert first-party
+document strips fragment bearers, exchanges digests through protected POSTs and seals a bounded
+HttpOnly claim cookie. Exact interrupted exchanges resume without renewed expiry; tenant-locked
+SQL allows one claimant and invalidates claims on revoke/resend. Email verification/conversion,
+retention sweeping and hosted/provider acceptance remain 14.7–14.9. Defaults remain disabled.
 
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed
 

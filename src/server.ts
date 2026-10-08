@@ -25,6 +25,10 @@ import { createSupportHttpHandler } from "./server/support/support-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createMobileInvitationHttpHandler } from "./server/identity/mobile-invitation-http";
 import { createMobileReceiptHandler } from "./server/identity/mobile-invitation-receipts";
+import {
+  createMobileRedemptionHandler,
+  type MobileRedemptionBindings,
+} from "./server/identity/mobile-invitation-redemption-http";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
 import { createAlertHttpHandler } from "./server/operations/alert-http";
 import { runScheduledOperationsAlerts } from "./server/operations/alert-dispatch";
@@ -146,6 +150,10 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/mobile-invitation" || pathname.startsWith("/mobile-invitation/"))
+              return createMobileRedemptionHandler(env as unknown as MobileRedemptionBindings)(
+                boundedRequest,
+              );
             if (pathname === "/api/invitations/telnyx/webhook")
               return createMobileReceiptHandler(env as unknown as Record<string, unknown>)(
                 boundedRequest,

@@ -97,7 +97,7 @@ schema implementation and validation. No hosted SMS send is authorised. Sprint 1
 | 14.3  | Completed locally: AAL2 staff commands and private register UI; sends reserve only.                 | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
 | 14.4  | Completed locally: add server-only Telnyx sender port/adapter and bounded durable delivery intents. | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                                 |
 | 14.5  | Completed locally: add attributed delivery webhook and reconciliation/support views.                | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                                       |
-| 14.6  | Add accessible 48-hour mobile redemption and email capture/exchange.                                | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                                                |
+| 14.6  | Completed locally: accessible 48-hour mobile redemption and email capture/exchange.                 | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                                                |
 | 14.7  | Convert verified claims into existing governed email invitation/profile activation.                 | Verify intended-participant binding, email OTP remains 900 seconds, existing-account conflicts fail closed; no session shortcuts.                                              |
 | 14.8  | Run complete local security, mobile/browser, keyboard, zoom and assistive-technology packet.        | Tenant/role/purpose/assurance denials, scanner/forward/replay/cost races, no health/token leakage; preserve existing suites.                                                   |
 | 14.9  | Conduct explicitly approved hosted Telnyx/phone/email synthetic rehearsal and cleanup.              | Owner deployment/migrations, approved controlled phone/mailbox and spend cap; actual handset receipt, link/OTP/activation and delivery reconciliation; restore gates/baseline. |
@@ -117,7 +117,11 @@ locally: it adds a server-only
 one-shot sender/service and private, digest-only delivery intents with held spend and uncertain
 outcomes. [14.5](annexures/sprint-14-5-attributed-mobile-delivery.md) adds signed, attributed callback
 facts, immutable conflict reconciliation, private recovery status and guarded dispatch wiring.
-Sending remains disabled pending participant redemption/conversion and authorised provider proof.
+The [14.6 redemption boundary](annexures/sprint-14-6-mobile-redemption.md) is completed locally:
+inert first-party GET, protected digest exchange, bounded sealed claim cookie, immutable email
+capture and terminal decline. Sending and redemption remain disabled pending verified email
+conversion and authorised hosted/provider proof. Neither saving an email nor receiving an SMS
+creates an account or a session.
 Parallel work does not
 waive unfinished Sprint 13 quality/debt/release checks. Telnyx capability/cost inspection can be
 read-only; operational sends need explicit authority and a controlled recipient.
