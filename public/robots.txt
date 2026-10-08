@@ -8,5 +8,6 @@ Disallow: /go/
 Disallow: /peptides
 Disallow: /poster
 Disallow: /start
+Disallow: /mobile-invitation
 
 Sitemap: https://meneerhealth.co.za/sitemap.xml

@@ -58,6 +58,9 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run test:notifications` runs a local-only eight-request shared-budget race using disposable
   synthetic notification fixtures, then restores journal counts and append-only triggers. It
   requires an empty local notification journal, rejects hosted variables and sends no emails.
+- `bun --no-env-file run test:mobile:redemption` drives the claim HTTP handler against fixed local
+  Supabase with eight competing synthetic claims, exact retry, email binding and revocation checks;
+  it restores manifested rows and named guards, rejects hosted/provider configuration and sends nothing.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.

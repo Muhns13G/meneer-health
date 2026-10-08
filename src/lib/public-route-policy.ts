@@ -31,6 +31,11 @@ export const PUBLIC_ROUTE_POLICIES = [
     canonicalPath: "/terms",
   },
   { path: "/start", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/mobile-invitation", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/mobile-invitation/redeem", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/mobile-invitation/read", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/mobile-invitation/bind", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/mobile-invitation/decline", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/account/verify", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/account/activate", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/account/sign-in", routeClass: "restricted", indexing: "noindex-nofollow" },
@@ -105,6 +110,7 @@ const ROBOTS_DISALLOW_PATHS = [
   "/peptides",
   "/poster",
   "/start",
+  "/mobile-invitation",
 ] as const;
 
 const prohibitedIntentQueryKeys = new Set([

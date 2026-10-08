@@ -57,6 +57,8 @@ describe("environment catalogue", () => {
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
       "MOBILE_INVITATIONS_MODE",
+      "MOBILE_INVITATIONS_REDEMPTION_MODE",
+      "MOBILE_INVITATION_CLAIM_KEY_BASE64",
       "MOBILE_INVITATIONS_WEBHOOK_MODE",
       "MOBILE_INVITATIONS_DELIVERY_READY",
       "MOBILE_INVITATIONS_TENANT_ID",
