@@ -46,6 +46,13 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/staff/queue/destination", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/sign-in", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/staff/queue", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/staff/mobile-invitations", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/staff/mobile-invitations/read", routeClass: "internal", indexing: "noindex-nofollow" },
+  {
+    path: "/staff/mobile-invitations/command",
+    routeClass: "internal",
+    indexing: "noindex-nofollow",
+  },
   { path: "/staff/alerts", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/staff/alerts/read", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/alerts/respond", routeClass: "internal", indexing: "noindex-nofollow" },

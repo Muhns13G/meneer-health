@@ -94,7 +94,7 @@ schema implementation and validation. No hosted SMS send is authorised. Sprint 1
 | ----- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | 14.1  | Completed: mobile invitation, binding, wording, retention and threat contract.                     | Unique link plus verified email; exceptions to staff; production sending/spend off pending provider proof.                                                                     |
 | 14.2  | Completed locally: private register, token/claim digests, versions, expiry/revocation and journal. | RLS/ACL/tenant isolation, no raw token columns, collision/expiry/replay and retention tests; no hosted migration or sending.                                                   |
-| 14.3  | Add AAL2 staff create/review/send/resend/revoke commands and minimal register UI.                  | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
+| 14.3  | Completed locally: AAL2 staff commands and private register UI; sends reserve only.                | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
 | 14.4  | Add server-only Telnyx sender port/adapter and bounded durable delivery intents.                   | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                                 |
 | 14.5  | Add attributed delivery webhook and reconciliation/support views.                                  | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                                       |
 | 14.6  | Add accessible 48-hour mobile redemption and email capture/exchange.                               | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                                                |
@@ -109,8 +109,10 @@ message, migration or activation is authorised by this planning document.
 
 ## Readiness and Release Gates
 
-14.1 is completed at its contract boundary; 14.2 is completed at its local schema boundary. 14.3
-governed staff commands/UI are next. Parallel work does not
+14.1 is completed at its contract boundary; 14.2 is completed at its local schema boundary. The
+[14.3 staff commands/UI](annexures/sprint-14-3-governed-mobile-invitation-staff.md) are implemented
+locally; send/resend reserve requests without issuing tokens or contacting Telnyx. 14.4 delivery
+intents and the server-only sender are next. Parallel work does not
 waive unfinished Sprint 13 quality/debt/release checks. Telnyx capability/cost inspection can be
 read-only; operational sends need explicit authority and a controlled recipient.
 
