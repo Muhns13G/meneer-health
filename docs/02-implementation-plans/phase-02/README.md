@@ -9,6 +9,15 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 # Phase 02 — Minimum Pilot Enablement
 
+## Approved Extension — 8 October 2026
+
+[Sprint 14 — Mobile Pilot Invitations](sprint-14-mobile-pilot-invitations.md) is planned as ten
+commit-sized tasks. Staff will register minimal participant contact details, send a governed
+Telnyx SMS invitation, and let participants supply and verify their own email. Invitation links
+last 48 hours; six-digit email OTPs remain valid for 15 minutes. This is approved direction, not
+implemented or activated functionality. Sprint 13's remaining evidence and release gates still
+apply; final Phase 02 closure must include Sprint 14 if this onboarding extension is adopted.
+
 ## Current Delivery Checkpoint — 7 October 2026
 
 Sprint 13 is now in progress. Task [13.1](annexures/sprint-13-1-rehearsal-contract.md) freezes the

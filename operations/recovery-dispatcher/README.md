@@ -1,6 +1,8 @@
 # Recovery schedule dispatcher
 
-Prepared for Task 13.7; **not deployed or operationally verified**.
+Owner-deployed for Task 13.7; **scheduled backup success is not yet verified**. The initial
+02:17 SAST execution on 8 October failed before a GitHub recovery run was created. The safe
+diagnostic patch below requires a new owner deployment; do not infer it is already hosted.
 
 This separate Worker requests the pinned `Muhns13G/meneer-health` recovery workflow on `main`
 hourly. It does not access the database, R2, encryption key or backup heartbeat. HTTP requests
@@ -18,8 +20,9 @@ return 404. A GitHub 204 means accepted dispatch, not a completed or recoverable
 3. Avoid duplicate routine exports: after the external trigger is proven, the owner can remove the
    original GitHub schedule in a separately reviewed commit. Until then both triggers may export;
    the existing concurrency group prevents simultaneous execution, not duplicate queued exports.
-4. Observe at least three consecutive hourly dispatches, successful encrypted exports and isolated
-   restore reconciliation, with Better Stack remaining Up. Record actual run start/completion
+4. The owner reduced initial acceptance to one successful scheduled dispatch, encrypted export and
+   isolated restore reconciliation, with Better Stack Up. Additional consecutive hourly checks
+   remain follow-up evidence, not already proven sustained cadence. Record actual run start/completion
    intervals. Runner queue delays remain possible; external dispatch is not an hourly RPO guarantee.
 5. Keep the existing one-hour/15-minute heartbeat policy. Missing success must alert. Never send a
    heartbeat from this dispatcher or resolve an incident before successful recovery verification.
@@ -28,6 +31,15 @@ return 404. A GitHub 204 means accepted dispatch, not a completed or recoverable
 
 Validation: `bun run test -- scripts/lib/recovery-dispatcher.test.ts`; upload-only validation:
 `bunx wrangler deploy --config operations/recovery-dispatcher/wrangler.jsonc --dry-run`.
+
+## Safe failure diagnostics
+
+Failure logs contain only the fixed job/acceptance fields, a category (`configuration`,
+`http-rejected`, `timeout`, `network` or `unknown`) and an HTTP status when available. No token,
+Authorization header, response body or original exception is logged. Missing/blank credentials
+fail before network access. A non-204 response still fails closed; diagnostics do not add retries,
+an HTTP trigger or a success heartbeat. HTTP status narrows investigation but does not by itself
+prove the precise provider-side cause.
 
 GitHub's native scheduled events may be delayed or dropped:
 [official troubleshooting guidance](https://docs.github.com/en/actions/how-tos/troubleshoot-workflows).
