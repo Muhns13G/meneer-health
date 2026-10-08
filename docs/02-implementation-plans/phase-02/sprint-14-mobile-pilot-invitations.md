@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-14
 title: Mobile Pilot Invitations and Email-Based Account Activation
-status: planned
+status: in-progress
 authority: owner-approved-direction
 last_updated: 2026-10-08
 owner: "@Muhns13G"
@@ -50,6 +50,13 @@ approved recipients and spend bounds.
 
 ## Contract Decisions to Freeze in 14.1
 
+The [14.1 contract](annexures/sprint-14-1-mobile-invitation-contract.md) records approved 48-hour
+links, message direction and proposed 30-day unconverted-contact/90-day minimal-audit defaults.
+The owner subsequently approves unique participant links plus email verification, with one active
+invitation per tenant/phone, no extra SMS code or routine staff approval, and staff review only for
+duplicate/mismatched contacts or existing-account conflicts. The contract is complete; 14.2 local
+schema work is next. No hosted SMS send is authorised. Sprint 13 blockers remain tracked separately.
+
 - Private tenant-scoped register: given/family names, normalized E.164 phone number, provenance,
   contact-authority evidence, responsible staff member, state and expiry. No medical answers,
   product interest or clinical status in SMS or this register. Treat imports as personal data;
@@ -67,8 +74,9 @@ approved recipients and spend bounds.
   transport/redaction design is an implementation gate, not presumed safe because opaque.
 - Require verified email ownership before conversion into the existing invitation/activation
   path. Verification alone does not prove the person is the intended phone recipient: explicitly
-  resolve forwarded links, shared/recycled numbers and participant mismatch with staff confirmation
-  or a separately approved contact-verification step. Do not silently enable SMS login.
+  record the approved bearer-link/verified-email assurance limit. A forwarded link can be claimed
+  by another mailbox owner; do not claim independent identity proof. Shared/recycled-number reports
+  and participant mismatch go to staff exception review. No extra SMS challenge or SMS login.
 - Define when single-use consumption occurs, how interrupted email verification resumes, OTP
   retries, conflicting email claims, existing accounts, duplicate phones and concurrent claims.
   No partial account activation or automatic merge; uncertain cases go to staff review.
@@ -83,7 +91,7 @@ approved recipients and spend bounds.
 
 | Task  | Outcome                                                                                            | Acceptance boundary                                                                                                                                                            |
 | ----- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 14.1  | Freeze mobile invitation, identity-binding, wording, retention, costs and threat-model contract.   | Resolve contact authority and forwarded/shared-number handling; no hosted change.                                                                                              |
+| 14.1  | Completed: mobile invitation, binding, wording, retention and threat contract.                     | Unique link plus verified email; exceptions to staff; production sending/spend off pending provider proof.                                                                     |
 | 14.2  | Add private pre-email register, token digests, versions, expiry/revocation and journal migrations. | RLS/ACL/tenant isolation, no raw token persistence, collision/expiry/replay tests; local only.                                                                                 |
 | 14.3  | Add AAL2 staff create/review/send/resend/revoke commands and minimal register UI.                  | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
 | 14.4  | Add server-only Telnyx sender port/adapter and bounded durable delivery intents.                   | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                                 |
@@ -100,8 +108,7 @@ message, migration or activation is authorised by this planning document.
 
 ## Readiness and Release Gates
 
-14.1 planning is ready. Application/schema implementation waits for the contract decisions above,
-especially intended-participant binding and email-exchange semantics. Parallel planning does not
+14.1 is completed at its contract boundary; 14.2 local implementation is ready. Parallel work does not
 waive unfinished Sprint 13 quality/debt/release checks. Telnyx capability/cost inspection can be
 read-only; operational sends need explicit authority and a controlled recipient.
 

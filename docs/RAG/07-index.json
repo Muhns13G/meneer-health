@@ -24,6 +24,14 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-14-1",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-1-mobile-invitation-contract.md",
+      "status": "completed-contract-execution-gated",
+      "authority": "owner-approved-contract",
+      "priority": 1,
+      "topics": ["sprint-14", "invitations", "identity", "sms", "retention"]
+    },
+    {
       "id": "phase-02-sprint-13-completion",
       "path": "docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md",
       "status": "completed-with-activation-gates",
@@ -74,7 +82,7 @@
       "path": "docs/02-implementation-plans/phase-02/sprint-14-mobile-pilot-invitations.md",
       "title": "Mobile Pilot Invitations and Email-Based Account Activation",
       "type": "implementation-plan",
-      "status": "planned",
+      "status": "in-progress",
       "authority": "owner-confirmed-direction",
       "priority": 2,
       "topics": ["sms", "invitations", "identity", "telnyx", "sprint-14"]
