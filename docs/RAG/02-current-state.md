@@ -125,6 +125,15 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 14 — Approved Direction, Implementation Not Started
+
+The owner approved the smaller SMS-invitation extension in the
+[Sprint 14 plan](../02-implementation-plans/phase-02/sprint-14-mobile-pilot-invitations.md): ten
+commit-sized tasks covering a private contact register, Telnyx delivery, 48-hour invitation links
+and participant-supplied verified email. Email OTP validity remains 900 seconds. Provider capability,
+identity binding, cost limits and hosted proof must be settled before release. This planning does
+not complete Sprint 13, activate the pilot or establish an implemented SMS channel.
+
 ## Sprint 13.7 — Evidence Reconciliation In Progress
 
 The [13.7 packet](../02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md)

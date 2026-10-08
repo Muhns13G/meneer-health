@@ -24,6 +24,16 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-14",
+      "path": "docs/02-implementation-plans/phase-02/sprint-14-mobile-pilot-invitations.md",
+      "title": "Mobile Pilot Invitations and Email-Based Account Activation",
+      "type": "implementation-plan",
+      "status": "planned",
+      "authority": "owner-confirmed-direction",
+      "priority": 2,
+      "topics": ["sms", "invitations", "identity", "telnyx", "sprint-14"]
+    },
+    {
       "id": "sprint-13-7-evidence-reconciliation",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md",
       "title": "Cross-Record Evidence and Recovery Reconciliation",
