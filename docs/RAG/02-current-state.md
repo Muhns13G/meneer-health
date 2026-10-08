@@ -9,6 +9,8 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-8-security-accessibility.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-5-attributed-mobile-delivery.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-6-mobile-redemption.md
@@ -220,6 +222,14 @@ profile/document activation. Eight concurrent local send requests produce one pr
 successful activation alone consumes the mobile token. Register contacts/minimal journal have
 bounded sweeps; provider-identity orphan retention remains TD-066, not a blanket erasure claim.
 Full manual/security acceptance and authorised hosted delivery remain 14.8–14.9. Defaults remain disabled.
+
+[14.8](../02-implementation-plans/phase-02/annexures/sprint-14-8-security-accessibility.md) is
+completed at its local acceptance boundary: the eight-suite rollback packet passes 463 assertions, actual local claim/email/dispatch
+races restore baselines, and the owner confirms fresh mobile VoiceOver/keyboard/400% zoom checks.
+The broad browser scan passed 312 checks; two local media-configuration failures were fixed with
+controlled environment isolation and 38 affected checks passing. No single all-green final full
+run is claimed; exact-commit full CI is required before 14.9. TD-066's provenance-scoped orphan retention/reissue design is
+prepared; no provider retirement or policy approval is claimed, and its status stays Open.
 
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed
 

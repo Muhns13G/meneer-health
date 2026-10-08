@@ -99,7 +99,7 @@ schema implementation and validation. No hosted SMS send is authorised. Sprint 1
 | 14.5  | Completed locally: add attributed delivery webhook and reconciliation/support views.                | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                                       |
 | 14.6  | Completed locally: accessible 48-hour mobile redemption and email capture/exchange.                 | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                                                |
 | 14.7  | Completed locally: managed email verification and existing atomic profile/document activation.      | Current bearer/immutable email/actual provider session binding; OTP remains 900 seconds; conflicts fail closed, no session shortcuts.                                          |
-| 14.8  | Run complete local security, mobile/browser, keyboard, zoom and assistive-technology packet.        | Tenant/role/purpose/assurance denials, scanner/forward/replay/cost races, no health/token leakage; preserve existing suites.                                                   |
+| 14.8  | Completed locally: security/race packet, manual mobile acceptance and targeted regression fixes.    | Broad scan plus focused-fix evidence; exact-commit full CI required before hosted proof; no release/retention approval.                                                        |
 | 14.9  | Conduct explicitly approved hosted Telnyx/phone/email synthetic rehearsal and cleanup.              | Owner deployment/migrations, approved controlled phone/mailbox and spend cap; actual handset receipt, link/OTP/activation and delivery reconciliation; restore gates/baseline. |
 | 14.10 | Reconcile debt, release checklist, runbooks and Sprint/Phase reports.                               | Exact-commit CI, channel/privacy/recovery readiness, approved first-cohort limits and explicit owner go/no-go.                                                                 |
 
@@ -125,6 +125,12 @@ now completes the local email-conversion boundary: one-shot provider reservation
 OTP/session proof, bounded preactivation, guarded atomic terms/profile conversion and register
 retention sweeping. This does not prove handset/mail delivery or hosted readiness. Neither saving an email nor receiving an SMS
 creates an account or a session.
+The [14.8 acceptance packet](annexures/sprint-14-8-security-accessibility.md) adds fixed local
+rollback/fingerprint and actual concurrent no-send delivery checks. The owner confirms fresh mobile
+VoiceOver/keyboard/400% zoom acceptance. Broad-scan and focused-fix regression evidence is recorded;
+exact-commit full CI is required before the hosted rehearsal. No single all-green final local full run is claimed;
+the [TD-066 design](annexures/sprint-14-unconverted-identity-recovery.md) is prepared, not implemented
+retirement or policy approval. These checks do not activate the channel or close retained launch debt.
 Parallel work does not
 waive unfinished Sprint 13 quality/debt/release checks. Telnyx capability/cost inspection can be
 read-only; operational sends need explicit authority and a controlled recipient.

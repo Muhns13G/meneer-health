@@ -65,6 +65,16 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   Auth OTP/session verification and atomic existing profile/document activation. It uses only local
   generated links, sends no email, rejects hosted/provider configuration, revokes disposable sessions
   and restores exact row fingerprints and named guards. Serialize with other database tests.
+- `bun --no-env-file run test:mobile:security` runs eight fixed rollback-only mobile, workforce
+  and activation SQL suites, fingerprinting all application/Auth rows and security metadata after
+  each rollback. It rejects hosted/provider configuration; serialize with other database tests.
+- `bun --no-env-file run test:mobile:dispatch-race` drives eight concurrent local delivery RPC
+  reservations with a no-send transport, proving one held spend reservation and no blind retry.
+  It drains every request before scoped locked cleanup and fingerprints the complete restored
+  local baseline. It rejects hosted/provider configuration and requires empty mobile/Auth journals.
+- `bun --no-env-file run scripts/review-mobile-invitation.ts` opens a loopback-only synthetic
+  transport fixture on 8086 for the real invitation-page UI. It sends nothing and creates no
+  account; use the 14.8 checklist and stop it afterward. It is not provider/security acceptance.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.

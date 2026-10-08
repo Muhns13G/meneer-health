@@ -1,5 +1,5 @@
--- Rollback-only synthetic storage proof; no Auth identity, send or hosted target.
 begin;
+-- Rollback-only synthetic storage proof; no Auth identity, send or hosted target.
 create extension if not exists pgtap with schema extensions;
 set local search_path=public,extensions;
 select no_plan();
