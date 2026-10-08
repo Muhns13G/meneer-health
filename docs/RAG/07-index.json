@@ -24,11 +24,31 @@
   },
   "documents": [
     {
+      "id": "sprint-13-pre-release-gap-remediation",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md",
+      "title": "Pre-13.10 Remediation and Private Upload Extension",
+      "type": "implementation-annexure",
+      "status": "in-progress",
+      "authority": "approved-scope",
+      "priority": 1,
+      "topics": ["technical-debt", "private-uploads", "recovery", "sprint-13"]
+    },
+    {
+      "id": "sprint-13-9-debt-reconciliation",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md",
+      "title": "Sprint 13 Debt and Activation Gate Reconciliation",
+      "type": "implementation-annexure",
+      "status": "completed-reconciliation",
+      "authority": "observed-evidence",
+      "priority": 2,
+      "topics": ["technical-debt", "activation-gates", "recovery", "sprint-13"]
+    },
+    {
       "id": "sprint-13-8-quality-accessibility",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md",
       "title": "Full Quality Matrix and Released Accessibility Acceptance",
       "type": "implementation-annexure",
-      "status": "in-progress",
+      "status": "completed-owner-acceptance",
       "authority": "observed-evidence",
       "priority": 2,
       "topics": ["quality", "accessibility", "validation", "sprint-13"]

@@ -40,20 +40,26 @@ implemented journey and the operating team can recover safely from expected fail
 
 ## Commit-Sized Task Plan
 
-| Task  | Commit-sized outcome                                                                                                                      | Gate               | Status                |
-| ----- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | --------------------- |
-| 13.1  | Freeze the rehearsal script, test identities, expected evidence, stop conditions, owners and cleanup plan.                                | Release governance | Completed (contract)  |
-| 13.2  | Verify exact deployed version, environment bindings, secrets, hosted migrations, RLS/advisors, monitoring, backup and rollback readiness. | Platform           | Completed             |
-| 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | Completed             |
-| 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Completed             |
-| 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | Completed (synthetic) |
-| 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Completed (synthetic) |
-| 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Completed (initial)   |
-| 13.8  | Run the full local and hosted-safe validation matrix and complete manual desktop/mobile accessibility walkthroughs.                       | Quality            | In progress           |
-| 13.9  | Review every transferred debt item and record Verified, still-gated or scope-removed status without dilution.                             | Debt               | Planned               |
-| 13.10 | Issue the Sprint 13 and Phase 02 completion reports plus explicit pilot go/no-go, rollback and first-client checklist.                    | Release            | Planned               |
+| Task  | Commit-sized outcome                                                                                                                      | Gate               | Status                       |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------ | ---------------------------- |
+| 13.1  | Freeze the rehearsal script, test identities, expected evidence, stop conditions, owners and cleanup plan.                                | Release governance | Completed (contract)         |
+| 13.2  | Verify exact deployed version, environment bindings, secrets, hosted migrations, RLS/advisors, monitoring, backup and rollback readiness. | Platform           | Completed                    |
+| 13.3  | Rehearse invite, identity verification, profile, legal acknowledgement/consent and client portal status.                                  | Onboarding         | Completed                    |
+| 13.4  | Rehearse staff assignment, approved test payment and reconciled status without a real charge.                                             | Operations/payment | Completed                    |
+| 13.5  | Rehearse manual protocol hand-off, acknowledgement, exception and client-safe status without health-data transfer.                        | Protocol bridge    | Completed (synthetic)        |
+| 13.6  | Rehearse cancellation, refund, payment failure, notification failure, unavailable portal, session revocation and support escalation.      | Recovery           | Completed (synthetic)        |
+| 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Completed (initial)          |
+| 13.8  | Run the full local and hosted-safe validation matrix and complete manual desktop/mobile accessibility walkthroughs.                       | Quality            | Completed (owner acceptance) |
+| 13.9  | Review every transferred debt item and record Verified, still-gated or scope-removed status without dilution.                             | Debt               | Completed (reconciliation)   |
+| 13.10 | Issue the Sprint 13 and Phase 02 completion reports plus explicit pilot go/no-go, rollback and first-client checklist.                    | Release            | Planned                      |
 
 ## Acceptance Gate
+
+Task [13.9 debt reconciliation](annexures/sprint-13-9-debt-reconciliation.md) is completed.
+All 63 prior IDs retain their accepted scopes; the seven original activation debts remain
+non-Verified. TD-064 tracks remaining permanent-conflict SQLSTATE paths and TD-065 tracks
+Auth/private Storage recovery coverage: **65 items — 56 Verified, nine non-Verified**.
+13.10 owns their explicit release disposition and scoped go/no-go; no real intake is activated.
 
 Task [13.7 evidence reconciliation](annexures/sprint-13-7-evidence-reconciliation.md) is completed
 at the owner's agreed one-unattended-chain threshold. Cloudflare's 05:17 SAST scheduled event on
@@ -63,12 +69,14 @@ The 04:17 run also passes; ongoing cadence remains an operational obligation, no
 Both Better Stack heartbeat and HTTP monitor are Up. Historical failed executions remain recorded.
 Auth/private Storage recovery gates, manual accessibility and owner release approval are not waived.
 
-Task [13.8 quality/accessibility](annexures/sprint-13-8-quality-accessibility.md) is underway:
+Task [13.8 quality/accessibility](annexures/sprint-13-8-quality-accessibility.md) is completed:
 the local SQL/integration, static/build and hosted anonymous-denial packets pass. All 280 distinct
 browser cases have passing evidence across the full run and an exact desktop staff-support retest;
 the original ENOSPC artifact failure remains recorded. Current-release
 desktop VoiceOver, actual 200%/400% zoom and phone screen-reader checks are owner-confirmed.
-Their exact release/evidence mapping and task-change CI remain explicit gates; earlier local
+The owner confirms task-change CI passes and all three checks covered both local development and
+the latest canonical deployment. Exact device/version and private-flow observation details remain
+unrecorded and are retained for 13.9's evidence review. Earlier local
 VoiceOver confirmations are not reused as released acceptance. Task 13.7's scheduled proof is now
 separately closed. No pilot, generator, payment or hosted fixture activation occurred in 13.8.
 

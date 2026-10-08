@@ -122,7 +122,7 @@ export function createPilotCheckoutCommands(
     const { data, error } = await client.rpc(name, args);
     if (error)
       throw new Error(
-        error.code === "40001" || error.code === "23505"
+        ["PT409", "40001", "23505"].includes(error.code)
           ? "COMMERCE_CONFLICT"
           : "COMMERCE_FORBIDDEN",
       );

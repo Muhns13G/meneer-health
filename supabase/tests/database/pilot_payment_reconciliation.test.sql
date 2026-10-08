@@ -103,7 +103,7 @@ return public.apply_pilot_provider_event('80000000-0000-4000-8000-000000000002',
 end $$;
 select lives_ok($$select pg_temp.refund_event('evt_refundpending123','pending')$$,'signed pending accepted');
 select is((select state from commerce_private.refund_jobs where id=(select id from selected_job)),'pending','pending retains reservation');
-select throws_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object('action','retry','offerId','a4700000-0000-4000-8000-000000000001','refundId',(select id from selected_job),'requestKey',gen_random_uuid()))$$,'40001','REFUND_RECONCILIATION_REQUIRED','pending cannot be blindly retried');
+select throws_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object('action','retry','offerId','a4700000-0000-4000-8000-000000000001','refundId',(select id from selected_job),'requestKey',gen_random_uuid()))$$,'PT409','REFUND_RECONCILIATION_REQUIRED','pending cannot be blindly retried');
 select lives_ok($$select pg_temp.refund_event('evt_refundsuccess123','succeeded',seconds=>1)$$,'independent signed success reconciles');
 select is((select state from commerce_private.refund_jobs where id=(select id from selected_job)),'confirmed','success confirms exact original job');
 select is((select refunded_minor from commerce_private.settlements where intent_id='a4700000-0000-4000-8000-000000000006'),99900,'signed job success contributes once to cumulative refund');

@@ -41,6 +41,16 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Task 13.9 — Reconciled, Activation Gates Retained
+
+The [13.9 debt packet](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md)
+reviews all 63 existing IDs against their recorded scopes. TD-006/007/009/010 remain In progress;
+TD-037/038/043 remain Open. Fresh owner-confirmed local and released accessibility acceptance
+completes Task 13.8 but does not supply individual exhaustive private-flow observations or exact
+device/AT references. Two explicit remaining limitations are registered as TD-064/065 below.
+Current totals: **65 items — 56 Verified, nine non-Verified**. Earlier totals are historical.
+Task 13.9 is complete as reconciliation, not debt waiver, pilot activation or Phase 02 closure.
+
 ### Sprint 13.5 Workflow Finding — TD-063 Verified
 
 The first-party medical transfer RPC requires a ready case, but the only current queue readiness
@@ -738,6 +748,41 @@ nonclinical reconciliation pass without seeding ready state. The exact capture i
 independent 127-table/13-row fingerprints, original triggers, zero Auth/sessions and disabled
 same-source runtime with temporary tenant binding removed pass. Verified at this protected
 Meneer-only boundary; no generator access, external transfer, clinical approval or pilot activation.
+
+## TD-064 — Remaining Permanent Business Conflicts Use Serialization SQLSTATE
+
+Priority **P1**; status **In progress**. Owner: System Architect / `@Muhns13G`. Target: before enabling
+affected commands; release disposition in Task 13.10. Evidence and acceptance:
+[Task 13.9](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md).
+Latest source definitions retain two intentional `40001` raises in `patient_intake_restrict` and
+four in `respond_medical_safety`; previous narrow patches do not correct these functions.
+Inventory other latest reachable refund/commerce/alert/legacy definitions before a bounded fix.
+The fully migrated local catalogue now inventories 21 remaining functions. Guarded migration
+`20261008100000_remaining_business_conflict_status.sql` corrects their allowlisted permanent raises
+while asserting unchanged owner/ACL/configuration/security/volatility; response mapping and SQL
+regressions accompany it. Local replay and the original 1,599 assertions pass. This does not apply
+the migration to hosted Supabase or prove routed hosted behaviour. See the
+[active remediation packet](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md).
+Require security-preserving local stale/replay/atomicity tests, explicit hosted migration approval,
+owner deployment and routed conflict/unchanged-state proof with exact cleanup. Static evidence is
+not a fresh hosted failure, and genuine serialization errors must not be globally rewritten.
+
+## TD-065 — Auth and Private Storage Recovery Coverage
+
+Priority **P1**; status **In progress**. Owner: System Architect, alternate Product Owner. Target:
+before real intake; release disposition in Task 13.10. Evidence and acceptance:
+[Task 13.9](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md).
+The nine-schema application export excludes Auth and Storage; no object-byte restore is proven.
+The owner expressly requires new optional private blood-result uploads before launch (PDF/JPEG/PNG,
+10 MB/file, five/client). The approved scope and pending implementation/scan/retention/recovery
+requirements are recorded in the active remediation packet; no upload implementation or recovery
+verification is claimed yet. Owner-nominated operational primary/alternate are Mansoer Gallie and
+Mikhail Robertson; clinical lead/alternate are Tasneem and Dr Ziyaad Noor, with professional authority,
+coverage and agreements still to be evidenced privately.
+Approve and exercise secure identity recovery/relink, MFA/session revocation and private-object/
+metadata recovery for enabled uploads, or explicitly exclude uploads from scope. Record custody,
+isolation, dependencies, reconciliation and bounded recovery objectives. Do not broaden TD-020's
+Verified application-recovery scope or add sensitive exports without approved design/authority.
 
 ## Registry Maintenance Rules
 

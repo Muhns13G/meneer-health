@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-13-8
 title: Full Quality Matrix and Released Accessibility Acceptance
-status: in-progress-release-evidence-pending
+status: completed-owner-acceptance
 last_updated: 2026-10-08
 source_commit: 260116c59c0e121a287b24dc1bd9b73d68f1912c
 owner: "@Muhns13G"
@@ -99,16 +99,23 @@ checks: desktop VoiceOver, actual 200%/400% browser zoom, and a phone's screen r
 owner-reported manual acceptance, not an agent-observed review or an emulated-device result.
 No defect was reported. It is fresh confirmation, not a reuse of Sprint-12 evidence.
 
-The confirmation does not provide exact device/OS/browser/AT versions, a deployed source/Worker
-identifier, or individual private-flow checklist results. Those details remain unrecorded; do not
-infer that every private flow was reviewed. Reconcile the reviewed release and any required
-flow-specific evidence before final closure.
+The owner subsequently confirmed that all three checks covered both local development and the
+latest deployed site at `https://meneerhealth.co.za/`. This establishes the reviewed environment
+through owner attestation. Exact device/OS/browser/AT versions, deployed Worker identifier and
+individual private-flow observations were not supplied; do not invent them or infer an exhaustive
+agent-observed private-flow review. Retain that evidence-granularity limitation for the 13.9 review.
 
 ## Closure Gate
 
+The owner confirms CI passes on the latest committed branch. The checkout is clean on `itws-I`
+at `2b8d199360e44c6ec2c9e68505958c4502c0896e`, containing this task's changes. This CI result
+is owner-reported; the GitHub API was unavailable during this recording. The owner also identifies
+the latest deployed canonical site as the hosted manual-review target; its exact Worker identifier
+was not independently obtained here.
+
 The automated packet is verified across the full run and focused storage-failure retest.
-The owner's three accessibility checks are confirmed. Complete their release/evidence mapping
-and obtain passing CI for the owner-committed task changes.
-Until then Task 13.8 is in progress. This packet neither verifies transferred domain debt nor makes
+The owner's three accessibility checks on both local and latest hosted code, plus committed-branch
+CI, are confirmed. Task 13.8 is completed on that explicitly owner-attested acceptance basis, with
+the evidence-granularity limitation above retained. This packet neither verifies transferred domain debt nor makes
 Sprint 13/Phase 02 complete; those decisions belong to 13.9/13.10. Generator activation remains
 deferred until the approved manual-generation need, and the real pilot remains suspended.

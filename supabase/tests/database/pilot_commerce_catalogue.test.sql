@@ -67,7 +67,7 @@ where tenant_id='10000000-0000-4000-8000-000000000001' and subject_id='20000000-
 select is(pg_temp.offer('{"scenario":"review_deposit","items":[],"requestKey":"a1300000-0000-4000-8000-000000000001"}')->>'amountTotalMinor','99900','server resolves exact approved deposit');
 select is(pg_temp.offer('{"scenario":"review_deposit","items":[],"requestKey":"a1300000-0000-4000-8000-000000000001"}')->>'replayed','true','exact replay returns immutable offer');
 select throws_ok($$select pg_temp.offer('{"scenario":"review_deposit","items":[],"requestKey":"a1300000-0000-4000-8000-000000000002"}')$$,'42501','COMMERCE_NOT_READY','second deposit offer denied');
-select throws_ok($$select pg_temp.offer('{"scenario":"approved_product_order","items":[],"requestKey":"a1300000-0000-4000-8000-000000000001"}')$$,'40001','COMMERCE_CONFLICT','changed replay denied');
+select throws_ok($$select pg_temp.offer('{"scenario":"approved_product_order","items":[],"requestKey":"a1300000-0000-4000-8000-000000000001"}')$$,'PT409','COMMERCE_CONFLICT','changed replay denied');
 select throws_ok($test$do $$begin update intake_private.intakes set safety_hold=true;
 perform pg_temp.offer('{"scenario":"review_deposit","items":[],"requestKey":"a1300000-0000-4000-8000-000000000001"}');end$$$test$,'42501','COMMERCE_NOT_READY','replay rechecks safety hold');
 select throws_ok($test$select commerce_private.prepare_offer('10000000-0000-4000-8000-000000000002',

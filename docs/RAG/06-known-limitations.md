@@ -116,14 +116,32 @@ sources:
 
 ## Latest Sprint 13 Checkpoint — 8 October
 
+The owner requests remediation before 13.10, including newly scoped optional private blood-result
+uploads, not an onboarding-only launch. TD-064/065 are In progress; there is no new hosted migration
+or verified Auth/object restore in this remediation yet. Draft notices remain internal/unapproved.
+Nominated owners, the ordinary 24-hour response target and upload limits are recorded in the
+[active gap packet](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md);
+they do not establish professional authority, approved instruments, scan/retention policy or live
+commercial/product eligibility. Counts remain 65 debts, 56 Verified and nine non-Verified.
+
+Task [13.9](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md)
+is completed as debt reconciliation, not release approval. Nine debts remain non-Verified:
+TD-006/007/009/010/037/038/043 plus newly registered TD-064 (remaining permanent-conflict
+SQLSTATE paths) and TD-065 (Auth/private Storage recovery). Individual private-flow AT observations
+remain unrecorded; owner acceptance of 13.8 is not exhaustive verification of TD-037/038.
+Before real intake, 13.10 must resolve the applicable recovery, publication, appointment and support
+gates and issue an explicit scoped go/no-go. No generator reactivation is required by this review.
+
 Task 13.7 is closed at the owner's agreed initial scheduled-chain threshold: the corrected
 Cloudflare 05:17 event, successful GitHub production restore and fresh Better Stack heartbeat
 are independently observed. Historical pending statements below predate that closure. Continuing
 hourly success, alert response and token management remain operational obligations; Auth/private
 Storage recovery coverage remains a separate pre-intake gate, not part of the application export.
 Task 13.8's automated packet is verified, and the owner freshly confirms desktop VoiceOver,
-actual 200%/400% browser zoom and phone screen-reader checks. Exact reviewed-release/device mapping,
-individual private-flow observations and task-change CI remain outstanding. No prior local
+actual 200%/400% browser zoom and phone screen-reader checks on both local development and the latest
+canonical deployment, plus passing committed-branch CI. Task 13.8 is completed on that owner-attested
+basis. Exact device/Worker versions and individual private-flow observations remain unrecorded and
+are retained for the 13.9 evidence review, not claimed as independently observed. No prior local
 confirmation or emulated Pixel 7 result substitutes for that review. Sprint 13, the debt
 review and the owner go/no-go decision remain open; no pilot or generator activation is inferred.
 

@@ -111,7 +111,8 @@ export function createPortalHandoffHttpHandler(
             });
             if (error?.code === "42501") throw new IdentityRejectedError();
             if (error?.code === "55000") throw new Error("HANDOFF_NOT_READY");
-            if (error?.code === "40001") throw new Error("HANDOFF_CONFLICT");
+            if (error?.code === "PT409" || error?.code === "40001")
+              throw new Error("HANDOFF_CONFLICT");
             if (error || !z.uuid().safeParse(data).success) throw new Error("HANDOFF_UNAVAILABLE");
             return data as string;
           },

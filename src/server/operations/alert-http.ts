@@ -110,7 +110,7 @@ export function createAlertHttpHandler(
         return result(
           error.code === "42501"
             ? 403
-            : ["23505", "40001", "55000"].includes(error.code ?? "")
+            : ["PT409", "23505", "40001", "55000"].includes(error.code ?? "")
               ? 409
               : 503,
         );

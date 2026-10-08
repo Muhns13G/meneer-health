@@ -27,7 +27,8 @@ export class SupabasePatientRightsRepository implements PatientRightsRepository 
         p_command: command,
       });
       if (error?.code === "42501") throw new IdentityRejectedError();
-      if (error?.code === "40001") throw new PatientRightsConflictError();
+      if (error?.code === "PT409" || error?.code === "40001")
+        throw new PatientRightsConflictError();
       if (error) throw new IdentityUnavailableError();
       const parsed = patientRightsResultSchema.safeParse(data);
       if (!parsed.success) throw new IdentityUnavailableError();
