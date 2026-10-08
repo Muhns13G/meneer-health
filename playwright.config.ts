@@ -43,7 +43,11 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "bun run dev -- --host 127.0.0.1 --port 8085",
+    // Avoid nested Bun dotenv autoload and Cloudflare loading of ignored hosted files.
+    command: "node node_modules/vite/bin/vite.js dev --host 127.0.0.1 --port 8085",
+    env: {
+      CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false",
+    },
     url: `${baseURL}/`,
     reuseExistingServer: false,
     timeout: 120_000,
