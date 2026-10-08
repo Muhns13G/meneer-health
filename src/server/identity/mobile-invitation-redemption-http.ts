@@ -7,6 +7,16 @@ import {
   type RateLimitPort,
 } from "@/server/security/request-security";
 import { mobileInvitationDocument } from "./mobile-invitation-page";
+import { createSupabaseManagedIdentityProvider } from "@/adapters/identity/supabase/supabase-managed-identity-provider";
+import {
+  MobileInvitationEmailService,
+  mobileEmailRepository,
+} from "./mobile-invitation-email-service";
+import {
+  preactivationCookieName,
+  readPreactivationKey,
+  sealPreactivationProof,
+} from "./preactivation-cookie";
 import {
   mobileClaimCookie,
   mobileClaimKey,
@@ -24,6 +34,8 @@ export type MobileRedemptionBindings = {
   MOBILE_INVITATIONS_REDEMPTION_MODE?: unknown;
   MOBILE_INVITATIONS_TENANT_ID?: unknown;
   MOBILE_INVITATION_CLAIM_KEY_BASE64?: unknown;
+  MOBILE_INVITATIONS_EMAIL_MODE?: unknown;
+  IDENTITY_PREACTIVATION_KEY_BASE64?: unknown;
 };
 export type MobileExchangePort = (input: {
   p_tenant_id: string;
@@ -56,6 +68,7 @@ function response(status: number, body: unknown, cookie?: string) {
 export function createMobileRedemptionHandler(
   bindings: MobileRedemptionBindings,
   injected?: MobileExchangePort,
+  injectedEmail?: Pick<MobileInvitationEmailService, "request" | "verify">,
 ) {
   return async (request: Request) => {
     const url = new URL(request.url);
@@ -70,7 +83,8 @@ export function createMobileRedemptionHandler(
       return request.method === "HEAD" ? new Response(null, { headers: page.headers }) : page;
     }
     const action = url.pathname.replace("/mobile-invitation/", "");
-    if (!["redeem", "read", "bind", "decline"].includes(action)) return response(404, null);
+    if (!["redeem", "read", "bind", "decline", "email", "verify"].includes(action))
+      return response(404, null);
     const inspected = await inspectProtectedFormRequest(request, {
       action: "mobile-redemption",
       rateLimiter: bindings.REQUEST_RATE_LIMITER,
@@ -94,6 +108,61 @@ export function createMobileRedemptionHandler(
         cookies.length === 1
           ? await openMobileClaim(cookies[0]!.slice(mobileClaimCookie.length + 1), key)
           : null;
+      if (action === "email" || action === "verify") {
+        if (bindings.MOBILE_INVITATIONS_EMAIL_MODE !== "enabled") return response(503, null);
+        const preactivationKey = readPreactivationKey(bindings.IDENTITY_PREACTIVATION_KEY_BASE64);
+        if (!proof || proof.tenantId !== tenant)
+          return response(200, { status: "unavailable" }, clearCookie);
+        if (
+          (action === "email" && Object.keys(fields).length) ||
+          (action === "verify" &&
+            !z
+              .object({ code: z.string().regex(/^\d{6}$/) })
+              .strict()
+              .safeParse(fields).success)
+        )
+          return response(422, null);
+        if (
+          !(await bindings.REQUEST_RATE_LIMITER.limit({ key: `mobile-email:${proof.tokenDigest}` }))
+            .success
+        )
+          return response(429, null);
+        let service = injectedEmail;
+        if (!service) {
+          const config = initialiseServerEnvironment({
+            SUPABASE_URL: bindings.SUPABASE_URL,
+            SUPABASE_SECRET_KEY: bindings.SUPABASE_SECRET_KEY,
+          }).environment.supabase;
+          if (!config) return response(503, null);
+          const client = createClient(config.url, config.secretKey, {
+            auth: {
+              persistSession: false,
+              autoRefreshToken: false,
+              detectSessionInUrl: false,
+            },
+          });
+          service = new MobileInvitationEmailService(
+            mobileEmailRepository(client),
+            createSupabaseManagedIdentityProvider(config),
+          );
+        }
+        if (action === "email")
+          return response(200, {
+            status: (await service.request(proof)) ? "code-requested" : "unavailable",
+          });
+        try {
+          const verified = await service.verify(proof, fields.code!);
+          const cookie = await sealPreactivationProof(verified, preactivationKey);
+          if (cookie.length > 3800) throw new Error("MOBILE_PREACTIVATION_INVALID");
+          return response(
+            200,
+            { status: "verified" },
+            `${preactivationCookieName}=${cookie}; Path=/; Max-Age=${Math.max(0, Math.floor((Math.min(Date.now() + 600000, verified.session.expiresAt.getTime()) - Date.now()) / 1000))}; HttpOnly; Secure; SameSite=Strict`,
+          );
+        } catch {
+          return response(422, null);
+        }
+      }
       const bearer =
         action === "redeem" || (action === "decline" && Object.hasOwn(fields, "token"))
           ? tokenSchema.safeParse(fields)
