@@ -21,6 +21,12 @@ the factual placeholders in unissued instruments. Earlier delivery checkpoints b
 
 ## Approved Extension — 8 October 2026
 
+Task [14.1](annexures/sprint-14-1-mobile-invitation-contract.md) is completed at contract level. The owner asks
+to complete Sprint 14 before returning to the launch blockers, not to waive them. Message direction
+and proposed unconverted-contact/audit retention defaults are approved; unique-link plus verified
+email is selected without a second SMS challenge or routine staff confirmation. Duplicate/account
+conflicts go to staff exceptions. Local 14.2 implementation is next; no provider send has begun.
+
 [Sprint 14 — Mobile Pilot Invitations](sprint-14-mobile-pilot-invitations.md) is planned as ten
 commit-sized tasks. Staff will register minimal participant contact details, send a governed
 Telnyx SMS invitation, and let participants supply and verify their own email. Invitation links
