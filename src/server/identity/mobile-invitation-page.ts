@@ -114,6 +114,7 @@ const controller = String.raw`
     });
     window.addEventListener("pagehide", () => stop("Reopen the invitation to continue."));
     window.addEventListener("pageshow", (event) => { if (event.persisted) stop("Reopen the invitation to continue."); });
+    document.getElementById("script-required").hidden = true;
   }, { once: true });
 })();`;
 
@@ -140,7 +141,7 @@ export function mobileInvitationDocument(): Response {
 <input id="code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required aria-describedby="code-help">
 <p id="code-help">Use the code sent to your saved mailbox. If it expires or delivery cannot be confirmed, reopen your invitation or contact support. Saving or verifying email does not accept account terms.</p>
 <button type="submit">Verify email</button></form>
-<noscript><p>JavaScript is required for this secure invitation step. No account has been created. Contact support for help.</p></noscript>
+<p id="script-required">JavaScript is required for this secure invitation step. No account has been created. Contact support for help.</p>
 <p>Help: <a href="mailto:support@meneerhealth.co.za">support@meneerhealth.co.za</a></p>
 </main></body></html>`,
     {

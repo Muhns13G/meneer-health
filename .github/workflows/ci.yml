@@ -74,11 +74,13 @@ jobs:
           bun run test:notifications
           bun --no-env-file run test:mobile:redemption
           bun --no-env-file run test:mobile:conversion
+          bun --no-env-file run test:mobile:security
+          bun --no-env-file run test:mobile:dispatch-race
           bun run test:identity:security
           bun run test:operations:rehearsal
           bun run db:lint
           bun run test:auth
-          bun run test:workforce
+          bun --no-env-file run test:workforce
           bun run test:authz
           bun run test:commands
           bun run test:audit

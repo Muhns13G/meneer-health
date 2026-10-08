@@ -2,6 +2,86 @@ import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 const token = "A".repeat(43);
+test("keyboard-only code journey remains usable at 400-percent CSS zoom and leaks no contact to URLs or storage", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  const traffic: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("request", (request) => traffic.push(request.url()));
+  await page.route("**/mobile-invitation/*", async (route) => {
+    const action = new URL(route.request().url()).pathname.split("/").at(-1);
+    await route.fulfill({
+      json:
+        action === "email"
+          ? { status: "code-requested" }
+          : action === "verify"
+            ? { status: "verified" }
+            : {
+                status: "claimed",
+                emailBound: action === "bind",
+                expiresAt: new Date(Date.now() + 600000).toISOString(),
+              },
+    });
+  });
+  await page.route("**/account/activate", (route) =>
+    route.fulfill({ contentType: "text/html", body: "<h1>Synthetic activation handoff</h1>" }),
+  );
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(`/mobile-invitation#${token}`);
+  await page.evaluate(() => {
+    document.body.style.zoom = "4";
+  });
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Continue", exact: true })).toBeFocused();
+  await page.keyboard.press("Enter");
+  const email = page.getByRole("textbox", { name: "Your email address" });
+  await expect(email).toBeFocused();
+  await email.fill("synthetic-zoom@example.invalid");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Save email" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.getByRole("status")).toContainText("Your email is saved");
+  await page.keyboard.press("Tab");
+  // Status is focused before the next available control; no keyboard trap.
+  await expect(page.getByRole("button", { name: "Decline invitation", exact: true })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Send verification code" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  const code = page.getByRole("textbox", { name: "Six-digit invitation code" });
+  await expect(code).toBeFocused();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await code.fill("123456");
+  await page.keyboard.press("Tab");
+  await expect(page.getByRole("button", { name: "Verify email" })).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/account\/activate$/);
+  expect(
+    traffic.every(
+      (url) => !url.includes(token) && !url.includes("synthetic-zoom") && !url.includes("123456"),
+    ),
+  ).toBe(true);
+  expect(await page.evaluate(() => localStorage.length + sessionStorage.length)).toBe(0);
+  expect(errors).toEqual([]);
+});
+test("without JavaScript the document gives support guidance and performs no exchange", async ({
+  browser,
+}) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  try {
+    const page = await context.newPage();
+    const requests: string[] = [];
+    page.on("request", (request) => requests.push(request.url()));
+    await page.goto(`http://127.0.0.1:8085/mobile-invitation#${token}`);
+    await expect(page.getByText("JavaScript is required", { exact: false })).toBeVisible();
+    await page.getByRole("button", { name: "Continue", exact: true }).click();
+    expect(requests).toHaveLength(1);
+    await expect(page.getByRole("textbox", { name: "Your email address" })).toBeHidden();
+  } finally {
+    await context.close();
+  }
+});
 test("deployed local endpoints remain fail-closed without configuration and reject scanner mutations", async ({
   request,
 }) => {

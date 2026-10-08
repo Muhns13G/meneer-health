@@ -1,14 +1,14 @@
 import { execFileSync } from "node:child_process";
 import { countRehearsalAssertions } from "./lib/sprint10-rehearsal";
 import {
-  assertLocalEvidenceEnvironment,
-  buildSprint13EvidenceSuite,
-  evidenceBaselineSql,
-  sprint13EvidenceSuites,
-  validateEvidenceBaseline,
-} from "./lib/sprint13-evidence-rehearsal";
+  assertLocalMobileEnvironment,
+  buildMobileSecuritySuite,
+  mobileSecurityBaselineSql,
+  mobileSecuritySuites,
+  validateMobileSecurityBaseline,
+} from "./lib/sprint14-security";
 
-assertLocalEvidenceEnvironment(process.env);
+assertLocalMobileEnvironment(process.env);
 function sql(input: string) {
   return execFileSync(
     "docker",
@@ -38,38 +38,34 @@ function sql(input: string) {
 let assertions = 0;
 let currentSuite: string = "baseline";
 try {
-  const baseline = validateEvidenceBaseline(sql(evidenceBaselineSql));
-  for (const suite of sprint13EvidenceSuites) {
+  const baseline = validateMobileSecurityBaseline(sql(mobileSecurityBaselineSql));
+  for (const suite of mobileSecuritySuites) {
     currentSuite = suite;
-    assertions += countRehearsalAssertions(sql(buildSprint13EvidenceSuite(suite)));
-    if (validateEvidenceBaseline(sql(evidenceBaselineSql)) !== baseline) {
-      throw new Error("SPRINT13_EVIDENCE_BASELINE_CHANGED");
-    }
+    assertions += countRehearsalAssertions(sql(buildMobileSecuritySuite(suite)));
+    if (validateMobileSecurityBaseline(sql(mobileSecurityBaselineSql)) !== baseline)
+      throw new Error("MOBILE_SECURITY_BASELINE_CHANGED");
   }
 } catch (error) {
-  // Raw SQL diagnostics may contain sensitive values; never emit them or a cause.
   const reason =
     error instanceof Error &&
     [
-      "SPRINT13_EVIDENCE_BASELINE_CHANGED",
+      "MOBILE_SECURITY_BASELINE_CHANGED",
       "SPRINT10_REHEARSAL_ASSERTIONS_FAILED",
-      "SPRINT13_EVIDENCE_TRANSACTION_REJECTED",
-      "SPRINT13_EVIDENCE_ROLLBACK_BOUNDARY_MISSING",
       "SPRINT13_HANDOFF_BASELINE_INVALID",
     ].includes(error.message)
       ? error.message
       : "SQL_EXECUTION_FAILED";
-  throw new Error(`SPRINT13_EVIDENCE_LOCAL_FAILED:${currentSuite}:${reason}`);
+  throw new Error(`MOBILE_SECURITY_FAILED:${currentSuite}:${reason}`);
 }
 console.log(
   JSON.stringify({
-    exercise: "sprint13-evidence-local",
-    suites: sprint13EvidenceSuites.length,
+    exercise: "local-mobile-security",
+    suites: mobileSecuritySuites.length,
     assertions,
     rollbackOnly: true,
     rowSecurityTriggerFunctionBaselineRestored: true,
     hosted: false,
-    providerContacted: false,
-    generatorContacted: false,
+    emailsSent: 0,
+    smsSent: 0,
   }),
 );
