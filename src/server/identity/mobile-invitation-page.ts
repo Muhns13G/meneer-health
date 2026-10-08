@@ -15,21 +15,24 @@ const controller = String.raw`
     const status = document.getElementById("status");
     const email = document.getElementById("email");
     const form = document.getElementById("email-form");
+    const codeForm = document.getElementById("code-form");
+    const code = document.getElementById("code");
+    const sendCode = document.getElementById("send-code");
     const continueButton = document.getElementById("continue");
     const declineButton = document.getElementById("decline");
     const confirmButton = document.getElementById("confirm-decline");
     const controls = [...document.querySelectorAll("button, input")];
     const say = (text) => { status.textContent = text; status.focus(); };
     const stop = (text) => {
-      stopped = true; bearer = ""; requestKey = ""; email.value = "";
-      clearTimeout(timer); form.hidden = true;
+      stopped = true; bearer = ""; requestKey = ""; email.value = ""; code.value = "";
+      clearTimeout(timer); form.hidden = true; codeForm.hidden = true; sendCode.hidden = true;
       controls.forEach((control) => { control.disabled = true; });
       say(text);
     };
     async function post(action, fields) {
       if (busy || stopped) return null;
       busy = true; controls.forEach((control) => { control.disabled = true; });
-      form.setAttribute("aria-busy", "true"); say("Checking your invitation…");
+      form.setAttribute("aria-busy", "true"); codeForm.setAttribute("aria-busy", "true"); say("Checking your invitation…");
       const abort = new AbortController();
       const timeout = setTimeout(() => abort.abort(), 12000);
       try {
@@ -49,7 +52,7 @@ const controller = String.raw`
         if (!stopped) say("We could not confirm that request. Try again with the same details. Do not assume it was saved.");
         return null;
       } finally {
-        clearTimeout(timeout); busy = false; form.setAttribute("aria-busy", "false");
+        clearTimeout(timeout); busy = false; form.setAttribute("aria-busy", "false"); codeForm.setAttribute("aria-busy", "false");
         if (!stopped) controls.forEach((control) => { control.disabled = false; });
       }
     }
@@ -63,9 +66,10 @@ const controller = String.raw`
       clearTimeout(timer);
       timer = setTimeout(() => stop("Your claim has expired. Reopen the original invitation or contact support."), Math.min(expiry - Date.now(), 900000));
       form.hidden = result.emailBound;
+      sendCode.hidden = !result.emailBound;
       if (result.emailBound) {
         email.value = "";
-        say("Your email is saved for this invitation. Email verification and registration are not enabled yet. No account has been created.");
+        say("Your email is saved for this invitation. Choose Send verification code to verify your mailbox. No account has been activated.");
       } else {
         say("Invitation checked. Enter your own email address. This claim lasts up to 15 minutes; the invitation remains valid for at most 48 hours from issue.");
         email.focus();
@@ -90,6 +94,24 @@ const controller = String.raw`
       const result = await post("bind", { email: email.value });
       if (result) showClaim(result);
     });
+    sendCode.addEventListener("click", async () => {
+      const result = await post("email", {});
+      if (result && result.status === "code-requested") {
+        codeForm.hidden = false; sendCode.hidden = true;
+        say("Check your mailbox for the six-digit invitation code. It expires in 15 minutes and cannot extend this claim. Enter it here; do not share it.");
+        code.focus();
+      }
+    });
+    codeForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!codeForm.reportValidity()) return;
+      const result = await post("verify", { code: code.value });
+      code.value = "";
+      if (result && result.status === "verified") {
+        stop("Your mailbox is verified. Continue with the account terms and profile; you are not signed in yet.");
+        location.assign("/account/activate");
+      }
+    });
     window.addEventListener("pagehide", () => stop("Reopen the invitation to continue."));
     window.addEventListener("pageshow", (event) => { if (event.persisted) stop("Reopen the invitation to continue."); });
   }, { once: true });
@@ -113,6 +135,11 @@ export function mobileInvitationDocument(): Response {
 <input id="email" name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby="email-help">
 <p id="email-help">Use your own mailbox. Once saved it cannot be changed here; ask support to revoke and reissue the invitation if it is wrong. No marketing consent or clinical information is collected.</p>
 <button type="submit">Save email</button></form>
+<button id="send-code" type="button" hidden>Send verification code</button>
+<form id="code-form" hidden><label for="code">Six-digit invitation code</label>
+<input id="code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" minlength="6" maxlength="6" required aria-describedby="code-help">
+<p id="code-help">Use the code sent to your saved mailbox. If it expires or delivery cannot be confirmed, reopen your invitation or contact support. Saving or verifying email does not accept account terms.</p>
+<button type="submit">Verify email</button></form>
 <noscript><p>JavaScript is required for this secure invitation step. No account has been created. Contact support for help.</p></noscript>
 <p>Help: <a href="mailto:support@meneerhealth.co.za">support@meneerhealth.co.za</a></p>
 </main></body></html>`,

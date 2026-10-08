@@ -8,6 +8,10 @@ owner: "@Muhns13G"
 
 # Task 2.14.6 — Mobile Redemption
 
+Successor: [14.7 email conversion](sprint-14-7-email-conversion.md) now implements the local
+verification/activation boundary. Statements below describe the 14.6 historical scope, not the
+current absence of email conversion; hosted/provider and manual acceptance remain pending.
+
 ## Scope and Release Boundary
 
 Builds on committed 14.5 at `0e44fea`. Adds deliberate redemption, immutable email binding and

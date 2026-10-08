@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-5-attributed-mobile-delivery.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-6-mobile-redemption.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-4-mobile-delivery-intents.md
@@ -205,15 +206,20 @@ The local [14.5](../02-implementation-plans/phase-02/annexures/sprint-14-5-attri
 implementation adds canonical Ed25519 callbacks, exact digest/profile/destination attribution,
 immutable receipts and conflicts, masked operations/AAL2 status and guarded one-shot dispatch.
 Carrier delivery is never participant acceptance; replay, conflicting finals and late revocation
-receipts cannot activate identities or release held spend. Defaults remain disabled. Operational retention sweeping,
-redemption/email conversion and hosted/provider proof remain later task boundaries.
+receipts cannot activate identities or release held spend. Defaults remain disabled. Later tasks
+14.6–14.7 add redemption/email conversion and register retention; hosted/provider proof is still pending.
 
 [14.6](../02-implementation-plans/phase-02/annexures/sprint-14-6-mobile-redemption.md)
 adds local-only deliberate redemption/decline and immutable email capture: an inert first-party
 document strips fragment bearers, exchanges digests through protected POSTs and seals a bounded
 HttpOnly claim cookie. Exact interrupted exchanges resume without renewed expiry; tenant-locked
-SQL allows one claimant and invalidates claims on revoke/resend. Email verification/conversion,
-retention sweeping and hosted/provider acceptance remain 14.7–14.9. Defaults remain disabled.
+SQL allows one claimant and invalidates claims on revoke/resend.
+[14.7](../02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md) now implements
+one-shot managed email reservation, actual local Auth OTP/session verification and existing atomic
+profile/document activation. Eight concurrent local send requests produce one provider invitation;
+successful activation alone consumes the mobile token. Register contacts/minimal journal have
+bounded sweeps; provider-identity orphan retention remains TD-066, not a blanket erasure claim.
+Full manual/security acceptance and authorised hosted delivery remain 14.8–14.9. Defaults remain disabled.
 
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed
 
