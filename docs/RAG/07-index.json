@@ -24,6 +24,16 @@
   },
   "documents": [
     {
+      "id": "sprint-13-8-quality-accessibility",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md",
+      "title": "Full Quality Matrix and Released Accessibility Acceptance",
+      "type": "implementation-annexure",
+      "status": "in-progress",
+      "authority": "observed-evidence",
+      "priority": 2,
+      "topics": ["quality", "accessibility", "validation", "sprint-13"]
+    },
+    {
       "id": "phase-02-sprint-14",
       "path": "docs/02-implementation-plans/phase-02/sprint-14-mobile-pilot-invitations.md",
       "title": "Mobile Pilot Invitations and Email-Based Account Activation",
@@ -38,7 +48,7 @@
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md",
       "title": "Cross-Record Evidence and Recovery Reconciliation",
       "type": "implementation-annexure",
-      "status": "in-progress",
+      "status": "completed-initial-scheduled-acceptance",
       "authority": "observed-evidence",
       "priority": 2,
       "topics": ["audit", "recovery", "cleanup", "monitoring", "sprint-13"]
