@@ -5,7 +5,7 @@ const token = "A".repeat(43);
 test("deployed local endpoints remain fail-closed without configuration and reject scanner mutations", async ({
   request,
 }) => {
-  for (const action of ["redeem", "read", "bind", "decline"]) {
+  for (const action of ["redeem", "read", "bind", "decline", "email", "verify"]) {
     const url = `/mobile-invitation/${action}`;
     const response = await request.get(url);
     expect(response.status()).toBe(404);
@@ -68,13 +68,86 @@ test("deliberate exchange and email capture are accessible, no provider verifica
   await email.fill("synthetic@example.invalid");
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.getByRole("button", { name: "Save email" }).click();
-  await expect(page.getByRole("status")).toContainText("No account has been created");
+  await expect(page.getByRole("status")).toContainText("No account has been activated");
   expect(posted.map((request) => request.action)).toEqual(["redeem", "bind"]);
   expect(new URLSearchParams(posted[0]!.body).get("token")).toBe(token);
   expect(posted[1]!.body).not.toContain(token);
   await expect(email).toBeHidden();
   expect(await page.locator("#email").inputValue()).toBe("");
   expect(await page.evaluate(() => localStorage.length + sessionStorage.length)).toBe(0);
+});
+test("email send and code verification are deliberate, bounded and lead only to existing activation", async ({
+  page,
+}) => {
+  const calls: { action: string; fields: string }[] = [];
+  await page.route("**/mobile-invitation/*", async (route) => {
+    const action = new URL(route.request().url()).pathname.split("/").at(-1)!;
+    calls.push({ action, fields: route.request().postData() ?? "" });
+    await route.fulfill({
+      json:
+        action === "email"
+          ? { status: "code-requested" }
+          : action === "verify"
+            ? { status: "verified" }
+            : {
+                status: "claimed",
+                emailBound: true,
+                expiresAt: new Date(Date.now() + 600000).toISOString(),
+              },
+    });
+  });
+  await page.route("**/account/activate", async (route) => {
+    await route.fulfill({
+      contentType: "text/html",
+      body: "<h1>Synthetic existing activation boundary</h1>",
+    });
+  });
+  await page.goto(`/mobile-invitation#${token}`);
+  expect(calls).toEqual([]);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  expect(calls.map((c) => c.action)).toEqual(["redeem"]);
+  await page.getByRole("button", { name: "Send verification code" }).click();
+  const code = page.getByRole("textbox", { name: "Six-digit invitation code" });
+  await expect(code).toBeFocused();
+  await expect(page.getByRole("status")).toContainText("15 minutes");
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await code.fill("123456");
+  await page.getByRole("button", { name: "Verify email" }).click();
+  await expect(page).toHaveURL(/\/account\/activate$/);
+  expect(calls.map((c) => c.action)).toEqual(["redeem", "email", "verify"]);
+  expect(calls[1]!.fields).toBe("");
+  expect(calls[2]!.fields).toBe("code=123456");
+  expect(await page.evaluate(() => localStorage.length + sessionStorage.length)).toBe(0);
+});
+test("failed verification leaves code retry accessible without a false activation redirect", async ({
+  page,
+}) => {
+  await page.route("**/mobile-invitation/*", async (route) => {
+    const action = new URL(route.request().url()).pathname.split("/").at(-1);
+    if (action === "verify") {
+      await route.fulfill({ status: 422, body: "null" });
+      return;
+    }
+    await route.fulfill({
+      json:
+        action === "email"
+          ? { status: "code-requested" }
+          : {
+              status: "claimed",
+              emailBound: true,
+              expiresAt: new Date(Date.now() + 600000).toISOString(),
+            },
+    });
+  });
+  await page.goto(`/mobile-invitation#${token}`);
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.getByRole("button", { name: "Send verification code" }).click();
+  await page.getByRole("textbox", { name: "Six-digit invitation code" }).fill("123456");
+  await page.getByRole("button", { name: "Verify email" }).click();
+  await expect(page.getByRole("status")).toContainText("could not confirm");
+  await expect(page.getByRole("button", { name: "Verify email" })).toBeEnabled();
+  expect(await page.locator("#code").inputValue()).toBe("");
+  await expect(page).toHaveURL(/\/mobile-invitation$/);
 });
 test("scanner visits never decline; explicit confirmation is required", async ({ page }) => {
   const calls: string[] = [];

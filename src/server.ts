@@ -25,6 +25,7 @@ import { createSupportHttpHandler } from "./server/support/support-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createMobileInvitationHttpHandler } from "./server/identity/mobile-invitation-http";
 import { createMobileReceiptHandler } from "./server/identity/mobile-invitation-receipts";
+import { runMobileInvitationRetention } from "./server/identity/mobile-invitation-retention";
 import {
   createMobileRedemptionHandler,
   type MobileRedemptionBindings,
@@ -94,6 +95,7 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           runMedicalSafetyDispatch(bindings as unknown as Record<string, unknown>),
           runScheduledTransactionalNotifications(bindings as unknown as Record<string, unknown>),
           runScheduledRefunds(bindings as unknown as Record<string, unknown>),
+          runMobileInvitationRetention(bindings as unknown as Record<string, unknown>),
         ]);
         if (outcomes.some((result) => result.status === "rejected"))
           throw new Error("SCHEDULED_DEPENDENCY_FAILED");

@@ -801,6 +801,23 @@ metadata recovery for enabled uploads, or explicitly exclude uploads from scope.
 isolation, dependencies, reconciliation and bounded recovery objectives. Do not broaden TD-020's
 Verified application-recovery scope or add sensitive exports without approved design/authority.
 
+## TD-066 — Unconverted Mobile Auth Identity Retention and Exception Recovery
+
+Priority **P2**; status **Open**. Owner: System Architect; target: Sprint 14.8–14.10,
+before enabling real mobile email delivery. Discovered in
+[14.7](../02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md).
+The private register sweeps names/phone/claimed email 30 days after terminal expiry/revocation
+and minimal mobile journal after 90 days. Auth invitation creation also creates provider and
+stable application identity/contact records. The register sweep deliberately cannot delete those
+records or unrelated existing accounts. A provider-created but never converted identity can also
+hold a subsequent send in the existing-account exception path; no blind retry is authorised.
+Define and verify exact provenance-scoped orphan identity/contact retention, session revocation,
+staff recovery/reissue and backup-erasure reconciliation. Preserve converted accounts and every
+unrelated account, membership and domain record. Provider-accepted/uncertain outcomes need explicit
+reconciliation, not automatic deletion or resend. Review the policy and exercise local denials/
+cleanup before separately approved hosted proof. Keep the mobile email gate disabled until resolved
+or a documented, time-bounded approved operating control exists. This does not weaken TD-065.
+
 ## Registry Maintenance Rules
 
 - Each item receives an accountable owner, target milestone, and link to its implementation plan before work starts.

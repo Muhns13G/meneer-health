@@ -17,6 +17,8 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/mobile-invitation/read", "protected-command"],
   ["/mobile-invitation/bind", "protected-command"],
   ["/mobile-invitation/decline", "protected-command"],
+  ["/mobile-invitation/email", "protected-command"],
+  ["/mobile-invitation/verify", "protected-command"],
   ["/staff/mobile-invitations/read", "protected-command"],
   ["/staff/mobile-invitations/command", "protected-command"],
   ["/staff/mobile-invitations/dispatch", "protected-command"],

@@ -61,6 +61,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun --no-env-file run test:mobile:redemption` drives the claim HTTP handler against fixed local
   Supabase with eight competing synthetic claims, exact retry, email binding and revocation checks;
   it restores manifested rows and named guards, rejects hosted/provider configuration and sends nothing.
+- `bun --no-env-file run test:mobile:conversion` proves one-shot email reservation, actual local
+  Auth OTP/session verification and atomic existing profile/document activation. It uses only local
+  generated links, sends no email, rejects hosted/provider configuration, revokes disposable sessions
+  and restores exact row fingerprints and named guards. Serialize with other database tests.
 - `bun run test:measurement` proves strict measurement payloads, private access, opt-out, export,
   and disposable synthetic deletion against local Supabase. Hosted use requires the explicit
   `SUPABASE_INTEGRATION_TARGET=hosted-synthetic` guard.

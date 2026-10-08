@@ -24,6 +24,14 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-14-7",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md",
+      "status": "completed-local-conversion-boundary",
+      "authority": "local-auth-session-atomic-activation-and-rollback-evidence",
+      "priority": 1,
+      "topics": ["sprint-14", "invitations", "email", "activation", "retention"]
+    },
+    {
       "id": "phase-02-sprint-14-6",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-6-mobile-redemption.md",
       "status": "completed-local-redemption-boundary",

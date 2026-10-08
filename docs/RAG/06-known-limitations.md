@@ -7,6 +7,7 @@ last_updated: 2026-10-08
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md
   - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
   - docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md
@@ -115,6 +116,18 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 14.7 — Local Conversion, Not Mobile Channel Activation
+
+[14.7](../02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md) implements
+managed email verification and existing atomic profile/document activation from a live mobile claim.
+Actual local Auth and controlled desktop/mobile proofs pass; they do not prove hosted mail/handset
+receipt or independently identify the intended roster participant. All real channel modes stay disabled.
+The 30-/90-day sweeper covers private invitation-register contacts and minimal mobile journal only.
+Provider/application identities created before an abandoned conversion are not silently erased;
+TD-066 requires scoped orphan retention, staff recovery and backup reconciliation before real email
+delivery. Existing-account and uncertain sends fail closed, without blind resend or automatic merge.
+Full manual/security acceptance and separately authorised hosted proof remain 14.8–14.9.
 
 ## Latest Sprint 13 Checkpoint — 8 October
 
