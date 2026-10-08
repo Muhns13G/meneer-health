@@ -43,8 +43,8 @@ select is((select count(*) from public.client_profile_events where subject_id=(s
 select is((select count(*) from public.audit_events where action='identity.profile.corrected' and actor_id=(select subject_id from rights_context)),1::bigint,'audit committed');
 select is(pg_temp.cmd(pg_temp.correction())->>'profileVersion','2','same retry returns original after version increment');
 select is((select count(*) from public.client_profile_events where subject_id=(select subject_id from rights_context) and event_type='corrected'),1::bigint,'retry no duplicate event');
-select throws_ok($$select pg_temp.cmd(pg_temp.correction()||'{"givenName":"Changed"}'::jsonb)$$,'40001','ACCOUNT_COMMAND_CONFLICT','changed replay denied');
-select throws_ok($$select pg_temp.cmd(pg_temp.correction()||jsonb_build_object('requestKey',gen_random_uuid()))$$,'40001','ACCOUNT_COMMAND_CONFLICT','stale profile version denied');
+select throws_ok($$select pg_temp.cmd(pg_temp.correction()||'{"givenName":"Changed"}'::jsonb)$$,'PT409','ACCOUNT_COMMAND_CONFLICT','changed replay denied');
+select throws_ok($$select pg_temp.cmd(pg_temp.correction()||jsonb_build_object('requestKey',gen_random_uuid()))$$,'PT409','ACCOUNT_COMMAND_CONFLICT','stale profile version denied');
 select throws_ok($$select pg_temp.cmd(pg_temp.correction()||'{"mobileE164":"+27820000001"}'::jsonb)$$,'42501','ACCOUNT_COMMAND_REJECTED','contact bypass denied');
 select throws_ok($$select pg_temp.cmd(pg_temp.request()||'{"notes":"secret"}'::jsonb)$$,'42501','ACCOUNT_COMMAND_REJECTED','free text denied');
 select throws_ok($$select pg_temp.cmd(pg_temp.request()||'{"kind":null}'::jsonb)$$,'42501','ACCOUNT_COMMAND_REJECTED','null category denied');

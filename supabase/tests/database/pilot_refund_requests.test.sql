@@ -75,15 +75,15 @@ select is(pg_temp.refund('review')->>'requestState','queued','eligible verified 
 select is((pg_temp.refund()->'refunds'->0->>'amountMinor')::integer,99900,'full original captured deposit reserved');
 select is(pg_temp.refund('review')->>'requestState','queued','same request safely replays');
 select is((select count(*) from commerce_private.refund_jobs),1::bigint,'review replay cannot queue twice');
-select throws_ok($$select commerce_private.reserve_refund((select id from commerce_private.refund_decisions limit 1),'a4700000-0000-4000-8000-000000000006',1)$$,'40001','REFUND_ALLOCATION_CONFLICT','reserved full capture cannot refund one extra cent');
-select throws_ok($$select pg_temp.refund('review','no_show','a4700000-0000-4000-8000-000000000009')$$,'40001','REFUND_CONFLICT','changed reason cannot reuse immutable request');
+select throws_ok($$select commerce_private.reserve_refund((select id from commerce_private.refund_decisions limit 1),'a4700000-0000-4000-8000-000000000006',1)$$,'PT409','REFUND_ALLOCATION_CONFLICT','reserved full capture cannot refund one extra cent');
+select throws_ok($$select pg_temp.refund('review','no_show','a4700000-0000-4000-8000-000000000009')$$,'PT409','REFUND_CONFLICT','changed reason cannot reuse immutable request');
 select is(pg_temp.refund('review','no_show','a4700000-0000-4000-8000-000000000009','a4700000-0000-4000-8000-000000000002')->>'requestState','staff_review','unresolved no-show enters owned exception, no fee');
 select is((select count(*) from commerce_private.refund_jobs),1::bigint,'no-show neither forfeits nor auto-refunds');
 create temporary table refund_claim as select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object(
  'action','dispatch','offerId','a4700000-0000-4000-8000-000000000001','refundId',(select id from commerce_private.refund_jobs limit 1),'requestKey',gen_random_uuid())) as payload;
 select is((select payload->>'paymentIntentId' from refund_claim),'pi_syntheticrefund1','only original provider capture is dispatched');
 select is((select state from commerce_private.refund_jobs),'uncertain','claim durably reserves uncertainty before provider request');
-select throws_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object('action','dispatch','offerId','a4700000-0000-4000-8000-000000000001','refundId',(select id from commerce_private.refund_jobs limit 1),'requestKey',gen_random_uuid()))$$,'40001','REFUND_RECONCILIATION_REQUIRED','duplicate dispatch cannot create another refund');
+select throws_ok($$select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object('action','dispatch','offerId','a4700000-0000-4000-8000-000000000001','refundId',(select id from commerce_private.refund_jobs limit 1),'requestKey',gen_random_uuid()))$$,'PT409','REFUND_RECONCILIATION_REQUIRED','duplicate dispatch cannot create another refund');
 select public.staff_refund_command(pg_temp.refund_context(),jsonb_build_object('action','record','offerId','a4700000-0000-4000-8000-000000000001','refundId',(select id from commerce_private.refund_jobs limit 1),'providerId','re_synthetic12345','state','pending'));
 select is((select refunded_minor from commerce_private.settlements where intent_id='a4700000-0000-4000-8000-000000000006'),0,'provider submission never claims confirmed refund');
 select ok(exists(select 1 from audit_private.operations_alerts where code='OPERATIONS_EXCEPTION'),'uncertainty/pending raises durable owned alert');
@@ -174,7 +174,7 @@ select is((select count(*) from commerce_private.refund_jobs j join commerce_pri
 -- block. Only a reconciled remainder may coexist with a later approved product refund.
 insert into commerce_private.refund_authorities values('a3000000-0000-4000-8000-000000000011',(select subject_id from queue_actor),gen_random_uuid(),'20000000-0000-4000-8000-000000000003',now()+interval '1 hour',null);
 insert into commerce_private.refund_evidence values('a4900000-0000-4000-8000-000000000003','a3000000-0000-4000-8000-000000000011','product_before_release',gen_random_uuid(),(select subject_id from queue_actor),now(),now()+interval '1 hour');
-select throws_ok($$select pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002', 'a4900000-0000-4000-8000-000000000004')$$,'40001','REFUND_RECONCILIATION_REQUIRED','unconfirmed automatic remainder still blocks product cancellation');
+select throws_ok($$select pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002', 'a4900000-0000-4000-8000-000000000004')$$,'PT409','REFUND_RECONCILIATION_REQUIRED','unconfirmed automatic remainder still blocks product cancellation');
 -- Declared local synthetic settlement; not provider-delivery evidence.
 update commerce_private.refund_jobs set provider_refund_id='re_syntheticsettledunused',state='confirmed'
  where source_intent_id='a4800000-0000-4000-8000-000000000005';
@@ -183,7 +183,7 @@ update commerce_private.deposit_funding set state='applied' where case_id='a3000
 select is(pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002','a4900000-0000-4000-8000-000000000004')->>'requestState','queued','confirmed remainder permits separately evidenced product cancellation');
 select is((select sum(j.amount_minor)::integer from commerce_private.refund_jobs j join commerce_private.refund_decisions d on d.id=j.decision_id where d.offer_id='a4800000-0000-4000-8000-000000000002'),109900,'remainder plus product and delivery return exactly both captures');
 select is(pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002','a4900000-0000-4000-8000-000000000004')->>'requestState','queued','same cancellation safely replays after the confirmed remainder');
-select throws_ok($$select pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002',gen_random_uuid())$$,'40001','REFUND_RECONCILIATION_REQUIRED','new cancellation cannot refund either original capture twice');
+select throws_ok($$select pg_temp.refund('review','product_before_release','a4900000-0000-4000-8000-000000000003','a4800000-0000-4000-8000-000000000002',gen_random_uuid())$$,'PT409','REFUND_RECONCILIATION_REQUIRED','new cancellation cannot refund either original capture twice');
 -- Exercise the response/confirmation race through the public command, not only allocation.
 create temporary table remainder_product_jobs as
  select j.id,j.amount_minor,j.payment_intent_id,j.source_intent_id
