@@ -231,6 +231,15 @@ controlled environment isolation and 38 affected checks passing. No single all-g
 run is claimed; exact-commit full CI is required before 14.9. TD-066's provenance-scoped orphan retention/reissue design is
 prepared; no provider retirement or policy approval is claimed, and its status stays Open.
 
+[14.9](../02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md)
+is completed at the isolated hosted boundary: actual SMS handset receipt, genuine signed delivery,
+controlled-mailbox OTP and atomic synthetic account activation pass, as does consumed-link denial.
+The successful two-part SMS cost US$0.196. Exact application/Auth/guard baselines are restored, with
+zero Auth users/sessions/refresh tokens and the real pilot suspended. The owner promoted same-code
+version `559d739a-1e61-4277-9ad0-3cbb076ea5d8`; redemption/email return disabled 503 and callback 404.
+Local expiry/revocation/race tests and hosted definition/configuration inspection are not represented
+as an elapsed hosted expiry test. Task 14.10 and retained launch debt remain outstanding.
+
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed
 
 Read-only closure inspection on 8 October verifies Cloudflare's scheduled 05:17:39 SAST accepted

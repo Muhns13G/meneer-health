@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-14-9
 title: Controlled Hosted Mobile Invitation Rehearsal
-status: in-progress-sender-rewrite-fix-awaiting-deployment-and-retest
+status: completed-bounded-hosted-rehearsal
 last_updated: 2026-10-08
 owner: "@Muhns13G"
 ---
@@ -9,6 +9,29 @@ owner: "@Muhns13G"
 # Task 2.14.9 — Hosted Mobile Rehearsal
 
 ## Current Checkpoint
+
+Task 14.9 is completed at its approved isolated hosted acceptance boundary. The third authorised
+attempt proves application-controlled SMS dispatch, actual handset receipt, genuine signed delivery
+reconciliation, actual controlled-mailbox OTP verification and existing atomic profile/document
+activation. Consumed-link denial passed. All disposable application/Auth fixtures and sessions are
+removed; exact baseline hashes and named guards were independently rechecked after cleanup.
+
+The owner promoted configuration-only version `559d739a-1e61-4277-9ad0-3cbb076ea5d8` at 100%.
+It retains the same reviewed fixed code and explicitly disables all mobile rehearsal gates.
+Independent hosted probes confirm redemption and email exchange **503**, callback **404**, and
+private/no-store responses. The real pilot remains suspended. This is not cohort activation or
+closure of TD-065/066, Sprint-13 release gates or Task 14.10.
+
+Evidence boundaries: actual hosted consumed-link, anonymous staff, wrong-origin and unsigned
+callback denials are recorded below. Hosted constraint/function inspection confirms 48-hour
+invitation/token validity and current expiry/terminal-state guards; hosted Auth configuration is
+six digits/900 seconds. Expiry, revocation, conflicting-email and concurrency behaviour are covered
+by the separately recorded 14.8 local SQL/Auth/race packet and passing preview CI. No elapsed
+48-hour handset test, additional hosted expiry/revocation fixture run, fabricated callback or
+independent identity verification is claimed. The handset page loaded, but the operator harness—not
+the handset browser—completed the actual email/activation exchange.
+
+## Historical Preparation and Interrupted Attempts
 
 Task 14.8 is committed at `48d624d625d888edef977ccafa186a5ca8546cfd`; the working tree
 was clean before preparing this packet. Its local acceptance remains as recorded in the
@@ -146,6 +169,65 @@ while implementing this correction.
 
 Provider basis: Telnyx documents the profile's alphanumeric sender for outbound international
 messages in its [messaging profile guide](https://support.telnyx.com/en/articles/3562059-setting-up-a-messaging-profile).
+
+### Third Authorised Attempt — Conversion Passed
+
+The correction is committed at `73928cf4e9cbec47c39856f17753ec779da35b00`. The canonical
+preview source `b8e59aa1cabc2a1562931deec6de50ccc92eb48d` differs in the reviewed runtime corpus
+only at the documented peptide preview route. Its full
+[CI run 37845605838](https://github.com/Muhns13G/meneer-health/actions/runs/37845605838)
+passed, including database and browser acceptance. The separately successful main workflow was
+an encrypted recovery export, not substitute CI evidence.
+
+The owner deployed baseline version `fd32b666-7f45-4432-8c31-b7f3ad8b618b` at 100% and approved
+one further controlled SMS attempt. The existing finite reservation safeguard remains; no blind
+resend is authorised. Read-only provider verification confirmed the exact shared profile alpha
+sender, which is passed explicitly to the operator harness. Fresh hosted baseline checks and
+rollback cleanup preflight passed before creating only manifested disposable fixtures.
+
+Prepared same-code isolated version: `227ba415-c258-467a-b6ad-0585dcc93ea8`; script etags match.
+It includes the exact alpha-sender setting for both dispatch and signed callback acceptance.
+The owner promoted it at 100%. Genuine workforce TOTP/AAL2 and email-only denial passed; exactly
+one application dispatch returned HTTP 200 with **accepted** and a bound provider message ID.
+Two genuine signed callbacks were stored, including one **delivered** receipt. Both signed
+projections report 80,000 USD micros of message cost; all-in provider billing remains separately
+reconciled rather than inferred from this projection. Hosted anonymous staff (401), wrong-origin
+claim (403) and unsigned callback (401) denials passed with no-store responses.
+
+The owner confirmed actual handset receipt and page loading. The operator harness then deliberately
+claimed that exact link in its own session, bound the approved controlled mailbox and requested the
+email code. Consequently the owner's separate handset browser correctly showed the invitation as
+unavailable/in use; this was not a delivery failure. No additional SMS was sent in response to that
+screen. The owner supplied the received code to finish the existing harness session.
+
+Actual hosted email verification and atomic activation passed: the invitation is **converted**, with
+one synthetic client profile, two synthetic document receipts and one signed delivered receipt.
+A fresh-session attempt to redeem the same consumed bearer returned **unavailable**, with no-store
+headers and no second claim. Exact provider detail-record reconciliation confirms **delivered**, two
+parts, **US$0.1960** all-in cost for this attempt; the signed callback's US$0.08 base-cost projection
+is not substituted for the all-in billing record. Bearers, codes, cookies and contact details are not
+recorded here.
+
+The owner restored `fd32b666-7f45-4432-8c31-b7f3ad8b618b` at 100%. The operator revoked the exact
+disposable sessions and removed only the manifested fixtures. The harness and an independent
+read-only check both confirmed exact application count/hash and named-trigger restoration,
+zero Auth users/sessions/refresh tokens, the one suspended real tenant and preserved provider gates.
+Hosted Auth remains configured for six-digit codes with a 900-second lifetime.
+
+Independent route verification caught a restoration defect in the recorded baseline: an anonymous
+redemption request returned HTTP 200 **unavailable**, rather than the expected disabled HTTP 503.
+The rollback restored the tenant binding but did not prove the mode secrets were disabled. The
+removed fixtures cannot be redeemed, but that is not evidence that the channel is disabled.
+A configuration-only version `559d739a-1e61-4277-9ad0-3cbb076ea5d8` was therefore prepared
+with dispatch, redemption, email and webhook modes explicitly disabled and delivery readiness false.
+Its script etag exactly matches the reviewed successful-rehearsal code. The owner subsequently
+promoted it at 100%; independent redemption/email **503** and webhook **404** no-store checks pass.
+The complete application/Auth/guard baseline was independently checked again after that promotion.
+
+Expiry/revocation and other bounded negative checks remain separately classified acceptance evidence
+as stated in the current checkpoint; they are not inferred from conversion. No real pilot, payment or generator
+activation and no blind resend occurred. Provider SMS/email records remain with their providers;
+scoped cleanup does not delete or resend them.
 
 Before execution:
 

@@ -90,27 +90,31 @@ schema implementation and validation. No hosted SMS send is authorised. Sprint 1
 
 ## Commit-Sized Tasks
 
-| Task  | Outcome                                                                                             | Acceptance boundary                                                                                                                                                            |
-| ----- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 14.1  | Completed: mobile invitation, binding, wording, retention and threat contract.                      | Unique link plus verified email; exceptions to staff; production sending/spend off pending provider proof.                                                                     |
-| 14.2  | Completed locally: private register, token/claim digests, versions, expiry/revocation and journal.  | RLS/ACL/tenant isolation, no raw token columns, collision/expiry/replay and retention tests; no hosted migration or sending.                                                   |
-| 14.3  | Completed locally: AAL2 staff commands and private register UI; sends reserve only.                 | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                                        |
-| 14.4  | Completed locally: add server-only Telnyx sender port/adapter and bounded durable delivery intents. | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                                 |
-| 14.5  | Completed locally: add attributed delivery webhook and reconciliation/support views.                | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                                       |
-| 14.6  | Completed locally: accessible 48-hour mobile redemption and email capture/exchange.                 | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                                                |
-| 14.7  | Completed locally: managed email verification and existing atomic profile/document activation.      | Current bearer/immutable email/actual provider session binding; OTP remains 900 seconds; conflicts fail closed, no session shortcuts.                                          |
-| 14.8  | Completed locally: security/race packet, manual mobile acceptance and targeted regression fixes.    | Broad scan plus focused-fix evidence; exact-commit full CI required before hosted proof; no release/retention approval.                                                        |
-| 14.9  | Conduct explicitly approved hosted Telnyx/phone/email synthetic rehearsal and cleanup.              | Owner deployment/migrations, approved controlled phone/mailbox and spend cap; actual handset receipt, link/OTP/activation and delivery reconciliation; restore gates/baseline. |
-| 14.10 | Reconcile debt, release checklist, runbooks and Sprint/Phase reports.                               | Exact-commit CI, channel/privacy/recovery readiness, approved first-cohort limits and explicit owner go/no-go.                                                                 |
+| Task  | Outcome                                                                                             | Acceptance boundary                                                                                                                                           |
+| ----- | --------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 14.1  | Completed: mobile invitation, binding, wording, retention and threat contract.                      | Unique link plus verified email; exceptions to staff; production sending/spend off pending provider proof.                                                    |
+| 14.2  | Completed locally: private register, token/claim digests, versions, expiry/revocation and journal.  | RLS/ACL/tenant isolation, no raw token columns, collision/expiry/replay and retention tests; no hosted migration or sending.                                  |
+| 14.3  | Completed locally: AAL2 staff commands and private register UI; sends reserve only.                 | Exact-purpose authority, duplicate handling, atomic supersession, budgets and audit; no provider sends.                                                       |
+| 14.4  | Completed locally: add server-only Telnyx sender port/adapter and bounded durable delivery intents. | Disabled defaults, provider failure/timeout/unknown outcomes, segment/cost controls and credential-safe tests.                                                |
+| 14.5  | Completed locally: add attributed delivery webhook and reconciliation/support views.                | Signature/time/replay/conflict handling, no false delivery/acceptance, privacy-safe status and recovery.                                                      |
+| 14.6  | Completed locally: accessible 48-hour mobile redemption and email capture/exchange.                 | No GET consumption, URL/log/referrer safety, expiry/revoke/resend, concurrent claims and interruption recovery.                                               |
+| 14.7  | Completed locally: managed email verification and existing atomic profile/document activation.      | Current bearer/immutable email/actual provider session binding; OTP remains 900 seconds; conflicts fail closed, no session shortcuts.                         |
+| 14.8  | Completed locally: security/race packet, manual mobile acceptance and targeted regression fixes.    | Broad scan plus focused-fix evidence; exact-commit full CI required before hosted proof; no release/retention approval.                                       |
+| 14.9  | Completed: bounded hosted SMS/email conversion, delivery reconciliation and verified cleanup.       | Actual controlled handset/mailbox proof; same-code explicitly disabled Worker restored; exact application/Auth/guard baseline verified. No cohort activation. |
+| 14.10 | Reconcile debt, release checklist, runbooks and Sprint/Phase reports.                               | Exact-commit CI, channel/privacy/recovery readiness, approved first-cohort limits and explicit owner go/no-go.                                                |
 
 Commit after each completed task; the owner alone stages, commits, pushes and deploys. Task 14.9
 is not permission to send to the real participant list. No hosted mutation, purchase, new credential,
 message, migration or activation is authorised by this planning document.
 
-The [14.9 hosted rehearsal packet](annexures/sprint-14-9-hosted-mobile-rehearsal.md) is prepared.
-The owner has supplied a controlled handset; exact-commit CI, six hosted migrations, provider
-configuration/pricing, a finite spend cap and bounded fixture/key/cleanup approvals remain
-execution prerequisites. Preparation does not assert hosted acceptance.
+The [14.9 hosted rehearsal packet](annexures/sprint-14-9-hosted-mobile-rehearsal.md) is completed
+at the approved isolated boundary. Six hosted migrations, passing fixed-source preview CI, genuine
+workforce TOTP/AAL2, actual handset receipt, signed delivery callbacks, controlled-mailbox OTP and
+atomic synthetic account activation are verified. The successful attempt cost US$0.196 for two
+segments. All manifested fixtures/sessions are removed and exact baselines/guards restored;
+same-code Worker `559d739a-1e61-4277-9ad0-3cbb076ea5d8` explicitly disables the channel.
+Local expiry/race evidence remains distinguished from actual hosted observations. Task 14.10,
+retained debt and owner release acceptance remain outstanding; no real participant send is enabled.
 
 ## Readiness and Release Gates
 

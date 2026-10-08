@@ -131,7 +131,11 @@ delivery. Existing-account and uncertain sends fail closed, without blind resend
 The owner's fresh mobile VoiceOver/keyboard/400% zoom checks pass in 14.8; local acceptance records
 a 312-pass broad scan and 38 passing affected checks after public media environment isolation.
 It does not claim one final all-green full local run. Exact-commit full CI and separately authorised
-hosted proof remain prerequisites for 14.9. TD-066's design is prepared,
+hosted proof were prerequisites for 14.9 and have now passed at its approved isolated boundary.
+The [14.9 evidence](../02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md)
+records actual SMS/email conversion and signed delivery, exact fixture/session cleanup and an
+explicitly disabled same-code restoration. It does not activate the cohort or claim elapsed hosted
+expiry testing; 14.10 still owns release/debt reconciliation. TD-066's design is prepared,
 not an implemented retirement job or approval to delete hosted identities.
 
 ## Latest Sprint 13 Checkpoint — 8 October
