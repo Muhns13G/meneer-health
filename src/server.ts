@@ -23,6 +23,7 @@ import { createPatientPortalHttpHandler } from "./server/identity/patient-portal
 import { createPatientRightsHttpHandler } from "./server/identity/patient-rights-http";
 import { createSupportHttpHandler } from "./server/support/support-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
+import { createMobileInvitationHttpHandler } from "./server/identity/mobile-invitation-http";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
 import { createAlertHttpHandler } from "./server/operations/alert-http";
 import { runScheduledOperationsAlerts } from "./server/operations/alert-dispatch";
@@ -169,6 +170,14 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               );
             if (pathname === "/staff/intake/command")
               return createStaffIntakeHttpHandler(env as unknown as IntakeBindings)(boundedRequest);
+            if (
+              ["/staff/mobile-invitations/read", "/staff/mobile-invitations/command"].includes(
+                pathname,
+              )
+            )
+              return createMobileInvitationHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
             if (pathname === "/portal/intake/command")
               return createPatientIntakeHttpHandler(env as unknown as IntakeBindings)(
                 boundedRequest,

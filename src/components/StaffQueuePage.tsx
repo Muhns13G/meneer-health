@@ -177,6 +177,9 @@ export function StaffQueuePage() {
       <a href="/staff/sign-in" className="mt-4 inline-block underline">
         Staff session and sign-out
       </a>
+      <a href="/staff/mobile-invitations" className="ml-5 inline-block underline">
+        Mobile pilot invitations
+      </a>
       <a href="/staff/support" className="ml-5 inline-block underline">
         Support and delivery follow-up
       </a>
