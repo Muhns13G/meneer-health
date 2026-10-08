@@ -1,5 +1,6 @@
 import "@tanstack/react-start/server-only";
 import { z } from "zod";
+import { mobileAlphaSenderSchema } from "./mobile-provider-sender";
 const enabled = z.object({
   MOBILE_INVITATIONS_MODE: z.literal("telnyx"),
   MOBILE_INVITATIONS_DELIVERY_READY: z.literal("true"),
@@ -11,6 +12,7 @@ const enabled = z.object({
     .regex(/^[A-Za-z0-9_-]+$/),
   TELNYX_MESSAGING_PROFILE_ID: z.uuid(),
   TELNYX_FROM_NUMBER: z.string().regex(/^\+[1-9][0-9]{7,14}$/),
+  TELNYX_ALPHA_SENDER: mobileAlphaSenderSchema.optional(),
 });
 export type MobileDeliveryConfiguration = z.infer<typeof enabled>;
 export function readMobileDeliveryConfiguration(
