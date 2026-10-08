@@ -2,13 +2,28 @@
 runbook_id: meneer-environment-secrets
 title: Environment Configuration and Secret Lifecycle Runbook
 status: active
-last_updated: 2026-10-03
+last_updated: 2026-10-08
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
 ---
 
 # Environment Configuration and Secret Lifecycle Runbook
+
+## Mobile invitation sender rewrite
+
+`TELNYX_FROM_NUMBER` remains the owned E.164 dispatch number. If the selected Telnyx messaging
+profile rewrites international messages to its `alpha_sender`, set optional server-only
+`TELNYX_ALPHA_SENDER` to that exact, independently verified value in both dispatch and receipt
+configuration. Omit it when no rewrite is used; never accept an arbitrary sender observed in a
+response. Values are 1–11 ASCII letters/digits/spaces, contain a letter and have no surrounding
+whitespace. Matching is case-sensitive. Do not alter a shared messaging profile to satisfy a test.
+
+After Ed25519/freshness and profile/recipient/token checks, an allowed alpha receipt is mapped to
+the configured dispatch number for database correlation. This does not relax delivery evidence,
+spend reservations or one-shot retry rules. The hosted rehearsal driver checks the actual profile
+before creating fixtures. Owner-controlled promotion/restoration and separately approved paid
+attempt limits continue to apply; keep all mobile modes disabled outside an approved rehearsal.
 
 ## Purpose and Current Boundary
 

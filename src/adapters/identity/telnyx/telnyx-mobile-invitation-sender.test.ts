@@ -37,6 +37,39 @@ function receipt() {
   };
 }
 describe("one-shot Telnyx sender", () => {
+  it("accepts only an explicitly configured exact profile alpha rewrite", async () => {
+    const body = receipt();
+    body.data.from.phone_number = "TestSender";
+    const transport = vi.fn<typeof fetch>().mockResolvedValue(Response.json(body));
+    expect(
+      await new TelnyxMobileInvitationSender(
+        { ...config, TELNYX_ALPHA_SENDER: "TestSender" },
+        transport,
+      ).send(request),
+    ).toEqual({ outcome: "accepted", providerMessageId: id });
+    expect(transport).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(transport.mock.calls[0]![1]!.body as string).from).toBe(
+      config.TELNYX_FROM_NUMBER,
+    );
+    for (const expected of [undefined, "OtherSender", "testsender"]) {
+      const rejected = vi.fn<typeof fetch>().mockResolvedValue(Response.json(body));
+      expect(
+        await new TelnyxMobileInvitationSender(
+          { ...config, TELNYX_ALPHA_SENDER: expected },
+          rejected,
+        ).send(request),
+      ).toEqual({ outcome: "uncertain", providerMessageId: null });
+      expect(rejected).toHaveBeenCalledTimes(1);
+    }
+  });
+  it.each(["", "123456", "+123456789", " Test", "Test ", "Test_Sender", "a".repeat(12)])(
+    "rejects malformed configured alpha sender %j",
+    (value) => {
+      expect(() =>
+        readMobileDeliveryConfiguration({ ...config, TELNYX_ALPHA_SENDER: value }),
+      ).toThrow();
+    },
+  );
   it("invokes default fetch without binding the adapter as its receiver", async () => {
     const transport = vi.fn(function (this: unknown) {
       if (this instanceof TelnyxMobileInvitationSender) throw new TypeError("Illegal invocation");

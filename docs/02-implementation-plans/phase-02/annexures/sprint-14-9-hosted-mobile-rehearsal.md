@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-14-9
 title: Controlled Hosted Mobile Invitation Rehearsal
-status: in-progress-runtime-fix-awaiting-restoration-and-deployment
+status: in-progress-sender-rewrite-fix-awaiting-deployment-and-retest
 last_updated: 2026-10-08
 owner: "@Muhns13G"
 ---
@@ -26,8 +26,9 @@ ignored operator file. No key, recipient, bearer, message body or OTP is recorde
 The owner has authorised using one controlled handset for the SMS test. Its actual phone
 number must remain outside Git and evidence documents. An isolated disposable workforce identity,
 tenant, assignment, finite policy and synthetic-only instruments have been created after the
-locked cleanup packet passed its rollback preflight. No SMS/email has been sent. A same-code
-configuration version was promoted by the owner; real pilot activation remains disabled.
+locked cleanup packet passed its rollback preflight. One uncertain SMS dispatch was attempted;
+no handset delivery was confirmed and no email was sent. The owner restored the original Worker
+version and the manifested fixtures have now been removed; real pilot activation remains disabled.
 This is an interrupted-safe checkpoint, not completed provider acceptance.
 
 ## Execution Checkpoint — 8 October 2026
@@ -44,11 +45,11 @@ This is an interrupted-safe checkpoint, not completed provider acceptance.
   remain required even though the application does not accept SMS replies.
 - Original Worker version: `e41d7458-5428-4d1a-a55e-1cec5f2e08ac`.
   Prepared rehearsal version: `db330d82-f25e-4a98-95b5-3d734983bbfd`; matching script etag was checked.
-  The owner must promote it, then restore the original version before final fixture cleanup.
+  The owner promoted it, then restored the original version before final fixture cleanup.
 - Driver: `scripts/test-sprint14-hosted-mobile.ts`, explicit one-message/operator guards,
-  private manifest, no blind resend, no automatic promotion/rollback. An active operator session
-  awaits owner promotion; do not start a second fixture set. Recovery requires the existing private
-  manifest, not broad table deletion or seed replay.
+  private manifest, no blind resend, no automatic promotion/rollback. The interrupted operator
+  session was recovered for cleanup only using the existing private manifest, not broad table
+  deletion or seed replay.
 - Harness corrections: receipt mode is `telnyx`, not `enabled`; provider-gate baseline is preserved;
   terminal echo controls inherit the terminal descriptor. Typecheck and targeted ESLint pass;
   sender/callback/staff HTTP tests pass **61 assertions across three files**.
@@ -66,19 +67,85 @@ This is an interrupted-safe checkpoint, not completed provider acceptance.
   wrapper. Both fixes together return **accepted with exactly one intercepted synthetic call**;
   before the fixes the probe returned uncertain with zero calls. This supports the failure diagnosis
   but is not live Telnyx acceptance. Redirects still remain uncertain and are never followed/retried.
-- Source corrections are local only. The owner must first restore original disabled version
-  `e41d7458-5428-4d1a-a55e-1cec5f2e08ac`; then the active driver can revoke/remove its exact fixtures
-  and independently verify the original count/hash/guard baseline. Do not deploy new source over
-  this active rehearsal before cleanup, or reuse the uncertain attempt's consumed reservation.
+- Source corrections are local only. The owner restored original disabled version
+  `e41d7458-5428-4d1a-a55e-1cec5f2e08ac` at 100%; manifest-based cleanup verified the active version
+  and matching source etag before revoking sessions and removing only the exact test fixtures.
+  Do not reuse the uncertain attempt's consumed reservation.
 - Updated regression packet passes **63 tests across three files**, strict TypeScript and targeted
   ESLint. Tests cover native-fetch receiver safety, manual no-follow redirects and one-shot behaviour.
   The driver supports manifest-based cleanup-only resumption after any dispatch; it cannot resend
-  an interrupted attempt. The original active driver remains available for this attempt's cleanup.
-- Outstanding: disabled restoration and cleanup, owner source commit/CI/deployment, separate approval
+  an interrupted attempt. Cleanup-only resumption exited successfully with `restored: true`.
+- Final cleanup compared every saved application-table count/hash and named-guard fingerprint
+  against the original baseline. A separate read-only Supabase check confirmed one suspended tenant,
+  12 preserved provider-gate rows, zero Auth users/sessions/refresh tokens, zero mobile invitations
+  and zero disabled guards. No additional SMS or email was sent during cleanup.
+- Outstanding: owner source commit/CI/deployment, separate approval
   for one further bounded SMS attempt, handset receipt/link confirmation, genuine signed callback,
   actual email OTP/atomic conversion, hosted replay/consumption denials and final restoration.
 
 ## Execution Inputs and Separate Approvals
+
+### Second Authorised Attempt — Fixed Runtime
+
+The owner committed the runtime fixes at `5b55e58` and promoted fixed version
+`5530f935-c084-4277-b169-e7b373011ff2`. A same-code disabled baseline was prepared and
+owner-promoted as `6736af23-3749-4647-bb8d-2a449ac6d903`; script etags matched. After separately
+authorising one additional SMS within US$1, the owner promoted isolated configuration version
+`317c7635-4b26-4c2d-bc1e-ea521955d2c5` for fresh manifested fixtures.
+
+Genuine workforce TOTP/AAL2 and email-only denial passed. Exactly one application dispatch returned
+HTTP 200 with `uncertain`. Telnyx's exact-recipient record independently reports **delivered**,
+two parts and **US$0.196**; the owner confirmed handset receipt and successful invitation-page load.
+No resend or participant email/OTP/conversion occurred. No signed delivery receipt was retained.
+
+Read-only comparison found the provider message's profile and recipient matched, but its sender
+was rewritten to the existing shared profile's configured alphanumeric sender rather than the
+configured US E.164 sender. The adapter's exact sender check therefore retains uncertainty; the
+callback parser likewise currently requires the E.164 sender. The shared profile and webhooks
+were not changed. Recognition of an explicitly configured provider sender rewrite needs a bounded
+acceptance/callback fix; arbitrary mismatches must remain denied. Do not manually bind a provider
+ID or fabricate a signed receipt to advance this attempt.
+
+The initial `versions deploy` restoration was blocked by Cloudflare code 10220 because the six
+mobile settings changed. The owner used `wrangler rollback`, explicitly confirmed exactly those
+six settings, and restored `6736af23-3749-4647-bb8d-2a449ac6d903` at 100%. The driver verified the
+active version and source etag, revoked disposable sessions, deleted only manifested fixtures,
+and exited successfully with `restored: true`. All saved application count/hash and named-guard
+fingerprints matched the original baseline. Independent read-only verification confirms one
+suspended tenant, 12 preserved provider gates, zero Auth users/sessions/refresh tokens, zero mobile
+invitations and zero disabled guards. Telnyx retains its delivered test-message record; it was not
+deleted or resent. Task 14.9 remains incomplete despite successful SMS delivery: sender-rewrite
+acceptance/callback handling and the remaining hosted onboarding proof are still outstanding.
+
+### Sender-Rewrite Correction — Local Implementation
+
+Optional server-only `TELNYX_ALPHA_SENDER` now allowlists the exact owner-verified profile sender
+(1–11 ASCII letters/digits/spaces, containing a letter, no surrounding whitespace). With it absent,
+the original E.164-only check remains. No arbitrary sender, case folding, provider-derived dynamic
+trust or shared profile mutation is introduced. API acceptance still requires the exact profile,
+recipient, message shape, parts and bounded cost, and never substitutes for signed delivery.
+
+The signed receipt parser uses the same exact allowlist, then canonicalises the validated sender
+to the configured dispatch E.164 identity for existing database correlation. Signature/freshness,
+profile, recipient, token digest and outcome checks remain unchanged; no migration, manually bound
+provider ID or fabricated receipt is needed. The staff readiness check requires the same sender
+configuration for dispatch and callbacks. The rehearsal driver verifies the profile's current
+`alpha_sender` against the explicit local setting before creating fixtures, and provisions that
+setting only for an owner-promoted isolated version.
+
+Sender/callback/staff tests pass **72 assertions across three files**, including exact alpha
+acceptance, absent/wrong/case-changed sender denial, malformed settings and wrong-profile signed
+callback denial. The actual local workerd no-send probe accepted the configured alpha rewrite with
+exactly one intercepted synthetic call. The final complete Vitest run passes **1,133 tests across
+151 files**; the catalogue expectation was updated for the added optional server value. Strict
+TypeScript and focused ESLint pass. These results
+are local implementation evidence only: owner commit/CI/deployment, a separately authorised fresh
+hosted attempt, signed callback attribution, email OTP/atomic conversion and final restoration
+remain required. Earlier test-message records are retained at Telnyx; no additional send occurred
+while implementing this correction.
+
+Provider basis: Telnyx documents the profile's alphanumeric sender for outbound international
+messages in its [messaging profile guide](https://support.telnyx.com/en/articles/3562059-setting-up-a-messaging-profile).
 
 Before execution:
 
@@ -148,8 +215,25 @@ establish stronger participant identity assurance than bearer-link plus verified
 
 ## File Accounting
 
-This annexure and the operator driver are new; the Sprint-14 plan links the packet. The Telnyx
-sender and its regression tests contain the narrow native-fetch fixes. No dependency or generated
-output changed. Approved hosted migrations, isolated fixtures and ignored/prepared-version secrets
-are recorded above. Nothing staged, committed, pushed or promoted by the agent. One app dispatch
-attempt occurred, without confirmed provider acceptance/delivery; no email or real-pilot activation.
+The earlier runtime fix and operator driver are committed at `5b55e58`. The current sender-rewrite
+correction touches only:
+
+- `.env.example`: optional exact sender configuration guidance.
+- `config/environment-catalogue.ts` and `src/config/environment.test.ts`: server-only catalogue and
+  its exact expected list.
+- `src/server/identity/mobile-provider-sender.ts`: new shared exact-match/validated-alpha helper.
+- `src/server/identity/mobile-invitation-delivery-config.ts`: optional validated alpha setting.
+- `src/adapters/identity/telnyx/telnyx-mobile-invitation-sender.ts` and its colocated test: exact
+  rewrite acceptance and denial regressions; original outbound number remains unchanged.
+- `src/server/identity/mobile-invitation-receipts.ts` and its colocated test: signed rewrite
+  validation and canonical dispatch correlation, with untrusted sender/profile denial.
+- `src/server/identity/mobile-invitation-http.ts`: matching sender readiness for dispatch/callback.
+- `scripts/test-sprint14-hosted-mobile.ts`: independent profile preflight and optional configuration.
+- This annexure and `docs/06-operations/environment-secrets-runbook.md`: evidence and release guidance.
+
+No dependency, migration, generated output or shared provider configuration changed in this
+correction. The production build, client-bundle scan, MCP-absence, generated-route, Worker type,
+portability and discovery checks pass. Nothing staged, committed, pushed or promoted by the agent.
+Two app dispatch attempts have occurred across separately approved rehearsals; the second delivered
+for US$0.196 but was not attributed by the application. Both hosted fixture sets are cleaned and
+disabled settings restored. No participant email/conversion or real-pilot activation occurred.

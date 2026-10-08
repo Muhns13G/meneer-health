@@ -245,6 +245,23 @@ function totp(secret: string) {
 async function setup() {
   requireProof(!operatorAuth, "SETUP_ALREADY_ATTEMPTED");
   requireProof((await activeVersion()) === baselineVersion, "DEPLOYMENT_CHANGED");
+  // Verify the owner-configured rewrite before creating fixtures or reserving any paid send.
+  const providerProfile = await fetch(
+    `https://api.telnyx.com/v2/messaging_profiles/${process.env.TELNYX_MESSAGING_PROFILE_ID}`,
+    {
+      headers: { Authorization: `Bearer ${process.env.TELNYX_API_KEY}` },
+      signal: AbortSignal.timeout(15_000),
+    },
+  );
+  requireProof(providerProfile.ok, "PROVIDER_PROFILE_READ_FAILED");
+  const profile = z
+    .object({ data: z.object({ id: z.uuid(), alpha_sender: z.string().nullable().optional() }) })
+    .parse(await providerProfile.json()).data;
+  requireProof(
+    profile.id === process.env.TELNYX_MESSAGING_PROFILE_ID &&
+      (profile.alpha_sender || undefined) === (process.env.TELNYX_ALPHA_SENDER || undefined),
+    "PROVIDER_ALPHA_SENDER_NOT_VERIFIED",
+  );
   const created = await admin.auth.admin.createUser({
     email: `synthetic-mobile-${tenant}@example.invalid`,
     email_confirm: true,
@@ -294,6 +311,9 @@ async function setup() {
     TELNYX_PUBLIC_KEY_BASE64: process.env.TELNYX_PUBLIC_KEY_BASE64!,
     TELNYX_MESSAGING_PROFILE_ID: process.env.TELNYX_MESSAGING_PROFILE_ID!,
     TELNYX_FROM_NUMBER: process.env.TELNYX_FROM_NUMBER!,
+    ...(process.env.TELNYX_ALPHA_SENDER
+      ? { TELNYX_ALPHA_SENDER: process.env.TELNYX_ALPHA_SENDER }
+      : {}),
   };
   configurationAttempted = true;
   manifest("configuration-preparing");

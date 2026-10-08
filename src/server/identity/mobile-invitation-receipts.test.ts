@@ -70,6 +70,48 @@ async function request(
   });
 }
 describe("attributed mobile delivery receipts", () => {
+  it("verifies the signed exact alpha rewrite and correlates the original dispatch sender", async () => {
+    const body = payload();
+    body.data.payload.from.phone_number = "TestSender";
+    const record = vi.fn().mockResolvedValue(undefined);
+    expect(
+      (
+        await createMobileReceiptHandler(
+          { ...config, TELNYX_ALPHA_SENDER: "TestSender" },
+          record,
+        )(await request(JSON.stringify(body)))
+      ).status,
+    ).toBe(204);
+    expect(record.mock.calls[0]![1]).toMatchObject({
+      fromPhone: config.TELNYX_FROM_NUMBER,
+      outcome: "delivered",
+      profileId: id,
+    });
+    for (const expected of [undefined, "OtherSender", "testsender"]) {
+      const denied = vi.fn();
+      expect(
+        (
+          await createMobileReceiptHandler(
+            { ...config, TELNYX_ALPHA_SENDER: expected },
+            denied,
+          )(await request(JSON.stringify(body)))
+        ).status,
+      ).toBe(400);
+      expect(denied).not.toHaveBeenCalled();
+    }
+    // An allowlisted alpha sender never relaxes profile attribution or signature verification.
+    body.data.payload.messaging_profile_id = "a1450000-0000-4000-8000-000000000002";
+    const denied = vi.fn();
+    expect(
+      (
+        await createMobileReceiptHandler(
+          { ...config, TELNYX_ALPHA_SENDER: "TestSender" },
+          denied,
+        )(await request(JSON.stringify(body)))
+      ).status,
+    ).toBe(400);
+    expect(denied).not.toHaveBeenCalled();
+  });
   it("verifies real Ed25519 bytes and retains only minimal facts", async () => {
     const record = vi.fn().mockResolvedValue(undefined);
     const result = await createMobileReceiptHandler(config, record)(await request());
