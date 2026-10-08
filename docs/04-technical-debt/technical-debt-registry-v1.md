@@ -754,14 +754,16 @@ Meneer-only boundary; no generator access, external transfer, clinical approval 
 Priority **P1**; status **In progress**. Owner: System Architect / `@Muhns13G`. Target: before enabling
 affected commands; release disposition in Task 13.10. Evidence and acceptance:
 [Task 13.9](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md).
-Latest source definitions retain two intentional `40001` raises in `patient_intake_restrict` and
-four in `respond_medical_safety`; previous narrow patches do not correct these functions.
+The initial reconciliation found two intentional `40001` raises in `patient_intake_restrict` and
+four in `respond_medical_safety`; the earlier narrow patches did not correct these functions.
 Inventory other latest reachable refund/commerce/alert/legacy definitions before a bounded fix.
 The fully migrated local catalogue now inventories 21 remaining functions. Guarded migration
 `20261008100000_remaining_business_conflict_status.sql` corrects their allowlisted permanent raises
 while asserting unchanged owner/ACL/configuration/security/volatility; response mapping and SQL
-regressions accompany it. Local replay and the original 1,599 assertions pass. This does not apply
-the migration to hosted Supabase or prove routed hosted behaviour. See the
+regressions accompany it. The final 1,629 SQL assertions and 61 focused tests pass. The approved
+migration is hosted with matching history `20261008100000`; exact-definition/security guards pass.
+Routed acceptance is pending: intake/commerce readiness probes return disabled-configuration 412.
+No hosted fixtures or settings are changed by the follow-up inspection. See the
 [active remediation packet](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md).
 Require security-preserving local stale/replay/atomicity tests, explicit hosted migration approval,
 owner deployment and routed conflict/unchanged-state proof with exact cleanup. Static evidence is
@@ -775,8 +777,14 @@ before real intake; release disposition in Task 13.10. Evidence and acceptance:
 The nine-schema application export excludes Auth and Storage; no object-byte restore is proven.
 The owner expressly requires new optional private blood-result uploads before launch (PDF/JPEG/PNG,
 10 MB/file, five/client). The approved scope and pending implementation/scan/retention/recovery
-requirements are recorded in the active remediation packet; no upload implementation or recovery
-verification is claimed yet. Owner-nominated operational primary/alternate are Mansoer Gallie and
+requirements are recorded in the active remediation packet. The owner defers uploads separately
+but retains them before launch; no object-byte restore is claimed. The local identity exercise
+restores an encrypted application dump, revokes restored sessions/memberships/access assignments,
+suspends restored tenants, preserves a newer restriction, and proves local re-verification/stable
+relink/fresh TOTP after disposable provider-identity loss. The extended local test proves fresh
+membership approval/revocation and applying a newer contact-only erasure without contact resurrection.
+Domain-specific grant reapproval, complete erasure reconciliation and hosted recovery remain
+unverified. Operational primary/alternate are Mansoer Gallie and
 Mikhail Robertson; clinical lead/alternate are Tasneem and Dr Ziyaad Noor, with professional authority,
 coverage and agreements still to be evidenced privately.
 Approve and exercise secure identity recovery/relink, MFA/session revocation and private-object/

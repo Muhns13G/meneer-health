@@ -51,7 +51,7 @@ Two previously explicit limitations now receive immutable actionable IDs:
 - **TD-064 — remaining intentional business conflicts use serialization SQLSTATE.** Static source
   inspection confirms `patient_intake_restrict` has two `40001` conflict raises and
   `respond_medical_safety` has four. The latest defining migrations are
-  `20261005115607` and `20261005134411`; the 13.3–13.5 patches target different named functions.
+  `20261005120137` and `20261005134411`; the 13.3–13.5 patches target different named functions.
   The intake adapter/HTTP mapper recognises `40001`, but cannot prevent upstream database/API
   retry handling before a response reaches it. This is not proof of a newly induced hosted 503.
   Inventory the latest executable definitions, including refund/commerce/alert and retained legacy
@@ -89,3 +89,14 @@ No paid subscription, live payment or real client admission is authorised here.
 Validation is documentation/source reconciliation, formatting, link/index resolution and whitespace
 checks. Prior 13.8 regression counts and owner-reported CI are dated evidence, not fresh tests in
 this task. No schema, runtime, clinical wording, dependency or hosted configuration is changed.
+
+### Subsequent Remediation Handoff — 8 October
+
+The [active gap packet](sprint-13-pre-release-gap-remediation.md) records subsequent guarded hosted
+conflict migration and local recovery/accessibility work separately from this historical review.
+Authenticated routed acceptance awaits the owner's prepared isolated runtime configuration release;
+no hosted rehearsal is claimed from anonymous configuration-denial probes. The owner confirms
+approved notices and private agreement/commercial references are not yet available and explicitly
+retains them as launch blockers. Upload implementation is deferred separately but remains required
+before launch. Reconciliation is complete; neither the nine non-Verified debts nor real-pilot
+release are thereby approved or closed.

@@ -131,11 +131,19 @@ sources:
 
 Pre-13.10 [gap remediation](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md)
 is now in progress. TD-064/065 are In progress, not Verified. A guarded local 21-function conflict
-correction is prepared; hosted approval/deployment/proof remain separate. The owner requires new
-optional private blood-result uploads before launch and does not accept an onboarding-only reduction.
+correction is hosted with matching history `20261008100000`; authenticated routed acceptance
+awaits isolated configuration. A new local identity restore/re-verification exercise passes;
+Fresh membership approval/revocation and newer contact-only erasure pass locally; complete hosted
+recovery and domain-specific grant/erasure reconciliation remain unverified. Exact owner-controlled
+rehearsal settings are prepared, not released. The targeted local
+accessibility/transition packets pass 114/114; released spoken-output evidence remains separate.
+The owner defers private uploads to a separate task but retains them before launch and does not
+accept an onboarding-only reduction.
 Mansoer/Mikhail are appointed operational primary/alternate; Tasneem/Dr Ziyaad Noor are nominated
 clinical lead/alternate, without inferred registration or agreement proof. Internal
 [notice drafts](../05-future-considerations/pilot-notices-review-drafts.md) are unapproved and unpublished.
+The owner confirms approved notices and agreement/commercial references are not yet available;
+these remain explicit launch blockers, not waived debts.
 
 The [13.9 packet](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md)
 accounts for every registry ID. TD-006/007/009/010 remain In progress; TD-037/038/043 remain Open

@@ -117,8 +117,16 @@ sources:
 ## Latest Sprint 13 Checkpoint — 8 October
 
 The owner requests remediation before 13.10, including newly scoped optional private blood-result
-uploads, not an onboarding-only launch. TD-064/065 are In progress; there is no new hosted migration
-or verified Auth/object restore in this remediation yet. Draft notices remain internal/unapproved.
+uploads, not an onboarding-only launch. Uploads are now deferred to a separate task, not waived
+before launch. TD-064/065 are In progress. The conflict migration is hosted with matching history
+`20261008100000`, but routed acceptance awaits isolated configuration. Local identity restore/
+re-verification, fresh membership approval/revocation and newer contact-only erasure pass locally;
+hosted recovery, domain-specific grant/full erasure reconciliation and object-byte restore
+are not proven. Automated accessibility packets pass 114/114, without inferring exhaustive released
+spoken-output acceptance. Draft notices remain internal/unapproved.
+Exact temporary hosted settings are prepared for owner release, not applied. The owner confirms
+approved notices and private agreement/commercial references are unavailable; record them as launch
+blockers rather than inferred approval.
 Nominated owners, the ordinary 24-hour response target and upload limits are recorded in the
 [active gap packet](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md);
 they do not establish professional authority, approved instruments, scan/retention policy or live

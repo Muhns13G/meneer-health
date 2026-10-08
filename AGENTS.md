@@ -46,6 +46,11 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   locally, comparing exact row/security/trigger/function fingerprints after each rollback. Both
   runner layers disable dotenv autoload; inherited hosted/provider variables are rejected. Never
   adapt its fixed container target to hosted or copy the local seed into hosted services.
+- `bun --no-env-file run test:identity:recovery` runs the local-only encrypted application restore,
+  provider-loss/relink, fresh TOTP, membership reapproval/revocation and contact-only erasure probes.
+  It requires empty local Auth and synthetic-only contacts, rejects inherited hosted/provider
+  settings, sends no email and removes its exact fixtures/restore database. It is not hosted recovery
+  or complete domain-grant/medical-erasure evidence. Serialize it with other database tests.
 - `bun run test:evidence:rehearsal` runs seven fixed rollback-only local audit, payment, handoff,
   notification and lifecycle suites, requiring exact row/security/trigger/function restoration.
   Use `bun --no-env-file`; inherited hosted/provider configuration is rejected. It sends no emails,
