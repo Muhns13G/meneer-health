@@ -34,6 +34,12 @@ Validation: `bun run test -- scripts/lib/recovery-dispatcher.test.ts`; upload-on
 
 ## Safe failure diagnostics
 
+The 03:17 SAST execution on 8 October reported `network` without an HTTP response. The exact
+source was then reproduced in local workerd with mocked outbound networking: `redirect: "error"`
+is rejected by that runtime before network access. The patch uses `manual` and still accepts only
+204, so redirects cannot forward credentials. Exact-source runtime checks cover mocked 204, 302
+and 403 responses. Owner redeployment and a successful scheduled dispatch remain required.
+
 Failure logs contain only the fixed job/acceptance fields, a category (`configuration`,
 `http-rejected`, `timeout`, `network` or `unknown`) and an HTTP status when available. No token,
 Authorization header, response body or original exception is logged. Missing/blank credentials

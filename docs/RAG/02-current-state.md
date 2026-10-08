@@ -136,6 +136,16 @@ not complete Sprint 13, activate the pilot or establish an implemented SMS chann
 
 ## Sprint 13.7 — Evidence Reconciliation In Progress
 
+Latest checkpoint after 03:17 SAST on 8 October: both dispatcher executions failed; the diagnostic
+version reports `network` without an HTTP response. Exact-source local workerd reproduction
+identifies unsupported `redirect: "error"`; the local patch uses `manual` and rejects all non-204
+responses without following redirects. All 21 focused tests and mocked runtime 204/302/403 cases
+pass. Owner deployment and successful scheduled dispatcher proof remain pending. Native GitHub
+scheduled run `37710532445` independently succeeded at 02:58–02:59 SAST with encrypted storage,
+13-record restore and heartbeat success; it is not dispatcher proof. The owner reduced initial
+acceptance to one successful scheduled chain, leaving sustained cadence as follow-up. Earlier
+pending provisioning and three-run expectations below are historical, not the current criterion.
+
 The [13.7 packet](../02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md)
 adds a fixed local-only rollback runner: seven suites/418 SQL assertions and 16 guard tests pass,
 with exact row/security/trigger/function restoration. Fresh hosted read-only evidence confirms
