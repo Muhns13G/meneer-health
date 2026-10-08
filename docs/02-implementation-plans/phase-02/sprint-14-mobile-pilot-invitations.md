@@ -107,6 +107,11 @@ Commit after each completed task; the owner alone stages, commits, pushes and de
 is not permission to send to the real participant list. No hosted mutation, purchase, new credential,
 message, migration or activation is authorised by this planning document.
 
+The [14.9 hosted rehearsal packet](annexures/sprint-14-9-hosted-mobile-rehearsal.md) is prepared.
+The owner has supplied a controlled handset; exact-commit CI, six hosted migrations, provider
+configuration/pricing, a finite spend cap and bounded fixture/key/cleanup approvals remain
+execution prerequisites. Preparation does not assert hosted acceptance.
+
 ## Readiness and Release Gates
 
 14.1 is completed at its contract boundary; 14.2 is completed at its local schema boundary. The
