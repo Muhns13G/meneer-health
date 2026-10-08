@@ -9,6 +9,8 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
@@ -125,6 +127,20 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 13.8 — Quality Matrix In Progress
+
+The [13.8 packet](../02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md)
+records fresh local static/build, 954 Node-22 unit tests, 1,599 SQL assertions, serialized integration,
+incident/encrypted recovery and hosted anonymous-denial/header/media checks. Browser full run:
+279 passes plus one ENOSPC artifact failure; exact desktop file retest passes 2/2, completing evidence
+for all 280 distinct cases without relabelling the original run. Baseline CI passes on all three
+branches. The browser harness excludes dotenv autoload and uses the Node runtime; callers must also
+exclude inherited hosted credentials. Mansoer Gallie freshly confirms desktop VoiceOver, actual
+200%/400% browser zoom and phone screen-reader checks. Exact reviewed-release/device mapping and
+individual private-flow observations remain unrecorded; previous Sprint-12 confirmations are not
+carried forward. Exact committed task-change CI is also pending. Task 13.7 is now independently
+closed at its agreed initial threshold; no pilot or generator activation is implied.
+
 ## Sprint 14 — Approved Direction, Implementation Not Started
 
 The owner approved the smaller SMS-invitation extension in the
@@ -134,7 +150,19 @@ and participant-supplied verified email. Email OTP validity remains 900 seconds.
 identity binding, cost limits and hosted proof must be settled before release. This planning does
 not complete Sprint 13, activate the pilot or establish an implemented SMS channel.
 
-## Sprint 13.7 — Evidence Reconciliation In Progress
+## Sprint 13.7 — Initial Scheduled Acceptance Completed
+
+Read-only closure inspection on 8 October verifies Cloudflare's scheduled 05:17:39 SAST accepted
+dispatch on fixed version `52e0ecc2-204b-4e01-919c-ea3286aa6093`, correlated with GitHub run
+`37722032185` at `1610efad14f29f132f2d46a3df0ae3ea972991f2`. At 05:19:01 its production runner
+verified encrypted durable storage, downloaded/decrypted isolated restore of 13 records and
+payload-free heartbeat success. Run `37717154796` also succeeded at 04:17–04:19. Both Better Stack
+heartbeat and HTTP monitor are Up; heartbeat freshness was directly observed. The owner's one-chain
+initial threshold is met. Ongoing cadence/token/alert management remains assigned to Mansoer Gallie
+with Mikhail Robertson as alternate; Auth/private Storage recovery remains a separate pre-intake gate.
+No workflow dispatch, setting change or pilot activation was performed in this closure check.
+
+The earlier checkpoints below are historical and superseded by this closure, not present blockers.
 
 Latest checkpoint after 03:17 SAST on 8 October: both dispatcher executions failed; the diagnostic
 version reports `network` without an HTTP response. Exact-source local workerd reproduction

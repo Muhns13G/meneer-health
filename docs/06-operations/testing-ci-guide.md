@@ -2,7 +2,7 @@
 document_id: meneer-testing-ci-guide
 title: Testing and CI Guide
 status: active
-last_updated: 2026-08-11
+last_updated: 2026-10-08
 owner: "@Muhns13G"
 audience: contributors
 sensitivity: internal
@@ -45,6 +45,15 @@ Install Chromium once on a workstation with `bunx playwright install chromium`. 
 `bunx playwright install --with-deps chromium`.
 
 ## Local Validation Sequence
+
+Select the repository's Node 22 runtime on `PATH` before running the matrix. On workstations
+containing ignored hosted dotenv files, start the controlled browser matrix with
+`bun --no-env-file run test:e2e` from an environment without inherited hosted/provider credentials.
+Playwright invokes Vite through Node 22 and disables Cloudflare dotenv loading; do not add a
+credential-bearing `.dev.vars` to its test server. This does not change ordinary interactive `dev`.
+For local database integration, invoke each runner directly with
+`bun --no-env-file scripts/<runner>.ts`; a nested `bun run` may autoload dotenv again. Keep database
+packets serialized. See the [Task 13.8 evidence and manual checklist](../02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md).
 
 Run build commands sequentially because they share `dist/`:
 

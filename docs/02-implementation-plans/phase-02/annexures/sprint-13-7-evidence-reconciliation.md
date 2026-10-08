@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-13-7
 title: Cross-Record Evidence and Recovery Reconciliation
-status: in-progress
+status: completed-initial-scheduled-acceptance
 last_updated: 2026-10-08
 source_commit: d12e088
 owner: "@Muhns13G"
@@ -197,8 +197,55 @@ Separately, GitHub's native scheduled run
 payload-free heartbeat success at 02:59:33. This is genuine scheduled recovery evidence, but not
 proof of the failed Cloudflare dispatcher. The native schedule has not been removed.
 
-**13.7 remains in progress.** All earlier audit/cleanup, minimal telemetry, archive disposition and
+**Historical 03:17 status: 13.7 remained in progress.** All earlier audit/cleanup, minimal telemetry, archive disposition and
 incident-response evidence is retained. The remaining boundary is owner deployment of the runtime
 fix followed by a successful scheduled dispatcher-to-export/restore chain and monitoring check.
 No new manually triggered export or heartbeat substitutes for that proof.
 The full quality/AT matrix, debt review and release decision remain 13.8–13.10.
+
+## Closure — Verified Scheduled Chain on 8 October
+
+Task 13.7 is **completed at the owner's explicitly agreed initial acceptance threshold**: one
+successful unattended dispatcher-to-export/restore chain, with current monitoring evidence.
+This supersedes the historical pending checkpoints above, not their failure records.
+
+Read-only Cloudflare Observability shows the **05:17:39.253 SAST** scheduled event on dispatcher
+version `52e0ecc2-204b-4e01-919c-ea3286aa6093`, cron `17 * * * *`, with `accepted: true` and
+`backupVerified: false`. The latter remains correct: the dispatcher does not certify a backup.
+The corresponding GitHub run
+[37722032185](https://github.com/Muhns13G/meneer-health/actions/runs/37722032185)
+was created at **05:17:39 SAST**, used `main` source
+`1610efad14f29f132f2d46a3df0ae3ea972991f2`, and its runner reported at **05:19:01 SAST**:
+production source, encryption, durable write, verified downloaded/decrypted isolated restore,
+**13 records** reconciled, retained production object and zero heartbeat payload fields.
+The workflow concluded successfully. GitHub labels it `workflow_dispatch` because the scheduled
+Cloudflare Worker calls the dispatch API; the independent Cloudflare `scheduled` event establishes
+its unattended origin. It is not relabelled a native GitHub `schedule` event.
+
+An additional successful production run
+[37717154796](https://github.com/Muhns13G/meneer-health/actions/runs/37717154796)
+was created at **04:17:39 SAST** and reported the same verified 13-record round trip at
+**04:19:04 SAST**, using the same `main` SHA. Its matching time supports the hourly observation;
+only the later Cloudflare event was directly inspected in this closure check.
+
+Better Stack heartbeat `481481` is **Up**, expected hourly, with its last heartbeat recorded
+three minutes before the detail-page inspection after the 05:19 completion. Production HTTP
+monitor `4799009` is also **Up**, retaining its three-minute interval. No manual success ping,
+test alert, forced incident resolution, grace relaxation, provider setting change, download,
+deletion or newly dispatched workflow occurred during this check. Earlier missed-heartbeat
+incidents and unsuccessful dispatcher versions remain part of the operational history.
+
+### Continuing obligations, not additional initial task acceptance
+
+- Mansoer Gallie (System Architect), with Mikhail Robertson (Product Owner) as alternate, must
+  continue observing successful exports and respond to actual missed-heartbeat alerts. Two
+  matching hourly runs do not guarantee sustained RPO, token validity or future delivery.
+- Preserve private EU archives under the existing 35-day lifecycle; scope any later inspection
+  or deletion separately. The dispatcher keeps no database, R2, encryption or heartbeat key.
+- Auth/private Storage remain outside this application-schema export. Their explicit pre-intake
+  recovery gates remain unresolved by this packet and must be reconciled in 13.9/13.10 before
+  real-client activation. Generator reactivation remains deferred until manual generation is needed.
+
+All earlier audit-chain, exact fixture cleanup, minimal telemetry, archive disposition and incident
+response proofs are retained. The full manual accessibility acceptance, debt review and owner
+release decision remain separate. Closing 13.7 does not activate the suspended real pilot.

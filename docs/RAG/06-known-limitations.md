@@ -7,6 +7,8 @@ last_updated: 2026-10-08
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
@@ -112,6 +114,19 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Latest Sprint 13 Checkpoint — 8 October
+
+Task 13.7 is closed at the owner's agreed initial scheduled-chain threshold: the corrected
+Cloudflare 05:17 event, successful GitHub production restore and fresh Better Stack heartbeat
+are independently observed. Historical pending statements below predate that closure. Continuing
+hourly success, alert response and token management remain operational obligations; Auth/private
+Storage recovery coverage remains a separate pre-intake gate, not part of the application export.
+Task 13.8's automated packet is verified, and the owner freshly confirms desktop VoiceOver,
+actual 200%/400% browser zoom and phone screen-reader checks. Exact reviewed-release/device mapping,
+individual private-flow observations and task-change CI remain outstanding. No prior local
+confirmation or emulated Pixel 7 result substitutes for that review. Sprint 13, the debt
+review and the owner go/no-go decision remain open; no pilot or generator activation is inferred.
+
 Task [13.6](../02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md)
 is completed at its bounded synthetic scope. Its local 334-assertion rollback-only packet and four controlled
 desktop/mobile recovery checks pass. A genuine hosted declined-then-paid Session correctly held
@@ -153,7 +168,7 @@ encrypted-record checks and exact cleanup restored all 125 table fingerprints an
 Auth users/sessions are zero, intake is disabled and the real pilot remains suspended. Controlled
 local presentation and document mismatch regressions are not additional hosted browser/AT proof;
 Task 13.8 still owns the released walkthrough. Other RPC conflict codes require Task 13.9 review,
-and historical backup artefact disposition belongs to Task 13.7. No payment or generator exercise
+and historical backup artefact disposition is now verified in Task 13.7. No payment or generator exercise
 was performed. Do not reuse old fixture IDs/settings as standing authority for later tasks.
 
 Task [13.2](../02-implementation-plans/phase-02/annexures/sprint-13-2-platform-readiness.md) is
