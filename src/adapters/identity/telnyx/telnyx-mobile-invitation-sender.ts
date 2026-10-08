@@ -35,7 +35,8 @@ const uncertain: MobileSendOutcome = { outcome: "uncertain", providerMessageId: 
 export class TelnyxMobileInvitationSender implements MobileInvitationSender {
   constructor(
     private readonly config: MobileDeliveryConfiguration,
-    private readonly transport: typeof fetch = fetch,
+    // Invoke native Worker fetch as a global function, not with this adapter as receiver.
+    private readonly transport: typeof fetch = (input, options) => fetch(input, options),
   ) {
     const parsed = readMobileDeliveryConfiguration(config);
     if (!parsed) throw new Error("MOBILE_DELIVERY_CONFIGURATION_INVALID");
@@ -59,7 +60,9 @@ export class TelnyxMobileInvitationSender implements MobileInvitationSender {
     try {
       const response = await this.transport("https://api.telnyx.com/v2/messages", {
         method: "POST",
-        redirect: "error",
+        // workerd rejects redirect:"error" before network I/O. Manual preserves the
+        // no-follow credential boundary; every 3xx below remains uncertain, never retried.
+        redirect: "manual",
         cache: "no-store",
         signal: AbortSignal.timeout(Math.max(1, Math.min(10_000, request.deadline - Date.now()))),
         headers: {

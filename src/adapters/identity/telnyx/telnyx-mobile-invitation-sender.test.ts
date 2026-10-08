@@ -37,6 +37,22 @@ function receipt() {
   };
 }
 describe("one-shot Telnyx sender", () => {
+  it("invokes default fetch without binding the adapter as its receiver", async () => {
+    const transport = vi.fn(function (this: unknown) {
+      if (this instanceof TelnyxMobileInvitationSender) throw new TypeError("Illegal invocation");
+      return Promise.resolve(Response.json(receipt()));
+    });
+    vi.stubGlobal("fetch", transport);
+    try {
+      expect(await new TelnyxMobileInvitationSender(config).send(request)).toEqual({
+        outcome: "accepted",
+        providerMessageId: id,
+      });
+      expect(transport).toHaveBeenCalledTimes(1);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
   it("retains API acceptance as acceptance only when final cost is not yet available", async () => {
     const body = { data: { ...receipt().data, cost: null } };
     const transport = vi.fn<typeof fetch>().mockResolvedValue(Response.json(body));
@@ -77,12 +93,27 @@ describe("one-shot Telnyx sender", () => {
     expect(transport).toHaveBeenCalledTimes(1);
     const [url, options] = transport.mock.calls[0]!;
     expect(url).toBe("https://api.telnyx.com/v2/messages");
-    expect(options?.redirect).toBe("error");
+    expect(options?.redirect).toBe("manual");
     expect(JSON.parse(options?.body as string)).toMatchObject({
       use_profile_webhooks: false,
       webhook_url: "https://meneerhealth.co.za/api/invitations/telnyx/webhook",
       text: request.text,
     });
+  });
+  it("does not follow a redirect or forward the credential to its Location", async () => {
+    const transport = vi.fn<typeof fetch>().mockResolvedValue(
+      new Response(null, {
+        status: 307,
+        headers: { Location: "https://unexpected.example.invalid" },
+      }),
+    );
+    expect(await new TelnyxMobileInvitationSender(config, transport).send(request)).toEqual({
+      outcome: "uncertain",
+      providerMessageId: null,
+    });
+    expect(transport).toHaveBeenCalledTimes(1);
+    expect(transport.mock.calls[0]?.[0]).toBe("https://api.telnyx.com/v2/messages");
+    expect(transport.mock.calls[0]?.[1]?.redirect).toBe("manual");
   });
   it.each([400, 401, 403, 422, 429, 500, 502, 302])("never retries response %i", async (status) => {
     const transport = vi
