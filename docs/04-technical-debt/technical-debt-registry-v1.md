@@ -817,6 +817,8 @@ unrelated account, membership and domain record. Provider-accepted/uncertain out
 reconciliation, not automatic deletion or resend. Review the policy and exercise local denials/
 cleanup before separately approved hosted proof. Keep the mobile email gate disabled until resolved
 or a documented, time-bounded approved operating control exists. This does not weaken TD-065.
+Task 14.8 prepares the [provenance-scoped retirement/reissue design](../02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md).
+This is not implemented retirement or owner/privacy approval; status remains Open.
 
 ## Registry Maintenance Rules
 

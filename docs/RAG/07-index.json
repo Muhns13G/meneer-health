@@ -24,6 +24,22 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-14-8",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-8-security-accessibility.md",
+      "status": "completed-local-security-accessibility-boundary",
+      "authority": "local-security-race-and-owner-manual-evidence",
+      "priority": 1,
+      "topics": ["sprint-14", "security", "accessibility", "races", "verification"]
+    },
+    {
+      "id": "phase-02-sprint-14-orphan-identity",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md",
+      "status": "design-prepared-execution-disabled",
+      "authority": "engineering-proposal-not-provider-retirement-approval",
+      "priority": 1,
+      "topics": ["sprint-14", "TD-066", "identity", "retention", "recovery"]
+    },
+    {
       "id": "phase-02-sprint-14-7",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md",
       "status": "completed-local-conversion-boundary",

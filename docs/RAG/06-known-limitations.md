@@ -7,6 +7,7 @@ last_updated: 2026-10-08
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-8-security-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md
   - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
   - docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md
@@ -127,7 +128,11 @@ The 30-/90-day sweeper covers private invitation-register contacts and minimal m
 Provider/application identities created before an abandoned conversion are not silently erased;
 TD-066 requires scoped orphan retention, staff recovery and backup reconciliation before real email
 delivery. Existing-account and uncertain sends fail closed, without blind resend or automatic merge.
-Full manual/security acceptance and separately authorised hosted proof remain 14.8–14.9.
+The owner's fresh mobile VoiceOver/keyboard/400% zoom checks pass in 14.8; local acceptance records
+a 312-pass broad scan and 38 passing affected checks after public media environment isolation.
+It does not claim one final all-green full local run. Exact-commit full CI and separately authorised
+hosted proof remain prerequisites for 14.9. TD-066's design is prepared,
+not an implemented retirement job or approval to delete hosted identities.
 
 ## Latest Sprint 13 Checkpoint — 8 October
 

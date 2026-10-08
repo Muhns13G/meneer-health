@@ -47,6 +47,10 @@ export default defineConfig({
     command: "node node_modules/vite/bin/vite.js dev --host 127.0.0.1 --port 8085",
     env: {
       CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false",
+      // Vite still loads public .env values independently of Bun/Cloudflare. Keep the
+      // controlled matrix portable across checkouts; preview code-level fallbacks remain tested.
+      VITE_PEPTIDE_VIDEO_URL: "",
+      VITE_PEPTIDE_VIDEO_POSTER_URL: "",
     },
     url: `${baseURL}/`,
     reuseExistingServer: false,
