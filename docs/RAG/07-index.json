@@ -24,6 +24,14 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-14-3",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-3-governed-mobile-invitation-staff.md",
+      "status": "completed-local-staff-boundary",
+      "authority": "local-command-and-ui-evidence",
+      "priority": 1,
+      "topics": ["sprint-14", "invitations", "staff", "aal2", "budgets"]
+    },
+    {
       "id": "phase-02-sprint-14-2",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-2-private-mobile-invitation-foundation.md",
       "status": "completed-local-foundation",

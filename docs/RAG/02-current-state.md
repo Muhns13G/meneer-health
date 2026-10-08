@@ -9,6 +9,7 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-3-governed-mobile-invitation-staff.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-2-private-mobile-invitation-foundation.md
   - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
   - docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md
@@ -190,8 +191,11 @@ cost limits and hosted proof must be settled before release. The owner-selected 
 bearer link plus verified email, without a second SMS code or routine staff confirmation.
 [14.2](../02-implementation-plans/phase-02/annexures/sprint-14-2-private-mobile-invitation-foundation.md)
 adds five private tables and guarded token/claim, conversion-lineage and retention invariants,
-verified against local synthetic PostgreSQL only. No hosted migration, public command/UI, SMS
-send or pilot activation occurred. 14.3 governed staff commands/UI are next; operational retention
+verified against local synthetic PostgreSQL only. [14.3](../02-implementation-plans/phase-02/annexures/sprint-14-3-governed-mobile-invitation-staff.md)
+adds service-only staff commands and a private masked register at `/staff/mobile-invitations`:
+current operations-role/purpose, tenant contact assignment and AAL2; atomic replay/budget/audit
+and supersession. Send/resend reserve requests only; no token issuance, hosted migration, SMS
+send or pilot activation occurred. 14.4 sender/delivery intents are next; operational retention
 sweeping, delivery, email conversion and hosted/provider proof remain later task boundaries.
 
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed

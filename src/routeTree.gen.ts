@@ -32,6 +32,7 @@ import { Route as PortalRightsRouteImport } from './routes/portal.rights'
 import { Route as PortalSupportRouteImport } from './routes/portal.support'
 import { Route as StaffAlertsRouteImport } from './routes/staff.alerts'
 import { Route as StaffIntakeRouteImport } from './routes/staff.intake'
+import { Route as StaffMobileInvitationsRouteImport } from './routes/staff.mobile-invitations'
 import { Route as StaffQueueRouteImport } from './routes/staff.queue'
 import { Route as StaffSignInRouteImport } from './routes/staff.sign-in'
 import { Route as StaffSupportRouteImport } from './routes/staff.support'
@@ -156,6 +157,11 @@ const StaffIntakeRoute = StaffIntakeRouteImport.update({
   path: '/staff/intake',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffMobileInvitationsRoute = StaffMobileInvitationsRouteImport.update({
+  id: '/staff/mobile-invitations',
+  path: '/staff/mobile-invitations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaffQueueRoute = StaffQueueRouteImport.update({
   id: '/staff/queue',
   path: '/staff/queue',
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
+  '/staff/mobile-invitations': typeof StaffMobileInvitationsRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/staff/support': typeof StaffSupportRoute
@@ -254,6 +261,7 @@ export interface FileRoutesByTo {
   '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
+  '/staff/mobile-invitations': typeof StaffMobileInvitationsRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/staff/support': typeof StaffSupportRoute
@@ -288,6 +296,7 @@ export interface FileRoutesById {
   '/portal/support': typeof PortalSupportRoute
   '/staff/alerts': typeof StaffAlertsRoute
   '/staff/intake': typeof StaffIntakeRoute
+  '/staff/mobile-invitations': typeof StaffMobileInvitationsRoute
   '/staff/queue': typeof StaffQueueRoute
   '/staff/sign-in': typeof StaffSignInRoute
   '/staff/support': typeof StaffSupportRoute
@@ -323,6 +332,7 @@ export interface FileRouteTypes {
     | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
+    | '/staff/mobile-invitations'
     | '/staff/queue'
     | '/staff/sign-in'
     | '/staff/support'
@@ -356,6 +366,7 @@ export interface FileRouteTypes {
     | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
+    | '/staff/mobile-invitations'
     | '/staff/queue'
     | '/staff/sign-in'
     | '/staff/support'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/portal/support'
     | '/staff/alerts'
     | '/staff/intake'
+    | '/staff/mobile-invitations'
     | '/staff/queue'
     | '/staff/sign-in'
     | '/staff/support'
@@ -423,6 +435,7 @@ export interface RootRouteChildren {
   PortalSupportRoute: typeof PortalSupportRoute
   StaffAlertsRoute: typeof StaffAlertsRoute
   StaffIntakeRoute: typeof StaffIntakeRoute
+  StaffMobileInvitationsRoute: typeof StaffMobileInvitationsRoute
   StaffQueueRoute: typeof StaffQueueRoute
   StaffSignInRoute: typeof StaffSignInRoute
   StaffSupportRoute: typeof StaffSupportRoute
@@ -597,6 +610,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffIntakeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff/mobile-invitations': {
+      id: '/staff/mobile-invitations'
+      path: '/staff/mobile-invitations'
+      fullPath: '/staff/mobile-invitations'
+      preLoaderRoute: typeof StaffMobileInvitationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/staff/queue': {
       id: '/staff/queue'
       path: '/staff/queue'
@@ -679,6 +699,7 @@ const rootRouteChildren: RootRouteChildren = {
   PortalSupportRoute: PortalSupportRoute,
   StaffAlertsRoute: StaffAlertsRoute,
   StaffIntakeRoute: StaffIntakeRoute,
+  StaffMobileInvitationsRoute: StaffMobileInvitationsRoute,
   StaffQueueRoute: StaffQueueRoute,
   StaffSignInRoute: StaffSignInRoute,
   StaffSupportRoute: StaffSupportRoute,

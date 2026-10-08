@@ -26,7 +26,9 @@ to complete Sprint 14 before returning to the launch blockers, not to waive them
 and proposed unconverted-contact/audit retention defaults are approved; unique-link plus verified
 email is selected without a second SMS challenge or routine staff confirmation. Duplicate/account
 conflicts go to staff exceptions. The [14.2 private foundation](annexures/sprint-14-2-private-mobile-invitation-foundation.md)
-is implemented and verified locally; 14.3 staff commands/UI are next. No hosted migration or provider send has begun.
+is implemented and verified locally. The [14.3 staff commands/UI](annexures/sprint-14-3-governed-mobile-invitation-staff.md)
+add current operations/AAL2 authority, masked contacts and budgeted reservations without SMS dispatch.
+14.4 delivery intents and sender are next. No hosted migration or provider send has begun.
 
 [Sprint 14 — Mobile Pilot Invitations](sprint-14-mobile-pilot-invitations.md) is planned as ten
 commit-sized tasks. Staff will register minimal participant contact details, send a governed
