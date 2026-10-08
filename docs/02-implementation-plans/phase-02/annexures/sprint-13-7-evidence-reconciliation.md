@@ -180,9 +180,25 @@ was neither retrieved nor printed. Task 13.7 remains in progress solely for obse
 4. Hosted minimal-telemetry observation is now verified. Auth/Storage recovery remains an explicit
    pre-intake release gate; do not treat application-schema recovery as coverage of those systems.
 
-**13.7 is in progress, not completed.** Local reconciliation and first unattended recovery proof
-are verified, including fresh hosted audit/cleanup and a real incident response. Sustained cadence,
-dispatcher activation and sustained cadence remain open. Hosted minimal telemetry, historical
-archive disposition and actual alert receipt are verified. Credential provisioning and owner
-deployment are pending; do not label code preparation as operational activation.
+### Latest Checkpoint — 8 October, After 03:17 SAST
+
+The owner reduced initial acceptance to one scheduled recovery success; sustained cadence remains
+follow-up evidence. Credential provisioning and deployment are verified, superseding the pending
+claims above. The 02:17 execution failed; diagnostic version
+`284d9819-6aef-48c3-aa29-d9c6149124c9` also failed at 03:17:37 SAST, reporting `network` with no
+HTTP status. Local workerd reproduction proves `redirect: "error"` is rejected before outbound
+networking. The local fix uses `manual`, rejects every non-204 response and never follows redirects.
+Mocked exact-source runtime checks exercise 204 acceptance and 302/403 rejection; no real
+credentials, provider dispatch or backup is used in those checks.
+
+Separately, GitHub's native scheduled run
+[37710532445](https://github.com/Muhns13G/meneer-health/actions/runs/37710532445) started at
+02:58:30 SAST and verified production encrypted storage, round-trip restoration of 13 records and
+payload-free heartbeat success at 02:59:33. This is genuine scheduled recovery evidence, but not
+proof of the failed Cloudflare dispatcher. The native schedule has not been removed.
+
+**13.7 remains in progress.** All earlier audit/cleanup, minimal telemetry, archive disposition and
+incident-response evidence is retained. The remaining boundary is owner deployment of the runtime
+fix followed by a successful scheduled dispatcher-to-export/restore chain and monitoring check.
+No new manually triggered export or heartbeat substitutes for that proof.
 The full quality/AT matrix, debt review and release decision remain 13.8–13.10.
