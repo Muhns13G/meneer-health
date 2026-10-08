@@ -20,7 +20,7 @@ test("staff invitation review is version-bound, masked and accessible", async ({
     route.fulfill({
       headers: { "X-Session-Expires-At": new Date(Date.now() + 600_000).toISOString() },
       json: {
-        invitations: [{ ...row, reviewed }],
+        invitations: [{ ...row, reviewed, delivery: { status: "conflict", budgetReview: true } }],
         nextId: null,
         reservationEnabled: false,
         sendingEnabled: false,
@@ -53,6 +53,8 @@ test("staff invitation review is version-bound, masked and accessible", async ({
   await page.keyboard.press("Enter");
   await expect(page.getByRole("status")).toContainText("No SMS was sent");
   await expect(page.getByText(/Phone \*\*\*01/)).toBeVisible();
+  await expect(page.getByText(/Delivery: conflict/)).toContainText("not invitation acceptance");
+  await expect(page.getByText(/Delivery: conflict/)).toContainText("do not resend blindly");
   expect(page.url()).not.toContain(id);
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.setViewportSize({ width: 320, height: 800 });
@@ -87,7 +89,7 @@ for (const status of [409, 429, 403])
     expect(commands).toBe(1);
   });
 test("anonymous staff invitation endpoints remain private", async ({ request }) => {
-  for (const path of ["read", "command"]) {
+  for (const path of ["read", "command", "dispatch"]) {
     const response = await request.post(`/staff/mobile-invitations/${path}`, {
       headers: { origin: "http://127.0.0.1:8085" },
       form: { afterId: "" },
@@ -95,4 +97,49 @@ test("anonymous staff invitation endpoints remain private", async ({ request }) 
     expect([401, 422]).toContain(response.status());
     expect(response.headers()["cache-control"]).toContain("no-store");
   }
+});
+test("explicit dispatch shows uncertainty without automatic retry or private storage", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  let calls = 0;
+  await page.route("**/staff/mobile-invitations/read", (route) =>
+    route.fulfill({
+      headers: { "X-Session-Expires-At": new Date(Date.now() + 600000).toISOString() },
+      json: {
+        invitations: [
+          {
+            ...row,
+            reviewed: true,
+            sendReserved: true,
+            dispatchRequestKey: calls ? null : id,
+            delivery: { status: calls ? "uncertain" : "not_attempted", budgetReview: false },
+          },
+        ],
+        nextId: null,
+        reservationEnabled: true,
+        sendingEnabled: true,
+      },
+    }),
+  );
+  await page.route("**/staff/mobile-invitations/dispatch", (route) => {
+    calls++;
+    expect(Object.fromEntries(new URLSearchParams(route.request().postData() ?? ""))).toEqual({
+      invitationId: id,
+      expectedVersion: "1",
+      reservationRequestKey: id,
+    });
+    return route.fulfill({ json: { attemptId: id, outcome: "uncertain" } });
+  });
+  await page.goto("/staff/mobile-invitations");
+  const send = page.getByRole("button", { name: "Send one invitation SMS for Synthetic" });
+  await expect(send).toBeDisabled();
+  await page.getByRole("checkbox").check();
+  await send.click();
+  await expect(page.getByRole("status")).toContainText("not participant acceptance");
+  await expect(page.getByText(/Delivery: uncertain/)).toContainText("do not resend blindly");
+  expect(calls).toBe(1);
+  await expect(send).toHaveCount(0);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(() => localStorage.length + sessionStorage.length)).toBe(0);
 });

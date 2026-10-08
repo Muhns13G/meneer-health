@@ -68,13 +68,30 @@ export const mobileInvitationPageSchema = z
             maskedPhone: z.string().regex(/^\*\*\*\d{2}$/),
             reviewed: z.boolean(),
             sendReserved: z.boolean(),
+            dispatchRequestKey: reference.nullable().optional(),
+            delivery: z
+              .object({
+                status: z.enum([
+                  "not_attempted",
+                  "pending",
+                  "accepted",
+                  "sent",
+                  "provider_delivered",
+                  "failed",
+                  "uncertain",
+                  "conflict",
+                ]),
+                budgetReview: z.boolean(),
+              })
+              .strict()
+              .optional(),
           })
           .strict(),
       )
       .max(25),
     nextId: reference.nullable(),
     reservationEnabled: z.boolean(),
-    sendingEnabled: z.literal(false),
+    sendingEnabled: z.boolean(),
   })
   .strict();
 export type MobileInvitationPage = z.infer<typeof mobileInvitationPageSchema>;

@@ -15,6 +15,8 @@ const directEndpointPrefixes = ["/api", "/.mcp"] as const;
 const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/staff/mobile-invitations/read", "protected-command"],
   ["/staff/mobile-invitations/command", "protected-command"],
+  ["/staff/mobile-invitations/dispatch", "protected-command"],
+  ["/api/invitations/telnyx/webhook", "provider-callback"],
   ["/portal/order/command", "protected-command"],
   ["/portal/payments/read", "protected-command"],
   ["/staff/payments/read", "protected-command"],

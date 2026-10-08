@@ -48,7 +48,7 @@ describe("mobile invitation staff contract", () => {
       ).toBe(false);
     },
   );
-  it("rejects provider-authorising and overbroad projections", () => {
+  it("accepts a server readiness flag but rejects overbroad projections", () => {
     const page = {
       invitations: [],
       nextId: null,
@@ -57,7 +57,7 @@ describe("mobile invitation staff contract", () => {
     };
     expect(mobileInvitationPageSchema.safeParse(page).success).toBe(true);
     expect(mobileInvitationPageSchema.safeParse({ ...page, sendingEnabled: true }).success).toBe(
-      false,
+      true,
     );
     expect(mobileInvitationPageSchema.safeParse({ ...page, token: "private" }).success).toBe(false);
   });

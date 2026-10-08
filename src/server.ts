@@ -24,6 +24,7 @@ import { createPatientRightsHttpHandler } from "./server/identity/patient-rights
 import { createSupportHttpHandler } from "./server/support/support-http";
 import { createWorkforceHttpHandler } from "./server/identity/workforce-http";
 import { createMobileInvitationHttpHandler } from "./server/identity/mobile-invitation-http";
+import { createMobileReceiptHandler } from "./server/identity/mobile-invitation-receipts";
 import { createQueueHttpHandler } from "./server/operations/queue-http";
 import { createAlertHttpHandler } from "./server/operations/alert-http";
 import { runScheduledOperationsAlerts } from "./server/operations/alert-dispatch";
@@ -145,6 +146,10 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
           request,
           (boundedRequest) => {
             const pathname = new URL(boundedRequest.url).pathname;
+            if (pathname === "/api/invitations/telnyx/webhook")
+              return createMobileReceiptHandler(env as unknown as Record<string, unknown>)(
+                boundedRequest,
+              );
             if (pathname === "/api/notifications/brevo/webhook")
               return createNotificationReceiptHandler(env as unknown as Record<string, unknown>)(
                 boundedRequest,
@@ -171,9 +176,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
             if (pathname === "/staff/intake/command")
               return createStaffIntakeHttpHandler(env as unknown as IntakeBindings)(boundedRequest);
             if (
-              ["/staff/mobile-invitations/read", "/staff/mobile-invitations/command"].includes(
-                pathname,
-              )
+              [
+                "/staff/mobile-invitations/read",
+                "/staff/mobile-invitations/command",
+                "/staff/mobile-invitations/dispatch",
+              ].includes(pathname)
             )
               return createMobileInvitationHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
