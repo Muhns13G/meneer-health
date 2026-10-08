@@ -2,12 +2,22 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-07
+last_updated: 2026-10-08
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
 
 # Phase 02 — Minimum Pilot Enablement
+
+## Current Checkpoint — Sprint 13 Closure, 8 October
+
+[Sprint 13](../../03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md) is completed
+with activation gates through Task 13.10 reporting. Real-client activation remains **NO-GO** at
+this evidence checkpoint; no tenant or live commerce is enabled. The
+[Phase 02 checkpoint](../../03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md)
+is not final phase closure: adopted Sprint 14 is planned and required private uploads/remediation
+remain. Registry: 65 debts, 56 Verified, nine non-Verified. Reported reviewer approval does not fill
+the factual placeholders in unissued instruments. Earlier delivery checkpoints below are historical.
 
 ## Approved Extension — 8 October 2026
 

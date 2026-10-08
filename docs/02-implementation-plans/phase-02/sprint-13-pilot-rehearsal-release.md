@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-13
 title: End-to-End Pilot Rehearsal and Release Decision
-status: in-progress
+status: completed-with-activation-gates
 primary_debt: [TD-006, TD-007, TD-009, TD-010, TD-037, TD-038, TD-043]
 depends_on:
   [
@@ -51,9 +51,16 @@ implemented journey and the operating team can recover safely from expected fail
 | 13.7  | Reconcile audit chains, workflow/payment/handoff records, telemetry, alerts, recovery evidence and synthetic deletion.                    | Evidence           | Completed (initial)          |
 | 13.8  | Run the full local and hosted-safe validation matrix and complete manual desktop/mobile accessibility walkthroughs.                       | Quality            | Completed (owner acceptance) |
 | 13.9  | Review every transferred debt item and record Verified, still-gated or scope-removed status without dilution.                             | Debt               | Completed (reconciliation)   |
-| 13.10 | Issue the Sprint 13 and Phase 02 completion reports plus explicit pilot go/no-go, rollback and first-client checklist.                    | Release            | Planned                      |
+| 13.10 | Issue Sprint 13 closure, Phase 02 checkpoint, explicit pilot go/no-go, rollback and first-client checklist.                               | Release            | Completed (release gated)    |
 
 ## Acceptance Gate
+
+Task 13.10 issues the [Sprint 13 completion report](../../03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md)
+and [Phase 02 checkpoint](../../03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md).
+Sprint 13 is completed with activation gates. The evidence-based disposition is **NO-GO for real
+pilot activation**, not a newly signed owner release. Phase 02 remains open for the approved Sprint
+14 extension, required private uploads and remaining launch evidence. Older pending-task statements
+below describe their dated checkpoints. Closure-document commit/exact-code CI remain owner-controlled.
 
 Task [13.9 debt reconciliation](annexures/sprint-13-9-debt-reconciliation.md) is completed.
 All 63 prior IDs retain their accepted scopes; the seven original activation debts remain
@@ -97,7 +104,8 @@ notification faults/suppression/alternate escalation, and client/workforce revoc
 Both approved sandbox captures are fully refunded; independent final row/trigger/Auth/settings
 restoration passes at same-source version `2d26803d-2c7b-4a9a-ac18-64c9bb2ad58d`. Stopped harness
 attempts remain explicit, not relabelled passing. Task 13.7 is now closed as recorded above. Generator reactivation remains
-deferred until manual generation is needed; the real pilot is suspended and Sprint 13 is not closed.
+deferred until manual generation is needed; the real pilot is suspended. Sprint 13 is now closed
+with the explicit activation gates in the 13.10 report.
 
 Task [13.4 assignment/payment rehearsal](annexures/sprint-13-4-assignment-payment-rehearsal.md)
 is completed at its isolated synthetic boundary. Fresh AAL2/assignment/claim/replay/conflict/denial

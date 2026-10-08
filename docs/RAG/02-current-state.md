@@ -9,6 +9,8 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
+  - docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-6-recovery-rehearsal.md
@@ -128,6 +130,14 @@ sources:
 # Meneer v1 Verified Current State
 
 ## Sprint 13.9 — Debt Reconciliation Completed
+
+Task 13.10 now issues the [Sprint 13 report](../03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md):
+completed with activation gates, **NO-GO for real-client activation** at this checkpoint. The
+[Phase 02 checkpoint](../03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md)
+remains in progress for adopted Sprint 14, required uploads and retained debt acceptance.
+The owner subsequently reports reviewer approval of draft direction; this is not independent
+verification or completion of factual placeholders/exact issued instrument versions. No activation
+or new hosted testing is performed by documentation closure.
 
 Pre-13.10 [gap remediation](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md)
 is now in progress. TD-064/065 are In progress, not Verified. A guarded local 21-function conflict

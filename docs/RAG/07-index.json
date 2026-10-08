@@ -24,6 +24,22 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-13-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md",
+      "status": "completed-with-activation-gates",
+      "authority": "observed-evidence-and-release-disposition",
+      "priority": 1,
+      "topics": ["sprint-13", "completion", "no-go", "rollback", "activation-gates"]
+    },
+    {
+      "id": "phase-02-minimum-pilot-enablement-checkpoint",
+      "path": "docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md",
+      "status": "in-progress-release-gated",
+      "authority": "observed-checkpoint-not-final-closure",
+      "priority": 1,
+      "topics": ["phase-02", "sprint-14", "activation-gates"]
+    },
+    {
       "id": "sprint-13-pre-release-gap-remediation",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md",
       "title": "Pre-13.10 Remediation and Private Upload Extension",
@@ -1201,7 +1217,7 @@
     {
       "id": "phase-02-sprint-13",
       "path": "docs/02-implementation-plans/phase-02/sprint-13-pilot-rehearsal-release.md",
-      "status": "in-progress",
+      "status": "completed-with-activation-gates",
       "authority_for": ["end-to-end pilot rehearsal", "pilot release decision", "Phase 02 closure"]
     },
     {
