@@ -7,6 +7,8 @@ last_updated: 2026-10-08
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
+  - docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-7-evidence-reconciliation.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-8-quality-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-5-protocol-bridge-rehearsal.md
@@ -115,6 +117,12 @@ sources:
 # Meneer Known Limitations and Answer Guardrails
 
 ## Latest Sprint 13 Checkpoint — 8 October
+
+Task 13.10 closes Sprint 13 with activation gates and an explicit **NO-GO for real clients**,
+not final Phase 02 closure. Adopted Sprint 14 and required uploads remain; nine debts are
+non-Verified. Subsequent reviewer approval is owner-reported, not independently observed; factual
+placeholders remain and no completed exact client instrument is published by closure. Do not
+describe this documentation task as a new full regression, hosted rehearsal or release approval.
 
 The owner requests remediation before 13.10, including newly scoped optional private blood-result
 uploads, not an onboarding-only launch. Uploads are now deferred to a separate task, not waived

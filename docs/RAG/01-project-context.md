@@ -3,10 +3,12 @@ rag_id: meneer-project-context
 title: Meneer Project Context
 status: current
 authority: derived
-last_updated: 2026-10-07
+last_updated: 2026-10-08
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
+  - docs/03-completion-reports/phase-02/phase-02-minimum-pilot-enablement.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-13-1-rehearsal-contract.md
   - docs/03-completion-reports/phase-02/sprint-12-support-accessibility-readiness.md
   - docs/03-completion-reports/phase-02/sprint-11-stripe-commercial-operations.md
@@ -61,6 +63,15 @@ sources:
 ---
 
 # Meneer Project Context
+
+## Current Authority — Sprint 13 Closure
+
+Sprint 13 is completed with activation gates in its
+[report](../03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md). Task 13.10 records
+NO-GO for real-client activation, not an owner GO. Phase 02 remains open for adopted Sprint 14,
+required private uploads and nine non-Verified debts (65 total / 56 Verified). Reviewer approval is
+owner-reported; actual instrument facts and release acceptance remain required. Older checkpoints
+below are historical, not the latest delivery status. No framework rebuild is selected by closure.
 
 ## Current Authority — Sprint 12 Closure
 

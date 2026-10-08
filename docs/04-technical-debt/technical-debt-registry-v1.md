@@ -41,6 +41,15 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### Task 13.10 — Closed Reporting, No-Go for Real Activation
+
+The [Sprint 13 report](../03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md)
+closes reporting with activation gates and first-client/rollback checklists. All nine non-Verified
+statuses and original criteria are retained. The owner reports other reviewers approve the draft
+direction; missing factual notice/contract details and exact issued instruments remain unresolved.
+No approval is independently fabricated and no new debt/waiver is introduced. Phase 02 remains
+open for adopted Sprint 14, required uploads and applicable release acceptance.
+
 ### Task 13.9 — Reconciled, Activation Gates Retained
 
 The [13.9 debt packet](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md)
