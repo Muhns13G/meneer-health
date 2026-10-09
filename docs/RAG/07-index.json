@@ -24,6 +24,14 @@
   },
   "documents": [
     {
+      "id": "phase-02-identity-questionnaire-recovery",
+      "path": "docs/02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md",
+      "status": "verified-retained-questionnaire-scope-uploads-deferred",
+      "authority": "local-and-bounded-hosted-synthetic-acceptance-not-pilot-activation",
+      "priority": 1,
+      "topics": ["TD-065", "identity", "questionnaire", "restore", "medical-grants"]
+    },
+    {
       "id": "phase-02-live-payment-activation",
       "path": "docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md",
       "status": "local-implementation-verified-hosted-acceptance-pending",
@@ -74,7 +82,7 @@
     {
       "id": "phase-02-sprint-14-orphan-identity",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md",
-      "status": "design-prepared-execution-disabled",
+      "status": "provenance-schema-hosted-retirement-acceptance-pending",
       "authority": "engineering-proposal-not-provider-retirement-approval",
       "priority": 1,
       "topics": ["sprint-14", "TD-066", "identity", "retention", "recovery"]

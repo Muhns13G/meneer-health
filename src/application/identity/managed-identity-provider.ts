@@ -11,7 +11,7 @@ export type TotpEnrollment = Readonly<{
 
 export interface ManagedIdentityProvider {
   verifyAccessToken(accessToken: string): Promise<ProviderIdentity>;
-  invitePatient(email: string, redirectTo: string): Promise<string>;
+  invitePatient(email: string, redirectTo: string, creationProof?: string): Promise<string>;
   requestPatientSignIn(email: string, redirectTo: string): Promise<void>;
   requestRecovery(email: string, redirectTo: string): Promise<void>;
   verifyEmailOtp(email: string, token: string): Promise<ManagedSession>;

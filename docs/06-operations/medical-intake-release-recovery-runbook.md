@@ -105,6 +105,12 @@ Include `intake_private` in encrypted recovery exports and count/checksum reconc
 
 As the database custodian, invoke `intake_private.quarantine_restored_medical_intakes()` before any
 application access. It quarantines every intake and revokes old medical grants. Obtain an independently
+verified fresh clinical approval and independent activation after reconciliation and reviewed
+quarantine release: the restore cutoff rejects pre-restore pending approvals, even if not expired.
+Never clear/decrease the cutoff. Repeating quarantine advances it and invalidates earlier approvals.
+The 9 October [recovery checkpoint](../02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md)
+records populated encrypted restore, newer historic erasure/holds and fresh provider MFA plus
+independent medical-grant acceptance; uploads remain excluded/unverified. Obtain an independently
 verified **current** disposition ledger, not the ledger bundled with the older backup. Each row is
 `intakeId`, `tenantId`, `subjectId`, `version`, `state`, `safetyHold`, `lifecycleHold`; no answer payload.
 Record a separate opaque evidence reference, then invoke

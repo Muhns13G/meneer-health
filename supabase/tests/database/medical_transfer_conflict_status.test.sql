@@ -6,7 +6,7 @@ select is((length(d)-length(replace(d,'errcode=''PT409'',message=''MEDICAL_CONFL
  /length('errcode=''PT409'',message=''MEDICAL_CONFLICT'''), expected_count,
  signature||' has only permanent HTTP conflict raises')
 from (values
- ('public.approve_medical_grant(jsonb,jsonb)',1),
+ ('public.approve_medical_grant_before_restore_epoch(jsonb,jsonb)',1),
  ('public.authorise_medical_transfer(jsonb,uuid,uuid,uuid,uuid)',1),
  ('public.record_medical_transfer(jsonb,jsonb)',2),
  ('public.reconcile_medical_transfer(jsonb,jsonb)',2)

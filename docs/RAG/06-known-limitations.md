@@ -135,15 +135,27 @@ acceptance under the [activation packet](../02-implementation-plans/phase-02/ann
 
 ## Sprint 14.7 — Local Conversion, Not Mobile Channel Activation
 
+9 October: the creation-provenance prerequisite is applied hosted, not complete TD-066 retirement/
+reissue. TD-065 subsequently passes populated encrypted local and hosted-source/offline restore,
+current/historic erasure and holds, stable relink, fresh TOTP and independently reapproved medical
+grants. It is Verified only for the retained questionnaire scope. See the [acceptance](../02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md).
+
+TD-066's private coordinator/provider components are locally tested but deliberately unwired.
+The native lock/freeze/tombstone and confirmation/session-race proof, staff reissue and backup-copy
+reconciliation are still missing. No operational retirement or new hosted acceptance is implied.
+The owner's contact telephone, address text (De Chatillon Cres - Onrus, 7201) and named clinician
+are recorded. Final disclosure review and professional/agreement references remain gates,
+not replaced by draft placeholders.
+
 On 9 October the owner [deferred uploads until needed](../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md).
 Do not continue presenting uploads as a mandatory prerequisite for initial questionnaire-only
-intake. Upload/object recovery still gates future uploads; TD-065 identity recovery and other
-applicable account/intake gates remain. This is a scope amendment, not a Verified debt or GO.
+intake. Upload/object recovery still gates future uploads. The retained identity/questionnaire
+acceptance is now Verified; other account/intake gates remain and this is not GO.
 
 Sprint 14 is now [completed with activation gates](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md).
 14.9 subsequently proves actual controlled handset/mailbox conversion and signed delivery; 14.10
 reports the engineering closure without waiving TD-065/066 or other launch criteria. Phase 02 stays
-open for applicable retained gates and ten non-Verified debts (66 total / 56 Verified); uploads are deferred. No real participant
+open for applicable retained gates and nine non-Verified debts (66 total / 57 Verified); uploads are deferred. No real participant
 send is authorized. Earlier local-only descriptions below retain their dated evidence boundary.
 
 [14.7](../02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md) implements

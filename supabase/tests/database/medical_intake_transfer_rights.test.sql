@@ -208,7 +208,28 @@ select public.patient_intake_restrict(pg_temp.intake_context(),'d2000000-0000-40
 select is(public.patient_intake_rights_record(pg_temp.intake_context())->>'state','restricted','own rights lookup survives restriction');
 select is(public.patient_intake_export_view(pg_temp.intake_context(),'d2000000-0000-4000-8000-000000000001')->'record'->>'state','restricted','own export survives ordinary access restriction');
 select is(jsonb_array_length(public.patient_intake_history(pg_temp.intake_context(),'d2000000-0000-4000-8000-000000000001')),1,'restricted export retains historical snapshot');
+create temporary table pre_restore_approval as select public.approve_medical_grant(pg_temp.medical_context(1),jsonb_build_object('intakeId','d2000000-0000-4000-8000-000000000001','snapshotId','d2000000-0000-4000-8000-000000000042','targetSubjectId',pg_temp.medical_subject(6),'purpose','medical_rights','fields',jsonb_build_array('contact'),'rosterReference',gen_random_uuid(),'expiresAt',clock_timestamp()+interval '1 day','requestKey',gen_random_uuid())) as id;
 select is(intake_private.quarantine_restored_medical_intakes(),1::bigint,'offline restoration quarantines every medical record');
+select ok((select restore_authority_cutoff is not null from intake_private.intakes),'restore records a fresh authority cutoff');
+select ok(not exists(select 1 from intake_private.access_grants where revoked_at is null),'quarantine revokes every active medical grant');
+select throws_ok($$select pg_temp.grant_intake('medical_rights',6)$$,'42501','MEDICAL_REJECTED','quarantine blocks new clinical approval');
+select throws_ok($$select public.activate_medical_grant(pg_temp.medical_context(3),(select id from pre_restore_approval))$$,'42501','MEDICAL_REJECTED','quarantine blocks pending approval activation');
+select throws_ok($test$do $$begin update intake_private.intakes set restore_quarantined=false;perform public.activate_medical_grant(pg_temp.medical_context(3),(select id from pre_restore_approval));end$$$test$,'42501','MEDICAL_REJECTED','clearing quarantine cannot revive pre-restore pending approval');
+select throws_ok($$update intake_private.intakes set restore_authority_cutoff=null$$,'55000','MEDICAL_RESTORE_CUTOFF_IMMUTABLE','restore cutoff cannot be cleared');
+select ok(not has_function_privilege('service_role','public.activate_medical_grant_before_restore_epoch(jsonb,uuid)','execute'),'retired activation primitive remains inaccessible');
+select ok(not has_function_privilege('service_role','public.approve_medical_grant_before_restore_epoch(jsonb,jsonb)','execute'),'retired approval primitive remains inaccessible');
+select ok(not has_function_privilege('service_role','intake_private.quarantine_restored_medical_intakes()','execute'),'application cannot run offline quarantine');
+-- Explicit synthetic custodian review inside this rollback-only local packet; no release API.
+select intake_private.reconcile_restored_medical_intakes(gen_random_uuid(),gen_random_uuid(),
+ (select jsonb_agg(jsonb_build_object('intakeId',id,'tenantId',tenant_id,'subjectId',subject_id,'version',version,'state','restricted','safetyHold',false,'lifecycleHold',false)) from intake_private.intakes));
+update intake_private.intakes set restore_quarantined=false;
+select throws_ok($$select public.read_medical_intake(pg_temp.medical_context(6),'d2000000-0000-4000-8000-000000000001','medical_rights')$$,'42501','MEDICAL_REJECTED','membership and prior MFA cannot revive revoked medical grants');
+create temporary table post_restore_approval as select public.approve_medical_grant(pg_temp.medical_context(1),jsonb_build_object('intakeId','d2000000-0000-4000-8000-000000000001','snapshotId','d2000000-0000-4000-8000-000000000042','targetSubjectId',pg_temp.medical_subject(6),'purpose','medical_rights','fields',jsonb_build_array('contact'),'rosterReference',gen_random_uuid(),'expiresAt',clock_timestamp()+interval '1 day','requestKey',gen_random_uuid())) as id;
+select throws_ok($$select public.read_medical_intake(pg_temp.medical_context(6),'d2000000-0000-4000-8000-000000000001','medical_rights')$$,'42501','MEDICAL_REJECTED','fresh clinical approval still requires independent security activation');
+select lives_ok($$select public.activate_medical_grant(pg_temp.medical_context(3),(select id from post_restore_approval))$$,'fresh post-restore approval can be independently activated');
+select is(public.read_medical_intake(pg_temp.medical_context(6),'d2000000-0000-4000-8000-000000000001','medical_rights')->'fields','["contact"]'::jsonb,'fresh grant returns only its approved field scope');
+select is(intake_private.quarantine_restored_medical_intakes(),1::bigint,'second restore establishes a new cutoff');
+select throws_ok($test$do $$begin update intake_private.intakes set restore_quarantined=false;perform public.activate_medical_grant(pg_temp.medical_context(3),(select id from post_restore_approval));end$$$test$,'42501','MEDICAL_REJECTED','an earlier recovery approval cannot cross a second restore');
 select throws_ok($$select public.patient_intake_export_view(pg_temp.intake_context(),'d2000000-0000-4000-8000-000000000001')$$,'42501','INTAKE_REJECTED','quarantine blocks even authenticated rights reads until reconciliation and owner review');
 select ok(not has_function_privilege('service_role','intake_private.reconcile_restored_medical_intakes(uuid,uuid,jsonb)','execute'),'application service cannot alter offline restore dispositions');
 create temporary table restore_ledger as select jsonb_build_array(jsonb_build_object('intakeId',id,'tenantId',tenant_id,'subjectId',subject_id,'version',version,'state','deleted','safetyHold',false,'lifecycleHold',false)) as value from intake_private.intakes;

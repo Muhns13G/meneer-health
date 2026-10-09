@@ -51,6 +51,13 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   It requires empty local Auth and synthetic-only contacts, rejects inherited hosted/provider
   settings, sends no email and removes its exact fixtures/restore database. It is not hosted recovery
   or complete domain-grant/medical-erasure evidence. Serialize it with other database tests.
+- `bun --no-env-file run test:questionnaire:recovery` encrypts a populated synthetic logical dump,
+  restores four questionnaire snapshots into offline disposable databases, checks decryption,
+  reconciles newer deletion/restriction/holds, and denies old grants. It excludes Auth/Storage,
+  rejects inherited provider configuration and verifies the unchanged local baseline; serialize it.
+  `test:questionnaire:recovery:hosted` is separately guarded and requires explicit approval for
+  isolated hosted fixtures, no-send contact verification/TOTP, export and exact cleanup. Never run
+  the hosted command in CI or treat it as authority to restore into a live application database.
 - `bun run test:evidence:rehearsal` runs seven fixed rollback-only local audit, payment, handoff,
   notification and lifecycle suites, requiring exact row/security/trigger/function restoration.
   Use `bun --no-env-file`; inherited hosted/provider configuration is rejected. It sends no emails,

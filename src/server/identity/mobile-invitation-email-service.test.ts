@@ -31,7 +31,13 @@ function setup() {
   const call = vi.fn(async (name: string, args: Record<string, unknown>): Promise<unknown> => {
     void args;
     if (name === "prepare_mobile_email_exchange")
-      return { dispatch: true, state: "reserved", email: invitation.email, invitationId: id };
+      return {
+        dispatch: true,
+        state: "reserved",
+        email: invitation.email,
+        invitationId: id,
+        creationProof: "d".repeat(64),
+      };
     if (name === "read_mobile_email_exchange") return invitation;
     return true;
   });
@@ -65,6 +71,7 @@ describe("mobile email conversion", () => {
     expect(s.provider.invitePatient).toHaveBeenCalledWith(
       invitation.email,
       "https://meneerhealth.co.za/mobile-invitation",
+      "d".repeat(64),
     );
     expect(s.call.mock.calls[0]![1]).toEqual(
       expect.objectContaining({ p_token_digest: proof.tokenDigest }),
@@ -86,6 +93,21 @@ describe("mobile email conversion", () => {
     expect(await s.service.request(proof)).toBe(false);
     expect(s.provider.invitePatient).not.toHaveBeenCalled();
   });
+  it.each([undefined, "invalid", 123])(
+    "rejects missing or malformed creation capability %s before Auth",
+    async (creationProof) => {
+      const s = setup();
+      s.call.mockResolvedValueOnce({
+        dispatch: true,
+        state: "reserved",
+        email: invitation.email,
+        invitationId: id,
+        creationProof,
+      });
+      await expect(s.service.request(proof)).rejects.toThrow();
+      expect(s.provider.invitePatient).not.toHaveBeenCalled();
+    },
+  );
   it("timeout marks uncertainty, no success/retry", async () => {
     const s = setup();
     s.provider.invitePatient.mockRejectedValueOnce(new Error("private provider detail"));

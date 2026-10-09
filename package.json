@@ -42,6 +42,8 @@
     "test:operations:rehearsal": "bun run scripts/test-sprint10-rehearsal.ts",
     "test:recovery:rehearsal": "bun --no-env-file run scripts/test-sprint13-recovery-rehearsal.ts",
     "test:identity:recovery": "bun --no-env-file run scripts/test-identity-disaster-recovery.ts",
+    "test:questionnaire:recovery": "bun --no-env-file run scripts/test-questionnaire-disaster-recovery.ts",
+    "test:questionnaire:recovery:hosted": "bun run scripts/test-hosted-questionnaire-recovery.ts",
     "test:evidence:rehearsal": "bun --no-env-file run scripts/test-sprint13-evidence-rehearsal.ts",
     "test:notifications": "bun run scripts/test-notifications-concurrency.ts",
     "test:mobile:redemption": "bun --no-env-file run scripts/test-mobile-invitation-redemption.ts",
