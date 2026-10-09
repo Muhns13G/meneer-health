@@ -5,6 +5,28 @@ import { WorkforceSignInPage } from "./WorkforceSignInPage";
 
 afterEach(() => vi.unstubAllGlobals());
 describe("individual staff sign-in", () => {
+  it("advances to authenticator enrolment with a provider-sized QR SVG", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        Response.json({
+          enrollment: {
+            qrCode: "data:image/svg+xml," + "x".repeat(452_113),
+            secret: "SYNTHETIC",
+          },
+        }),
+      ),
+    );
+    const user = userEvent.setup();
+    render(<WorkforceSignInPage />);
+    await user.type(screen.getByLabelText("Staff email address"), "staff@example.invalid");
+    await user.click(screen.getByRole("button", { name: "I already have an invitation code" }));
+    await user.type(screen.getByLabelText("Six-digit email code"), "123456");
+    await user.click(screen.getByRole("button", { name: "Verify email" }));
+    expect(await screen.findByLabelText("Authenticator code")).toHaveFocus();
+    expect(screen.queryByText(/Access could not be verified/)).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Renew session" })).not.toBeInTheDocument();
+  });
   it("explains invitation codes after the generic request and submits their verification type", async () => {
     const fetcher = vi
       .fn()

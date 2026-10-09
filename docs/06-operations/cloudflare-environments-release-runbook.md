@@ -2,7 +2,7 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-10-07
+last_updated: 2026-10-09
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -33,6 +33,23 @@ if the email says invitation code, select the staff-invitation checkbox before v
 send is not mailbox delivery or completed staff access. Verify production delivery, email verification,
 individual TOTP and current role selection after the owner release. Keep client/payment/transfer
 modes disabled. No new environment switch, Brevo Worker SMTP binding or public registration is needed.
+
+### Staff authenticator response correction (2026-10-09)
+
+Production Auth logs showed successful email verification and TOTP enrolment while the browser
+remained on email verification. The local no-send workforce exercise reproduced a 452,113-character
+provider QR SVG, exceeding the browser's former 100,000-character response bound. The shared
+enrolment response validator now permits at most 1,000,000 characters, retaining strict response
+shape and the 128-character manual-key bound. The local workforce exercise validates the actual
+provider response against this same browser schema before proving TOTP/session access and cleanup;
+component coverage includes a provider-sized QR response. No hosted migration or settings change
+is required for this correction.
+
+The owner must release the matching application code before production acceptance. Reload the
+staff page and request a fresh email code: previously accepted codes are consumed, even when the
+old UI rejected the successful response. Email verification should advance to individual
+authenticator enrolment, not directly grant staff access. Complete TOTP and approved context
+selection afterward; TD-043 is not closed by these local checks alone.
 
 Cloudflare Workers is the approved host for the TanStack v1 pilot. The Worker is `meneer-health`;
 `https://meneerhealth.co.za` is its canonical custom domain. The repository owner controls pushes,
