@@ -17,6 +17,34 @@ const identity: ProviderIdentity = {
   verifiedContact: { kind: "email", value: "Staff@Example.invalid", verifiedAt: new Date() },
 };
 describe("server-only workforce context repository", () => {
+  it("lists only narrow current contexts and rejects duplicates or mixed subjects", async () => {
+    const context = { subjectId: id, tenantId: id, role: "operations", purpose: "operations" };
+    const rpc = vi.fn().mockResolvedValue({ data: [context], error: null });
+    const repo = new SupabaseWorkforceContextRepository({ rpc } as unknown as SupabaseClient);
+    expect(await repo.listContexts(identity)).toEqual([context]);
+    expect(rpc).toHaveBeenCalledWith("list_workforce_contexts", {
+      p_provider_subject: id,
+      p_provider_session_id: id,
+      p_verified_email: "staff@example.invalid",
+    });
+    for (const data of [
+      [],
+      [context, context],
+      [{ ...context, token: "forbidden" }],
+      [
+        context,
+        {
+          ...context,
+          subjectId: "a1000000-0000-4000-8000-000000000002",
+          role: "auditor",
+          purpose: "privacy_review",
+        },
+      ],
+    ]) {
+      rpc.mockResolvedValueOnce({ data, error: null });
+      await expect(repo.listContexts(identity)).rejects.toBeInstanceOf(IdentityUnavailableError);
+    }
+  });
   it("uses verified provider arguments and validates the narrow response", async () => {
     const rpc = vi.fn().mockResolvedValue({
       data: { subjectId: id, tenantId: id, role: "operations", purpose: "operations" },

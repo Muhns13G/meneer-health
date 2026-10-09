@@ -6,6 +6,7 @@ import {
   type WorkforceProof,
 } from "@/application/identity/workforce-session-service";
 import type { ProviderIdentity } from "@/domain/access/identity";
+import { z } from "zod";
 import {
   IdentityRejectedError,
   IdentityUnavailableError,
@@ -32,8 +33,53 @@ export class SupabaseWorkforceContextRepository implements WorkforceContextRepos
     };
   }
   async resolve(identity: ProviderIdentity, proof?: WorkforceProof) {
+    if (proof?.contextChoiceRequired && !proof.sessionId) {
+      const context = (await this.listContexts(identity)).find(
+        (item) =>
+          item.subjectId === proof.context.subjectId &&
+          item.tenantId === proof.context.tenantId &&
+          item.role === proof.context.role &&
+          item.purpose === proof.context.purpose,
+      );
+      if (!context) throw new IdentityRejectedError();
+      return context;
+    }
     const parsed = workforceContextSchema.safeParse(
       await this.rpc("resolve_workforce_context", this.parameters(identity, proof)),
+    );
+    if (!parsed.success) throw new IdentityUnavailableError();
+    return parsed.data;
+  }
+  async listContexts(identity: ProviderIdentity) {
+    const parsed = z
+      .array(workforceContextSchema)
+      .min(1)
+      .max(32)
+      .safeParse(
+        await this.rpc("list_workforce_contexts", {
+          p_provider_subject: identity.providerSubject,
+          p_provider_session_id: identity.providerSessionId,
+          p_verified_email: identity.verifiedContact.value.trim().toLowerCase(),
+        }),
+      );
+    if (
+      !parsed.success ||
+      new Set(parsed.data.map((item) => `${item.tenantId}:${item.role}`)).size !==
+        parsed.data.length ||
+      parsed.data.some((item) => item.subjectId !== parsed.data[0]!.subjectId)
+    )
+      throw new IdentityUnavailableError();
+    return parsed.data;
+  }
+  async selectContext(identity: ProviderIdentity, tenantId: string, role: string) {
+    const parsed = workforceContextSchema.safeParse(
+      await this.rpc("select_workforce_context", {
+        p_provider_subject: identity.providerSubject,
+        p_provider_session_id: identity.providerSessionId,
+        p_verified_email: identity.verifiedContact.value.trim().toLowerCase(),
+        p_tenant_id: tenantId,
+        p_role: role,
+      }),
     );
     if (!parsed.success) throw new IdentityUnavailableError();
     return parsed.data;

@@ -27,8 +27,16 @@ export type WorkforceProof = Readonly<{
   providerSessionId: string;
   sessionId?: string;
   factorId?: string;
+  contextChoiceRequired?: boolean;
+  contextChoiceReady?: boolean;
 }>;
 export interface WorkforceContextRepository {
+  listContexts?(identity: ProviderIdentity): Promise<WorkforceContext[]>;
+  selectContext?(
+    identity: ProviderIdentity,
+    tenantId: string,
+    role: string,
+  ): Promise<WorkforceContext>;
   resolve(identity: ProviderIdentity, proof?: WorkforceProof): Promise<WorkforceContext>;
   reserveInvitation(
     identity: ProviderIdentity,
@@ -79,7 +87,11 @@ export class WorkforceSessionService {
         identity.verifiedContact.value.trim().toLowerCase() !== normalized
       )
         throw new IdentityRejectedError();
-      const context = await this.repository.resolve(identity);
+      const choices = this.repository.listContexts
+        ? await this.repository.listContexts(identity)
+        : [await this.repository.resolve(identity)];
+      if (!choices.length) throw new IdentityRejectedError();
+      const context = choices[0]!;
       const factors = await this.provider.listWorkforceTotp(providerSession);
       // Existing MFA is never reset or replaced through the email-code flow.
       const enrollment =
@@ -95,6 +107,7 @@ export class WorkforceSessionService {
           context,
           providerSessionId: identity.providerSessionId,
           factorId: enrollment?.factorId ?? factors[0],
+          ...(choices.length > 1 ? { contextChoiceRequired: true } : {}),
         },
         ...(enrollment ? { enrollment } : {}),
       };
@@ -121,7 +134,7 @@ export class WorkforceSessionService {
   }
 
   async completeMfa(proof: WorkforceProof, code: string): Promise<WorkforceSession> {
-    if (proof.sessionId || !proof.factorId || !/^\d{6}$/.test(code))
+    if (proof.contextChoiceRequired || proof.sessionId || !proof.factorId || !/^\d{6}$/.test(code))
       throw new IdentityRejectedError();
     await this.identity(proof);
     const challenge = await this.provider.challengeWorkforceTotp(
@@ -159,6 +172,96 @@ export class WorkforceSessionService {
       return result;
     } catch (error) {
       await this.revokeQuietly(providerSession);
+      throw error;
+    }
+  }
+
+  async completeMfaForContextChoice(proof: WorkforceProof, code: string) {
+    if (
+      !proof.contextChoiceRequired ||
+      proof.contextChoiceReady ||
+      proof.sessionId ||
+      !proof.factorId ||
+      !/^\d{6}$/.test(code) ||
+      !this.repository.listContexts
+    )
+      throw new IdentityRejectedError();
+    await this.identity(proof);
+    const challenge = await this.provider.challengeWorkforceTotp(
+      proof.providerSession,
+      proof.factorId,
+    );
+    const providerSession = await this.provider.verifyWorkforceTotp(
+      proof.providerSession,
+      proof.factorId,
+      challenge,
+      code,
+    );
+    try {
+      const identity = await this.provider.verifyAccessToken(providerSession.accessToken);
+      if (
+        identity.assurance !== "aal2" ||
+        identity.providerSessionId !== proof.providerSessionId ||
+        identity.expiresAt <= this.now()
+      )
+        throw new IdentityRejectedError();
+      const contexts = await this.repository.listContexts(identity);
+      if (
+        !contexts.length ||
+        contexts.some((context) => context.subjectId !== proof.context.subjectId)
+      )
+        throw new IdentityRejectedError();
+      return {
+        proof: { ...proof, providerSession, factorId: undefined, contextChoiceReady: true },
+        contexts,
+      };
+    } catch (error) {
+      await this.revokeQuietly(providerSession);
+      throw error;
+    }
+  }
+
+  async selectContext(
+    proof: WorkforceProof,
+    tenantId: string,
+    role: string,
+  ): Promise<WorkforceSession> {
+    if (
+      !proof.contextChoiceRequired ||
+      !proof.contextChoiceReady ||
+      proof.sessionId ||
+      !z.uuid().safeParse(tenantId).success ||
+      !this.repository.selectContext ||
+      !workforceContextSchema.shape.role.safeParse(role).success
+    )
+      throw new IdentityRejectedError();
+    const { identity } = await this.identity(proof);
+    if (identity.assurance !== "aal2") throw new IdentityRejectedError();
+    const context = await this.repository.selectContext(identity, tenantId, role);
+    if (
+      context.subjectId !== proof.context.subjectId ||
+      context.tenantId !== tenantId ||
+      context.role !== role
+    )
+      throw new IdentityRejectedError();
+    try {
+      const session = await this.sessions.start({
+        subjectId: context.subjectId,
+        providerIdentity: identity,
+        sessionClass:
+          context.role === "admin" || context.role === "release" ? "privileged" : "workforce",
+        observedAt: this.now(),
+      });
+      const next: WorkforceProof = {
+        providerSession: proof.providerSession,
+        context,
+        providerSessionId: identity.providerSessionId,
+        sessionId: session.id,
+      };
+      await this.authorise(next);
+      return { proof: next, session };
+    } catch (error) {
+      await this.revokeQuietly(proof.providerSession);
       throw error;
     }
   }
