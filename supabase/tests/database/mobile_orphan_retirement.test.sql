@@ -153,5 +153,41 @@ select ok(not has_function_privilege('service_role','identity_private.mobile_orp
 select throws_ok($$select identity_private.reconcile_restored_mobile_orphans('{"observedAt":null,"retirements":[]}'::jsonb)$$,
  '42501','MOBILE_ORPHAN_OFFLINE_RESTORE_REQUIRED','restore barrier cannot run against a provider-connected application database');
 select ok(not has_function_privilege('service_role','identity_private.reconcile_restored_mobile_orphans(jsonb)','execute'),'offline reconciliation is not a service deletion capability');
+-- Copy completion is separate from managed-provider absence. Freeze age only inside this
+-- rollback-only synthetic packet; never backdate a real operation to bypass retention.
+create function pg_temp.maintenance() returns jsonb language sql as $$
+ select public.read_mobile_orphan_maintenance(md5('retirement-operator')::uuid,md5('retirement-operator-session')::uuid,
+ 'retirement-operator@example.invalid',md5('retirement-application-session')::uuid,(select subject_id from actor),
+ '10000000-0000-4000-8000-000000000001',md5('retirement-email')::uuid) $$;
+create function pg_temp.complete_copy(evidence jsonb) returns boolean language sql as $$
+ select public.complete_mobile_orphan_copy_retirement(md5('retirement-operator')::uuid,md5('retirement-operator-session')::uuid,
+ 'retirement-operator@example.invalid',md5('retirement-application-session')::uuid,(select subject_id from actor),
+ '10000000-0000-4000-8000-000000000001',(select id from identity_private.mobile_orphan_retirements),evidence) $$;
+create temporary table copy_evidence as select jsonb_build_object(
+ 'objectKey',to_char(clock_timestamp(),'YYYY-MM-DD')||'/'||gen_random_uuid()||'.json.enc',
+ 'operationFingerprint',pg_temp.maintenance()->>'operationFingerprint',
+ 'archiveChecksum',repeat('c',64),'inventoryChecksum',repeat('d',64),
+ 'observedAt',clock_timestamp(),'olderObjectCount',0) as evidence;
+select throws_ok($$select pg_temp.complete_copy((select evidence from copy_evidence))$$,
+ '42501','MOBILE_ORPHAN_COPY_COMPLETION_NOT_READY','provider absence alone cannot complete backup erasure');
+select throws_ok($$select pg_temp.complete_copy((select evidence||'{"olderObjectCount":1}'::jsonb from copy_evidence))$$,
+ '42501','MOBILE_ORPHAN_COPY_EVIDENCE_REJECTED','older copy inventory vetoes completion');
+select throws_ok($$select pg_temp.complete_copy((select evidence||jsonb_build_object('observedAt',now()-interval '2 minutes') from copy_evidence))$$,
+ '42501','MOBILE_ORPHAN_COPY_EVIDENCE_REJECTED','stale inventory evidence is rejected');
+alter table identity_private.mobile_orphan_retirements disable trigger mobile_orphan_operation_guard;
+update identity_private.mobile_orphan_retirements set provider_absent_at=now()-interval '37 days';
+alter table identity_private.mobile_orphan_retirements enable trigger mobile_orphan_operation_guard;
+update copy_evidence set evidence=evidence||jsonb_build_object('operationFingerprint',pg_temp.maintenance()->>'operationFingerprint');
+select throws_ok($$select pg_temp.complete_copy((select evidence||jsonb_build_object('operationFingerprint',repeat('e',64)) from copy_evidence))$$,
+ '42501','MOBILE_ORPHAN_COPY_COMPLETION_NOT_READY','changed operation fingerprint rejects completion');
+select is(pg_temp.complete_copy((select evidence from copy_evidence)),true,'elapsed copy expiry with exact evidence completes');
+select is(pg_temp.complete_copy((select evidence from copy_evidence)),true,'exact completion retry is idempotent');
+select throws_ok($$select pg_temp.complete_copy((select evidence||jsonb_build_object('archiveChecksum',repeat('f',64)) from copy_evidence))$$,
+ 'PT409','MOBILE_ORPHAN_COPY_CONFLICT','changed copy evidence cannot overwrite immutable journal');
+select throws_ok($$delete from identity_private.mobile_orphan_copy_evidence$$,'55000','APPEND_ONLY_RECORD','copy completion evidence is immutable');
+select ok(not has_function_privilege(role,'public.complete_mobile_orphan_copy_retirement(uuid,uuid,text,uuid,uuid,uuid,uuid,jsonb)','execute'),role||' cannot complete copies')
+ from unnest(array['anon','authenticated']) role;
+select ok(not has_table_privilege(role,'identity_private.mobile_orphan_copy_evidence','select'),role||' cannot read copy evidence directly')
+ from unnest(array['anon','authenticated','service_role']) role;
 select * from finish();
 rollback;
