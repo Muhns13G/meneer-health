@@ -2,7 +2,7 @@
 runbook_id: meneer-environment-secrets
 title: Environment Configuration and Secret Lifecycle Runbook
 status: active
-last_updated: 2026-10-08
+last_updated: 2026-10-09
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -11,6 +11,14 @@ sensitivity: internal
 # Environment Configuration and Secret Lifecycle Runbook
 
 ## Mobile invitation sender rewrite
+
+The [mobile release runbook](mobile-invitations-release-runbook.md) records the complete mode matrix
+and harmless disabled-route acceptance probes. Restore `MOBILE_INVITATIONS_MODE`, redemption,
+email and webhook modes to `disabled` and delivery readiness to `false`; a tenant-binding change or
+secret-name inventory cannot prove these values. The 14.9 nominal disabled baseline retained enabled
+mode secrets; the owner promoted explicitly disabled same-code version
+`559d739a-1e61-4277-9ad0-3cbb076ea5d8` and verified redemption/email 503 and callback 404. Check again
+after any later owner release. Configuration preparation is not permission for agent promotion.
 
 `TELNYX_FROM_NUMBER` remains the owned E.164 dispatch number. If the selected Telnyx messaging
 profile rewrites international messages to its `alpha_sender`, set optional server-only
