@@ -9,6 +9,16 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 # Phase 02 — Minimum Pilot Enablement
 
+## Adopted Sprint 15 — Product Orders, 10 October
+
+The owner approved [Sprint 15](sprint-15-product-orders-manual-fulfilment.md) to connect the
+existing credit/payment foundation to private product browsing, independently approved staff
+quotes and manual fulfilment. [15.1](annexures/sprint-15-1-product-order-contract.md) establishes
+the contract and strict portable inputs; it is not product-sales activation. Ten commit-sized
+tasks retain separate real-catalogue, clinical/pharmacy, terms, provider and custody gates.
+The generator remains inactive until needed, uploads stay deferred, and owner deployment and
+the existing sandbox refund/cleanup/restoration obligations are unchanged.
+
 ## Current Checkpoint — Sprint 14 Closure, 9 October
 
 **Subsequent owner scope amendment:** [uploads are now deferred until needed](annexures/pilot-activation-owner-approval-packet.md),

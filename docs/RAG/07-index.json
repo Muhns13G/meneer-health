@@ -24,6 +24,26 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-15",
+      "path": "docs/02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md",
+      "status": "in-progress",
+      "authority_for": [
+        "Owner-approved bounded product-order and manual-fulfilment scope",
+        "Tasks 15.1 through 15.10 and retained product-sales gates"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
+      "id": "phase-02-sprint-15-1-product-order-contract",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-1-product-order-contract.md",
+      "status": "completed-at-contract-level",
+      "authority_for": [
+        "Reference-only interest and quote input boundaries",
+        "Independent approval and existing deposit-credit rules; no runtime activation"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
       "id": "phase-02-identity-questionnaire-recovery",
       "path": "docs/02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md",
       "status": "verified-retained-questionnaire-scope-uploads-deferred",
