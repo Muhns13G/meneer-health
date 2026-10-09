@@ -142,6 +142,27 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Staff Setup Enabled — 9 October
+
+The owner authorises staff-only setup. After a rollback-only preflight, only `meneer-pilot` changes
+to active. Four staff and six existing operator grants are preserved; no clinical/dispensing grants
+or clients are created. No Worker release/settings change or email send occurs. Staff sign-in is
+available; client intake/order/refund readiness remains 412 and provider callbacks remain 404.
+Mansoer/Mikhail still need personal email verification, TOTP and actual operational acceptance.
+TD-043 remains Open; this is **not client pilot activation**. Earlier suspended-tenant observations
+below are historical. See the [staff setup evidence](../02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md#td-043-staff-only-setup-enabled).
+
+## TD-064 and TD-066 — Hosted Acceptance Verified, 9 October
+
+TD-064's twelve authenticated conflict checks and TD-066's twelve managed-Auth/TOTP/provider/R2
+checks pass. Both approved retirement migrations have matching hosted history; exact cleanup and
+independent readback preserve four real staff, six memberships and the suspended pilot. The one
+new synthetic R2 object is removed; existing recovery objects are unchanged. Registry totals are
+66 items, 59 Verified and seven non-Verified. This supersedes older pending TD-064/066 checkpoints.
+See the [TD-066 acceptance](../02-implementation-plans/phase-02/annexures/td-066-hosted-retirement-acceptance.md).
+Real retirement copies remain pending until the 36-day boundary and fresh inventory; this closure
+does not activate invitations, intake or payments, or complete real operator contact/TOTP setup.
+
 ## Live Payment Preparation — 9 October
 
 The [activation packet](../02-implementation-plans/phase-02/annexures/live-payment-activation.md)
@@ -205,6 +226,14 @@ CI passes; the previously verified clean checkout is
 closed at its agreed initial threshold; no pilot or generator activation is implied.
 
 ## Sprint 14 — Contract and Local Private Foundation
+
+9 October latest acceptance: TD-064 is Verified after twelve authenticated hosted conflict/retry/
+unchanged-state checks, exact application/Auth cleanup and restoration of original disabled Worker
+version `fe911ea7-0260-48fb-bf44-721b9bbe1f72`. Four real staff accounts and six grants are preserved;
+intake returns 412 afterward. TD-066's new private maintenance CLI wires fresh operations/TOTP,
+exact-ID retirement, encrypted R2 disposition round trip, complete paginated inventory and reviewed
+draft reissue. Its copy-completion migration is local only; hosted approval/acceptance remain.
+Current debt totals: 66 items, 58 Verified, eight non-Verified. Older checkpoints below are historical.
 
 Latest TD-066 checkpoint supersedes the earlier absence of a native repository: the unhosted
 retirement migration/repository now implements locked reservation, confirmation/session/domain

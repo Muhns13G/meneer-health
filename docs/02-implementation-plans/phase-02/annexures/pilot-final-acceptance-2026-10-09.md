@@ -17,6 +17,40 @@ Private uploads, product transactions and generator transfer remain separately g
 
 ## Current Observations
 
+### TD-043 Staff-Only Setup Enabled
+
+On the owner's explicit “enable” instruction, the narrowly scoped
+`scripts/sql/enable-initial-staff-setup.sql` passed a hosted rollback-only rehearsal and was then
+committed as a database transaction. Only tenant `meneer-pilot` changed from suspended to active;
+no users, memberships, MFA factors, invitations or client records were created. This is manual
+operational DML, not a schema migration, Git commit or pilot release.
+
+Before and after the change, deployment `c060982e-2592-4b9f-9cf4-dbb27c639920` remains the restored
+Worker version `fe911ea7-0260-48fb-bf44-721b9bbe1f72`. Staff sign-in returns 200 and the anonymous
+staff-session endpoint returns 401. Empty same-origin intake/order/refund checks remain 412;
+Stripe, Telnyx and notification callback checks remain 404. No Cloudflare setting or release is
+changed. Hosted readback preserves four staff, six operator memberships and zero clinical/dispensing
+grants, client profiles, mobile invitations or enabled non-local fulfilment gates.
+
+Both operators still have unconfirmed email and no verified TOTP at this checkpoint. Mansoer and
+Mikhail must complete their own email verification and authenticator enrolment at
+`https://meneerhealth.co.za/staff/sign-in`, then prove their actual role/queue/inbox coverage.
+No email is sent by this tenant change. **TD-043 remains Open** until actual operational acceptance;
+the active tenant status must not be described as activated client onboarding or payments.
+This supersedes earlier “one suspended tenant” current-baseline statements for staff setup only.
+
+### TD-066 Hosted Acceptance Completed
+
+Both expressly approved migrations are hosted with matching filename history. Twelve isolated
+managed-Auth/TOTP/provider/R2 checks pass; four real staff and six memberships survive exact
+cleanup, all guards are restored and only the new synthetic encrypted R2 object is removed.
+TD-066 is Verified alongside TD-064; this supersedes their earlier pending checkpoints in this
+packet. See the [acceptance record](td-066-hosted-retirement-acceptance.md) and
+[maintenance runbook](../../../06-operations/mobile-orphan-maintenance-runbook.md). Real retirement
+copies require the 36-day boundary and fresh inventory; no production backup expiry is claimed.
+No messages, Worker release or pilot activation occurred. Real operator contact/TOTP acceptance
+and the other explicitly retained release gates remain separate.
+
 ### Operator Approval Clarification and Scoped Bootstrap
 
 The owner clarifies that the earlier “leave grants inactive” selection was unintended, then
@@ -203,7 +237,16 @@ Record the owner's explicit disabled-mode release before the conditional tenant 
 require each operator's own contact verification and TOTP enrolment. Preserve the four identities
 and six grants throughout synthetic cleanup; no invitation resend or real MFA enrolment occurs here.
 
-## TD-064 — Owner Configuration Release Needed
+## TD-064 — Authenticated Hosted Acceptance Completed
+
+The later explicitly authorised configuration release and hosted packet supersede the pending
+instructions below. Twelve authenticated conflict/retry/unchanged-state and role-denial checks
+pass in `scripts/test-hosted-business-conflicts.ts`. Exact cleanup restores application and real
+Auth fingerprints, preserving four staff accounts/six grants. Original Worker version
+`fe911ea7-0260-48fb-bf44-721b9bbe1f72` is restored at 13:30 UTC under deployment
+`c060982e-2592-4b9f-9cf4-dbb27c639920`; a fresh intake command probe returns disabled HTTP 412.
+TD-064 is Verified. No real email, payment or clinical grant is created. The following preparation
+instructions are retained as historical provenance, not remaining owner actions.
 
 The guarded SQL correction is already hosted. Reuse the exact isolated configuration packet in
 [pre-release gap remediation](sprint-13-pre-release-gap-remediation.md#owner-controlled-hosted-conflict-settings).
