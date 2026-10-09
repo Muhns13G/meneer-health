@@ -3,10 +3,11 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-09
+last_updated: 2026-10-10
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-onboarding-usability-2026-10-09.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md
   - docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md
@@ -124,6 +125,15 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Product preparation is not ordering activation — 10 October
+
+[15.2](../02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md)
+adds local private catalogue/provenance and encrypted shipping/delivery-binding foundations.
+Real RRPs are not imported, no catalogue route is delivered and payable legacy prices remain
+separate. The importer has no hosted execution path. Dedicated shipping-key custody, retention
+and populated restore proof must precede real address collection; logical schema inclusion is not
+that proof. Current product-specific clinical/pharmacy/courier and provider acceptance gates remain.
 
 ## Current sandbox/live distinction — 9 October
 

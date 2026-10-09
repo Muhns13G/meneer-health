@@ -62,8 +62,11 @@ until needed and separately reactivated; do not fabricate its approval or output
 | 2.15.9  | Isolated hosted product-order rehearsal and recovery coverage.                                      | Separately approved migrations/fixtures/test captures/refunds, exact cleanup and restored configuration; no generator activation.                   |
 | 2.15.10 | Reconcile evidence, debt, release runbook and sprint closure.                                       | Full validation, completion report, file accounting and owner deployment/CI. Engineering closure is not product-sales GO.                           |
 
-15.1 is completed at contract level (strict inputs and 28 domain tests); Tasks 15.2–15.10 remain planned until their evidence
-is recorded. Do not claim the whole sprint complete from the inherited Sprint-11 tests.
+15.1 is completed at contract level (strict inputs and 28 domain tests).
+[15.2](annexures/sprint-15-2-private-product-catalogue.md) is completed locally: private catalogue
+provenance/import, encrypted shipping and delivery bindings; 169 files / 1,356 unit tests and
+47 SQL suites / 2,234 assertions pass. Hosted import/application is not performed.
+Tasks 15.3–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
 
 ## Engineering Constraints
 
