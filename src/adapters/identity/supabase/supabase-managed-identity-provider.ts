@@ -112,6 +112,36 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
     await this.requestOtp(email, redirectTo);
   }
 
+  async requestWorkforceSignIn(
+    email: string,
+    providerSubject: string,
+    redirectTo: string,
+  ): Promise<void> {
+    // The service resolves this existing identity through the reviewed-membership RPC first.
+    // Never fall back to creating an account for an arbitrary submitted address.
+    try {
+      const { data, error } = await this.client.auth.admin.getUserById(providerSubject);
+      const user = data.user;
+      if (
+        error ||
+        !user ||
+        user.id !== providerSubject ||
+        user.is_anonymous ||
+        user.email?.trim().toLowerCase() !== email.trim().toLowerCase()
+      )
+        rejected();
+      if (user.email_confirmed_at) {
+        await this.requestOtp(email, redirectTo);
+      } else {
+        const returnedSubject = await this.invitePatient(email, redirectTo);
+        if (returnedSubject !== providerSubject) rejected();
+      }
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
+  }
+
   async requestRecovery(email: string, redirectTo: string): Promise<void> {
     try {
       const { error } = await this.client.auth.resetPasswordForEmail(email, { redirectTo });

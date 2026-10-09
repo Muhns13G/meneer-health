@@ -106,7 +106,9 @@ export function WorkforceSignInPage() {
         setEmail(nextEmail);
         setInvitationMode(false);
         setStage("verify");
-        setMessage("If an eligible account exists, a six-digit code has been sent.");
+        setMessage(
+          "If an eligible account exists, a six-digit code has been sent. If the email says invitation code, select the staff invitation checkbox below.",
+        );
       } else if (stage === "verify") {
         const response = await post("/staff/sign-in", {
           action: fields.has("invitation") ? "invitation" : "verify",

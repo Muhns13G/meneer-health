@@ -63,6 +63,17 @@ function rootClient(overrides: Record<string, unknown> = {}): SupabaseClient {
         error: null,
       }),
       admin: {
+        getUserById: vi.fn().mockResolvedValue({
+          data: {
+            user: {
+              id: "20000000-0000-4000-8000-000000000001",
+              email: "patient.one@example.invalid",
+              email_confirmed_at: null,
+              is_anonymous: false,
+            },
+          },
+          error: null,
+        }),
         inviteUserByEmail: vi.fn().mockResolvedValue({
           data: {
             user: {
@@ -112,6 +123,71 @@ function sessionClient(): SupabaseClient {
 }
 
 describe("SupabaseManagedIdentityProvider", () => {
+  it("resends an invitation only to the resolved existing unconfirmed staff identity", async () => {
+    const client = rootClient();
+    const provider = new SupabaseManagedIdentityProvider(client, async () => client);
+    await provider.requestWorkforceSignIn(
+      "patient.one@example.invalid",
+      "20000000-0000-4000-8000-000000000001",
+      "https://example.invalid/staff/sign-in",
+    );
+    expect(client.auth.admin.inviteUserByEmail).toHaveBeenCalledOnce();
+    expect(client.auth.signInWithOtp).not.toHaveBeenCalled();
+  });
+  it("uses ordinary OTP for confirmed staff, retaining the no-signup option", async () => {
+    const client = rootClient();
+    vi.mocked(client.auth.admin.getUserById).mockResolvedValueOnce({
+      data: {
+        user: {
+          id: "20000000-0000-4000-8000-000000000001",
+          email: "patient.one@example.invalid",
+          email_confirmed_at: "2030-01-01T00:00:00Z",
+          is_anonymous: false,
+        },
+      },
+      error: null,
+    } as never);
+    const provider = new SupabaseManagedIdentityProvider(client, async () => client);
+    await provider.requestWorkforceSignIn(
+      "patient.one@example.invalid",
+      "20000000-0000-4000-8000-000000000001",
+      "https://example.invalid/staff/sign-in",
+    );
+    expect(client.auth.admin.inviteUserByEmail).not.toHaveBeenCalled();
+    expect(client.auth.signInWithOtp).toHaveBeenCalledWith({
+      email: "patient.one@example.invalid",
+      options: {
+        shouldCreateUser: false,
+        emailRedirectTo: "https://example.invalid/staff/sign-in",
+      },
+    });
+  });
+  it.each([
+    null,
+    { id: "wrong", email: "patient.one@example.invalid" },
+    { id: "20000000-0000-4000-8000-000000000001", email: "other@example.invalid" },
+    {
+      id: "20000000-0000-4000-8000-000000000001",
+      email: "patient.one@example.invalid",
+      is_anonymous: true,
+    },
+  ])("never invites a missing or mismatched staff identity", async (user) => {
+    const client = rootClient();
+    vi.mocked(client.auth.admin.getUserById).mockResolvedValueOnce({
+      data: { user },
+      error: null,
+    } as never);
+    const provider = new SupabaseManagedIdentityProvider(client, async () => client);
+    await expect(
+      provider.requestWorkforceSignIn(
+        "patient.one@example.invalid",
+        "20000000-0000-4000-8000-000000000001",
+        "https://example.invalid/staff/sign-in",
+      ),
+    ).rejects.toBeInstanceOf(IdentityRejectedError);
+    expect(client.auth.admin.inviteUserByEmail).not.toHaveBeenCalled();
+    expect(client.auth.signInWithOtp).not.toHaveBeenCalled();
+  });
   it("passes only a validated server creation capability to invitation metadata", async () => {
     const client = rootClient();
     const provider = new SupabaseManagedIdentityProvider(client, async () => sessionClient());

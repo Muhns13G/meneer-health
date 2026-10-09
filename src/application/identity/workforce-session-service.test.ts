@@ -47,6 +47,7 @@ function setup() {
   const provider = {
     verifyAccessToken: vi.fn().mockResolvedValue(identity),
     requestPatientSignIn: vi.fn(),
+    requestWorkforceSignIn: vi.fn(),
     verifyEmailOtp: vi.fn().mockResolvedValue(managed),
     verifyInvitationOtp: vi.fn().mockResolvedValue(managed),
     listWorkforceTotp: vi.fn().mockResolvedValue([id]),
@@ -63,6 +64,7 @@ function setup() {
     invitePatient: vi.fn().mockResolvedValue(other),
   } as unknown as ManagedIdentityProvider;
   const repository = {
+    resolveCodeTarget: vi.fn().mockResolvedValue(id),
     resolve: vi.fn().mockResolvedValue(context),
     reserveInvitation: vi.fn().mockResolvedValue(other),
     finishInvitation: vi.fn(),
@@ -82,6 +84,24 @@ function setup() {
   };
 }
 describe("workforce session service", () => {
+  it("checks reviewed staff eligibility before requesting the appropriate provider code", async () => {
+    const s = setup();
+    await s.service.requestCode("STAFF@example.invalid");
+    expect(s.repository.resolveCodeTarget).toHaveBeenCalledWith("staff@example.invalid");
+    expect(s.provider.requestWorkforceSignIn).toHaveBeenCalledWith(
+      "staff@example.invalid",
+      id,
+      "https://meneerhealth.co.za/staff/sign-in",
+    );
+    expect(s.provider.requestPatientSignIn).not.toHaveBeenCalled();
+  });
+  it("does not send for an ineligible account or unavailable eligibility lookup", async () => {
+    const s = setup();
+    s.repository.resolveCodeTarget.mockRejectedValue(new Error("WORKFORCE_REJECTED"));
+    await expect(s.service.requestCode("staff@example.invalid")).rejects.toThrow();
+    expect(s.provider.requestWorkforceSignIn).not.toHaveBeenCalled();
+    expect(s.provider.invitePatient).not.toHaveBeenCalled();
+  });
   it("multiple reviewed roles issue no application session before MFA/context selection", async () => {
     const s = setup();
     const repository = {
