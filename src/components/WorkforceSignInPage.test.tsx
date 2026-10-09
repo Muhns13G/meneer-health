@@ -5,6 +5,44 @@ import { WorkforceSignInPage } from "./WorkforceSignInPage";
 
 afterEach(() => vi.unstubAllGlobals());
 describe("individual staff sign-in", () => {
+  it("shows only server-returned role choices after MFA, before staff access", async () => {
+    const id = "a1000000-0000-4000-8000-000000000001";
+    const fetcher = vi
+      .fn()
+      .mockResolvedValueOnce(Response.json({ enrollment: null }))
+      .mockResolvedValueOnce(
+        Response.json({
+          contexts: [{ subjectId: id, tenantId: id, role: "auditor", purpose: "privacy_review" }],
+        }),
+      )
+      .mockResolvedValueOnce(new Response(null, { status: 204 }))
+      .mockResolvedValueOnce(
+        Response.json({
+          role: "auditor",
+          purpose: "privacy_review",
+          expiresAt: "2030-01-01T00:00:00Z",
+        }),
+      );
+    vi.stubGlobal("fetch", fetcher);
+    const user = userEvent.setup();
+    render(<WorkforceSignInPage />);
+    await user.type(screen.getByLabelText("Staff email address"), "staff@example.invalid");
+    await user.click(screen.getByRole("button", { name: "I already have an invitation code" }));
+    await user.type(screen.getByLabelText("Six-digit email code"), "123456");
+    await user.click(screen.getByRole("button", { name: "Verify email" }));
+    await user.type(await screen.findByLabelText("Authenticator code"), "654321");
+    await user.click(screen.getByRole("button", { name: "Verify authenticator" }));
+    const choice = await screen.findByLabelText("Approved work context");
+    expect(choice).toHaveFocus();
+    expect(screen.queryByRole("button", { name: "Renew session" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("option", { name: /admin/ })).not.toBeInTheDocument();
+    await user.selectOptions(choice, "0");
+    await user.click(screen.getByRole("button", { name: "Use approved context" }));
+    expect(await screen.findByRole("button", { name: "Renew session" })).toBeInTheDocument();
+    expect(fetcher.mock.calls[2]?.[0]).toBe("/staff/context");
+    expect(fetcher.mock.calls[2]?.[1].body.get("role")).toBe("auditor");
+    expect(screen.queryByLabelText("Approved work context")).not.toBeInTheDocument();
+  });
   it("accepts an existing invitation code without sending another email", async () => {
     const fetcher = vi.fn().mockResolvedValue(Response.json({ enrollment: null }));
     vi.stubGlobal("fetch", fetcher);

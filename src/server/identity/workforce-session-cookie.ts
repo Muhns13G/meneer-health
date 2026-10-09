@@ -14,6 +14,8 @@ const payloadSchema = z
     providerSessionId: z.uuid(),
     sessionId: z.uuid().optional(),
     factorId: z.uuid().optional(),
+    contextChoiceRequired: z.literal(true).optional(),
+    contextChoiceReady: z.literal(true).optional(),
     accessToken: z.string().min(1),
     refreshToken: z.string().min(1),
     providerExpiresAt: z.number().int(),
@@ -60,6 +62,8 @@ export async function sealWorkforceProof(
     providerSessionId: proof.providerSessionId,
     ...(proof.sessionId ? { sessionId: proof.sessionId } : {}),
     ...(proof.factorId ? { factorId: proof.factorId } : {}),
+    ...(proof.contextChoiceRequired ? { contextChoiceRequired: true } : {}),
+    ...(proof.contextChoiceReady ? { contextChoiceReady: true } : {}),
     accessToken: proof.providerSession.accessToken,
     refreshToken: proof.providerSession.refreshToken,
     providerExpiresAt: proof.providerSession.expiresAt.getTime(),
@@ -105,7 +109,9 @@ export async function openWorkforceProof(
     if (
       p.issuedAt > now + 60_000 ||
       p.expiresAt <= now ||
-      (!p.sessionId && p.expiresAt - p.issuedAt > 600_000)
+      (!p.sessionId && p.expiresAt - p.issuedAt > 600_000) ||
+      (p.contextChoiceReady && !p.contextChoiceRequired) ||
+      (p.sessionId && (p.contextChoiceReady || p.contextChoiceRequired))
     )
       return null;
     return {
@@ -113,6 +119,8 @@ export async function openWorkforceProof(
       providerSessionId: p.providerSessionId,
       ...(p.sessionId ? { sessionId: p.sessionId } : {}),
       ...(p.factorId ? { factorId: p.factorId } : {}),
+      ...(p.contextChoiceRequired ? { contextChoiceRequired: true } : {}),
+      ...(p.contextChoiceReady ? { contextChoiceReady: true } : {}),
       providerSession: {
         accessToken: p.accessToken,
         refreshToken: p.refreshToken,

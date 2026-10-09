@@ -221,6 +221,24 @@ contact telephone and exact address text (De Chatillon Cres - Onrus, 7201) are r
 approval packet. Final disclosure review and professional/agreement evidence remain unresolved,
 not satisfied by placeholder practice details.
 
+The [9 October final acceptance packet](../02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md)
+records owner-confirmed actual operational coverage, a fresh empty/suspended hosted baseline,
+disabled intake/order configuration and remaining individual AT/access tests. No real staff Auth
+accounts exist at that inspection. TD-066's optional deadline control is proposed, not approved
+or enforced; no debt is newly Verified or pilot activated by this packet.
+
+The owner now accepts shared functional correspondence inboxes, individual staff identities/TOTP
+and explicitly authorised role switching; separate per-person privacy logins are superseded.
+The acceptance packet records local native/session/UI implementation of fresh-TOTP context
+selection and immutable provider-session binding. Local SQL passes 2,116 assertions, genuine
+local Auth/TOTP and competing selections pass with cleanup, and workforce browser checks pass
+4/4. The owner-approved migration is hosted with exact history version `20261009101500`, and
+readback confirms forced RLS, denied direct reads and the immutable guard. Application source
+is not yet owner-released; real staff provisioning, cross-tab/in-flight
+transition acceptance and delegated inbox access remain open. Exact-origin preview/itws-I CI
+passes for the earlier committed source, and the owner confirms
+the local sign-in VoiceOver labels/results/focus; other private-flow AT observations remain pending.
+
 Subsequent owner amendment on 9 October: private uploads are deferred until needed; initial intake
 uses the questionnaire without blood-result files. This supersedes earlier upload-before-launch
 statements, not identity/domain-authority recovery or other release requirements. TD-065's upload

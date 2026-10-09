@@ -82,6 +82,85 @@ function setup() {
   };
 }
 describe("workforce session service", () => {
+  it("multiple reviewed roles issue no application session before MFA/context selection", async () => {
+    const s = setup();
+    const repository = {
+      ...s.repository,
+      listContexts: vi
+        .fn()
+        .mockResolvedValue([context, { ...context, role: "auditor", purpose: "privacy_review" }]),
+    };
+    const service = new WorkforceSessionService(s.provider, repository, s.sessions, () => now);
+    const pending = await service.verifyCode("staff@example.invalid", "123456");
+    expect(pending.proof.contextChoiceRequired).toBe(true);
+    expect(s.sessions.start).not.toHaveBeenCalled();
+    await expect(service.completeMfa(pending.proof, "123456")).rejects.toThrow();
+    const ready = await service.completeMfaForContextChoice(pending.proof, "123456");
+    expect(ready.contexts).toHaveLength(2);
+    expect(ready.proof.contextChoiceReady).toBe(true);
+    expect(ready.proof.sessionId).toBeUndefined();
+    expect(s.sessions.start).not.toHaveBeenCalled();
+    await expect(service.authorise(ready.proof)).rejects.toThrow();
+  });
+  it("only native selection followed by exact session checks can activate a context", async () => {
+    const s = setup();
+    const auditor = { ...context, role: "auditor" as const, purpose: "privacy_review" as const };
+    const repository = { ...s.repository, selectContext: vi.fn().mockResolvedValue(auditor) };
+    repository.resolve.mockResolvedValue(auditor);
+    const service = new WorkforceSessionService(s.provider, repository, s.sessions, () => now);
+    const selected = await service.selectContext(
+      {
+        ...proof,
+        context: auditor,
+        sessionId: undefined,
+        contextChoiceRequired: true,
+        contextChoiceReady: true,
+      },
+      id,
+      "auditor",
+    );
+    expect(repository.selectContext).toHaveBeenCalledWith(identity, id, "auditor");
+    expect(selected.proof.contextChoiceRequired).toBeUndefined();
+    expect(selected.proof.contextChoiceReady).toBeUndefined();
+    expect(selected.proof.sessionId).toBe(id);
+  });
+  it.each([
+    {},
+    { contextChoiceRequired: true },
+    { contextChoiceRequired: true, contextChoiceReady: true, sessionId: id },
+  ])("context selection requires a fresh post-MFA pending proof %j", async (flags) => {
+    const s = setup();
+    const selectContext = vi.fn();
+    const service = new WorkforceSessionService(
+      s.provider,
+      { ...s.repository, selectContext },
+      s.sessions,
+      () => now,
+    );
+    await expect(
+      service.selectContext({ ...proof, sessionId: undefined, ...flags }, id, "admin"),
+    ).rejects.toThrow();
+    expect(selectContext).not.toHaveBeenCalled();
+  });
+  it("AAL1 cannot select even with sealed pending flags", async () => {
+    const s = setup();
+    vi.mocked(s.provider.verifyAccessToken).mockResolvedValue({ ...identity, assurance: "aal1" });
+    const selectContext = vi.fn();
+    const service = new WorkforceSessionService(
+      s.provider,
+      { ...s.repository, selectContext },
+      s.sessions,
+      () => now,
+    );
+    await expect(
+      service.selectContext(
+        { ...proof, sessionId: undefined, contextChoiceRequired: true, contextChoiceReady: true },
+        id,
+        "auditor",
+      ),
+    ).rejects.toThrow();
+    expect(selectContext).not.toHaveBeenCalled();
+  });
   it("email verification grants only a pending proof and preserves existing MFA", async () => {
     const s = setup();
     const result = await s.service.verifyCode("staff@example.invalid", "123456");

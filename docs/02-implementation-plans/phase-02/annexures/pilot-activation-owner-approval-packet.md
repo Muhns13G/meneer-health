@@ -55,6 +55,14 @@ this reply does not separately establish actual coverage or staff access readine
 
 ## Prior Owner Decisions Retained
 
+- Staff access amendment: shared functional correspondence inboxes with delegated named mailbox
+  access; individual Meneer logins/TOTP and explicitly authorised role switching. No shared
+  system credentials or per-person privacy-login workaround. Fresh-TOTP context selection is
+  implemented and exercised locally; its approved database migration is hosted, but application
+  source is not yet owner-released. Further transition and hosted acceptance
+  remain required before multi-role provisioning; see
+  the [final acceptance packet](pilot-final-acceptance-2026-10-09.md#approved-staff-access-direction--individual-identity-explicit-context).
+
 - Unique 48-hour SMS link plus verified email; six-digit/900-second OTP, no phone-only login.
 - Mansoer operational/support/privacy administration primary, Mikhail alternate; Tasneem and
   Dr Ziyaad Noor nominated clinical lead/alternate. Ordinary response within 24 hours where possible,
@@ -183,3 +191,8 @@ professional authority, agreement evidence or permission for clinical decisions/
 transfer. Invitation-only operation does not itself satisfy those acceptance requirements.
 TD-006/009/043 remain pending their applicable factual and reviewed evidence. No client-facing
 instrument has been published or pilot capability enabled by this response.
+
+The owner subsequently confirms everyone agrees to actual support/privacy primary/alternate
+coverage and Tasneem/Dr Ziyaad Noor's clinical escalation appointments. This resolves the requested
+coverage confirmation, not professional credentials, real staff access or callback/response proof.
+The [final acceptance packet](pilot-final-acceptance-2026-10-09.md) records those remaining checks.
