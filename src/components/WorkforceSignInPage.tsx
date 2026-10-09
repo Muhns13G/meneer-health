@@ -1,17 +1,10 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { z } from "zod";
+import { workforceEnrollmentView as enrollmentView } from "@/lib/workforce-enrollment-view";
 import { StaffDestinationApprovalPanel } from "./StaffDestinationApprovalPanel";
 
 const sessionView = z
   .object({ role: z.string(), purpose: z.string(), expiresAt: z.string() })
-  .strict();
-const enrollmentView = z
-  .object({
-    enrollment: z
-      .object({ qrCode: z.string().max(100_000), secret: z.string().max(128) })
-      .strict()
-      .nullable(),
-  })
   .strict();
 const contextChoicesView = z
   .object({

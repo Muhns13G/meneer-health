@@ -6,6 +6,7 @@ import { createSupabaseManagedIdentityProvider } from "../src/adapters/identity/
 import { SupabaseIdentitySessionRepository } from "../src/adapters/identity/supabase/supabase-identity-session-repository";
 import { SupabaseWorkforceContextRepository } from "../src/adapters/identity/supabase/supabase-workforce-context-repository";
 import { WorkforceSessionService } from "../src/application/identity/workforce-session-service";
+import { workforceEnrollmentView } from "../src/lib/workforce-enrollment-view";
 import { SupabaseQueueRepository } from "../src/adapters/persistence/supabase/supabase-queue-repository";
 import {
   sealWorkforceProof,
@@ -94,6 +95,12 @@ try {
   invariant(!link.error, "WORKFORCE_TEST_CODE_FAILED");
   const pending = await service.verifyCode(email, link.data.properties.email_otp);
   invariant(pending.enrollment && !pending.proof.sessionId, "WORKFORCE_TEST_EMAIL_GRANTED_ACCESS");
+  invariant(
+    workforceEnrollmentView.safeParse({
+      enrollment: { qrCode: pending.enrollment.qrCode, secret: pending.enrollment.secret },
+    }).success,
+    "WORKFORCE_TEST_BROWSER_ENROLLMENT_RESPONSE_REJECTED",
+  );
   await denied(() => service.authorise(pending.proof));
   const complete = await service.completeMfa(pending.proof, totp(pending.enrollment.secret));
   const cookieKey = Buffer.from(crypto.getRandomValues(new Uint8Array(32))).toString("base64");
