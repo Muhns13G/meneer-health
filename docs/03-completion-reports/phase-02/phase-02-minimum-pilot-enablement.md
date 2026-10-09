@@ -21,8 +21,10 @@ all ten tasks are completed at their recorded scope. Participants supply/verify 
 48 hours while email OTPs remain 15 minutes. No Telnyx send, expenditure or provider change is
 authorised by this report. The [Sprint 14 report](sprint-14-mobile-pilot-invitations.md) records actual
 controlled handset/mailbox conversion, signed delivery, exact cleanup and verified disabled gates;
-that bounded rehearsal is not permission to invite the real roster. Private uploads are separately deferred implementation required
-before the owner's selected launch, not implicitly delivered by Sprint 13.
+that bounded rehearsal is not permission to invite the real roster. On 9 October the owner
+[deferred uploads until needed](../../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md):
+initial intake uses the questionnaire without blood-result files. Identity recovery and other
+applicable release gates remain; no upload or object-byte recovery is implicitly delivered.
 
 ## Delivered Foundation
 
@@ -48,7 +50,12 @@ checkpoint does not add their overlapping assertions or claim fresh full-system 
 
 Registry: 66 debts, 56 Verified; TD-006/007/009/010/037/038/043/064/065/066 remain non-Verified.
 Finish the [active remediation packet](../../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md),
-required private uploads and TD-066's unconverted provider/application identity recovery/retention.
+applicable identity recovery and TD-066's unconverted provider/application identity recovery/retention.
+Upload implementation/object recovery are now required before later upload activation, not before
+the amended no-upload initial pilot. The owner also approves live payments and post-onboarding
+product display without requiring images, plus a US$5 rolling-24-hour SMS cap. Live merchant and
+catalogue acceptance remain required; product transactions and generator transfer remain separately
+gated. The initial cohort is fewer than ten participants (maximum nine). This is a scope decision, not runtime activation.
 Sprint 14 engineering is completed, not a waiver of those obligations. Record owner-reported reviewer approval accurately,
 then complete actual instrument facts and exact versions; do not publish placeholder legal entities
 or claim clinical/provider authority from synthetic fixtures.

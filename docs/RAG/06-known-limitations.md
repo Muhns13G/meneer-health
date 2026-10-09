@@ -7,6 +7,8 @@ last_updated: 2026-10-09
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md
+  - docs/02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md
   - docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md
   - docs/06-operations/mobile-invitations-release-runbook.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md
@@ -121,12 +123,27 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Live Payment Activation Is Not Complete — 9 October
+
+Local live-mode HTTP/provider and persisted isolation implementation is not hosted live release.
+The forward migration still requires hosted approval/application; separate live webhook/secrets,
+approved instruments and real-payment acceptance remain outstanding. Do not replace test keys as
+an activation shortcut or adopt sandbox financial history into a live tenant/account. The owner
+confirmed OCTOTHORP ZA as seller and Octothorp LLC as collector; independent agreement/provider
+acceptance remains unverified. Complete hosted/real-payment
+acceptance under the [activation packet](../02-implementation-plans/phase-02/annexures/live-payment-activation.md).
+
 ## Sprint 14.7 — Local Conversion, Not Mobile Channel Activation
+
+On 9 October the owner [deferred uploads until needed](../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md).
+Do not continue presenting uploads as a mandatory prerequisite for initial questionnaire-only
+intake. Upload/object recovery still gates future uploads; TD-065 identity recovery and other
+applicable account/intake gates remain. This is a scope amendment, not a Verified debt or GO.
 
 Sprint 14 is now [completed with activation gates](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md).
 14.9 subsequently proves actual controlled handset/mailbox conversion and signed delivery; 14.10
 reports the engineering closure without waiving TD-065/066 or other launch criteria. Phase 02 stays
-open for required uploads and ten non-Verified debts (66 total / 56 Verified). No real participant
+open for applicable retained gates and ten non-Verified debts (66 total / 56 Verified); uploads are deferred. No real participant
 send is authorized. Earlier local-only descriptions below retain their dated evidence boundary.
 
 [14.7](../02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md) implements

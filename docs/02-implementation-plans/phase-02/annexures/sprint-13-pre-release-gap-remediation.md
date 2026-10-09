@@ -2,11 +2,20 @@
 plan_id: phase-02-sprint-13-gap-remediation
 title: Pre-13.10 Remediation and Private Upload Extension
 status: in-progress
-last_updated: 2026-10-08
+last_updated: 2026-10-09
 owner: "@Muhns13G"
 ---
 
 # Pre-13.10 Gap Remediation
+
+## Current Upload Scope — 9 October Amendment
+
+The owner now defers uploads until needed and uses the questionnaire without required blood-result
+files for initial peptide intake. The [scope/approval packet](pilot-activation-owner-approval-packet.md)
+supersedes this document's earlier upload-before-launch requirement. Retain the bounded upload
+design for future implementation; no file collection is enabled. TD-065's upload/object component
+is deferred, while identity/current-authority recovery remains applicable to real accounts/intake.
+Earlier requirements below are retained as historical decisions, not the current launch scope.
 
 The owner requests resolution before 13.10, not deferral to Sprint 14. Previous 13.9 review and
 uncommitted closure documents are preserved. Git staging, commit, deployment and branch control

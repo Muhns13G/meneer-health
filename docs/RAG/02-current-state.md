@@ -9,6 +9,8 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md
+  - docs/02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md
   - docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md
   - docs/06-operations/mobile-invitations-release-runbook.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md
@@ -140,6 +142,16 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Live Payment Preparation — 9 October
+
+The [activation packet](../02-implementation-plans/phase-02/annexures/live-payment-activation.md)
+records explicit-environment HTTP/provider support, persisted account/environment isolation, local
+SQL regressions and a redacted read-only readiness command. Live hosted migration/configuration and
+real settlement/refund acceptance remain pending; payment modes stay disabled. Stripe reports active
+charges/payouts and one pending verification item. The owner selected OCTOTHORP ZA as seller with
+Octothorp LLC collecting payments, retaining Meneer Health branding. This is owner confirmation,
+not independently inspected agreement or provider acceptance. See the packet for deployment gates.
+
 ## Sprint 13.9 — Debt Reconciliation Completed
 
 Task 13.10 now issues the [Sprint 13 report](../03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md):
@@ -192,11 +204,18 @@ closed at its agreed initial threshold; no pilot or generator activation is impl
 
 ## Sprint 14 — Contract and Local Private Foundation
 
+Subsequent owner amendment on 9 October: private uploads are deferred until needed; initial intake
+uses the questionnaire without blood-result files. This supersedes earlier upload-before-launch
+statements, not identity/domain-authority recovery or other release requirements. TD-065's upload
+component is deferred, its identity component remains In progress. The
+[owner approval packet](../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md)
+separates initial capability/cohort/operating decisions from external facts and engineering proof.
+
 Current 9 October checkpoint: Tasks 14.1–14.10 are completed within their recorded engineering and
 isolated hosted acceptance scopes. The [completion report](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md)
 and [operations runbook](../06-operations/mobile-invitations-release-runbook.md) close reporting and
 handoff with **NO-GO for real activation**. Registry: 66 items, 56 Verified and ten non-Verified.
-Required uploads and applicable retained debt keep Phase 02 open. Closure-commit CI/release remain
+Applicable account/intake debt keeps Phase 02 open; uploads are deferred. Closure-commit CI/release remain
 owner-controlled. Historical task-prepared/local-only descriptions below are superseded by this
 checkpoint; they are not assertions that completed mobile code is missing.
 

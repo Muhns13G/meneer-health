@@ -60,6 +60,39 @@ const validSession = {
   mode: "payment",
   expires_at: intent.expiresEpoch,
 };
+it("rejects a persisted sandbox intent before a live provider call, including attached Sessions", async () => {
+  const create = vi.fn();
+  const context = {
+    tenantId: id,
+    subjectId: id,
+    sessionId: id,
+    providerSubject: id,
+    providerSessionId: id,
+    verifiedEmail: "checkout@example.invalid",
+    purpose: "account" as const,
+  };
+  for (const input of [
+    intent,
+    { ...intent, paymentEnvironment: "sandbox" },
+    {
+      ...intent,
+      paymentEnvironment: "live",
+      sessionId: "cs_test_synthetic12345",
+      checkoutUrl: validSession.url,
+    },
+  ]) {
+    const rpc = vi.fn(async () => ({ data: input }));
+    const commands = createPilotCheckoutCommands(
+      { rpc } as unknown as SupabaseClient,
+      intent.accountId,
+      { create } as unknown as PilotCheckoutProvider,
+      "live",
+    );
+    await expect(commands.checkout(context, id, id)).rejects.toThrow();
+    expect(rpc).toHaveBeenCalledOnce();
+  }
+  expect(create).not.toHaveBeenCalled();
+});
 function harness() {
   const create = vi.fn(async () => ({ ...validSession }));
   const retrieve = vi.fn(async () => ({ id: intent.accountId }));

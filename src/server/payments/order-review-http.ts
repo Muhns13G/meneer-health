@@ -26,16 +26,25 @@ import {
 } from "@/server/identity/patient-session-cookie";
 import type { PatientSessionBindings } from "@/server/identity/patient-session-http";
 import { inspectProtectedJsonRequest } from "@/server/security/request-security";
-export type CommerceReviewBindings = PatientSessionBindings & {
-  COMMERCE_REVIEW_MODE?: unknown;
-  COMMERCE_REVIEW_TENANT_ID?: unknown;
-  COMMERCE_CHECKOUT_MODE?: unknown;
-  COMMERCE_WEBHOOK_MODE?: unknown;
-  STRIPE_WEBHOOK_SERVICE_IDENTITY_ID?: unknown;
-  STRIPE_WEBHOOK_SIGNING_SECRET?: unknown;
-  STRIPE_CHECKOUT_ACCOUNT_ID?: unknown;
-  STRIPE_RESTRICTED_KEY?: unknown;
-};
+import {
+  commerceCallbackConfigured,
+  commerceCheckoutConfigured,
+  commerceCredentials,
+  commerceOriginAllowed,
+  paymentMode,
+  type CommerceEnvironmentBindings,
+} from "./commerce-environment";
+export type CommerceReviewBindings = PatientSessionBindings &
+  CommerceEnvironmentBindings & {
+    COMMERCE_REVIEW_MODE?: unknown;
+    COMMERCE_REVIEW_TENANT_ID?: unknown;
+    COMMERCE_CHECKOUT_MODE?: unknown;
+    COMMERCE_WEBHOOK_MODE?: unknown;
+    STRIPE_WEBHOOK_SERVICE_IDENTITY_ID?: unknown;
+    STRIPE_WEBHOOK_SIGNING_SECRET?: unknown;
+    STRIPE_CHECKOUT_ACCOUNT_ID?: unknown;
+    STRIPE_RESTRICTED_KEY?: unknown;
+  };
 type Dependencies = {
   authorise(proof: PatientSessionProof): Promise<{ context: PortalContext; expiresAt: Date }>;
   execute(context: PortalContext, command: unknown): Promise<unknown>;
@@ -66,7 +75,7 @@ export function createOrderReviewHttpHandler(
       url.pathname !== "/portal/order/command" ||
       url.search ||
       request.method !== "POST" ||
-      !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname)
+      !commerceOriginAllowed(url, bindings)
     )
       return response(404);
     if (bindings.COMMERCE_REVIEW_MODE !== "enabled") return response(412);
@@ -95,11 +104,8 @@ export function createOrderReviewHttpHandler(
       );
       if (!inspected.allowed) return response(inspected.response.status);
       if (!z.uuid().safeParse(inspected.value.idempotencyKey).success) return response(422);
-      const callbackConfigured =
-        bindings.COMMERCE_WEBHOOK_MODE === "sandbox" &&
-        z.uuid().safeParse(bindings.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID).success &&
-        typeof bindings.STRIPE_WEBHOOK_SIGNING_SECRET === "string" &&
-        bindings.STRIPE_WEBHOOK_SIGNING_SECRET.startsWith("whsec_");
+      const callbackConfigured = commerceCallbackConfigured(bindings);
+      const checkoutConfigured = commerceCheckoutConfigured(bindings);
       const parsed = orderReviewCommandSchema.safeParse(inspected.value.body);
       if (!parsed.success) return response(422);
       if (
@@ -154,23 +160,24 @@ export function createOrderReviewHttpHandler(
             return data;
           },
         };
-        if (bindings.COMMERCE_CHECKOUT_MODE === "sandbox" && callbackConfigured) {
-          const account =
-            typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
-              ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
-              : "";
+        if (checkoutConfigured) {
+          const environment = paymentMode(bindings.COMMERCE_CHECKOUT_MODE)!;
+          const credentials = commerceCredentials(bindings, environment);
+          const account = typeof credentials.account === "string" ? credentials.account : "";
           const commands = createPilotCheckoutCommands(
             client,
             account,
-            new PilotCheckoutProvider(bindings.STRIPE_RESTRICTED_KEY, account),
+            new PilotCheckoutProvider(credentials.key, account, undefined, environment),
+            environment,
           );
           dependencies.prepare = commands.prepare;
           dependencies.checkout = commands.checkout;
           dependencies.ready = async (context) => {
             const [{ data, error }, hook] = await Promise.all([
-              client.rpc("patient_checkout_ready", {
+              client.rpc("patient_checkout_environment_ready", {
                 p_context: context,
                 p_account: account,
+                p_environment: environment,
               }),
               client.rpc("pilot_webhook_ready", {
                 p_tenant_id: context.tenantId,
@@ -184,11 +191,7 @@ export function createOrderReviewHttpHandler(
       }
       const authority = await dependencies.authorise(proof);
       if (parsed.data.action === "checkout") {
-        if (
-          bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
-          !callbackConfigured ||
-          !dependencies.checkout
-        )
+        if (!checkoutConfigured || !callbackConfigured || !dependencies.checkout)
           return response(412);
         if (!dependencies.ready || !(await dependencies.ready(authority.context)))
           return response(403);
@@ -205,7 +208,7 @@ export function createOrderReviewHttpHandler(
       if (
         parsed.data.action === "read" &&
         callbackConfigured &&
-        bindings.COMMERCE_CHECKOUT_MODE === "sandbox" &&
+        checkoutConfigured &&
         dependencies.prepare &&
         dependencies.ready &&
         (await dependencies.ready(authority.context))
@@ -216,7 +219,7 @@ export function createOrderReviewHttpHandler(
       );
       if (result.review) {
         result.review.checkoutEnabled =
-          bindings.COMMERCE_CHECKOUT_MODE === "sandbox" &&
+          checkoutConfigured &&
           callbackConfigured &&
           result.review.acceptance !== null &&
           Boolean(dependencies.ready && (await dependencies.ready(authority.context)));

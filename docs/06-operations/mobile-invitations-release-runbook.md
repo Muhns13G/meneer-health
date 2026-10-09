@@ -25,9 +25,10 @@ rehearsal gates from ignored local configuration. Inspect the actual active vers
 ## Required Real-Channel GO Packet
 
 1. Resolve applicable retained debts in the [registry](../04-technical-debt/technical-debt-registry-v1.md),
-   especially TD-065/066 before real identity/email use. Implement the required private uploads and
-   scan/retention/recovery controls before the owner's selected launch, or obtain an explicit scope
-   change; this document does not narrow the scope for them.
+   especially TD-065 identity and TD-066 before real identity/email use. The owner's
+   [9 October scope amendment](../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md)
+   defers uploads until needed; initial questionnaire intake collects no blood-result files.
+   Implement uploads and scan/retention/object-recovery controls before later upload activation.
 2. Complete truthful profile/privacy/intake/terms instruments, exact versions/hashes, contracting
    responsibilities and private approval references. Invitation-only access does not make data synthetic.
 3. Record exact source SHA, passing exact-release CI, canonical Worker version/traffic, migration

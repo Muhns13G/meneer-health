@@ -3,38 +3,45 @@ import Stripe from "stripe";
 import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { PortalContext } from "@/application/identity/patient-portal-service";
+import {
+  assertStripeCredential,
+  stripeObjectMatchesEnvironment,
+  stripeSessionSchema,
+  type StripePaymentEnvironment,
+} from "./stripe-payment-environment";
 const minor = z.int().min(0).max(100_000_000);
-export const checkoutIntentSchema = z
-  .object({
-    intentId: z.uuid(),
-    tenantId: z.uuid(),
-    accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
-    scenario: z.enum(["review_deposit", "approved_product_order"]),
-    currency: z.literal("zar"),
-    amountTotalMinor: minor,
-    productBalanceMinor: minor,
-    deliveryMinor: minor,
-    expiresEpoch: z.int().positive(),
-    sessionId: z
-      .string()
-      .regex(/^cs_test_[A-Za-z0-9_]{8,120}$/)
-      .nullable(),
-    checkoutUrl: z
-      .url()
-      .refine(
-        (v) =>
-          new URL(v).origin === "https://checkout.stripe.com" &&
-          !new URL(v).username &&
-          !new URL(v).password,
-      )
-      .nullable(),
-  })
-  .strict()
-  .refine((v) =>
-    v.scenario === "review_deposit"
-      ? v.amountTotalMinor === 99900 && v.productBalanceMinor === 0 && v.deliveryMinor === 0
-      : v.amountTotalMinor === v.productBalanceMinor + v.deliveryMinor,
-  );
+export const checkoutIntentSchemaForEnvironment = (environment: StripePaymentEnvironment) =>
+  z
+    .object({
+      intentId: z.uuid(),
+      tenantId: z.uuid(),
+      accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
+      paymentEnvironment: z.enum(["sandbox", "live"]).optional(),
+      scenario: z.enum(["review_deposit", "approved_product_order"]),
+      currency: z.literal("zar"),
+      amountTotalMinor: minor,
+      productBalanceMinor: minor,
+      deliveryMinor: minor,
+      expiresEpoch: z.int().positive(),
+      sessionId: stripeSessionSchema(environment).nullable(),
+      checkoutUrl: z
+        .url()
+        .refine(
+          (v) =>
+            new URL(v).origin === "https://checkout.stripe.com" &&
+            !new URL(v).username &&
+            !new URL(v).password,
+        )
+        .nullable(),
+    })
+    .strict()
+    .refine((v) => (v.paymentEnvironment ?? "sandbox") === environment)
+    .refine((v) =>
+      v.scenario === "review_deposit"
+        ? v.amountTotalMinor === 99900 && v.productBalanceMinor === 0 && v.deliveryMinor === 0
+        : v.amountTotalMinor === v.productBalanceMinor + v.deliveryMinor,
+    );
+export const checkoutIntentSchema = checkoutIntentSchemaForEnvironment("sandbox");
 export type CheckoutIntent = z.infer<typeof checkoutIntentSchema>;
 export class PilotCheckoutProvider {
   private readonly client: Stripe;
@@ -42,13 +49,9 @@ export class PilotCheckoutProvider {
     key: unknown,
     private readonly accountId: string,
     client?: Stripe,
+    private readonly environment: StripePaymentEnvironment = "sandbox",
   ) {
-    if (
-      typeof key !== "string" ||
-      !key.startsWith("rk_test_") ||
-      !/^acct_[A-Za-z0-9]{8,64}$/.test(accountId)
-    )
-      throw new Error("CHECKOUT_CONFIGURATION_INVALID");
+    assertStripeCredential(key, accountId, environment, "CHECKOUT_CONFIGURATION_INVALID");
     this.client =
       client ??
       new Stripe(key, {
@@ -59,7 +62,7 @@ export class PilotCheckoutProvider {
       });
   }
   async create(input: CheckoutIntent) {
-    const intent = checkoutIntentSchema.parse(input);
+    const intent = checkoutIntentSchemaForEnvironment(this.environment).parse(input);
     if (intent.accountId !== this.accountId) throw new Error("CHECKOUT_ACCOUNT_MISMATCH");
     // This is the current standalone account, not a Connect destination or browser account claim.
     if ((await this.client.accounts.retrieveCurrent()).id !== this.accountId)
@@ -97,9 +100,9 @@ export class PilotCheckoutProvider {
       { idempotencyKey: `pilot-checkout:${intent.intentId}` },
     );
     if (
-      session.livemode !== false ||
+      !stripeObjectMatchesEnvironment(session, this.environment) ||
       session.expires_at !== intent.expiresEpoch ||
-      !session.id.startsWith("cs_test_") ||
+      !stripeSessionSchema(this.environment).safeParse(session.id).success ||
       session.currency !== "zar" ||
       session.amount_total !== intent.amountTotalMinor ||
       session.client_reference_id !== intent.intentId ||
@@ -117,6 +120,7 @@ export function createPilotCheckoutCommands(
   client: SupabaseClient,
   accountId: string,
   provider: PilotCheckoutProvider,
+  environment: StripePaymentEnvironment = "sandbox",
 ) {
   async function rpc(name: string, args: Record<string, unknown>) {
     const { data, error } = await client.rpc(name, args);
@@ -137,7 +141,7 @@ export function createPilotCheckoutCommands(
       });
     },
     async checkout(context: PortalContext, offerId: string, key: string) {
-      const intent = checkoutIntentSchema.parse(
+      const intent = checkoutIntentSchemaForEnvironment(environment).parse(
         await rpc("patient_prepare_checkout", {
           p_context: context,
           p_offer_id: offerId,
@@ -145,6 +149,7 @@ export function createPilotCheckoutCommands(
           p_account: accountId,
         }),
       );
+      if (intent.accountId !== accountId) throw new Error("CHECKOUT_ACCOUNT_MISMATCH");
       const session =
         intent.checkoutUrl && intent.sessionId
           ? { id: intent.sessionId, url: intent.checkoutUrl }

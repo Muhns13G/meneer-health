@@ -1,9 +1,17 @@
 import { beforeEach, expect, it, vi } from "vitest";
-const mocks = vi.hoisted(() => ({ rpc: vi.fn(), submit: vi.fn(), client: vi.fn() }));
+const mocks = vi.hoisted(() => ({
+  rpc: vi.fn(),
+  submit: vi.fn(),
+  client: vi.fn(),
+  provider: vi.fn(),
+}));
 vi.mock("@supabase/supabase-js", () => ({ createClient: mocks.client }));
 vi.mock("./pilot-refund", async (original) => ({
   ...(await original<typeof import("./pilot-refund")>()),
   PilotRefundProvider: class {
+    constructor(...args: unknown[]) {
+      mocks.provider(...args);
+    }
     submit = mocks.submit;
   },
 }));
@@ -70,4 +78,50 @@ it("retains a timed-out provider request as uncertain and refuses malformed clai
   mocks.rpc.mockResolvedValueOnce({ data: { ...job, amountMinor: -1 } });
   await expect(runScheduledRefunds(bindings)).rejects.toThrow();
   expect(mocks.submit).toHaveBeenCalledOnce();
+});
+it("keeps live original-method refunds available after new Checkouts stop", async () => {
+  const live = {
+    ...bindings,
+    COMMERCE_REFUND_MODE: "live",
+    COMMERCE_WEBHOOK_MODE: "live",
+    COMMERCE_CHECKOUT_MODE: "disabled",
+    STRIPE_LIVE_ACCOUNT_ID: "acct_livesynthetic12345",
+    STRIPE_LIVE_RESTRICTED_KEY: "rk_live_synthetic_not_a_secret",
+    STRIPE_LIVE_WEBHOOK_SIGNING_SECRET: "whsec_live_synthetic_not_a_secret",
+  };
+  mocks.rpc
+    .mockResolvedValueOnce({ data: { ...job, accountId: live.STRIPE_LIVE_ACCOUNT_ID } })
+    .mockResolvedValueOnce({ data: null })
+    .mockResolvedValueOnce({ data: null });
+  expect(await runScheduledRefunds(live)).toBe(1);
+  expect(mocks.provider).toHaveBeenCalledWith(
+    live.STRIPE_LIVE_RESTRICTED_KEY,
+    live.STRIPE_LIVE_ACCOUNT_ID,
+    undefined,
+    "live",
+  );
+  expect(mocks.rpc.mock.calls[0]![1].p_account).toBe(live.STRIPE_LIVE_ACCOUNT_ID);
+});
+it("rejects mixed live refund modes and reused sandbox credentials before claiming money", async () => {
+  for (const patch of [
+    { COMMERCE_WEBHOOK_MODE: "sandbox" },
+    { STRIPE_LIVE_ACCOUNT_ID: bindings.STRIPE_CHECKOUT_ACCOUNT_ID },
+    { STRIPE_LIVE_RESTRICTED_KEY: bindings.STRIPE_RESTRICTED_KEY },
+    { STRIPE_LIVE_WEBHOOK_SIGNING_SECRET: bindings.STRIPE_WEBHOOK_SIGNING_SECRET },
+  ]) {
+    await expect(
+      runScheduledRefunds({
+        ...bindings,
+        COMMERCE_REFUND_MODE: "live",
+        COMMERCE_WEBHOOK_MODE: "live",
+        COMMERCE_CHECKOUT_MODE: "disabled",
+        STRIPE_LIVE_ACCOUNT_ID: "acct_livesynthetic12345",
+        STRIPE_LIVE_RESTRICTED_KEY: "rk_live_synthetic_not_a_secret",
+        STRIPE_LIVE_WEBHOOK_SIGNING_SECRET: "whsec_live_synthetic_not_a_secret",
+        ...patch,
+      }),
+    ).rejects.toThrow();
+  }
+  expect(mocks.rpc).not.toHaveBeenCalled();
+  expect(mocks.submit).not.toHaveBeenCalled();
 });

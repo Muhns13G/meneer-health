@@ -41,6 +41,17 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 9 October — Live Payment Isolation Locally Implemented, TD-010 Retained
+
+The [live activation packet](../02-implementation-plans/phase-02/annexures/live-payment-activation.md)
+records explicit live Checkout/webhook/refund routing, permanent account/environment isolation,
+rollback-only financial regressions and disabled-new-Checkout settlement/refund controls. The
+forward migration is locally verified, not approved/applied to hosted Supabase. Separate live
+webhook/secrets, approved instruments/provider acceptance and bounded real-money settlement/refund
+acceptance remain required. TD-010 stays In progress; no debt item is closed or newly registered.
+The owner-selected OCTOTHORP ZA seller / Octothorp LLC collector arrangement is owner-confirmed,
+not independent inspection of an agreement. Upload deferral does not waive identity recovery.
+
 ### Task 14.10 — Sprint 14 Closed, Activation Gates Retained
 
 The [Sprint 14 report](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md)
@@ -790,6 +801,13 @@ owner deployment and routed conflict/unchanged-state proof with exact cleanup. S
 not a fresh hosted failure, and genuine serialization errors must not be globally rewritten.
 
 ## TD-065 — Auth and Private Storage Recovery Coverage
+
+**9 October scope amendment:** the owner now defers private uploads until required and selects
+questionnaire-only initial intake. The [owner approval packet](../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md)
+supersedes the historical upload-before-launch requirement below. Upload implementation, scanning,
+retention and metadata/object-byte recovery are deferred until that feature's activation, not
+Verified. Identity/session/MFA and current domain-authority/disposition recovery still apply before
+real account/intake use. Overall status remains In progress; no debt total changes.
 
 Priority **P1**; status **In progress**. Owner: System Architect, alternate Product Owner. Target:
 before real intake; release disposition in Task 13.10. Evidence and acceptance:

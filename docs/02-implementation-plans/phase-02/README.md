@@ -11,11 +11,19 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Current Checkpoint — Sprint 14 Closure, 9 October
 
+**Subsequent owner scope amendment:** [uploads are now deferred until needed](annexures/pilot-activation-owner-approval-packet.md),
+superseding the upload-before-launch condition recorded at Sprint 14 closure. Initial intake uses
+the questionnaire without blood-result files. TD-065 identity recovery remains applicable; its
+upload/object component is deferred until upload activation, not Verified. The owner subsequently
+approved live payments and post-onboarding product display (images optional), plus a US$5
+rolling-24-hour SMS cap and fewer than ten initial participants (maximum nine). Applicable live-payment/catalogue
+acceptance and separate generator/product-transaction gates remain. This is not runtime activation.
+
 [Sprint 14](../../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md) is completed
 with activation gates, including actual controlled SMS/email conversion and signed delivery,
 exact cleanup and owner-promoted explicitly disabled same-code restoration. All ten engineering
 tasks are reported; the channel is not enabled for the cohort. The Phase checkpoint remains
-in-progress-release-gated, not final closure. Required uploads and original release criteria remain;
+in-progress-release-gated, not final closure. Uploads are deferred; applicable account/intake release criteria remain;
 registry totals are **66 debts, 56 Verified and ten non-Verified**, including Sprint-14 TD-066.
 Follow the [mobile release runbook](../../06-operations/mobile-invitations-release-runbook.md),
 resolve applicable gaps and obtain a separate owner GO before real accounts, intake or live money.
