@@ -7,6 +7,24 @@ authority: owner-approved-bounded-exercise-not-completed-launch
 
 # Isolated Hosted Sandbox Acceptance — 9 October
 
+## Temporary owner staff walkthrough access
+
+The owner authorised operations-only sandbox access and confirmed Mikhail's independent
+approval. A guarded hosted transaction added one 24-hour operations membership for the
+existing Mansoer staff subject in sandbox tenant `4a0fc120-933c-4a1e-98d1-8aab7fdfeaa0`,
+and assigned only test case `1382eb45-c024-4b1e-84c7-067b1ab4e7c8`. Both expire at
+23:13:46 SAST on 10 October 2026. Independent readback confirmed the current scoped
+assignment, its automatic assignment audit, and all three existing real-pilot roles unchanged.
+No clinical, dispensing or additional administrator authority was granted. No schema,
+Auth identity/factor, release switch, message or payment was changed.
+
+The owner must sign out, verify email and authenticator again, select **operations — operations**
+for this sandbox tenant, then open the assigned queue. An existing real-pilot session remains
+bound to its original tenant. This is database-scope verification, not proof of the owner's
+completed browser walkthrough. The temporary membership/assignment and resulting audit/alert
+evidence must be included in the exact sandbox cleanup manifest; expiry denies access but
+does not delete those rows. Pending exact refund, cleanup and disabled restoration remain open.
+
 ## Latest promoted checkpoint
 
 The owner promoted `50601252-4f4a-48c7-9be9-dbdfa341b638` to 100%. Independent readback

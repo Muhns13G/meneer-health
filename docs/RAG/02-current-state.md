@@ -9,6 +9,8 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-15-1-product-order-contract.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-onboarding-usability-2026-10-09.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md
   - docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md
@@ -143,6 +145,16 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 15 adopted — 10 October
+
+The owner approved bounded private product orders and manual fulfilment. The
+[plan](../02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md)
+splits delivery into ten tasks. [15.1](../02-implementation-plans/phase-02/annexures/sprint-15-1-product-order-contract.md)
+is complete at contract level with strict interest/quote input schemas and domain tests.
+No new product UI, price import, clinical/supply authority or runtime activation is delivered.
+15.2–15.10 remain planned; existing credit/payment foundations are reused, not proof that clients
+can already order products. Generator reactivation and product-specific release gates remain.
 
 ## Latest sandbox acceptance checkpoint — 9 October
 
