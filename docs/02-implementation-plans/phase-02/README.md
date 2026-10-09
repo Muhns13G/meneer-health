@@ -11,6 +11,11 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
+[15.2](annexures/sprint-15-2-private-product-catalogue.md) implements the private RRP/provenance,
+encrypted shipping and delivery-binding preparation foundation locally. The scoped import tool
+validates customer-only data against source bytes; it cannot import real prices into hosted services.
+Client catalogue UI and payable quote preparation remain 15.3 onward, not activated capabilities.
+
 The owner approved [Sprint 15](sprint-15-product-orders-manual-fulfilment.md) to connect the
 existing credit/payment foundation to private product browsing, independently approved staff
 quotes and manual fulfilment. [15.1](annexures/sprint-15-1-product-order-contract.md) establishes

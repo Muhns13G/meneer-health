@@ -3,12 +3,13 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-09
+last_updated: 2026-10-10
 audience: internal
 sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md
   - docs/02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-1-product-order-contract.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-onboarding-usability-2026-10-09.md
@@ -148,12 +149,19 @@ sources:
 
 ## Sprint 15 adopted — 10 October
 
+[15.2](../02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md)
+adds local private versioned RRP/provenance, strict source-validation/import preparation,
+encrypted address snapshots and scoped delivery bindings. It preserves retirement guards and
+existing deposit/payment functions. No real price import, hosted migration or product sales release
+occurred. A dedicated shipping key and populated recovery acceptance are required before real
+address collection; later quote work must bridge this catalogue to the payable price/offer path.
+
 The owner approved bounded private product orders and manual fulfilment. The
 [plan](../02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md)
 splits delivery into ten tasks. [15.1](../02-implementation-plans/phase-02/annexures/sprint-15-1-product-order-contract.md)
 is complete at contract level with strict interest/quote input schemas and domain tests.
 No new product UI, price import, clinical/supply authority or runtime activation is delivered.
-15.2–15.10 remain planned; existing credit/payment foundations are reused, not proof that clients
+15.2 is completed locally; 15.3–15.10 remain planned. Existing credit/payment foundations are reused, not proof that clients
 can already order products. Generator reactivation and product-specific release gates remain.
 
 ## Latest sandbox acceptance checkpoint — 9 October

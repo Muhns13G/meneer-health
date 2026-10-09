@@ -24,6 +24,16 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-15-2-private-product-catalogue",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md",
+      "status": "completed-local-foundation",
+      "authority_for": [
+        "Local private RRP provenance and guarded import preparation",
+        "Encrypted shipping and delivery scope; no product-sale activation"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
       "id": "phase-02-sprint-15",
       "path": "docs/02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md",
       "status": "in-progress",

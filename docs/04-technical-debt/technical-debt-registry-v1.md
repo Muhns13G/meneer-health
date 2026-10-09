@@ -41,6 +41,17 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 10 October — Sprint 15.2 Private Product Preparation
+
+The [catalogue foundation](../02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md)
+implements local immutable customer-RRP/source provenance, strict offline import preparation,
+encrypted shipping snapshots and scoped delivery bindings. Existing deposit/payment functions and
+orphan-retirement guards are preserved. This advances the existing TD-010 catalogue obligation;
+it does not verify real prices, product terms or clinical/pharmacy/courier authority under
+TD-007/009/010. Dedicated shipping-key custody and populated encrypted-address recovery remain
+required before real collection under TD-065/later Sprint-15 acceptance. No debt status/count is
+changed, no hosted migration/import is applied and no product sales are activated by this task.
+
 ### 9 October — Primary Staff Login Verified; Alternate Acceptance Deferred
 
 Mansoer reports successful production email OTP, individual TOTP and Operations context/session
