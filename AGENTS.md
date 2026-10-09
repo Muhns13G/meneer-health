@@ -99,6 +99,10 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
 - `bun run typecheck` runs strict TypeScript validation without emitting files.
 - `bun run check:portability` verifies retained capabilities, contract majors, portable fixtures,
   and referenced schema migrations remain internally consistent.
+- `bun --no-env-file run test:payments:live-rehearsal` reuses two fixed local financial SQL packets
+  with explicit live account mode and live Session syntax, checking exact restored baselines.
+  It rejects hosted/provider variables and contacts no Stripe service. It is not real-money or
+  hosted acceptance; serialize it with other database suites.
 - `bun run check:discovery` verifies committed robots and sitemap outputs match the approved route
   policy.
 - `bun run check:mcp-absence` verifies the retired MCP files, dependencies, generated routes, and

@@ -62,6 +62,8 @@
     "test:payments": "bun run scripts/test-supabase-payments-integration.ts",
     "test:payments:provider": "bun run scripts/test-stripe-payments-provider-integration.ts",
     "test:payments:pilot-provider": "bun run scripts/test-pilot-stripe-provider.ts",
+    "check:payments:live-readiness": "bun run scripts/check-stripe-live-readiness.ts",
+    "test:payments:live-rehearsal": "bun --no-env-file run scripts/test-live-commerce-rehearsal.ts",
     "test:fulfilment": "bun run scripts/test-supabase-fulfilment-integration.ts",
     "exercise:incident": "bun run scripts/run-controlled-incident-exercise.ts",
     "exercise:recovery": "bun run scripts/run-synthetic-recovery-exercise.ts",

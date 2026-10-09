@@ -13,6 +13,13 @@ owner: "@Muhns13G"
 
 ## Outcome
 
+**Post-closure scope amendment, 9 October:** the owner subsequently
+[deferred uploads until needed](../../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md).
+This supersedes this report's upload-before-launch condition, not its engineering evidence or
+historical file inventory. TD-065 identity recovery and other applicable account/intake gates remain;
+no upload functionality or debt verification is implied. The remaining initial enabled scope needs
+the separate owner approval packet. No real activation is authorised by that amendment.
+
 Tasks 14.1–14.10 are complete at their contract, implementation, controlled acceptance and reporting
 boundaries. Staff can prepare a governed unique mobile invitation; its recipient supplies and
 verifies email before the existing atomic profile/document activation. This task supplies the

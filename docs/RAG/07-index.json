@@ -24,6 +24,22 @@
   },
   "documents": [
     {
+      "id": "phase-02-live-payment-activation",
+      "path": "docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md",
+      "status": "local-implementation-verified-hosted-acceptance-pending",
+      "authority": "engineering-preparation-not-live-charge-or-pilot-activation",
+      "priority": 1,
+      "topics": ["stripe", "live-payments", "environment-isolation", "TD-010", "release"]
+    },
+    {
+      "id": "phase-02-pilot-owner-approvals",
+      "path": "docs/02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md",
+      "status": "scope-and-sms-budget-approved-activation-gated",
+      "authority": "owner-approved-scope-and-budget-not-runtime-activation",
+      "priority": 1,
+      "topics": ["pilot", "approvals", "scope", "TD-065", "uploads", "release"]
+    },
+    {
       "id": "phase-02-sprint-14-completion",
       "path": "docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md",
       "status": "completed-with-activation-gates",

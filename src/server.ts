@@ -17,6 +17,7 @@ import {
 } from "./server/payments/order-review-http";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
 import { createPaymentStatusHttpHandler } from "./server/payments/payment-status-http";
+import { paymentMode } from "./server/payments/commerce-environment";
 import { createRefundHttpHandler } from "./server/payments/refund-http";
 import { runScheduledRefunds } from "./server/payments/refund-dispatch";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
@@ -166,7 +167,7 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               );
             if (
               pathname === "/api/payments/stripe/webhook" &&
-              (env as unknown as PilotWebhookBindings).COMMERCE_WEBHOOK_MODE === "sandbox"
+              paymentMode((env as unknown as PilotWebhookBindings).COMMERCE_WEBHOOK_MODE) !== null
             )
               return createPilotWebhookHandler(env as unknown as PilotWebhookBindings)(
                 boundedRequest,

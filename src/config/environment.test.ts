@@ -56,6 +56,10 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "STRIPE_LIVE_ACCOUNT_ID",
+      "STRIPE_LIVE_RESTRICTED_KEY",
+      "STRIPE_LIVE_WEBHOOK_SIGNING_SECRET",
+      "STRIPE_LIVE_READINESS_CONFIRM",
       "MOBILE_INVITATIONS_MODE",
       "MOBILE_INVITATIONS_REDEMPTION_MODE",
       "MOBILE_INVITATIONS_EMAIL_MODE",

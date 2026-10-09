@@ -18,6 +18,12 @@ import {
 import { inspectProtectedJsonRequest } from "@/server/security/request-security";
 import { dispatchRefund, PilotRefundProvider } from "./pilot-refund";
 import type { CommerceReviewBindings } from "./order-review-http";
+import {
+  commerceSettlementConfigured,
+  commerceCredentials,
+  commerceOriginAllowed,
+  paymentMode,
+} from "./commerce-environment";
 
 type Authority = { tenantId: string; sessionId: string; expiresAt: Date; context: unknown };
 type Dependencies = {
@@ -48,7 +54,7 @@ export function createRefundHttpHandler(
     if (
       (!staff && url.pathname !== "/portal/payments/refund") ||
       url.search ||
-      !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname)
+      !commerceOriginAllowed(url, bindings)
     )
       return reply(404);
     if (bindings.COMMERCE_REVIEW_MODE !== "enabled") return reply(412);
@@ -66,6 +72,17 @@ export function createRefundHttpHandler(
           SUPABASE_SECRET_KEY: bindings.SUPABASE_SECRET_KEY,
         }).environment.supabase;
         if (!config) return reply(503);
+        const providerFor = () => {
+          const environment = paymentMode(bindings.COMMERCE_WEBHOOK_MODE);
+          if (!environment) throw new Error("REFUND_CONFIGURATION_INVALID");
+          const credentials = commerceCredentials(bindings, environment);
+          return new PilotRefundProvider(
+            credentials.key,
+            typeof credentials.account === "string" ? credentials.account : "",
+            undefined,
+            environment,
+          );
+        };
         const client = createClient(config.url, config.secretKey, {
           auth: {
             persistSession: false,
@@ -144,27 +161,9 @@ export function createRefundHttpHandler(
           },
           // Lazy construction: read/request paths need no refund-capable credentials.
           provider: {
-            inspectException: (value) =>
-              new PilotRefundProvider(
-                bindings.STRIPE_RESTRICTED_KEY,
-                typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
-                  ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
-                  : "",
-              ).inspectException(value),
-            inspectTerminal: (value) =>
-              new PilotRefundProvider(
-                bindings.STRIPE_RESTRICTED_KEY,
-                typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
-                  ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
-                  : "",
-              ).inspectTerminal(value),
-            submit: (value) =>
-              new PilotRefundProvider(
-                bindings.STRIPE_RESTRICTED_KEY,
-                typeof bindings.STRIPE_CHECKOUT_ACCOUNT_ID === "string"
-                  ? bindings.STRIPE_CHECKOUT_ACCOUNT_ID
-                  : "",
-              ).submit(value),
+            inspectException: (value) => providerFor().inspectException(value),
+            inspectTerminal: (value) => providerFor().inspectTerminal(value),
+            submit: (value) => providerFor().submit(value),
           },
         };
       }
@@ -198,11 +197,7 @@ export function createRefundHttpHandler(
         (command.action === "reconcile" || command.action === "replace_deposit") &&
         dependencies.provider.inspectTerminal
       ) {
-        if (
-          bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
-          bindings.COMMERCE_WEBHOOK_MODE !== "sandbox"
-        )
-          return reply(412);
+        if (!commerceSettlementConfigured(bindings)) return reply(412);
         const plans = await dependencies.command(true, authority.context, {
           action: "inspect",
           offerId: command.offerId,
@@ -221,11 +216,7 @@ export function createRefundHttpHandler(
       if (command.action === "replace_deposit" && !dependencies.provider.inspectTerminal)
         return reply(503);
       if (command.action === "reconcile" && dependencies.provider.inspectException) {
-        if (
-          bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
-          bindings.COMMERCE_WEBHOOK_MODE !== "sandbox"
-        )
-          return reply(412);
+        if (!commerceSettlementConfigured(bindings)) return reply(412);
         const plans = await dependencies.command(true, authority.context, {
           action: "inspect_exceptions",
           offerId: command.offerId,
@@ -247,9 +238,8 @@ export function createRefundHttpHandler(
       }
       if (command.action === "dispatch") {
         if (
-          bindings.COMMERCE_REFUND_MODE !== "sandbox" ||
-          bindings.COMMERCE_CHECKOUT_MODE !== "sandbox" ||
-          bindings.COMMERCE_WEBHOOK_MODE !== "sandbox"
+          !commerceSettlementConfigured(bindings) ||
+          bindings.COMMERCE_REFUND_MODE !== bindings.COMMERCE_WEBHOOK_MODE
         )
           return reply(412);
         const deps = dependencies;

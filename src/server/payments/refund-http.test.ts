@@ -98,6 +98,8 @@ function setup() {
     COMMERCE_CHECKOUT_MODE: "sandbox",
     COMMERCE_WEBHOOK_MODE: "sandbox",
     COMMERCE_REFUND_MODE: "sandbox",
+    STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: id,
+    STRIPE_WEBHOOK_SIGNING_SECRET: "whsec_synthetic_only",
     REQUEST_RATE_LIMITER: { limit: vi.fn(async () => ({ success: true })) },
   };
   const view = {
