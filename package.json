@@ -50,6 +50,7 @@
     "test:mobile:conversion": "bun --no-env-file run scripts/test-mobile-invitation-conversion.ts",
     "test:mobile:security": "bun --no-env-file run scripts/test-mobile-invitation-security.ts",
     "test:mobile:dispatch-race": "bun --no-env-file run scripts/test-mobile-invitation-dispatch-race.ts",
+    "test:mobile:retirement": "bun --no-env-file run scripts/test-mobile-orphan-retirement.ts",
     "test:identity:hosted-denials": "bun run scripts/test-sprint09-hosted-http.ts",
     "test:commands": "bun run scripts/test-supabase-workflow-commands-integration.ts",
     "test:audit": "bun run scripts/test-supabase-audit-integration.ts",

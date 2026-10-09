@@ -41,6 +41,35 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 9 October — Owner Acceptance and Deferral Amendment
+
+The owner subsequently corrects the unintended inactive-roster selection and confirms mutual
+approval of the operator grants. After a fresh primary-database inventory and rollback-only
+bootstrap rehearsal, exactly six 30-day native memberships are provisioned: operations/auditor/admin
+for Mansoer and Mikhail, each approved by the other under owner-reported out-of-band approval.
+The pilot tenant stays suspended; operator contact verification, TOTP and real operational
+acceptance remain outstanding. No clinical/pharmacy role, case grant, session or pilot activation
+is created. Preserve these real records during synthetic cleanup; TD-043 remains Open.
+
+Subsequent primary-database pre-provisioning audit finds only the four authorised staff identities,
+one suspended tenant and provider gates, with no client or synthetic residue. No cleanup is needed.
+The owner chooses to leave operator grants inactive, so no membership/approval rows are seeded.
+New canonical hosted workforce-context acceptance passes real email-code/TOTP, context selection,
+renewal, wrong-tenant/rebinding/stale-cookie denials and exact fingerprint cleanup preserving real
+accounts. TD-043's deployed context engineering is evidenced; active real operational access still
+remains unverified/inactive by owner direction. TD-064 remains configuration-disabled and TD-066
+still lacks its complete native workflow. No new global Verified status follows from this batch.
+
+The owner reports the staff-context source deployed at `b20236e`, restricts initial system
+management to Mansoer/Mikhail, and authorises initial account invitations to the four named staff
+addresses without granting clinical access. Real account invitation acceptance is not active
+membership/TOTP/support acceptance. The owner accepts the remaining manual VoiceOver component
+without further review; no new flow-by-flow observation or independent verification is claimed.
+Professional/provider/legal evidence is deferred at the owner's direction, not Verified or
+published. These dispositions are tracked in the final acceptance packet; technical release gates
+and actual collection/publication controls are not silently bypassed, and global Verified totals
+are unchanged by this amendment alone.
+
 ### 9 October — Retained Questionnaire Recovery Verified
 
 TD-065 is now **Verified for the owner-amended identity/questionnaire-only scope**. Actual populated
@@ -901,6 +930,15 @@ performed. This is implementation progress, not closure or real-email activation
 Task 14.9's explicitly approved synthetic fixture deletion and session revocation are not an
 operational orphan-retirement/reissue implementation. Task 14.10 retains this real-email gate in the
 [mobile release runbook](../06-operations/mobile-invitations-release-runbook.md).
+
+The subsequent unhosted native retirement migration/repository adds locked manifest reservation,
+fresh operations/TOTP checks, confirmation/session/domain quarantine, contact-only tombstones,
+immutable reviewed new-draft reissue and a private offline restore barrier. Validation passes
+94 focused tests and 2,169 SQL assertions; the fixed-local managed-provider/concurrency/encrypted
+older-snapshot exercise also passes with exact baseline restoration. State remains `copies_pending`:
+maintenance wiring, independently retained hosted dispositions/R2-copy completion and separately
+approved hosted migration/acceptance remain. These tests do not mark TD-066 Verified or enable email;
+see the [native checkpoint](../02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md#native-local-implementation-and-managed-provider-checkpoint--9-october).
 
 ## Registry Maintenance Rules
 

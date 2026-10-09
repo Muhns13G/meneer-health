@@ -79,6 +79,13 @@ Use Bun and keep `bun.lock` synchronized with dependency changes.
   reservations with a no-send transport, proving one held spend reservation and no blind retry.
   It drains every request before scoped locked cleanup and fingerprints the complete restored
   local baseline. It rejects hosted/provider configuration and requires empty mobile/Auth journals.
+- `bun --no-env-file run test:mobile:retirement` uses only the fixed local stack and elapsed
+  synthetic SQL fixtures. Eight native reservations must produce one dispatch; confirmation and
+  domain insertion must remain quarantined. It exercises managed Auth deletion, independent
+  absence and an encrypted older application snapshot restored offline with current tombstones.
+  It drains requests, removes exact fixtures/restored database and verifies all-row/security
+  fingerprints. It sends nothing, rejects inherited hosted/provider configuration and must be
+  serialized with database tests. It is not hosted provenance, R2-copy completion or launch approval.
 - `bun --no-env-file run scripts/review-mobile-invitation.ts` opens a loopback-only synthetic
   transport fixture on 8086 for the real invitation-page UI. It sends nothing and creates no
   account; use the 14.8 checklist and stop it afterward. It is not provider/security acceptance.

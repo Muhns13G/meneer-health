@@ -17,6 +17,111 @@ Private uploads, product transactions and generator transfer remain separately g
 
 ## Current Observations
 
+### Operator Approval Clarification and Scoped Bootstrap
+
+The owner clarifies that the earlier “leave grants inactive” selection was unintended, then
+explicitly confirms enabling the proposed roles and Mikhail's independent approval of Mansoer's
+access, with Mansoer approving Mikhail's. This supersedes the earlier inactive-roster direction.
+Approval evidence is the owner's report of out-of-band mutual approval, not an observed native
+AAL2 approval action; no such action or professional authority is fabricated.
+
+Before insertion, the primary database is re-inventoried: exactly the four authorised staff
+accounts and linked subjects, one suspended tenant and twelve provider gates, with no sessions,
+memberships, profiles, intake, payments or test residue. The exact two operator identities map
+to distinct subjects; neither operator email is confirmed yet. No user is deleted or recreated.
+
+`scripts/sql/initial-operator-memberships.sql` is a manually authorised DML bootstrap, **not** a
+migration, seed or CI command. It locks the narrow identity/tenant/membership tables, checks the
+baseline and exact operator mapping, requires distinct approvers and inserts only six native
+memberships. It passes a rollback-only rehearsal before application. Reapplication does not
+extend expiry or change existing grants; unexpected memberships fail closed.
+
+Independent readback confirms `operations`, `auditor` and `admin` for each of Mansoer/Mikhail,
+all active with the other operator as approver, valid 9 October through 8 November 2026 at
+13:38:07 SAST. No clinician/pharmacy role or resource/case/medical assignment is created.
+Tasneem/Ziyaad remain invitation-only. The tenant stays suspended and no application/provider
+session is created. The old pre-provisioning zero-membership baseline is now historical; preserve
+these six real grants and all four real identities during subsequent synthetic cleanup.
+
+Working staff access is still denied while the tenant is suspended; this is granted membership,
+not proof that either person has independently verified contact, enrolled TOTP or used a live
+operational queue. Do not mark TD-043 fully Verified or activate the pilot from this bootstrap.
+
+### Primary Database Pre-Provisioning Check and Deployed Workforce Acceptance
+
+The owner requests a clean primary database before staff permission seeding. Supabase project
+`gibfpolrdjotwvewgfsz` is `ACTIVE_HEALTHY`; its branch listing has no separate development branch.
+This check targets the primary hosted database, not a Git checkout or local seeded database.
+Count-only inventory of application, Auth and Storage tables finds only:
+
+- Four authorised Auth users/identities and invitation tokens, four application subjects and
+  Supabase identity links; independent attribution finds no other account, subject or contact.
+- One suspended `meneer-pilot` tenant and twelve configured fulfilment-provider gates.
+- Provider-owned Auth/Storage migration metadata. No client profile, questionnaire, payment,
+  application/provider session, membership, mobile invitation, notification, clinical grant,
+  uploaded object or leftover synthetic record is present.
+
+No cleanup or reseeding is needed. The four permanent staff invitations must be preserved.
+The owner explicitly chooses **prepare the roster, leave grants inactive**: Mansoer/Mikhail are
+the only proposed operators (operations/privacy-review/security-administration), while
+Tasneem/Ziyaad remain invitation-only. No independent grant approval is fabricated and no membership
+row is seeded: the native constraint requires an independent approver even for inactive rows.
+`scripts/lib/pilot-staff-baseline.ts` preserves this staff-only baseline with 16 passing tests;
+its predicate checks supplied count/attribution evidence, not the completeness of a database scan.
+
+The owner separately approves isolated hosted fixtures and scoped cleanup preserving real staff.
+`scripts/test-hosted-workforce-context.ts` executes against the canonical deployed origin with a
+disposable `.invalid` identity and isolated synthetic tenant, genuine generated email-code
+verification (no send), real TOTP enrollment/verification, post-MFA three-context selection,
+wrong-tenant denial, selected operations session, renewal, rebinding denial, sign-out and stale-cookie
+denial. All pass. No clinician role/grant, real grant, email, payment or pilot activation occurs.
+
+Exact full application-table row fingerprints before/after match. The immutable selection guard
+is restored before commit; provider sessions are revoked and only manifested fixtures removed.
+Independent MCP readback confirms four authorised real accounts, zero provider/application
+sessions, zero memberships/selections, one suspended tenant and enabled immutable guard.
+The ignored `.td043-workforce-rehearsal.local` journal records the cleaned fixture manifest;
+an unresolved earlier exercise would block another run. This is hosted engineering acceptance,
+not active operator access or wider TD-043 closure.
+
+Fresh empty anonymous intake client/staff and order probes return no-store HTTP 412. TD-064
+therefore still needs the owner-controlled isolated configuration release documented in the
+pre-release remediation packet. Source deployment is not binding activation. TD-066's native
+retirement/reissue/copy workflow is still incomplete; this exercise does not close it.
+
+### Subsequent Owner Direction — Operator Scope and Acceptance
+
+- The owner reports commit `b20236e1cef90302ca9a976e841a017a1cb4bb95` deployed. Local Git
+  readback confirms that commit and a clean tree before this amendment; the canonical staff page
+  returns HTTP 200. This is not exact Worker-source attestation or authenticated acceptance.
+- Only Mansoer and Mikhail manage the system initially. The owner authorises one initial account
+  invitation each to the four previously specified named addresses. Tasneem/Ziyaad receive no
+  active clinical membership, medical grant or clinical responsibility through these invitations.
+  Account creation/contact confirmation is separate from independently approved system access.
+- The owner accepts the remaining VoiceOver items and requests no further manual review. Record
+  this as owner acceptance based on earlier checks and confidence in the platform; do not invent
+  per-flow spoken observations, phone versions or independently executed tests. Automated and
+  technical transition acceptance remain separately evidenced.
+- The owner directs professional/provider/legal evidence to be deferred until after the pilot.
+  This is a recorded deferral, not verification of the evidence or an assertion of compliance.
+  It does not publish draft instruments, alter clinical grants, enable external transfer or remove
+  runtime collection/publication controls. Provider/product/generator capabilities remain gated.
+
+Initial invitations use an explicitly guarded, operator-run bootstrap script, not the ordinary
+privileged staff invitation route. The script grants no permissions or tenant activation. Its
+ignored local journal is persisted before each provider call; existing/prepared/uncertain entries
+never auto-resend. These permanent staff accounts must not be removed by synthetic fixture cleanup.
+The ordinary staff invitation route still requires an existing AAL2 administrator and a reviewed
+assigned target, so usable operator access remains a separate provisioning/acceptance step.
+
+Execution: `scripts/invite-initial-staff.ts` was run once under the exact confirmation guard.
+Supabase accepted each of the four requests. Independent count-only readback shows four Auth users,
+all matching the authorised named addresses, zero active memberships, zero active application
+sessions and zero active tenants. This intentionally supersedes the earlier empty-Auth baseline;
+these permanent accounts are not disposable rehearsal fixtures. Inbox delivery and individual
+contact/TOTP completion are unverified. No automatic repeat is authorised by an uncertain result.
+TypeScript, scoped ESLint, formatting and whitespace checks pass for this bootstrap batch.
+
 - At initial inspection the local branch was `itws-I` at `c4ac54e`, with an owner-staged batch.
   During the checks the owner committed that batch at
   `dec545b9673c04f9600f015decea456069206be1` (`Add recovery and provenance guards`). No agent Git
@@ -79,6 +184,25 @@ release disposition, not Verified completion. If selected, it must include all o
 No exception has been accepted; no runtime deadline or scheduled reminder has been provisioned.
 The full-workflow path remains the default unless the owner explicitly selects this narrower path.
 
+### Subsequent Native Local Checkpoint
+
+The earlier unwired-only checkpoint is now superseded for native reservation, quarantine,
+contact tombstoning, reviewed new-draft reissue and offline old-copy reconciliation. The
+[retirement design](sprint-14-unconverted-identity-recovery.md#native-local-implementation-and-managed-provider-checkpoint--9-october)
+records 94 focused tests, 2,169 SQL assertions and actual local managed-provider/concurrency/
+encrypted-restore proof with exact cleanup. This is not full operational/R2/hosted completion;
+TD-066 remains Open and the migration is unhosted.
+
+Fresh hosted readback still shows four real Auth users, six active operator memberships,
+zero confirmed operators and zero verified TOTP factors; `meneer-pilot` remains suspended.
+The owner approves staff-only tenant setup with real client modes disabled and intends to release
+the isolated TD-064 settings. The current Worker version is still
+`fe911ea7-0260-48fb-bf44-721b9bbe1f72`; no replacement release has yet been supplied/observed.
+Do not infer encrypted binding values from version metadata or readiness-only 412 responses.
+Record the owner's explicit disabled-mode release before the conditional tenant change, then
+require each operator's own contact verification and TOTP enrolment. Preserve the four identities
+and six grants throughout synthetic cleanup; no invitation resend or real MFA enrolment occurs here.
+
 ## TD-064 — Owner Configuration Release Needed
 
 The guarded SQL correction is already hosted. Reuse the exact isolated configuration packet in
@@ -97,6 +221,11 @@ locked cleanup procedure, then independently check the baseline. Never test the 
 No new fixture has been created here; a 412 readiness result is not authenticated conflict proof.
 
 ## TD-037/038 — Finite Human Review
+
+**Subsequent disposition:** the owner accepts the manual VoiceOver component without requesting
+additional tests. The table below retains the actual observed evidence at the earlier checkpoint;
+its pending observations are not newly performed. Do not continue prompting for the same manual
+review or misrepresent this risk acceptance as fresh measured evidence.
 
 Retain earlier owner-confirmed local/hosted VoiceOver, actual zoom and phone checks. The owner
 agrees to a targeted review now. Capture reviewer, date, actual macOS/browser/VoiceOver and
