@@ -43,14 +43,21 @@ create function pg_temp.fail_email_audit() returns trigger language plpgsql as $
 create trigger synthetic_email_failure before insert on public.audit_events for each row execute function pg_temp.fail_email_audit();
 select throws_ok($$select pg_temp.prepare()$$,'P0001','synthetic email audit failure','reservation/audit atomic');
 select is((select count(*) from identity_private.mobile_email_exchanges),0::bigint,'failed reservation leaves no lease');
+select is((select count(*) from identity_private.mobile_identity_creation_leases),0::bigint,'failed reservation leaves no creation capability');
 drop trigger synthetic_email_failure on public.audit_events;
 create temporary table reservation as select pg_temp.prepare() as result;
 select is((select result->>'dispatch' from reservation),'true','one send lease');
 select is((select result->>'email' from reservation),'mobile1@example.invalid','server-only bound email');
 select is(pg_temp.prepare(),'{"dispatch":false,"state":"reserved"}'::jsonb,'exact retry never sends twice');
 select is((select count(*) from identity_private.mobile_email_exchanges),1::bigint,'one durable lease');
+select is((select count(*) from identity_private.mobile_identity_creation_leases),1::bigint,'exact reservation replay cannot mint another creation capability');
+select ok(not exists(select 1 from identity_private.mobile_identity_creation_leases where proof_digest=(select result->>'creationProof' from reservation)),'creation lease stores only a digest');
 select is(pg_temp.read_email(),null::jsonb,'reserved lease not delivered/verified');
-insert into auth.users(id,email,is_sso_user,is_anonymous) values(md5('email-auth1')::uuid,'mobile1@example.invalid',false,false);
+insert into auth.users(id,email,is_sso_user,is_anonymous,raw_user_meta_data)
+ values(md5('email-auth1')::uuid,'mobile1@example.invalid',false,false,
+ jsonb_build_object('mobile_creation_proof',(select result->>'creationProof' from reservation)));
+select is((select count(*) from identity_private.mobile_identity_creation_receipts),1::bigint,'Auth INSERT records exact creation provenance');
+select ok(not has_table_privilege('service_role','identity_private.mobile_identity_creation_receipts','select'),'creation receipts stay private');
 select is(pg_temp.verify_email(),false,'unconfirmed provider cannot verify');
 select is(pg_temp.finish_email(provider=>md5('wrong-auth')::uuid),false,'wrong provider binding denied');
 select is(pg_temp.finish_email(),true,'exact unconfirmed provider invitation binding succeeds');
@@ -91,6 +98,38 @@ select lives_ok($$select pg_temp.activate()$$,'exact lost activation response sa
 select is((select count(*) from identity_private.mobile_invitation_events where event='converted'),1::bigint,'one conversion event');
 select throws_ok($$select pg_temp.activate(override=>'{"givenName":"Changed"}')$$,'22023','ACTIVATION_REJECTED','changed activation replay denied');
 select is(pg_temp.read_email(),null::jsonb,'converted link cannot issue another proof');
+select pg_temp.mobile(6);
+create temporary table foreign_creation_reservation as select pg_temp.prepare(6) as result;
+insert into auth.users(id,email,is_sso_user,is_anonymous,raw_user_meta_data)
+ values(md5('foreign-email-auth')::uuid,'foreign@example.invalid',false,false,
+ jsonb_build_object('mobile_creation_proof',(select result->>'creationProof' from foreign_creation_reservation)));
+select is((select count(*) from identity_private.mobile_identity_creation_receipts),1::bigint,'valid nonce cannot attribute a different email');
+select is(pg_temp.finish_email(6,md5('foreign-email-auth')::uuid),false,'foreign creation cannot finish email exchange');
+select pg_temp.mobile(7);
+create temporary table missing_creation_reservation as select pg_temp.prepare(7) as result;
+insert into auth.users(id,email,is_sso_user,is_anonymous)
+ values(md5('email-auth7')::uuid,'mobile7@example.invalid',false,false);
+select is(pg_temp.finish_email(7,md5('email-auth7')::uuid),false,'matching email without creation proof cannot finish');
+update auth.users set raw_user_meta_data=jsonb_build_object('mobile_creation_proof',
+ (select result->>'creationProof' from missing_creation_reservation)) where id=md5('email-auth7')::uuid;
+select is((select count(*) from identity_private.mobile_identity_creation_receipts),1::bigint,'metadata UPDATE cannot invent historical creation provenance');
+select pg_temp.mobile(8);
+create temporary table returning_creation_reservation as select pg_temp.prepare(8) as result;
+insert into public.subjects(id) values(md5('returning-stable-subject')::uuid);
+insert into public.subject_contacts(subject_id,kind,normalized_value,status,provider,verified_at)
+ values(md5('returning-stable-subject')::uuid,'email','mobile8@example.invalid','verified','supabase',clock_timestamp());
+insert into auth.users(id,email,is_sso_user,is_anonymous,raw_user_meta_data)
+ values(md5('email-auth8')::uuid,'mobile8@example.invalid',false,false,
+ jsonb_build_object('mobile_creation_proof',(select result->>'creationProof' from returning_creation_reservation)));
+select is((select subject_id from public.external_identities where provider_subject=md5('email-auth8')::uuid::text),md5('returning-stable-subject')::uuid,'returning contact preserves the stable subject');
+select is((select count(*) from identity_private.mobile_identity_creation_receipts),1::bigint,'returning stable subject cannot be attributed as newly created');
+select is(pg_temp.finish_email(8,md5('email-auth8')::uuid),false,'returning identity requires staff exception');
+select ok(not has_function_privilege('service_role','public.prepare_mobile_email_exchange_before_provenance(uuid,text,text,uuid)','execute'),'retired reservation wrapper is inaccessible');
+select ok(not has_function_privilege('service_role','public.finish_mobile_email_exchange_before_provenance(uuid,text,text,uuid,uuid)','execute'),'retired completion wrapper is inaccessible');
+select throws_ok($$update identity_private.mobile_identity_creation_receipts set provider_subject_id=gen_random_uuid()$$,'55000','APPEND_ONLY_RECORD','creation receipt is immutable');
+select throws_ok($$delete from identity_private.mobile_identity_creation_leases$$,'55000','APPEND_ONLY_RECORD','creation lease cannot be erased operationally');
+select ok(not has_table_privilege(r,'identity_private.mobile_identity_creation_leases','select'),r||' cannot read creation capability digests') from unnest(array['anon','authenticated','service_role']) r;
+select is((select count(*) from pg_class where oid in ('identity_private.mobile_identity_creation_leases'::regclass,'identity_private.mobile_identity_creation_receipts'::regclass) and relrowsecurity and relforcerowsecurity),2::bigint,'creation evidence has forced RLS');
 select pg_temp.mobile(2);
 insert into auth.users(id,email,is_sso_user,is_anonymous) values(md5('email-auth2')::uuid,'mobile2@example.invalid',false,false);
 select is(pg_temp.prepare(2),null::jsonb,'existing Auth account requires staff exception before sending');

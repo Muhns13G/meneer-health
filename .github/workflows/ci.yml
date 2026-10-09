@@ -71,6 +71,7 @@ jobs:
         run: |
           bun run db:reset
           bun run db:test
+          bun --no-env-file run test:questionnaire:recovery
           bun --no-env-file run test:payments:live-rehearsal
           bun run test:notifications
           bun --no-env-file run test:mobile:redemption

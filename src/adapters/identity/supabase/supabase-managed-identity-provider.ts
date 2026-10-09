@@ -87,9 +87,13 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
     }
   }
 
-  async invitePatient(email: string, redirectTo: string): Promise<string> {
+  async invitePatient(email: string, redirectTo: string, creationProof?: string): Promise<string> {
+    if (creationProof !== undefined && !/^[a-f0-9]{64}$/.test(creationProof)) rejected();
     try {
-      const { data, error } = await this.client.auth.admin.inviteUserByEmail(email, { redirectTo });
+      const { data, error } = await this.client.auth.admin.inviteUserByEmail(email, {
+        redirectTo,
+        ...(creationProof ? { data: { mobile_creation_proof: creationProof } } : {}),
+      });
       if (
         error ||
         !data.user ||
