@@ -7,6 +7,8 @@ last_updated: 2026-10-09
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/pilot-onboarding-usability-2026-10-09.md
+  - docs/02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md
   - docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md
   - docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md
@@ -126,10 +128,12 @@ sources:
 ## Current sandbox/live distinction — 9 October
 
 The personal R999 test proposal is withdrawn. The owner-approved isolated sandbox journey is
-partially executed: owner promotion, genuine disposable TOTP and a delivered SMS passed.
-The invitation already converted to a profile/two document receipts under a different mailbox;
-confirm account and medical-data scope before further testing/cleanup. Signed test settlement/refund
-and scoped cleanup remain pending. Real Checkout is paused; no test history is adopted into the
+executed through submitted questionnaire and signed R999 test settlement: owner promotion,
+genuine disposable TOTP and a delivered SMS passed. The owner confirmed the converted account
+and medical answers are disposable test details. No additional capture is needed. Local usability
+corrections passed validation but still require owner deployment and phone acceptance. The exact
+test refund, scoped cleanup and configuration restoration remain pending. Real Checkout is paused;
+no test history is adopted into the
 real tenant. Current prices accept only `local-synthetic` provenance, and no real deposit price
 was published by release preparation. Resolve that authority before reopening live purchases;
 do not bypass it by labelling real pricing synthetic. See

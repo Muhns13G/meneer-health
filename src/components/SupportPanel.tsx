@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { supportLabels, supportResultSchema, type SupportPurpose } from "@/domain/support/support";
+import { useActionToast } from "@/hooks/use-action-toast";
 
 export function SupportPanel({ onInvalidate }: { onInvalidate: () => void }) {
+  const { notify, begin } = useActionToast();
   const [view, setView] = useState<Extract<
     ReturnType<typeof supportResultSchema.parse>,
     { outcome: "view" }
@@ -42,6 +44,7 @@ export function SupportPanel({ onInvalidate }: { onInvalidate: () => void }) {
     busy.current = true;
     setPending(true);
     setMessage("");
+    begin();
     try {
       const response = await fetch("/portal/support/command", {
         method: "POST",
@@ -78,7 +81,7 @@ export function SupportPanel({ onInvalidate }: { onInvalidate: () => void }) {
       }
       if (parsed.data.outcome === "view") {
         setView(parsed.data);
-        setMessage("Support availability and request status updated.");
+        notify("supportRefreshed");
       } else if (parsed.data.outcome === "received") {
         setMessage(
           "Your request was recorded for secure follow-up. This is not human acknowledgement, clinical review or a completed refund.",

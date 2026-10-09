@@ -9,6 +9,8 @@ sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/pilot-onboarding-usability-2026-10-09.md
+  - docs/02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md
   - docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md
   - docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md
@@ -146,13 +148,16 @@ sources:
 
 The owner declined a personal real-money test and approved isolated hosted sandbox acceptance.
 The real tenant's live Checkout release is paused. Four real staff remain preserved; a separate
-synthetic prerequisite tenant is prepared. No client, questionnaire, capture, refund, email or
-SMS has been created by this preparation. Verified Worker version
+synthetic prerequisite tenant was prepared before the exercise. Verified Worker version
 `50601252-4f4a-48c7-9be9-dbdfa341b638` was then owner-promoted. Genuine disposable operator
 TOTP/AAL2 and a single delivered SMS passed. The invitation was converted by the participant
 before the agent's claim, yielding one profile/two document receipts with a different email from
-the approved support mailbox. Confirm disposable-account/medical-data scope before continuing
-or cleaning it up. Signed sandbox payment/refund and exact cleanup remain pending.
+the approved support mailbox. The owner confirmed that this account and its questionnaire contain
+test details and authorised their removal. Submitted intake without a safety hold and signed
+R999 sandbox settlement were observed; settlement requires no reconciliation. No additional
+capture is needed. Usability corrections passed local component, desktop/mobile and build checks;
+owner source deployment and a repeat phone walkthrough remain pending. The exact sandbox refund,
+manifested cleanup and configuration restoration are still outstanding.
 See [the bounded acceptance packet](../02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md).
 Earlier owner-paid acceptance proposals are withdrawn; no personal R999 charge is required.
 

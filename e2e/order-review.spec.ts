@@ -151,7 +151,15 @@ test("return from Checkout shows server-confirmed payment and never offers anoth
   payments.payments[0]!.reference = review.offerId;
   await page.route("**/portal/payments/read", (route) => route.fulfill({ json: payments }));
   await page.route("**/portal/order/command", (route) => route.fulfill({ json: { review } }));
-  await page.goto("/portal/order");
+  await Promise.all([
+    page.waitForResponse(
+      (response) => new URL(response.url()).pathname === "/portal/order/command",
+    ),
+    page.waitForResponse(
+      (response) => new URL(response.url()).pathname === "/portal/payments/read",
+    ),
+    page.goto("/portal/order"),
+  ]);
   await expect(page.getByRole("heading", { name: "Payment confirmed — thank you" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Continue to secure Checkout" })).toHaveCount(0);
   await expect(page.getByRole("link", { name: "View your account and progress" })).toHaveAttribute(
@@ -180,8 +188,18 @@ test("pending, unavailable and disputed payments do not invite repeat payment", 
         ? route.fulfill({ status: 503, body: "" })
         : route.fulfill({ json: payments }),
     );
-    await page.goto("/portal/order");
-    await expect(page.locator("#order-feedback")).toContainText("Payment is not confirmed here");
+    await Promise.all([
+      page.waitForResponse(
+        (response) => new URL(response.url()).pathname === "/portal/order/command",
+      ),
+      page.waitForResponse(
+        (response) => new URL(response.url()).pathname === "/portal/payments/read",
+      ),
+      page.goto("/portal/order"),
+    ]);
+    await expect(page.locator("#order-feedback")).toContainText(
+      state === "disputed" ? "Payment needs staff review" : "Payment is not confirmed here",
+    );
     await expect(page.getByRole("button", { name: "Continue to secure Checkout" })).toHaveCount(0);
     await expect(page.getByRole("heading", { name: "Payment confirmed — thank you" })).toHaveCount(
       0,

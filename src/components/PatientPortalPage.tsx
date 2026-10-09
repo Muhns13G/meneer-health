@@ -161,14 +161,14 @@ export function PatientPortalPage({
             </p>
             {state.stage !== "loading" ? (
               <div className="mt-6 flex flex-wrap gap-5">
-                <Link to="/account/sign-in" className="text-gold underline underline-offset-4">
+                <Link to="/account/sign-in" className="action-primary">
                   Sign in
                 </Link>
                 {state.stage !== "signed-out" ? (
                   <button
                     type="button"
                     onClick={() => void load(state.stage === "expired")}
-                    className="text-gold underline underline-offset-4"
+                    className="action-secondary"
                   >
                     {state.stage === "expired" ? "Check session" : "Try again"}
                   </button>
@@ -331,7 +331,7 @@ export function PatientPortalPage({
                         </p>
                       </details>
                       <a
-                        className="mt-4 inline-block text-sm text-gold underline underline-offset-4"
+                        className="action-secondary mt-4"
                         download={`${item.instrumentId}-${item.version}.txt`}
                         href={`data:text/plain;charset=utf-8,${encodeURIComponent(item.body)}`}
                       >

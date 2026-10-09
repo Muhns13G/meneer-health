@@ -114,9 +114,12 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   await page.getByRole("button", { name: "Save draft", exact: true }).click();
   await expect(page.getByRole("status")).toContainText("save could not be confirmed");
   await expect(page.getByRole("status")).toBeFocused();
+  // Touch activation need not focus a button. Explicitly establish keyboard focus before
+  // checking that a pending disabled action restores it after the successful retry.
+  await page.getByRole("button", { name: "Save draft", exact: true }).focus();
   await page.getByRole("button", { name: "Save draft", exact: true }).click();
-  await expect(page.getByRole("status")).toHaveText("Your draft is saved.");
-  await expect(page.getByRole("status")).toBeFocused();
+  await expect(page.locator("[data-sonner-toast]")).toHaveText(/Your draft is saved/);
+  await expect(page.getByRole("button", { name: "Save draft", exact: true })).toBeFocused();
   for (let section = 2; section <= 8; section++) {
     await page.getByRole("button", { name: "Next section" }).click();
     await expect(
@@ -175,6 +178,24 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
     page.getByRole("heading", { name: "Questionnaire received", exact: true }),
   ).toBeFocused();
   expect(page.url()).toMatch(/\/portal\/intake$/);
+  await expect(page.getByRole("link", { name: "Continue to deposit review" })).toHaveAttribute(
+    "href",
+    "/portal/order",
+  );
+  const download = page.getByRole("button", {
+    name: "Download my questionnaire and submitted history",
+    exact: true,
+  });
+  const restriction = page.getByRole("button", { name: "Restrict questionnaire access" });
+  await expect(download).toHaveClass(/action-secondary/);
+  await expect(restriction).toHaveClass(/action-caution/);
+  for (const control of [download, restriction]) {
+    expect((await control.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    await control.focus();
+    await expect(control).toBeFocused();
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: `/tmp/meneer-action-intake-${test.info().project.name}.png` });
   expect(
     await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
   ).toEqual({ local: 0, session: 0 });

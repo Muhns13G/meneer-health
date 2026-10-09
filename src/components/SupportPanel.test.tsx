@@ -1,6 +1,8 @@
 import { afterEach, expect, it, vi } from "vitest";
 import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
 import { SupportPanel } from "./SupportPanel";
+import { toast } from "sonner";
+vi.mock("sonner", () => ({ toast: { success: vi.fn(), dismiss: vi.fn() } }));
 const view = {
   outcome: "view",
   routes: [
@@ -74,7 +76,7 @@ it("retains the same request key across uncertain retry and clears cached availa
   await waitFor(() => expect(submit).toBeEnabled());
   fireEvent.click(submit);
   await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent("do not assume"));
-  expect(screen.getByRole("status")).toHaveFocus();
+  await waitFor(() => expect(screen.getByRole("status")).toHaveFocus());
   expect(submit).toBeDisabled();
   fireEvent.click(refresh);
   await waitFor(() => expect(submit).toBeEnabled());
@@ -100,10 +102,11 @@ it("announces pending work without moving focus until the result is available", 
   expect(screen.getByRole("status")).not.toHaveFocus();
   expect(screen.getByRole("combobox")).toBeDisabled();
   resolve(Response.json(view));
-  await waitFor(() => expect(screen.getByRole("status")).toHaveFocus());
-  expect(screen.getByRole("status")).toHaveTextContent(
-    "Support availability and request status updated.",
+  await waitFor(() =>
+    expect(toast.success).toHaveBeenCalledWith("Support availability and request status updated."),
   );
+  expect(screen.getByRole("status")).toBeEmptyDOMElement();
+  expect(refresh).toHaveFocus();
   expect(screen.getByRole("combobox")).toBeEnabled();
 });
 it("invalidates the parent session on authority loss", async () => {

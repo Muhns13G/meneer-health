@@ -116,7 +116,7 @@ function VerifyInvitationPage() {
           {result === "accepted" && (
             <>
               <p>Your code was verified.</p>
-              <Link to="/account/activate" className="text-gold underline">
+              <Link to="/account/activate" className="action-primary mt-4">
                 Continue to account setup
               </Link>
             </>

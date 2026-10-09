@@ -75,7 +75,7 @@ it("clears granted medical fields when the purpose changes or the page exits", a
   );
   await renderWithRouter(<MedicalWorkPage />);
   fireEvent.click(screen.getByRole("button", { name: "Load granted work" }));
-  fireEvent.click(await screen.findByRole("button", { name: /^Intake / }));
+  fireEvent.click(await screen.findByRole("button", { name: /^Open intake/ }));
   await screen.findByText("Synthetic protected client");
   fireEvent.change(screen.getByRole("combobox", { name: "Medical purpose" }), {
     target: { value: "medical_safety" },

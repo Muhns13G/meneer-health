@@ -1,4 +1,5 @@
 import { expect, test, type Route } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 import { isolateExternalFonts } from "./helpers";
 import { portalAccountFixture } from "../src/test/patient-portal-fixture";
 import { paymentStatusFixture } from "../src/test/payment-status-fixture";
@@ -46,6 +47,7 @@ for (const mode of ["sign-in", "recover"] as const) {
     await page.goto(`/account/${mode}`);
     const status = page.getByRole("status");
     await expect(status).toBeAttached();
+    await expect(page.getByRole("button", { name: "Send code" })).toBeEnabled({ timeout: 30000 });
     await page.getByLabel("Email address").fill("journey@example.invalid");
     await page.getByRole("button", { name: "Send code" }).click();
     await expect(status).toHaveText("Checking…");
@@ -53,6 +55,17 @@ for (const mode of ["sign-in", "recover"] as const) {
     gate.release();
     const code = page.getByLabel("Six-digit code");
     await expect(code).toBeFocused();
+    await expect(page.locator("[data-sonner-toast]")).toContainText(
+      "If an eligible account exists",
+    );
+    if (mode === "sign-in") {
+      await page
+        .locator("[data-sonner-toast]")
+        .screenshot({ path: test.info().outputPath("action-toast.png") });
+    }
+    expect(
+      (await new AxeBuilder({ page }).include("[data-sonner-toaster]").analyze()).violations,
+    ).toEqual([]);
     await expect(code).toHaveValue("");
     await code.fill("123456");
     gate = responseGate();
@@ -61,6 +74,7 @@ for (const mode of ["sign-in", "recover"] as const) {
     });
     await submit.click();
     await expect(status).toHaveText("Checking…");
+    await expect(page.locator("[data-sonner-toast][data-removed=false]")).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Use another email address" })).toBeDisabled();
     gate.release();
     await expect(status).toContainText("We could not verify those details");
@@ -137,8 +151,14 @@ test("order pending, failed acknowledgement and retry results never imply paymen
           },
         });
   });
+  const loaded = page.waitForResponse(
+    (response) =>
+      response.url().endsWith("/portal/order/command") &&
+      response.request().postDataJSON().action === "read",
+  );
   await page.goto("/portal/order");
-  const status = page.getByRole("status");
+  await loaded;
+  const status = page.locator("#order-feedback");
   await expect(status).toBeFocused();
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "Accept this order" }).click();
@@ -167,7 +187,11 @@ test("payment and refund pending/failure/retry results preserve focus and receip
   let refundGate = responseGate();
   let payments = 0;
   let refunds = 0;
+  let initialRead = true;
   await page.route("**/portal/payments/read", async (route: Route) => {
+    if (initialRead) {
+      return route.fulfill({ json: { ...paymentStatusFixture(), payments: [] } });
+    }
     await paymentGate.wait;
     return ++payments === 1
       ? route.fulfill({ status: 503, body: "" })
@@ -186,6 +210,10 @@ test("payment and refund pending/failure/retry results preserve focus and receip
         });
   });
   await page.goto("/portal");
+  await expect(page.getByRole("button", { name: "Refresh payment status" })).toBeEnabled({
+    timeout: 30000,
+  });
+  initialRead = false;
   const panel = page.getByRole("region", { name: "Payment status" });
   const paymentStatus = panel.getByRole("status").first();
   await page.getByRole("button", { name: "Refresh payment status" }).click();
@@ -197,8 +225,8 @@ test("payment and refund pending/failure/retry results preserve focus and receip
   await page.getByRole("button", { name: "Refresh payment status" }).click();
   await expect(paymentStatus).toHaveText("Checking payment evidence…");
   paymentGate.release();
-  await expect(paymentStatus).toHaveText("Payment evidence checked.");
-  await expect(paymentStatus).toBeFocused();
+  await expect(page.locator("[data-sonner-toast]")).toContainText("Payment status refreshed.");
+  await expect(page.getByRole("button", { name: "Refresh payment status" })).toBeFocused();
   const refundStatus = panel.getByRole("status").nth(1);
   await page.getByRole("button", { name: "Check cancellation / refund request" }).click();
   await expect(refundStatus).toHaveText("Checking refund request…");

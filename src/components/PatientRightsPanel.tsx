@@ -248,7 +248,7 @@ export function PatientRightsPanel({
         type="button"
         disabled={pending}
         onClick={onInvalidate}
-        className="mt-6 text-gold underline underline-offset-4"
+        className="action-secondary mt-6"
       >
         Reload account
       </button>

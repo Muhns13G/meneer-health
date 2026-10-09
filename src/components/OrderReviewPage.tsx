@@ -21,6 +21,8 @@ export function OrderReviewPage() {
   const payment = payments?.payments.find((item) => item.reference === review?.offerId);
   const paymentChecked = payments !== null && Date.parse(payments.expiresAt) > Date.now();
   const paymentComplete = payment?.status === "confirmed" || payment?.status === "not_required";
+  const paymentNeedsReview =
+    payment?.requiresReview || payment?.dispute || (payment?.refundedMinor ?? 0) > 0;
   const paymentBlocked =
     !paymentChecked ||
     payments.nextCursor !== null ||
@@ -30,9 +32,11 @@ export function OrderReviewPage() {
     payment?.dispute ||
     (payment?.refundedMinor ?? 0) > 0;
   const resultRef = useRef<HTMLParagraphElement>(null);
+  const confirmationRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
-    if (!busy && status) resultRef.current?.focus();
-  }, [busy, status]);
+    if (paymentComplete && !paymentNeedsReview) confirmationRef.current?.focus();
+    else if (!busy && status) resultRef.current?.focus();
+  }, [busy, status, paymentComplete, paymentNeedsReview]);
   const controller = useRef<AbortController | null>(null);
   const sequence = useRef(0);
   const acceptKey = useRef<string | null>(null);
@@ -165,7 +169,6 @@ export function OrderReviewPage() {
           Review the amount and terms below. Accept the terms, then use secure Checkout. If you have
           already paid, your confirmed payment will appear here.
         </p>
-        <PaymentStatusPanel autoLoad onChange={setPayments} />
         {paymentComplete &&
         !payment?.requiresReview &&
         !payment?.dispute &&
@@ -174,8 +177,15 @@ export function OrderReviewPage() {
             className="mt-6 rounded-2xl border border-gold/40 bg-surface p-6"
             aria-labelledby="payment-next"
           >
-            <h2 id="payment-next" className="font-serif text-2xl">
-              Payment confirmed — thank you
+            <h2
+              id="payment-next"
+              ref={confirmationRef}
+              tabIndex={-1}
+              className="font-serif text-2xl"
+            >
+              {payment?.status === "not_required"
+                ? "No additional payment needed"
+                : "Payment confirmed — thank you"}
             </h2>
             <p className="mt-3">
               You do not need to pay this transaction again. The team will review your next steps.
@@ -197,109 +207,126 @@ export function OrderReviewPage() {
           aria-live="polite"
           className="mt-4"
         >
-          {paymentComplete
-            ? "Your payment has been confirmed. Do not pay this transaction again."
-            : status}
+          {paymentNeedsReview
+            ? "Payment needs staff review. Do not pay again; contact support for help."
+            : paymentComplete
+              ? payment?.status === "not_required"
+                ? "No additional payment is needed for this transaction."
+                : "Your payment has been confirmed. Do not pay this transaction again."
+              : status}
         </p>
         {review ? (
-          <section aria-label="Order details" className="mt-8 space-y-6">
-            <p>
-              {review.scenario === "review_deposit" ? "Review deposit" : "Approved product order"}
-            </p>
-            <p className="whitespace-pre-wrap">Supplier: {review.terms.supplier}</p>
-            <ul className="space-y-3">
-              {review.lines.map((line, index) => (
-                <li key={index}>
-                  <p>
-                    {line.description} · {line.quantity} × {amount(line.unitAmountMinor)}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Price version: {line.priceVersion} · VAT-inclusive planning
-                  </p>
-                </li>
-              ))}
-            </ul>
-            <dl className="grid grid-cols-2 gap-3">
-              <dt>Delivery</dt>
-              <dd>{amount(review.deliveryMinor)}</dd>
-              <dt>Deposit credit</dt>
-              <dd>{amount(review.creditMinor)}</dd>
-              <dt>Unused deposit refund</dt>
-              <dd>{amount(review.unusedDepositRefundMinor)}</dd>
-              <dt>Total payable</dt>
-              <dd>{amount(review.amountTotalMinor)}</dd>
-            </dl>
-            {review.deliveryVersion ? (
-              <p>Delivery quote version: {review.deliveryVersion}</p>
-            ) : null}
-            <section aria-labelledby="order-terms-heading">
-              <h2 id="order-terms-heading" className="text-xl">
-                Pilot Order and Payment Terms · {review.terms.version}
-              </h2>
-              <p className="mt-2 text-sm">
-                Effective:{" "}
-                {new Date(review.terms.effectiveAt).toLocaleDateString("en-ZA", {
-                  timeZone: "Africa/Johannesburg",
-                })}
+          <details open={!paymentComplete} className="mt-8">
+            <summary className="cursor-pointer text-gold">
+              {paymentComplete ? "Order details and accepted terms" : "Amount and terms to review"}
+            </summary>
+            <section aria-label="Order details" className="mt-8 space-y-6">
+              <p>
+                {review.scenario === "review_deposit" ? "Review deposit" : "Approved product order"}
               </p>
-              <p className="mt-4 whitespace-pre-wrap break-words">{review.terms.body}</p>
-              <button type="button" className="mt-4 underline" onClick={() => window.print()}>
-                Print or save these terms
-              </button>
-            </section>
-            {paymentComplete ? null : !review.acceptance ? (
-              <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  if (accepted && !busy) void send(review);
-                }}
-              >
-                <label className="flex items-start gap-3">
-                  <input
-                    type="checkbox"
-                    checked={accepted}
-                    disabled={busy}
-                    onChange={(event) => setAccepted(event.target.checked)}
-                    className="mt-1"
-                  />
-                  <span>
-                    I accept Pilot Order and Payment Terms version {review.terms.version} for this
-                    displayed transaction, including the R999 review-deposit credit and refund
-                    rules. I understand that payment does not guarantee clinical approval, product
-                    supply or delivery.
-                  </span>
-                </label>
+              <p className="whitespace-pre-wrap">Supplier: {review.terms.supplier}</p>
+              <ul className="space-y-3">
+                {review.lines.map((line, index) => (
+                  <li key={index}>
+                    <p>
+                      {line.description} · {line.quantity} × {amount(line.unitAmountMinor)}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Price version: {line.priceVersion} · VAT-inclusive planning
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <dl className="grid grid-cols-2 gap-3">
+                <dt>Delivery</dt>
+                <dd>{amount(review.deliveryMinor)}</dd>
+                <dt>Deposit credit</dt>
+                <dd>{amount(review.creditMinor)}</dd>
+                <dt>Unused deposit refund</dt>
+                <dd>{amount(review.unusedDepositRefundMinor)}</dd>
+                <dt>Total payable</dt>
+                <dd>{amount(review.amountTotalMinor)}</dd>
+              </dl>
+              {review.deliveryVersion ? (
+                <p>Delivery quote version: {review.deliveryVersion}</p>
+              ) : null}
+              <section aria-labelledby="order-terms-heading">
+                <h2 id="order-terms-heading" className="text-xl">
+                  Pilot Order and Payment Terms · {review.terms.version}
+                </h2>
+                <p className="mt-2 text-sm">
+                  Effective:{" "}
+                  {new Date(review.terms.effectiveAt).toLocaleDateString("en-ZA", {
+                    timeZone: "Africa/Johannesburg",
+                  })}
+                </p>
+                <p className="mt-4 whitespace-pre-wrap break-words">{review.terms.body}</p>
                 <button
-                  type="submit"
-                  disabled={!accepted || busy}
-                  className="mt-6 rounded-full border px-6 py-3 disabled:opacity-50"
+                  type="button"
+                  className="action-secondary mt-4"
+                  onClick={() => window.print()}
                 >
-                  {busy ? "Recording acceptance…" : "Accept this order"}
+                  Print or save these terms
                 </button>
-              </form>
-            ) : (
-              <div>
-                <p>Acceptance recorded. Payment status requires independent confirmation.</p>
-                {review.checkoutEnabled && !paymentBlocked ? (
+              </section>
+              {paymentComplete ? null : !review.acceptance ? (
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    if (accepted && !busy) void send(review);
+                  }}
+                >
+                  <label className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      checked={accepted}
+                      disabled={busy}
+                      onChange={(event) => setAccepted(event.target.checked)}
+                      className="mt-1"
+                    />
+                    <span>
+                      I accept Pilot Order and Payment Terms version {review.terms.version} for this
+                      displayed transaction, including the R999 review-deposit credit and refund
+                      rules. I understand that payment does not guarantee clinical approval, product
+                      supply or delivery.
+                    </span>
+                  </label>
                   <button
-                    type="button"
-                    disabled={busy}
-                    onClick={() => void checkout(review)}
-                    className="mt-4 rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
+                    type="submit"
+                    disabled={!accepted || busy}
+                    className="mt-6 rounded-full border px-6 py-3 disabled:opacity-50"
                   >
-                    Continue to secure Checkout
+                    {busy ? "Recording acceptance…" : "Accept this order"}
                   </button>
-                ) : (
-                  <p className="mt-4">
-                    {paymentBlocked
-                      ? "Check your payment status above before continuing. If payment is pending or needs review, do not pay again; contact support for help."
-                      : "Checkout is not available yet. Submit your questionnaire first, or contact support if it is already submitted."}
-                  </p>
-                )}
-              </div>
-            )}
-          </section>
+                </form>
+              ) : (
+                <div>
+                  <p>Acceptance recorded. Payment status requires independent confirmation.</p>
+                  {review.checkoutEnabled && !paymentBlocked ? (
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={() => void checkout(review)}
+                      className="mt-4 rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
+                    >
+                      Continue to secure Checkout
+                    </button>
+                  ) : (
+                    <p className="mt-4">
+                      {paymentBlocked
+                        ? "Check your payment status above before continuing. If payment is pending or needs review, do not pay again; contact support for help."
+                        : "Checkout is not available yet. Submit your questionnaire first, or contact support if it is already submitted."}
+                    </p>
+                  )}
+                </div>
+              )}
+            </section>
+          </details>
         ) : null}
+        <details open={!paymentComplete || Boolean(paymentNeedsReview)} className="mt-8">
+          <summary className="cursor-pointer text-gold">Payment status and refund requests</summary>
+          <PaymentStatusPanel autoLoad onChange={setPayments} />
+        </details>
         <div className="mt-8 flex flex-wrap gap-6">
           <button
             type="button"
@@ -308,17 +335,17 @@ export function OrderReviewPage() {
               acceptKey.current = null;
               void send();
             }}
-            className="underline"
+            className="action-secondary"
           >
             Reload order
           </button>
-          <Link to="/portal" className="underline">
+          <Link to="/portal" className="action-secondary">
             Back to your account
           </Link>
-          <Link to="/portal/intake" className="underline">
+          <Link to="/portal/intake" className="action-secondary">
             Your questionnaire
           </Link>
-          <Link to="/portal/support" className="underline">
+          <Link to="/portal/support" className="action-secondary">
             Get help
           </Link>
         </div>

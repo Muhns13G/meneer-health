@@ -1,5 +1,6 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { publicContent } from "@content/public-content";
+import { ActionToaster } from "@/components/ActionToaster";
 
 import {
   GOOGLE_FONTS_FILE_ORIGIN,
@@ -98,5 +99,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <ActionToaster />
+    </>
+  );
 }

@@ -43,6 +43,12 @@ test("own case progress remains coarse, private and clears on renewed-session de
   await page.keyboard.press("Enter");
   await expect(page.getByRole("status")).toContainText("Sign in with an active invited account");
   await expect(progress).toHaveCount(0);
+  const signIn = page.getByRole("link", { name: "Sign in", exact: true });
+  await expect(signIn).toHaveAttribute("href", "/account/sign-in");
+  await expect(signIn).toHaveClass(/action-primary/);
+  expect((await signIn.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+  await signIn.focus();
+  await expect(signIn).toBeFocused();
   expect(
     await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
   ).toEqual({ local: 0, session: 0 });
@@ -72,7 +78,10 @@ test("extra internal case fields fail closed without displaying any account data
       },
     }),
   );
-  await page.goto("/portal");
+  await Promise.all([
+    page.waitForResponse((response) => new URL(response.url()).pathname === "/portal/account"),
+    page.goto("/portal"),
+  ]);
   await expect(page.getByRole("status")).toContainText("temporarily unavailable");
   await expect(page.getByRole("heading", { name: "Your case progress" })).toHaveCount(0);
   await expect(page.getByText("Synthetic", { exact: true })).toHaveCount(0);
