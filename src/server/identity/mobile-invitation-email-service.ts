@@ -25,6 +25,7 @@ const reservationSchema = z.discriminatedUnion("dispatch", [
       state: z.literal("reserved"),
       email: z.email(),
       invitationId: z.uuid(),
+      creationProof: z.string().regex(/^[a-f0-9]{64}$/),
     })
     .strict(),
   z
@@ -70,6 +71,7 @@ export class MobileInvitationEmailService {
       const providerSubject = await this.provider.invitePatient(
         reservation.email,
         "https://meneerhealth.co.za/mobile-invitation",
+        reservation.creationProof,
       );
       return (
         (await this.repository.call("finish_mobile_email_exchange", {

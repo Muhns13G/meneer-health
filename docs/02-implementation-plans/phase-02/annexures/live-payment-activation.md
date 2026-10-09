@@ -69,6 +69,21 @@ STRIPE_LIVE_READINESS_CONFIRM=read-only-live-account \
 
 ## Remaining Implementation and Acceptance — Not Completed
 
+### Hosted Migration Checkpoint — 9 October
+
+The owner approved applying only `20261009030522_payment_environment_isolation.sql`.
+Application succeeded against the hosted Meneer project. The owner separately approved correcting
+the MCP-assigned history version `20261009070826` to the committed version `20261009030522`;
+the guarded transaction changed exactly one entry and the matching version/name were read back.
+The account/environment table has enabled and forced RLS, with no direct SELECT permission for
+anon, authenticated or service_role. The two new public wrapper functions permit service_role
+execution only; the retired inner callback denies those three roles. Their empty search paths
+are preserved. Payment releases, intents, receipts, refund jobs, account bindings and Auth users
+remain at zero. No payment configuration, webhook, charge, refund or pilot activation occurred.
+
+This completes the hosted migration portion of item 2 below, not live-payment acceptance or TD-010.
+Earlier no-hosted-migration statements in the validation section describe its local-only checkpoint.
+
 1. Retain the owner-selected seller/collector arrangement and verify applicable provider/business
    acceptance and pending verification. Complete exact
    seller, transaction, cancellation/refund and invoice disclosures; publish approved version/hash

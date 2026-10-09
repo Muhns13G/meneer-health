@@ -64,6 +64,8 @@ const tables = [
   "identity_private.mobile_invitation_claims",
   "identity_private.mobile_invitation_events",
   "identity_private.mobile_email_exchanges",
+  "identity_private.mobile_identity_creation_leases",
+  "identity_private.mobile_identity_creation_receipts",
   "identity_private.pilot_activation_commands",
   "public.identity_invitations",
   "public.subjects",
@@ -99,6 +101,8 @@ const auditTrigger = sql(
 );
 invariant(/^[a-z_]+$/.test(auditTrigger));
 const guards = [
+  ["identity_private.mobile_identity_creation_leases", "mobile_creation_lease_immutable"],
+  ["identity_private.mobile_identity_creation_receipts", "mobile_creation_receipt_immutable"],
   ["identity_private.mobile_invitations", "mobile_invitation_guard"],
   ["identity_private.mobile_invitation_contacts", "mobile_contact_guard"],
   ["identity_private.mobile_invitation_tokens", "mobile_token_guard"],
@@ -130,9 +134,14 @@ const provider = createSupabaseManagedIdentityProvider({
   secretKey: config.SECRET_KEY,
 });
 const emailService = new MobileInvitationEmailService(mobileEmailRepository(client), {
-  invitePatient: async (email) => {
+  invitePatient: async (email, _redirectTo, creationProof) => {
     providerCalls++;
-    const { data, error } = await client.auth.admin.generateLink({ type: "invite", email });
+    invariant(creationProof && /^[a-f0-9]{64}$/.test(creationProof));
+    const { data, error } = await client.auth.admin.generateLink({
+      type: "invite",
+      email,
+      options: { data: { mobile_creation_proof: creationProof } },
+    });
     invariant(!error && data.user && /^\d{6}$/.test(data.properties?.email_otp ?? ""));
     authUser = data.user.id;
     code = data.properties.email_otp;
@@ -314,6 +323,8 @@ try {
     delete from public.pilot_account_lifecycle_events where tenant_id='${tenant}';
     delete from public.client_profiles where tenant_id='${tenant}';
     delete from public.tenant_memberships where tenant_id='${tenant}';
+    delete from identity_private.mobile_identity_creation_receipts where email_invitation_id in(select id from public.identity_invitations where tenant_id='${tenant}');
+    delete from identity_private.mobile_identity_creation_leases where email_invitation_id in(select id from public.identity_invitations where tenant_id='${tenant}');
     delete from identity_private.mobile_email_exchanges where mobile_invitation_id='${mobile}';
     delete from identity_private.mobile_invitation_events where invitation_id='${mobile}';
     delete from identity_private.mobile_invitation_claims where invitation_id='${mobile}';

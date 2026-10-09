@@ -163,15 +163,17 @@ verification or completion of factual placeholders/exact issued instrument versi
 or new hosted testing is performed by documentation closure.
 
 Pre-13.10 [gap remediation](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md)
-is now in progress. TD-064/065 are In progress, not Verified. A guarded local 21-function conflict
+was In progress at the 13.10 checkpoint; TD-065's 9 October scoped closure below supersedes that
+recovery status. TD-064 remains In progress. A guarded local 21-function conflict
 correction is hosted with matching history `20261008100000`; authenticated routed acceptance
 awaits isolated configuration. A new local identity restore/re-verification exercise passes;
 Fresh membership approval/revocation and newer contact-only erasure pass locally; complete hosted
-recovery and domain-specific grant/erasure reconciliation remain unverified. Exact owner-controlled
+recovery and domain-specific grant/erasure reconciliation were then unverified and now pass the
+bounded questionnaire acceptance below. Exact owner-controlled
 rehearsal settings are prepared, not released. The targeted local
 accessibility/transition packets pass 114/114; released spoken-output evidence remains separate.
-The owner defers private uploads to a separate task but retains them before launch and does not
-accept an onboarding-only reduction.
+The then-current upload-before-launch requirement is superseded by the 9 October questionnaire-only
+amendment below; uploads remain disabled until their separate acceptance.
 Mansoer/Mikhail are appointed operational primary/alternate; Tasneem/Dr Ziyaad Noor are nominated
 clinical lead/alternate, without inferred registration or agreement proof. Internal
 [notice drafts](../05-future-considerations/pilot-notices-review-drafts.md) are unapproved and unpublished.
@@ -204,17 +206,32 @@ closed at its agreed initial threshold; no pilot or generator activation is impl
 
 ## Sprint 14 — Contract and Local Private Foundation
 
+9 October follow-up: creation-provenance schema is owner-approved/applied hosted with matching
+history `20261009072105`; operational orphan retirement/reissue still leaves TD-066 Open. The
+owner-approved medical restore-cutoff guard is also applied hosted, with 2,079 passing local SQL
+assertions. The [recovery checkpoint](../02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md)
+now records populated encrypted local and hosted-source/offline-restore acceptance, current/historic
+erasure and holds, stable identity relink, fresh TOTP and independent medical grants. TD-065 is
+Verified for the retained questionnaire-only scope; uploads remain excluded and unverified.
+
+The subsequent private TD-066 coordinator/provider checkpoint passes 79 focused mocked-port tests.
+It is unwired and has no native locked retirement repository or production reissue/copy
+reconciliation workflow. It neither deletes hosted identities nor closes TD-066. The owner-approved
+contact telephone and exact address text (De Chatillon Cres - Onrus, 7201) are retained in the
+approval packet. Final disclosure review and professional/agreement evidence remain unresolved,
+not satisfied by placeholder practice details.
+
 Subsequent owner amendment on 9 October: private uploads are deferred until needed; initial intake
 uses the questionnaire without blood-result files. This supersedes earlier upload-before-launch
 statements, not identity/domain-authority recovery or other release requirements. TD-065's upload
-component is deferred, its identity component remains In progress. The
+component is deferred, its retained identity/questionnaire component is verified. The
 [owner approval packet](../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md)
 separates initial capability/cohort/operating decisions from external facts and engineering proof.
 
 Current 9 October checkpoint: Tasks 14.1–14.10 are completed within their recorded engineering and
 isolated hosted acceptance scopes. The [completion report](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md)
 and [operations runbook](../06-operations/mobile-invitations-release-runbook.md) close reporting and
-handoff with **NO-GO for real activation**. Registry: 66 items, 56 Verified and ten non-Verified.
+handoff with **NO-GO for real activation**. After TD-065 closure: 66 items, 57 Verified and nine non-Verified.
 Applicable account/intake debt keeps Phase 02 open; uploads are deferred. Closure-commit CI/release remain
 owner-controlled. Historical task-prepared/local-only descriptions below are superseded by this
 checkpoint; they are not assertions that completed mobile code is missing.

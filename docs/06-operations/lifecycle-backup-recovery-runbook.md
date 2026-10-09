@@ -25,7 +25,11 @@ resources, or replace named privacy, clinical, security, and release approval.
 - Run at least hourly for critical pilot state to support the approved one-hour RPO. Retain encrypted
   recovery objects for no more than 35 rolling days.
 - Export governed application PostgreSQL schemas and an object checksum/deletion manifest. Supabase
-  Auth and private Storage require their separately authorised export steps before hosted activation.
+  Auth is recovered by fail-closed contact re-verification/stable-subject relink, fresh MFA and
+  independently reapproved authority, not restoration of provider secrets/sessions/factors. The
+  [TD-065 acceptance](../02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md)
+  verifies the retained questionnaire scope. Private Storage is excluded while uploads are disabled;
+  metadata/object-byte recovery requires separate approval/acceptance before upload activation.
 - Encrypt the complete archive with AES-256-GCM before durable write. Store only encrypted archives
   in the private EU-jurisdiction R2 recovery bucket with separate least-privilege credentials.
 - Call the Better Stack heartbeat only after the durable write succeeds. The call carries no body,

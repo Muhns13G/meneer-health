@@ -244,6 +244,7 @@ try {
       revocation_reason='isolated disaster recovery' where status='active';
     update public.tenant_memberships set status='revoked' where status='active';
     update public.access_assignments set status='revoked' where status='active';
+    select intake_private.quarantine_restored_medical_intakes();
     update public.subjects set status='${currentStatus}' where id='${subjectId}';
     commit;`,
     restoredDatabase,
@@ -254,6 +255,9 @@ try {
     and not exists(select 1 from public.tenants where status='active')
     and not exists(select 1 from public.tenant_memberships where status='active')
     and not exists(select 1 from public.access_assignments where status='active')
+    and not exists(select 1 from intake_private.intakes where not restore_quarantined
+      or restore_authority_cutoff is null)
+    and not exists(select 1 from intake_private.access_grants where revoked_at is null)
     and exists(select 1 from public.subjects where id='${subjectId}' and status='suspended');`,
       restoredDatabase,
     ) === "t",
@@ -378,6 +382,8 @@ console.log(
     restoredSessionsAndMembershipsRevoked: true,
     restoredAccessAssignmentsRevoked: true,
     restoredTenantsSuspended: true,
+    medicalQuarantineApplied: true,
+    medicalRecordRestoreProven: false,
     grantReapprovalRequired: true,
     membershipReapprovalAndRevocationProven: true,
     currentContactErasureApplied: true,

@@ -41,6 +41,16 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 9 October — Retained Questionnaire Recovery Verified
+
+TD-065 is now **Verified for the owner-amended identity/questionnaire-only scope**. Actual populated
+encrypted local and hosted-source/offline-destination restores, newer deletion/holds, provider-loss
+stable relink, fresh TOTP and independent medical-grant reapproval pass with exact baseline cleanup.
+Key custody is owner-confirmed. Upload/object recovery remains deferred and unverified, gating future
+upload activation. See the [recovery acceptance](../02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md).
+Current totals: **66 items — 57 Verified, nine non-Verified**. Earlier dated totals remain historical.
+No pilot activation, live transaction or Worker release follows from this closure.
+
 ### 9 October — Live Payment Isolation Locally Implemented, TD-010 Retained
 
 The [live activation packet](../02-implementation-plans/phase-02/annexures/live-payment-activation.md)
@@ -802,27 +812,36 @@ not a fresh hosted failure, and genuine serialization errors must not be globall
 
 ## TD-065 — Auth and Private Storage Recovery Coverage
 
+9 October closure: the owner-approved restore-authority cutoff migration is hosted. Populated
+encrypted restoration of two intakes/four snapshots, independently newer deletion/restriction/holds,
+historic ciphertext erasure, provider-loss stable relink, fresh TOTP and independent medical-grant
+approval/activation pass. Old tokens, revoked memberships and old approvals are denied. The hosted
+source is synthetic; the restored destination is offline/local. Exact baseline and independent
+zero-fixture/trigger readback pass. See [recovery acceptance](../02-implementation-plans/phase-02/annexures/identity-questionnaire-recovery.md).
+
 **9 October scope amendment:** the owner now defers private uploads until required and selects
 questionnaire-only initial intake. The [owner approval packet](../02-implementation-plans/phase-02/annexures/pilot-activation-owner-approval-packet.md)
 supersedes the historical upload-before-launch requirement below. Upload implementation, scanning,
 retention and metadata/object-byte recovery are deferred until that feature's activation, not
 Verified. Identity/session/MFA and current domain-authority/disposition recovery still apply before
-real account/intake use. Overall status remains In progress; no debt total changes.
+real account/intake use and are now verified within the bounded acceptance above.
 
-Priority **P1**; status **In progress**. Owner: System Architect, alternate Product Owner. Target:
+Priority **P1**; status **Verified — retained identity/questionnaire scope; uploads excluded**.
+Owner: System Architect, alternate Product Owner. Target:
 before real intake; release disposition in Task 13.10. Evidence and acceptance:
 [Task 13.9](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md).
 The nine-schema application export excludes Auth and Storage; no object-byte restore is proven.
-The owner expressly requires new optional private blood-result uploads before launch (PDF/JPEG/PNG,
-10 MB/file, five/client). The approved scope and pending implementation/scan/retention/recovery
-requirements are recorded in the active remediation packet. The owner defers uploads separately
-but retains them before launch; no object-byte restore is claimed. The local identity exercise
+The earlier optional blood-result upload-before-launch requirement (PDF/JPEG/PNG, 10 MB/file,
+five/client) is superseded by the explicit 9 October no-upload amendment. Its implementation,
+scan/retention and metadata/object-byte recovery remain required before future upload activation.
+No object-byte restore is claimed. The local identity exercise
 restores an encrypted application dump, revokes restored sessions/memberships/access assignments,
 suspends restored tenants, preserves a newer restriction, and proves local re-verification/stable
 relink/fresh TOTP after disposable provider-identity loss. The extended local test proves fresh
 membership approval/revocation and applying a newer contact-only erasure without contact resurrection.
-Domain-specific grant reapproval, complete erasure reconciliation and hosted recovery remain
-unverified. Operational primary/alternate are Mansoer Gallie and
+The subsequent populated/hosted acceptance adds current and historic medical erasure and genuine
+fresh domain-grant authority after provider identity loss. It does not restore Auth secrets, old
+MFA, Storage objects or a hosted application environment. Operational primary/alternate are Mansoer Gallie and
 Mikhail Robertson; clinical lead/alternate are Tasneem and Dr Ziyaad Noor, with professional authority,
 coverage and agreements still to be evidenced privately.
 Approve and exercise secure identity recovery/relink, MFA/session revocation and private-object/
@@ -847,7 +866,19 @@ reconciliation, not automatic deletion or resend. Review the policy and exercise
 cleanup before separately approved hosted proof. Keep the mobile email gate disabled until resolved
 or a documented, time-bounded approved operating control exists. This does not weaken TD-065.
 Task 14.8 prepares the [provenance-scoped retirement/reissue design](../02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md).
-This is not implemented retirement or owner/privacy approval; status remains Open.
+The owner approved the secondary-copy retention policy on 9 October, preserving unrelated and
+converted accounts with Mansoer primary/Mikhail alternate. The new local creation-provenance
+migration and candidate-policy tests are prerequisites only: they do not implement operational
+retirement/reissue, provider uncertainty/session reconciliation or backup-erasure reconciliation.
+The owner-approved provenance migration is now hosted, with separately approved history correction
+to `20261009072105` and verified private-table/retired-function access controls. The original empty
+Auth/provenance baseline and suspended tenant are unchanged. Hosted conversion/retirement acceptance
+remains pending; status remains Open.
+The private coordinator/provider checkpoint adds 79 passing focused candidate/coordinator/provider
+tests for exact manifests, protected identities, uncertainty-before-delete and no blind repeat.
+It is unwired and lacks the native locked repository, confirmation/session-race acceptance,
+contact/backup-copy completion and staff reissue. No new hosted change or provider deletion was
+performed. This is implementation progress, not closure or real-email activation; see the design.
 Task 14.9's explicitly approved synthetic fixture deletion and session revocation are not an
 operational orphan-retirement/reissue implementation. Task 14.10 retains this real-email gate in the
 [mobile release runbook](../06-operations/mobile-invitations-release-runbook.md).

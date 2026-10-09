@@ -112,6 +112,29 @@ function sessionClient(): SupabaseClient {
 }
 
 describe("SupabaseManagedIdentityProvider", () => {
+  it("passes only a validated server creation capability to invitation metadata", async () => {
+    const client = rootClient();
+    const provider = new SupabaseManagedIdentityProvider(client, async () => sessionClient());
+    await expect(
+      provider.invitePatient(
+        "patient.one@example.invalid",
+        "https://example.invalid",
+        "a".repeat(64),
+      ),
+    ).resolves.toBe("20000000-0000-4000-8000-000000000001");
+    expect(client.auth.admin.inviteUserByEmail).toHaveBeenCalledWith(
+      "patient.one@example.invalid",
+      {
+        redirectTo: "https://example.invalid",
+        data: { mobile_creation_proof: "a".repeat(64) },
+      },
+    );
+    vi.mocked(client.auth.admin.inviteUserByEmail).mockClear();
+    await expect(
+      provider.invitePatient("synthetic@example.invalid", "https://example.invalid", "invalid"),
+    ).rejects.toBeInstanceOf(IdentityRejectedError);
+    expect(client.auth.admin.inviteUserByEmail).not.toHaveBeenCalled();
+  });
   it("verifies claims against the provider user and returns only trusted identity fields", async () => {
     const provider = new SupabaseManagedIdentityProvider(rootClient(), async () => sessionClient());
 
