@@ -85,7 +85,12 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
       ),
     });
   });
-  await page.goto("/portal/intake");
+  await Promise.all([
+    page.waitForResponse(
+      (response) => new URL(response.url()).pathname === "/portal/intake/command",
+    ),
+    page.goto("/portal/intake"),
+  ]);
   await expect(page.getByText(publication.privacy)).toBeVisible();
   await checkKeyboardReachability(page);
   await checkClientFormPresentation(page);

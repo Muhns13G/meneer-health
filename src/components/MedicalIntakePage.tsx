@@ -17,6 +17,7 @@ import {
 } from "@/application/intake/medical-intake-service";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { OnboardingSteps } from "./OnboardingSteps";
 type Status = "loading" | "ready" | "unavailable" | "signed-out" | "expired";
 const control = "mt-3 w-full rounded-xl border border-border bg-surface px-4 py-3 text-foreground";
 const rightsViewSchema = z
@@ -604,6 +605,7 @@ export function MedicalIntakePage() {
         <h1 ref={heading} tabIndex={-1} className="font-serif text-4xl text-foreground">
           Your medical questionnaire
         </h1>
+        <OnboardingSteps current="questionnaire" />
         {status !== "ready" || !view ? (
           <section className="mt-8" aria-live="polite">
             <p role="status">
@@ -646,7 +648,7 @@ export function MedicalIntakePage() {
             </label>
             <button
               disabled={!noticeChoice || busy}
-              className="mt-6 rounded-full border px-6 py-3"
+              className="mt-6 rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
               onClick={() => void persist("save", {})}
             >
               Continue
@@ -720,6 +722,27 @@ export function MedicalIntakePage() {
                   Receipt is not clinical approval, a prescription, payment or delivery
                   confirmation.
                 </p>
+                {!view.record?.safetyHold ? (
+                  <div className="mt-6 rounded-2xl border border-gold/40 bg-surface p-5">
+                    <h3 className="font-serif text-xl">Next: review your deposit</h3>
+                    <p className="mt-3 text-muted-foreground">
+                      Your answers have been saved. Review the deposit amount and terms, then
+                      continue to secure payment if it is available. If you have already paid, check
+                      the payment confirmation there; do not pay again.
+                    </p>
+                    <Link
+                      to="/portal/order"
+                      className="mt-5 inline-block rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground"
+                    >
+                      Continue to deposit review
+                    </Link>
+                  </div>
+                ) : (
+                  <p className="mt-5">
+                    Your next step is private review by the team. Contact support if you need help;
+                    do not make a payment to bypass this review.
+                  </p>
+                )}
                 <button
                   className="mt-5 text-gold underline"
                   onClick={() => {
@@ -821,7 +844,7 @@ export function MedicalIntakePage() {
                       <button
                         type="button"
                         disabled={busy}
-                        className="mt-6 rounded-full border px-6 py-3"
+                        className="mt-6 rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
                         onClick={() => void persist(view.record?.hasSubmitted ? "amend" : "submit")}
                       >
                         Confirm and submit questionnaire
@@ -886,6 +909,7 @@ export function MedicalIntakePage() {
                         <button
                           type="button"
                           disabled={busy || step === 1}
+                          className="rounded-full border border-border px-5 py-3 disabled:opacity-50"
                           onClick={() => setStep(step - 1)}
                         >
                           Back
@@ -893,6 +917,7 @@ export function MedicalIntakePage() {
                         <button
                           type="button"
                           disabled={busy}
+                          className="rounded-full border border-border px-5 py-3 disabled:opacity-50"
                           onClick={() =>
                             void persist(view.record?.hasSubmitted ? "save_amendment" : "save")
                           }
@@ -902,6 +927,7 @@ export function MedicalIntakePage() {
                         {step < 8 ? (
                           <button
                             key="next-section"
+                            className="rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
                             type="button"
                             disabled={busy}
                             onClick={(event) => {
@@ -914,7 +940,12 @@ export function MedicalIntakePage() {
                             Next section
                           </button>
                         ) : (
-                          <button key="review-answers" type="submit" disabled={busy}>
+                          <button
+                            key="review-answers"
+                            type="submit"
+                            disabled={busy}
+                            className="rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
+                          >
                             Review answers
                           </button>
                         )}

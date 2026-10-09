@@ -17,6 +17,31 @@ Private uploads, product transactions and generator transfer remain separately g
 
 ## Current Observations
 
+Latest payment follow-up: the owner withdrew the personal R999 test and approved an isolated
+hosted sandbox capture/refund. New live Checkouts are paused; four real staff are preserved.
+See the [sandbox acceptance checkpoint](pilot-sandbox-acceptance-2026-10-09.md). Preparation,
+owner promotion, actual hosted journey and scoped cleanup are distinct; acceptance is not yet complete.
+
+### TD-043 — Primary Operator Verified; Alternate Check Deferred
+
+After the owner deployed the staff sign-in corrections, Mansoer reports successful production
+email OTP, personal authenticator enrolment/verification and Operations context selection. The
+production screen reports authentication complete, an active operations role, a session idle
+deadline and links to assigned queue/support work. This is owner-observed primary-login evidence,
+not an independently executed queue, inbox, renewal or escalation test.
+
+The owner states that Mikhail will not sign in now and accepts moving forward with his individual
+login/TOTP acceptance deferred. Mansoer is the sole verified operator at this checkpoint; Mikhail
+remains the nominated alternate, not a proven authenticated fallback. Do not share credentials or
+mark TD-043 fully Verified. Record partial verification with alternate-access acceptance deferred;
+the registry's Open status and totals remain unchanged. Before relying on Mikhail for absence,
+security recovery or queue coverage, complete his own email/TOTP/context and assigned-work checks.
+If Mansoer is unavailable, pause affected pilot work rather than assume tested backup access.
+
+This supersedes the older unconfirmed-primary checkpoint below. It does not activate client
+invitations, questionnaire intake, payments, products or generator transfer, or waive their
+separate publication, commercial and release gates.
+
 ### TD-043 Staff-Only Setup Enabled
 
 On the owner's explicit “enable” instruction, the narrowly scoped

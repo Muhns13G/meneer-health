@@ -8,6 +8,7 @@ import { SupportPanel } from "./SupportPanel";
 import { PortalHandoffPanel } from "./PortalHandoffPanel";
 import { PaymentStatusPanel } from "./PaymentStatusPanel";
 import { ClientCaseProgress } from "./ClientCaseProgress";
+import { OnboardingSteps } from "./OnboardingSteps";
 
 type ViewState =
   | { stage: "loading" | "signed-out" | "unavailable" | "expired" }
@@ -257,6 +258,39 @@ export function PatientPortalPage({
               </section>
             ) : (
               <>
+                <OnboardingSteps current="account" />
+                <section
+                  className="mt-8 rounded-2xl border border-gold/40 bg-surface p-6"
+                  aria-labelledby="onboarding-next"
+                >
+                  <h2 id="onboarding-next" className="font-serif text-2xl">
+                    Continue your onboarding
+                  </h2>
+                  <p className="mt-3 text-muted-foreground">
+                    Complete your medical questionnaire first. Once submitted, review the deposit
+                    terms and continue to secure payment. Already paid? Check your payment status
+                    below instead of paying again.
+                  </p>
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <Link
+                      to="/portal/intake"
+                      className="rounded-full bg-gold px-6 py-3 text-center font-medium text-primary-foreground"
+                    >
+                      Open your questionnaire
+                    </Link>
+                    <Link
+                      to="/portal/order"
+                      className="rounded-full border border-border px-6 py-3 text-center text-foreground"
+                    >
+                      Review deposit or payment
+                    </Link>
+                  </div>
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    Your account is active. A questionnaire or payment does not guarantee clinical
+                    approval or product supply.
+                  </p>
+                </section>
+                <PaymentStatusPanel autoLoad />
                 <section className="mt-10">
                   <h2 className="font-serif text-2xl text-foreground">Account status</h2>
                   <p className="mt-4 text-foreground">
@@ -307,20 +341,7 @@ export function PatientPortalPage({
                   ))}
                 </section>
                 <ClientCaseProgress cases={state.view.account.operationsCases} />
-                <Link
-                  to="/portal/intake"
-                  className="mt-8 inline-block text-gold underline underline-offset-4"
-                >
-                  Your medical questionnaire
-                </Link>
                 <PortalHandoffPanel />
-                <PaymentStatusPanel />
-                <Link
-                  to="/portal/order"
-                  className="mt-8 block text-gold underline underline-offset-4"
-                >
-                  Review your order
-                </Link>
                 <section className="mt-10" aria-labelledby="account-progress">
                   <h2 id="account-progress" className="font-serif text-2xl text-foreground">
                     Non-clinical progress

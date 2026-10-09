@@ -61,3 +61,23 @@ it("aborts outstanding reads when the private view unmounts", async () => {
   view.unmount();
   expect(fetcher.mock.calls[0]![1]!.signal!.aborted).toBe(true);
 });
+it("automatically checks payment without stealing focus and invalidates its parent on expiry", async () => {
+  vi.useFakeTimers();
+  const fixture = paymentStatusFixture();
+  fixture.expiresAt = new Date(Date.now() + 1000).toISOString();
+  const changed = vi.fn();
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(Response.json(fixture)));
+  render(
+    <>
+      <button autoFocus>Keep focus</button>
+      <PaymentStatusPanel autoLoad onChange={changed} />
+    </>,
+  );
+  await act(async () => {});
+  expect(screen.getByText(/— Payment confirmed/)).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Keep focus" })).toHaveFocus();
+  expect(changed).toHaveBeenLastCalledWith(fixture);
+  await act(async () => vi.advanceTimersByTime(1001));
+  expect(changed).toHaveBeenLastCalledWith(null);
+  expect(screen.queryByText(/No further payment is needed/)).not.toBeInTheDocument();
+});

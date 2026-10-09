@@ -2,6 +2,9 @@ import { Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { OnboardingSteps } from "./OnboardingSteps";
+import { PaymentStatusPanel } from "./PaymentStatusPanel";
+import type { PaymentStatusPage } from "@/domain/payments/payment-status";
 import {
   orderReviewResultSchema,
   checkoutResultSchema,
@@ -14,6 +17,18 @@ export function OrderReviewPage() {
   const [status, setStatus] = useState("Loading your order…");
   const [accepted, setAccepted] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [payments, setPayments] = useState<PaymentStatusPage | null>(null);
+  const payment = payments?.payments.find((item) => item.reference === review?.offerId);
+  const paymentChecked = payments !== null && Date.parse(payments.expiresAt) > Date.now();
+  const paymentComplete = payment?.status === "confirmed" || payment?.status === "not_required";
+  const paymentBlocked =
+    !paymentChecked ||
+    payments.nextCursor !== null ||
+    paymentComplete ||
+    payment?.status === "pending" ||
+    payment?.requiresReview ||
+    payment?.dispute ||
+    (payment?.refundedMinor ?? 0) > 0;
   const resultRef = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
     if (!busy && status) resultRef.current?.focus();
@@ -23,7 +38,7 @@ export function OrderReviewPage() {
   const acceptKey = useRef<string | null>(null);
   const checkoutKey = useRef<{ offerId: string; key: string } | null>(null);
   async function checkout(view: OrderReview) {
-    if (!view.acceptance || !view.checkoutEnabled || busy) return;
+    if (!view.acceptance || !view.checkoutEnabled || busy || paymentBlocked) return;
     const current = ++sequence.current;
     controller.current?.abort();
     const abort = new AbortController();
@@ -145,8 +160,46 @@ export function OrderReviewPage() {
       <Nav />
       <main className="container-x max-w-3xl py-16">
         <h1 className="font-serif text-3xl">Review your order</h1>
-        <p ref={resultRef} tabIndex={-1} role="status" aria-live="polite" className="mt-4">
-          {status}
+        <OnboardingSteps current="payment" />
+        <p className="text-muted-foreground">
+          Review the amount and terms below. Accept the terms, then use secure Checkout. If you have
+          already paid, your confirmed payment will appear here.
+        </p>
+        <PaymentStatusPanel autoLoad onChange={setPayments} />
+        {paymentComplete &&
+        !payment?.requiresReview &&
+        !payment?.dispute &&
+        payment?.refundedMinor === 0 ? (
+          <section
+            className="mt-6 rounded-2xl border border-gold/40 bg-surface p-6"
+            aria-labelledby="payment-next"
+          >
+            <h2 id="payment-next" className="font-serif text-2xl">
+              Payment confirmed — thank you
+            </h2>
+            <p className="mt-3">
+              You do not need to pay this transaction again. The team will review your next steps.
+              This is not clinical approval or confirmation of product supply.
+            </p>
+            <Link
+              to="/portal"
+              className="mt-5 inline-block rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground"
+            >
+              View your account and progress
+            </Link>
+          </section>
+        ) : null}
+        <p
+          id="order-feedback"
+          ref={resultRef}
+          tabIndex={-1}
+          role="status"
+          aria-live="polite"
+          className="mt-4"
+        >
+          {paymentComplete
+            ? "Your payment has been confirmed. Do not pay this transaction again."
+            : status}
         </p>
         {review ? (
           <section aria-label="Order details" className="mt-8 space-y-6">
@@ -194,7 +247,7 @@ export function OrderReviewPage() {
                 Print or save these terms
               </button>
             </section>
-            {!review.acceptance ? (
+            {paymentComplete ? null : !review.acceptance ? (
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
@@ -227,23 +280,27 @@ export function OrderReviewPage() {
             ) : (
               <div>
                 <p>Acceptance recorded. Payment status requires independent confirmation.</p>
-                {review.checkoutEnabled ? (
+                {review.checkoutEnabled && !paymentBlocked ? (
                   <button
                     type="button"
                     disabled={busy}
                     onClick={() => void checkout(review)}
-                    className="mt-4 rounded-full border px-6 py-3 disabled:opacity-50"
+                    className="mt-4 rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
                   >
                     Continue to secure Checkout
                   </button>
                 ) : (
-                  <p>Checkout is not available yet.</p>
+                  <p className="mt-4">
+                    {paymentBlocked
+                      ? "Check your payment status above before continuing. If payment is pending or needs review, do not pay again; contact support for help."
+                      : "Checkout is not available yet. Submit your questionnaire first, or contact support if it is already submitted."}
+                  </p>
                 )}
               </div>
             )}
           </section>
         ) : null}
-        <div className="mt-8 flex gap-6">
+        <div className="mt-8 flex flex-wrap gap-6">
           <button
             type="button"
             disabled={busy}
@@ -257,6 +314,12 @@ export function OrderReviewPage() {
           </button>
           <Link to="/portal" className="underline">
             Back to your account
+          </Link>
+          <Link to="/portal/intake" className="underline">
+            Your questionnaire
+          </Link>
+          <Link to="/portal/support" className="underline">
+            Get help
           </Link>
         </div>
       </main>

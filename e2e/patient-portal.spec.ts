@@ -159,6 +159,15 @@ test("own account documents and literal operational states are accessible withou
   );
   await page.goto("/portal");
   await expect(page.getByRole("heading", { name: "Your Meneer account" })).toBeFocused();
+  await expect(page.getByRole("heading", { name: "Continue your onboarding" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Open your questionnaire" })).toHaveAttribute(
+    "href",
+    "/portal/intake",
+  );
+  await expect(page.getByRole("link", { name: "Review deposit or payment" })).toHaveAttribute(
+    "href",
+    "/portal/order",
+  );
   await expect(page.getByText("Accepted", { exact: false })).toBeVisible();
   await expect(page.getByText("Acknowledged", { exact: false })).toBeVisible();
   await expect(page.getByText("Not ready", { exact: true })).toBeVisible();

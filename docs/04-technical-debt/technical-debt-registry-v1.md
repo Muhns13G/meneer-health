@@ -41,6 +41,16 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 9 October — Primary Staff Login Verified; Alternate Acceptance Deferred
+
+Mansoer reports successful production email OTP, individual TOTP and Operations context/session
+after the owner release. Mikhail's individual acceptance is explicitly deferred by the owner;
+Mansoer is the sole verified operator, not proof of tested alternate coverage. TD-043 remains
+Open with partial verification; assigned-work and operational acceptance must not be inferred
+from login alone. Current totals remain **66 items — 59 Verified, seven non-Verified**. See the
+[latest operator checkpoint](../02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md#td-043--primary-operator-verified-alternate-check-deferred).
+No client or payment mode is activated by this recorded deferral.
+
 ### 9 October — Staff Setup Enabled, TD-043 Still Open
 
 The owner expressly authorises staff-only setup. Narrow guarded operational DML passes a hosted
