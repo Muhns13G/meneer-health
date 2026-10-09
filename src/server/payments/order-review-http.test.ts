@@ -185,3 +185,38 @@ it("permits only explicit sandbox Checkout and validates the returned provider o
   checkout.mockResolvedValueOnce({ checkoutUrl: "https://untrusted.invalid" });
   expect((await handler(h.request(command))).status).toBe(503);
 });
+it("permits explicitly configured live Checkout only on canonical HTTPS with current readiness", async () => {
+  const h = await harness();
+  const checkout = vi.fn(async () => ({
+    checkoutUrl: "https://checkout.stripe.com/c/pay/synthetic",
+  }));
+  const ready = vi.fn(async () => true);
+  const bindings = {
+    ...h.bindings,
+    COMMERCE_CHECKOUT_MODE: "live",
+    COMMERCE_WEBHOOK_MODE: "live",
+    STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: id,
+    STRIPE_LIVE_ACCOUNT_ID: "acct_syntheticlive123",
+    STRIPE_LIVE_RESTRICTED_KEY: "rk_live_synthetic_only",
+    STRIPE_LIVE_WEBHOOK_SIGNING_SECRET: "whsec_synthetic_live_only",
+  };
+  const handler = createOrderReviewHttpHandler(bindings, {
+    authorise: h.authorise,
+    execute: h.execute,
+    checkout,
+    ready,
+  });
+  const command = { action: "checkout", offerId: orderReviewFixture().offerId, requestKey: id };
+  expect((await handler(h.request(command))).status).toBe(200);
+  ready.mockResolvedValueOnce(false);
+  expect((await handler(h.request(command))).status).toBe(403);
+  expect(checkout).toHaveBeenCalledOnce();
+  for (const origin of [
+    "http://localhost:8085",
+    "http://meneerhealth.co.za",
+    "https://preview.example.invalid",
+  ])
+    expect(
+      (await handler(new Request(origin + "/portal/order/command", h.request(command)))).status,
+    ).toBe(404);
+});

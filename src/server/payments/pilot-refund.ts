@@ -1,6 +1,12 @@
 import "@tanstack/react-start/server-only";
 import Stripe from "stripe";
 import { z } from "zod";
+import {
+  assertStripeCredential,
+  stripeObjectMatchesEnvironment,
+  stripeSessionSchema,
+  type StripePaymentEnvironment,
+} from "./stripe-payment-environment";
 
 export const refundDispatchSchema = z
   .object({
@@ -11,61 +17,61 @@ export const refundDispatchSchema = z
     currency: z.literal("zar"),
   })
   .strict();
-export const terminalInspectionSchema = z
-  .object({
-    intentId: z.uuid(),
-    tenantId: z.uuid(),
-    accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
-    sessionId: z.string().regex(/^cs_test_[A-Za-z0-9_]{8,120}$/),
-    amountMinor: z.int().nonnegative().max(100_000_000),
-    paymentIntentId: z
-      .string()
-      .regex(/^pi_[A-Za-z0-9_]{8,120}$/)
-      .nullable(),
-  })
-  .strict();
-export const exceptionInspectionSchema = z.discriminatedUnion("kind", [
+const terminalInspectionSchemaForEnvironment = (environment: StripePaymentEnvironment) =>
   z
     .object({
-      kind: z.literal("duplicate"),
-      reference: z.uuid(),
-      eventId: z.string().regex(/^evt_[A-Za-z0-9_]{8,120}$/),
       intentId: z.uuid(),
       tenantId: z.uuid(),
       accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
-      sessionId: z.string().regex(/^cs_test_[A-Za-z0-9_]{8,120}$/),
-      paymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
-      retainedPaymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
-      amountMinor: z.int().positive().max(100_000_000),
-    })
-    .strict(),
-  z
-    .object({
-      kind: z.literal("dispute"),
-      reference: z.uuid(),
-      eventId: z.string().regex(/^evt_[A-Za-z0-9_]{8,120}$/),
-      accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
-      // Match the webhook boundary; provider retrieval still proves exact account/lineage/status.
-      disputeId: z.string().regex(/^(?:du|dp)_[A-Za-z0-9_]{8,120}$/),
-      paymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
+      sessionId: stripeSessionSchema(environment),
       amountMinor: z.int().nonnegative().max(100_000_000),
-      status: z.enum(["won", "lost", "warning_closed"]),
+      paymentIntentId: z
+        .string()
+        .regex(/^pi_[A-Za-z0-9_]{8,120}$/)
+        .nullable(),
     })
-    .strict(),
-]);
+    .strict();
+export const terminalInspectionSchema = terminalInspectionSchemaForEnvironment("sandbox");
+const exceptionInspectionSchemaForEnvironment = (environment: StripePaymentEnvironment) =>
+  z.discriminatedUnion("kind", [
+    z
+      .object({
+        kind: z.literal("duplicate"),
+        reference: z.uuid(),
+        eventId: z.string().regex(/^evt_[A-Za-z0-9_]{8,120}$/),
+        intentId: z.uuid(),
+        tenantId: z.uuid(),
+        accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
+        sessionId: stripeSessionSchema(environment),
+        paymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
+        retainedPaymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
+        amountMinor: z.int().positive().max(100_000_000),
+      })
+      .strict(),
+    z
+      .object({
+        kind: z.literal("dispute"),
+        reference: z.uuid(),
+        eventId: z.string().regex(/^evt_[A-Za-z0-9_]{8,120}$/),
+        accountId: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
+        // Match the webhook boundary; provider retrieval still proves exact account/lineage/status.
+        disputeId: z.string().regex(/^(?:du|dp)_[A-Za-z0-9_]{8,120}$/),
+        paymentIntentId: z.string().regex(/^pi_[A-Za-z0-9_]{8,120}$/),
+        amountMinor: z.int().nonnegative().max(100_000_000),
+        status: z.enum(["won", "lost", "warning_closed"]),
+      })
+      .strict(),
+  ]);
+export const exceptionInspectionSchema = exceptionInspectionSchemaForEnvironment("sandbox");
 export class PilotRefundProvider {
   private readonly client: Stripe;
   constructor(
     key: unknown,
     private readonly accountId: string,
     client?: Stripe,
+    private readonly environment: StripePaymentEnvironment = "sandbox",
   ) {
-    if (
-      typeof key !== "string" ||
-      !key.startsWith("rk_test_") ||
-      !/^acct_[A-Za-z0-9]{8,64}$/.test(accountId)
-    )
-      throw new Error("REFUND_CONFIGURATION_INVALID");
+    assertStripeCredential(key, accountId, environment, "REFUND_CONFIGURATION_INVALID");
     this.client =
       client ??
       new Stripe(key, {
@@ -82,7 +88,7 @@ export class PilotRefundProvider {
     if (account.id !== this.accountId) throw new Error("REFUND_ACCOUNT_MISMATCH");
     const payment = await this.client.paymentIntents.retrieve(input.paymentIntentId);
     if (
-      payment.livemode ||
+      !stripeObjectMatchesEnvironment(payment, this.environment) ||
       payment.id !== input.paymentIntentId ||
       payment.currency !== "zar" ||
       payment.status !== "succeeded" ||
@@ -122,7 +128,7 @@ export class PilotRefundProvider {
     };
   }
   async inspectTerminal(value: unknown) {
-    const input = terminalInspectionSchema.parse(value);
+    const input = terminalInspectionSchemaForEnvironment(this.environment).parse(value);
     if (
       input.accountId !== this.accountId ||
       (await this.client.accounts.retrieveCurrent()).id !== this.accountId
@@ -130,7 +136,7 @@ export class PilotRefundProvider {
       throw new Error("REFUND_ACCOUNT_MISMATCH");
     const session = await this.client.checkout.sessions.retrieve(input.sessionId);
     if (
-      session.livemode ||
+      !stripeObjectMatchesEnvironment(session, this.environment) ||
       session.id !== input.sessionId ||
       session.mode !== "payment" ||
       session.currency !== "zar" ||
@@ -151,7 +157,7 @@ export class PilotRefundProvider {
     if (paymentId) {
       const payment = await this.client.paymentIntents.retrieve(paymentId);
       if (
-        payment.livemode ||
+        !stripeObjectMatchesEnvironment(payment, this.environment) ||
         payment.id !== paymentId ||
         payment.currency !== "zar" ||
         payment.amount_received !== 0 ||
@@ -166,7 +172,7 @@ export class PilotRefundProvider {
     };
   }
   async inspectException(value: unknown) {
-    const input = exceptionInspectionSchema.parse(value);
+    const input = exceptionInspectionSchemaForEnvironment(this.environment).parse(value);
     if (
       input.accountId !== this.accountId ||
       (await this.client.accounts.retrieveCurrent()).id !== this.accountId
@@ -179,7 +185,7 @@ export class PilotRefundProvider {
           ? dispute.payment_intent
           : dispute.payment_intent?.id;
       if (
-        dispute.livemode ||
+        !stripeObjectMatchesEnvironment(dispute, this.environment) ||
         dispute.id !== input.disputeId ||
         paymentId !== input.paymentIntentId ||
         dispute.currency !== "zar" ||
@@ -196,7 +202,7 @@ export class PilotRefundProvider {
           ? session.payment_intent
           : session.payment_intent?.id;
       if (
-        session.livemode ||
+        !stripeObjectMatchesEnvironment(session, this.environment) ||
         session.id !== input.sessionId ||
         session.status !== "complete" ||
         session.payment_status !== "paid" ||
@@ -212,7 +218,7 @@ export class PilotRefundProvider {
       for (const id of [input.paymentIntentId, input.retainedPaymentIntentId]) {
         const payment = await this.client.paymentIntents.retrieve(id);
         if (
-          payment.livemode ||
+          !stripeObjectMatchesEnvironment(payment, this.environment) ||
           payment.id !== id ||
           payment.status !== "succeeded" ||
           payment.currency !== "zar" ||

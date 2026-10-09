@@ -4,53 +4,67 @@ import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 import { initialiseServerEnvironment } from "@/server/config/environment.server";
 import { readBoundedTextRequest } from "@/server/security/request-security";
+import {
+  commerceCallbackConfigured,
+  commerceCredentials,
+  commerceOriginAllowed,
+  paymentMode,
+  type CommerceEnvironmentBindings,
+} from "./commerce-environment";
+import {
+  stripeObjectMatchesEnvironment,
+  stripeSessionSchema,
+  type StripePaymentEnvironment,
+} from "./stripe-payment-environment";
 const optionalId = (prefix: string) =>
   z
     .string()
     .regex(new RegExp(`^${prefix}_[A-Za-z0-9_]{8,120}$`))
     .nullable();
 const minor = z.int().min(0).max(100_000_000).nullable();
-export const pilotProviderReceiptSchema = z
-  .object({
-    eventId: optionalId("evt").unwrap(),
-    fingerprint: z.string().regex(/^[a-f0-9]{64}$/),
-    eventType: z.string().min(1).max(120),
-    intentId: z.uuid().nullable(),
-    tenantId: z.uuid().nullable(),
-    sessionId: optionalId("cs_test"),
-    paymentIntentId: optionalId("pi"),
-    amountMinor: minor,
-    currency: z.string().min(3).max(3).nullable(),
-    paymentStatus: z.enum(["paid", "unpaid", "no_payment_required"]).nullable(),
-    refundMinor: minor,
-    chargeId: optionalId("ch"),
-    // Stripe's observed provider Disputes use du_; retain the existing dp_ fixture form.
-    // Syntax is not authority: account, signature and PaymentIntent lineage are checked separately.
-    disputeId: z
-      .string()
-      .regex(/^(?:du|dp)_[A-Za-z0-9_]{8,120}$/)
-      .nullable(),
-    disputeStatus: z
-      .enum([
-        "warning_needs_response",
-        "warning_under_review",
-        "warning_closed",
-        "needs_response",
-        "under_review",
-        "won",
-        "lost",
-      ])
-      .nullable(),
-    occurredAt: z.iso.datetime({ offset: true }),
-    refundId: optionalId("re").optional().default(null),
-    refundReference: z.uuid().nullable().optional().default(null),
-    refundStatus: z
-      .enum(["pending", "requires_action", "succeeded", "failed", "canceled"])
-      .nullable()
-      .optional()
-      .default(null),
-  })
-  .strict();
+export const pilotProviderReceiptSchemaForEnvironment = (environment: StripePaymentEnvironment) =>
+  z
+    .object({
+      eventId: optionalId("evt").unwrap(),
+      fingerprint: z.string().regex(/^[a-f0-9]{64}$/),
+      eventType: z.string().min(1).max(120),
+      intentId: z.uuid().nullable(),
+      tenantId: z.uuid().nullable(),
+      sessionId: stripeSessionSchema(environment).nullable(),
+      paymentIntentId: optionalId("pi"),
+      amountMinor: minor,
+      currency: z.string().min(3).max(3).nullable(),
+      paymentStatus: z.enum(["paid", "unpaid", "no_payment_required"]).nullable(),
+      refundMinor: minor,
+      chargeId: optionalId("ch"),
+      // Stripe's observed provider Disputes use du_; retain the existing dp_ fixture form.
+      // Syntax is not authority: account, signature and PaymentIntent lineage are checked separately.
+      disputeId: z
+        .string()
+        .regex(/^(?:du|dp)_[A-Za-z0-9_]{8,120}$/)
+        .nullable(),
+      disputeStatus: z
+        .enum([
+          "warning_needs_response",
+          "warning_under_review",
+          "warning_closed",
+          "needs_response",
+          "under_review",
+          "won",
+          "lost",
+        ])
+        .nullable(),
+      occurredAt: z.iso.datetime({ offset: true }),
+      refundId: optionalId("re").optional().default(null),
+      refundReference: z.uuid().nullable().optional().default(null),
+      refundStatus: z
+        .enum(["pending", "requires_action", "succeeded", "failed", "canceled"])
+        .nullable()
+        .optional()
+        .default(null),
+    })
+    .strict();
+export const pilotProviderReceiptSchema = pilotProviderReceiptSchemaForEnvironment("sandbox");
 export type PilotProviderReceipt = z.infer<typeof pilotProviderReceiptSchema>;
 const idOf = (v: unknown) =>
   typeof v === "string" ? v : v && typeof v === "object" && "id" in v ? v.id : null;
@@ -60,6 +74,7 @@ export async function verifyPilotReceipt(
   secret: string,
   account: string,
   client: Stripe,
+  environment: StripePaymentEnvironment = "sandbox",
 ): Promise<PilotProviderReceipt> {
   const e = await client.webhooks.constructEventAsync(
     raw,
@@ -68,9 +83,11 @@ export async function verifyPilotReceipt(
     300,
     Stripe.createSubtleCryptoProvider(),
   );
-  if (e.livemode !== false || (e.account && e.account !== account))
+  if (!stripeObjectMatchesEnvironment(e, environment) || (e.account && e.account !== account))
     throw new Error("WEBHOOK_REJECTED");
   const v = e.data.object as unknown as Record<string, unknown>;
+  if ("livemode" in v && !stripeObjectMatchesEnvironment(v, environment))
+    throw new Error("WEBHOOK_REJECTED");
   const metadata = (v.metadata ?? {}) as Record<string, unknown>;
   const supported = [
     "checkout.session.completed",
@@ -97,7 +114,7 @@ export async function verifyPilotReceipt(
     new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(raw))),
     (b) => b.toString(16).padStart(2, "0"),
   ).join("");
-  return pilotProviderReceiptSchema.parse({
+  return pilotProviderReceiptSchemaForEnvironment(environment).parse({
     eventId: e.id,
     eventType: e.type,
     fingerprint,
@@ -126,7 +143,7 @@ export async function verifyPilotReceipt(
     refundStatus: supported && refund ? (v.status ?? null) : null,
   });
 }
-export type PilotWebhookBindings = {
+export type PilotWebhookBindings = CommerceEnvironmentBindings & {
   COMMERCE_WEBHOOK_MODE?: unknown;
   COMMERCE_REVIEW_TENANT_ID?: unknown;
   STRIPE_CHECKOUT_ACCOUNT_ID?: unknown;
@@ -156,14 +173,16 @@ function response(status: number, body?: unknown) {
 export function createPilotWebhookHandler(bindings: PilotWebhookBindings, injected?: Dependencies) {
   return async (request: Request) => {
     const url = new URL(request.url);
+    const environment = paymentMode(bindings.COMMERCE_WEBHOOK_MODE);
     if (
-      bindings.COMMERCE_WEBHOOK_MODE !== "sandbox" ||
+      !environment ||
       url.pathname !== "/api/payments/stripe/webhook" ||
       url.search ||
       request.method !== "POST" ||
-      !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname)
+      !commerceOriginAllowed(url, bindings)
     )
       return response(404);
+    if (environment === "live" && !commerceCallbackConfigured(bindings)) return response(503);
     if (
       request.headers.get("content-type")?.split(";", 1)[0]?.trim().toLowerCase() !==
         "application/json" ||
@@ -180,15 +199,13 @@ export function createPilotWebhookHandler(bindings: PilotWebhookBindings, inject
             account: z.string().regex(/^acct_[A-Za-z0-9]{8,64}$/),
             tenant: z.uuid(),
             service: z.uuid(),
-            key: z.string().startsWith("rk_test_"),
+            key: z.string().startsWith(environment === "live" ? "rk_live_" : "rk_test_"),
             secret: z.string().startsWith("whsec_"),
           })
           .parse({
-            account: bindings.STRIPE_CHECKOUT_ACCOUNT_ID,
+            ...commerceCredentials(bindings, environment),
             tenant: bindings.COMMERCE_REVIEW_TENANT_ID,
             service: bindings.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID,
-            key: bindings.STRIPE_RESTRICTED_KEY,
-            secret: bindings.STRIPE_WEBHOOK_SIGNING_SECRET,
           });
         const database = initialiseServerEnvironment({
           SUPABASE_URL: bindings.SUPABASE_URL,
@@ -206,14 +223,15 @@ export function createPilotWebhookHandler(bindings: PilotWebhookBindings, inject
         });
         deps = {
           verify: (body, signature) =>
-            verifyPilotReceipt(body, signature, config.secret, config.account, client),
+            verifyPilotReceipt(body, signature, config.secret, config.account, client, environment),
           async apply(event) {
             if ((await client.accounts.retrieveCurrent()).id !== config.account)
               throw new Error("WEBHOOK_ACCOUNT_REJECTED");
-            const { data, error } = await supabase.rpc("apply_pilot_provider_event", {
+            const { data, error } = await supabase.rpc("apply_commerce_provider_event", {
               p_service_id: config.service,
               p_tenant_id: config.tenant,
               p_account: config.account,
+              p_environment: environment,
               p_event: event,
             });
             if (error) throw new Error("WEBHOOK_STORAGE_UNAVAILABLE");
@@ -226,7 +244,7 @@ export function createPilotWebhookHandler(bindings: PilotWebhookBindings, inject
     }
     let event: PilotProviderReceipt;
     try {
-      event = pilotProviderReceiptSchema.parse(
+      event = pilotProviderReceiptSchemaForEnvironment(environment).parse(
         await deps.verify(raw, request.headers.get("stripe-signature")!),
       );
     } catch {

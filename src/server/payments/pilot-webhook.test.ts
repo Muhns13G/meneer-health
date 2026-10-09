@@ -28,6 +28,69 @@ function payload(patch: Record<string, unknown> = {}) {
 }
 const signature = (body: string) =>
   client.webhooks.generateTestHeaderString({ payload: body, secret });
+it("runs signed live receipts through the HTTP boundary without accepting test or preview traffic", async () => {
+  const liveAccount = "acct_livesynthetic12345";
+  const bindings = {
+    COMMERCE_WEBHOOK_MODE: "live",
+    COMMERCE_REVIEW_TENANT_ID: id,
+    STRIPE_WEBHOOK_SERVICE_IDENTITY_ID: id,
+    STRIPE_CHECKOUT_ACCOUNT_ID: account,
+    STRIPE_WEBHOOK_SIGNING_SECRET: "whsec_other_sandbox",
+    STRIPE_LIVE_ACCOUNT_ID: liveAccount,
+    STRIPE_LIVE_RESTRICTED_KEY: "rk_live_synthetic_only",
+    STRIPE_LIVE_WEBHOOK_SIGNING_SECRET: secret,
+  };
+  const apply = vi.fn(async () => ({ replayed: false, outcome: "pending" }));
+  const dependencies = {
+    verify: (raw: string, sig: string) =>
+      verifyPilotReceipt(raw, sig, secret, liveAccount, client, "live"),
+    apply,
+  };
+  const handler = createPilotWebhookHandler(bindings, dependencies);
+  const raw = payload({
+    livemode: true,
+    data: {
+      object: {
+        id: "cs_live_synthetic12345",
+        livemode: true,
+        client_reference_id: id,
+        metadata: { orderId: id, tenantId: id },
+        payment_intent: "pi_synthetic12345",
+        payment_status: "paid",
+        amount_total: 99900,
+        currency: "zar",
+      },
+    },
+  });
+  const request = (body = raw, origin = "https://meneerhealth.co.za") =>
+    new Request(`${origin}/api/payments/stripe/webhook`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Stripe-Signature": signature(body) },
+      body,
+    });
+  for (const origin of [
+    "http://meneerhealth.co.za",
+    "http://localhost:8080",
+    "https://preview.example.invalid",
+  ])
+    expect((await handler(request(raw, origin))).status).toBe(404);
+  expect((await handler(request(payload()))).status).toBe(400);
+  expect(apply).not.toHaveBeenCalled();
+  expect((await handler(request())).status).toBe(200);
+  expect(apply).toHaveBeenCalledWith(
+    expect.objectContaining({ sessionId: "cs_live_synthetic12345" }),
+  );
+  apply.mockClear();
+  expect(
+    (
+      await createPilotWebhookHandler(
+        { ...bindings, STRIPE_LIVE_RESTRICTED_KEY: "rk_test_synthetic" },
+        dependencies,
+      )(request())
+    ).status,
+  ).toBe(503);
+  expect(apply).not.toHaveBeenCalled();
+});
 it("normalizes dispute updates and terminal outcomes without retaining evidence or customer data", async () => {
   for (const status of ["under_review", "won", "lost", "warning_closed"]) {
     const raw = payload({

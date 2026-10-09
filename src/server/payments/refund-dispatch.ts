@@ -3,18 +3,25 @@ import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { dispatchRefund, PilotRefundProvider, refundDispatchSchema } from "./pilot-refund";
 import { initialiseServerEnvironment } from "@/server/config/environment.server";
+import {
+  commerceSettlementConfigured,
+  commerceCredentials,
+  paymentMode,
+} from "./commerce-environment";
 
 export async function runScheduledRefunds(bindings: Record<string, unknown>) {
-  if (bindings.COMMERCE_REFUND_MODE !== "sandbox") return 0;
-  if (bindings.COMMERCE_WEBHOOK_MODE !== "sandbox" || bindings.COMMERCE_CHECKOUT_MODE !== "sandbox")
+  const environment = paymentMode(bindings.COMMERCE_REFUND_MODE);
+  if (!environment) return 0;
+  if (!commerceSettlementConfigured(bindings) || bindings.COMMERCE_WEBHOOK_MODE !== environment)
     throw new Error("REFUND_CONFIGURATION_INVALID");
   const tenant = z.uuid().parse(bindings.COMMERCE_REVIEW_TENANT_ID);
   const actor = z.uuid().parse(bindings.STRIPE_WEBHOOK_SERVICE_IDENTITY_ID);
+  const credentials = commerceCredentials(bindings, environment);
   const account = z
     .string()
     .regex(/^acct_[A-Za-z0-9]{8,64}$/)
-    .parse(bindings.STRIPE_CHECKOUT_ACCOUNT_ID);
-  z.string().min(20).parse(bindings.STRIPE_WEBHOOK_SIGNING_SECRET);
+    .parse(credentials.account);
+  z.string().min(20).parse(credentials.secret);
   const config = initialiseServerEnvironment({
     SUPABASE_URL: bindings.SUPABASE_URL,
     SUPABASE_SECRET_KEY: bindings.SUPABASE_SECRET_KEY,
@@ -23,7 +30,7 @@ export async function runScheduledRefunds(bindings: Record<string, unknown>) {
   const client = createClient(config.url, config.secretKey, {
     auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
   });
-  const provider = new PilotRefundProvider(bindings.STRIPE_RESTRICTED_KEY, account);
+  const provider = new PilotRefundProvider(credentials.key, account, undefined, environment);
   const rpc = async (command: Record<string, unknown>) => {
     const { data, error } = await client.rpc("service_refund_command", {
       p_service_id: actor,

@@ -15,6 +15,28 @@ export type EnvironmentCatalogueEntry = {
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   ...[
+    "STRIPE_LIVE_ACCOUNT_ID",
+    "STRIPE_LIVE_RESTRICTED_KEY",
+    "STRIPE_LIVE_WEBHOOK_SIGNING_SECRET",
+    "STRIPE_LIVE_READINESS_CONFIRM",
+  ].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Separate live-payment credential/account configuration; requires governed release and explicit live modes.",
+      owner: "Commercial and release owners",
+      sensitivity:
+        name === "STRIPE_LIVE_RESTRICTED_KEY" || name === "STRIPE_LIVE_WEBHOOK_SIGNING_SECRET"
+          ? "secret"
+          : "public",
+      environments: name === "STRIPE_LIVE_READINESS_CONFIRM" ? ["local"] : ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "Keep separate from sandbox credentials; no hosted provisioning or charge authority inferred.",
+    }),
+  ),
+  ...[
     "MOBILE_INVITATIONS_MODE",
     "MOBILE_INVITATIONS_REDEMPTION_MODE",
     "MOBILE_INVITATIONS_EMAIL_MODE",
@@ -87,7 +109,7 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     (name): EnvironmentCatalogueEntry => ({
       name,
       purpose:
-        "Separate opt-in and scope for private review, sandbox Checkout and signed receipts; no live-payment activation.",
+        "Separate opt-in and scope for private review and environment-bound Checkout/receipts/refunds; live release needs explicit acceptance.",
       owner: "Commercial and release owners",
       sensitivity: "public",
       environments: ["local", "production"],
