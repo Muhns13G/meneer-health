@@ -41,6 +41,34 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 9 October — Staff Setup Enabled, TD-043 Still Open
+
+The owner expressly authorises staff-only setup. Narrow guarded operational DML passes a hosted
+rollback-only rehearsal, then changes only the pilot tenant to active. Four staff, six operator
+grants and disabled client/provider modes remain; no send or Cloudflare release occurs. Actual
+operator email/TOTP and role/queue/inbox acceptance are not yet completed. TD-043 remains Open
+and totals remain **66 items — 59 Verified, seven non-Verified**. See the
+[staff setup checkpoint](../02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md#td-043-staff-only-setup-enabled).
+
+### 9 October — Hosted Orphan Retirement Acceptance Verified
+
+TD-066 is now **Verified**: both approved migrations have matching hosted history, twelve native
+managed-Auth/TOTP/provider/R2 checks pass, and exact cleanup preserves four real staff and six
+memberships. Current totals: **66 items — 59 Verified, seven non-Verified**. See the
+[hosted acceptance record](../02-implementation-plans/phase-02/annexures/td-066-hosted-retirement-acceptance.md).
+TD-064 is also Verified. This supersedes the older pending checkpoints below; real retirement
+copies still require the documented 36-day boundary and fresh inventory, and no pilot mode is
+activated by this closure.
+
+### 9 October — Authenticated Business Conflict Acceptance Verified
+
+TD-064 is now Verified: twelve authenticated hosted conflict/retry, unchanged-state and denial
+checks pass. Exact cleanup preserves four real staff accounts and six grants; the original disabled
+same-code Worker configuration is restored and intake readiness returns HTTP 412. Current totals:
+**66 items — 58 Verified, eight non-Verified**. TD-066 remains Open pending separately approved
+hosted retirement/copy acceptance. This supersedes older TD-064 readiness-only statements below;
+it does not activate pilot capabilities.
+
 ### 9 October — Owner Acceptance and Deferral Amendment
 
 The owner subsequently corrects the unintended inactive-roster selection and confirms mutual
@@ -840,7 +868,7 @@ Meneer-only boundary; no generator access, external transfer, clinical approval 
 
 ## TD-064 — Remaining Permanent Business Conflicts Use Serialization SQLSTATE
 
-Priority **P1**; status **In progress**. Owner: System Architect / `@Muhns13G`. Target: before enabling
+Priority **P1**; status **Verified**. Owner: System Architect / `@Muhns13G`. Target: before enabling
 affected commands; release disposition in Task 13.10. Evidence and acceptance:
 [Task 13.9](../02-implementation-plans/phase-02/annexures/sprint-13-9-debt-reconciliation.md).
 The initial reconciliation found two intentional `40001` raises in `patient_intake_restrict` and
@@ -851,8 +879,16 @@ The fully migrated local catalogue now inventories 21 remaining functions. Guard
 while asserting unchanged owner/ACL/configuration/security/volatility; response mapping and SQL
 regressions accompany it. The final 1,629 SQL assertions and 61 focused tests pass. The approved
 migration is hosted with matching history `20261008100000`; exact-definition/security guards pass.
-Routed acceptance is pending: intake/commerce readiness probes return disabled-configuration 412.
-No hosted fixtures or settings are changed by the follow-up inspection. See the
+9 October authenticated routed acceptance passed twelve checks: intake and rights stale-version
+conflicts, exact retries, changed order snapshots/different request keys, alert acknowledgement/
+resolution ordering and key reuse, restriction conflicts, and wrong-role/clinical denials.
+Each intentional conflict returned HTTP 409 with unchanged protected business state. The isolated
+tenant and three disposable Auth identities were removed; exact application and real-Auth
+fingerprints matched the baseline, preserving all four real staff identities and six grants.
+The original same-code Worker version `fe911ea7-0260-48fb-bf44-721b9bbe1f72` and its exact
+disabled bindings were restored at 13:30 UTC (deployment `c060982e-2592-4b9f-9cf4-dbb27c639920`).
+The guarded reproducible packet is `scripts/test-hosted-business-conflicts.ts`; it is not an
+ordinary CI command or pilot activation authority. See the
 [active remediation packet](../02-implementation-plans/phase-02/annexures/sprint-13-pre-release-gap-remediation.md).
 Require security-preserving local stale/replay/atomicity tests, explicit hosted migration approval,
 owner deployment and routed conflict/unchanged-state proof with exact cleanup. Static evidence is
@@ -899,9 +935,13 @@ Verified application-recovery scope or add sensitive exports without approved de
 
 ## TD-066 — Unconverted Mobile Auth Identity Retention and Exception Recovery
 
-Priority **P2**; status **Open**. Owner: System Architect; target: Sprint 14.8–14.10,
+Priority **P2**; status **Verified**. Owner: System Architect; target: Sprint 14.8–14.10,
 before enabling real mobile email delivery. Discovered in
 [14.7](../02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md).
+The final [hosted acceptance record](../02-implementation-plans/phase-02/annexures/td-066-hosted-retirement-acceptance.md)
+supersedes the historical Open/unhosted checkpoints in this entry. Twelve hosted checks and exact
+cleanup pass; maintenance must continue following the private runbook, without treating
+`copies_pending` as completed erasure or reopening an older restore without current dispositions.
 The private register sweeps names/phone/claimed email 30 days after terminal expiry/revocation
 and minimal mobile journal after 90 days. Auth invitation creation also creates provider and
 stable application identity/contact records. The register sweep deliberately cannot delete those
@@ -939,6 +979,17 @@ older-snapshot exercise also passes with exact baseline restoration. State remai
 maintenance wiring, independently retained hosted dispositions/R2-copy completion and separately
 approved hosted migration/acceptance remain. These tests do not mark TD-066 Verified or enable email;
 see the [native checkpoint](../02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md#native-local-implementation-and-managed-provider-checkpoint--9-october).
+
+The subsequent private maintenance CLI now wires genuine current operations/TOTP authority,
+exact-ID provider deletion/reconciliation, encrypted R2 disposition upload/download/decryption,
+complete paginated copy inventory and reviewed draft reissue. New local migration
+`20261009132624_mobile_orphan_copy_completion.sql` records immutable evidence and refuses
+premature, stale, mismatched or older-copy completion. Focused tests pass 102/102 and the native
+rollback-only SQL packet passes 66/66; managed local provider/concurrency/older-snapshot recovery
+again passes with exact baseline restoration. See the
+[maintenance runbook](../06-operations/mobile-orphan-maintenance-runbook.md).
+Hosted application of both retirement migrations and isolated provider/R2 acceptance still require
+explicit approval; the new workflow has not deleted any hosted identity or enabled email.
 
 ## Registry Maintenance Rules
 

@@ -123,6 +123,31 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Staff-Only Tenant Activation — 9 October
+
+The owner-approved tenant change now permits real staff setup; the pilot tenant is active, not
+suspended. Client intake/order/refund and provider-delivery modes remain disabled on the unchanged
+Worker. Four staff/six operator memberships are preserved. Actual operator email/TOTP/queue
+acceptance remains TD-043 Open. Do not equate active tenant status with client onboarding,
+live-payment activation, clinician authority or closure of TD-043. Earlier suspended-baseline
+statements below describe prior checkpoints.
+
+## Latest TD-064/066 Closure — 9 October
+
+Both debts are Verified through hosted acceptance and exact cleanup, not merely local code.
+TD-066's [acceptance record](../02-implementation-plans/phase-02/annexures/td-066-hosted-retirement-acceptance.md)
+records genuine TOTP, managed provenance/deletion, encrypted EU R2 round-trip and reviewed no-send
+reissue. Four real staff and six grants are preserved; the pilot remains suspended. Historical
+pending statements below are superseded. Do not interpret verification as completed erasure of
+older production backups: actual retirements require 36 days, current disposition evidence and a
+fresh complete inventory. Individual staff contact/TOTP setup and other release gates remain.
+
+Latest 9 October acceptance: TD-064's twelve authenticated hosted checks, exact cleanup and
+disabled-setting restoration are verified; four real staff accounts and six grants are preserved.
+TD-066 remains Open pending explicitly approved hosted migrations and synthetic retirement/R2
+acceptance. Its private maintenance/copy-completion workflow is locally implemented. Current
+registry: 66 items, 58 Verified, eight non-Verified. Older pending TD-064 checkpoints are historical.
+
 ## Live Payment Activation Is Not Complete — 9 October
 
 Local live-mode HTTP/provider and persisted isolation implementation is not hosted live release.
