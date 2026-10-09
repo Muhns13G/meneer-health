@@ -9,6 +9,52 @@ authority: owner-approved-scope-and-budget-not-runtime-activation
 
 # Pilot Activation — Scope and Approval Packet
 
+## Next Release Checkpoint — After Primary Staff Login
+
+Mansoer confirms production email OTP, individual authenticator and Operations context success.
+Mikhail's individual acceptance is deferred: do not treat him as a tested authenticated fallback.
+Preserve named accounts and pause affected work if the sole verified operator is unavailable.
+No cohort sends or client/payment activation follow from the login acceptance.
+
+A fresh read-only Stripe check on 9 October reports the configured account matches, card payments
+active, charges/payouts enabled, no disabled reason, zero currently-due requirements and one pending
+verification item. This is live provider capability evidence, not durable live settlement/refund
+acceptance or verification of the business/seller arrangement.
+
+The ignored local configuration still records disabled mobile delivery/redemption/email/webhook,
+intake, order review, Checkout, payment webhook and refund modes. The live restricted key/account,
+Telnyx API key, invitation claim key and medical keyring are present. The separate live Stripe
+webhook signing secret has since been saved locally and owner-uploaded to unpromoted version
+`645f4bc4-e0d1-4b8c-9bcd-2c87aacc7e46`. Following the owner's explicit execution instruction,
+all three live credentials were uploaded together to unpromoted version
+`2753edaf-ea20-4f3e-9779-54769addb4d5`; independent binding-name readback confirms their presence.
+The [live release packet](live-payment-activation.md) records the remaining publication/authority gates.
+Only presence and non-secret mode values were inspected. These
+local observations do not attest to Cloudflare's actual bindings.
+
+Execute the remaining release sequence without reopening approved cohort/budget/entity decisions:
+
+1. Complete and review the exact account/privacy/intake and deposit instruments, then publish
+   their approved versions/hashes through the existing governed publication controls. Drafts,
+   placeholder professional details and synthetic rehearsal publications are not final instruments.
+   The [four-part client terms candidate](pilot-client-terms-v1.md) is prepared for exact-copy review;
+   its creation does not record owner/domain approval or publish it.
+   Keep generator transfer, clinical/product transactions and uploads separately gated.
+2. Prepare the live webhook and distinct signing secret, current live financial release/service
+   authority and exact tenant bindings. The owner retains release control. Keep new Checkout
+   disabled while preparing; never substitute the sandbox signing secret or rehearsal authority.
+3. Obtain a bounded real-payment approval identifying the payer, exact amount, original-method
+   refund and acceptance of any non-returned provider fees. Then verify the deployed signed
+   settlement, durable reconciliation, refund and stop controls. Create no real charge beforehand.
+4. Reconcile actual source/Worker configuration, current instruments, recovery/monitoring and
+   operational assignments before a separate cohort GO. Initial maximum nine participants and
+   US$5 rolling-24-hour SMS budget are already approved; invite one approved participant first,
+   review the journey, then expand only within those ceilings. Do not enable every mode together.
+
+The Stripe skill informed the separate live credential/webhook and no-charge readiness boundary.
+No credential was printed or changed, provider object created, message sent, or release performed
+by this checkpoint.
+
 ## Approved Amendment — 9 October
 
 The owner defers private uploads until needed. Initial intake uses the protected questionnaire;

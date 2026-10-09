@@ -9,6 +9,74 @@ authority: engineering-preparation-not-live-charge-or-pilot-activation
 
 # Live Payment Activation
 
+## Latest preparation checkpoint — 9 October
+
+Subsequent approved preparation publishes collection-only intake authority and arms the finite
+live database release/service. The exact owner-ready Worker is now
+`0b3fbcd9-94cb-4f55-acd5-65dbdd003ea3`, still unpromoted. This supersedes the earlier suspended/
+disabled preparation below, not live settlement/refund acceptance. See the
+[current release handoff](pilot-release-preparation-2026-10-09.md).
+
+The owner approved the exact pilot terms and delegated the review-service timeframe. The selected
+commitment is three working days after confirmed payment and required information. A rollback-only
+hosted rehearsal passed, followed by committed publication of account/privacy instruments `1.0`
+and review-deposit terms `1.0.0`. Independent readback confirms zero clients/Checkout intents,
+one suspended payment service and a disabled live release. See
+[the publication checkpoint](pilot-client-terms-v1.md) for authority and expiry details.
+
+Ignored `.env.production.local` now names the real pilot tenant and service
+`c7a04672-992e-44fe-918b-76209f974adb`, not the old placeholder service. Cloudflare version
+`5aff8046-e188-4274-8db0-1b5a7c37e6e3` contains all three authorised live Stripe credentials
+and four matching tenant/service references. It is **unpromoted**. This supersedes the earlier
+credential-absence/preflight observations below; it does not assert active production values.
+No activation mode was changed, SMS sent, charge created or source deployed at that checkpoint.
+Medical-intake publication and finite release validation were subsequently prepared. The
+owner-paid test proposal below is withdrawn in favour of the isolated sandbox acceptance
+described in the release packet.
+
+## Historical Live Acceptance Proposal and Preflight — 9 October
+
+Superseded: the owner explicitly declined paying R999 personally for testing and approved an
+isolated hosted sandbox capture/refund instead. No real charge occurred. The earlier personal
+live-payment proposal is withdrawn and must not be treated as current authority or a launch
+prerequisite. Use official test cards only in sandbox; retain live and sandbox credentials and
+tenant/account financial histories separately. The following preflight is historical evidence.
+
+Read-only hosted preflight finds zero account/privacy instrument publications, zero deposit-term
+publications, zero Checkout releases, zero webhook service identities, zero client profiles,
+zero Checkout intents and zero provider receipts. The application's own deposit path requires
+current account/intake authority, a submitted non-held questionnaire, published deposit terms,
+an accepted offer and an unexpired live Checkout release. No prerequisite was fabricated and
+no synthetic publication or sandbox harness was repurposed as real payment evidence.
+
+Existing-endpoint inspection using the current live restricted key fails with HTTP 403,
+`more_permissions_required`. This does not prove that no endpoint exists. Inspect/create the exact
+live destination through the authorised Stripe Dashboard or a suitably scoped credential;
+do not broaden the runtime key indiscriminately or replace it with an unrestricted key. The
+separate live signing secret was absent from the ignored local record during this preflight.
+
+Dashboard follow-up succeeds on the existing authorised live Meneer Health account. Its event
+destinations page shows no configured destinations and an account-review-in-progress banner.
+After exact owner approval, the live destination **Meneer live payments** was created and verified
+as **Active** on account `acct_1U32SWCBswMrhhx4`, with destination ID
+`we_1UOgYmCBswMrhhx4Le291UNk`. It uses Your account / Snapshot / `2026-07-29.dahlia`,
+the twelve events listed in the owner deployment sequence below, and
+`https://meneerhealth.co.za/api/payments/stripe/webhook`. The dashboard reports zero event deliveries
+at creation. After separate owner approval, its signing secret was saved as
+`STRIPE_LIVE_WEBHOOK_SIGNING_SECRET` in ignored `.env.production.local`, with file mode `0600`;
+all existing file content was preserved and the value was not printed. It has not been provisioned
+to the Worker. Destination Active is not evidence of successful application
+receipt or settlement. No runtime key permission was expanded to work around the inspection denial.
+
+Next execution order: complete the actual governed publications and payer onboarding prerequisite;
+provision the live webhook/service authority and finite release; have the owner release matching
+bindings; then create one app-owned Checkout, let the owner pay, verify signed durable settlement,
+refund that exact capture and independently reconcile its provider/database status. Retain real
+financial acceptance records; do not apply disposable synthetic cleanup to real payment evidence.
+The approved live webhook is the only provider object created during this follow-up. No charge,
+refund, message, publication, database mutation or Worker release occurred. The payment itself
+and TD-010 acceptance remain pending.
+
 ## Scope and Facts
 
 The owner requests live payments for the initial cohort of fewer than ten participants. Retain the
@@ -91,11 +159,11 @@ Earlier no-hosted-migration statements in the validation section describe its lo
 2. Obtain explicit approval for the new hosted migration/configuration, prepare the exact live webhook
    destination/events/API version, provision separate server secrets and release authority, and
    have the owner deploy/promote. Do not reuse a rehearsal service identity or synthetic legal copy.
-3. Obtain separate bounded approval for a real-payment acceptance test: exact amount, payer,
-   original-method refund and provider fees. No official test card on live mode. Verify signed
-   durable settlement, independent refund confirmation, reconciliation, operator handling and
-   disabled/stop controls on the exact deployed release. Returning from Checkout is not evidence.
-4. Record live acceptance and launch approval separately from earlier sandbox completion. Do not
+3. Complete the approved isolated sandbox acceptance: actual onboarding, one test-card capture,
+   signed durable settlement, independent refund confirmation, reconciliation, operator handling
+   and disabled/stop controls. Do not require a personal real-money test; no official test card
+   may be used in live mode. Returning from Checkout is not evidence.
+4. Record launch approval and monitoring of legitimate live transactions separately from sandbox completion. Do not
    mark TD-010 Verified or activate the pilot until the applicable gates actually pass.
 
 The protocol generator stays inactive and private uploads deferred. Existing invitation/intake,
@@ -137,6 +205,91 @@ The tree remains unstaged for owner review; no commit, push, deployment or branc
 
 ## Owner Deployment Sequence — Keep Disabled Until Acceptance
 
+### Verified Release Inventory — 9 October Follow-Up
+
+Owner-created version `645f4bc4-e0d1-4b8c-9bcd-2c87aacc7e46` contains
+`STRIPE_LIVE_WEBHOOK_SIGNING_SECRET`, but its binding inventory does **not** contain
+`STRIPE_LIVE_ACCOUNT_ID` or `STRIPE_LIVE_RESTRICTED_KEY`. Existing sandbox binding names are
+present; they are not substitutes for these distinct live bindings. Secret names do not prove their
+values or the enabled/disabled mode values. No promotion was performed by this inspection.
+
+Following the owner's explicit instruction to execute the upload, all three live credentials were
+uploaded together to version `2753edaf-ea20-4f3e-9779-54769addb4d5`. Independent version readback
+confirms `STRIPE_LIVE_ACCOUNT_ID`, `STRIPE_LIVE_RESTRICTED_KEY` and
+`STRIPE_LIVE_WEBHOOK_SIGNING_SECRET` are present alongside the preserved existing bindings.
+Credentials were piped directly from the ignored local file without printing values. This version
+is unpromoted; no mode, database authority, production traffic or Git state was changed.
+The missing account/key finding above applies to the superseded preparation version, not this one.
+
+A fresh count-only, read-only hosted transaction confirms zero account instruments, zero intake
+publications, zero order terms, zero Checkout releases, zero service identities, zero client profiles
+and zero Checkout intents. The read-only Stripe readiness check passes account matching, active
+card payments and charges/payouts enabled, with zero currently-due and one pending-verification item.
+Therefore credential provisioning alone cannot complete the application-owned payment journey.
+
+The next release needs the exact completed account/privacy/intake/deposit instrument text and
+version/hash approval, a real tenant-bound webhook service with only payment append/update scopes,
+and a finite live Checkout release bound to the approved account. Do not publish the current
+bracketed notice drafts or manufacture a clinical approval, questionnaire submission or acceptance
+receipt. The payer must complete the applicable onboarding and accept the actual offer.
+
+The owner requested replacement terms. The [four-part proposed client text](pilot-client-terms-v1.md)
+now covers account/privacy, questionnaire acknowledgement/collection consent and deposit terms using
+recorded facts and commercial decisions. It is not yet approved/published. Its internal notes identify
+the exact publication mapping, real approver references, finite service/release scope and outstanding
+service timing/factual disclosures; generating wording does not settle those facts or activate payments.
+
+Upload the three live credentials together into another **unpromoted** version, leaving every mode
+unchanged. This validates the approved account and key formats before piping values directly to
+Wrangler; it does not echo credentials or write a committed secret file:
+
+```sh
+set -o pipefail
+bun --env-file=.env.production.local -e '
+  const names = [
+    "STRIPE_LIVE_ACCOUNT_ID",
+    "STRIPE_LIVE_RESTRICTED_KEY",
+    "STRIPE_LIVE_WEBHOOK_SIGNING_SECRET",
+  ];
+  const values = Object.fromEntries(names.map(name => [name, process.env[name]?.trim()]));
+  if (values.STRIPE_LIVE_ACCOUNT_ID !== "acct_1U32SWCBswMrhhx4" ||
+      !/^rk_live_[A-Za-z0-9]+$/.test(values.STRIPE_LIVE_RESTRICTED_KEY ?? "") ||
+      !/^whsec_[A-Za-z0-9]{20,}$/.test(values.STRIPE_LIVE_WEBHOOK_SIGNING_SECRET ?? "")) {
+    throw new Error("LIVE_PAYMENT_CREDENTIAL_CONFIGURATION_INVALID");
+  }
+  process.stdout.write(JSON.stringify(values));
+' | bunx wrangler versions secret bulk \
+  --name meneer-health \
+  --message "Provision distinct live payment credentials - release still gated"
+```
+
+The installed Wrangler help confirms this bulk command. Return its version ID for binding/source
+review, not its input JSON. Do not promote it merely because the upload succeeds.
+
+### Prepared Owner-Run Signing Secret Provisioning
+
+Run from the repository root. This pipes the validated local secret directly to Wrangler without
+printing it and creates an **unpromoted version**, not an active deployment. The installed Wrangler
+help confirms `versions secret put` and the `--name`/`--message` options. Keep all payment modes
+disabled; review the returned version and its source/bindings before any separately approved promotion.
+
+```sh
+set -o pipefail
+bun --env-file=.env.production.local -e '
+  const value = process.env.STRIPE_LIVE_WEBHOOK_SIGNING_SECRET?.trim();
+  if (!value || !/^whsec_[A-Za-z0-9]{20,}$/.test(value)) {
+    throw new Error("LIVE_WEBHOOK_SIGNING_SECRET_INVALID");
+  }
+  process.stdout.write(value);
+' | bunx wrangler versions secret put STRIPE_LIVE_WEBHOOK_SIGNING_SECRET \
+  --name meneer-health \
+  --message "Provision live Stripe webhook secret - payment release still gated"
+```
+
+Do not substitute `wrangler secret put`: that command can create an active deployment. This
+single secret alone does not provision the live restricted key/account, webhook service authority,
+publications or finite Checkout release, and does not complete payment acceptance.
+
 1. Commit reviewed source and deploy it with payment modes still `disabled`.
    Source deployment is safe preparation, not permission to accept real money.
 2. Separately approve/apply the new hosted migration and review its account/environment associations.
@@ -151,7 +304,7 @@ The tree remains unstaged for owner review; no commit, push, deployment or branc
    `charge.dispute.created`, `charge.dispute.updated`, `charge.dispute.closed`, `refund.created`,
    `refund.updated` and `refund.failed`. Scope restricted-key permissions to the existing adapter's
    required operations; never put keys into public build variables.
-4. After final instruments, provider acceptance and bounded real-test approval, explicitly select
+4. After final instruments, provider acceptance and sandbox acceptance, explicitly select
    `live` for Checkout/webhook/refund modes with exact `COMMERCE_REVIEW_TENANT_ID` and
    `STRIPE_WEBHOOK_SERVICE_IDENTITY_ID`. Verify the actual deployed journey before cohort activation.
 5. Stop new purchases with `COMMERCE_CHECKOUT_MODE=disabled`; retain live callbacks/refunds as

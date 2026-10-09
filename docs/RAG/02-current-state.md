@@ -142,6 +142,45 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Latest sandbox acceptance checkpoint — 9 October
+
+The owner declined a personal real-money test and approved isolated hosted sandbox acceptance.
+The real tenant's live Checkout release is paused. Four real staff remain preserved; a separate
+synthetic prerequisite tenant is prepared. No client, questionnaire, capture, refund, email or
+SMS has been created by this preparation. Verified Worker version
+`50601252-4f4a-48c7-9be9-dbdfa341b638` was then owner-promoted. Genuine disposable operator
+TOTP/AAL2 and a single delivered SMS passed. The invitation was converted by the participant
+before the agent's claim, yielding one profile/two document receipts with a different email from
+the approved support mailbox. Confirm disposable-account/medical-data scope before continuing
+or cleaning it up. Signed sandbox payment/refund and exact cleanup remain pending.
+See [the bounded acceptance packet](../02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md).
+Earlier owner-paid acceptance proposals are withdrawn; no personal R999 charge is required.
+
+## Latest pilot preparation checkpoint — 9 October
+
+Subsequent owner promotion is independently confirmed: `0b3fbcd9-94cb-4f55-acd5-65dbdd003ea3`
+now serves 100% in deployment `e1e76a78-7145-4014-89a5-b2ab1042aa09`. Anonymous intake/order
+commands return 401; unsigned Stripe/Telnyx callbacks return 400/401. This supersedes the
+unpromoted runtime statement below, not authenticated-flow or real payment/refund acceptance.
+
+Account/privacy/deposit and collection-only intake instruments are now published; real-tenant
+payment/SMS database controls are armed. Worker `0b3fbcd9-94cb-4f55-acd5-65dbdd003ea3` is
+prepared but **unpromoted**; current runtime remains `f7e4597c-1c35-4868-85db-86d9c308ebdb`.
+The ignored local environment describes the prepared target, not deployed activation. No SMS,
+clients, medical answers or charges were created. This supersedes earlier absent-publication/
+suspended-service checkpoints but not deferred professional evidence or real-money acceptance.
+See [the exact owner release and acceptance handoff](../02-implementation-plans/phase-02/annexures/pilot-release-preparation-2026-10-09.md).
+
+## Primary Production Staff Access — 9 October
+
+The owner confirms Mansoer's production email OTP, personal authenticator and Operations context
+are working, with an active staff session and assigned queue/support links. Mikhail's own login
+acceptance is owner-deferred; only Mansoer is a verified operator. TD-043 remains partially
+verified/Open, not fully closed. Login alone does not prove assigned-work or fallback coverage.
+See the [operator checkpoint](../02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md#td-043--primary-operator-verified-alternate-check-deferred).
+No client, payment or generator activation follows; older unconfirmed-primary observations below
+are historical.
+
 ## Staff Setup Enabled — 9 October
 
 The owner authorises staff-only setup. After a rollback-only preflight, only `meneer-pilot` changes

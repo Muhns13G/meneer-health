@@ -123,6 +123,30 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Current sandbox/live distinction — 9 October
+
+The personal R999 test proposal is withdrawn. The owner-approved isolated sandbox journey is
+partially executed: owner promotion, genuine disposable TOTP and a delivered SMS passed.
+The invitation already converted to a profile/two document receipts under a different mailbox;
+confirm account and medical-data scope before further testing/cleanup. Signed test settlement/refund
+and scoped cleanup remain pending. Real Checkout is paused; no test history is adopted into the
+real tenant. Current prices accept only `local-synthetic` provenance, and no real deposit price
+was published by release preparation. Resolve that authority before reopening live purchases;
+do not bypass it by labelling real pricing synthetic. See
+[the current acceptance packet](../02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md).
+
+## Latest release distinction — 9 October
+
+The owner has now promoted the prepared version; deployment and production negative-path checks
+passed. Earlier unpromoted statements below are historical. Do not equate those checks with
+authenticated participant onboarding, actual SMS delivery, clinical access or live settlement/refund.
+
+Approved instruments are published and database release controls are armed, but the prepared
+Worker is unpromoted and no real-money acceptance has occurred. Do not answer that pilot is
+activated, payment/refund proof is complete, medical grants exist or all debt is closed.
+The local environment now represents the pending release target. See
+[the exact preparation/owner handoff](../02-implementation-plans/phase-02/annexures/pilot-release-preparation-2026-10-09.md).
+
 ## Staff-Only Tenant Activation — 9 October
 
 The owner-approved tenant change now permits real staff setup; the pilot tenant is active, not
@@ -131,6 +155,15 @@ Worker. Four staff/six operator memberships are preserved. Actual operator email
 acceptance remains TD-043 Open. Do not equate active tenant status with client onboarding,
 live-payment activation, clinician authority or closure of TD-043. Earlier suspended-baseline
 statements below describe prior checkpoints.
+
+## Primary-Only Operational Acceptance — 9 October
+
+Mansoer confirms production OTP/TOTP and Operations session success. The owner defers Mikhail's
+individual login test; alternate authenticated coverage remains unproven. TD-043 is partially
+verified and remains Open. Do not infer assigned queue/inbox acceptance, clinical authority or
+pilot activation from the successful login. Pause affected work if the sole verified operator
+is unavailable until independently authenticated fallback coverage exists. See the
+[latest checkpoint](../02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md#td-043--primary-operator-verified-alternate-check-deferred).
 
 ## Latest TD-064/066 Closure — 9 October
 

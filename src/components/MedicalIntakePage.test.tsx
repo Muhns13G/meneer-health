@@ -33,6 +33,37 @@ function saved(answers: unknown = {}) {
   };
 }
 afterEach(() => vi.unstubAllGlobals());
+it.each([false, true])(
+  "shows an explicit next step after submission without bypassing a safety hold (%s)",
+  async (safetyHold) => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        Response.json(
+          view({
+            ...saved(completeSyntheticAnswers),
+            state: "submitted",
+            hasSubmitted: true,
+            safetyHold,
+          }),
+        ),
+      ),
+    );
+    await renderWithRouter(<MedicalIntakePage />);
+    await screen.findByRole("heading", { name: "Questionnaire received" });
+    if (safetyHold) {
+      expect(
+        screen.queryByRole("link", { name: "Continue to deposit review" }),
+      ).not.toBeInTheDocument();
+      expect(screen.getByText(/Your next step is private review/)).toBeInTheDocument();
+    } else {
+      expect(screen.getByRole("link", { name: "Continue to deposit review" })).toHaveAttribute(
+        "href",
+        "/portal/order",
+      );
+    }
+  },
+);
 it("does not collect medical answers before a durable notice acknowledgement", async () => {
   const calls: Record<string, unknown>[] = [];
   const fetch = vi.fn(async (_url: unknown, init?: RequestInit) => {

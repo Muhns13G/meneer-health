@@ -2,6 +2,18 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { orderReviewFixture } from "../src/test/order-review-fixture";
 import { isolateExternalFonts } from "./helpers";
+import { paymentStatusFixture } from "../src/test/payment-status-fixture";
+test.beforeEach(async ({ page }) => {
+  await page.route("**/portal/payments/read", (route) =>
+    route.fulfill({
+      json: {
+        payments: [],
+        nextCursor: null,
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      },
+    }),
+  );
+});
 test("exact order disclosure and unchecked acceptance never imply payment", async ({ page }) => {
   await isolateExternalFonts(page);
   const review = orderReviewFixture();
@@ -47,7 +59,7 @@ test("exact order disclosure and unchecked acceptance never imply payment", asyn
   await page.getByRole("checkbox").focus();
   await page.keyboard.press("Space");
   await page.getByRole("button", { name: "Accept this order" }).click();
-  await expect(page.getByRole("status")).toContainText("Payment is not confirmed here");
+  await expect(page.locator("#order-feedback")).toContainText("Payment is not confirmed here");
   await expect(page.getByRole("checkbox")).toHaveCount(0);
   expect(errors).toEqual([]);
   expect(new URL(page.url()).search).toBe("");
@@ -69,7 +81,7 @@ test("denial and stale response clear private order details", async ({ page }) =
   ]);
   await expect(page.getByRole("checkbox")).toBeVisible();
   await page.getByRole("button", { name: "Reload order" }).click();
-  await expect(page.getByRole("status")).toContainText("Your session has ended");
+  await expect(page.locator("#order-feedback")).toContainText("Your session has ended");
   await expect(page.getByText("Synthetic review deposit")).toHaveCount(0);
 });
 test("wall-clock expiry clears the review and acknowledgement", async ({ page }) => {
@@ -89,7 +101,9 @@ test("wall-clock expiry clears the review and acknowledgement", async ({ page })
     page.goto("/portal/order"),
   ]);
   await expect(page.getByRole("checkbox")).toBeVisible();
-  await expect(page.getByRole("status")).toContainText("review has expired", { timeout: 6000 });
+  await expect(page.locator("#order-feedback")).toContainText("review has expired", {
+    timeout: 6000,
+  });
   await expect(page.getByRole("checkbox")).toHaveCount(0);
 });
 test("accepted sandbox order starts only a strict Checkout request and never renders paid", async ({
@@ -121,7 +135,56 @@ test("accepted sandbox order starts only a strict Checkout request and never ren
     page.waitForResponse((r) => new URL(r.url()).pathname === "/portal/order/command"),
     page.goto("/portal/order"),
   ]);
-  await expect(page.getByRole("status")).toContainText("Payment is not confirmed here");
+  await expect(page.locator("#order-feedback")).toContainText("Payment is not confirmed here");
   await page.getByRole("button", { name: "Continue to secure Checkout" }).click();
   await expect(page).toHaveURL("https://checkout.stripe.com/c/pay/synthetic");
+});
+
+test("return from Checkout shows server-confirmed payment and never offers another payment", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  const review = orderReviewFixture();
+  review.checkoutEnabled = true;
+  review.acceptance = { receiptId: review.offerId, recordedAt: new Date().toISOString() };
+  const payments = paymentStatusFixture();
+  payments.payments[0]!.reference = review.offerId;
+  await page.route("**/portal/payments/read", (route) => route.fulfill({ json: payments }));
+  await page.route("**/portal/order/command", (route) => route.fulfill({ json: { review } }));
+  await page.goto("/portal/order");
+  await expect(page.getByRole("heading", { name: "Payment confirmed — thank you" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Continue to secure Checkout" })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: "View your account and progress" })).toHaveAttribute(
+    "href",
+    "/portal",
+  );
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
+
+test("pending, unavailable and disputed payments do not invite repeat payment", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  const review = orderReviewFixture();
+  review.checkoutEnabled = true;
+  review.acceptance = { receiptId: review.offerId, recordedAt: new Date().toISOString() };
+  await page.route("**/portal/order/command", (route) => route.fulfill({ json: { review } }));
+  for (const state of ["pending", "unavailable", "disputed"] as const) {
+    const payments = paymentStatusFixture();
+    payments.payments[0]!.reference = review.offerId;
+    if (state === "pending") payments.payments[0]!.status = "pending";
+    if (state === "disputed") payments.payments[0]!.dispute = true;
+    await page.route("**/portal/payments/read", (route) =>
+      state === "unavailable"
+        ? route.fulfill({ status: 503, body: "" })
+        : route.fulfill({ json: payments }),
+    );
+    await page.goto("/portal/order");
+    await expect(page.locator("#order-feedback")).toContainText("Payment is not confirmed here");
+    await expect(page.getByRole("button", { name: "Continue to secure Checkout" })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: "Payment confirmed — thank you" })).toHaveCount(
+      0,
+    );
+  }
 });
