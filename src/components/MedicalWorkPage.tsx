@@ -229,10 +229,13 @@ export function MedicalWorkPage() {
             <li key={item.intakeId}>
               <button
                 disabled={!hydrated || busy}
-                className="break-all text-left text-gold underline"
+                className="action-secondary flex-col gap-1 rounded-2xl"
                 onClick={() => void send({ action: "read", intakeId: item.intakeId, purpose })}
               >
-                Intake {item.intakeId} · version {item.version} · {item.state}
+                <span>Open intake</span>
+                <span className="break-all text-xs font-normal">
+                  Intake {item.intakeId} · version {item.version} · {item.state}
+                </span>
               </button>
             </li>
           ))}
@@ -423,7 +426,7 @@ export function MedicalWorkPage() {
             </button>
           </form>
         </section>
-        <Link to="/staff/sign-in" className="mt-10 inline-block text-gold underline">
+        <Link to="/staff/sign-in" className="action-secondary mt-10">
           Workforce sign-in
         </Link>
       </main>

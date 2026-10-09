@@ -52,6 +52,10 @@ test("approved role selection follows MFA and clears on sign-out", async ({ page
   await page.getByRole("button", { name: "Use approved context" }).click();
   await expect(page.getByRole("button", { name: "Renew session" })).toBeVisible();
   expect(selected).toBe(true);
+  const support = page.getByRole("link", { name: "Open assigned support work" });
+  await expect(support).toHaveAttribute("href", "/staff/support");
+  await expect(support).toHaveClass(/action-secondary/);
+  expect((await support.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   await page.getByRole("button", { name: "Sign out", exact: true }).click();
   await expect(page.getByLabel("Staff email address")).toBeVisible();
   await expect(choice).toHaveCount(0);

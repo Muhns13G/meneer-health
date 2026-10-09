@@ -24,7 +24,7 @@ export function Treatments() {
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl max-w-2xl leading-tight">
             {publicContent.homepage.treatments.title}
           </h2>
-          <Link to="/start" className="text-sm text-gold hover:underline underline-offset-4">
+          <Link to="/start" className="action-secondary">
             {publicContent.homepage.treatments.action}
           </Link>
         </div>

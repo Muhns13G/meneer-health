@@ -18,6 +18,7 @@ import {
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { OnboardingSteps } from "./OnboardingSteps";
+import { useActionToast } from "@/hooks/use-action-toast";
 type Status = "loading" | "ready" | "unavailable" | "signed-out" | "expired";
 const control = "mt-3 w-full rounded-xl border border-border bg-surface px-4 py-3 text-foreground";
 const rightsViewSchema = z
@@ -100,6 +101,7 @@ async function request(body: Record<string, unknown>, signal?: AbortSignal) {
 }
 
 export function MedicalIntakePage() {
+  const { notify, begin } = useActionToast();
   const [status, setStatus] = useState<Status>("loading");
   const [view, setView] = useState<IntakePatientView | null>(null);
   const [rightsView, setRightsView] = useState<z.infer<typeof rightsViewSchema> | null>(null);
@@ -305,6 +307,7 @@ export function MedicalIntakePage() {
     const seq = live.current;
     setBusy(true);
     setMessage("");
+    begin();
     try {
       if (!["save", "save_amendment"].includes(action)) submittedIntake(next);
       const result = intakeWriteResultSchema.parse(
@@ -331,11 +334,13 @@ export function MedicalIntakePage() {
       setAck(true);
       setEditing(result.state !== "submitted");
       setReview(false);
-      setMessage(
-        ["save", "save_amendment"].includes(action)
-          ? "Your draft is saved."
-          : "Your questionnaire is received. This is not clinical approval or confirmation of treatment.",
-      );
+      if (["save", "save_amendment"].includes(action)) {
+        notify("draftSaved");
+      } else {
+        setMessage(
+          "Your questionnaire is received. This is not clinical approval or confirmation of treatment.",
+        );
+      }
       setErrors({});
     } catch (error) {
       if (seq === live.current) {
@@ -622,13 +627,13 @@ export function MedicalIntakePage() {
               <button
                 type="button"
                 disabled={busy}
-                className="mt-6 block text-gold underline"
+                className="action-secondary mt-6 mr-3"
                 onClick={() => void rights("export")}
               >
                 Export retained questionnaire information
               </button>
             ) : null}
-            <button className="mt-6 text-gold underline" onClick={() => void load()}>
+            <button className="action-secondary mt-6" onClick={() => void load()}>
               Check again
             </button>
           </section>
@@ -744,7 +749,7 @@ export function MedicalIntakePage() {
                   </p>
                 )}
                 <button
-                  className="mt-5 text-gold underline"
+                  className="action-secondary mt-5"
                   onClick={() => {
                     setEditing(true);
                     setAnswers({
@@ -772,7 +777,7 @@ export function MedicalIntakePage() {
                     </label>
                     <button
                       type="button"
-                      className="mt-5 text-gold underline"
+                      className="action-secondary mt-5"
                       disabled={!transferChoice || busy}
                       onClick={() => void rights("authorise_transfer")}
                     >
@@ -841,21 +846,25 @@ export function MedicalIntakePage() {
                           <dd>{displayAnswer(answers.sex)}</dd>
                         </div>
                       </dl>
-                      <button
-                        type="button"
-                        disabled={busy}
-                        className="mt-6 rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
-                        onClick={() => void persist(view.record?.hasSubmitted ? "amend" : "submit")}
-                      >
-                        Confirm and submit questionnaire
-                      </button>
-                      <button
-                        type="button"
-                        className="ml-5 text-gold underline"
-                        onClick={() => setReview(false)}
-                      >
-                        Back to answers
-                      </button>
+                      <div className="mt-6 flex flex-wrap items-start gap-3">
+                        <button
+                          type="button"
+                          disabled={busy}
+                          className="action-primary"
+                          onClick={() =>
+                            void persist(view.record?.hasSubmitted ? "amend" : "submit")
+                          }
+                        >
+                          Confirm and submit questionnaire
+                        </button>
+                        <button
+                          type="button"
+                          className="action-secondary"
+                          onClick={() => setReview(false)}
+                        >
+                          Back to answers
+                        </button>
+                      </div>
                     </section>
                   ) : (
                     <section className="mt-8">
@@ -960,7 +969,12 @@ export function MedicalIntakePage() {
             </p>
             {view.record ? (
               <section className="mt-8 flex flex-wrap gap-6" aria-label="Questionnaire rights">
-                <button type="button" disabled={busy} onClick={() => void rights("export")}>
+                <button
+                  type="button"
+                  className="action-secondary"
+                  disabled={busy}
+                  onClick={() => void rights("export")}
+                >
                   Download my questionnaire and submitted history
                 </button>
                 <button
@@ -974,6 +988,7 @@ export function MedicalIntakePage() {
                     )
                       void rights("restrict");
                   }}
+                  className="action-caution"
                 >
                   Restrict questionnaire access
                 </button>
@@ -981,7 +996,7 @@ export function MedicalIntakePage() {
             ) : null}
           </>
         )}
-        <Link to="/portal" className="mt-10 inline-block text-gold underline">
+        <Link to="/portal" className="action-secondary mt-10">
           Back to your account
         </Link>
       </main>

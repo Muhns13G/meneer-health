@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { paymentStatusPageSchema, type PaymentStatusPage } from "@/domain/payments/payment-status";
 import { RefundPanel } from "./RefundPanel";
+import { useActionToast } from "@/hooks/use-action-toast";
 
 const labels = {
   not_started: "Checkout not started",
@@ -21,6 +22,7 @@ export function PaymentStatusPanel(props: Props) {
   return <PaymentStatusContent key={props.caseId ?? "own-payments"} {...props} />;
 }
 function PaymentStatusContent({ caseId, autoLoad = false, onChange }: Props) {
+  const { notify, dismiss, begin } = useActionToast();
   const [page, setPage] = useState<PaymentStatusPage | null>(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -56,7 +58,9 @@ function PaymentStatusContent({ caseId, autoLoad = false, onChange }: Props) {
     };
   }, [caseId, onChange]);
   const load = useCallback(
-    async (cursor: PaymentStatusPage["nextCursor"] = null) => {
+    async (cursor: PaymentStatusPage["nextCursor"] = null, notifyUser = false) => {
+      if (notifyUser) begin();
+      else dismiss();
       active.current?.abort();
       clearTimer();
       const controller = new AbortController();
@@ -82,9 +86,8 @@ function PaymentStatusContent({ caseId, autoLoad = false, onChange }: Props) {
         if (remaining <= 0) throw new Error("PAYMENT_STATUS_EXPIRED");
         setPage(result);
         onChange?.(result);
-        setMessage(
-          result.payments.length ? "Payment evidence checked." : "No payment records available.",
-        );
+        setMessage(result.payments.length ? "" : "No payment records available.");
+        if (notifyUser) notify("paymentRefreshed");
         expiry.current = setTimeout(
           () => {
             active.current?.abort();
@@ -103,7 +106,7 @@ function PaymentStatusContent({ caseId, autoLoad = false, onChange }: Props) {
         if (!controller.signal.aborted) setBusy(false);
       }
     },
-    [caseId, onChange],
+    [caseId, onChange, notify, dismiss, begin],
   );
   useEffect(() => {
     if (autoLoad) void load();
@@ -132,7 +135,7 @@ function PaymentStatusContent({ caseId, autoLoad = false, onChange }: Props) {
         disabled={busy}
         onClick={() => {
           interacted.current = true;
-          void load();
+          void load(null, true);
         }}
       >
         {busy ? "Checking…" : "Refresh payment status"}

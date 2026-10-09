@@ -335,7 +335,7 @@ export function WorkforceSignInPage() {
             unassigned case access.
           </p>
           {session?.role === "operations" ? (
-            <a href="/staff/queue" className="underline">
+            <a href="/staff/queue" className="action-primary">
               Open assigned queue
             </a>
           ) : (
@@ -343,7 +343,7 @@ export function WorkforceSignInPage() {
           )}
           <p>Session idle deadline: {session?.expiresAt}.</p>
           {session?.role === "admin" ? (
-            <a href="/staff/alerts" className="underline">
+            <a href="/staff/alerts" className="action-secondary">
               Review operations alerts
             </a>
           ) : null}
@@ -364,7 +364,7 @@ export function WorkforceSignInPage() {
           <p>
             To change work context, sign out here and sign in again with your individual account.
           </p>
-          <a href="/staff/support" className="underline">
+          <a href="/staff/support" className="action-secondary">
             Open assigned support work
           </a>
           {session?.role === "admin" && session.purpose === "security_administration" ? (

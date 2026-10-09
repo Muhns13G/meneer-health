@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { render } from "@testing-library/react";
+import { ActionToaster } from "@/components/ActionToaster";
 import {
   Outlet,
   RouterProvider,
@@ -10,7 +11,14 @@ import {
 } from "@tanstack/react-router";
 
 export async function renderWithRouter(ui: ReactElement) {
-  const rootRoute = createRootRoute({ component: Outlet });
+  const rootRoute = createRootRoute({
+    component: () => (
+      <>
+        <Outlet />
+        <ActionToaster />
+      </>
+    ),
+  });
   const testRoute = createRoute({
     getParentRoute: () => rootRoute,
     path: "/",

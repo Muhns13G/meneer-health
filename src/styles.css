@@ -154,6 +154,25 @@
 }
 
 @layer components {
+  .action-primary,
+  .action-secondary,
+  .action-caution {
+    @apply inline-flex min-h-11 max-w-full items-center justify-center rounded-full border px-6 py-3 text-center text-sm font-medium transition-colors;
+    @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .action-primary {
+    @apply border-gold bg-gold text-primary-foreground hover:bg-gold-soft;
+  }
+
+  .action-secondary {
+    @apply border-border text-foreground hover:border-gold/50;
+  }
+
+  .action-caution {
+    @apply border-gold/60 text-gold hover:bg-gold/10;
+  }
+
   .label-caps {
     font-family: var(--font-sans);
     text-transform: uppercase;

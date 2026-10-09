@@ -187,7 +187,7 @@ function ActivateAccountPage() {
                 </p>
                 <p className="mt-4 whitespace-pre-wrap leading-relaxed">{document.body}</p>
                 <a
-                  className="mt-4 inline-block text-gold underline"
+                  className="action-secondary mt-4"
                   download={`${document.instrumentId}-${document.version}.txt`}
                   href={`data:text/plain;charset=utf-8,${encodeURIComponent(document.body)}`}
                 >
@@ -378,7 +378,7 @@ function ActivateAccountPage() {
               Your account profile and both document actions have been saved. No payment or clinical
               consent has been collected.
             </p>
-            <Link to="/account/sign-in" className="mt-4 inline-block text-gold underline">
+            <Link to="/account/sign-in" className="action-primary mt-4">
               Sign in to continue
             </Link>
           </div>

@@ -3,8 +3,10 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { useActionToast } from "@/hooks/use-action-toast";
 
 export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
+  const { notify, dismiss } = useActionToast();
   const [stage, setStage] = useState<"request" | "verify">("request");
   const [email, setEmail] = useState("");
   const [pending, setPending] = useState(false);
@@ -35,6 +37,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
     const form = new FormData(event.currentTarget);
     setPending(true);
     setMessage("");
+    dismiss();
     try {
       const response = await fetch(`/account/${mode}`, {
         method: "POST",
@@ -51,7 +54,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
       if (stage === "request" && response.status === 202) {
         setEmail(String(form.get("email") ?? ""));
         setStage("verify");
-        setMessage("If an eligible account exists, a six-digit code has been sent.");
+        notify("codeRequested");
       } else if (stage === "verify" && response.status === 204) {
         setCompleted(true);
         setMessage(
@@ -149,12 +152,18 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
           </form>
         )}
         {stage === "verify" && !completed && (
+          <p className="mt-5 text-sm text-muted-foreground">
+            Enter the latest code from your email. It is valid for 15 minutes.
+          </p>
+        )}
+        {stage === "verify" && !completed && (
           <button
             type="button"
             disabled={pending}
             onClick={() => {
               setStage("request");
               setMessage("");
+              dismiss();
             }}
             className="mt-5 block text-sm text-gold underline underline-offset-4"
           >
@@ -171,7 +180,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
           {pending ? "Checking…" : message}
         </div>
         {completed && !recovery ? (
-          <Link to="/portal" className="mt-6 inline-block text-gold underline underline-offset-4">
+          <Link to="/portal" className="action-primary mt-6">
             Open your private account
           </Link>
         ) : null}
