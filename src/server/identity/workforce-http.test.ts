@@ -27,6 +27,8 @@ function setup() {
     requestCode: vi.fn(),
     verifyCode: vi.fn().mockResolvedValue({ proof }),
     completeMfa: vi.fn(),
+    completeMfaForContextChoice: vi.fn(),
+    selectContext: vi.fn(),
     authorise: vi.fn(),
     renew: vi.fn(),
     invite: vi.fn(),
@@ -50,6 +52,54 @@ function request(
   });
 }
 describe("staff HTTP and sealed cookie boundary", () => {
+  it("post-MFA context choices expose no tokens and still issue only a pending cookie", async () => {
+    const s = setup();
+    const pending = { ...proof, contextChoiceRequired: true };
+    s.service.completeMfaForContextChoice.mockResolvedValue({
+      proof: { ...pending, factorId: undefined, contextChoiceReady: true },
+      contexts: [proof.context],
+    });
+    const cookie = await sealWorkforceProof(pending, new Date(Date.now() + 600000), secret);
+    const response = await s.handler(
+      request("mfa", { code: "123456" }, { cookie: cookie.split(";", 1)[0]! }),
+    );
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ contexts: [proof.context] });
+    expect(s.service.completeMfa).not.toHaveBeenCalled();
+    const next = await openWorkforceProof(
+      new Request("https://meneerhealth.co.za", {
+        headers: { cookie: response.headers.get("set-cookie")!.split(";", 1)[0]! },
+      }),
+      secret,
+    );
+    expect(next?.contextChoiceReady).toBe(true);
+    expect(next?.sessionId).toBeUndefined();
+  });
+  it("context endpoint rejects extra authority fields and anonymous requests", async () => {
+    const s = setup();
+    expect((await s.handler(request("context", { tenantId: id, role: "auditor" }))).status).toBe(
+      401,
+    );
+    const cookie = await sealWorkforceProof(
+      { ...proof, contextChoiceRequired: true, contextChoiceReady: true },
+      new Date(Date.now() + 600000),
+      secret,
+    );
+    expect(
+      (
+        await s.handler(
+          request(
+            "context",
+            { tenantId: id, role: "auditor", purpose: "forged" },
+            {
+              cookie: cookie.split(";", 1)[0]!,
+            },
+          ),
+        )
+      ).status,
+    ).toBe(422);
+    expect(s.service.selectContext).not.toHaveBeenCalled();
+  });
   it("rejects role/tenant/purpose inputs and duplicate fields", async () => {
     const s = setup();
     for (const field of ["role", "tenantId", "purpose", "assurance"]) {

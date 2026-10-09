@@ -88,6 +88,14 @@
       "topics": ["sprint-14", "TD-066", "identity", "retention", "recovery"]
     },
     {
+      "id": "phase-02-pilot-final-acceptance-20261009",
+      "path": "docs/02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md",
+      "status": "in-progress-no-activation",
+      "authority": "observed-read-only-checks-owner-coverage-and-proposed-control",
+      "priority": 1,
+      "topics": ["pilot", "TD-066", "TD-064", "accessibility", "operations"]
+    },
+    {
       "id": "phase-02-sprint-14-7",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md",
       "status": "completed-local-conversion-boundary",

@@ -1,0 +1,301 @@
+---
+plan_id: phase-02-pilot-final-acceptance-20261009
+title: Remaining Pilot Acceptance Execution Packet
+status: in-progress-no-activation
+authority: observed-read-only-checks-owner-coverage-and-proposed-control
+last_updated: 2026-10-09
+owner: "@Muhns13G"
+audience: internal
+sensitivity: internal
+---
+
+# Final Pilot Acceptance — 9 October
+
+This packet tracks TD-066 → TD-064 → TD-037/038 → TD-043. It does not stage Git changes,
+release configurations, activate the suspended pilot, waive TD-006/009/010 or authorise charges.
+Private uploads, product transactions and generator transfer remain separately gated.
+
+## Current Observations
+
+- At initial inspection the local branch was `itws-I` at `c4ac54e`, with an owner-staged batch.
+  During the checks the owner committed that batch at
+  `dec545b9673c04f9600f015decea456069206be1` (`Add recovery and provenance guards`). No agent Git
+  mutation occurred. The refreshed browser packet uses that source, before the manual-pause
+  harness amendment described below.
+- GitHub's exact origin repository reports preview `aae036cb0c5c8618af1d5e47e0c0dc0f53f63505`
+  CI run `37910538858` and `itws-I` `dec545b9673c04f9600f015decea456069206be1`
+  CI run `37910489260` both completed successfully on refresh. Main
+  `7abb3c1d7e4d672a3d77ced3a1fadb0eaee05157` has passing completed runs. These are snapshots,
+  not a claim that all branches or deployed Worker source are identical.
+- The retirement coordinator blob matches the preview branch exactly:
+  `9da29c01b6d4f13b186e723bcf8e3be9952e0ff1`. One matching file is not whole-release equivalence.
+- Canonical anonymous first-party empty-command probes: intake client/staff and order each return
+  412 (configuration disabled); rights returns 401. No fixture or action is created by these probes.
+- Guarded read-only hosted baseline passes: one suspended pilot tenant, zero Auth users and only
+  twelve configured fulfilment-provider gates besides that tenant in service-readable data.
+  Eighteen resources are deliberately service-unreadable; do not infer their contents from the API.
+- Independent SQL counts confirm zero Auth users/sessions, mobile creation receipts/invitations,
+  active tenants and proposed isolated rehearsal tenant. No row content is printed.
+
+## TD-066 — Implementation Versus a Temporary Operating Control
+
+The candidate policy, coordinator and provider adapter have 79 passing focused tests. They are
+unwired. The native locked repository, confirmation/session-race prevention, contact tombstones,
+backup-copy reconciliation and reviewed reissue remain unimplemented. Hosted deployment cannot
+turn those interfaces into an operational workflow. TD-066 stays Open.
+
+Full resolution requires the native implementation, local concurrent preservation/uncertainty
+tests, separately approved migration, isolated hosted acceptance and exact cleanup. Provider
+calls must remain outside database locks; operational deletion must never disable append-only
+guards. Do not substitute ad hoc administrator deletion or synthetic fixture cleanup.
+
+### Optional Deadline Control — Proposed, Not Approved or Implemented
+
+The existing debt permits a specifically approved time-bounded operating control as an interim
+release disposition, not Verified completion. If selected, it must include all of:
+
+1. Maximum nine approved participants; no batch import, automatic reissue, contact change,
+   identity merge or provider deletion. Existing US$5 rolling-day SMS limit remains.
+2. Mansoer reviews unconverted invitations and exact creation-receipt manifests daily; Mikhail
+   covers absence. Record only opaque references, terminal/due dates and state, not contacts/codes.
+3. Converted, pre-existing, held, active-session and domain-associated identities are never treated
+   as orphan cleanup candidates. Uncertain creation/delivery stays held without blind resend.
+4. Wrong email, existing-account association or failed conversion is a staff-reviewed exception.
+   Do not delete/recreate an identity to bypass it. Pause that participant's conversion/reissue.
+5. No new invitation/email dispatch after **7 November 2026, 00:00 SAST**, or earlier if any
+   unconverted identity reaches 29 days after its terminal event, daily review is missed, a
+   preservation invariant fails, or an unresolved rights/retention request arises. A revised
+   release decision, not automatic extension, is required before resumption.
+6. Before approving this control, implement and test the deadline/stop enforcement and scheduled
+   reminder/coverage checks, including containment without preventing existing-account support
+   or rights handling. A document alone is not an enforced stop.
+7. Finish native retirement and copy/backup reconciliation before the first 30-day retirement
+   deadline. Backup retention is not shortened implicitly; retain current disposition evidence so
+   erased contacts cannot be resurrected on restore. If the deadline cannot be met, escalate
+   before launch rather than promise compliant erasure from register-only sweeps.
+8. Record explicit system/security and applicable privacy-owner acceptance, expiry, accountable
+   responders and compensating-control test evidence. Generic pilot approval is not this approval.
+
+No exception has been accepted; no runtime deadline or scheduled reminder has been provisioned.
+The full-workflow path remains the default unless the owner explicitly selects this narrower path.
+
+## TD-064 — Owner Configuration Release Needed
+
+The guarded SQL correction is already hosted. Reuse the exact isolated configuration packet in
+[pre-release gap remediation](sprint-13-pre-release-gap-remediation.md#owner-controlled-hosted-conflict-settings).
+The proposed tenant `6d951368-281e-4519-8361-7b5f63efe245` is absent at the fresh count check.
+
+Privately capture prior values/absence; the owner releases that rehearsal-only configuration
+with checkout/webhook/refund dispatch and outbound messages disabled. Record its Worker version.
+Then use approved isolated fixtures with genuine operations/clinical AAL2 to prove positive,
+permanent 409, stale-version, exact replay, denial and unchanged-state outcomes for the applicable
+intake/rights/order/alert commands. Fixture prerequisites must not fabricate production funding.
+Fingerprint affected data/security metadata before and after rejected commands. Drain requests,
+restore disabled settings, revoke sessions and remove only manifested fixtures under the approved
+locked cleanup procedure, then independently check the baseline. Never test the real pilot tenant.
+
+No new fixture has been created here; a 412 readiness result is not authenticated conflict proof.
+
+## TD-037/038 — Finite Human Review
+
+Retain earlier owner-confirmed local/hosted VoiceOver, actual zoom and phone checks. The owner
+agrees to a targeted review now. Capture reviewer, date, actual macOS/browser/VoiceOver and
+phone/OS/browser/AT versions, exact reviewed source/Worker version and environment for each row.
+Synthetic intercepted local data prove UI behaviour, not hosted persistence or actual delivery.
+
+On 9 October, the owner confirmed the paused local sign-in fixture was visible and VoiceOver
+clearly announced Email address, Send code, Six-digit code, request-result and failed-code
+feedback, with usable keyboard focus. This is a specific **sign-in** observation on the managed
+Chromium/macOS versions below; verification, recovery, sign-out, phone AT and the other rows
+are not covered by this confirmation. The grouped account row therefore remains partially open.
+
+| Surface                                 | Specific remaining observations                                                                          | Result                                          |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Account verify/sign-in/recover/sign-out | Email/code labels; pending/result; invalid/expired code; retry and settled focus                         | Sign-in confirmed; other account states pending |
+| Account activation                      | Separate receipt checkboxes, profile/contact preference, failure/retry, durable completion               | Pending                                         |
+| Portal/dashboard                        | Read/refresh, failure, expiry/revocation clearing and literal payment/refund distinctions                | Pending                                         |
+| Rights/support                          | Correction, uncertain same-key retry, receipt versus human action, urgent guidance                       | Pending                                         |
+| Questionnaire                           | Eight sections, conditional labels, validation, save failure/retry, review/submit, expiry clearing       | Pending                                         |
+| Order review                            | Exact disclosure, unchecked acceptance, expiry/conflict clearing, Checkout versus settlement             | Pending                                         |
+| Staff sign-in                           | Email versus MFA, denial, resume/expiry                                                                  | Pending                                         |
+| Staff queue                             | Filters/pagination, claim conflict, masked detail, evidence/destination controls, financial read, expiry | Pending                                         |
+| Staff intake                            | Purpose/grant denials, protected fields, transfer preparation, stale/expired work                        | Pending                                         |
+| Staff alerts/support                    | Load/pending/results, response controls, uncertainty/follow-up, expiry focus                             | Pending                                         |
+| Desktop/mobile                          | Keyboard reachability, actual 200%/400% zoom, phone AT names/states/results and readable controls        | Pending                                         |
+
+Do not perform payments, clinical approval, sending, uploads or generator actions during this UI
+review. Record defects and exact retests rather than marking every row from a generic “works”.
+Provider-owned Checkout accessibility is a separate payment acceptance surface.
+
+## TD-043 — Owner-Confirmed Coverage, Remaining Operational Acceptance
+
+On 9 October the owner confirms all parties agree: Mansoer primary/Mikhail alternate monitor
+support/privacy and cover absence; Tasneem/Dr Ziyaad Noor accept clinical escalation roles.
+Retain the ordinary 24-hour response target where possible and immediate emergency-care guidance.
+This is owner-confirmed actual coverage, not proof of professional registration or agreements.
+
+The owner directs first-name `@meneerhealth.co.za` staff addresses. Preparation mapping:
+
+| Person            | Proposed mailbox           | Intended operational scope                                                                                    |
+| ----------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Mansoer Gallie    | mansoer@meneerhealth.co.za | Primary support/privacy operations; separately governed system/security administration                        |
+| Mikhail Robertson | mikhail@meneerhealth.co.za | Alternate support/privacy operations and product-owner responsibilities                                       |
+| Tasneem           | tasneem@meneerhealth.co.za | Qualified clinical lead; clinical-purpose/assignment grants only after applicable authority is evidenced      |
+| Dr Ziyaad Noor    | ziyaad@meneerhealth.co.za  | Qualified clinical alternate; clinical-purpose/assignment grants only after applicable authority is evidenced |
+
+These are named staff work-address proposals, not patient contacts. Mailbox existence/receipt and
+exact recipient confirmation are unverified; no invitation, identity or assignment has been
+created. Do not grant clinical authority to administrators or convert these descriptive scopes
+into broad native role grants. Resolve the exact supported role/purpose/assignment combination,
+independent grant separation and fresh TOTP/AAL2 in the controlled provisioning packet first.
+Send approval remains separate from this preparation instruction.
+
+### Approved Staff Access Direction — Individual Identity, Explicit Context
+
+On 9 October the owner accepts shared functional inboxes with individual staff logins and
+explicitly authorised role switching. `support@` / `privacy@` are correspondence destinations;
+`admin@`, if used, is administrative correspondence, not a shared privileged system identity.
+Access to shared inboxes should be delegated to named mailbox accounts, not achieved by sharing
+passwords or TOTP. This records the direction only: no mailbox delegation, staff provisioning,
+role grant or runtime switch is performed by this approval.
+
+Retain one named system identity each for Mansoer, Mikhail, Tasneem and Ziyaad. The earlier
+per-person `.privacy@` account proposal is **superseded**, not another account-creation task.
+Each named identity has its own MFA; permitted roles and assignments must be approved individually.
+Shared mailbox possession is not authority to perform privacy, clinical or security actions.
+
+#### Pre-Implementation Native Constraint
+
+Source inspection of `20261003205329_workforce_security_context.sql` confirms that context
+resolution requires exactly one active non-patient membership per subject. The support HTTP
+handler permits `operations:operations`, `support:support`, `auditor:privacy_review` and
+`clinician:care_delivery`, but the native support functions further restrict privacy requests
+to auditors and clinical requests to clinicians. An operations appointment alone does not grant
+privacy or clinical access. Adding a second workforce membership to the same subject is not a
+supported context switch and would deny resolution; do not provision conflicting grants.
+
+That baseline could not implement the accepted direction by inserting extra memberships or
+trusting a browser-supplied role. The local change recorded below adds a native binding rather
+than relaxing that predicate. It still requires hosted acceptance before multi-role provisioning.
+Nothing here marks TD-043 Verified.
+
+#### Bounded Implementation and Acceptance
+
+1. Resolve the authenticated named subject and current, independently approved memberships on
+   the server. Expose only their available role/tenant contexts after MFA; never accept arbitrary
+   subject, permission, purpose or tenant claims as authority. No automatic clinical/admin grant.
+2. Bind exactly one selected membership/role/purpose/tenant to a native application session and
+   its verified provider session. Recheck validity, assignment and assurance on every protected
+   operation. Removing the old single-membership predicate without this binding is insufficient.
+3. Switching ends the old application context, issues a new bound context and clears old private
+   UI/cache state. Replayed old cookies and in-flight old-context mutations must be rejected at
+   the authoritative commit boundary. Existing provider-session revocation/expired-session vetoes
+   must be reconciled explicitly, not removed to make switching work. Privileged work retains
+   its privileged session class and fresh step-up requirements.
+4. Record actor subject, source/destination context, time and outcome without codes, contacts or
+   health payloads. A role change does not make the same person an independent approver: existing
+   distinct-subject approval/activation separation remains mandatory across contexts.
+5. Test one-role compatibility, multi-role selection, ungranted/wrong-tenant/wrong-purpose denial,
+   expired/revoked membership/session, stale cookie replay, concurrent switch/command races,
+   privilege step-up, independent-approver separation, UI clearing and accessible role controls.
+   Verify native SQL, application service, HTTP/cookie and browser layers; then request the exact
+   migration approval and owner-controlled release for bounded hosted acceptance.
+
+Intended responsibilities, not provisioned grants:
+
+- Mansoer/Mikhail named identities: separately selected `operations` / `operations` for general
+  support, assigned queues and invitations; `auditor` / `privacy_review` for privacy assignments.
+- Tasneem/Ziyaad first-name identities: `clinician` / `care_delivery`, only after the separate
+  professional-authority gates and assigned medical-grant approval/activation are satisfied.
+- Security/grant activation is a separate `admin` / `security_administration` authority. Neither
+  an operations account nor a privacy account receives it automatically. Resolve its actual
+  independent operator, mailbox and approval before attempting grant activation.
+
+This direction creates no mailbox, Auth user, membership, session, assignment or send. Do not share
+accounts or reuse another person's TOTP. Real provisioning requires its own approved manifest,
+delivery verification and fresh MFA/denial checks; it must not use disposable fixture cleanup.
+
+Remaining: actual current assigned staff access/AAL2, private roster/purpose/recipient mapping,
+unattended authenticated provider callback delivery, failure/suppression/alternate escalation,
+quota/headroom and applicable released support acceptance. Prior successful provider receipts
+and manually replayed callbacks remain dated evidence, not proof of automatic production push.
+Any new delivered-email rehearsal requires an explicitly bounded recipient/send approval; this
+packet creates no email or callback configuration. Mark Verified only after applicable proof.
+
+### Local Context-Selection Implementation — Not Hosted Acceptance
+
+The new `20261009101500_workforce_session_context_selection.sql` migration was replayed against
+fixed synthetic local Supabase, then applied to hosted Supabase under the owner's specific
+approval after the complete local unit matrix passed. After email verification, a multi-role identity must
+complete genuine fresh TOTP before receiving its reviewed role choices. Selecting a context
+atomically binds one membership to that provider session; an immutable record holds only opaque
+identifiers, role, purpose and time. Every selected-context resolution rechecks the current
+membership, tenant and provider/application session. Single-role login remains compatible.
+
+The bounded switching design requires sign-out and a new email/TOTP login. It does not mutate a
+live role, automatically grant permissions, remove distinct-subject approval requirements or
+permit clinical authority through an operations role. The browser clears its choice and session
+view on successful sign-out. Other tabs and in-flight commands require additional transition
+acceptance; this checkpoint is not proof of that broader property.
+
+- Full local SQL matrix: 44 files, 2,116 assertions passed, including 37 new selection assertions.
+- Genuine local Auth/TOTP: single-role session/renewal/revocation and queue claim/replay/release
+  passed; competing multi-role selections produce exactly one successful session, stale cookies
+  remain denied, and only generated `.invalid` fixtures are removed with guards restored.
+- Workforce browser packet: 4/4 desktop/Pixel-7 checks passed, including post-MFA choice focus,
+  no premature session controls, axe checks and sign-out clearing. Responses are intercepted
+  synthetic fixtures, not hosted persistence or manual VoiceOver evidence.
+
+The full unit matrix passes 158 files / 1,243 tests with the thread pool and verbose reporter;
+the default runner stalled without results and was interrupted, not recorded as a pass.
+TypeScript, ESLint, formatting, production build/client-bundle checks, portability, generated-route
+and diff checks pass. Local Supabase is stopped with volumes retained after fixture cleanup.
+
+Hosted readback confirms exact migration history `20261009101500`, forced RLS, no direct read
+privileges for anonymous/authenticated/service roles, active immutable guard, service-only new
+functions and inaccessible retired resolver. The journal remains empty, Auth users remain zero
+and no tenant is active. Security advisors report informational deny-all-RLS/no-policy findings;
+no access policy was added to silence these. This is schema readback, not hosted Auth acceptance.
+
+TD-043 stays Open. Next require an owner-controlled source release and bounded hosted acceptance.
+Real staff identities, independently
+approved grants and inbox delegation have not been provisioned. Existing target-invitation policy
+still denies ambiguous multi-membership targets; provisioning must address that deliberately,
+not bypass it. TD-066 native retirement and TD-064 hosted conflict acceptance are unaffected.
+
+## Validation Record
+
+The refreshed nine-file desktop/mobile browser packet passes **88/88 in 7.8 minutes** with
+Node 22.23.2 / Playwright 1.62.1 / managed Chromium 151.0.7922.34. Its first sandboxed attempt
+failed before testing on Cloudflare inspector port 9229 (`listen EPERM`); the same source/packet
+was rerun with permitted local port access, not a runtime workaround. This is local intercepted
+UI evidence, not authenticated hosted acceptance or spoken-output proof.
+
+The workstation reports macOS 26.6.2 build 25G83 and installed Google Chrome 154.0.8037.100;
+installed Chrome is not the managed browser used above and is not an AT review observation.
+The manual review mode in `client-form-accessibility.spec.ts` now pauses the selected fixture
+before automatic interactions and labels the run `manual-review-only`. Resuming closes that
+manual scenario; it must not be counted as automated or hosted acceptance. Ordinary CI remains
+on the existing non-paused path. No runtime application or provider configuration is changed.
+After that harness-only amendment, the ordinary desktop sign-in regression passes **1/1 in
+45.7 seconds**, strict TypeScript and ESLint pass, and formatting/whitespace checks pass.
+
+Two initial headed review attempts failed the five-second Send code readiness assertion before
+reaching the manual checkpoint. The explicit manual-review mode now allows thirty seconds for
+that hydration assertion; ordinary CI retains five seconds. The retry reached human review and
+the owner confirmed the observations above. The paused runner was deliberately interrupted
+afterwards (exit 130), so it is **not** recorded as a passing automated test. No production
+runtime workaround, provider request or VoiceOver setting change was made by the agent.
+After the final manual-only timeout adjustment, the ordinary desktop sign-in regression again
+passes **1/1 in 25.5 seconds**; strict TypeScript, focused ESLint and whitespace checks pass.
+
+First safe headed fixture (all unexpected POSTs intercepted; no emails/accounts created):
+
+```sh
+CLIENT_FORM_MANUAL_REVIEW=voiceover-local-synthetic bun --no-env-file run test:e2e:headed -- e2e/client-form-accessibility.spec.ts --project=desktop-chromium --grep '/account/sign-in client'
+```
+
+With VoiceOver, review the email label, Send code, synthetic pending transition, six-digit code,
+failed-verification feedback and return/retry focus. Use only `accessibility@example.invalid` and a dummy
+code. Do not infer email delivery: the transport is intercepted. Record actual observations before
+resuming the Inspector. Other surfaces retain the table's Pending state until actually reviewed.

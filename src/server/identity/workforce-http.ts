@@ -18,7 +18,8 @@ import type { PatientSessionBindings } from "./patient-session-http";
 type Service = Pick<
   WorkforceSessionService,
   "requestCode" | "verifyCode" | "completeMfa" | "authorise" | "renew" | "invite" | "signOut"
->;
+> &
+  Partial<Pick<WorkforceSessionService, "completeMfaForContextChoice" | "selectContext">>;
 function response(status: number, body?: unknown, cookie?: string) {
   return new Response(body ? JSON.stringify(body) : null, {
     status,
@@ -52,7 +53,7 @@ export function createWorkforceHttpHandler(bindings: PatientSessionBindings, inj
     const url = new URL(request.url);
     if (url.search || !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname))
       return response(404);
-    if (!/^\/staff\/(sign-in|mfa|session|invite|sign-out)$/.test(url.pathname))
+    if (!/^\/staff\/(sign-in|mfa|context|session|invite|sign-out)$/.test(url.pathname))
       return response(404);
     if (url.pathname === "/staff/session" && request.method === "GET") {
       if (
@@ -137,7 +138,47 @@ export function createWorkforceHttpHandler(bindings: PatientSessionBindings, inj
       const proof = await openWorkforceProof(request, bindings.IDENTITY_SESSION_KEY_BASE64);
       if (!proof) return response(401, undefined, clearWorkforceCookie());
       if (url.pathname === "/staff/mfa" && only("code")) {
+        if (proof.contextChoiceRequired) {
+          if (!service.completeMfaForContextChoice) throw new Error("WORKFORCE_UNAVAILABLE");
+          const result = await service.completeMfaForContextChoice(proof, fields.get("code")!);
+          try {
+            return response(
+              200,
+              { contexts: result.contexts },
+              await sealWorkforceProof(
+                result.proof,
+                new Date(Date.now() + 600_000),
+                bindings.IDENTITY_SESSION_KEY_BASE64,
+              ),
+            );
+          } catch (error) {
+            await service.signOut(result.proof);
+            throw error;
+          }
+        }
         const result = await service.completeMfa(proof, fields.get("code")!);
+        try {
+          return response(
+            204,
+            undefined,
+            await sealWorkforceProof(
+              result.proof,
+              result.session.absoluteExpiresAt,
+              bindings.IDENTITY_SESSION_KEY_BASE64,
+            ),
+          );
+        } catch (error) {
+          await service.signOut(result.proof);
+          throw error;
+        }
+      }
+      if (url.pathname === "/staff/context" && only("tenantId", "role")) {
+        if (!service.selectContext) throw new Error("WORKFORCE_UNAVAILABLE");
+        const result = await service.selectContext(
+          proof,
+          fields.get("tenantId")!,
+          fields.get("role")!,
+        );
         try {
           return response(
             204,

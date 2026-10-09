@@ -202,6 +202,46 @@ try {
   localSql(`update public.tenant_memberships set status='active' where subject_id='${subjectId}';`);
   await service.signOut(renewed.proof);
   await denied(() => service.authorise(renewed.proof));
+
+  // A second reviewed membership must not inherit the previous application's authority.
+  localSql(`insert into public.tenant_memberships(tenant_id,subject_id,role,status,valid_from,expires_at,approved_by_subject_id)
+    values('10000000-0000-4000-8000-000000000001','${subjectId}','auditor','active',now(),now()+interval '1 hour','20000000-0000-4000-8000-000000000003');`);
+  const secondLink = await client.auth.admin.generateLink({ type: "magiclink", email });
+  invariant(!secondLink.error, "WORKFORCE_TEST_SECOND_CODE_FAILED");
+  const multiple = await service.verifyCode(email, secondLink.data.properties.email_otp);
+  invariant(
+    multiple.proof.contextChoiceRequired && !multiple.enrollment && !multiple.proof.sessionId,
+    "WORKFORCE_TEST_MULTI_ROLE_GRANTED_ACCESS",
+  );
+  await denied(() => service.completeMfa(multiple.proof, "123456"));
+  const choice = await service.completeMfaForContextChoice(
+    multiple.proof,
+    totp(pending.enrollment.secret),
+  );
+  invariant(
+    choice.contexts.length === 2 && choice.proof.contextChoiceReady && !choice.proof.sessionId,
+    "WORKFORCE_TEST_CONTEXT_CHOICES_FAILED",
+  );
+  await denied(() => service.authorise(choice.proof));
+  await denied(() => service.selectContext(choice.proof, crypto.randomUUID(), "auditor"));
+  // Competing selections for this exact provider session must bind only one membership.
+  const selections = await Promise.allSettled([
+    service.selectContext(choice.proof, choice.contexts[0]!.tenantId, "auditor"),
+    service.selectContext(choice.proof, choice.contexts[0]!.tenantId, "operations"),
+  ]);
+  const successes = selections.filter((result) => result.status === "fulfilled");
+  invariant(successes.length === 1, "WORKFORCE_TEST_CONTEXT_RACE_FAILED");
+  const selected = successes[0]!;
+  invariant(selected.status === "fulfilled", "WORKFORCE_TEST_CONTEXT_RESULT_FAILED");
+  const selectedProof = selected.value.proof;
+  invariant(
+    (await service.authorise(selectedProof)).context.role === selectedProof.context.role,
+    "WORKFORCE_TEST_SELECTED_CONTEXT_FAILED",
+  );
+  await denied(() => service.authorise(renewed.proof));
+  await denied(() => service.selectContext(choice.proof, choice.contexts[0]!.tenantId, "admin"));
+  await service.signOut(selectedProof);
+  await denied(() => service.authorise(selectedProof));
 } finally {
   // Only this generated .invalid fixture is removed; no hosted target is permitted.
   if (providerId) {
@@ -217,6 +257,10 @@ try {
       delete from public.operations_claims where case_id='${caseId}';
       delete from public.operations_assignments where case_id='${caseId}';
       delete from public.operations_cases where id='${caseId}';
+      lock table identity_private.workforce_context_selections in access exclusive mode;
+      alter table identity_private.workforce_context_selections disable trigger workforce_context_selection_immutable;
+      delete from identity_private.workforce_context_selections where subject_id='${subjectId}';
+      alter table identity_private.workforce_context_selections enable trigger workforce_context_selection_immutable;
       delete from public.identity_sessions where subject_id=(select subject_id from public.external_identities where provider='supabase' and provider_subject='${providerId}');
       delete from public.tenant_memberships where subject_id=(select subject_id from public.external_identities where provider='supabase' and provider_subject='${providerId}');
       delete from public.subject_contacts where subject_id=(select subject_id from public.external_identities where provider='supabase' and provider_subject='${providerId}');
@@ -227,5 +271,5 @@ try {
   }
 }
 console.log(
-  "Synthetic local workforce AAL2/session and concurrent queue claim/replay/release proof passed; fixtures removed.",
+  "Synthetic local workforce AAL2/session, concurrent context selection and queue claim/replay/release proof passed; fixtures removed.",
 );

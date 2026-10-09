@@ -108,7 +108,10 @@ for (const path of [
     );
     await page.goto(path);
     if (path === "/account/sign-in" || path === "/account/recover")
-      await expect(page.getByRole("button", { name: "Send code" })).toBeEnabled();
+      await expect(page.getByRole("button", { name: "Send code" })).toBeEnabled({
+        timeout:
+          process.env.CLIENT_FORM_MANUAL_REVIEW === "voiceover-local-synthetic" ? 30000 : 5000,
+      });
     if (path === "/account/activate")
       await page.getByRole("button", { name: "Continue to profile" }).click();
     if (path === "/portal/support")
@@ -126,6 +129,16 @@ for (const path of [
           process.env.CLIENT_FORM_MANUAL_REVIEW === "voiceover-local-synthetic" ? 30000 : 5000,
       });
     else await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    if (process.env.CLIENT_FORM_MANUAL_REVIEW === "voiceover-local-synthetic") {
+      // An explicitly selected headed human review keeps the intercepted fixture available.
+      // It is not an automated pass or hosted acceptance; record the review separately.
+      test.info().annotations.push({
+        type: "manual-review-only",
+        description: "Human observation required; not automated or hosted acceptance",
+      });
+      await page.pause();
+      return;
+    }
     await checkKeyboardReachability(page);
     await checkClientFormPresentation(page);
     if (path === "/account/sign-in" || path === "/account/recover") {

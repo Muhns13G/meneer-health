@@ -13,11 +13,39 @@ const enrollmentView = z
       .nullable(),
   })
   .strict();
+const contextChoicesView = z
+  .object({
+    contexts: z
+      .array(
+        z
+          .object({
+            subjectId: z.uuid(),
+            tenantId: z.uuid(),
+            role: z.enum([
+              "operations",
+              "support",
+              "auditor",
+              "admin",
+              "release",
+              "clinician",
+              "pharmacy",
+            ]),
+            purpose: z.string(),
+          })
+          .strict(),
+      )
+      .min(1)
+      .max(32),
+  })
+  .strict();
 const fieldClass =
   "mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-foreground";
 
 export function WorkforceSignInPage() {
-  const [stage, setStage] = useState<"request" | "verify" | "mfa" | "complete">("request");
+  const [stage, setStage] = useState<"request" | "verify" | "mfa" | "context" | "complete">(
+    "request",
+  );
+  const [contexts, setContexts] = useState<z.infer<typeof contextChoicesView>["contexts"]>([]);
   const [email, setEmail] = useState("");
   const [invitationMode, setInvitationMode] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -32,7 +60,7 @@ export function WorkforceSignInPage() {
     setHydrated(true);
   }, []);
   useEffect(() => {
-    if (stage !== "request") formRef.current?.querySelector<HTMLInputElement>("input")?.focus();
+    if (stage !== "request") formRef.current?.querySelector<HTMLElement>("input, select")?.focus();
   }, [stage]);
   useEffect(() => {
     // A successful step keeps focus on its new code field; failures and session results are focused.
@@ -90,10 +118,32 @@ export function WorkforceSignInPage() {
         setStage("mfa");
       } else if (stage === "mfa") {
         const response = await post("/staff/mfa", { code: String(fields.get("code") ?? "") });
+        if (response.status === 200) {
+          const next = contextChoicesView.parse(await response.json()).contexts;
+          setEnrollment(null);
+          setContexts(next);
+          setStage("context");
+          setMessage(
+            "Authenticator verified. Choose one approved work context; staff access is not active yet.",
+          );
+          return;
+        }
         if (response.status !== 204) throw new Error("VERIFY_FAILED");
         setEnrollment(null);
         await readSession();
         setStage("complete");
+      } else if (stage === "context") {
+        const selected = contexts[Number(fields.get("context"))];
+        if (!selected) throw new Error("CONTEXT_UNAVAILABLE");
+        const response = await post("/staff/context", {
+          tenantId: selected.tenantId,
+          role: selected.role,
+        });
+        if (response.status !== 204) throw new Error("CONTEXT_UNAVAILABLE");
+        setContexts([]);
+        await readSession();
+        setStage("complete");
+        setMessage("Approved work context active. Only assigned work is available.");
       }
     } catch {
       setMessage(
@@ -128,6 +178,7 @@ export function WorkforceSignInPage() {
       if (kind === "sign-out") {
         setSession(null);
         setEnrollment(null);
+        setContexts([]);
         setStage("request");
         setEmail("");
         setMessage("You are signed out.");
@@ -172,6 +223,30 @@ export function WorkforceSignInPage() {
                 required
                 maxLength={254}
               />
+            </div>
+          ) : stage === "context" ? (
+            <div>
+              <label htmlFor="staff-context">Approved work context</label>
+              <select
+                id="staff-context"
+                name="context"
+                required
+                className={fieldClass}
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Choose your work context
+                </option>
+                {contexts.map((context, index) => (
+                  <option key={`${context.tenantId}:${context.role}`} value={index}>
+                    {context.role} — {context.purpose} — {context.tenantId}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-3 text-muted-foreground">
+                This selection does not create permissions. To change context later, sign out and
+                verify again.
+              </p>
             </div>
           ) : (
             <>
@@ -227,7 +302,9 @@ export function WorkforceSignInPage() {
                 ? "Send code"
                 : stage === "verify"
                   ? "Verify email"
-                  : "Verify authenticator"}
+                  : stage === "context"
+                    ? "Use approved context"
+                    : "Verify authenticator"}
           </button>
           {stage === "request" ? (
             <div className="flex flex-wrap gap-4">
@@ -289,6 +366,12 @@ export function WorkforceSignInPage() {
           >
             Sign out
           </button>
+          <p>
+            To change work context, sign out here and sign in again with your individual account.
+          </p>
+          <a href="/staff/support" className="underline">
+            Open assigned support work
+          </a>
           {session?.role === "admin" && session.purpose === "security_administration" ? (
             <StaffDestinationApprovalPanel key={session.expiresAt} />
           ) : null}

@@ -39,6 +39,7 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/portal/handoff/open", "protected-command"],
   ["/staff/sign-in", "protected-command"],
   ["/staff/mfa", "protected-command"],
+  ["/staff/context", "protected-command"],
   ["/staff/session", "protected-command"],
   ["/staff/invite", "protected-command"],
   ["/staff/sign-out", "protected-command"],

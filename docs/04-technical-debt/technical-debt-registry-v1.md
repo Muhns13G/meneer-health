@@ -51,6 +51,25 @@ upload activation. See the [recovery acceptance](../02-implementation-plans/phas
 Current totals: **66 items — 57 Verified, nine non-Verified**. Earlier dated totals remain historical.
 No pilot activation, live transaction or Worker release follows from this closure.
 
+The [9 October final acceptance packet](../02-implementation-plans/phase-02/annexures/pilot-final-acceptance-2026-10-09.md)
+records fresh redacted hosted baseline/readiness checks and owner-confirmed actual support/privacy
+primary/alternate coverage and clinical escalation agreement. Hosted Auth still has zero users;
+appointments alone do not prove real staff access or unattended callbacks. TD-064's intake/order
+readiness remains disabled (412). TD-066's optional time-bounded control is proposed only, not
+accepted or enforced. TD-037/038 retain flow-specific human review; none of these debt statuses
+changes from this checkpoint.
+
+The owner accepts shared functional inboxes and individual staff identities/TOTP with explicit
+role switching. Per-person privacy-account aliases are superseded. Local implementation now adds
+fresh-TOTP selection of one independently approved membership, immutable provider-session binding
+and native validity/session checks. Changing roles requires sign-out and a new email/TOTP login;
+this is not in-place context mutation. The owner-approved forward migration is now hosted with
+exact history version `20261009101500`; application source is not yet owner-released. Local SQL
+passes 2,116 assertions; genuine local Auth/TOTP and competing context selections pass with scoped
+fixture cleanup; desktop/mobile workforce browser checks pass 4/4. Cross-tab/in-flight transition
+acceptance, real named staff provisioning, hosted proof and delegated inbox access remain open.
+TD-043 remains Open; no new debt or activation permission is introduced.
+
 ### 9 October — Live Payment Isolation Locally Implemented, TD-010 Retained
 
 The [live activation packet](../02-implementation-plans/phase-02/annexures/live-payment-activation.md)
