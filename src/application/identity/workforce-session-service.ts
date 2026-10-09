@@ -31,6 +31,7 @@ export type WorkforceProof = Readonly<{
   contextChoiceReady?: boolean;
 }>;
 export interface WorkforceContextRepository {
+  resolveCodeTarget?(email: string): Promise<string>;
   listContexts?(identity: ProviderIdentity): Promise<WorkforceContext[]>;
   selectContext?(
     identity: ProviderIdentity,
@@ -59,8 +60,13 @@ export class WorkforceSessionService {
   async requestCode(email: string) {
     if (!z.email().safeParse(email).success || email.length > 254)
       throw new IdentityRejectedError();
-    await this.provider.requestPatientSignIn(
-      email.trim().toLowerCase(),
+    if (!this.repository.resolveCodeTarget || !this.provider.requestWorkforceSignIn)
+      throw new IdentityRejectedError();
+    const normalizedEmail = email.trim().toLowerCase();
+    const providerSubject = await this.repository.resolveCodeTarget(normalizedEmail);
+    await this.provider.requestWorkforceSignIn(
+      normalizedEmail,
+      providerSubject,
       "https://meneerhealth.co.za/staff/sign-in",
     );
   }

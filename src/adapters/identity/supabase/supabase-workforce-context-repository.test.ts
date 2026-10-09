@@ -17,6 +17,24 @@ const identity: ProviderIdentity = {
   verifiedContact: { kind: "email", value: "Staff@Example.invalid", verifiedAt: new Date() },
 };
 describe("server-only workforce context repository", () => {
+  it("resolves only a valid service-side approved target and fails closed on denial", async () => {
+    const rpc = vi.fn().mockResolvedValue({ data: id, error: null });
+    const repo = new SupabaseWorkforceContextRepository({ rpc } as unknown as SupabaseClient);
+    expect(await repo.resolveCodeTarget("staff@example.invalid")).toBe(id);
+    expect(rpc).toHaveBeenCalledWith("resolve_workforce_code_target", {
+      p_email: "staff@example.invalid",
+    });
+    for (const data of [null, "not-a-uuid", { id }]) {
+      rpc.mockResolvedValueOnce({ data, error: null });
+      await expect(repo.resolveCodeTarget("staff@example.invalid")).rejects.toBeInstanceOf(
+        IdentityRejectedError,
+      );
+    }
+    rpc.mockResolvedValueOnce({ data: null, error: { code: "42501" } });
+    await expect(repo.resolveCodeTarget("staff@example.invalid")).rejects.toBeInstanceOf(
+      IdentityRejectedError,
+    );
+  });
   it("lists only narrow current contexts and rejects duplicates or mixed subjects", async () => {
     const context = { subjectId: id, tenantId: id, role: "operations", purpose: "operations" };
     const rpc = vi.fn().mockResolvedValue({ data: [context], error: null });

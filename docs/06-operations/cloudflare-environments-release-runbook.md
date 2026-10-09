@@ -12,6 +12,28 @@ sensitivity: internal
 
 ## Scope and Ownership
 
+### Staff first-login code correction (2026-10-09)
+
+The staff `Send code` path must resolve an existing active subject/provider identity with an
+independently approved, unexpired workforce membership in an active tenant before contacting Auth.
+`resolve_workforce_code_target(text)` is service-role-only; it returns no account data to the browser
+and changes no users, grants or sessions. Apply `20261009151828_workforce_first_login_code.sql`
+only with explicit hosted approval, before releasing the matching application code.
+
+Hosted checkpoint: owner approved and applied this migration on 2026-10-09. Readback confirms
+Mansoer/Mikhail resolve to their existing identities, anonymous/authenticated execute is denied,
+service-role execute is allowed, and all four Auth users are preserved. The separately approved
+history correction aligns the hosted version to `20261009151828`. No email or Worker deployment
+was performed during this migration acceptance; production send/verification still requires the
+matching owner-deployed application code and actual mailbox/TOTP checks.
+
+Confirmed staff receive the existing no-signup email OTP. Unconfirmed staff receive a new invitation
+code for the same provider identity. The generic response deliberately does not disclose eligibility;
+if the email says invitation code, select the staff-invitation checkbox before verifying. An accepted
+send is not mailbox delivery or completed staff access. Verify production delivery, email verification,
+individual TOTP and current role selection after the owner release. Keep client/payment/transfer
+modes disabled. No new environment switch, Brevo Worker SMTP binding or public registration is needed.
+
 Cloudflare Workers is the approved host for the TanStack v1 pilot. The Worker is `meneer-health`;
 `https://meneerhealth.co.za` is its canonical custom domain. The repository owner controls pushes,
 merges, deployments, promotions, rollbacks, and Cloudflare settings. A contributor or agent may act

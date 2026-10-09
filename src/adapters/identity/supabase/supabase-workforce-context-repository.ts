@@ -14,6 +14,11 @@ import {
 
 export class SupabaseWorkforceContextRepository implements WorkforceContextRepository {
   constructor(private readonly client: SupabaseClient) {}
+  async resolveCodeTarget(email: string): Promise<string> {
+    const target = await this.rpc("resolve_workforce_code_target", { p_email: email });
+    if (!z.uuid().safeParse(target).success) throw new IdentityRejectedError();
+    return target as string;
+  }
   private async rpc(name: string, input: Record<string, unknown>) {
     const { data, error } = await this.client.rpc(name, input);
     if (error) {
