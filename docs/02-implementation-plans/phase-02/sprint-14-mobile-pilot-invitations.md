@@ -1,14 +1,25 @@
 ---
 plan_id: phase-02-sprint-14
 title: Mobile Pilot Invitations and Email-Based Account Activation
-status: in-progress
+status: completed-with-activation-gates
 authority: owner-approved-direction
-last_updated: 2026-10-08
+last_updated: 2026-10-09
 owner: "@Muhns13G"
 depends_on: [phase-02-sprint-09, phase-02-sprint-12, phase-02-sprint-13]
 ---
 
 # Sprint 14 — Mobile Pilot Invitations
+
+## Closure — 9 October 2026
+
+Tasks 14.1–14.10 are completed at their engineering/controlled-rehearsal/reporting boundaries.
+The [completion report](../../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md)
+records delivered code, hosted acceptance, complete net file accounting, deviations and ten retained
+non-Verified debts. The [operations runbook](../../06-operations/mobile-invitations-release-runbook.md)
+defines bounded real-channel GO, exception handling and verified disabled restoration.
+Real-client activation remains **NO-GO**; required uploads, TD-065/066 and other applicable release
+gates remain. Phase 02 is not finally closed. Commit/exact-closure CI remain owner-controlled.
+Earlier prepared/local-only checkpoints below are historical, not outstanding 14.1–14.9 work.
 
 ## Mission and Approved Scope
 
@@ -101,7 +112,7 @@ schema implementation and validation. No hosted SMS send is authorised. Sprint 1
 | 14.7  | Completed locally: managed email verification and existing atomic profile/document activation.      | Current bearer/immutable email/actual provider session binding; OTP remains 900 seconds; conflicts fail closed, no session shortcuts.                         |
 | 14.8  | Completed locally: security/race packet, manual mobile acceptance and targeted regression fixes.    | Broad scan plus focused-fix evidence; exact-commit full CI required before hosted proof; no release/retention approval.                                       |
 | 14.9  | Completed: bounded hosted SMS/email conversion, delivery reconciliation and verified cleanup.       | Actual controlled handset/mailbox proof; same-code explicitly disabled Worker restored; exact application/Auth/guard baseline verified. No cohort activation. |
-| 14.10 | Reconcile debt, release checklist, runbooks and Sprint/Phase reports.                               | Exact-commit CI, channel/privacy/recovery readiness, approved first-cohort limits and explicit owner go/no-go.                                                |
+| 14.10 | Completed: debt/release reconciliation, operations runbook, Sprint report and Phase/RAG handoff.    | Original debt criteria retained; explicit no-go/disabled channel; owner commit/exact-closure CI and eventual separate real-channel GO remain.                 |
 
 Commit after each completed task; the owner alone stages, commits, pushes and deploys. Task 14.9
 is not permission to send to the real participant list. No hosted mutation, purchase, new credential,
@@ -113,8 +124,8 @@ workforce TOTP/AAL2, actual handset receipt, signed delivery callbacks, controll
 atomic synthetic account activation are verified. The successful attempt cost US$0.196 for two
 segments. All manifested fixtures/sessions are removed and exact baselines/guards restored;
 same-code Worker `559d739a-1e61-4277-9ad0-3cbb076ea5d8` explicitly disables the channel.
-Local expiry/race evidence remains distinguished from actual hosted observations. Task 14.10,
-retained debt and owner release acceptance remain outstanding; no real participant send is enabled.
+Local expiry/race evidence remains distinguished from actual hosted observations. Task 14.10 closes
+reporting with retained debt and owner release acceptance; no real participant send is enabled.
 
 ## Readiness and Release Gates
 

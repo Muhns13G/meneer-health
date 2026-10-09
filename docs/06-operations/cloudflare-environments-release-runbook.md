@@ -169,6 +169,13 @@ this repository policy and must be reconciled before promotion.
 
 ## Rollback
 
+Sprint 14's current mobile-disabled containment version is
+`559d739a-1e61-4277-9ad0-3cbb076ea5d8`, owner-promoted after the successful isolated rehearsal.
+See the [mobile runbook](mobile-invitations-release-runbook.md): verify actual disabled modes and
+harmless redemption/email 503 and callback 404 responses, not a nominal baseline version label.
+The earlier mobile baseline retained enabled mode secrets. This same-code correction does not
+activate the pilot and is not automatically compatible with future schema/configuration changes.
+
 Task 13.2's accepted known-good fallback baseline for subsequent releases is version
 `3710baa2-8c24-48c2-b974-fef118d8a98b`, built from `itws-I-preview` commit `7543aadd` by build
 `0d2b69a3-baec-4c35-ad52-2922fa8f546b`. See the

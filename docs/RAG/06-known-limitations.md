@@ -3,10 +3,13 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-08
+last_updated: 2026-10-09
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md
+  - docs/06-operations/mobile-invitations-release-runbook.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-8-security-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md
   - docs/03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md
@@ -120,6 +123,12 @@ sources:
 
 ## Sprint 14.7 — Local Conversion, Not Mobile Channel Activation
 
+Sprint 14 is now [completed with activation gates](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md).
+14.9 subsequently proves actual controlled handset/mailbox conversion and signed delivery; 14.10
+reports the engineering closure without waiving TD-065/066 or other launch criteria. Phase 02 stays
+open for required uploads and ten non-Verified debts (66 total / 56 Verified). No real participant
+send is authorized. Earlier local-only descriptions below retain their dated evidence boundary.
+
 [14.7](../02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md) implements
 managed email verification and existing atomic profile/document activation from a live mobile claim.
 Actual local Auth and controlled desktop/mobile proofs pass; they do not prove hosted mail/handset
@@ -135,7 +144,7 @@ hosted proof were prerequisites for 14.9 and have now passed at its approved iso
 The [14.9 evidence](../02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md)
 records actual SMS/email conversion and signed delivery, exact fixture/session cleanup and an
 explicitly disabled same-code restoration. It does not activate the cohort or claim elapsed hosted
-expiry testing; 14.10 still owns release/debt reconciliation. TD-066's design is prepared,
+expiry testing; 14.10 completes release/debt reconciliation with no-go retained. TD-066's design is prepared,
 not an implemented retirement job or approval to delete hosted identities.
 
 ## Latest Sprint 13 Checkpoint — 8 October

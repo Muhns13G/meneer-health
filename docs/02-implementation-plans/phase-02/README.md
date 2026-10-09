@@ -2,14 +2,26 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-08
+last_updated: 2026-10-09
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
 
 # Phase 02 — Minimum Pilot Enablement
 
-## Current Checkpoint — Sprint 13 Closure, 8 October
+## Current Checkpoint — Sprint 14 Closure, 9 October
+
+[Sprint 14](../../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md) is completed
+with activation gates, including actual controlled SMS/email conversion and signed delivery,
+exact cleanup and owner-promoted explicitly disabled same-code restoration. All ten engineering
+tasks are reported; the channel is not enabled for the cohort. The Phase checkpoint remains
+in-progress-release-gated, not final closure. Required uploads and original release criteria remain;
+registry totals are **66 debts, 56 Verified and ten non-Verified**, including Sprint-14 TD-066.
+Follow the [mobile release runbook](../../06-operations/mobile-invitations-release-runbook.md),
+resolve applicable gaps and obtain a separate owner GO before real accounts, intake or live money.
+Closure documentation needs owner commit/exact-commit CI. No framework rebuild is selected here.
+
+## Historical Checkpoint — Sprint 13 Closure, 8 October
 
 [Sprint 13](../../03-completion-reports/phase-02/sprint-13-pilot-rehearsal-release.md) is completed
 with activation gates through Task 13.10 reporting. Real-client activation remains **NO-GO** at

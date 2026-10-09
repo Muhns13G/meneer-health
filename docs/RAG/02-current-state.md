@@ -3,12 +3,15 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-08
+last_updated: 2026-10-09
 audience: internal
 sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md
+  - docs/06-operations/mobile-invitations-release-runbook.md
+  - docs/02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-8-security-accessibility.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-14-7-email-conversion.md
@@ -189,6 +192,14 @@ closed at its agreed initial threshold; no pilot or generator activation is impl
 
 ## Sprint 14 — Contract and Local Private Foundation
 
+Current 9 October checkpoint: Tasks 14.1–14.10 are completed within their recorded engineering and
+isolated hosted acceptance scopes. The [completion report](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md)
+and [operations runbook](../06-operations/mobile-invitations-release-runbook.md) close reporting and
+handoff with **NO-GO for real activation**. Registry: 66 items, 56 Verified and ten non-Verified.
+Required uploads and applicable retained debt keep Phase 02 open. Closure-commit CI/release remain
+owner-controlled. Historical task-prepared/local-only descriptions below are superseded by this
+checkpoint; they are not assertions that completed mobile code is missing.
+
 The owner approved the smaller SMS-invitation extension in the
 [Sprint 14 plan](../02-implementation-plans/phase-02/sprint-14-mobile-pilot-invitations.md): ten
 commit-sized tasks covering a private contact register, Telnyx delivery, 48-hour invitation links
@@ -238,7 +249,7 @@ The successful two-part SMS cost US$0.196. Exact application/Auth/guard baseline
 zero Auth users/sessions/refresh tokens and the real pilot suspended. The owner promoted same-code
 version `559d739a-1e61-4277-9ad0-3cbb076ea5d8`; redemption/email return disabled 503 and callback 404.
 Local expiry/revocation/race tests and hosted definition/configuration inspection are not represented
-as an elapsed hosted expiry test. Task 14.10 and retained launch debt remain outstanding.
+as an elapsed hosted expiry test. Task 14.10 reporting is completed; retained launch debt remains.
 
 ## Sprint 13.7 — Initial Scheduled Acceptance Completed
 

@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-08
+**Last amended:** 2026-10-09
 
 ## Registry Purpose
 
@@ -40,6 +40,17 @@ claims, products, operating/commercial paths, forms, stepped flows or support ch
 closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
+
+### Task 14.10 — Sprint 14 Closed, Activation Gates Retained
+
+The [Sprint 14 report](../03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md)
+closes the ten mobile engineering/rehearsal/reporting tasks. Controlled actual SMS/email conversion,
+genuine signed delivery and independently verified cleanup/explicit disabled restoration pass.
+The report and [runbook](../06-operations/mobile-invitations-release-runbook.md) do not activate the
+cohort or waive retained debt. **66 items — 56 Verified, ten non-Verified**: TD-006/007/009/010/064/065
+remain In progress; TD-037/038/043/066 remain Open. No status or original criterion changes here.
+TD-066 was discovered in Sprint 14; this reporting task registers no additional debt. Required
+private uploads and applicable identity/operating/legal/commercial acceptance keep Phase 02 open.
 
 ### Task 13.10 — Closed Reporting, No-Go for Real Activation
 
@@ -819,6 +830,9 @@ cleanup before separately approved hosted proof. Keep the mobile email gate disa
 or a documented, time-bounded approved operating control exists. This does not weaken TD-065.
 Task 14.8 prepares the [provenance-scoped retirement/reissue design](../02-implementation-plans/phase-02/annexures/sprint-14-unconverted-identity-recovery.md).
 This is not implemented retirement or owner/privacy approval; status remains Open.
+Task 14.9's explicitly approved synthetic fixture deletion and session revocation are not an
+operational orphan-retirement/reissue implementation. Task 14.10 retains this real-email gate in the
+[mobile release runbook](../06-operations/mobile-invitations-release-runbook.md).
 
 ## Registry Maintenance Rules
 

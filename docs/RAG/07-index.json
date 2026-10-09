@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-08",
+    "last_updated": "2026-10-09",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -23,6 +23,30 @@
     ]
   },
   "documents": [
+    {
+      "id": "phase-02-sprint-14-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-14-mobile-pilot-invitations.md",
+      "status": "completed-with-activation-gates",
+      "authority": "engineering-rehearsal-report-not-owner-launch-go",
+      "priority": 1,
+      "topics": ["sprint-14", "completion", "release", "technical-debt"]
+    },
+    {
+      "id": "phase-02-sprint-14-9",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-9-hosted-mobile-rehearsal.md",
+      "status": "completed-bounded-hosted-rehearsal",
+      "authority": "approved-isolated-provider-and-hosted-evidence",
+      "priority": 1,
+      "topics": ["sprint-14", "telnyx", "hosted", "conversion", "cleanup"]
+    },
+    {
+      "id": "meneer-mobile-invitations-release",
+      "path": "docs/06-operations/mobile-invitations-release-runbook.md",
+      "status": "active-engineering-channel-disabled",
+      "authority": "operational-checklist-not-activation-approval",
+      "priority": 1,
+      "topics": ["sprint-14", "release", "containment", "retention", "operations"]
+    },
     {
       "id": "phase-02-sprint-14-8",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-14-8-security-accessibility.md",
@@ -146,7 +170,7 @@
       "path": "docs/02-implementation-plans/phase-02/sprint-14-mobile-pilot-invitations.md",
       "title": "Mobile Pilot Invitations and Email-Based Account Activation",
       "type": "implementation-plan",
-      "status": "in-progress",
+      "status": "completed-with-activation-gates",
       "authority": "owner-confirmed-direction",
       "priority": 2,
       "topics": ["sms", "invitations", "identity", "telnyx", "sprint-14"]
