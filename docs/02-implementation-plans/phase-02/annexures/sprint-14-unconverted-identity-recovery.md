@@ -136,6 +136,38 @@ orphan cleanup. Staff identity mismatch decisions must not be inferred from bear
 
 ## Acceptance Before Real Mobile Email
 
+### Native Local Implementation and Managed-Provider Checkpoint — 9 October
+
+The unhosted `20261009114715_mobile_orphan_retirement.sql` now implements an immutable
+manifest/event journal, fresh assigned operations/TOTP checks, shared tenant locks, exact Auth
+and stable-subject row locks, confirmation/session/domain quarantine and subject-FK guard-coverage
+checks. Eight competing native reservations produce exactly one dispatch. The native repository
+derives authority from verified server context; it rejects expired, malformed and wrong-purpose
+inputs. Unknown provider outcomes remain uncertain, and exact retries never obtain another delete.
+
+Provider absence permits contact-only tombstoning without disabling operational append-only guards.
+The resulting state is deliberately `copies_pending`, **not** completed erasure. Reviewed recovery
+creates an immutable association to a **new draft** with fresh contact/provenance references;
+it does not revive old claims, merge accounts, send SMS/email or bypass review/spend gates.
+
+The private offline restore barrier requires suspended authority and absence of provider Auth.
+A fresh independently retained disposition must match the archived immutable receipt and contact
+digest; verified contacts, holds and domain associations stop reconciliation. The local integration
+encrypts an older populated logical application dump, restores it into a disposable database,
+removes its stale pending contact using the current disposition and proves repeat-safe tombstoning.
+It exports no Auth credentials, sessions or factors.
+
+Validation: **94 focused application tests**, **2,169 SQL assertions across 45 packets**,
+TypeScript and focused ESLint pass. `test:mobile:retirement` additionally passes actual local managed
+Auth deletion/independent absence, concurrent reservation/quarantine, encrypted offline restoration
+and exact all-row/ACL/trigger/function baseline reconciliation. Historical SQL provenance and
+manufactured actor AMR fixtures are explicit: this is not genuine hosted creation/TOTP acceptance.
+
+Remaining: operational maintenance wiring, independent hosted disposition retention and known R2
+copy/lifecycle reconciliation, final copy-completion evidence, separately approved hosted migration
+and isolated hosted acceptance/cleanup. The migration remains local; no real identity, hosted
+setting or provider record was changed. TD-066 stays Open and real mobile email remains gated.
+
 - Approve the secondary-contact retention policy, justified holds and accountable primary/alternate.
 - Implement immutable, idempotent lifecycle evidence and fail-closed retirement/reissue APIs.
 - Test converted and unrelated-account preservation, concurrent activation/revocation, changed

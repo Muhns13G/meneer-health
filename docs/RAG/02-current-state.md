@@ -206,6 +206,17 @@ closed at its agreed initial threshold; no pilot or generator activation is impl
 
 ## Sprint 14 — Contract and Local Private Foundation
 
+Latest TD-066 checkpoint supersedes the earlier absence of a native repository: the unhosted
+retirement migration/repository now implements locked reservation, confirmation/session/domain
+quarantine, contact tombstoning, reviewed new-draft reissue and a private offline restore barrier.
+94 focused tests and 2,169 SQL assertions pass. The fixed-local managed Auth deletion/concurrent
+reservation/encrypted older-snapshot reconciliation exercise passes with exact baseline restoration.
+This is still `copies_pending`, not operational or hosted completion: maintenance wiring,
+independent hosted disposition/R2-copy evidence and approved hosted migration/acceptance remain.
+The real email gate stays disabled. Fresh hosted readback retains four real staff users, six
+memberships, zero confirmed operators/TOTP and the suspended pilot. TD-064 awaits the owner's
+isolated settings release/version; conditional staff setup and individual MFA remain for TD-043.
+
 9 October follow-up: creation-provenance schema is owner-approved/applied hosted with matching
 history `20261009072105`; operational orphan retirement/reissue still leaves TD-066 Open. The
 owner-approved medical restore-cutoff guard is also applied hosted, with 2,079 passing local SQL
@@ -227,7 +238,35 @@ disabled intake/order configuration and remaining individual AT/access tests. No
 accounts exist at that inspection. TD-066's optional deadline control is proposed, not approved
 or enforced; no debt is newly Verified or pilot activated by this packet.
 
-The owner now accepts shared functional correspondence inboxes, individual staff identities/TOTP
+Latest operator amendment supersedes the unintended inactive-roster choice: the owner confirms
+mutual approval, and a guarded bootstrap provisions operations/auditor/admin memberships for
+Mansoer/Mikhail only (six total, expiring 8 November 2026). Readback confirms distinct approvers
+and a still-suspended pilot tenant. Contact verification, TOTP and real operational acceptance
+are not complete. Tasneem/Ziyaad remain invitation-only; no clinical/resource grant is created.
+The earlier empty-membership baseline below is historical, not the current preservation baseline.
+
+The pre-provisioning primary-database audit found no client/test residue; preserve the four
+authorised real staff identities, suspended tenant and provider gates. At that checkpoint the
+reported choice was to leave grants inactive; this is superseded above. A separately approved
+deployed synthetic workforce rehearsal passes genuine email-code/TOTP, role binding/renewal and
+wrong-tenant/rebinding/stale-cookie denials, with exact application fingerprint restoration and
+independent four-real-account/zero-session/zero-membership readback. This is not active operator
+provisioning. Intake/order routes remain configuration-disabled (412); TD-064 awaits owner release,
+and TD-066 native retirement/reissue/copy handling remains incomplete.
+
+Subsequent 9 October direction: only Mansoer/Mikhail initially manage the system; the four named
+staff account invitation sends are authorised, without clinical grants.
+Four initial sends have since been accepted by Supabase; readback confirms exactly the four named
+Auth accounts and zero active memberships, application sessions and tenants. Inbox receipt and
+individual verification/TOTP remain unverified. Preserve these real accounts during fixture cleanup.
+
+The owner reports the staff-context source committed/deployed at `b20236e`.
+Remaining manual VoiceOver is owner-accepted,
+not newly independently observed. Professional/provider/legal evidence is owner-deferred, not
+Verified; draft publications and clinical/provider transfer remain gated. See the final acceptance
+packet for exact scope and permanent-account versus disposable-fixture separation.
+
+The owner accepts shared functional correspondence inboxes, individual staff identities/TOTP
 and explicitly authorised role switching; separate per-person privacy logins are superseded.
 The acceptance packet records local native/session/UI implementation of fresh-TOTP context
 selection and immutable provider-session binding. Local SQL passes 2,116 assertions, genuine
