@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { PaymentStatusPanel } from "./PaymentStatusPanel";
+import { StaffProductQuotePanel } from "./StaffProductQuotePanel";
 import { StaffHandoffControls } from "./StaffHandoffControls";
 import { StaffHandoffEvidencePanel } from "./StaffHandoffEvidencePanel";
 import { handoffResultSchema, type HandoffCommand } from "@/application/operations/handoff-command";
@@ -302,6 +303,10 @@ export function StaffQueuePage() {
           <h2 ref={detailHeading} tabIndex={-1} className="break-all font-serif text-2xl">
             Case {detail.caseId}
           </h2>
+          <details className="mt-5">
+            <summary className="action-secondary cursor-pointer">Product quote preparation</summary>
+            <StaffProductQuotePanel key={detail.caseId} caseId={detail.caseId} />
+          </details>
           <p className="mt-3">
             State: {labels[detail.state]}. Record version: {detail.version}.
           </p>

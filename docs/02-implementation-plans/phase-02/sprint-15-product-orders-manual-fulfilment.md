@@ -69,7 +69,10 @@ provenance/import, encrypted shipping and delivery bindings; 169 files / 1,356 u
 [15.3](annexures/sprint-15-3-client-catalogue.md) is completed at its local/controlled-browser
 boundary: private browsing and audited interest, disabled by default; 44 focused unit/security
 tests, 48 SQL suites / 2,261 assertions and 22 desktop/mobile checks pass.
-Tasks 15.4–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
+[15.4](annexures/sprint-15-4-staff-quote-drafts.md) is completed at its local/controlled-browser
+boundary: assigned fresh-TOTP operations drafts, immutable server totals and authorised workspace
+names; 73 focused tests, 49 SQL suites / 2,309 assertions and 22 desktop/mobile checks pass.
+Tasks 15.5–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
 
 ## Engineering Constraints
 

@@ -24,6 +24,16 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-15-4-staff-quote-drafts",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-4-staff-quote-drafts.md",
+      "status": "completed-local-controlled-browser-boundary",
+      "authority_for": [
+        "Assigned operations non-payable draft preparation",
+        "Immutable server totals and authorised workspace labels"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
       "id": "phase-02-sprint-15-3-client-catalogue",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md",
       "status": "completed-local-controlled-browser-boundary",

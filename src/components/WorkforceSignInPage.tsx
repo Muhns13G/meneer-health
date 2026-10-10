@@ -14,6 +14,7 @@ const contextChoicesView = z
           .object({
             subjectId: z.uuid(),
             tenantId: z.uuid(),
+            tenantName: z.string().trim().min(1).max(160).optional(),
             role: z.enum([
               "operations",
               "support",
@@ -234,7 +235,8 @@ export function WorkforceSignInPage() {
                 </option>
                 {contexts.map((context, index) => (
                   <option key={`${context.tenantId}:${context.role}`} value={index}>
-                    {context.role} — {context.purpose} — {context.tenantId}
+                    {context.tenantName ?? "Approved workspace"} — {context.role} —{" "}
+                    {context.purpose}
                   </option>
                 ))}
               </select>

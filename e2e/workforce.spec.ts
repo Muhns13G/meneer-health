@@ -14,7 +14,15 @@ test("approved role selection follows MFA and clears on sign-out", async ({ page
     if (path === "/staff/mfa")
       return route.fulfill({
         json: {
-          contexts: [{ subjectId: tenantId, tenantId, role: "auditor", purpose: "privacy_review" }],
+          contexts: [
+            {
+              subjectId: tenantId,
+              tenantId,
+              tenantName: "Synthetic workspace",
+              role: "auditor",
+              purpose: "privacy_review",
+            },
+          ],
         },
       });
     if (path === "/staff/context") {
@@ -40,6 +48,8 @@ test("approved role selection follows MFA and clears on sign-out", async ({ page
   await page.getByLabel("Authenticator code").fill("654321");
   await page.getByRole("button", { name: "Verify authenticator" }).click();
   const choice = page.getByLabel("Approved work context");
+  await expect(choice).toContainText("Synthetic workspace");
+  await expect(choice).not.toContainText(tenantId);
   await expect(choice).toBeFocused();
   await expect(page.getByRole("button", { name: "Renew session" })).toHaveCount(0);
   await expect(choice.getByRole("option")).toHaveCount(2);
