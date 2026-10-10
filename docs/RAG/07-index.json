@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-09",
+    "last_updated": "2026-10-10",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -23,6 +23,23 @@
     ]
   },
   "documents": [
+    {
+      "id": "phase-02-sprint-15-6-issued-product-quotes",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-6-issued-product-quotes.md",
+      "status": "completed-local-controlled-browser-boundary",
+      "authority_for": [
+        "Exact issued quote, product-term acceptance and decline",
+        "Existing capped-credit Checkout bridge and retained product release gates"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
+      "id": "phase-02-sprint-15-6-product-terms-review-draft",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-6-product-terms-review-draft.md",
+      "status": "draft-requires-domain-approval-not-published",
+      "authority_for": ["Internal product-term review preparation only; not customer publication"],
+      "last_updated": "2026-10-10"
+    },
     {
       "id": "phase-02-sprint-15-5-product-evidence",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-5-product-evidence.md",

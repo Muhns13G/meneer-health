@@ -41,7 +41,13 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### 10 October — Sprint 15.3–15.5 Private Product Preparation
+### 10 October — Sprint 15.3–15.6 Private Product Preparation
+
+Task [15.6](../02-implementation-plans/phase-02/annexures/sprint-15-6-issued-product-quotes.md)
+advances TD-010 with exact issued links, product terms, decline and existing credited Checkout.
+Ordering remains disabled, terms are only an internal review draft, and real price/clinical/provider,
+shipping recovery, supply and hosted acceptance gates are retained. No debt count/status is changed
+or new Verified production capability claimed from synthetic local evidence.
 
 Task [15.5](../02-implementation-plans/phase-02/annexures/sprint-15-5-product-evidence.md) advances
 TD-010's exact clinical/provider evidence without impersonating professional authority or

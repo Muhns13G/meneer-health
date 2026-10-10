@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { PaymentStatusPanel } from "./PaymentStatusPanel";
 import { StaffProductQuotePanel } from "./StaffProductQuotePanel";
 import { ProductEvidencePanel } from "./ProductEvidencePanel";
+import { ProductQuoteIssuePanel } from "./ProductQuoteIssuePanel";
 import { StaffHandoffControls } from "./StaffHandoffControls";
 import { StaffHandoffEvidencePanel } from "./StaffHandoffEvidencePanel";
 import { handoffResultSchema, type HandoffCommand } from "@/application/operations/handoff-command";
@@ -311,6 +312,12 @@ export function StaffQueuePage() {
           <details className="mt-5">
             <summary className="action-secondary cursor-pointer">Product approval evidence</summary>
             <ProductEvidencePanel key={detail.caseId} target={{ caseId: detail.caseId }} />
+          </details>
+          <details className="mt-5">
+            <summary className="action-secondary cursor-pointer">
+              Issue approved product quote
+            </summary>
+            <ProductQuoteIssuePanel key={detail.caseId} caseId={detail.caseId} />
           </details>
           <p className="mt-3">
             State: {labels[detail.state]}. Record version: {detail.version}.

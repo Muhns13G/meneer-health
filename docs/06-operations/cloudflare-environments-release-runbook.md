@@ -10,6 +10,20 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Issued product quotes — Task 15.6
+
+`PRODUCT_ORDERING_MODE=disabled` and `PRODUCT_ORDERING_TENANT_ID=` are committed defaults.
+`synthetic` selects isolated synthetic prices; `pilot` requires genuine approved RRP provenance.
+These server-only settings are separate from catalogue, draft/evidence and payment release modes.
+Apply `20261010043156_issued_product_quotes.sql` only after separate hosted approval. Native private
+product release, current exact evidence and published product terms must also be present; changing
+a Worker switch alone cannot issue a quote. Synthetic prices cannot become live-payable products.
+The internal product-terms draft is not a publication. Do not provision real shipping custody,
+grants or tariffs from synthetic fixtures. Owner-controlled hosted/provider/recovery acceptance is
+15.9 work; no deployment or product-sales GO is performed by this task. Disable ordering to stop
+new issue/acceptance/Checkout without deleting immutable financial history; unresolved existing
+Checkouts require reconciliation, not blind replacement or credit release.
+
 ## Exact product evidence — Task 15.5
 
 The service-only `/staff/products/evidence` command shares the existing disabled `PRODUCT_QUOTES_MODE`

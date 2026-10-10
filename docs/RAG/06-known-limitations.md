@@ -132,8 +132,9 @@ sources:
 15.5 evidence is a scoped human attestation to actual privately held source records, not an API
 verification of generator output, professional credentials, provider stock or dispensing.
 Operations cannot record clinical decisions; the draft preparer cannot independently confirm
-provider evidence. Current exact evidence still needs the 15.6 bridge to quote issue and later
-release checks; the old aggregate product-release booleans are not silently populated.
+provider evidence. The 15.6 bridge now binds current exact evidence to quote issue and rechecks
+acceptance/Checkout/settlement; derived legacy booleans alone cannot authorise linked quotes.
+Actual supply release checks remain 15.7.
 
 15.4 drafts are administrative preparation only. An existing encrypted address/delivery binding
 must be provisioned through approved preparation; staff cannot invent a tariff, confirm an address
@@ -145,7 +146,9 @@ release boundaries; no fresh manual VoiceOver observation is claimed here.
 [15.3](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md) implements
 private browsing/interest, disabled by default. Real RRPs, applicable privacy/lifecycle scope and
 owner release remain required. Interest is not an order, stock reservation or clinical approval;
-quotes, product terms, balance payment and fulfilment remain later Sprint-15 tasks.
+quote issue, product-term acceptance and balance payment are now locally implemented by 15.6,
+but real product terms remain unapproved/unpublished and ordering defaults disabled. Fulfilment,
+manual accessibility and hosted/provider/populated-recovery acceptance remain later Sprint-15 tasks.
 
 [15.2](../02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md)
 adds local private catalogue/provenance and encrypted shipping/delivery-binding foundations.

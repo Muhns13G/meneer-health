@@ -11,6 +11,12 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
+[15.6](annexures/sprint-15-6-issued-product-quotes.md) connects independently approved exact
+drafts to issued offers, product-term acceptance/decline and capped-credit Checkout. Local and
+controlled-browser verification is recorded in its packet; ordering defaults disabled. Its
+product-terms review draft is not an approved or published customer instrument. Hosted/provider
+acceptance remains 15.9, and supply transitions remain 15.7.
+
 [15.5](annexures/sprint-15-5-product-evidence.md) implements independently attributed exact-draft
 clinical and provider evidence and immutable revocation, verified locally and in controlled browsers;
 no payable offer, provider order or real clinical permission is created.
@@ -26,7 +32,7 @@ verification is not real-price import, hosted application or sales activation. S
 [15.2](annexures/sprint-15-2-private-product-catalogue.md) implements the private RRP/provenance,
 encrypted shipping and delivery-binding preparation foundation locally. The scoped import tool
 validates customer-only data against source bytes; it cannot import real prices into hosted services.
-Client browsing and draft UI now exist locally; payable quote issue remains 15.6, not an activated capability.
+Client browsing, draft and payable quote UI now exist locally; product ordering is not activated.
 
 The owner approved [Sprint 15](sprint-15-product-orders-manual-fulfilment.md) to connect the
 existing credit/payment foundation to private product browsing, independently approved staff

@@ -6,6 +6,14 @@ export const orderReviewCommandSchema = z.discriminatedUnion("action", [
   z.object({ action: z.literal("checkout"), offerId: z.uuid(), requestKey: z.uuid() }).strict(),
   z
     .object({
+      action: z.literal("decline"),
+      offerId: z.uuid(),
+      snapshotHash: hash,
+      requestKey: z.uuid(),
+    })
+    .strict(),
+  z
+    .object({
       action: z.literal("accept"),
       offerId: z.uuid(),
       publicationId: z.uuid(),
@@ -18,6 +26,7 @@ export const orderReviewCommandSchema = z.discriminatedUnion("action", [
 ]);
 export const orderReviewResultSchema = z
   .object({
+    quoteOutcome: z.literal("declined").optional(),
     review: z
       .object({
         offerId: z.uuid(),
@@ -61,6 +70,8 @@ export const orderReviewResultSchema = z
           .strict()
           .nullable(),
         checkoutEnabled: z.boolean(),
+        quoteCurrent: z.boolean().optional(),
+        productProvenance: z.enum(["local-synthetic", "precise-wellness-rrp"]).optional(),
       })
       .strict()
       .nullable(),
