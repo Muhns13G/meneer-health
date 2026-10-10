@@ -41,6 +41,14 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 10 October — Sprint 15.3 Private Catalogue and Interest
+
+The [client catalogue packet](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md)
+adds own-onboarded private browsing and audited interest without payment, clinical or supply
+authority. Default release is disabled; real RRPs and privacy/lifecycle scope remain inputs.
+Native quarantine guards are preserved. This advances TD-010 catalogue work but does not verify
+TD-007/009/010 product-sale gates or change debt counts/statuses.
+
 ### 10 October — Sprint 15.2 Private Product Preparation
 
 The [catalogue foundation](../02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md)

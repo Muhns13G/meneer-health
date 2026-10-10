@@ -5,7 +5,12 @@
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
   "preview_urls": true,
-  "vars": { "OPERATIONS_ALERTS_MODE": "disabled", "TRANSACTIONAL_NOTIFICATIONS_MODE": "disabled" },
+  "vars": {
+    "OPERATIONS_ALERTS_MODE": "disabled",
+    "TRANSACTIONAL_NOTIFICATIONS_MODE": "disabled",
+    "PRODUCT_CATALOGUE_MODE": "disabled",
+    "PRODUCT_CATALOGUE_TENANT_ID": "",
+  },
   "triggers": { "crons": ["*/5 * * * *"] },
   "secrets": {
     "required": ["JOURNEY_INTENT_ENCRYPTION_KEY_BASE64"],

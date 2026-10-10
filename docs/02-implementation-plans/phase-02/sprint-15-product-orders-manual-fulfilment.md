@@ -66,7 +66,10 @@ until needed and separately reactivated; do not fabricate its approval or output
 [15.2](annexures/sprint-15-2-private-product-catalogue.md) is completed locally: private catalogue
 provenance/import, encrypted shipping and delivery bindings; 169 files / 1,356 unit tests and
 47 SQL suites / 2,234 assertions pass. Hosted import/application is not performed.
-Tasks 15.3–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
+[15.3](annexures/sprint-15-3-client-catalogue.md) is completed at its local/controlled-browser
+boundary: private browsing and audited interest, disabled by default; 44 focused unit/security
+tests, 48 SQL suites / 2,261 assertions and 22 desktop/mobile checks pass.
+Tasks 15.4–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
 
 ## Engineering Constraints
 

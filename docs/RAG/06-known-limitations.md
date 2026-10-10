@@ -7,6 +7,7 @@ last_updated: 2026-10-10
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-onboarding-usability-2026-10-09.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md
@@ -128,9 +129,14 @@ sources:
 
 ## Product preparation is not ordering activation — 10 October
 
+[15.3](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md) implements
+private browsing/interest, disabled by default. Real RRPs, applicable privacy/lifecycle scope and
+owner release remain required. Interest is not an order, stock reservation or clinical approval;
+quotes, product terms, balance payment and fulfilment remain later Sprint-15 tasks.
+
 [15.2](../02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md)
 adds local private catalogue/provenance and encrypted shipping/delivery-binding foundations.
-Real RRPs are not imported, no catalogue route is delivered and payable legacy prices remain
+Real RRPs are not imported; 15.2 alone added no route (15.3 now provides one), and payable legacy prices remain
 separate. The importer has no hosted execution path. Dedicated shipping-key custody, retention
 and populated restore proof must precede real address collection; logical schema inclusion is not
 that proof. Current product-specific clinical/pharmacy/courier and provider acceptance gates remain.
