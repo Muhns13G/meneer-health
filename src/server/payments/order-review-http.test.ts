@@ -185,6 +185,43 @@ it("permits only explicit sandbox Checkout and validates the returned provider o
   checkout.mockResolvedValueOnce({ checkoutUrl: "https://untrusted.invalid" });
   expect((await handler(h.request(command))).status).toBe(503);
 });
+it("keeps product acceptance and Checkout independently gated", async () => {
+  const h = await harness();
+  h.execute.mockResolvedValue({
+    review: {
+      ...orderReviewFixture(),
+      scenario: "approved_product_order",
+      quoteCurrent: true,
+      productProvenance: "local-synthetic",
+    },
+  });
+  const accept = {
+    action: "accept",
+    offerId: orderReviewFixture().offerId,
+    publicationId: orderReviewFixture().terms.publicationId,
+    snapshotHash: orderReviewFixture().snapshotHash,
+    contentHash: orderReviewFixture().terms.contentHash,
+    accepted: true,
+    requestKey: id,
+  };
+  expect((await h.handler(h.request(accept))).status).toBe(412);
+  expect(
+    (
+      await createOrderReviewHttpHandler(
+        { ...h.bindings, PRODUCT_ORDERING_MODE: "synthetic", PRODUCT_ORDERING_TENANT_ID: id },
+        h,
+      )(h.request(accept))
+    ).status,
+  ).toBe(200);
+  expect(
+    (
+      await createOrderReviewHttpHandler(
+        { ...h.bindings, PRODUCT_ORDERING_MODE: "pilot", PRODUCT_ORDERING_TENANT_ID: id },
+        h,
+      )(h.request(accept))
+    ).status,
+  ).toBe(412);
+});
 it("permits explicitly configured live Checkout only on canonical HTTPS with current readiness", async () => {
   const h = await harness();
   const checkout = vi.fn(async () => ({

@@ -44,6 +44,8 @@ export type CommerceReviewBindings = PatientSessionBindings &
     STRIPE_WEBHOOK_SIGNING_SECRET?: unknown;
     STRIPE_CHECKOUT_ACCOUNT_ID?: unknown;
     STRIPE_RESTRICTED_KEY?: unknown;
+    PRODUCT_ORDERING_MODE?: unknown;
+    PRODUCT_ORDERING_TENANT_ID?: unknown;
   };
 type Dependencies = {
   authorise(proof: PatientSessionProof): Promise<{ context: PortalContext; expiresAt: Date }>;
@@ -190,11 +192,33 @@ export function createOrderReviewHttpHandler(
         }
       }
       const authority = await dependencies.authorise(proof);
+      const productsEnabled =
+        ["synthetic", "pilot"].includes(String(bindings.PRODUCT_ORDERING_MODE)) &&
+        bindings.PRODUCT_ORDERING_TENANT_ID === authority.context.tenantId &&
+        (paymentMode(bindings.COMMERCE_CHECKOUT_MODE) !== "live" ||
+          bindings.PRODUCT_ORDERING_MODE === "pilot");
+      const productAllowed = (value: { scenario: string; productProvenance?: string }) =>
+        value.scenario !== "approved_product_order" ||
+        (productsEnabled &&
+          (bindings.PRODUCT_ORDERING_MODE === "pilot"
+            ? value.productProvenance === "precise-wellness-rrp"
+            : value.productProvenance === undefined ||
+              value.productProvenance === "local-synthetic"));
       if (parsed.data.action === "checkout") {
         if (!checkoutConfigured || !callbackConfigured || !dependencies.checkout)
           return response(412);
         if (!dependencies.ready || !(await dependencies.ready(authority.context)))
           return response(403);
+        const selected = orderReviewResultSchema.parse(
+          await dependencies.execute(authority.context, { action: "read" }),
+        ).review;
+        if (
+          !selected ||
+          selected.offerId !== parsed.data.offerId ||
+          selected.quoteCurrent === false
+        )
+          return response(409);
+        if (!productAllowed(selected)) return response(412);
         const result = checkoutResultSchema.parse(
           await dependencies.checkout(
             authority.context,
@@ -204,6 +228,18 @@ export function createOrderReviewHttpHandler(
         );
         if (authority.expiresAt.getTime() <= Date.now()) return response(401, undefined, true);
         return response(200, result);
+      }
+      if (parsed.data.action === "accept" || parsed.data.action === "decline") {
+        const selected = orderReviewResultSchema.parse(
+          await dependencies.execute(authority.context, { action: "read" }),
+        );
+        if (parsed.data.action === "decline" && !productsEnabled) return response(412);
+        if (
+          !(parsed.data.action === "decline" && selected.quoteOutcome === "declined") &&
+          selected.review?.offerId !== parsed.data.offerId
+        )
+          return response(409);
+        if (selected.review && !productAllowed(selected.review)) return response(412);
       }
       if (
         parsed.data.action === "read" &&
@@ -222,12 +258,15 @@ export function createOrderReviewHttpHandler(
           checkoutConfigured &&
           callbackConfigured &&
           result.review.acceptance !== null &&
+          result.review.quoteCurrent !== false &&
+          productAllowed(result.review) &&
           Boolean(dependencies.ready && (await dependencies.ready(authority.context)));
         result.review.expiresAt = new Date(
           Math.min(Date.parse(result.review.expiresAt), authority.expiresAt.getTime()),
         ).toISOString();
         if (Date.parse(result.review.expiresAt) <= Date.now())
           return response(401, undefined, true);
+        if (!productAllowed(result.review)) result.review.quoteCurrent = false;
       }
       return response(200, result);
     } catch (error) {

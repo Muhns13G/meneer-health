@@ -41,6 +41,19 @@ const readiness = {
 };
 
 describe("pilot commerce", () => {
+  it("permits truthful RRP product provenance but not a relabelled deposit", () => {
+    expect(
+      pilotPriceSchema.safeParse({ ...price, environment: "precise-wellness-rrp" }).success,
+    ).toBe(true);
+    expect(
+      pilotPriceSchema.safeParse({
+        ...price,
+        kind: "review_deposit",
+        unitAmountMinor: 99900,
+        environment: "precise-wellness-rrp",
+      }).success,
+    ).toBe(false);
+  });
   it.each([
     [150000, 10000, 99900, 60100, 0],
     [80000, 10000, 80000, 10000, 19900],

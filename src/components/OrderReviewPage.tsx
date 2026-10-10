@@ -41,6 +41,61 @@ export function OrderReviewPage() {
   const sequence = useRef(0);
   const acceptKey = useRef<string | null>(null);
   const checkoutKey = useRef<{ offerId: string; key: string } | null>(null);
+  const declineKey = useRef<{ offerId: string; key: string } | null>(null);
+  async function decline(view: OrderReview) {
+    if (
+      busy ||
+      view.scenario !== "approved_product_order" ||
+      paymentComplete ||
+      payment?.status === "pending" ||
+      paymentNeedsReview
+    )
+      return;
+    const seq = ++sequence.current;
+    controller.current?.abort();
+    const abort = new AbortController();
+    controller.current = abort;
+    if (declineKey.current?.offerId !== view.offerId)
+      declineKey.current = { offerId: view.offerId, key: crypto.randomUUID() };
+    setBusy(true);
+    setStatus("Checking quote decline…");
+    try {
+      const r = await fetch("/portal/order/command", {
+        method: "POST",
+        credentials: "same-origin",
+        cache: "no-store",
+        redirect: "error",
+        signal: abort.signal,
+        headers: { "Content-Type": "application/json", "Idempotency-Key": declineKey.current.key },
+        body: JSON.stringify({
+          action: "decline",
+          offerId: view.offerId,
+          snapshotHash: view.snapshotHash,
+          requestKey: declineKey.current.key,
+        }),
+      });
+      if (!r.ok) throw new Error("DECLINE_UNCERTAIN");
+      const result = orderReviewResultSchema.parse(await r.json());
+      if (seq !== sequence.current) return;
+      if (result.quoteOutcome !== "declined" || result.review !== null)
+        throw new Error("DECLINE_UNCERTAIN");
+      setReview(null);
+      setAccepted(false);
+      setStatus(
+        "Product quote declined. No new payment or refund was created. Contact the team for a revised quote.",
+      );
+    } catch {
+      if (seq === sequence.current) {
+        setReview(null);
+        setAccepted(false);
+        setStatus(
+          "Decline could not be confirmed. Reload before acting; an existing Checkout may need staff reconciliation.",
+        );
+      }
+    } finally {
+      if (seq === sequence.current) setBusy(false);
+    }
+  }
   async function checkout(view: OrderReview) {
     if (!view.acceptance || !view.checkoutEnabled || busy || paymentBlocked) return;
     const current = ++sequence.current;
@@ -116,11 +171,13 @@ export function OrderReviewPage() {
       setReview(result.review);
       setAccepted(false);
       setStatus(
-        result.review?.acceptance
-          ? "Your acceptance has been recorded. Payment is not confirmed here."
-          : result.review
-            ? "Review the details and full terms before accepting."
-            : "No order is currently available for review.",
+        result.quoteOutcome === "declined"
+          ? "Product quote declined. Contact the team if you need a revised quote."
+          : result.review?.acceptance
+            ? "Your acceptance has been recorded. Payment is not confirmed here."
+            : result.review
+              ? "Review the details and full terms before accepting."
+              : "No order is currently available for review.",
       );
     } catch (error) {
       if (current !== sequence.current || abort.signal.aborted) return;
@@ -139,6 +196,7 @@ export function OrderReviewPage() {
   const invalidate = useCallback(() => {
     sequence.current++;
     controller.current?.abort();
+    declineKey.current = null;
   }, []);
   useEffect(() => {
     void send();
@@ -269,7 +327,11 @@ export function OrderReviewPage() {
                   Print or save these terms
                 </button>
               </section>
-              {paymentComplete ? null : !review.acceptance ? (
+              {review.quoteCurrent === false && !paymentComplete ? (
+                <p>
+                  This quote is not available for acceptance or Checkout. Ask the team to review it.
+                </p>
+              ) : paymentComplete ? null : !review.acceptance ? (
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
@@ -320,6 +382,16 @@ export function OrderReviewPage() {
                   )}
                 </div>
               )}
+              {review.scenario === "approved_product_order" && !paymentComplete ? (
+                <button
+                  type="button"
+                  className="action-secondary"
+                  disabled={busy || payment?.status === "pending" || Boolean(paymentNeedsReview)}
+                  onClick={() => void decline(review)}
+                >
+                  Decline this product quote
+                </button>
+              ) : null}
             </section>
           </details>
         ) : null}

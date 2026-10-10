@@ -43,11 +43,12 @@ export const pilotPriceSchema = z
     expiresAt: z.iso.datetime(),
     approvalReference: z.uuid(),
     sourceFingerprint: z.string().regex(/^[a-f0-9]{64}$/),
-    environment: z.literal("local-synthetic"),
+    environment: z.enum(["local-synthetic", "precise-wellness-rrp"]),
     status: z.enum(["approved", "withdrawn"]),
   })
   .strict()
   .refine((price) => Date.parse(price.expiresAt) > Date.parse(price.effectiveAt))
+  .refine((price) => price.kind === "product" || price.environment === "local-synthetic")
   .refine(
     (price) => price.kind !== "review_deposit" || price.unitAmountMinor === reviewDepositMinor,
   );

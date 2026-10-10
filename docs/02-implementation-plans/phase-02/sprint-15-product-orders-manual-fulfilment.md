@@ -76,7 +76,11 @@ names; 73 focused tests, 49 SQL suites / 2,309 assertions and 22 desktop/mobile 
 boundary: native granted clinician and independent provider evidence, immutable revocation and
 current exact-reference guards; 53 focused tests, 50 SQL suites / 2,378 assertions, six new dev
 browser checks and 22 distinct compiled staff regression checks pass. No hosted release occurred.
-Tasks 15.6–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
+[15.6](annexures/sprint-15-6-issued-product-quotes.md) implements exact quote issue, published-term
+acceptance/decline and the existing capped-credit Checkout bridge. Its packet records 109 focused
+tests, the 51-suite database regression plus final 114 quote assertions, and 26 compiled browser
+checks; no hosted product release or terms publication is inferred.
+Tasks 15.7–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
 
 ## Engineering Constraints
 
