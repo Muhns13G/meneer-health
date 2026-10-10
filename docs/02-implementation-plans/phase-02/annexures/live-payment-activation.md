@@ -2,12 +2,92 @@
 plan_id: phase-02-live-payment-activation
 title: Live Payment Activation — Environment Isolation and Release Acceptance
 status: local-implementation-verified-hosted-acceptance-pending
-last_updated: 2026-10-09
+last_updated: 2026-10-10
 owner: "@Muhns13G"
 authority: engineering-preparation-not-live-charge-or-pilot-activation
 ---
 
 # Live Payment Activation
+
+## Approved deposit-pricing correction — hosted verification, 10 October
+
+The owner approved the existing R999 deposit and an initial seven-day payment-release window.
+Migration `20261010102031_approved_review_deposit_pricing.sql` adds honest
+`approved-pilot-review` provenance for deposits only, with an immutable private tenant/approval
+binding. Live-classified tenants cannot use synthetic prices; native offer preparation and replay
+check the current matching approval. Product provenance, credit/refund calculations, existing
+ledger records and function security metadata are preserved. This migration inserts no price,
+publishes no terms and activates no release.
+
+A clean local reset applied the complete migration chain. All 52 rollback-only database suites
+passed (2,512 assertions), including 21 new pricing/authority assertions. The 16 focused domain
+tests, strict typecheck, lint and diff checks passed. Hosted readback remains four Auth users,
+zero clients, zero Checkouts and zero deposit prices.
+
+After explicit owner approval, the CLI dry run identified exactly the five committed Sprint-15
+prerequisites plus the new correction, with no seeds or roles. All six applied, with exact filename
+versions independently verified in hosted migration history; no repair was needed. The guarded
+`operations/pilot-launch/publish-review-deposit.sql` transaction passed rollback-only checks and
+independent empty-baseline readback, then committed the exact R999 price and tenant binding.
+
+Published price: `10afa564-d798-4bc8-804d-d7698ecd982e`; approval evidence reference:
+`f52fff22-3aa3-436c-ab5a-17b869cd3ef8`. This records the owner's 10 October pricing/release
+approval, not clinical approval or a payment. Native readback confirms exactly one current price
+and the live database release enabled until **2026-10-17T11:44:58.487543Z (13:44 SAST)**.
+Four real staff remain; clients, Checkouts, product catalogues and enabled product releases remain
+zero. No ledger mutation, client fixture, provider charge or invitation occurred.
+
+Candidate `259c5255-b9f7-464a-b5fa-ebdfd8051034` was reverified against the unchanged active
+source, preserved binding names/types, live account readiness and current database price/release.
+All product modes remain disabled. Its ignored private receipt now records the verified expiry
+and `databaseReleaseBlocked=false`. The owner subsequently promoted this version to 100% on
+10 October. Independent `--verify-active` readback confirms the active version, preserved source
+and bindings, live account readiness and current database price/release. Anonymous hosted smoke
+checks pass: home and staff sign-in return 200, protected order reads return 401, disabled product
+commands return 412 and unsigned Stripe callbacks return 400. Private responses remain no-store.
+No invitation, Checkout or charge was created. This proves configuration and negative boundaries,
+not a newly completed authenticated live settlement/refund journey. No personal R999 test is required.
+
+## Current-source credential candidate — 10 October
+
+Following the owner's explicit instruction, version `259c5255-b9f7-464a-b5fa-ebdfd8051034` was
+initially prepared with the verified live restricted key/account/signing secret and matching real-pilot
+mobile, intake and commerce target settings. Remote readback confirms the original script ETag
+and every existing binding name/type are preserved; product catalogue, drafts and ordering remain
+disabled. No Worker promotion, invitation, Checkout, charge, grant or database release occurred
+during that preparation; the later owner promotion and database publication are recorded above.
+The bounded runner is `operations/pilot-launch/prepare-live-refresh.mjs`; its default is no-network,
+and its resumable receipt is ignored `.pilot-live-refresh.local`. Do not promote this candidate
+until the native deposit-price prerequisite and release window are resolved (now resolved by the
+hosted checkpoint above).
+
+The earlier pre-publication hosted preflight found four real Auth users, no clients or Checkouts, an active real tenant,
+current deposit terms/collection publication, an active scoped payment service and the approved
+nine-attempt/US$5 SMS policy. The live database release is still disabled and expires at 20:01:50
+SAST on 10 October. There are ZERO deposit prices after synthetic cleanup. Native preparation
+requires exactly one current approved R999 price. The hosted legacy price constraint only accepts
+`local-synthetic`; it is not honest authority for a production deposit. A real-deposit provenance
+correction and approved price record are required before enabling the release. This is the
+previously recorded pricing gap, not a new commercial amount, price approval or fabricated
+payment. Pending product migrations/rehearsal are not silently applied by this configuration task.
+
+## Live key refreshed and verified — 10 October
+
+The owner generated a duplicate restricted live key with the reviewed payment permissions. Its
+one-time value was saved only to ignored `.env.production.local` (`0600`); preservation checks
+confirm every other variable value is unchanged. The temporary credential patch was removed.
+GET-only provider checks confirm the configured live account matches, charges/payouts/card payments
+are enabled, no disabled reason exists, and currently-due/pending-verification counts are both zero.
+Minimal read probes for Checkout, PaymentIntents, refunds, disputes and events also pass, without
+printing provider records or creating any Checkout, charge or refund. The former expired local
+key is no longer the configured value. No other key was rotated or provider permission broadened.
+
+This is local credential verification, not production activation. The active Worker inspected
+before replacement lacked the live restricted-key/account bindings, and the real-tenant Checkout
+release remained disabled. Matching current-source Worker provisioning, tenant/mode reconciliation,
+a bounded database release and independent readiness readback are still required before cohort
+sends or live payment attempts. No Worker promotion, database release or invitation was performed
+during this refresh. Earlier pending provider-verification observations below are historical.
 
 ## Latest preparation checkpoint — 9 October
 

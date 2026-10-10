@@ -135,6 +135,7 @@ try {
   };
   const configuration = {
     MOBILE_INVITATIONS_MODE: "telnyx" as const,
+    MOBILE_INVITATIONS_US_DELIVERY_READY: "false" as const,
     MOBILE_INVITATIONS_DELIVERY_READY: "true" as const,
     MOBILE_INVITATIONS_TENANT_ID: tenant,
     TELNYX_API_KEY: "synthetic-unused-key-only",

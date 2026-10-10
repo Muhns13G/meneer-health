@@ -148,6 +148,16 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Pending US invitation extension — 10 October
+
+Owner-approved US invitation support is locally implemented with default-off runtime/database
+readiness, shared numbering classification and signed receipts. ZA remains supported, while
+other NANP territories remain excluded. All 1,478 unit tests, 2,529 local SQL assertions and 34
+controlled desktop/mobile invitation checks pass. Hosted migration, owner deployment, US registration/pricing
+verification and explicit readiness remain required. No invitations were sent; the owner requires
+all cohort sends to wait for deployment. See the
+[US extension packet](../02-implementation-plans/phase-02/annexures/mobile-invitation-us-extension.md).
+
 ## Sprint 15 adopted — 10 October
 
 [15.5](../02-implementation-plans/phase-02/annexures/sprint-15-5-product-evidence.md) adds a
@@ -193,6 +203,36 @@ synthetic. Product ordering defaults disabled; its terms draft is unapproved/unp
 hosted/provider acceptance, shipping recovery and actual fulfilment remain separate.
 
 ## Latest sandbox acceptance checkpoint — 9 October
+
+**Subsequent live configuration preparation, 10 October:** the replacement live restricted key
+passes GET-only account/resource checks with no outstanding provider verification requirements.
+The approved production-deposit correction is now locally verified: truthful deposit-only
+`approved-pilot-review` provenance, immutable tenant/approval binding and native prepare/replay
+checks. Full local reset and 52 SQL suites pass (2,512 assertions), alongside 16 focused domain
+tests, typecheck and lint. The owner approved the prerequisites; all six migrations now applied
+with exact history versions. The guarded publication passed rollback/readback before commit.
+One approved R999 price and live database release are current until 17 October, 13:44 SAST.
+Four staff remain, with zero clients, Checkouts, catalogues or enabled product releases.
+
+Current-source candidate `259c5255-b9f7-464a-b5fa-ebdfd8051034` contains the refreshed live
+credentials and real-pilot targets; original binding names/types and product-disabled settings are
+preserved. The owner promoted it to 100%; independent active-version verification confirms the
+live account, native price and bounded database release are ready. Hosted anonymous smoke passes
+(home/staff sign-in 200, protected order read 401, disabled products 412, unsigned Stripe callback
+400; private responses no-store). No charge or send occurred, and a newly completed authenticated
+live settlement/refund journey is not claimed; see
+[live activation](../02-implementation-plans/phase-02/annexures/live-payment-activation.md).
+
+**10 October cleanup supersedes pending refund/fixture statements below:** the owner approved and
+completed the exact R999 sandbox refund, scoped application/session cleanup, removal of two test
+Auth identities and the exact temporary webhook. Independent hosted readback shows four preserved
+staff users/subjects, six unchanged real-pilot grants, one active real tenant, no client profiles,
+intakes, cases, Checkout intents or provider receipts, and all integrity guards enabled. Current
+unrelated application/Auth/MFA fingerprints are preserved; no production setting, key or release
+was changed. Stripe test history and existing retained encrypted backups remain. See the
+[verified cleanup packet](../02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md#verified-cleanup--10-october).
+That cleanup checkpoint did not itself restore live Checkout; the later owner-promoted release
+and preflight above supersede its paused-runtime observation. Cohort sends are separate actions.
 
 The owner declined a personal real-money test and approved isolated hosted sandbox acceptance.
 The real tenant's live Checkout release is paused. Four real staff remain preserved; a separate

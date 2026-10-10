@@ -40,7 +40,10 @@ quotes and manual fulfilment. [15.1](annexures/sprint-15-1-product-order-contrac
 the contract and strict portable inputs; it is not product-sales activation. Ten commit-sized
 tasks retain separate real-catalogue, clinical/pharmacy, terms, provider and custody gates.
 The generator remains inactive until needed, uploads stay deferred, and owner deployment and
-the existing sandbox refund/cleanup/restoration obligations are unchanged.
+the existing sandbox acceptance obligations are retained. The exact 9 October sandbox capture
+was refunded and its fixtures cleaned on 10 October with four real staff preserved; see the
+[cleanup evidence](annexures/pilot-sandbox-acceptance-2026-10-09.md#verified-cleanup--10-october).
+Production configuration restoration/preflight and cohort GO remain separate.
 
 ## Current Checkpoint — Sprint 14 Closure, 9 October
 

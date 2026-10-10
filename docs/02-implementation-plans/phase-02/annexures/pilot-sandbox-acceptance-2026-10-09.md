@@ -1,11 +1,53 @@
 ---
 title: Isolated Hosted Pilot Sandbox Acceptance
-status: sandbox-payment-confirmed-usability-release-and-cleanup-pending
-last_updated: 2026-10-09
+status: sandbox-capture-refunded-cleanup-verified-production-release-separate
+last_updated: 2026-10-10
 authority: owner-approved-bounded-exercise-not-completed-launch
 ---
 
 # Isolated Hosted Sandbox Acceptance — 9 October
+
+## Verified cleanup — 10 October
+
+The owner explicitly approved the scoped refund and cleanup after a fresh hosted inspection.
+Stripe independently confirms the exact R999/ZAR test capture was fully refunded to its original
+payment method (`re_3UOjF1Ffj16Nnr1i0P2QsLF0`) on the verified sandbox account
+`acct_1U32UbFfj16Nnr1i`. No real money moved, no new capture was created and no live key was used.
+The exact exercise webhook was removed; Stripe retains its test payment/refund history.
+
+A separately guarded cleanup runner preserves the CURRENT non-fixture baseline, not the stale
+pre-exercise staff-session inventory. It expands the manifest only with the verified test client
+and sandbox context/session references, rejects any marked different-tenant row, and retains the
+four real staff subjects. A rollback-only hosted proof precedes the committed transaction. Only
+identified fixture rows and FK descendants are deleted under affected-table locks; necessary named
+append-only guards are restored before commit. The payment environment guard stays enabled:
+its non-FK payment-history dependencies are removed before its sandbox release.
+
+The test app/provider sessions were revoked, the two disposable Auth identities deleted through
+Auth Admin, and the sandbox tenant, profile, questionnaire, case, payment journal, mobile fixtures
+and temporary operations access removed. Current non-fixture application fingerprints, real staff
+Auth/MFA fingerprints and all trigger definitions/enabled states match. Independent MCP readback
+confirms four real Auth users/four subjects, six unchanged real-pilot grants, one active real tenant,
+zero clients/intakes/cases/Checkout intents/provider receipts/sandbox memberships and zero disabled
+application triggers. The shared sandbox-account environment classification is retained as
+configuration, not client or financial activity. Existing encrypted backups were not deleted or
+downloaded; this is application cleanup, not a claim that provider logs or retained backups vanished.
+
+Initial rollback attempts detected a client array-encoding issue and then the native payment
+release guard's non-FK deletion ordering. Both rolled back without permanent deletion. A separate
+read-only array probe and corrected children-first ordering passed before application. Historical
+rehearsal SQL and its baseline were not edited. The resumable cleanup receipt stays in ignored
+`.pilot-sandbox-cleanup.local`; do not commit it or the original private manifest.
+
+The bounded runner is `operations/pilot-launch/finish-sandbox-cleanup.mjs`; its default performs
+no network activity. `--validate` rolls back, `--apply` requires successful validation, `--resume`
+finishes only already-committed provider cleanup, and `--verify` refuses remaining provider
+objects rather than deleting them. All active modes require the exact confirmation guard,
+project, manifest, sandbox account and succeeded refund. No staff correspondence, key change,
+new grant, migration, source deployment or Worker promotion occurred. Production configuration
+restoration and cohort release remain separate owner-controlled steps; live Checkout is still
+disabled. This checkpoint supersedes the earlier pending-refund/cleanup statements below, not
+new hosted product-order acceptance or a new post-usability phone walkthrough.
 
 ## Temporary owner staff walkthrough access
 

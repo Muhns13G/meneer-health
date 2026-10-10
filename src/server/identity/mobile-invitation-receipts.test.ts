@@ -70,6 +70,43 @@ async function request(
   });
 }
 describe("attributed mobile delivery receipts", () => {
+  it("accepts attributed US receipts even after sending readiness is disabled", async () => {
+    const body = payload();
+    body.data.payload.to[0]!.phone_number = "+15105550123";
+    const record = vi.fn().mockResolvedValue(undefined);
+    expect(
+      (await createMobileReceiptHandler(config, record)(await request(JSON.stringify(body))))
+        .status,
+    ).toBe(204);
+    expect(record.mock.calls[0]![1]).toMatchObject({
+      toPhone: "+15105550123",
+      outcome: "delivered",
+    });
+    body.data.payload.from.phone_number = "TestSender";
+    const rejected = vi.fn();
+    expect(
+      (
+        await createMobileReceiptHandler(
+          { ...config, TELNYX_ALPHA_SENDER: "TestSender" },
+          rejected,
+        )(await request(JSON.stringify(body)))
+      ).status,
+    ).toBe(400);
+    expect(rejected).not.toHaveBeenCalled();
+  });
+  it.each(["+14165550123", "+12425550123", "+442055501234"])(
+    "rejects signed unsupported destination %s before recording",
+    async (phone) => {
+      const body = payload();
+      body.data.payload.to[0]!.phone_number = phone;
+      const record = vi.fn();
+      expect(
+        (await createMobileReceiptHandler(config, record)(await request(JSON.stringify(body))))
+          .status,
+      ).toBe(400);
+      expect(record).not.toHaveBeenCalled();
+    },
+  );
   it("verifies the signed exact alpha rewrite and correlates the original dispatch sender", async () => {
     const body = payload();
     body.data.payload.from.phone_number = "TestSender";

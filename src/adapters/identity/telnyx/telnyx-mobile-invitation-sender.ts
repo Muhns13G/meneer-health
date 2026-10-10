@@ -1,6 +1,7 @@
 import "@tanstack/react-start/server-only";
 import { z } from "zod";
 import { matchesMobileProviderSender } from "@/server/identity/mobile-provider-sender";
+import { mobileInvitationDestination } from "@/application/identity/mobile-invitation-destination";
 import {
   smsSegments,
   renderMobileInvitation,
@@ -46,12 +47,14 @@ export class TelnyxMobileInvitationSender implements MobileInvitationSender {
   async send(request: Parameters<MobileInvitationSender["send"]>[0]): Promise<MobileSendOutcome> {
     const count = smsSegments(request.text);
     const token = request.text.match(/\/mobile-invitation#([A-Za-z0-9_-]{43})\./)?.[1];
+    const destination = mobileInvitationDestination(request.phone);
     if (
       !token ||
       request.text !== renderMobileInvitation(token).text ||
       count.encoding !== "GSM-7" ||
       count.segments > 2 ||
-      !/^\+27[0-9]{9}$/.test(request.phone) ||
+      !destination ||
+      (destination === "US" && this.config.MOBILE_INVITATIONS_US_DELIVERY_READY !== "true") ||
       !Number.isSafeInteger(request.reservedUsdMicros) ||
       request.reservedUsdMicros <= 0 ||
       !Number.isFinite(request.deadline) ||
@@ -114,6 +117,7 @@ export class TelnyxMobileInvitationSender implements MobileInvitationSender {
       if (
         data.messaging_profile_id !== this.config.TELNYX_MESSAGING_PROFILE_ID ||
         !matchesMobileProviderSender(data.from.phone_number, this.config) ||
+        (destination === "US" && data.from.phone_number !== this.config.TELNYX_FROM_NUMBER) ||
         data.to[0]!.phone_number !== request.phone ||
         data.parts > count.segments
       )

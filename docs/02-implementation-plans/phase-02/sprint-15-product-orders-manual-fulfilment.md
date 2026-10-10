@@ -108,8 +108,11 @@ orders, stock/custody/dispatch failures, changed approval and cancellation/refun
 Never infer signed settlement from a redirect or dispensing/delivery from a paid flag.
 
 Hosted migrations, imports, messages and provider records require separately bounded approval;
-the owner alone stages, commits, pushes and promotes. Retain the existing sandbox's exact refund,
-cleanup and configuration-restoration obligations. No new real charge is authorised by this plan.
+the owner alone stages, commits, pushes and promotes. The existing sandbox's exact refund and
+fixture cleanup were verified on 10 October with real staff preserved; see the
+[cleanup packet](annexures/pilot-sandbox-acceptance-2026-10-09.md#verified-cleanup--10-october).
+Production configuration restoration/preflight remains separate. No new real charge is authorised
+by this plan, and that cleanup is not new Sprint-15 product-order acceptance.
 
 Before product-sales GO: approve current customer RRPs, actual delivery quote policy, applicable
 product terms/provider business acceptance, real clinical/pharmacy authority and custody/courier
