@@ -10,6 +10,16 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Exact product evidence — Task 15.5
+
+The service-only `/staff/products/evidence` command shares the existing disabled `PRODUCT_QUOTES_MODE`
+and tenant boundary. Do not enable it merely because source was deployed. Clinical work requires
+an exact current medical-review grant plus fresh TOTP; provider evidence requires a separate
+assigned operations reviewer. Apply the separately approved forward migration before hosted
+acceptance; it preserves the 15.4 function ACLs while fixing native unbounded patient membership
+handling. No new secret, grant, price import, generator output or payable gate is provisioned.
+Owner-controlled hosted rehearsal/recovery remains 15.9; keep current defaults disabled.
+
 ## Assigned staff draft preparation — Task 15.4
 
 `PRODUCT_QUOTES_MODE=disabled` and `PRODUCT_QUOTES_TENANT_ID=` are the committed defaults.

@@ -150,6 +150,12 @@ sources:
 
 ## Sprint 15 adopted — 10 October
 
+[15.5](../02-implementation-plans/phase-02/annexures/sprint-15-5-product-evidence.md) adds a
+disabled-by-default native clinician/grant and independent operations evidence command, exact
+draft/intake/reference validity and immutable revocation. It also forward-corrects 15.4's draft
+guard to accept native unbounded patient memberships while keeping workforce expiry required.
+Local/controlled-browser verification passes; no hosted release or product-sales GO is inferred.
+
 [15.4](../02-implementation-plans/phase-02/annexures/sprint-15-4-staff-quote-drafts.md) adds
 assigned fresh-TOTP operations draft preparation inside case detail, current customer RRPs and
 scoped delivery/address selection, immutable versioned server-priced snapshots and replay/stale
@@ -174,7 +180,7 @@ splits delivery into ten tasks. [15.1](../02-implementation-plans/phase-02/annex
 is complete at contract level with strict interest/quote input schemas and domain tests.
 15.1 added no runtime UI; 15.3 now provides the private catalogue as described above. No real
 price import, clinical/supply authority or hosted activation is delivered by these tasks.
-15.2 is completed locally and 15.3/15.4 at their controlled-browser boundaries; 15.5–15.10 remain
+15.2 is completed locally and 15.3–15.5 at their controlled-browser boundaries; 15.6–15.10 remain
 planned. Existing credit/payment foundations are reused, not proof that clients
 can already order products. Generator reactivation and product-specific release gates remain.
 

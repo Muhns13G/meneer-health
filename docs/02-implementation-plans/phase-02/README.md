@@ -2,7 +2,7 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-09
+last_updated: 2026-10-10
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
@@ -11,9 +11,13 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
+[15.5](annexures/sprint-15-5-product-evidence.md) implements independently attributed exact-draft
+clinical and provider evidence and immutable revocation, verified locally and in controlled browsers;
+no payable offer, provider order or real clinical permission is created.
+
 [15.4](annexures/sprint-15-4-staff-quote-drafts.md) adds assigned operations draft preparation,
 immutable server-priced snapshots and friendly authorised workspace names. Drafts are not issued
-quotes or payable offers; independent product evidence and issue remain 15.5/15.6.
+quotes or payable offers; independent product evidence is now 15.5, while issue remains 15.6.
 
 [15.3](annexures/sprint-15-3-client-catalogue.md) adds the private catalogue and optional
 version-bound audited interest. It remains disabled by default; local/controlled-browser

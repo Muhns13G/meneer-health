@@ -72,7 +72,11 @@ tests, 48 SQL suites / 2,261 assertions and 22 desktop/mobile checks pass.
 [15.4](annexures/sprint-15-4-staff-quote-drafts.md) is completed at its local/controlled-browser
 boundary: assigned fresh-TOTP operations drafts, immutable server totals and authorised workspace
 names; 73 focused tests, 49 SQL suites / 2,309 assertions and 22 desktop/mobile checks pass.
-Tasks 15.5–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
+[15.5](annexures/sprint-15-5-product-evidence.md) is completed at its local/controlled-browser
+boundary: native granted clinician and independent provider evidence, immutable revocation and
+current exact-reference guards; 53 focused tests, 50 SQL suites / 2,378 assertions, six new dev
+browser checks and 22 distinct compiled staff regression checks pass. No hosted release occurred.
+Tasks 15.6–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
 
 ## Engineering Constraints
 
