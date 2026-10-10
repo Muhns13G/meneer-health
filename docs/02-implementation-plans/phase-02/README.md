@@ -11,6 +11,10 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
+[15.4](annexures/sprint-15-4-staff-quote-drafts.md) adds assigned operations draft preparation,
+immutable server-priced snapshots and friendly authorised workspace names. Drafts are not issued
+quotes or payable offers; independent product evidence and issue remain 15.5/15.6.
+
 [15.3](annexures/sprint-15-3-client-catalogue.md) adds the private catalogue and optional
 version-bound audited interest. It remains disabled by default; local/controlled-browser
 verification is not real-price import, hosted application or sales activation. Staff quotes are next.
@@ -18,7 +22,7 @@ verification is not real-price import, hosted application or sales activation. S
 [15.2](annexures/sprint-15-2-private-product-catalogue.md) implements the private RRP/provenance,
 encrypted shipping and delivery-binding preparation foundation locally. The scoped import tool
 validates customer-only data against source bytes; it cannot import real prices into hosted services.
-Client catalogue UI and payable quote preparation remain 15.3 onward, not activated capabilities.
+Client browsing and draft UI now exist locally; payable quote issue remains 15.6, not an activated capability.
 
 The owner approved [Sprint 15](sprint-15-product-orders-manual-fulfilment.md) to connect the
 existing credit/payment foundation to private product browsing, independently approved staff

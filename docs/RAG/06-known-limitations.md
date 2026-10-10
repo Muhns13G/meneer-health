@@ -129,6 +129,13 @@ sources:
 
 ## Product preparation is not ordering activation — 10 October
 
+15.4 drafts are administrative preparation only. An existing encrypted address/delivery binding
+must be provisioned through approved preparation; staff cannot invent a tariff, confirm an address
+with a checkbox, apply credit or impersonate a clinician. The draft history is not a current supply
+or payment approval. 15.5/15.6 must revalidate exact products and all references before issue.
+Hosted acceptance, dedicated address-key custody/recovery and manual accessibility remain later
+release boundaries; no fresh manual VoiceOver observation is claimed here.
+
 [15.3](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md) implements
 private browsing/interest, disabled by default. Real RRPs, applicable privacy/lifecycle scope and
 owner release remain required. Interest is not an order, stock reservation or clinical approval;

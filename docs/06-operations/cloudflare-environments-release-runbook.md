@@ -10,6 +10,17 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Assigned staff draft preparation — Task 15.4
+
+`PRODUCT_QUOTES_MODE=disabled` and `PRODUCT_QUOTES_TENANT_ID=` are the committed defaults.
+Only an owner-promoted isolated release may use `synthetic` for a synthetic catalogue/tenant;
+`pilot` selects genuine approved RRP provenance. The staff product command requires an existing
+sealed workforce session, approved operations context, exact assigned case and recent TOTP.
+Apply the separately approved 15.4 migration before hosted acceptance. No real grants, import,
+outbound messages, payable offers or provider records are created by this engineering task.
+Keep these switches disabled through code deployment until the separate acceptance/release gate.
+Draft preparation does not enable clinical approval, Checkout, credit reservation or supply.
+
 ## Private product catalogue — Task 15.3
 
 The [task packet](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md)

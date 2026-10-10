@@ -43,6 +43,11 @@ closure is not evidence of pilot readiness.
 
 ### 10 October — Sprint 15.3 Private Catalogue and Interest
 
+Task [15.4](../02-implementation-plans/phase-02/annexures/sprint-15-4-staff-quote-drafts.md)
+advances the existing product-order gap with assigned non-payable immutable drafts and friendly
+workspace names. It does not close TD-010's product-sales/fulfilment scope or any professional,
+shipping-key/recovery or provider agreement gates; no debt count/status is changed from draft work.
+
 The [client catalogue packet](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md)
 adds own-onboarded private browsing and audited interest without payment, clinical or supply
 authority. Default release is disabled; real RRPs and privacy/lifecycle scope remain inputs.

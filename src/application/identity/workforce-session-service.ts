@@ -8,6 +8,7 @@ export const workforceContextSchema = z
   .object({
     subjectId: z.uuid(),
     tenantId: z.uuid(),
+    tenantName: z.string().trim().min(1).max(160).optional(),
     role: z.enum(["operations", "support", "auditor", "admin", "release", "clinician", "pharmacy"]),
     purpose: z.enum([
       "operations",

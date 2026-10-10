@@ -50,7 +50,15 @@ describe("individual staff sign-in", () => {
       .mockResolvedValueOnce(Response.json({ enrollment: null }))
       .mockResolvedValueOnce(
         Response.json({
-          contexts: [{ subjectId: id, tenantId: id, role: "auditor", purpose: "privacy_review" }],
+          contexts: [
+            {
+              subjectId: id,
+              tenantId: id,
+              tenantName: "Synthetic workspace",
+              role: "auditor",
+              purpose: "privacy_review",
+            },
+          ],
         }),
       )
       .mockResolvedValueOnce(new Response(null, { status: 204 }))
@@ -71,6 +79,8 @@ describe("individual staff sign-in", () => {
     await user.type(await screen.findByLabelText("Authenticator code"), "654321");
     await user.click(screen.getByRole("button", { name: "Verify authenticator" }));
     const choice = await screen.findByLabelText("Approved work context");
+    expect(choice).toHaveTextContent("Synthetic workspace");
+    expect(choice).not.toHaveTextContent(id);
     expect(choice).toHaveFocus();
     expect(screen.queryByRole("button", { name: "Renew session" })).not.toBeInTheDocument();
     expect(screen.queryByRole("option", { name: /admin/ })).not.toBeInTheDocument();
