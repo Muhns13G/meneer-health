@@ -284,6 +284,9 @@ export function PatientPortalPage({
                     >
                       Review deposit or payment
                     </Link>
+                    <Link to="/portal/products" className="action-secondary">
+                      Browse products
+                    </Link>
                   </div>
                   <p className="mt-4 text-sm text-muted-foreground">
                     Your account is active. A questionnaire or payment does not guarantee clinical

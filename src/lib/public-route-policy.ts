@@ -42,6 +42,8 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/account/recover", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/account/sign-out", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/portal", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal/products", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/portal/products/command", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/portal/profile", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/portal/rights", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/portal/rights/command", routeClass: "internal", indexing: "noindex-nofollow" },

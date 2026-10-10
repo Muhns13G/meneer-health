@@ -2,13 +2,25 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-10-09
+last_updated: 2026-10-10
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
 ---
 
 # Cloudflare v1 Environments and Release Runbook
+
+## Private product catalogue — Task 15.3
+
+The [task packet](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md)
+records the private browsing/interest boundary. `PRODUCT_CATALOGUE_MODE` defaults `disabled`;
+`PRODUCT_CATALOGUE_TENANT_ID` defaults empty. `synthetic` is isolated-proof provenance;
+`pilot` is reviewed real-RRP provenance. Never expose either as `VITE_*`, enable all switches,
+or equate catalogue access with Checkout/clinical/pharmacy/courier permission. Owner release
+requires applied migrations, correct current catalogue, applicable privacy/lifecycle scope and
+bounded acceptance; no such hosted release is performed by 15.3. Unknown/missing settings return
+412 with no private data. Roll back feature configuration to disabled without deleting immutable
+interest/audit history or mutating prices/financial records.
 
 ## Scope and Ownership
 

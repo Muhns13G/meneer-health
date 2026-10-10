@@ -16,6 +16,10 @@ import {
   type CommerceReviewBindings,
 } from "./server/payments/order-review-http";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
+import {
+  createClientProductHttpHandler,
+  type ClientProductBindings,
+} from "./server/payments/client-product-http";
 import { createPaymentStatusHttpHandler } from "./server/payments/payment-status-http";
 import { paymentMode } from "./server/payments/commerce-environment";
 import { createRefundHttpHandler } from "./server/payments/refund-http";
@@ -170,6 +174,10 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               paymentMode((env as unknown as PilotWebhookBindings).COMMERCE_WEBHOOK_MODE) !== null
             )
               return createPilotWebhookHandler(env as unknown as PilotWebhookBindings)(
+                boundedRequest,
+              );
+            if (pathname === "/portal/products/command")
+              return createClientProductHttpHandler(env as unknown as ClientProductBindings)(
                 boundedRequest,
               );
             if (pathname === "/portal/order/command")

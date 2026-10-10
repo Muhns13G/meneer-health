@@ -100,6 +100,8 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
   ),
   ...[
     "COMMERCE_REVIEW_MODE",
+    "PRODUCT_CATALOGUE_MODE",
+    "PRODUCT_CATALOGUE_TENANT_ID",
     "COMMERCE_REVIEW_TENANT_ID",
     "COMMERCE_CHECKOUT_MODE",
     "COMMERCE_WEBHOOK_MODE",

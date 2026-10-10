@@ -27,6 +27,7 @@ import { Route as GoThanksDadRouteImport } from './routes/go/thanks-dad'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalIntakeRouteImport } from './routes/portal.intake'
 import { Route as PortalOrderRouteImport } from './routes/portal.order'
+import { Route as PortalProductsRouteImport } from './routes/portal.products'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
 import { Route as PortalRightsRouteImport } from './routes/portal.rights'
 import { Route as PortalSupportRouteImport } from './routes/portal.support'
@@ -132,6 +133,11 @@ const PortalOrderRoute = PortalOrderRouteImport.update({
   path: '/portal/order',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PortalProductsRoute = PortalProductsRouteImport.update({
+  id: '/portal/products',
+  path: '/portal/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PortalProfileRoute = PortalProfileRouteImport.update({
   id: '/portal/profile',
   path: '/portal/profile',
@@ -222,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/intake': typeof PortalIntakeRoute
   '/portal/order': typeof PortalOrderRoute
+  '/portal/products': typeof PortalProductsRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/portal/support': typeof PortalSupportRoute
@@ -256,6 +263,7 @@ export interface FileRoutesByTo {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/intake': typeof PortalIntakeRoute
   '/portal/order': typeof PortalOrderRoute
+  '/portal/products': typeof PortalProductsRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/portal/support': typeof PortalSupportRoute
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/go/thanks-dad': typeof GoThanksDadRoute
   '/portal/intake': typeof PortalIntakeRoute
   '/portal/order': typeof PortalOrderRoute
+  '/portal/products': typeof PortalProductsRoute
   '/portal/profile': typeof PortalProfileRoute
   '/portal/rights': typeof PortalRightsRoute
   '/portal/support': typeof PortalSupportRoute
@@ -327,6 +336,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/intake'
     | '/portal/order'
+    | '/portal/products'
     | '/portal/profile'
     | '/portal/rights'
     | '/portal/support'
@@ -361,6 +371,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/intake'
     | '/portal/order'
+    | '/portal/products'
     | '/portal/profile'
     | '/portal/rights'
     | '/portal/support'
@@ -395,6 +406,7 @@ export interface FileRouteTypes {
     | '/go/thanks-dad'
     | '/portal/intake'
     | '/portal/order'
+    | '/portal/products'
     | '/portal/profile'
     | '/portal/rights'
     | '/portal/support'
@@ -430,6 +442,7 @@ export interface RootRouteChildren {
   GoThanksDadRoute: typeof GoThanksDadRoute
   PortalIntakeRoute: typeof PortalIntakeRoute
   PortalOrderRoute: typeof PortalOrderRoute
+  PortalProductsRoute: typeof PortalProductsRoute
   PortalProfileRoute: typeof PortalProfileRoute
   PortalRightsRoute: typeof PortalRightsRoute
   PortalSupportRoute: typeof PortalSupportRoute
@@ -575,6 +588,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalOrderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/portal/products': {
+      id: '/portal/products'
+      path: '/portal/products'
+      fullPath: '/portal/products'
+      preLoaderRoute: typeof PortalProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/portal/profile': {
       id: '/portal/profile'
       path: '/portal/profile'
@@ -694,6 +714,7 @@ const rootRouteChildren: RootRouteChildren = {
   GoThanksDadRoute: GoThanksDadRoute,
   PortalIntakeRoute: PortalIntakeRoute,
   PortalOrderRoute: PortalOrderRoute,
+  PortalProductsRoute: PortalProductsRoute,
   PortalProfileRoute: PortalProfileRoute,
   PortalRightsRoute: PortalRightsRoute,
   PortalSupportRoute: PortalSupportRoute,
