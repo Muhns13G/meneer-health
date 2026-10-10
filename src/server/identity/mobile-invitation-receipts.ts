@@ -3,6 +3,10 @@ import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { matchesMobileProviderSender, mobileAlphaSenderSchema } from "./mobile-provider-sender";
 import { renderMobileInvitation } from "@/application/identity/mobile-invitation-delivery";
+import {
+  mobileInvitationDestination,
+  mobileInvitationDestinationSchema,
+} from "@/application/identity/mobile-invitation-destination";
 import { readBoundedTextRequest } from "@/server/security/request-security";
 
 const configuration = z.object({
@@ -35,7 +39,7 @@ const envelope = z.object({
       messaging_profile_id: z.uuid(),
       from: z.object({ phone_number: z.string() }),
       to: z
-        .array(z.object({ phone_number: z.string().regex(/^\+27[0-9]{9}$/), status: z.string() }))
+        .array(z.object({ phone_number: mobileInvitationDestinationSchema, status: z.string() }))
         .length(1),
       text: z.string().max(512),
       encoding: z.literal("GSM-7"),
@@ -64,7 +68,9 @@ export async function projectMobileReceipt(
     !token ||
     p.text !== renderMobileInvitation(token).text ||
     p.messaging_profile_id !== config.TELNYX_MESSAGING_PROFILE_ID ||
-    !matchesMobileProviderSender(p.from.phone_number, config)
+    !matchesMobileProviderSender(p.from.phone_number, config) ||
+    (mobileInvitationDestination(p.to[0]!.phone_number) === "US" &&
+      p.from.phone_number !== config.TELNYX_FROM_NUMBER)
   )
     throw new Error("MOBILE_RECEIPT_INVALID");
   const status = p.to[0]!.status;

@@ -37,6 +37,11 @@ neither this plan nor Sprint 13 completion silently activates the pilot.
 
 ## Reconciliation with Existing Implementation
 
+The owner's 10 October US-destination extension is recorded in the
+[bounded extension packet](annexures/mobile-invitation-us-extension.md). Existing ZA delivery is
+retained; US delivery requires separate readiness, provider registration verification, the new
+guarded migration and owner deployment. All cohort sends are paused until that deployment.
+
 Sprint 9 already supplies staff-governed email invitations, code-only email verification,
 atomic profile/document activation and private email-session/recovery boundaries. Its current
 staff invitation service reserves email-addressed invitations before managed-provider delivery.

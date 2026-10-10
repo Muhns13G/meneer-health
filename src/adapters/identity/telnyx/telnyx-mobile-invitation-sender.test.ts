@@ -37,6 +37,36 @@ function receipt() {
   };
 }
 describe("one-shot Telnyx sender", () => {
+  it("requires separate US readiness and retains numeric US sender attribution", async () => {
+    const usRequest = { ...request, phone: "+15105550123" };
+    const body = receipt();
+    body.data.to[0]!.phone_number = usRequest.phone;
+    const transport = vi.fn<typeof fetch>().mockResolvedValue(Response.json(body));
+    expect(await new TelnyxMobileInvitationSender(config, transport).send(usRequest)).toEqual({
+      outcome: "failed",
+      providerMessageId: null,
+    });
+    expect(transport).not.toHaveBeenCalled();
+    expect(
+      await new TelnyxMobileInvitationSender(
+        { ...config, MOBILE_INVITATIONS_US_DELIVERY_READY: "true" },
+        transport,
+      ).send(usRequest),
+    ).toEqual({ outcome: "accepted", providerMessageId: id });
+    expect(transport).toHaveBeenCalledTimes(1);
+    body.data.from.phone_number = "TestSender";
+    const alpha = vi.fn<typeof fetch>().mockResolvedValue(Response.json(body));
+    expect(
+      await new TelnyxMobileInvitationSender(
+        {
+          ...config,
+          MOBILE_INVITATIONS_US_DELIVERY_READY: "true",
+          TELNYX_ALPHA_SENDER: "TestSender",
+        },
+        alpha,
+      ).send(usRequest),
+    ).toEqual({ outcome: "uncertain", providerMessageId: null });
+  });
   it("accepts only an explicitly configured exact profile alpha rewrite", async () => {
     const body = receipt();
     body.data.from.phone_number = "TestSender";
@@ -190,6 +220,8 @@ describe("one-shot Telnyx sender", () => {
   });
   it.each([
     { phone: "+999000000001" },
+    { phone: "+14165550123" },
+    { phone: "+12425550123" },
     { text: "😀" },
     { text: "a".repeat(307) },
     { reservedUsdMicros: 0 },

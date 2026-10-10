@@ -5,6 +5,7 @@ const enabled = z.object({
   MOBILE_INVITATIONS_MODE: z.literal("telnyx"),
   MOBILE_INVITATIONS_DELIVERY_READY: z.literal("true"),
   MOBILE_INVITATIONS_TENANT_ID: z.uuid(),
+  MOBILE_INVITATIONS_US_DELIVERY_READY: z.enum(["true", "false"]).default("false"),
   TELNYX_API_KEY: z
     .string()
     .min(20)

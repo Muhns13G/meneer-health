@@ -24,6 +24,35 @@
   },
   "documents": [
     {
+      "id": "mobile-invitation-us-extension-2026-10-10",
+      "path": "docs/02-implementation-plans/phase-02/annexures/mobile-invitation-us-extension.md",
+      "status": "local-verified-hosted-migration-deployment-provider-readiness-pending",
+      "authority_for": [
+        "US geographic destination extension with default-off readiness and cohort-send deployment hold"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
+      "id": "approved-review-deposit-pricing-2026-10-10",
+      "path": "docs/02-implementation-plans/phase-02/annexures/live-payment-activation.md",
+      "status": "owner-promoted-live-deposit-config-and-anonymous-smoke-verified",
+      "authority_for": [
+        "Truthful R999 review-deposit provenance and tenant-bound native pricing",
+        "Seven-day database release verified until 17 October; Worker owner-promoted, anonymous smoke passed and product sales disabled"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
+      "id": "pilot-sandbox-cleanup-2026-10-10",
+      "path": "docs/02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md",
+      "status": "sandbox-capture-refunded-cleanup-verified-production-release-separate",
+      "authority_for": [
+        "Exact original-method R999 test refund and current-baseline fixture cleanup",
+        "Preserved real staff and integrity guards; no production release or cohort GO"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
       "id": "phase-02-sprint-15-6-issued-product-quotes",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-6-issued-product-quotes.md",
       "status": "completed-local-controlled-browser-boundary",

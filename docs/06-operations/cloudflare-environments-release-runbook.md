@@ -10,6 +10,43 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Pending US invitation extension — 10 October
+
+The [US extension packet](../02-implementation-plans/phase-02/annexures/mobile-invitation-us-extension.md)
+adds `MOBILE_INVITATIONS_US_DELIVERY_READY=false` to the local template and ignored production
+file. Omission also defaults off in the Worker parser. The database readiness gate remains off
+until separately verified and approved. The owner requires all cohort sends to wait for the new
+application deployment; the currently active live-deposit configuration is not proof that this
+extension is deployed or US sender registration is approved.
+
+## Owner-promoted live credential refresh — 10 October
+
+Candidate `259c5255-b9f7-464a-b5fa-ebdfd8051034` preserves the active source and binding names/types
+while preparing the verified live Stripe credential set and real-pilot mobile/intake/payment targets.
+Product modes remain disabled. The no-network-by-default bounded runner is
+`operations/pilot-launch/prepare-live-refresh.mjs`; `--verify` checks the recorded candidate without
+creating another version. No promotion or database activation follows from upload. Subsequent
+explicitly approved migration/publication work has now verified one real R999 deposit price and
+the live database release through 17 October 2026, 13:44 SAST. Candidate verification confirms
+the price/release, current source and disabled product modes. The owner promoted this version to
+100%; `--verify-active` independently confirms it is active with the current price/release.
+Hosted anonymous smoke passes: home/staff sign-in 200, protected order read 401, disabled products
+412 and unsigned Stripe callback 400, with private no-store responses. No message or charge was
+sent. Authenticated live settlement/refund acceptance is not inferred from these checks.
+
+## Completed sandbox cleanup — 10 October
+
+The [exact 9 October exercise](../02-implementation-plans/phase-02/annexures/pilot-sandbox-acceptance-2026-10-09.md#verified-cleanup--10-october)
+is refunded and cleaned, with four real staff and six real-pilot grants preserved. Its guarded
+runner is `operations/pilot-launch/finish-sandbox-cleanup.mjs`; no arguments produce a no-network
+plan. Do not repurpose its fixed identifiers for other exercises or run a historical empty-Auth/
+suspended-tenant reset against this active staff setup. The ignored cleanup receipt holds current
+preservation fingerprints; `--verify` refuses residual provider objects instead of deleting them.
+No Worker version was promoted, no production binding changed and live Checkout remains disabled.
+Before cohort invitations, inspect the actual deployed tenant/mode/service/instrument bindings and
+prepare an owner-controlled release. Never roll back blindly to a historical version or enable
+all product/payment/generator modes because the database is clean.
+
 ## Issued product quotes — Task 15.6
 
 `PRODUCT_ORDERING_MODE=disabled` and `PRODUCT_ORDERING_TENANT_ID=` are committed defaults.

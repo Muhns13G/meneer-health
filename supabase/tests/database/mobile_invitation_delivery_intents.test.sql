@@ -149,5 +149,34 @@ update auth.sessions set aal='aal1' where id='a1440000-0000-4000-8000-0000000000
 set local role service_role;
 select throws_ok($$select pg_temp.finish_mobile('accepted','a1440000-0000-4000-8000-000000000011')$$,'42501','WORKFORCE_REJECTED','email-only authority cannot finish receipts');
 reset role;
+-- US support is independently opt-in; Canadian/Caribbean +1 numbers are not US numbers.
+select ok(identity_private.mobile_us_destination('+15105550123'),'US geographic destination supported');
+select ok(not identity_private.mobile_us_destination('+14165550123'),'Canada stays excluded');
+select ok(not identity_private.mobile_us_destination('+12425550123'),'Bahamas stays excluded');
+select ok(not identity_private.mobile_us_destination('+17875550123'),'separate PR numbering territory stays excluded');
+select ok(not identity_private.mobile_us_destination('+18005550123'),'non-geographic toll-free destination stays excluded');
+select ok(not identity_private.mobile_us_destination(null),'null destination denied');
+select ok(not has_function_privilege('service_role','identity_private.mobile_us_destination(text)','execute'),'service cannot call private US helper directly');
+select ok(not us_delivery_ready,'US readiness defaults off') from identity_private.mobile_invitation_policies;
+update auth.sessions set aal='aal2' where id='a1440000-0000-4000-8000-000000000002';
+update identity_private.mobile_invitation_policies set daily_usd_micros=240000;
+set local role service_role;
+update target_mobile set id=(pg_temp.mobile_command(jsonb_build_object('action','create','requestKey',gen_random_uuid(),
+ 'givenName','Synthetic','familyName','US','phone','+15105550123',
+ 'provenanceReference',gen_random_uuid(),'contactAuthorityReference',gen_random_uuid()))->>'invitationId')::uuid,claim=null;
+select lives_ok($$select pg_temp.change_mobile('review',1,50)$$,'US invitation review uses same authority');
+select lives_ok($$select pg_temp.change_mobile('send',1,51)$$,'US send reservation uses same authority');
+select throws_ok($$select pg_temp.prepare_mobile(1,51,repeat('d',64))$$,'22023','MOBILE_DESTINATION_INVALID','US gate off denies native dispatch');
+reset role;
+select is((select sum(reserved_usd_micros) from identity_private.mobile_invitation_delivery_intents),160000::bigint,'US gate denial consumes no delivery spend');
+update identity_private.mobile_invitation_policies set us_delivery_ready=true;
+set local role service_role;
+update target_mobile set claim=pg_temp.prepare_mobile(1,51,repeat('d',64));
+select is((select claim->>'phone' from target_mobile),'+15105550123','enabled US native claim returns exact destination');
+select is((select claim->>'reservedUsdMicros' from target_mobile),'80000','US uses unchanged two-segment reservation');
+select is(pg_temp.prepare_mobile(1,51,repeat('d',64)),null::jsonb,'US prepare replay cannot dispatch twice');
+reset role;
+select is((select sum(reserved_usd_micros) from identity_private.mobile_invitation_delivery_intents),240000::bigint,'US shares existing tenant budget');
+select ok((select expires_at-issued_at=interval '48 hours' from identity_private.mobile_invitation_tokens where digest=repeat('d',64)),'US link retains 48-hour expiry');
 select * from finish();
 rollback;
