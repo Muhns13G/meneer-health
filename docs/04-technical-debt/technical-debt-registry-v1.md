@@ -41,7 +41,12 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### 10 October — Sprint 15.3 Private Catalogue and Interest
+### 10 October — Sprint 15.3–15.5 Private Product Preparation
+
+Task [15.5](../02-implementation-plans/phase-02/annexures/sprint-15-5-product-evidence.md) advances
+TD-010's exact clinical/provider evidence without impersonating professional authority or
+activating supply. Private source references still require actual human inspection; TD-007/009
+and shipping/recovery/hosted acceptance gates are unchanged. No new debt count is invented.
 
 Task [15.4](../02-implementation-plans/phase-02/annexures/sprint-15-4-staff-quote-drafts.md)
 advances the existing product-order gap with assigned non-payable immutable drafts and friendly

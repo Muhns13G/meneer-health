@@ -5,6 +5,7 @@ import catalogue from "../../content/medical-intake-catalogue.json";
 import { medicalFieldIds } from "../../contracts/medical-intake";
 import { Nav } from "./Nav";
 import { Footer } from "./Footer";
+import { ProductEvidencePanel } from "./ProductEvidencePanel";
 const purposes = [
   "medical_review",
   "medical_safety",
@@ -189,8 +190,8 @@ export function MedicalWorkPage() {
           Private medical work
         </h1>
         <p className="mt-4 text-muted-foreground">
-          Ordinary staff access does not grant medical-answer access. This screen does not prescribe
-          or approve treatment.
+          Ordinary staff access does not grant medical-answer access. Questionnaire review is not a
+          prescription or dispensing instruction; exact product evidence is a separate gated action.
         </p>
         <label className="mt-8 block">
           Medical purpose
@@ -243,6 +244,14 @@ export function MedicalWorkPage() {
         {view ? (
           <section className="mt-8">
             <h2 className="font-serif text-2xl">Granted snapshot fields</h2>
+            {purpose === "medical_review" && view.state === "submitted" && !view.safetyHold ? (
+              <details className="mb-6">
+                <summary className="action-secondary cursor-pointer">
+                  Exact product approval
+                </summary>
+                <ProductEvidencePanel key={view.snapshotId} target={{ intakeId: view.intakeId }} />
+              </details>
+            ) : null}
             <p className="mt-3 break-all">
               Snapshot {view.snapshotId} · version {view.version}
             </p>

@@ -129,6 +129,12 @@ sources:
 
 ## Product preparation is not ordering activation — 10 October
 
+15.5 evidence is a scoped human attestation to actual privately held source records, not an API
+verification of generator output, professional credentials, provider stock or dispensing.
+Operations cannot record clinical decisions; the draft preparer cannot independently confirm
+provider evidence. Current exact evidence still needs the 15.6 bridge to quote issue and later
+release checks; the old aggregate product-release booleans are not silently populated.
+
 15.4 drafts are administrative preparation only. An existing encrypted address/delivery binding
 must be provisioned through approved preparation; staff cannot invent a tariff, confirm an address
 with a checkbox, apply credit or impersonate a clinician. The draft history is not a current supply

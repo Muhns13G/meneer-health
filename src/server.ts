@@ -25,6 +25,7 @@ import {
   createStaffProductQuoteHttpHandler,
   type StaffProductQuoteBindings,
 } from "./server/payments/staff-product-quote-http";
+import { createProductEvidenceHttpHandler } from "./server/payments/product-evidence-http";
 import { paymentMode } from "./server/payments/commerce-environment";
 import { createRefundHttpHandler } from "./server/payments/refund-http";
 import { runScheduledRefunds } from "./server/payments/refund-dispatch";
@@ -188,6 +189,10 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               return createStaffProductQuoteHttpHandler(
                 env as unknown as StaffProductQuoteBindings,
               )(boundedRequest);
+            if (pathname === "/staff/products/evidence")
+              return createProductEvidenceHttpHandler(env as unknown as StaffProductQuoteBindings)(
+                boundedRequest,
+              );
             if (pathname === "/portal/order/command")
               return createOrderReviewHttpHandler(env as unknown as CommerceReviewBindings)(
                 boundedRequest,

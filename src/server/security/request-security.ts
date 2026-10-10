@@ -31,6 +31,7 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/staff/payments/refund", "protected-command"],
   ["/staff/queue/read", "protected-command"],
   ["/staff/products/command", "protected-command"],
+  ["/staff/products/evidence", "protected-command"],
   ["/staff/alerts/read", "protected-command"],
   ["/staff/alerts/respond", "protected-command"],
   ["/staff/queue/detail", "protected-command"],
