@@ -25,6 +25,7 @@ const invitation = {
   contactDigest: "c".repeat(64),
   providerSubject: id,
   email: "mobile@example.invalid",
+  otpKind: "invite" as const,
   expiresAt: new Date(proof.expiresAt).toISOString(),
 };
 function setup() {
@@ -38,11 +39,18 @@ function setup() {
         invitationId: id,
         creationProof: "d".repeat(64),
       };
-    if (name === "read_mobile_email_exchange") return invitation;
+    if (name === "read_mobile_email_exchange_for_resume") return invitation;
+    if (name === "prepare_mobile_email_resume") return { dispatch: false };
     return true;
   });
   const provider = {
     invitePatient: vi.fn(async () => id),
+    requestPatientSignIn: vi.fn(async () => {}),
+    verifyEmailOtp: vi.fn(async () => ({
+      accessToken: "private-access",
+      refreshToken: "private-refresh",
+      expiresAt: new Date(Date.now() + 3600000),
+    })),
     verifyInvitationOtp: vi.fn(async () => ({
       accessToken: "private-access",
       refreshToken: "private-refresh",
@@ -92,6 +100,61 @@ describe("mobile email conversion", () => {
     s.call.mockResolvedValueOnce(null);
     expect(await s.service.request(proof)).toBe(false);
     expect(s.provider.invitePatient).not.toHaveBeenCalled();
+  });
+  it("sends a fresh email OTP only after a native resume lease, never another identity invite", async () => {
+    const s = setup();
+    s.call
+      .mockResolvedValueOnce({ dispatch: false, state: "delivered" })
+      .mockResolvedValueOnce({ dispatch: true, email: invitation.email });
+    expect(await s.service.request(proof)).toBe(true);
+    expect(s.provider.invitePatient).not.toHaveBeenCalled();
+    expect(s.provider.requestPatientSignIn).toHaveBeenCalledWith(
+      invitation.email,
+      "https://meneerhealth.co.za/mobile-invitation",
+    );
+    expect(s.call.mock.invocationCallOrder[1]).toBeLessThan(
+      s.provider.requestPatientSignIn.mock.invocationCallOrder[0]!,
+    );
+  });
+  it("a denied resume lease sends nothing; uncertain provider outcomes cannot create another invite", async () => {
+    const s = setup();
+    s.call
+      .mockResolvedValueOnce({ dispatch: false, state: "delivered" })
+      .mockResolvedValueOnce(null);
+    expect(await s.service.request(proof)).toBe(false);
+    expect(s.provider.requestPatientSignIn).not.toHaveBeenCalled();
+    s.call
+      .mockResolvedValueOnce({ dispatch: false, state: "delivered" })
+      .mockResolvedValueOnce({ dispatch: true, email: invitation.email });
+    s.provider.requestPatientSignIn.mockRejectedValueOnce(new Error("uncertain"));
+    expect(await s.service.request(proof)).toBe(false);
+    expect(s.provider.invitePatient).not.toHaveBeenCalled();
+  });
+  it("verifies the server-selected resumed OTP type without extending session or invitation", async () => {
+    const s = setup();
+    const resumed = {
+      ...invitation,
+      otpKind: "email",
+      expiresAt: new Date(Date.now() + 172800000).toISOString(),
+    };
+    s.call
+      .mockResolvedValueOnce(resumed)
+      .mockResolvedValueOnce(resumed)
+      .mockResolvedValueOnce(true);
+    const result = await s.service.verify(proof, "123456");
+    expect(s.provider.verifyEmailOtp).toHaveBeenCalledWith(invitation.email, "123456");
+    expect(s.provider.verifyInvitationOtp).not.toHaveBeenCalled();
+    expect(result.session.expiresAt.getTime()).toBeGreaterThan(proof.expiresAt);
+    expect(result.session.expiresAt.getTime()).toBeLessThanOrEqual(Date.now() + 3600000);
+  });
+  it("an expired resumed OTP grants no native authority and never falls back to invitation verification", async () => {
+    const s = setup();
+    s.call.mockResolvedValueOnce({ ...invitation, otpKind: "email" });
+    s.provider.verifyEmailOtp.mockRejectedValueOnce(new Error("expired code"));
+    await expect(s.service.verify(proof, "123456")).rejects.toThrow();
+    expect(s.provider.verifyInvitationOtp).not.toHaveBeenCalled();
+    expect(s.provider.verifyAccessToken).not.toHaveBeenCalled();
+    expect(s.call.mock.calls.some(([name]) => name === "verify_mobile_email_exchange")).toBe(false);
   });
   it.each([undefined, "invalid", 123])(
     "rejects missing or malformed creation capability %s before Auth",

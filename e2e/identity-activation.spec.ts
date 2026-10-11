@@ -92,3 +92,34 @@ test("exact documents precede profile; separate actions, retry and durable succe
   expect(bodies[0]).not.toHaveProperty("password");
   expect(page.url()).toBe("http://127.0.0.1:8085/account/activate");
 });
+
+test("expired verification gives a recovery path and preserves the current form without browser storage", async ({
+  page,
+}) => {
+  await isolateExternalFonts(page);
+  await page.route("**/account/activate/instruments", (route) =>
+    route.fulfill({ json: { verifiedEmail: "activation@example.invalid", documents } }),
+  );
+  await page.route("**/account/activate", (route) =>
+    route.request().method() === "POST"
+      ? route.fulfill({ status: 401, body: "" })
+      : route.continue(),
+  );
+  await page.goto("/account/activate");
+  await page.getByRole("button", { name: "Continue to profile" }).click();
+  await page.getByLabel("Given name", { exact: true }).fill("Synthetic");
+  await page.getByLabel("Family name", { exact: true }).fill("Resume");
+  await page.getByLabel("Mobile or WhatsApp number (international format)").fill("+99914700001");
+  await page.getByRole("checkbox").nth(0).check();
+  await page.getByRole("checkbox").nth(1).check();
+  await page.getByRole("button", { name: "Set up account", exact: true }).click();
+  await expect(page.getByRole("alert")).toBeFocused();
+  await expect(page.getByRole("alert")).toContainText("verification session has expired");
+  await expect(page.getByRole("alert")).toContainText("another tab");
+  await expect(page.getByRole("alert")).toContainText("48-hour deadline");
+  await expect(page.getByLabel("Given name", { exact: true })).toHaveValue("Synthetic");
+  await expect(page.getByLabel("Family name", { exact: true })).toHaveValue("Resume");
+  await expect(page.getByRole("checkbox").nth(0)).toBeChecked();
+  expect(await page.evaluate(() => localStorage.length + sessionStorage.length)).toBe(0);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+});

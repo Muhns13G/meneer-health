@@ -162,5 +162,94 @@ alter table identity_private.mobile_invitation_events enable trigger mobile_even
 select ok((public.sweep_mobile_invitation_retention('10000000-0000-4000-8000-000000000001')->>'eventsPurged')::integer>0,'elapsed minimal mobile journal is purged');
 select is((select count(*) from identity_private.mobile_invitation_events where invitation_id=md5('email-inv4')::uuid),0::bigint,'no retained expired mobile journal');
 select is((select count(*) from pg_trigger where not tgisinternal and tgenabled='D'),0::bigint,'all guards restored');
+-- Resume within the original invitation window without extending claims, OTPs or sessions.
+select ok(not has_table_privilege('service_role','identity_private.mobile_email_resume_leases','select'),'resume leases remain private');
+select ok(not has_function_privilege('authenticated','public.prepare_mobile_email_resume(uuid,text,text,uuid)','execute'),'resume reservation is service only');
+select ok(not has_function_privilege(r,'public.read_mobile_email_exchange_for_resume(uuid,text,text,uuid)','execute'),r||' cannot read resume verification context') from unnest(array['anon','authenticated']) r;
+select pg_temp.mobile(9);
+create temporary table resume_initial as select pg_temp.prepare(9) as result;
+select is((select e.expires_at=i.expires_at from identity_private.mobile_email_exchanges x
+ join public.identity_invitations e on e.id=x.email_invitation_id
+ join identity_private.mobile_invitations i on i.id=x.mobile_invitation_id
+ where i.id=md5('email-inv9')::uuid),true,'account invitation inherits original 48h deadline, not 15m claim');
+insert into auth.users(id,email,is_sso_user,is_anonymous,raw_user_meta_data)
+ values(md5('email-auth9')::uuid,'mobile9@example.invalid',false,false,
+ jsonb_build_object('mobile_creation_proof',(select result->>'creationProof' from resume_initial)));
+select is(pg_temp.finish_email(9,md5('email-auth9')::uuid),true,'initial delivery bound to proven account');
+update auth.users set email_confirmed_at=clock_timestamp() where id=md5('email-auth9')::uuid;
+insert into auth.sessions(id,user_id,created_at,updated_at,aal)
+ values(md5('email-session9')::uuid,md5('email-auth9')::uuid,clock_timestamp(),clock_timestamp(),'aal1');
+select is(pg_temp.verify_email(9,md5('email-session9')::uuid),true,'first session verified');
+alter table identity_private.mobile_invitation_claims disable trigger mobile_claim_guard;
+update identity_private.mobile_invitation_claims set issued_at=statement_timestamp()-interval '20 minutes',
+ expires_at=statement_timestamp()-interval '5 minutes' where invitation_id=md5('email-inv9')::uuid;
+alter table identity_private.mobile_invitation_claims enable trigger mobile_claim_guard;
+select lives_ok($$select public.prepare_pilot_account((select email_invitation_id from identity_private.mobile_email_exchanges where mobile_invitation_id=md5('email-inv9')::uuid),
+ '10000000-0000-4000-8000-000000000001',md5('email-auth9')::uuid,md5('email-session9')::uuid)$$,'valid verified session survives elapsed original claim');
+select is(public.prepare_mobile_email_resume('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),md5('email-secret9')||md5('email-secret9'),md5('email-request9')::uuid),null::jsonb,'expired claim cannot request codes');
+select public.exchange_mobile_invitation('10000000-0000-4000-8000-000000000001','redeem',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid);
+select is(public.exchange_mobile_invitation('10000000-0000-4000-8000-000000000001','bind',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid,'foreign@example.invalid'),null::jsonb,'fresh claim cannot change bound email');
+select public.exchange_mobile_invitation('10000000-0000-4000-8000-000000000001','bind',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid,'mobile9@example.invalid');
+select is(public.prepare_mobile_email_resume('10000000-0000-4000-8000-000000000002',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid),null::jsonb,'wrong tenant cannot reserve resume');
+select is(public.prepare_mobile_email_resume('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid)->>'dispatch','true','fresh claim gets one existing-account OTP lease');
+select is(public.prepare_mobile_email_resume('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid),'{"dispatch":false}'::jsonb,'same lease replay cannot send twice');
+select is(public.read_mobile_email_exchange_for_resume('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid)->>'otpKind','email','server selects fresh email OTP instead of original invitation OTP');
+select is(public.read_mobile_email_exchange('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid)->>'otpKind',null::text,'old strict response stays compatible during owner source cutover');
+select is(public.verify_mobile_email_exchange('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid,md5('email-auth9')::uuid,md5('email-session9')::uuid),false,'old session cannot masquerade as fresh verification');
+insert into auth.sessions(id,user_id,created_at,updated_at,aal)
+ values(md5('resume-session9')::uuid,md5('email-auth9')::uuid,clock_timestamp(),clock_timestamp(),'aal1');
+select is(public.verify_mobile_email_exchange('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid,md5('email-auth9')::uuid,md5('resume-session9')::uuid),true,'fresh same-provider verification replaces pending setup proof');
+select throws_ok($$select public.prepare_pilot_account((select email_invitation_id from identity_private.mobile_email_exchanges where mobile_invitation_id=md5('email-inv9')::uuid),
+ '10000000-0000-4000-8000-000000000001',md5('email-auth9')::uuid,md5('email-session9')::uuid)$$,'42501','ACTIVATION_REJECTED','superseded proof rejected');
+select lives_ok($$select public.prepare_pilot_account((select email_invitation_id from identity_private.mobile_email_exchanges where mobile_invitation_id=md5('email-inv9')::uuid),
+ '10000000-0000-4000-8000-000000000001',md5('email-auth9')::uuid,md5('resume-session9')::uuid)$$,'fresh proof can resume exact pending account');
+create function pg_temp.prove_elapsed_conversion() returns void language plpgsql as $$
+begin
+ -- Nested exception block rolls back this success probe, leaving subsequent denial fixtures.
+ begin
+  alter table identity_private.mobile_invitation_claims disable trigger mobile_claim_guard;
+  update identity_private.mobile_invitation_claims set issued_at=statement_timestamp()-interval '20 minutes',
+   expires_at=statement_timestamp()-interval '5 minutes' where id=(select claim_id from identity_private.mobile_email_exchanges where mobile_invitation_id=md5('email-inv9')::uuid);
+  alter table identity_private.mobile_invitation_claims enable trigger mobile_claim_guard;
+  perform public.activate_pilot_account((select email_invitation_id from identity_private.mobile_email_exchanges where mobile_invitation_id=md5('email-inv9')::uuid),
+   '10000000-0000-4000-8000-000000000001',md5('email-auth9')::uuid,md5('resume-session9')::uuid,
+   jsonb_build_object('givenName','Synthetic','familyName','Resume','mobileE164','+99910000009','contactPreference','email',
+    'termsPublicationId',md5('email-terms')::uuid,'termsHash',encode(sha256(convert_to('Synthetic mobile terms','UTF8')),'hex'),
+    'privacyPublicationId',md5('email-privacy')::uuid,'privacyHash',encode(sha256(convert_to('Synthetic mobile privacy','UTF8')),'hex'),
+    'termsAccepted',true,'privacyAcknowledged',true,'requestKey',md5('resume-activation9')::uuid));
+  if (select status from identity_private.mobile_invitations where id=md5('email-inv9')::uuid)<>'converted' then
+   raise exception 'RESUME_CONVERSION_NOT_COMMITTED';end if;
+  raise exception using errcode='P0002',message='RESUME_CONVERSION_PROVED';
+ exception when no_data_found then
+  if sqlerrm<>'RESUME_CONVERSION_PROVED' then raise;end if;
+ end;
+end $$;
+select lives_ok($$select pg_temp.prove_elapsed_conversion()$$,'verified profile/receipts/conversion commit even after short claim deadline');
+select throws_ok($$delete from identity_private.mobile_email_resume_leases$$,'55000','APPEND_ONLY_RECORD','resume lease cannot be cleared for another send');
+-- Elapsed 48h fixture; restore exact timestamps and named guards inside this rollback packet.
+create temporary table resume_deadline as select id,issued_at,expires_at from identity_private.mobile_invitations where id=md5('email-inv9')::uuid;
+alter table identity_private.mobile_invitations disable trigger mobile_invitation_guard;
+alter table identity_private.mobile_invitation_tokens disable trigger mobile_token_guard;
+update identity_private.mobile_invitations set issued_at=statement_timestamp()-interval '48 hours 1 second',expires_at=statement_timestamp()-interval '1 second' where id=md5('email-inv9')::uuid;
+update identity_private.mobile_invitation_tokens t set issued_at=i.issued_at,expires_at=i.expires_at from identity_private.mobile_invitations i where t.invitation_id=i.id and i.id=md5('email-inv9')::uuid;
+alter table identity_private.mobile_invitations enable trigger mobile_invitation_guard;
+alter table identity_private.mobile_invitation_tokens enable trigger mobile_token_guard;
+select is(public.prepare_mobile_email_resume('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid),null::jsonb,'original 48h deadline blocks resume despite fresh provider proof');
+select throws_ok($$select public.prepare_pilot_account((select email_invitation_id from identity_private.mobile_email_exchanges where mobile_invitation_id=md5('email-inv9')::uuid),
+ '10000000-0000-4000-8000-000000000001',md5('email-auth9')::uuid,md5('resume-session9')::uuid)$$,'42501','ACTIVATION_REJECTED','fresh session does not extend invitation deadline');
+alter table identity_private.mobile_invitations disable trigger mobile_invitation_guard;
+alter table identity_private.mobile_invitation_tokens disable trigger mobile_token_guard;
+update identity_private.mobile_invitations i set issued_at=s.issued_at,expires_at=s.expires_at from resume_deadline s where i.id=s.id;
+update identity_private.mobile_invitation_tokens t set issued_at=s.issued_at,expires_at=s.expires_at from resume_deadline s where t.invitation_id=s.id;
+alter table identity_private.mobile_invitations enable trigger mobile_invitation_guard;
+alter table identity_private.mobile_invitation_tokens enable trigger mobile_token_guard;
+update public.tenants set status='suspended' where id='10000000-0000-4000-8000-000000000001';
+select is(public.prepare_mobile_email_resume('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid),null::jsonb,'suspended tenant cannot request another code');
+update public.tenants set status='active' where id='10000000-0000-4000-8000-000000000001';
+update identity_private.mobile_invitations set status='revoked',terminal_at=clock_timestamp() where id=md5('email-inv9')::uuid;
+select is(public.prepare_mobile_email_resume('10000000-0000-4000-8000-000000000001',md5('email-token9')||md5('email-token9'),repeat('9',64),md5('resume-request9')::uuid),null::jsonb,'revocation blocks resume immediately');
+select throws_ok($$select public.prepare_pilot_account((select email_invitation_id from identity_private.mobile_email_exchanges where mobile_invitation_id=md5('email-inv9')::uuid),
+ '10000000-0000-4000-8000-000000000001',md5('email-auth9')::uuid,md5('resume-session9')::uuid)$$,'42501','ACTIVATION_REJECTED','fresh OTP never overrides revocation');
+select is((select count(*) from pg_trigger where not tgisinternal and tgenabled='D'),0::bigint,'resume fixture restores all guards');
 select * from finish();
 rollback;

@@ -49,6 +49,20 @@ function setup() {
   return { exchange, limit, bindings, handler: createMobileRedemptionHandler(bindings, exchange) };
 }
 describe("mobile claim transport", () => {
+  it("reopening the same link reuses a live sealed claim, never an unrelated link's claim", async () => {
+    const s = setup();
+    const first = await s.handler(request("redeem", { token, requestKey: id }));
+    const cookie = first.headers.get("set-cookie")!.split(";")[0]!;
+    s.exchange.mockClear();
+    await s.handler(
+      request("redeem", { token, requestKey: "a1460000-0000-4000-8000-000000000002" }, cookie),
+    );
+    expect(s.exchange.mock.calls[0]![0].p_request_key).toBe(id);
+    s.exchange.mockClear();
+    const otherRequest = "a1460000-0000-4000-8000-000000000003";
+    await s.handler(request("redeem", { token: "B".repeat(43), requestKey: otherRequest }, cookie));
+    expect(s.exchange.mock.calls[0]![0].p_request_key).toBe(otherRequest);
+  });
   it("rejects noncanonical hosts, query bearers, oversized and duplicate fields", async () => {
     const { handler, exchange } = setup();
     for (const url of [

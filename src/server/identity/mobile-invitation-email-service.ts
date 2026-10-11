@@ -40,8 +40,13 @@ const invitationSchema = z
     providerSubject: z.uuid(),
     expiresAt: z.iso.datetime({ offset: true }),
     email: z.email(),
+    otpKind: z.enum(["invite", "email"]),
   })
   .strict();
+const resumeSchema = z.discriminatedUnion("dispatch", [
+  z.object({ dispatch: z.literal(true), email: z.email() }).strict(),
+  z.object({ dispatch: z.literal(false) }).strict(),
+]);
 async function parameters(proof: MobileClaimProof) {
   return {
     p_tenant_id: proof.tenantId,
@@ -57,7 +62,12 @@ export class MobileInvitationEmailService {
     private readonly repository: MobileEmailRepository,
     private readonly provider: Pick<
       ManagedIdentityProvider,
-      "invitePatient" | "verifyInvitationOtp" | "verifyAccessToken" | "revokeSessions"
+      | "invitePatient"
+      | "requestPatientSignIn"
+      | "verifyEmailOtp"
+      | "verifyInvitationOtp"
+      | "verifyAccessToken"
+      | "revokeSessions"
     >,
   ) {}
 
@@ -66,7 +76,24 @@ export class MobileInvitationEmailService {
     const data = await this.repository.call("prepare_mobile_email_exchange", args);
     if (data === null) return false;
     const reservation = reservationSchema.parse(data);
-    if (!reservation.dispatch) return reservation.state === "delivered";
+    if (!reservation.dispatch) {
+      if (reservation.state !== "delivered") return false;
+      const data = await this.repository.call("prepare_mobile_email_resume", args);
+      if (data === null) return false;
+      const resume = resumeSchema.parse(data);
+      if (!resume.dispatch) return true;
+      try {
+        // Existing exact, proven identity only (provider uses shouldCreateUser:false).
+        // Native lease is committed before sending; lost responses never cause a blind resend.
+        await this.provider.requestPatientSignIn(
+          resume.email,
+          "https://meneerhealth.co.za/mobile-invitation",
+        );
+        return true;
+      } catch {
+        return false;
+      }
+    }
     try {
       const providerSubject = await this.provider.invitePatient(
         reservation.email,
@@ -97,15 +124,17 @@ export class MobileInvitationEmailService {
     if (!/^\d{6}$/.test(code)) throw new IdentityRejectedError();
     const args = await parameters(proof);
     const before = invitationSchema.parse(
-      await this.repository.call("read_mobile_email_exchange", args),
+      await this.repository.call("read_mobile_email_exchange_for_resume", args),
     );
     if (before.tenantId !== proof.tenantId || Date.parse(before.expiresAt) <= Date.now())
       throw new IdentityRejectedError();
-    const session = await this.provider.verifyInvitationOtp(before.email, code);
+    const session = await this.provider[
+      before.otpKind === "email" ? "verifyEmailOtp" : "verifyInvitationOtp"
+    ](before.email, code);
     try {
       const identity = await this.provider.verifyAccessToken(session.accessToken);
       const after = invitationSchema.parse(
-        await this.repository.call("read_mobile_email_exchange", args),
+        await this.repository.call("read_mobile_email_exchange_for_resume", args),
       );
       if (
         JSON.stringify(before) !== JSON.stringify(after) ||
@@ -132,9 +161,7 @@ export class MobileInvitationEmailService {
         },
         session: {
           ...session,
-          expiresAt: new Date(
-            Math.min(session.expiresAt.getTime(), proof.expiresAt, Date.parse(before.expiresAt)),
-          ),
+          expiresAt: new Date(Math.min(session.expiresAt.getTime(), Date.parse(before.expiresAt))),
         },
       };
     } catch {

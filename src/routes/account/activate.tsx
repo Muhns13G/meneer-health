@@ -129,7 +129,9 @@ function ActivateAccountPage() {
         setError(
           result.status === 422
             ? "Account setup could not be confirmed. Your invitation or document version may have changed. Reload to review the current documents."
-            : "We could not confirm account setup. Try again with the same details; do not assume it was saved.",
+            : result.status === 401
+              ? "Your verification session has expired. Open the original invitation from your email or SMS in another tab and request a fresh code, then return here and retry. Your invitation remains usable until its original 48-hour deadline. Your details stay on this page but have not been saved; do not reload it."
+              : "We could not confirm account setup. Try again with the same details; do not assume it was saved.",
         );
     } catch {
       setError(
@@ -155,8 +157,10 @@ function ActivateAccountPage() {
         )}
         {stage === "unavailable" && (
           <p role="status" className="mt-6">
-            Account setup is currently unavailable. Verify your invitation first. Setup also
-            requires approved account terms and privacy documents.
+            Account setup is currently unavailable. If your verification session expired, reopen the
+            original invitation from your email or SMS and request a fresh code. The invitation
+            lasts 48 hours from issue; each email code lasts 15 minutes. Setup also requires
+            approved account terms and privacy documents.
           </p>
         )}
         {(stage === "documents" || stage === "profile") && view && (
@@ -210,9 +214,11 @@ function ActivateAccountPage() {
                 </h2>
                 <p>Verified email: {view.verifiedEmail}</p>
                 <p className="text-sm text-muted-foreground">
-                  Your mobile number is not yet verified and cannot be used for account recovery.
-                  WhatsApp preference is for operational contact only, not marketing or clinical
-                  consent. Do not enter health information.
+                  Your mobile number is not yet verified and cannot be used for account recovery. If
+                  you were invited by SMS or an email fallback, enter the same mobile number Meneer
+                  used for your invitation, including its country code. Contact support to correct
+                  that number. WhatsApp preference is for operational contact only, not marketing or
+                  clinical consent. Do not enter health information.
                 </p>
                 <fieldset disabled={pending} className="space-y-5">
                   <legend className="sr-only">Profile and account actions</legend>
