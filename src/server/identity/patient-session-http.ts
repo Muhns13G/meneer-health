@@ -66,7 +66,9 @@ function approvedHost(request: Request): boolean {
   );
 }
 
-function serviceFor(bindings: PatientSessionBindings): SessionPort | null {
+export function createPatientSessionService(
+  bindings: PatientSessionBindings,
+): PatientSessionService | null {
   const configuration = initialiseServerEnvironment({
     SUPABASE_URL: bindings.SUPABASE_URL,
     SUPABASE_SECRET_KEY: bindings.SUPABASE_SECRET_KEY,
@@ -83,8 +85,8 @@ function serviceFor(bindings: PatientSessionBindings): SessionPort | null {
   );
 }
 
-async function revokeUndeliveredSession(
-  service: SessionPort,
+export async function revokeUndeliveredSession(
+  service: Pick<PatientSessionService, "signOut">,
   session: PatientSession,
 ): Promise<void> {
   try {
@@ -130,7 +132,7 @@ export function createPatientSessionHttpHandler(
     let service: SessionPort | null;
     try {
       key = readPatientSessionKey(bindings.IDENTITY_SESSION_KEY_BASE64);
-      service = injected ?? serviceFor(bindings);
+      service = injected ?? createPatientSessionService(bindings);
     } catch {
       return empty(503);
     }

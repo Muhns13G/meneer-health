@@ -105,6 +105,37 @@ const proof = {
   providerExpiresAt: providerSession.expiresAt.getTime(),
 };
 
+it("continues a verified invitation session only after durable active-account evidence", async () => {
+  const h = harness();
+  const input = {
+    providerSubject: identity.providerSubject,
+    tenantId,
+    accessToken: providerSession.accessToken,
+    refreshToken: providerSession.refreshToken,
+  };
+  expect((await h.service.continueAfterActivation(input)).session.id).toBe(session.id);
+  expect(h.provider.verifyEmailOtp).not.toHaveBeenCalled();
+  expect(h.access.hasPilotAccountEvidence).toHaveBeenCalledWith(tenantId, subjectId);
+});
+
+it("does not convert wrong-provider, wrong-tenant or incomplete-account proofs into access", async () => {
+  const input = {
+    providerSubject: identity.providerSubject,
+    tenantId,
+    accessToken: providerSession.accessToken,
+    refreshToken: providerSession.refreshToken,
+  };
+  for (const changes of [{ providerSubject: "other" }, { tenantId: subjectId }]) {
+    const h = harness();
+    await expect(h.service.continueAfterActivation({ ...input, ...changes })).rejects.toThrow();
+    expect(h.sessions.start).not.toHaveBeenCalled();
+  }
+  const h = harness();
+  vi.mocked(h.access.hasPilotAccountEvidence).mockResolvedValue(false);
+  await expect(h.service.continueAfterActivation(input)).rejects.toThrow();
+  expect(h.sessions.start).not.toHaveBeenCalled();
+});
+
 describe("patient session lifecycle", () => {
   it("starts only a mapped active patient with committed profile and account receipts", async () => {
     const { service, sessions, access } = harness();

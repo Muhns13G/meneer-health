@@ -83,6 +83,39 @@ export class PatientSessionService {
     }
   }
 
+  async continueAfterActivation(input: {
+    providerSubject: string;
+    tenantId: string;
+    accessToken: string;
+    refreshToken: string;
+  }): Promise<PatientSession> {
+    // Reuse verified provider credentials; an invitation alone never grants account access.
+    const identity = await this.provider.verifyAccessToken(input.accessToken);
+    if (identity.providerSubject !== input.providerSubject || identity.expiresAt <= this.now())
+      throw new IdentityRejectedError();
+    const { subject, membership } = await this.resolveActivePatient(
+      identity,
+      normalizedEmail(identity.verifiedContact.value),
+    );
+    if (membership.tenantId !== input.tenantId) throw new IdentityRejectedError();
+    const session = await this.sessions.start({
+      subjectId: subject.id,
+      providerIdentity: identity,
+      sessionClass: "patient",
+      observedAt: this.now(),
+    });
+    return {
+      session,
+      providerIdentity: identity,
+      providerSession: {
+        accessToken: input.accessToken,
+        refreshToken: input.refreshToken,
+        expiresAt: identity.expiresAt,
+      },
+      tenantId: membership.tenantId,
+    };
+  }
+
   async renew(proof: PatientSessionProof): Promise<PatientSession> {
     const now = this.now();
     const current = await this.sessions.findActive(proof.providerSessionId, now);

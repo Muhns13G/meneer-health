@@ -25,12 +25,16 @@ six digits/900 seconds. Final isolated signup acceptance, scoped cleanup and own
 of the real-pilot configuration are still required; do not send a real fallback invitation yet.
 
 The isolated email rehearsal remained active and blocked an otherwise valid real-pilot SMS
-invitation. Owner-authorised same-code forward restoration candidate
-`ec12c0b0-7c78-4590-98d8-5cbb42ca8a1e` restores only the four rehearsal overrides; see the
-fallback packet for preservation checks. It is not promoted yet. Owner promotion is the
-immediate access-recovery step and does not require a source commit; the separate resumable
-signup code still requires commit/deployment. Further isolated acceptance must not substitute
-a synthetic tenant on the canonical Worker while real invitations are outstanding.
+invitation. The older restoration candidate `ec12c0b0-7c78-4590-98d8-5cbb42ca8a1e` was not
+promoted and is now superseded: do not promote it, because it would restore older source.
+Read-only Cloudflare verification on 11 October confirms successful production build
+`55cede41-c6a2-4326-bccb-e70a24ee7894`, preview-branch commit `3cd4390`, serving version
+`b7242b67-0fde-4b01-a3a6-98305059139b` at 100%. The separate `itws-I` commit `edfe25c`
+built successfully as non-active version `ae7388c8-5909-41bb-820b-134b82be1757`.
+Secret binding presence is verified, not their unreadable values or an individual user's journey.
+Further isolated acceptance must not substitute a synthetic tenant on the canonical Worker while
+real invitations are outstanding. The subsequent mobile-interruption/session-handoff correction
+requires a new owner commit/deployment; see the medical-intake runbook.
 
 ## Pending US invitation extension — 10 October
 

@@ -26,6 +26,7 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   let version = 0;
   let state = "draft";
   let failNextSave = false;
+  await page.route("**/account/session/renew", (route) => route.fulfill({ status: 204 }));
   const publication = {
     id,
     catalogueHash: "a".repeat(64),
@@ -104,6 +105,21 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   await page
     .getByLabel(catalogue.items.find((i) => i.id === "full_name")!.prompt, { exact: true })
     .fill(completeSyntheticAnswers.full_name);
+  // A mobile tab switch masks private fields, then reauthorises without erasing current edits.
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, get: () => true });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect(
+    page.getByLabel(catalogue.items.find((i) => i.id === "full_name")!.prompt, { exact: true }),
+  ).toHaveCount(0);
+  await page.evaluate(() => {
+    Object.defineProperty(document, "hidden", { configurable: true, get: () => false });
+    document.dispatchEvent(new Event("visibilitychange"));
+  });
+  await expect(
+    page.getByLabel(catalogue.items.find((i) => i.id === "full_name")!.prompt, { exact: true }),
+  ).toHaveValue(completeSyntheticAnswers.full_name);
   await page
     .getByLabel(catalogue.items.find((i) => i.id === "date_of_birth")!.prompt, { exact: true })
     .fill(completeSyntheticAnswers.date_of_birth);

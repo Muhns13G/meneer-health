@@ -25,6 +25,7 @@ function ActivateAccountPage() {
     "loading" | "unavailable" | "documents" | "profile" | "complete"
   >("loading");
   const [pending, setPending] = useState(false);
+  const [sessionReady, setSessionReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const heading = useRef<HTMLHeadingElement>(null);
@@ -124,8 +125,10 @@ function ActivateAccountPage() {
         cache: "no-store",
         redirect: "error",
       });
-      if (result.status === 204) setStage("complete");
-      else
+      if (result.status === 204) {
+        setSessionReady(result.headers.get("X-Meneer-Session") === "ready");
+        setStage("complete");
+      } else
         setError(
           result.status === 422
             ? "Account setup could not be confirmed. Your invitation or document version may have changed. Reload to review the current documents."
@@ -384,8 +387,11 @@ function ActivateAccountPage() {
               Your account profile and both document actions have been saved. No payment or clinical
               consent has been collected.
             </p>
-            <Link to="/account/sign-in" className="action-primary mt-4">
-              Sign in to continue
+            <Link
+              to={sessionReady ? "/portal/intake" : "/account/sign-in"}
+              className="action-primary mt-4"
+            >
+              {sessionReady ? "Continue to questionnaire" : "Sign in to continue"}
             </Link>
           </div>
         )}

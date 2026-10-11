@@ -106,6 +106,16 @@ export function MedicalIntakePage() {
   const [view, setView] = useState<IntakePatientView | null>(null);
   const [rightsView, setRightsView] = useState<z.infer<typeof rightsViewSchema> | null>(null);
   const [answers, setAnswers] = useState<IntakeAnswers>({});
+  const answersRef = useRef(answers);
+  answersRef.current = answers;
+  const [masked, setMasked] = useState(false);
+  const [visibilityCheck, setVisibilityCheck] = useState(0);
+  const [automaticSave, setAutomaticSave] = useState(false);
+  const [draftStatus, setDraftStatus] = useState("");
+  const failedDraft = useRef<string | null>(null);
+  const writeLock = useRef(false);
+  const pendingVisibility = useRef(false);
+  const commandAttempt = useRef<{ payload: string; key: string } | null>(null);
   const [step, setStep] = useState(1);
   const [review, setReview] = useState(false);
   const [ack, setAck] = useState(false);
@@ -113,8 +123,9 @@ export function MedicalIntakePage() {
   const [message, setMessage] = useState("");
   const flowHeading = useRef<HTMLHeadingElement>(null);
   const resultRef = useRef<HTMLParagraphElement>(null);
+  const quietWrite = useRef(false);
   useEffect(() => {
-    if (!busy && message) resultRef.current?.focus();
+    if (!busy && message && !quietWrite.current) resultRef.current?.focus();
   }, [busy, message]);
   const [editing, setEditing] = useState(false);
   const [noticeChoice, setNoticeChoice] = useState(false);
@@ -127,6 +138,18 @@ export function MedicalIntakePage() {
   const live = useRef(0);
   const abort = useRef<AbortController | null>(null);
   const id = useRef<string | null>(null);
+  async function renewSession() {
+    const response = await fetch("/account/session/renew", {
+      method: "POST",
+      credentials: "same-origin",
+      cache: "no-store",
+      redirect: "error",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ action: "renew" }),
+    });
+    if (response.status !== 204)
+      throw new Error(response.status === 401 ? "signed-out" : "unavailable");
+  }
   const load = useCallback(async () => {
     const seq = ++live.current;
     abort.current?.abort();
@@ -188,8 +211,12 @@ export function MedicalIntakePage() {
       setStatus("expired");
     };
     const visibility = () => {
-      if (document.hidden) clear();
-      else void load();
+      if (document.hidden) setMasked(true);
+      else {
+        pendingVisibility.current = true;
+        setMasked(true);
+        setVisibilityCheck((value) => value + 1);
+      }
     };
     document.addEventListener("visibilitychange", visibility);
     window.addEventListener("pagehide", clear);
@@ -199,6 +226,46 @@ export function MedicalIntakePage() {
       window.removeEventListener("pagehide", clear);
     };
   }, [load]);
+  useEffect(() => {
+    if (!masked || document.hidden || busy || !pendingVisibility.current) return;
+    pendingVisibility.current = false;
+    const seq = live.current;
+    void (async () => {
+      try {
+        await renewSession();
+        const current = intakePatientViewSchema.parse(
+          await request({ action: "read", intakeId: null }),
+        );
+        if (seq !== live.current) return;
+        if (current.expiresAt <= Date.now()) throw new Error("signed-out");
+        if (
+          current.record?.id !== view?.record?.id ||
+          current.record?.version !== view?.record?.version
+        ) {
+          await load();
+        } else {
+          setView(current);
+          setStatus("ready");
+        }
+        setMasked(false);
+      } catch (error) {
+        if (seq !== live.current) return;
+        setMasked(false);
+        if (error instanceof Error && error.message === "signed-out") {
+          setAnswers({});
+          setView(null);
+          setRightsView(null);
+          setStatus("signed-out");
+        } else {
+          // Keep edits masked during a transient network failure, not silently discard them.
+          setMasked(true);
+          setMessage(
+            "We could not check your session. Reconnect and choose Check again. Unsaved edits remain in this tab only.",
+          );
+        }
+      }
+    })();
+  }, [masked, busy, view, load, visibilityCheck]);
   useEffect(() => {
     if (focusNext.current) {
       const element = document.getElementById(focusNext.current);
@@ -240,6 +307,7 @@ export function MedicalIntakePage() {
     if (!intakeId || !expiresAt || expiresAt <= Date.now()) return;
     if (action !== "export" && (!record || !view)) return;
     const seq = live.current;
+    quietWrite.current = false;
     setBusy(true);
     setMessage("");
     try {
@@ -302,14 +370,33 @@ export function MedicalIntakePage() {
       if (seq === live.current) setBusy(false);
     }
   }
-  async function persist(action: "save" | "save_amendment" | "submit" | "amend", next = answers) {
-    if (!view || !id.current || busy) return;
+  async function persist(
+    action: "save" | "save_amendment" | "submit" | "amend",
+    next = answers,
+    quiet = false,
+  ) {
+    if (!view || !id.current || writeLock.current) return;
+    writeLock.current = true;
+    quietWrite.current = quiet;
     const seq = live.current;
+    const snapshot = JSON.stringify(next);
     setBusy(true);
-    setMessage("");
-    begin();
+    setAutomaticSave(quiet);
+    if (!quiet) {
+      setMessage("");
+      begin();
+    } else setDraftStatus("Saving draft…");
     try {
       if (!["save", "save_amendment"].includes(action)) submittedIntake(next);
+      await renewSession();
+      const payload = JSON.stringify({
+        action,
+        intakeId: id.current,
+        expectedVersion: view.record?.version ?? 0,
+        answers: next,
+      });
+      if (commandAttempt.current?.payload !== payload)
+        commandAttempt.current = { payload, key: crypto.randomUUID() };
       const result = intakeWriteResultSchema.parse(
         await request(
           {
@@ -318,7 +405,7 @@ export function MedicalIntakePage() {
             publicationId: view.publication.id,
             expectedVersion: view.record?.version ?? 0,
             privacyAcknowledged: true,
-            requestKey: crypto.randomUUID(),
+            requestKey: commandAttempt.current.key,
             answers: next,
           },
           abort.current?.signal,
@@ -330,12 +417,16 @@ export function MedicalIntakePage() {
       );
       if (seq !== live.current) return;
       setView(updated);
-      setAnswers(updated.record?.answers ?? next);
+      const unchanged = JSON.stringify(answersRef.current) === snapshot;
+      if (unchanged) setAnswers(updated.record?.answers ?? next);
       setAck(true);
       setEditing(result.state !== "submitted");
-      setReview(false);
+      if (!quiet) setReview(false);
+      failedDraft.current = null;
+      commandAttempt.current = null;
+      setDraftStatus(unchanged ? "Draft saved." : "Unsaved changes — saving shortly…");
       if (["save", "save_amendment"].includes(action)) {
-        notify("draftSaved");
+        if (!quiet) notify("draftSaved");
       } else {
         setMessage(
           "Your questionnaire is received. This is not clinical approval or confirmation of treatment.",
@@ -344,6 +435,8 @@ export function MedicalIntakePage() {
       setErrors({});
     } catch (error) {
       if (seq === live.current) {
+        failedDraft.current = snapshot;
+        setDraftStatus("Draft save not confirmed. Keep this tab open and retry Save draft.");
         if (error instanceof Error && error.message === "signed-out") {
           setView(null);
           setAnswers({});
@@ -358,12 +451,36 @@ export function MedicalIntakePage() {
           );
       }
     } finally {
-      if (seq === live.current) setBusy(false);
+      writeLock.current = false;
+      if (seq === live.current) {
+        setBusy(false);
+        setAutomaticSave(false);
+      }
     }
   }
+  const saveAutomatically = useRef<() => void>(() => {});
+  saveAutomatically.current = () => {
+    void persist(view?.record?.hasSubmitted ? "save_amendment" : "save", answers, true);
+  };
+  useEffect(() => {
+    const snapshot = JSON.stringify(answers);
+    if (
+      status !== "ready" ||
+      !ack ||
+      !editing ||
+      busy ||
+      masked ||
+      snapshot === JSON.stringify(view?.record?.answers ?? {}) ||
+      failedDraft.current === snapshot
+    )
+      return;
+    const timer = setTimeout(() => saveAutomatically.current(), 2500);
+    return () => clearTimeout(timer);
+  }, [answers, status, ack, editing, busy, masked, view]);
   function update(key: keyof IntakeAnswers, value: unknown) {
     const next = { ...answers, [key]: value } as IntakeAnswers;
     setAnswers(next);
+    setDraftStatus("Unsaved changes — saving shortly…");
     if ((key === "mental_safety" || key === "sti_symptoms") && value === "yes" && editing)
       void persist(view?.record?.hasSubmitted ? "save_amendment" : "save", next);
   }
@@ -611,17 +728,19 @@ export function MedicalIntakePage() {
           Your medical questionnaire
         </h1>
         <OnboardingSteps current="questionnaire" />
-        {status !== "ready" || !view ? (
+        {masked || status !== "ready" || !view ? (
           <section className="mt-8" aria-live="polite">
             <p role="status">
-              {status === "loading"
-                ? "Checking your private questionnaire…"
-                : status === "signed-out"
-                  ? "Sign in to an active invited account to continue."
-                  : status === "expired"
-                    ? "Your session needs to be checked again. Questionnaire information has been hidden."
-                    : message ||
-                      "The questionnaire is not currently available. No medical information is collected here."}
+              {masked
+                ? message || "Checking your session before showing your questionnaire…"
+                : status === "loading"
+                  ? "Checking your private questionnaire…"
+                  : status === "signed-out"
+                    ? "Sign in to an active invited account to continue."
+                    : status === "expired"
+                      ? "Your session needs to be checked again. Questionnaire information has been hidden."
+                      : message ||
+                        "The questionnaire is not currently available. No medical information is collected here."}
             </p>
             {rightsView?.record ? (
               <button
@@ -633,7 +752,21 @@ export function MedicalIntakePage() {
                 Export retained questionnaire information
               </button>
             ) : null}
-            <button className="action-secondary mt-6" onClick={() => void load()}>
+            {status === "signed-out" || status === "expired" ? (
+              <Link to="/account/sign-in" className="action-primary mt-6 mr-3">
+                Sign in to resume your saved questionnaire
+              </Link>
+            ) : null}
+            <button
+              className="action-secondary mt-6"
+              onClick={() => {
+                if (masked) {
+                  pendingVisibility.current = true;
+                  setMessage("");
+                  setVisibilityCheck((value) => value + 1);
+                } else void load();
+              }}
+            >
               Check again
             </button>
           </section>
@@ -677,8 +810,12 @@ export function MedicalIntakePage() {
               </section>
             ) : null}
             <p className="mt-6 text-sm text-muted-foreground">
-              Save your draft before leaving this page. Unsaved changes are not stored in your
-              browser. Blood results and a deposit are not required to submit this questionnaire.
+              Draft changes are saved automatically while you work. Wait for “Draft saved” before
+              closing this page. Answers are not stored in browser storage. Blood results and a
+              deposit are not required to submit this questionnaire.
+            </p>
+            <p aria-live="polite" className="mt-2 text-sm text-muted-foreground">
+              {draftStatus}
             </p>
             {Object.keys(errors).length ? (
               <div
@@ -797,7 +934,7 @@ export function MedicalIntakePage() {
                   setMessage("");
                 }}
               >
-                <fieldset disabled={busy}>
+                <fieldset disabled={busy && !automaticSave}>
                   <legend className="sr-only">Questionnaire answers</legend>
                   <div
                     role="progressbar"

@@ -32,7 +32,82 @@ function saved(answers: unknown = {}) {
     answers,
   };
 }
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
+});
+
+it("masks backgrounded fields and retains unsaved edits only after same-account revalidation", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url) =>
+      url === "/account/session/renew"
+        ? new Response(null, { status: 204 })
+        : Response.json(view(saved())),
+    ),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  const name = await screen.findByRole("textbox", { name: "Full name" });
+  fireEvent.change(name, { target: { value: "Synthetic unsaved" } });
+  const hidden = vi.spyOn(document, "hidden", "get");
+  hidden.mockReturnValue(true);
+  fireEvent(document, new Event("visibilitychange"));
+  expect(screen.queryByRole("textbox", { name: "Full name" })).not.toBeInTheDocument();
+  hidden.mockReturnValue(false);
+  fireEvent(document, new Event("visibilitychange"));
+  expect(await screen.findByRole("textbox", { name: "Full name" })).toHaveValue(
+    "Synthetic unsaved",
+  );
+});
+
+it("does not redisplay retained edits when foreground session verification fails", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url) =>
+      url === "/account/session/renew"
+        ? new Response(null, { status: 401 })
+        : Response.json(view(saved())),
+    ),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await screen.findByRole("textbox", { name: "Full name" });
+  const hidden = vi.spyOn(document, "hidden", "get");
+  hidden.mockReturnValue(true);
+  fireEvent(document, new Event("visibilitychange"));
+  hidden.mockReturnValue(false);
+  fireEvent(document, new Event("visibilitychange"));
+  await screen.findByRole("link", { name: "Sign in to resume your saved questionnaire" });
+  expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+});
+
+it("automatically saves a draft through authenticated commands without browser storage", async () => {
+  let record = saved();
+  const fetch = vi.fn(async (url, init?: RequestInit) => {
+    if (url === "/account/session/renew") return new Response(null, { status: 204 });
+    const command = JSON.parse(String(init?.body));
+    if (command.action === "save") {
+      record = { ...saved(command.answers), version: 2 };
+      return Response.json({
+        intakeId: id,
+        caseId: id,
+        version: 2,
+        snapshotId: id,
+        state: "draft",
+        safetyHold: false,
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      });
+    }
+    return Response.json(view(record));
+  });
+  vi.stubGlobal("fetch", fetch);
+  await renderWithRouter(<MedicalIntakePage />);
+  fireEvent.change(await screen.findByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic autosave" },
+  });
+  await screen.findByText("Draft saved.", {}, { timeout: 4000 });
+  expect(record.answers).toMatchObject({ full_name: "Synthetic autosave" });
+  expect(fetch).toHaveBeenCalledWith("/account/session/renew", expect.anything());
+});
 it.each([false, true])(
   "shows an explicit next step after submission without bypassing a safety hold (%s)",
   async (safetyHold) => {
@@ -66,7 +141,8 @@ it.each([false, true])(
 );
 it("does not collect medical answers before a durable notice acknowledgement", async () => {
   const calls: Record<string, unknown>[] = [];
-  const fetch = vi.fn(async (_url: unknown, init?: RequestInit) => {
+  const fetch = vi.fn(async (url: unknown, init?: RequestInit) => {
+    if (url === "/account/session/renew") return new Response(null, { status: 204 });
     const command = JSON.parse(String(init?.body)) as Record<string, unknown>;
     calls.push(command);
     if (command.action === "read")
