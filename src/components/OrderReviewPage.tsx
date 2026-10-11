@@ -4,6 +4,7 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { OnboardingSteps } from "./OnboardingSteps";
 import { PaymentStatusPanel } from "./PaymentStatusPanel";
+import { ProductFulfilmentPanel } from "./ProductFulfilmentPanel";
 import type { PaymentStatusPage } from "@/domain/payments/payment-status";
 import {
   orderReviewResultSchema,
@@ -395,6 +396,7 @@ export function OrderReviewPage() {
             </section>
           </details>
         ) : null}
+        {review?.scenario === "approved_product_order" ? <ProductFulfilmentPanel /> : null}
         <details open={!paymentComplete || Boolean(paymentNeedsReview)} className="mt-8">
           <summary className="cursor-pointer text-gold">Payment status and refund requests</summary>
           <PaymentStatusPanel autoLoad onChange={setPayments} />

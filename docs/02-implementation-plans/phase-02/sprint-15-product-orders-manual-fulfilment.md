@@ -80,7 +80,11 @@ browser checks and 22 distinct compiled staff regression checks pass. No hosted 
 acceptance/decline and the existing capped-credit Checkout bridge. Its packet records 109 focused
 tests, the 51-suite database regression plus final 114 quote assertions, and 26 compiled browser
 checks; no hosted product release or terms publication is inferred.
-Tasks 15.7–15.10 remain planned. Do not claim the whole sprint complete from inherited tests.
+[15.7](annexures/sprint-15-7-manual-product-fulfilment.md) implements the reference-only manual
+provider/pharmacy/Meneer/courier/delivery journal, exception controls and own-client coarse progress.
+Its final local/controlled-browser verification is recorded in the packet; no hosted product
+release is inferred. Tasks 15.8–15.10 remain planned. Do not claim the whole sprint complete from
+inherited tests.
 
 ## Engineering Constraints
 

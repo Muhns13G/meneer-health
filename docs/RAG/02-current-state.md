@@ -153,9 +153,17 @@ sources:
 Owner-approved US invitation support is locally implemented with default-off runtime/database
 readiness, shared numbering classification and signed receipts. ZA remains supported, while
 other NANP territories remain excluded. All 1,478 unit tests, 2,529 local SQL assertions and 34
-controlled desktop/mobile invitation checks pass. Hosted migration, owner deployment, US registration/pricing
-verification and explicit readiness remain required. No invitations were sent; the owner requires
-all cohort sends to wait for deployment. See the
+controlled desktop/mobile invitation checks pass. The approved hosted migration applied with
+unchanged security metadata and US readiness still false; its history timestamp was separately
+owner-approved and verified aligned to committed version `20261010122842`. Active Cloudflare version is
+`cc79c72a-3ce1-44d6-bdf7-2fa6a4d8bc04`; provider US routing/pricing verification and explicit
+readiness were subsequently owner-approved after one harmless provider-reported US delivery.
+The database US gate is now true with the US$5 cap unchanged. Matching Worker candidate
+`1de1729e-e6bb-43ec-9e15-ec313f29b68a` preserves the active source/bindings and was owner-promoted
+to 100%. Seven governed cohort attempts now have signed receipt evidence: four ZA deliveries,
+two ZA attempts awaiting final receipts and one US carrier failure (`40010`, not 10DLC registered).
+The final original recipient was dispatched after renewed genuine operations MFA.
+No existing attempt was retried. Reservations total US$3.50 within the unchanged US$5 cap. See the
 [US extension packet](../02-implementation-plans/phase-02/annexures/mobile-invitation-us-extension.md).
 
 ## Sprint 15 adopted — 10 October
@@ -190,7 +198,7 @@ splits delivery into ten tasks. [15.1](../02-implementation-plans/phase-02/annex
 is complete at contract level with strict interest/quote input schemas and domain tests.
 15.1 added no runtime UI; 15.3 now provides the private catalogue as described above. No real
 price import, clinical/supply authority or hosted activation is delivered by these tasks.
-15.2 is completed locally and 15.3–15.6 at their controlled-browser boundaries; 15.7–15.10 remain
+15.2 is completed locally and 15.3–15.7 at their controlled-browser boundaries; 15.8–15.10 remain
 planned. Existing credit/payment foundations are reused, not proof that clients
 can already order products. Generator reactivation and product-specific release gates remain.
 
@@ -200,7 +208,16 @@ Clients explicitly accept or decline; capped deposit credit, Checkout and origin
 reuse the existing ledger. Changed evidence blocks acceptance/Checkout and holds signed settlement;
 decline cannot discard an existing provider attempt. Real RRP provenance is never relabelled
 synthetic. Product ordering defaults disabled; its terms draft is unapproved/unpublished and
-hosted/provider acceptance, shipping recovery and actual fulfilment remain separate.
+hosted/provider acceptance, shipping recovery and actual physical fulfilment remain separate.
+
+[15.7](../02-implementation-plans/phase-02/annexures/sprint-15-7-manual-product-fulfilment.md)
+adds the reference-only provider/pharmacy/Meneer/courier/delivery journal and explicit exceptions.
+Assigned fresh-TOTP operations authority, exact signed funding/current approvals, sequential versions
+and immutable minimal audit protect advancement; paid flags cannot dispatch goods. Already-dispatched
+delivery facts remain recordable after product release expires, with current staff authority.
+Clients see only coarse own-order progress. Automatic pre-release refunds cannot bypass actual
+pharmacy release. No hosted migration, provider action, product activation or new environment switch
+is performed; 15.8/15.9 retain usability, manual review and hosted/recovery acceptance.
 
 ## Latest sandbox acceptance checkpoint — 9 October
 

@@ -19,6 +19,16 @@ until separately verified and approved. The owner requires all cohort sends to w
 application deployment; the currently active live-deposit configuration is not proof that this
 extension is deployed or US sender registration is approved.
 
+The extension migration is now hosted and history-aligned. Following one owner-authorised harmless
+US transport probe reported delivered by Telnyx, the owner approved US readiness. Database policy
+US readiness is enabled without budget changes; candidate `1de1729e-e6bb-43ec-9e15-ec313f29b68a`
+preserves active source/bindings and prepares the runtime gate. The owner promoted it to 100%.
+Seven approved cohort attempts are recorded: four delivered, two awaiting final receipts and one
+US carrier rejection (`40010`, not 10DLC registered). The final original recipient was dispatched
+after renewed genuine operations MFA; no earlier recipient was resent. Conservative reservations
+total US$3.50 within the US$5 cap. Do not retry existing attempts blindly or treat the public US
+probe as carrier-wide registration proof.
+
 ## Owner-promoted live credential refresh — 10 October
 
 Candidate `259c5255-b9f7-464a-b5fa-ebdfd8051034` preserves the active source and binding names/types

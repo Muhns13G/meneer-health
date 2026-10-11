@@ -73,6 +73,8 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/staff/products/command", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/products/evidence", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/products/issue", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/staff/products/fulfilment", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/portal/order/fulfilment", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/queue/detail", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/queue/command", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/staff/queue/handoff", routeClass: "internal", indexing: "noindex-nofollow" },

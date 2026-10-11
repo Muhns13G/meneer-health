@@ -11,11 +11,17 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
+[15.7](annexures/sprint-15-7-manual-product-fulfilment.md) adds assigned fresh-TOTP manual
+custody/delivery facts, exception/replay guards, post-release refund protection and minimal own-client
+progress. It performs no provider/courier action and retains the existing disabled product gate.
+Hosted/provider/concurrent and populated recovery acceptance remain 15.9; 15.8 owns next-action
+polish, notifications and new manual accessibility review.
+
 [15.6](annexures/sprint-15-6-issued-product-quotes.md) connects independently approved exact
 drafts to issued offers, product-term acceptance/decline and capped-credit Checkout. Local and
 controlled-browser verification is recorded in its packet; ordering defaults disabled. Its
 product-terms review draft is not an approved or published customer instrument. Hosted/provider
-acceptance remains 15.9, and supply transitions remain 15.7.
+acceptance remains 15.9; manual supply transitions are now implemented by 15.7 as described above.
 
 [15.5](annexures/sprint-15-5-product-evidence.md) implements independently attributed exact-draft
 clinical and provider evidence and immutable revocation, verified locally and in controlled browsers;

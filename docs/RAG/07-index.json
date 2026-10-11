@@ -24,11 +24,22 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-15-7-manual-product-fulfilment",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-7-manual-product-fulfilment.md",
+      "status": "completed-local-controlled-browser-boundary",
+      "authority_for": [
+        "Reference-only manual custody and delivery journal with native paid/current authority",
+        "Explicit exceptions, post-release refund guard and coarse own-client progress; not hosted supply release"
+      ],
+      "last_updated": "2026-10-10"
+    },
+    {
       "id": "mobile-invitation-us-extension-2026-10-10",
       "path": "docs/02-implementation-plans/phase-02/annexures/mobile-invitation-us-extension.md",
-      "status": "local-verified-hosted-migration-deployment-provider-readiness-pending",
+      "status": "owner-promoted-cohort-dispatched-carrier-outcomes-recorded",
       "authority_for": [
-        "US geographic destination extension with default-off readiness and cohort-send deployment hold"
+        "US geographic destination extension, approved readiness and seven governed cohort dispatch attempts",
+        "Provider-reported receipts, one recipient confirmation and a US carrier registration failure; no blind retry"
       ],
       "last_updated": "2026-10-10"
     },
