@@ -2,13 +2,21 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-10-10
+last_updated: 2026-10-11
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
 ---
 
 # Cloudflare v1 Environments and Release Runbook
+
+## Email invitation fallback — 11 October
+
+The [fallback packet](../02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md)
+adds default-off `PILOT_EMAIL_INVITATIONS_MODE`. This is separate from SMS dispatch and from
+managed email-code conversion. Owner deployment, approved hosted migration, exact-tenant native
+`email_delivery_enabled` policy and controlled mailbox acceptance must precede a real send.
+Preserve existing identity/medical keys and live-payment settings; do not enable unrelated modes.
 
 ## Pending US invitation extension — 10 October
 

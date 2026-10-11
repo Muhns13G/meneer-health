@@ -55,6 +55,7 @@ export const PUBLIC_ROUTE_POLICIES = [
   { path: "/staff/queue", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/staff/mobile-invitations", routeClass: "restricted", indexing: "noindex-nofollow" },
   { path: "/staff/mobile-invitations/read", routeClass: "internal", indexing: "noindex-nofollow" },
+  { path: "/staff/mobile-invitations/email", routeClass: "internal", indexing: "noindex-nofollow" },
   {
     path: "/staff/mobile-invitations/dispatch",
     routeClass: "internal",

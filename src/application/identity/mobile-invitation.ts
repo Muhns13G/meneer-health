@@ -69,6 +69,9 @@ export const mobileInvitationPageSchema = z
             reviewed: z.boolean(),
             sendReserved: z.boolean(),
             dispatchRequestKey: reference.nullable().optional(),
+            emailDelivery: z
+              .enum(["not_attempted", "prepared", "accepted", "failed", "uncertain"])
+              .optional(),
             delivery: z
               .object({
                 status: z.enum([
@@ -92,6 +95,7 @@ export const mobileInvitationPageSchema = z
     nextId: reference.nullable(),
     reservationEnabled: z.boolean(),
     sendingEnabled: z.boolean(),
+    emailSendingEnabled: z.boolean().optional(),
   })
   .strict();
 export type MobileInvitationPage = z.infer<typeof mobileInvitationPageSchema>;

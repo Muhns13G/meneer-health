@@ -40,6 +40,7 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     "MOBILE_INVITATIONS_MODE",
     "MOBILE_INVITATIONS_REDEMPTION_MODE",
     "MOBILE_INVITATIONS_EMAIL_MODE",
+    "PILOT_EMAIL_INVITATIONS_MODE",
     "MOBILE_INVITATION_CLAIM_KEY_BASE64",
     "MOBILE_INVITATIONS_WEBHOOK_MODE",
     "MOBILE_INVITATIONS_DELIVERY_READY",
@@ -54,15 +55,17 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     (name): EnvironmentCatalogueEntry => ({
       name,
       purpose:
-        name === "MOBILE_INVITATIONS_US_DELIVERY_READY"
-          ? "Default-off US geographic delivery readiness; requires approved 10DLC sender, pricing and matching private database policy."
-          : name === "TELNYX_ALPHA_SENDER"
-            ? "Optional exact owner-verified profile alpha sender rewrite; mismatches remain denied."
-            : name === "MOBILE_INVITATION_CLAIM_KEY_BASE64"
-              ? "Dedicated 32-byte server master key; HKDF separates mobile claim sealing and resume proof."
-              : name === "MOBILE_INVITATIONS_REDEMPTION_MODE"
-                ? "Optional participant redemption switch; disabled unless explicitly set to enabled."
-                : "Server-only one-shot mobile invitations; disabled until channel, budget and redemption approval.",
+        name === "PILOT_EMAIL_INVITATIONS_MODE"
+          ? "Default-off Brevo email fallback for existing reviewed participants; independent native policy and addressed-mailbox verification remain required."
+          : name === "MOBILE_INVITATIONS_US_DELIVERY_READY"
+            ? "Default-off US geographic delivery readiness; requires approved 10DLC sender, pricing and matching private database policy."
+            : name === "TELNYX_ALPHA_SENDER"
+              ? "Optional exact owner-verified profile alpha sender rewrite; mismatches remain denied."
+              : name === "MOBILE_INVITATION_CLAIM_KEY_BASE64"
+                ? "Dedicated 32-byte server master key; HKDF separates mobile claim sealing and resume proof."
+                : name === "MOBILE_INVITATIONS_REDEMPTION_MODE"
+                  ? "Optional participant redemption switch; disabled unless explicitly set to enabled."
+                  : "Server-only one-shot mobile invitations; disabled until channel, budget and redemption approval.",
       owner: "Operations and release owner",
       sensitivity:
         name === "TELNYX_API_KEY" || name === "MOBILE_INVITATION_CLAIM_KEY_BASE64"

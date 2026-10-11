@@ -2,12 +2,19 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-10
+last_updated: 2026-10-11
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
 
 # Phase 02 — Minimum Pilot Enablement
+
+## Email fallback correction — 11 October
+
+[Pilot email invitations](annexures/pilot-email-invitation-fallback.md) add a separately gated
+staff email action for the existing reviewed cohort participant. The unused SMS link is
+superseded; the same addressed-mailbox verification/profile activation path is retained.
+This is local implementation, not hosted acceptance or a send to Zubin.
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 

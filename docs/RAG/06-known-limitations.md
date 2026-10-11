@@ -3,7 +3,7 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-10
+last_updated: 2026-10-11
 audience: internal
 sensitivity: internal
 sources:
@@ -126,6 +126,13 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Email fallback is not yet a hosted send — 11 October
+
+The [new action](../02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md)
+supports existing reviewed, unclaimed roster records. It is not general email-only registration,
+returning-account relinking, automatic resending or proof of delivery. Hosted migration,
+explicit native/Worker release and a received-link/code acceptance check remain required.
 
 ## Product preparation is not ordering activation — 10 October
 

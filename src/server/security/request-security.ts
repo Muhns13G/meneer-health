@@ -22,6 +22,7 @@ const registeredPostRoutes = new Map<string, RequestRouteClass>([
   ["/staff/mobile-invitations/read", "protected-command"],
   ["/staff/mobile-invitations/command", "protected-command"],
   ["/staff/mobile-invitations/dispatch", "protected-command"],
+  ["/staff/mobile-invitations/email", "protected-command"],
   ["/api/invitations/telnyx/webhook", "provider-callback"],
   ["/portal/order/command", "protected-command"],
   ["/portal/products/command", "protected-command"],

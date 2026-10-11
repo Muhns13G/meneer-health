@@ -2,6 +2,11 @@ import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
 import { z } from "zod";
 import type { MobileDeliveryRequest } from "@/application/identity/mobile-invitation-delivery";
 import {
+  pilotEmailInvitationRequestSchema,
+  pilotEmailInvitationResultSchema,
+  type PilotEmailInvitationRequest,
+} from "@/application/identity/pilot-email-invitation";
+import {
   mobileInvitationCommandSchema,
   mobileInvitationPageSchema,
   mobileInvitationResultSchema,
@@ -56,6 +61,7 @@ export function StaffMobileInvitationsPage() {
       afterId: string | null = null,
       command?: MobileInvitationCommand,
       dispatch?: MobileDeliveryRequest,
+      email?: PilotEmailInvitationRequest,
     ) => {
       requestRef.current?.abort();
       const controller = new AbortController();
@@ -64,11 +70,13 @@ export function StaffMobileInvitationsPage() {
       setBusy(true);
       clearPrivate();
       setMessage(
-        dispatch
-          ? "Submitting one delivery attempt…"
-          : command
-            ? "Recording invitation command…"
-            : "Loading invitation register…",
+        email
+          ? "Submitting one email invitation attempt…"
+          : dispatch
+            ? "Submitting one delivery attempt…"
+            : command
+              ? "Recording invitation command…"
+              : "Loading invitation register…",
       );
       const post = (path: string, fields: Record<string, string>) =>
         fetch(`/staff/mobile-invitations/${path}`, {
@@ -80,6 +88,18 @@ export function StaffMobileInvitationsPage() {
           body: new URLSearchParams(fields),
         });
       try {
+        if (email) {
+          const sent = await post(
+            "email",
+            Object.fromEntries(Object.entries(email).map(([key, value]) => [key, String(value)])),
+          );
+          if (current !== sequence.current) return;
+          if (!sent.ok) {
+            setMessage(failure(sent.status));
+            return;
+          }
+          pilotEmailInvitationResultSchema.parse(await sent.json());
+        }
         if (dispatch) {
           const sent = await post(
             "dispatch",
@@ -136,16 +156,18 @@ export function StaffMobileInvitationsPage() {
         timer.current = setTimeout(expire, Math.min(expires - Date.now(), 900_000));
         setPage(parsed);
         setMessage(
-          dispatch
-            ? "Delivery attempt recorded. Provider delivery is not participant acceptance. Review the refreshed status; no automatic retry."
-            : command
-              ? "Command recorded. Register refreshed. No SMS was sent."
-              : `${parsed.invitations.length} invitations shown. Phone numbers remain masked. ${parsed.sendingEnabled ? "One-shot sending configured." : "Sending disabled."}`,
+          email
+            ? "Email attempt recorded. Accepted means the provider accepted it, not confirmed receipt. Review the register; do not resend blindly."
+            : dispatch
+              ? "Delivery attempt recorded. Provider delivery is not participant acceptance. Review the refreshed status; no automatic retry."
+              : command
+                ? "Command recorded. Register refreshed. No SMS was sent."
+                : `${parsed.invitations.length} invitations shown. Phone numbers remain masked. ${parsed.sendingEnabled ? "One-shot sending configured." : "Sending disabled."}`,
         );
       } catch {
         if (current === sequence.current && !controller.signal.aborted)
           setMessage(
-            command || dispatch
+            command || dispatch || email
               ? "Command result uncertain. Refresh before taking another action. No automatic retry was sent."
               : failure(503),
           );
@@ -333,6 +355,72 @@ export function StaffMobileInvitationsPage() {
                       </time>
                     </p>
                   ) : null}
+                  {row.emailDelivery && row.emailDelivery !== "not_attempted" ? (
+                    <p>
+                      Email invitation:{" "}
+                      {row.emailDelivery === "prepared"
+                        ? "pending or uncertain"
+                        : row.emailDelivery}
+                      . This is not proof of delivery or onboarding.
+                    </p>
+                  ) : null}
+                  {page.emailSendingEnabled &&
+                  row.reviewed &&
+                  !terminal &&
+                  !expired &&
+                  row.status !== "claimed" &&
+                  (!row.emailDelivery || row.emailDelivery === "not_attempted") ? (
+                    <form
+                      className="mt-5 space-y-3"
+                      aria-label={`Email invitation for ${row.givenName}`}
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        if (deadline.current <= Date.now()) {
+                          expire();
+                          return;
+                        }
+                        if (!confirmed) {
+                          setMessage("Confirm current contact authority before sending.");
+                          return;
+                        }
+                        const data = new FormData(event.currentTarget);
+                        const parsed = pilotEmailInvitationRequestSchema.safeParse({
+                          invitationId: row.id,
+                          expectedVersion: row.version,
+                          requestKey: crypto.randomUUID(),
+                          email: data.get("email"),
+                        });
+                        if (!parsed.success) {
+                          setMessage("Enter the intended participant's confirmed email address.");
+                          return;
+                        }
+                        void load(null, undefined, undefined, parsed.data);
+                      }}
+                    >
+                      <label htmlFor={`email-invite-${row.id}`} className="block">
+                        Participant email for {row.givenName}
+                      </label>
+                      <input
+                        id={`email-invite-${row.id}`}
+                        name="email"
+                        type="email"
+                        required
+                        maxLength={254}
+                        autoComplete="off"
+                        disabled={busy}
+                        className="w-full rounded-xl border border-border bg-surface px-4 py-3"
+                        aria-describedby={`email-help-${row.id}`}
+                      />
+                      <p id={`email-help-${row.id}`} className="text-sm text-muted-foreground">
+                        Use an address confirmed for this participant. Sending replaces the unused
+                        SMS link with a 48-hour email link; email-code verification remains
+                        required. No automatic resend.
+                      </p>
+                      <button className={buttonClass} disabled={busy || !confirmed}>
+                        Send one email invitation for {row.givenName}
+                      </button>
+                    </form>
+                  ) : null}
                   {!terminal ? (
                     <div className="mt-4 flex flex-wrap gap-3">
                       {page.sendingEnabled && row.dispatchRequestKey && row.status === "draft" ? (
@@ -363,7 +451,10 @@ export function StaffMobileInvitationsPage() {
                           Review invitation for {row.givenName}
                         </button>
                       ) : null}
-                      {row.reviewed && !expired && page.reservationEnabled ? (
+                      {row.reviewed &&
+                      !expired &&
+                      page.reservationEnabled &&
+                      (!row.emailDelivery || row.emailDelivery === "not_attempted") ? (
                         <button
                           className={buttonClass}
                           disabled={busy || !confirmed}
