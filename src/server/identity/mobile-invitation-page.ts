@@ -98,7 +98,7 @@ const controller = String.raw`
       const result = await post("email", {});
       if (result && result.status === "code-requested") {
         codeForm.hidden = false; sendCode.hidden = true;
-        say("Check your mailbox for the six-digit invitation code. It expires in 15 minutes and cannot extend this claim. Enter it here; do not share it.");
+        say("Check your mailbox for the six-digit email code. It expires in 15 minutes. If your session expires, reopen the original invitation and request a fresh code; the invitation keeps its original 48-hour deadline. Enter the latest code here; do not share it.");
         code.focus();
       }
     });

@@ -179,10 +179,18 @@ export function createMobileRedemptionHandler(
       const tokenDigest = bearer?.success
         ? await mobileDigest(bearer.data.token)
         : proof!.tokenDigest;
-      const requestKey = bearer?.success ? bearer.data.requestKey : proof!.requestKey;
-      const secret = bearer?.success
-        ? await mobileClaimSecret(key, tenant, tokenDigest, requestKey)
-        : proof!.secret;
+      // Reopening the SAME invitation resumes its still-live claim; a different link never
+      // inherits a cookie's identity. Once the short claim expires the link starts a fresh claim.
+      const resumeClaim = !!proof && proof.tenantId === tenant && proof.tokenDigest === tokenDigest;
+      const requestKey = resumeClaim
+        ? proof!.requestKey
+        : bearer?.success
+          ? bearer.data.requestKey
+          : proof!.requestKey;
+      const secret =
+        bearer?.success && !resumeClaim
+          ? await mobileClaimSecret(key, tenant, tokenDigest, requestKey)
+          : proof!.secret;
       if (
         !(await bindings.REQUEST_RATE_LIMITER.limit({ key: `mobile-claim:${tokenDigest}` })).success
       )

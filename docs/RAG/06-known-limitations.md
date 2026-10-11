@@ -127,12 +127,23 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
-## Email fallback is not yet a hosted send — 11 October
+## Email fallback final signup acceptance remains gated — 11 October
 
 The [new action](../02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md)
 supports existing reviewed, unclaimed roster records. It is not general email-only registration,
-returning-account relinking, automatic resending or proof of delivery. Hosted migration,
-explicit native/Worker release and a received-link/code acceptance check remain required.
+returning-account relinking, automatic resending or proof of delivery. The controlled
+support-mailbox invitation arrived and reached code verification/account setup, but exposed
+an internal fifteen-minute invitation deadline. The resumable 48-hour signup fix is locally
+verified and its approved migration is now hosted/history-aligned: it keeps OTPs/claims short
+and requires fresh verification rather than extending authentication to 48 hours. The matching
+application code still requires owner deployment. Final isolated profile acceptance, scoped
+cleanup and restoration of the real-pilot settings remain required. Zubin has not been emailed
+by this implementation.
+
+Real-pilot SMS redemption is temporarily interrupted by the active isolated email-rehearsal
+tenant configuration, not an invalid native invitation. Forward restoration candidate
+`ec12c0b0-7c78-4590-98d8-5cbb42ca8a1e` is prepared and verified but awaits owner promotion.
+Do not report real-pilot access restored until the active version and post-release checks pass.
 
 ## Product preparation is not ordering activation — 10 October
 

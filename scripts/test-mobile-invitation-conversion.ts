@@ -64,6 +64,7 @@ const tables = [
   "identity_private.mobile_invitation_claims",
   "identity_private.mobile_invitation_events",
   "identity_private.mobile_email_exchanges",
+  "identity_private.mobile_email_resume_leases",
   "identity_private.mobile_identity_creation_leases",
   "identity_private.mobile_identity_creation_receipts",
   "identity_private.pilot_activation_commands",
@@ -101,6 +102,7 @@ const auditTrigger = sql(
 );
 invariant(/^[a-z_]+$/.test(auditTrigger));
 const guards = [
+  ["identity_private.mobile_email_resume_leases", "mobile_email_resume_immutable"],
   ["identity_private.mobile_identity_creation_leases", "mobile_creation_lease_immutable"],
   ["identity_private.mobile_identity_creation_receipts", "mobile_creation_receipt_immutable"],
   ["identity_private.mobile_invitations", "mobile_invitation_guard"],
@@ -152,6 +154,15 @@ const emailService = new MobileInvitationEmailService(mobileEmailRepository(clie
     return authUser;
   },
   verifyInvitationOtp: (email, otp) => provider.verifyInvitationOtp(email, otp),
+  verifyEmailOtp: (email, otp) => provider.verifyEmailOtp(email, otp),
+  requestPatientSignIn: async (email) => {
+    // Local no-send transport: generate a fresh magic-link OTP for this exact existing identity.
+    const { data, error } = await client.auth.admin.generateLink({ type: "magiclink", email });
+    invariant(
+      !error && data.user?.id === authUser && /^\d{6}$/.test(data.properties?.email_otp ?? ""),
+    );
+    code = data.properties.email_otp;
+  },
   verifyAccessToken: (access) => provider.verifyAccessToken(access),
   revokeSessions: (access, scope) => provider.revokeSessions(access, scope),
 });
@@ -203,7 +214,7 @@ try {
     commit;`);
   const redeemed = await handler(request("redeem", { token, requestKey: crypto.randomUUID() }));
   invariant(redeemed.status === 200);
-  const claimCookie = redeemed.headers.get("set-cookie")?.split(";")[0];
+  let claimCookie = redeemed.headers.get("set-cookie")?.split(";")[0];
   invariant(claimCookie);
   invariant(
     z
@@ -226,15 +237,99 @@ try {
       "code-requested",
   );
   invariant(providerCalls === 1 && code);
+  // Also prove recovery BEFORE first mailbox confirmation (the initial OTP was missed).
+  sql(`begin;
+    alter table identity_private.mobile_invitation_claims disable trigger mobile_claim_guard;
+    update identity_private.mobile_invitation_claims set issued_at=statement_timestamp()-interval '20 minutes',
+      expires_at=statement_timestamp()-interval '5 minutes' where invitation_id='${mobile}';
+    alter table identity_private.mobile_invitation_claims enable trigger mobile_claim_guard;
+    commit;`);
+  const firstResume = await handler(request("redeem", { token, requestKey: crypto.randomUUID() }));
+  claimCookie = firstResume.headers.get("set-cookie")?.split(";")[0];
+  invariant(firstResume.status === 200 && claimCookie);
+  invariant(
+    z
+      .object({ status: z.string() })
+      .parse(
+        await (
+          await handler(request("bind", { email: "synthetic-mobile@example.invalid" }, claimCookie))
+        ).json(),
+      ).status === "claimed",
+  );
+  invariant(
+    z
+      .object({ status: z.string() })
+      .parse(await (await handler(request("email", {}, claimCookie))).json()).status ===
+      "code-requested",
+  );
+  invariant(providerCalls === 1 && code);
   const verified = await handler(request("verify", { code }, claimCookie));
   code = "";
   invariant(
     verified.status === 200 &&
       z.object({ status: z.string() }).parse(await verified.json()).status === "verified",
   );
-  const activationCookie = verified.headers.get("set-cookie")?.split(";")[0];
+  let activationCookie = verified.headers.get("set-cookie")?.split(";")[0];
   invariant(activationCookie);
   invariant(!activationCookie.includes("meneer-session"));
+  // Historical LOCAL fixture only: preserve the 15-minute duration while moving this claim
+  // into the past. Never mutate hosted claims to simulate a successful resume.
+  sql(`begin;
+    alter table identity_private.mobile_invitation_claims disable trigger mobile_claim_guard;
+    update identity_private.mobile_invitation_claims set issued_at=statement_timestamp()-interval '20 minutes',
+      expires_at=statement_timestamp()-interval '5 minutes' where invitation_id='${mobile}';
+    alter table identity_private.mobile_invitation_claims enable trigger mobile_claim_guard;
+    commit;`);
+  invariant(
+    (
+      await activate(
+        new Request("https://meneerhealth.co.za/account/activate/instruments", {
+          headers: { cookie: activationCookie },
+        }),
+      )
+    ).status === 200,
+  ); // Short valid verified proof is not invalidated by the old claim deadline.
+  const resumed = await handler(request("redeem", { token, requestKey: crypto.randomUUID() }));
+  const resumedClaimCookie = resumed.headers.get("set-cookie")?.split(";")[0];
+  invariant(resumed.status === 200 && resumedClaimCookie);
+  invariant(
+    z
+      .object({ status: z.string() })
+      .parse(
+        await (
+          await handler(request("bind", { email: "foreign@example.invalid" }, resumedClaimCookie))
+        ).json(),
+      ).status === "unavailable",
+  );
+  invariant(
+    z
+      .object({ status: z.string() })
+      .parse(
+        await (
+          await handler(
+            request("bind", { email: "synthetic-mobile@example.invalid" }, resumedClaimCookie),
+          )
+        ).json(),
+      ).status === "claimed",
+  );
+  invariant(
+    z
+      .object({ status: z.string() })
+      .parse(await (await handler(request("email", {}, resumedClaimCookie))).json()).status ===
+      "code-requested",
+  );
+  invariant(providerCalls === 1 && code); // Existing account, not another invite/identity.
+  const reverified = await handler(request("verify", { code }, resumedClaimCookie));
+  invariant(reverified.status === 200);
+  code = "";
+  const staleProof = await activate(
+    new Request("https://meneerhealth.co.za/account/activate/instruments", {
+      headers: { cookie: activationCookie },
+    }),
+  );
+  invariant(staleProof.status !== 200);
+  activationCookie = reverified.headers.get("set-cookie")?.split(";")[0];
+  invariant(activationCookie);
   invariant(
     sql(`select status from identity_private.mobile_invitations where id='${mobile}';`) ===
       "claimed",
@@ -325,6 +420,7 @@ try {
     delete from public.tenant_memberships where tenant_id='${tenant}';
     delete from identity_private.mobile_identity_creation_receipts where email_invitation_id in(select id from public.identity_invitations where tenant_id='${tenant}');
     delete from identity_private.mobile_identity_creation_leases where email_invitation_id in(select id from public.identity_invitations where tenant_id='${tenant}');
+    delete from identity_private.mobile_email_resume_leases where email_invitation_id in(select id from public.identity_invitations where tenant_id='${tenant}');
     delete from identity_private.mobile_email_exchanges where mobile_invitation_id='${mobile}';
     delete from identity_private.mobile_invitation_events where invitation_id='${mobile}';
     delete from identity_private.mobile_invitation_claims where invitation_id='${mobile}';
@@ -359,6 +455,9 @@ console.log(
     competingSendRequests: 8,
     providerInvitations: 1,
     actualLocalAuthOtp: true,
+    resumedBeforeFirstMailboxConfirmation: true,
+    resumedAfterClaimExpiryWithFreshEmailOtp: true,
+    supersededPreactivationDenied: true,
     separatePreactivation: true,
     atomicProfileAndTwoReceipts: true,
     convertedSingleUse: true,

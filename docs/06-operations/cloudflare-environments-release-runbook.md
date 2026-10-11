@@ -18,6 +18,20 @@ managed email-code conversion. Owner deployment, approved hosted migration, exac
 `email_delivery_enabled` policy and controlled mailbox acceptance must precede a real send.
 Preserve existing identity/medical keys and live-payment settings; do not enable unrelated modes.
 
+The approved resumable-signup migration is now hosted as `20261011150000`, including one bounded
+pending-invitation deadline repair. Its old strict read RPC remains compatible with the current
+Worker; deploy the matching new caller after this database-first checkpoint. Hosted OTPs remain
+six digits/900 seconds. Final isolated signup acceptance, scoped cleanup and owner restoration
+of the real-pilot configuration are still required; do not send a real fallback invitation yet.
+
+The isolated email rehearsal remained active and blocked an otherwise valid real-pilot SMS
+invitation. Owner-authorised same-code forward restoration candidate
+`ec12c0b0-7c78-4590-98d8-5cbb42ca8a1e` restores only the four rehearsal overrides; see the
+fallback packet for preservation checks. It is not promoted yet. Owner promotion is the
+immediate access-recovery step and does not require a source commit; the separate resumable
+signup code still requires commit/deployment. Further isolated acceptance must not substitute
+a synthetic tenant on the canonical Worker while real invitations are outstanding.
+
 ## Pending US invitation extension — 10 October
 
 The [US extension packet](../02-implementation-plans/phase-02/annexures/mobile-invitation-us-extension.md)

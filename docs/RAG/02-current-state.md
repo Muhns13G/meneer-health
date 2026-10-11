@@ -156,6 +156,23 @@ It replaces the unused SMS capability and still requires the addressed mailbox's
 atomic profile/document activation. Native/Worker mode default off; hosted release and actual
 mailbox acceptance remain separate. No recipient email or successful send is assumed for Zubin.
 
+The controlled support-mailbox rehearsal subsequently reached code verification and account
+setup, but exposed the internal invitation's erroneous fifteen-minute deadline. The locally
+verified resumable-signup correction retains the original 48-hour invitation window and
+15-minute OTPs/claims, with short preactivation proof and one-shot existing-account
+reverification. It does not create another identity or revive a terminal invitation. The owner
+approved the expiry migration, now hosted with exact history version `20261011150000` and one
+bounded pending-deadline repair. Identity/profile fingerprints and the old strict read RPC
+remain unchanged; access-control readback passes and Auth OTP expiry remains 900 seconds.
+Owner source deployment, final isolated profile acceptance, cleanup and restoration remain
+outstanding; see the same packet.
+
+The canonical Worker is still the isolated email-rehearsal version, which rejects real-pilot
+SMS links despite their valid native state. Owner-authorised same-code restoration candidate
+`ec12c0b0-7c78-4590-98d8-5cbb42ca8a1e` restores only the four rehearsal overrides, with code
+and other binding metadata preserved. Owner promotion and subsequent verification are pending;
+no SMS resend or source commit is needed for this configuration-only restoration.
+
 ## Pending US invitation extension — 10 October
 
 Owner-approved US invitation support is locally implemented with default-off runtime/database
