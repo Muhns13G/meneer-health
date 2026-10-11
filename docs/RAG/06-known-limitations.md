@@ -134,7 +134,8 @@ verification of generator output, professional credentials, provider stock or di
 Operations cannot record clinical decisions; the draft preparer cannot independently confirm
 provider evidence. The 15.6 bridge now binds current exact evidence to quote issue and rechecks
 acceptance/Checkout/settlement; derived legacy booleans alone cannot authorise linked quotes.
-Actual supply release checks remain 15.7.
+15.7 now locally checks exact paid funding and current authority before manual supply advancement;
+reference attestations are not provider API verification or actual dispensing/courier execution.
 
 15.4 drafts are administrative preparation only. An existing encrypted address/delivery binding
 must be provisioned through approved preparation; staff cannot invent a tariff, confirm an address
@@ -147,8 +148,14 @@ release boundaries; no fresh manual VoiceOver observation is claimed here.
 private browsing/interest, disabled by default. Real RRPs, applicable privacy/lifecycle scope and
 owner release remain required. Interest is not an order, stock reservation or clinical approval;
 quote issue, product-term acceptance and balance payment are now locally implemented by 15.6,
-but real product terms remain unapproved/unpublished and ordering defaults disabled. Fulfilment,
-manual accessibility and hosted/provider/populated-recovery acceptance remain later Sprint-15 tasks.
+but real product terms remain unapproved/unpublished and ordering defaults disabled. The 15.7
+manual journal is locally implemented; actual supply, manual accessibility and hosted/provider/
+populated-recovery acceptance remain separately gated. It does not implement inventory, automatic
+recalls, courier integration or product-specific medical advice. Returns/recalls use private source
+references and staff review, not automatic fees/refunds or health details in notifications.
+The workspace follows the latest issued offer; the existing provider-attempt replacement guard
+still blocks a repeat-order cycle, even after delivery. Historical/repeat-order management is
+not a newly activated capability.
 
 [15.2](../02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md)
 adds local private catalogue/provenance and encrypted shipping/delivery-binding foundations.

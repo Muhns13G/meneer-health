@@ -31,6 +31,11 @@ import {
   type ProductQuoteIssueBindings,
 } from "./server/payments/product-quote-issue-http";
 import { paymentMode } from "./server/payments/commerce-environment";
+import {
+  createProductFulfilmentHttpHandler,
+  type ProductFulfilmentBindings,
+} from "./server/payments/product-fulfilment-http";
+import { createClientFulfilmentHttpHandler } from "./server/payments/client-fulfilment-http";
 import { createRefundHttpHandler } from "./server/payments/refund-http";
 import { runScheduledRefunds } from "./server/payments/refund-dispatch";
 import { createPatientPortalHttpHandler } from "./server/identity/patient-portal-http";
@@ -201,6 +206,14 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               return createProductQuoteIssueHttpHandler(
                 env as unknown as ProductQuoteIssueBindings,
               )(boundedRequest);
+            if (pathname === "/staff/products/fulfilment")
+              return createProductFulfilmentHttpHandler(
+                env as unknown as ProductFulfilmentBindings,
+              )(boundedRequest);
+            if (pathname === "/portal/order/fulfilment")
+              return createClientFulfilmentHttpHandler(env as unknown as CommerceReviewBindings)(
+                boundedRequest,
+              );
             if (pathname === "/portal/order/command")
               return createOrderReviewHttpHandler(env as unknown as CommerceReviewBindings)(
                 boundedRequest,

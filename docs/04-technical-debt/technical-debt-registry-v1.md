@@ -41,7 +41,14 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
-### 10 October — Sprint 15.3–15.6 Private Product Preparation
+### 10 October — Sprint 15.3–15.7 Private Product Preparation
+
+Task [15.7](../02-implementation-plans/phase-02/annexures/sprint-15-7-manual-product-fulfilment.md)
+advances TD-010's manual custody/fulfilment boundary with scoped immutable event versions,
+paid/current-evidence checks, exception/delivery facts, post-release refund protection and coarse
+own-client progress. It creates no provider order, clinical authority, courier action or product
+release. Hosted/concurrent/populated shipping recovery and real source/terms/provider gates remain;
+no debt count/status is changed from this local implementation.
 
 Task [15.6](../02-implementation-plans/phase-02/annexures/sprint-15-6-issued-product-quotes.md)
 advances TD-010 with exact issued links, product terms, decline and existing credited Checkout.
