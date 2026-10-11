@@ -12,6 +12,17 @@ import {
 } from "@/server/identity/preactivation-cookie";
 import type { PatientVerificationBindings } from "@/server/identity/patient-verification-http";
 import { inspectProtectedJsonRequest } from "@/server/security/request-security";
+import type { PatientSessionService } from "@/application/identity/patient-session-service";
+import {
+  createPatientSessionService,
+  revokeUndeliveredSession,
+  type PatientSessionBindings,
+} from "./patient-session-http";
+import {
+  readPatientSessionKey,
+  sealPatientSession,
+  patientSessionCookie,
+} from "./patient-session-cookie";
 
 type ActivationPort = Pick<PatientActivationService, "prepare" | "activate">;
 function response(status: number, body?: unknown): Response {
@@ -26,8 +37,9 @@ function response(status: number, body?: unknown): Response {
 }
 
 export function createPatientActivationHttpHandler(
-  bindings: PatientVerificationBindings,
+  bindings: PatientVerificationBindings & PatientSessionBindings,
   injected?: ActivationPort,
+  sessionService?: Pick<PatientSessionService, "continueAfterActivation" | "signOut">,
 ) {
   return async (request: Request): Promise<Response> => {
     const url = new URL(request.url);
@@ -106,7 +118,29 @@ export function createPatientActivationHttpHandler(
       if (inspected.value.body.requestKey !== inspected.value.idempotencyKey) return response(422);
       await activation.activate(proof, inspected.value.body);
       // Keep the short-lived proof for safe retries after a lost response. It is not an account session.
-      return response(204);
+      const result = response(204);
+      try {
+        const key = readPatientSessionKey(bindings.IDENTITY_SESSION_KEY_BASE64);
+        const sessions = sessionService ?? createPatientSessionService(bindings);
+        if (!sessions) throw new Error("SESSION_UNAVAILABLE");
+        const session = await sessions.continueAfterActivation(proof);
+        try {
+          const token = await sealPatientSession(session, key);
+          if (token.length > 3800) throw new Error("SESSION_TOO_LARGE");
+          result.headers.set(
+            "Set-Cookie",
+            patientSessionCookie(token, session.session.absoluteExpiresAt),
+          );
+          result.headers.set("X-Meneer-Session", "ready");
+        } catch {
+          await revokeUndeliveredSession(sessions, session);
+          throw new Error("SESSION_UNAVAILABLE");
+        }
+      } catch {
+        // Account creation already committed: offer normal sign-in without claiming setup failed.
+        result.headers.set("X-Meneer-Session", "sign-in-required");
+      }
+      return result;
     } catch (error) {
       return response(error instanceof IdentityRejectedError ? 422 : 503);
     }

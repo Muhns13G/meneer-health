@@ -6,6 +6,39 @@ remain separate launch gates. This runbook does not activate collection or appro
 
 ## Isolated Rehearsal
 
+### Mobile interruption correction — 11 October 2026
+
+The local correction masks questionnaire fields on backgrounding without discarding unsaved
+in-memory edits. Foreground return revalidates the provider/application session and current record
+before redisplay; an expired/revoked session clears the private view and offers account sign-in.
+Page exit and the authority deadline still clear private state. No answers are written to
+localStorage/sessionStorage, URLs, toast content or logs.
+
+After a durable medical-notice acknowledgement, changed drafts use a debounced, serialised
+authenticated save through the existing encrypted storage path. Saves renew valid sessions,
+preserve edits made while a request is pending, and reuse the exact command key for uncertain
+retries. Failed saves are visibly unconfirmed and do not silently retry in a loop. Only a confirmed
+“Draft saved” applies to the latest visible answers; closing before confirmation can still lose
+unsaved edits. Submission, amendment, safety and disclosure gates remain explicit.
+
+The matching activation correction reuses the verified invitation provider session only after
+durable activation, live patient membership and document evidence checks. Successful handoff seals
+an HttpOnly/Secure account cookie and offers the questionnaire without a second email code.
+If session handoff fails after account commit, account creation remains successful and normal
+sign-in is offered. Existing clients use `/account/sign-in`, not a consumed invitation.
+
+Owner commit/deployment and a real-device follow-up are required. This correction adds no SQL
+migration or configuration switches and changes no hosted participant records. It does not remove
+clinical/pharmacy or professional-evidence release gates.
+
+Local validation: 343 identity/intake/gate assertions pass; the focused 33-test correction packet
+also passes on the final source. Ten controlled desktop/mobile browser checks pass, including
+session-ready and sign-in fallback activation, foreground edit preservation, full questionnaire
+submission and private-state clearing. Strict TypeScript, changed-file ESLint/Prettier, production
+build, client-bundle/MCP absence checks and `git diff --check` pass. One intermediate desktop run
+was interrupted during a concurrent generated-file build refresh; the stable serial rerun passed.
+These are local synthetic checks, not evidence that Mikhail's deployed account has been retested.
+
 5 October checkpoint: 36 hosted migration versions are applied. The owner authorised a bounded
 synthetic runtime rehearsal; real HTTP Auth/AAL2, intake commands, independent grants, restriction,
 retained export and revocation checks pass. Brevo records `delivered` at 15:41:05 SAST on 5 October.

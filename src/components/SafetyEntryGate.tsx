@@ -82,6 +82,9 @@ export function SafetyEntryGate() {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
+            <Link to="/account/sign-in" className="action-primary">
+              Already invited? Sign in to your account
+            </Link>
             <a
               href={supportChannels.general.href}
               className="inline-flex items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold text-primary-foreground"
