@@ -3,7 +3,7 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-10
+last_updated: 2026-10-11
 audience: internal
 sensitivity: internal
 source_baseline: 08dc68c
@@ -147,6 +147,14 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Email fallback correction — 11 October
+
+The [email fallback packet](../02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md)
+adds a staff email delivery action for an existing reviewed, unclaimed cohort participant.
+It replaces the unused SMS capability and still requires the addressed mailbox's code and
+atomic profile/document activation. Native/Worker mode default off; hosted release and actual
+mailbox acceptance remain separate. No recipient email or successful send is assumed for Zubin.
 
 ## Pending US invitation extension — 10 October
 

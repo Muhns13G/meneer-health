@@ -24,6 +24,12 @@ import { dispatchMobileInvitation } from "./mobile-invitation-delivery-service";
 import type { MobileDeliveryRequest } from "@/application/identity/mobile-invitation-delivery";
 import type { ProviderIdentity } from "@/domain/access/identity";
 import type { WorkforceProof } from "@/application/identity/workforce-session-service";
+import {
+  pilotEmailInvitationRequestSchema,
+  type PilotEmailInvitationRequest,
+} from "@/application/identity/pilot-email-invitation";
+import { dispatchPilotEmailInvitation } from "./pilot-email-invitation-service";
+import { SupabasePilotEmailInvitationRepository } from "@/adapters/identity/supabase/supabase-pilot-email-invitation-repository";
 
 function response(status: number, body?: unknown) {
   return new Response(body === undefined ? null : JSON.stringify(body), {
@@ -48,6 +54,11 @@ export function createMobileInvitationHttpHandler(
     TELNYX_MESSAGING_PROFILE_ID?: unknown;
     TELNYX_FROM_NUMBER?: unknown;
     TELNYX_ALPHA_SENDER?: unknown;
+    PILOT_EMAIL_INVITATIONS_MODE?: unknown;
+    MOBILE_INVITATIONS_REDEMPTION_MODE?: unknown;
+    MOBILE_INVITATIONS_EMAIL_MODE?: unknown;
+    MOBILE_INVITATION_CLAIM_KEY_BASE64?: unknown;
+    BREVO_API_KEY?: unknown;
   },
   injected?: {
     workforce: Pick<WorkforceSessionService, "authorise">;
@@ -57,6 +68,11 @@ export function createMobileInvitationHttpHandler(
       identity: ProviderIdentity,
       proof: WorkforceProof,
     ) => ReturnType<typeof dispatchMobileInvitation>;
+    email?: (
+      request: PilotEmailInvitationRequest,
+      identity: ProviderIdentity,
+      proof: WorkforceProof,
+    ) => ReturnType<typeof dispatchPilotEmailInvitation>;
   },
 ) {
   return async (request: Request) => {
@@ -68,6 +84,7 @@ export function createMobileInvitationHttpHandler(
         "/staff/mobile-invitations/read",
         "/staff/mobile-invitations/command",
         "/staff/mobile-invitations/dispatch",
+        "/staff/mobile-invitations/email",
       ].includes(url.pathname)
     )
       return response(404);
@@ -82,9 +99,15 @@ export function createMobileInvitationHttpHandler(
     const fields = Object.fromEntries(inspected.value);
     const reading = url.pathname.endsWith("/read");
     const dispatching = url.pathname.endsWith("/dispatch");
+    const emailing = url.pathname.endsWith("/email");
     const parsed = reading
       ? null
-      : (dispatching ? mobileDeliveryRequestSchema : mobileInvitationCommandSchema).safeParse({
+      : (emailing
+          ? pilotEmailInvitationRequestSchema
+          : dispatching
+            ? mobileDeliveryRequestSchema
+            : mobileInvitationCommandSchema
+        ).safeParse({
           ...fields,
           ...(Object.hasOwn(fields, "expectedVersion")
             ? {
@@ -116,12 +139,38 @@ export function createMobileInvitationHttpHandler(
       ).authorise(proof);
       if (context.role !== "operations" || context.purpose !== "operations") return response(403);
       const input = bindings as unknown as Record<string, unknown>;
-      const receiptConfig = readMobileReceiptConfiguration(input);
-      const deliveryConfig =
-        input.MOBILE_INVITATIONS_MODE === "telnyx" &&
-        input.MOBILE_INVITATIONS_DELIVERY_READY === "true"
-          ? readMobileDeliveryConfiguration(input)
-          : null;
+      const emailReady =
+        input.PILOT_EMAIL_INVITATIONS_MODE === "brevo" &&
+        input.MOBILE_INVITATIONS_REDEMPTION_MODE === "enabled" &&
+        input.MOBILE_INVITATIONS_EMAIL_MODE === "enabled" &&
+        input.MOBILE_INVITATIONS_TENANT_ID === context.tenantId &&
+        z
+          .string()
+          .regex(/^[A-Za-z0-9+/]{43}=$/)
+          .safeParse(input.MOBILE_INVITATION_CLAIM_KEY_BASE64).success &&
+        z
+          .string()
+          .regex(/^[A-Za-z0-9+/]{43}=$/)
+          .safeParse(input.IDENTITY_PREACTIVATION_KEY_BASE64).success &&
+        z.string().trim().min(20).safeParse(input.BREVO_API_KEY).success;
+      if (emailing && (!emailReady || (injected && !injected.email))) return response(503);
+      // A broken SMS transport must not prevent an independently authorised email fallback.
+      // Invalid SMS configuration still fails closed for SMS dispatch, not for register access.
+      const { receiptConfig, deliveryConfig } = (() => {
+        if (emailing) return { receiptConfig: null, deliveryConfig: null };
+        try {
+          return {
+            receiptConfig: readMobileReceiptConfiguration(input),
+            deliveryConfig:
+              input.MOBILE_INVITATIONS_MODE === "telnyx" &&
+              input.MOBILE_INVITATIONS_DELIVERY_READY === "true"
+                ? readMobileDeliveryConfiguration(input)
+                : null,
+          };
+        } catch {
+          return { receiptConfig: null, deliveryConfig: null };
+        }
+      })();
       const ready =
         !!deliveryConfig &&
         !!receiptConfig &&
@@ -145,27 +194,41 @@ export function createMobileInvitationHttpHandler(
           })
         : null;
       const repository = injected?.repository ?? new SupabaseMobileInvitationRepository(client!);
-      const body = dispatching
-        ? injected?.dispatch
-          ? await injected.dispatch(
-              mobileDeliveryRequestSchema.parse(parsed!.data),
+      const body = emailing
+        ? injected?.email
+          ? await injected.email(
+              pilotEmailInvitationRequestSchema.parse(parsed!.data),
               identity,
               proof,
             )
-          : await dispatchMobileInvitation(
-              mobileDeliveryRequestSchema.parse(parsed!.data),
-              deliveryConfig!,
-              new SupabaseMobileDeliveryRepository(client!, identity, proof),
-              new TelnyxMobileInvitationSender(deliveryConfig!),
+          : await dispatchPilotEmailInvitation(
+              pilotEmailInvitationRequestSchema.parse(parsed!.data),
+              new SupabasePilotEmailInvitationRepository(client!, identity, proof),
+              String(input.BREVO_API_KEY).trim(),
             )
-        : reading
-          ? await repository.read(identity, proof, fields.afterId || null)
-          : await repository.command(
-              identity,
-              proof,
-              mobileInvitationCommandSchema.parse(parsed!.data),
-            );
+        : dispatching
+          ? injected?.dispatch
+            ? await injected.dispatch(
+                mobileDeliveryRequestSchema.parse(parsed!.data),
+                identity,
+                proof,
+              )
+            : await dispatchMobileInvitation(
+                mobileDeliveryRequestSchema.parse(parsed!.data),
+                deliveryConfig!,
+                new SupabaseMobileDeliveryRepository(client!, identity, proof),
+                new TelnyxMobileInvitationSender(deliveryConfig!),
+              )
+          : reading
+            ? await repository.read(identity, proof, fields.afterId || null)
+            : await repository.command(
+                identity,
+                proof,
+                mobileInvitationCommandSchema.parse(parsed!.data),
+              );
       if (reading && "sendingEnabled" in body) body.sendingEnabled = body.sendingEnabled && ready;
+      if (reading && "emailSendingEnabled" in body)
+        body.emailSendingEnabled = body.emailSendingEnabled && emailReady;
       const result = response(200, body);
       result.headers.set(
         "X-Session-Expires-At",

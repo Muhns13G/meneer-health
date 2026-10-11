@@ -71,7 +71,7 @@ const controller = String.raw`
         email.value = "";
         say("Your email is saved for this invitation. Choose Send verification code to verify your mailbox. No account has been activated.");
       } else {
-        say("Invitation checked. Enter your own email address. This claim lasts up to 15 minutes; the invitation remains valid for at most 48 hours from issue.");
+        say("Invitation checked. Enter your own email address. If this invitation arrived by email, use that same address. This claim lasts up to 15 minutes; the invitation remains valid for at most 48 hours from issue.");
         email.focus();
       }
     }

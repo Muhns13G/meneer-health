@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-10",
+    "last_updated": "2026-10-11",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -23,6 +23,16 @@
     ]
   },
   "documents": [
+    {
+      "id": "pilot-email-invitation-fallback-2026-10-11",
+      "path": "docs/02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md",
+      "status": "completed-local-hosted-release-gated",
+      "authority_for": [
+        "Governed email fallback for existing cohort participants",
+        "Same-mailbox conversion and one-shot delivery; hosted proof and real send remain gated"
+      ],
+      "last_updated": "2026-10-11"
+    },
     {
       "id": "phase-02-sprint-15-7-manual-product-fulfilment",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-7-manual-product-fulfilment.md",

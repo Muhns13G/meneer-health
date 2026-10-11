@@ -73,6 +73,63 @@ async function setup() {
 }
 const command = { action: "review", invitationId: id, expectedVersion: "1", requestKey: id };
 describe("private mobile invitation HTTP", () => {
+  it("gates email independently of SMS, validates fields and rechecks operations authority", async () => {
+    const s = await setup();
+    const email = vi.fn().mockResolvedValue({ outcome: "accepted" });
+    const bindings = {
+      IDENTITY_SESSION_KEY_BASE64: key,
+      REQUEST_RATE_LIMITER: { limit: s.limit },
+      PILOT_EMAIL_INVITATIONS_MODE: "brevo",
+      MOBILE_INVITATIONS_REDEMPTION_MODE: "enabled",
+      MOBILE_INVITATIONS_EMAIL_MODE: "enabled",
+      MOBILE_INVITATIONS_TENANT_ID: id,
+      MOBILE_INVITATION_CLAIM_KEY_BASE64: key,
+      IDENTITY_PREACTIVATION_KEY_BASE64: key,
+      BREVO_API_KEY: "synthetic-brevo-private-key",
+      MOBILE_INVITATIONS_MODE: "telnyx",
+      MOBILE_INVITATIONS_DELIVERY_READY: "true",
+      MOBILE_INVITATIONS_WEBHOOK_MODE: "enabled",
+      TELNYX_API_KEY: "invalid",
+    };
+    const input = {
+      invitationId: id,
+      expectedVersion: "1",
+      requestKey: id,
+      email: "participant@example.invalid",
+    };
+    const handler = createMobileInvitationHttpHandler(bindings, {
+      workforce: s.workforce,
+      repository: s.repository,
+      email,
+    });
+    expect((await handler(s.request(input, "email"))).status).toBe(200);
+    expect(email).toHaveBeenCalledWith(
+      { ...input, expectedVersion: 1 },
+      expect.anything(),
+      expect.anything(),
+    );
+    expect((await handler(s.request({ ...input, extra: "unexpected" }, "email"))).status).toBe(422);
+    expect((await handler(s.request(input, "email", { cookie: "" }))).status).toBe(401);
+    expect(
+      (await handler(s.request(input, "email", { origin: "https://evil.invalid" }))).status,
+    ).toBe(403);
+    const disabled = createMobileInvitationHttpHandler(
+      { ...bindings, PILOT_EMAIL_INVITATIONS_MODE: "disabled" },
+      { workforce: s.workforce, repository: s.repository, email },
+    );
+    expect((await disabled(s.request(input, "email"))).status).toBe(503);
+    expect(email).toHaveBeenCalledOnce();
+    s.workforce.authorise.mockResolvedValueOnce({
+      identity: { assurance: "aal2", expiresAt: new Date(Date.now() + 600000) },
+      context: { ...proof.context, role: "support" },
+      session: {
+        idleExpiresAt: new Date(Date.now() + 500000),
+        absoluteExpiresAt: new Date(Date.now() + 600000),
+      },
+    });
+    expect((await handler(s.request(input, "email"))).status).toBe(403);
+    expect(email).toHaveBeenCalledOnce();
+  });
   it("keeps dispatch disabled independently of reservation authority", async () => {
     const s = await setup();
     expect(

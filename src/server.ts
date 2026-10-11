@@ -233,6 +233,7 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
                 "/staff/mobile-invitations/read",
                 "/staff/mobile-invitations/command",
                 "/staff/mobile-invitations/dispatch",
+                "/staff/mobile-invitations/email",
               ].includes(pathname)
             )
               return createMobileInvitationHttpHandler(env as unknown as PatientSessionBindings)(
