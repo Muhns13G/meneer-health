@@ -199,6 +199,66 @@ passes. These are local diagnostic-correction results, not hosted journey accept
 remain unstaged for the owner's commit; no deployment, message or production switch was made
 while preparing this correction.
 
+### Diagnostic source deployed; exact runtime candidate awaiting owner promotion
+
+The owner committed `522614f` and deployed the diagnostic source. Independent Cloudflare readback
+confirms active version `94f01955-e131-4b2f-9c98-fc749c7168e8`, ETag
+`baf8b0a623d9febf1447ece482d06dcdf622109c175339ff1b42a92049323846`, with the diagnostic method
+and fixed reason codes present in actual deployed content. This code deployment restored the
+template's `PUBLIC_REGISTRATION_MODE=disabled` and empty tenant as plain-text bindings; therefore
+it cannot yet reach the downstream diagnostic gate. This explains the current runtime closure,
+not the previous provider/native mismatch.
+
+The approved guarded `--prepare-diagnostic-runtime` operation cloned this exact new active source
+as candidate `12574bb6-415c-43c6-9caa-45b783201ec0`, changing only the two approved public signup
+bindings. Source ETag and unrelated binding names/types and readable values are unchanged. Existing
+keys were not supplied or replaced; Auth/native policy remained disabled, and no email, SMS, user
+or payment was created. The helper retains the previous release checkpoint and updates exact
+source guards rather than bypassing them. The candidate has not been promoted.
+
+Owner promotion is required before the fixed-code no-send probe. Promote this candidate directly,
+not the older `8e21...` source; do not insert another source deployment between preparation and
+promotion. Readiness diagnosis and actual OTP/profile/questionnaire acceptance remain outstanding.
+
+### Promoted diagnostics identify the transport cause; fix awaiting source deployment
+
+Owner promotion of `12574bb6-415c-43c6-9caa-45b783201ec0` is independently verified. The
+filtered no-send probe first produced `PUBLIC_SIGNUP_NATIVE_POLICY_CLOSED`/412 with both gates
+closed. The expressly approved temporary window then produced
+`PUBLIC_SIGNUP_AUTH_TRANSPORT_UNAVAILABLE`/503 after native readiness passed. The runner restored
+Auth `disable_signup=true` and native policy `enabled=false` in its finalisation path. No email,
+SMS, account, questionnaire, Checkout or payment was created.
+
+The production settings fetch specifies `redirect: "error"`. A synthetic local workerd probe
+using the deployed `2026-08-07` compatibility date and `nodejs_compat` reproduces its request
+construction failure: `Invalid redirect value, must be one of "follow" or "manual"`. The same
+construction accepts `manual`. This behaviour also matches
+[workerd's redirect parser](https://github.com/cloudflare/workerd/blob/main/src/workerd/api/http.c%2B%2B).
+Unlike Bun/Node, this Worker runtime rejects the option before contacting Supabase. The old silent
+catch had therefore disguised a runtime exception as closed Auth policy.
+
+The local fix uses `publicAuthSettingsRequestOptions` with **manual** redirects, retains no-store
+and the five-second timeout, and continues rejecting every non-2xx response before reading JSON.
+Redirects cannot forward the server key to a new destination. Browser-only `redirect: "error"`
+calls and Node-only operational scripts are not rewritten. No admission, session, receipt or OTP
+predicate is weakened.
+
+The new `bun --no-env-file run test:identity:worker-runtime` command uses Wrangler's locked
+workerd/Miniflare runtime and the application's actual options function. It reproduces the legacy
+failure and accepts the corrected options, with **zero provider requests**, messages or accounts;
+the disposable loopback runtime is disposed afterward. CI now runs it alongside unit tests.
+All seven focused identity/activation/session/telemetry suites pass **113 tests**, including
+301/302/303/307/308 redirect rejection. Strict TypeScript and portability checks pass.
+The final Node 22.23.2 production build, client-bundle/MCP-absence checks, scoped ESLint,
+formatting and diff checks also pass. Route/Worker generated outputs and `bun.lock` are unchanged.
+Independent post-window readback confirms closed signup, zero test users and preservation of all
+11 original Auth identities and four original profiles. No files were staged or committed.
+
+**Next owner action:** commit/deploy the source fix. Verify that new source, then prepare/release
+its approved public bindings without re-promoting either older version. Keep Auth/native signup
+closed until that coordinated release and the controlled one-OTP/profile/questionnaire test.
+No migration, new key, recipient message or OTP-expiry change is needed for this transport fix.
+
 ## Hosted release checklist — not completed by a code push alone
 
 1. Review and approve the migration, apply it to the correct hosted project, and verify migration

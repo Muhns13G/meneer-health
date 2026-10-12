@@ -1361,4 +1361,13 @@ or message was created. The active candidate alone does not mean public signup i
 The silent catch that disguised all Auth-settings failures as 412 is corrected locally, with
 strict fixed-code diagnostics and 503 for dependency/shape failure. Deployment and classification
 of the actual hosted cause remain pending; do not treat this as successful signup acceptance.
+Diagnostic source deployment is now independently verified, but the deployment restored public
+bindings to disabled/empty. An exact-new-source candidate restoring only those bindings is prepared
+and awaits owner promotion. Auth/native policy remains closed; no test account or send was created.
+This does not resolve or explain the earlier downstream mismatch.
+Subsequent filtered diagnostic acceptance identifies a settings transport exception. Its cause
+is now reproduced in workerd: unsupported `redirect: "error"` fails before network I/O. The
+manual-redirect fix preserves strict redirect rejection and has actual-runtime CI regression,
+but still needs owner source deployment and hosted one-OTP journey acceptance. Auth/native
+signup remains closed; no test identity or message was created by the diagnostic window.
 See [release checklist](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md).

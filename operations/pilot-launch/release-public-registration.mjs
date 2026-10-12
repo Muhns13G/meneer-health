@@ -8,6 +8,8 @@ const tenant = "80000000-0000-4000-8000-000000000001";
 const approver = "c72f29d8-a171-43bc-a942-47b07ce03246";
 const expectedVersion = "e9bd9a8a-adac-4791-b010-833caf935c73";
 const expectedEtag = "0caa5c781c97efac0cf947bd637e71bc1212324023855fa2cbed41e00ddb8e12";
+const diagnosticVersion = "94f01955-e131-4b2f-9c98-fc749c7168e8";
+const diagnosticEtag = "baf8b0a623d9febf1447ece482d06dcdf622109c175339ff1b42a92049323846";
 const receiptPath = new URL("../../.public-registration-release.local", import.meta.url);
 const mode = process.argv[2];
 function check(condition, code) {
@@ -78,6 +80,7 @@ if (
     "--rehearse",
     "--publish",
     "--prepare-runtime",
+    "--prepare-diagnostic-runtime",
     "--verify",
     "--open-test-window",
     "--close-test-window",
@@ -270,7 +273,7 @@ ${mode === "--rehearse" ? "rollback" : "commit"};`;
 check(
   receipt?.task === "public-registration-release" &&
     receipt.tenant === tenant &&
-    receipt.sourceEtag === expectedEtag,
+    [expectedEtag, diagnosticEtag].includes(receipt.sourceEtag),
   "RELEASE_RECEIPT_REQUIRED",
 );
 const published = await sql(
@@ -295,7 +298,10 @@ const transitions = await sql(
 check(Number(transitions[0]?.count) === 8, "TRANSITION_READBACK_FAILED");
 if (mode === "--open-test-window" || mode === "--close-test-window") {
   check(active() === receipt.preparedVersion, "OWNER_PROMOTED_VERSION_REQUIRED");
-  check(view(receipt.preparedVersion).resources?.script?.etag === expectedEtag, "SOURCE_CHANGED");
+  check(
+    view(receipt.preparedVersion).resources?.script?.etag === receipt.sourceEtag,
+    "SOURCE_CHANGED",
+  );
   const authUrl = `https://api.supabase.com/v1/projects/${project}/config/auth`;
   const headers = { Authorization: `Bearer ${management}`, "Content-Type": "application/json" };
   const beforeResponse = await fetch(authUrl, { headers });
@@ -313,7 +319,8 @@ if (mode === "--open-test-window" || mode === "--close-test-window") {
   if (opening) {
     check(
       before.disable_signup === true &&
-        (!receipt.testWindowOpenedAt || receipt.stage === "acceptance-closed"),
+        (!receipt.testWindowOpenedAt ||
+          (receipt.testWindowClosedAt && receipt.testWindowClosedAt >= receipt.testWindowOpenedAt)),
       "TEST_WINDOW_ALREADY_OPENED",
     );
     check(
@@ -370,17 +377,53 @@ if (mode === "--open-test-window" || mode === "--close-test-window") {
   }
   receipt.stage = opening ? "owner-promoted-controlled-acceptance-open" : "acceptance-closed";
   receipt.ownerPromoted = true;
-  if (opening) receipt.testWindowOpenedAt = new Date().toISOString();
-  else receipt.testWindowClosedAt = new Date().toISOString();
+  if (opening) {
+    receipt.testWindowOpenedAt = new Date().toISOString();
+    receipt.testWindowClosedAt = null;
+  } else receipt.testWindowClosedAt = new Date().toISOString();
   save();
 }
-if (mode === "--prepare-runtime") {
+if (mode === "--prepare-runtime" || mode === "--prepare-diagnostic-runtime") {
+  const diagnostic = mode === "--prepare-diagnostic-runtime";
+  const baselineVersion = diagnostic ? diagnosticVersion : expectedVersion;
+  const baselineEtag = diagnostic ? diagnosticEtag : expectedEtag;
   check(
-    receipt.stage === "published-runtime-disabled" && !receipt.preparedVersion,
+    diagnostic
+      ? receipt.stage === "owner-promoted-acceptance-blocked-signup-closed" &&
+          receipt.sourceEtag === expectedEtag
+      : receipt.stage === "published-runtime-disabled" && !receipt.preparedVersion,
     "RUNTIME_ALREADY_PREPARED_RECONCILE_FIRST",
   );
-  check(active() === expectedVersion, "CONCURRENT_DEPLOYMENT_CHANGED");
-  const baseline = view(expectedVersion);
+  check(active() === baselineVersion, "CONCURRENT_DEPLOYMENT_CHANGED");
+  const baseline = view(baselineVersion);
+  check(baseline.resources?.script?.etag === baselineEtag, "BASELINE_SOURCE_CHANGED");
+  if (diagnostic) {
+    const response = await fetch(`https://api.supabase.com/v1/projects/${project}/config/auth`, {
+      headers: { Authorization: `Bearer ${management}` },
+    });
+    check(response.ok, "AUTH_READ_FAILED");
+    const auth = await response.json();
+    const policies = await sql(
+      `select tenant_id,enabled from identity_private.public_registration_settings`,
+    );
+    check(
+      auth.disable_signup === true &&
+        auth.mailer_autoconfirm === false &&
+        auth.external_anonymous_users_enabled === false &&
+        policies.length === 1 &&
+        policies[0].tenant_id === tenant &&
+        policies[0].enabled === false,
+      "DIAGNOSTIC_GATES_NOT_CLOSED",
+    );
+    receipt.previousRelease = {
+      preparedVersion: receipt.preparedVersion,
+      sourceEtag: receipt.sourceEtag,
+      stage: receipt.stage,
+      openedAt: receipt.testWindowOpenedAt,
+      closedAt: receipt.testWindowClosedAt,
+      outcome: receipt.acceptanceOutcome,
+    };
+  }
   const settings = { PUBLIC_REGISTRATION_MODE: "enabled", PUBLIC_REGISTRATION_TENANT_ID: tenant };
   receipt.stage = "runtime-submitting-owner-promotion-required";
   save();
@@ -390,14 +433,17 @@ if (mode === "--prepare-runtime") {
       "secret",
       "bulk",
       "--message",
-      "Approved public onboarding - exact source and existing clients preserved",
+      diagnostic
+        ? "Public signup diagnostics - current source, Auth and native gates closed"
+        : "Approved public onboarding - exact source and existing clients preserved",
     ],
     JSON.stringify(settings),
   );
   receipt.preparedVersion = output.match(/Created version ([a-f0-9-]{36})/)?.[1];
   check(receipt.preparedVersion, "CANDIDATE_VERSION_RECONCILIATION_REQUIRED");
+  save();
   const candidate = view(receipt.preparedVersion);
-  check(candidate.resources?.script?.etag === expectedEtag, "CANDIDATE_SOURCE_CHANGED");
+  check(candidate.resources?.script?.etag === baselineEtag, "CANDIDATE_SOURCE_CHANGED");
   const bindings = candidate.resources?.bindings ?? [];
   check(
     (baseline.resources?.bindings ?? [])
@@ -417,7 +463,10 @@ if (mode === "--prepare-runtime") {
     ),
     "PUBLIC_BINDING_MISSING",
   );
-  check(active() === expectedVersion, "PROMOTION_OCCURRED_UNEXPECTEDLY");
+  check(active() === baselineVersion, "PROMOTION_OCCURRED_UNEXPECTEDLY");
+  receipt.sourceEtag = baselineEtag;
+  receipt.sourceBaseline = baselineVersion;
+  receipt.ownerPromoted = false;
   receipt.stage = "runtime-prepared-owner-promotion-required";
   save();
 }
@@ -446,7 +495,11 @@ if (mode === "--verify" && receipt.testWindowClosedAt) {
       Number(baseline[0].test_users) === 0,
     "ACCEPTANCE_BASELINE_CHANGED",
   );
-  receipt.stage = "owner-promoted-acceptance-blocked-signup-closed";
+  const ownerPromoted = active() === receipt.preparedVersion;
+  receipt.ownerPromoted = ownerPromoted;
+  receipt.stage = ownerPromoted
+    ? "owner-promoted-acceptance-blocked-signup-closed"
+    : "runtime-prepared-owner-promotion-required";
   receipt.acceptanceOutcome = {
     signupClosed: configuration.disable_signup === true && policies[0].enabled === false,
     testUsers: Number(baseline[0].test_users),

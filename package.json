@@ -39,6 +39,7 @@
     "test:auth:email": "bun run scripts/test-supabase-patient-session-email.ts",
     "test:authz": "bun run scripts/test-supabase-authorisation-integration.ts",
     "test:identity:security": "bun run scripts/test-sprint09-security.ts",
+    "test:identity:worker-runtime": "node scripts/test-public-registration-worker-runtime.mjs",
     "test:operations:rehearsal": "bun run scripts/test-sprint10-rehearsal.ts",
     "test:recovery:rehearsal": "bun --no-env-file run scripts/test-sprint13-recovery-rehearsal.ts",
     "test:identity:recovery": "bun --no-env-file run scripts/test-identity-disaster-recovery.ts",
