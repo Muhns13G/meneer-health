@@ -140,11 +140,14 @@ export class PatientSessionService {
         tenantId: membership.tenantId,
       };
     } catch (error) {
-      // Suspension, contact changes and failed provider renewal invalidate application access.
-      try {
-        await this.sessions.revoke(current.id, now, "patient_session_revalidation_failed");
-      } catch {
-        // The caller still fails closed and clears the browser cookie.
+      // Definitive authority rejection revokes access; an outage does not prove revocation.
+      // Neither case grants renewal. Temporary failures retain the existing bounded session.
+      if (error instanceof IdentityRejectedError) {
+        try {
+          await this.sessions.revoke(current.id, now, "patient_session_revalidation_failed");
+        } catch {
+          // The caller still fails closed and clears the browser cookie.
+        }
       }
       throw error;
     }

@@ -26,7 +26,12 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   let version = 0;
   let state = "draft";
   let failNextSave = false;
-  await page.route("**/account/session/renew", (route) => route.fulfill({ status: 204 }));
+  let failNextRenewal = false;
+  await page.route("**/account/session/renew", (route) => {
+    const status = failNextRenewal ? 503 : 204;
+    failNextRenewal = false;
+    return route.fulfill({ status });
+  });
   const publication = {
     id,
     catalogueHash: "a".repeat(64),
@@ -177,7 +182,32 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
         await page.getByRole("checkbox", { name: publication.reviewDeclaration }).check();
       else if (item.id === "signature")
         await page.getByLabel(item.prompt, { exact: true }).fill("Synthetic Client");
-      else
+      else if (item.id === "lifestyle" || item.id === "category_peptides") {
+        await page
+          .getByRole("combobox", { name: item.prompt, exact: true })
+          .selectOption("provided");
+        const details = page.getByRole("textbox", { name: item.prompt, exact: true });
+        if (item.id === "lifestyle") failNextRenewal = true;
+        await details.fill("Synthetic written response");
+        if (item.id === "lifestyle") {
+          await expect(
+            page.getByText("Draft save not confirmed. Keep this tab open and retry Save draft.", {
+              exact: true,
+            }),
+          ).toBeVisible();
+          await expect(details).toHaveValue("Synthetic written response");
+          await expect(
+            page.getByRole("link", { name: "Sign in to resume your saved questionnaire" }),
+          ).toHaveCount(0);
+          await page.getByRole("button", { name: "Save draft", exact: true }).click();
+        }
+        await expect(page.getByText("Draft saved.", { exact: true })).toBeVisible();
+        await expect(details).toHaveValue("Synthetic written response");
+        await details.pressSequentially(" only.", { delay: 500 });
+        await expect(page.getByText("Draft saved.", { exact: true })).toBeVisible();
+        await expect(details).toHaveValue("Synthetic written response only.");
+        expect(page.url()).toMatch(/\/portal\/intake$/);
+      } else
         await page.getByRole("combobox", { name: item.prompt, exact: true }).selectOption("none");
     }
   }

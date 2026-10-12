@@ -29,6 +29,16 @@ function rejected(): never {
   throw new IdentityRejectedError();
 }
 
+function rejectOrUnavailable(error: { status?: number; name?: string }): never {
+  if (
+    error.name === "AuthRetryableFetchError" ||
+    error.status === 429 ||
+    (error.status !== undefined && error.status >= 500)
+  )
+    throw new IdentityUnavailableError();
+  rejected();
+}
+
 export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider {
   constructor(
     private readonly client: SupabaseClient,
@@ -42,7 +52,8 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
         this.client.auth.getUser(accessToken),
       ]);
 
-      if (claimsResult.error || userResult.error) rejected();
+      if (claimsResult.error) rejectOrUnavailable(claimsResult.error);
+      if (userResult.error) rejectOrUnavailable(userResult.error);
 
       const claims = claimsResult.data?.claims;
       const user = userResult.data.user;
@@ -190,7 +201,7 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
       const { data, error } = await this.client.auth.refreshSession({
         refresh_token: refreshToken,
       });
-      if (error) rejected();
+      if (error) rejectOrUnavailable(error);
       return mapSession(data.session);
     } catch (error) {
       if (error instanceof IdentityRejectedError) throw error;

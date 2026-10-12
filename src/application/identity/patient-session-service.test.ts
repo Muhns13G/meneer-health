@@ -4,6 +4,7 @@ import type { IdentityGovernanceRepository } from "@/application/identity/identi
 import type { IdentitySessionRepository } from "@/application/identity/identity-session-repository";
 import {
   IdentityRejectedError,
+  IdentityUnavailableError,
   type ManagedIdentityProvider,
 } from "@/application/identity/managed-identity-provider";
 import type { AccessRepository } from "@/application/persistence/access-repository";
@@ -188,6 +189,26 @@ describe("patient session lifecycle", () => {
     vi.mocked(sessions.findActive).mockResolvedValue(null);
     await expect(service.renew(proof)).rejects.toEqual(new IdentityRejectedError());
     expect(provider.refreshSession).not.toHaveBeenCalled();
+  });
+
+  it.each(["refreshSession", "verifyAccessToken"] as const)(
+    "preserves the bounded session during a %s outage",
+    async (stage) => {
+      const { service, provider, sessions } = harness();
+      vi.mocked(provider[stage]).mockRejectedValueOnce(new IdentityUnavailableError());
+      await expect(service.renew(proof)).rejects.toBeInstanceOf(IdentityUnavailableError);
+      expect(sessions.revoke).not.toHaveBeenCalled();
+      expect(sessions.touch).not.toHaveBeenCalled();
+      await expect(service.renew(proof)).resolves.toMatchObject({ session, providerSession });
+    },
+  );
+
+  it("revokes a session when the provider definitively rejects renewal", async () => {
+    const { service, provider, sessions } = harness();
+    vi.mocked(provider.refreshSession).mockRejectedValueOnce(new IdentityRejectedError());
+    await expect(service.renew(proof)).rejects.toBeInstanceOf(IdentityRejectedError);
+    expect(sessions.revoke).toHaveBeenCalledOnce();
+    expect(sessions.touch).not.toHaveBeenCalled();
   });
 
   it("renews by provider refresh and a fresh tenant/membership/evidence check", async () => {

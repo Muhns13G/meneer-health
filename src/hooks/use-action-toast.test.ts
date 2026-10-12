@@ -63,3 +63,24 @@ it("restores a disabled action's focus without overriding a new focus target", (
   act(() => frame?.(0));
   expect(input).toHaveFocus();
 });
+
+it("waits for the pending action to be re-enabled before restoring focus", () => {
+  let frame: FrameRequestCallback | undefined;
+  vi.spyOn(window, "requestAnimationFrame").mockImplementation((callback) => {
+    frame = callback;
+    return 1;
+  });
+  render(createElement("button", null, "Save synthetic draft"));
+  const button = screen.getByRole("button") as HTMLButtonElement;
+  const { result } = renderHook(useActionToast);
+  button.focus();
+  act(() => result.current.begin());
+  button.blur();
+  button.disabled = true;
+  act(() => result.current.notify("draftSaved"));
+  act(() => frame?.(0));
+  expect(button).not.toHaveFocus();
+  button.disabled = false;
+  act(() => frame?.(16));
+  expect(button).toHaveFocus();
+});

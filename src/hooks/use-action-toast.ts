@@ -45,13 +45,21 @@ export function useActionToast() {
         id.current = toast.success(messages[action]);
         // A native disabled button loses focus while a request is pending. Restore it only
         // when focus fell to the body, never when the user moved to another control.
-        frame.current = requestAnimationFrame(() => {
+        let attempts = 0;
+        const restoreFocus = () => {
+          frame.current = null;
           if (active.current && !document.hidden && document.activeElement === document.body) {
             const element = trigger.current;
-            if (element?.isConnected && !element.matches(":disabled")) element.focus();
+            if (element?.isConnected) {
+              // Notification may precede React's commit that re-enables the action.
+              // Wait a bounded number of paints, stopping if the user moves focus.
+              if (element.matches(":disabled")) {
+                if (attempts++ < 20) frame.current = requestAnimationFrame(restoreFocus);
+              } else element.focus();
+            }
           }
-          frame.current = null;
-        });
+        };
+        frame.current = requestAnimationFrame(restoreFocus);
       }
     },
     [dismiss],
