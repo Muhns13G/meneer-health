@@ -1350,4 +1350,15 @@ preservation/ACL/source readback. All four existing profiles pass actual adapter
 This does not prove authenticated sessions or the new public flow. Matching owner deployment,
 exact publication/receipt manifest and approval expiry, controlled mailbox acceptance and public
 runtime/policy enablement remain outstanding; registry/policy are empty and signup remains off.
+The approved notice publication and eight legacy approvals are now committed and independently
+verified; original receipt/profile facts were preserved. Legacy approval review is due before
+3 January 2027, 22:28 SAST, with expiry 10 January, 22:28. No automatic renewal/re-acknowledgement
+or reminder is implemented. Owner promotion of the same-source candidate is now verified, but
+controlled actual OTP/profile/questionnaire acceptance remains blocked: the Worker returned 412
+while direct native/provider readiness passed. Its downstream mismatch needs diagnosis, not a
+bypass. Auth signup and the explicit real-tenant public policy are disabled again; no test account
+or message was created. The active candidate alone does not mean public signup is enabled.
+The silent catch that disguised all Auth-settings failures as 412 is corrected locally, with
+strict fixed-code diagnostics and 503 for dependency/shape failure. Deployment and classification
+of the actual hosted cause remain pending; do not treat this as successful signup acceptance.
 See [release checklist](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md).

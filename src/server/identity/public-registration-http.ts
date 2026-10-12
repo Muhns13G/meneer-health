@@ -4,7 +4,11 @@ import { z } from "zod";
 import { PublicRegistrationService } from "@/application/identity/public-registration-service";
 import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
 import { SupabasePublicRegistrationRepository } from "@/adapters/identity/supabase/supabase-public-registration-repository";
-import { createSupabaseManagedIdentityProvider } from "@/adapters/identity/supabase/supabase-managed-identity-provider";
+import {
+  createSupabaseManagedIdentityProvider,
+  PublicRegistrationSettingsError,
+} from "@/adapters/identity/supabase/supabase-managed-identity-provider";
+import { classifyTelemetryEnvironment, emitTelemetry } from "@/server/observability/telemetry";
 import { initialiseServerEnvironment } from "@/server/config/environment.server";
 import { inspectProtectedFormRequest } from "@/server/security/request-security";
 import { createPatientSessionService, type PatientSessionBindings } from "./patient-session-http";
@@ -40,6 +44,21 @@ export function createPublicRegistrationHttpHandler(
 ) {
   return async (request: Request): Promise<Response> => {
     const url = new URL(request.url);
+    const reportReadinessFailure = (reasonCode: string, unavailable: boolean) => {
+      emitTelemetry({
+        contract: "telemetry.event",
+        version: 1,
+        occurredAt: new Date().toISOString(),
+        environment: classifyTelemetryEnvironment(url.hostname),
+        event: "request.denied",
+        severity: unavailable ? "error" : "warning",
+        outcome: unavailable ? "failed" : "denied",
+        correlationId: crypto.randomUUID(),
+        routeClass: request.method === "POST" ? "protected-command" : "public-read",
+        reasonCode,
+        statusClass: unavailable ? "5xx" : "4xx",
+      });
+    };
     if (
       !["meneerhealth.co.za", "localhost", "127.0.0.1"].includes(url.hostname) ||
       url.search ||
@@ -85,7 +104,9 @@ export function createPublicRegistrationHttpHandler(
           ).success
         )
           return empty(429);
-        return empty((await service.available()) ? 204 : 412);
+        const readiness = await service.readiness();
+        if (readiness !== "AVAILABLE") reportReadinessFailure(readiness, false);
+        return empty(readiness === "AVAILABLE" ? 204 : 412);
       }
       if (request.method !== "POST") return empty(405);
       const inspected = await inspectProtectedFormRequest(request, {
@@ -148,6 +169,9 @@ export function createPublicRegistrationHttpHandler(
         return empty(503);
       }
     } catch (error) {
+      if (error instanceof PublicRegistrationSettingsError) {
+        reportReadinessFailure(error.reasonCode, true);
+      }
       return empty(error instanceof IdentityRejectedError ? 422 : 503);
     }
   };

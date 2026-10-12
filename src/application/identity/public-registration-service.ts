@@ -33,10 +33,14 @@ export class PublicRegistrationService {
     private readonly now = () => new Date(),
   ) {}
   async available() {
-    return (
-      (await this.repository.available(this.tenantId)) &&
-      (await this.provider.publicRegistrationAvailable?.()) === true
-    );
+    return (await this.readiness()) === "AVAILABLE";
+  }
+  async readiness() {
+    if (!(await this.repository.available(this.tenantId)))
+      return "PUBLIC_SIGNUP_NATIVE_POLICY_CLOSED" as const;
+    if ((await this.provider.publicRegistrationAvailable?.()) !== true)
+      return "PUBLIC_SIGNUP_AUTH_POLICY_CLOSED" as const;
+    return "AVAILABLE" as const;
   }
   async discard(providerSession: ManagedSession, active?: PatientSession) {
     try {
