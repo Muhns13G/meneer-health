@@ -2451,5 +2451,18 @@ RLS/ACLs and both guards verified. Existing records and function security were p
 real updated adapter confirms valid evidence for all four existing profiles. Its registry/policy
 are empty; Auth signup remains disabled. The owner may now commit/deploy the matching source;
 notice publication, manifested approvals and owned-mailbox acceptance are still pending.
+Subsequent owner-authorised publication is now complete: both account/privacy documents are `1.1`,
+with eight exact 90-day legacy approvals preserving all four existing profiles and their actual
+`1.0` receipts. Review before 3 January 2027, 22:28 SAST; expiry is 10 January, 22:28. The exact
+same-source candidate `8e21a1e3-7a5b-4e2d-95d6-6a23eae12e1c` is now owner-promoted and independently
+verified active at 100%. Controlled no-send windows found canonical Worker availability HTTP 412
+despite direct native/provider readiness being true. The exact cause remains unconfirmed; public
+journey acceptance has not passed. Auth signup was restored disabled and the real-tenant policy
+is explicitly false, not empty. No test user, email, SMS or charge was created. Do not substitute
+a rehearsal tenant, weaken a gate or roll back source/notices to perform acceptance.
+The masked settings-error defect is now corrected locally: valid closed policies retain 412,
+dependency/shape failures return 503 with fixed privacy-safe telemetry classifications. This
+diagnostic change still needs owner deployment; it does not establish or fix the original
+hosted-only root cause, publish a new document or enable any production gate.
 See [public onboarding release](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md)
 for hosted Auth, migration, abuse/retention, owned-mailbox and modal-accessibility acceptance.

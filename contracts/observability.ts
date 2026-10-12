@@ -35,6 +35,13 @@ export const telemetryDurationBucketSchema = z.enum([
 export const telemetryReasonCodeSchema = z.union([
   requestSecurityReasonSchema,
   z.literal("INTERNAL_FAILURE"),
+  z.enum([
+    "PUBLIC_SIGNUP_NATIVE_POLICY_CLOSED",
+    "PUBLIC_SIGNUP_AUTH_POLICY_CLOSED",
+    "PUBLIC_SIGNUP_AUTH_HTTP_REJECTED",
+    "PUBLIC_SIGNUP_AUTH_SETTINGS_INVALID",
+    "PUBLIC_SIGNUP_AUTH_TRANSPORT_UNAVAILABLE",
+  ]),
 ]);
 
 export const telemetryEventSchema = z

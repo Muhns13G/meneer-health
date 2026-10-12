@@ -1,8 +1,8 @@
 # Public registration — narrow notice update for approval
 
 Prepared 12 October 2026. Proposed account/privacy version: `1.1`, locale `en-ZA`.
-Status: owner-approved wording and transition implementation; not published and not a
-legal-compliance certification. Approval was given in this task on 12 October 2026.
+Status: owner-approved wording published as `1.1` with exact legacy-receipt protection;
+not a legal-compliance certification. Approval/release was given in this task on 12 October 2026.
 
 The currently published `1.0` documents describe organiser-supplied invitations. Public registration
 must describe information supplied directly by the participant. Retain all other operator,
@@ -96,5 +96,10 @@ verify every affected existing client has complete, genuine evidence before publ
 The owner subsequently approved the hosted migration, which is now applied/history-source aligned
 and independently verified. All four existing profiles retain valid evidence through the real
 updated adapter/RPC. Registry and public policy remain empty, and Auth signup remains disabled.
-No notice publication, compatibility row or public switch has been released. Owner deployment
-of the matching adapter and the exact publication/receipt manifest still precede enablement.
+The owner deployed the matching adapter, authorised publication and approved 90-day compatibility.
+After rollback rehearsal, the two `1.1` publications and eight exact existing-receipt approvals
+committed, preserving all four existing profiles and their actual `1.0` receipts. See the release
+packet for exact IDs/hashes. Approvals expire 10 January 2027 at 22:28 SAST; review before
+3 January at 22:28 and complete a supported genuine re-acknowledgement/replacement before expiry.
+No automatic renewal or reminder is claimed. Public runtime/provider policy is not yet enabled;
+the same-source candidate requires owner promotion and a controlled owned-mailbox journey.

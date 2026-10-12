@@ -37,6 +37,24 @@ prerequisite is satisfied: commit/deploy the matching source next, verify it act
 separately approved publication/receipt-manifest and controlled signup acceptance. Auth remains off;
 this checkpoint promotes no Worker version and sends no messages.
 
+The owner subsequently authorised the coordinated release and 90-day compatibility. The guarded
+`operations/pilot-launch/release-public-registration.mjs` rollback rehearsal passed; publication
+then committed `1.1` account/privacy documents and eight exact approvals, retaining all four
+clients' genuine `1.0` receipts. Exact IDs/hashes are in the release packet. Review before
+3 January 2027, 22:28 SAST; approvals expire 10 January, 22:28. Do not fabricate acceptance or
+assume automatic renewal/reminders. Candidate `8e21a1e3-7a5b-4e2d-95d6-6a23eae12e1c` preserves
+the verified active source and unrelated bindings, changing only the two public signup settings.
+Owner promotion is now verified at 100%. The controlled availability check failed with HTTP 412
+despite direct native/provider readiness passing; exact cause is unconfirmed. Auth signup and
+the explicit real-tenant public policy were restored disabled before sending any test email.
+Resolve that downstream readiness mismatch before owned-mailbox OTP/profile/questionnaire
+acceptance. Do not change other modes, substitute a rehearsal tenant or blindly roll back source.
+The local diagnostic correction now distinguishes closed policies (412) from invalid/unavailable
+Auth settings (503), recording only strict fixed reason codes. Owner source deployment is pending;
+do not re-promote the older `8e21...` candidate after deploying it. Verify new source/bindings and
+reconcile the guarded release receipt before the bounded no-send probe and actual signup acceptance.
+No new migration or key replacement is required by the diagnostic correction.
+
 ## Email invitation fallback — 11 October
 
 The [fallback packet](../02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md)

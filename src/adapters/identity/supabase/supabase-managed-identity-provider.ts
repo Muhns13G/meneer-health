@@ -14,6 +14,17 @@ import type { ManagedSession, ProviderIdentity } from "@/domain/access/identity"
 
 type SessionClientFactory = (session: ManagedSession) => Promise<SupabaseClient>;
 
+export class PublicRegistrationSettingsError extends IdentityUnavailableError {
+  constructor(
+    readonly reasonCode:
+      | "PUBLIC_SIGNUP_AUTH_HTTP_REJECTED"
+      | "PUBLIC_SIGNUP_AUTH_SETTINGS_INVALID"
+      | "PUBLIC_SIGNUP_AUTH_TRANSPORT_UNAVAILABLE",
+  ) {
+    super();
+  }
+}
+
 function mapSession(session: Session | null): ManagedSession {
   if (!session?.access_token || !session.refresh_token || !session.expires_at) {
     throw new IdentityRejectedError();
@@ -50,15 +61,24 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
   async publicRegistrationAvailable(): Promise<boolean> {
     if (!this.readPublicSettings) return false;
     try {
-      return z
+      const settings = z
         .object({
-          disable_signup: z.literal(false),
-          mailer_autoconfirm: z.literal(false),
-          external: z.object({ email: z.literal(true), anonymous_users: z.literal(false) }),
+          disable_signup: z.boolean(),
+          mailer_autoconfirm: z.boolean(),
+          external: z.object({ email: z.boolean(), anonymous_users: z.boolean() }),
         })
-        .safeParse(await this.readPublicSettings()).success;
-    } catch {
-      return false;
+        .safeParse(await this.readPublicSettings());
+      if (!settings.success)
+        throw new PublicRegistrationSettingsError("PUBLIC_SIGNUP_AUTH_SETTINGS_INVALID");
+      return (
+        !settings.data.disable_signup &&
+        !settings.data.mailer_autoconfirm &&
+        settings.data.external.email &&
+        !settings.data.external.anonymous_users
+      );
+    } catch (error) {
+      if (error instanceof PublicRegistrationSettingsError) throw error;
+      throw new PublicRegistrationSettingsError("PUBLIC_SIGNUP_AUTH_TRANSPORT_UNAVAILABLE");
     }
   }
 
@@ -359,8 +379,13 @@ export function createSupabaseManagedIdentityProvider(
         redirect: "error",
         signal: AbortSignal.timeout(5000),
       });
-      if (!response.ok) throw new IdentityUnavailableError();
-      return response.json();
+      if (!response.ok)
+        throw new PublicRegistrationSettingsError("PUBLIC_SIGNUP_AUTH_HTTP_REJECTED");
+      try {
+        return await response.json();
+      } catch {
+        throw new PublicRegistrationSettingsError("PUBLIC_SIGNUP_AUTH_SETTINGS_INVALID");
+      }
     },
   );
 }

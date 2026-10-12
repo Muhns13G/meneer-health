@@ -112,6 +112,93 @@ before any notice supersession or public enablement. The publication/legacy-rece
 explicit approval expiry, owned-mailbox journey and matching public-policy/Worker settings remain
 separate pending release steps.
 
+### Authorised notice release and runtime candidate — 12 October
+
+The owner authorised publication, existing-receipt preservation, controlled no-payment/no-SMS
+mailbox acceptance and eventual public signup, and separately approved 90-day legacy approvals.
+The active Worker was verified as `e9bd9a8a-adac-4791-b010-833caf935c73`; its version ETag and
+downloaded content ETag both match
+`0caa5c781c97efac0cf947bd637e71bc1212324023855fa2cbed41e00ddb8e12`, and its source contains
+the new native receipt RPC and signup route. No downloaded code or credential was printed/saved.
+
+The guarded runner `operations/pilot-launch/release-public-registration.mjs` has a no-network
+default. Its expressly approved rehearsal ran the actual publication/transition transaction and
+rolled back. The subsequent committed transaction superseded the two `1.0` publications,
+published only the approved three source-wording changes as `1.1`, and recorded eight exact
+legacy approvals. It asserted unchanged profiles/receipts and valid evidence for all four existing
+clients before commit. Independent real-adapter readback confirms the four accounts remain valid
+and their eight original receipts still say `1.0`; no new-version acceptance was fabricated.
+
+- Terms publication: `c05b1d60-e5cc-4aab-ac03-e3ff66afcb14`, SHA-256
+  `7b9a7a9d062759e3d7bb166861f8439cacad022539ad3506d225ff4d36cd3e01`.
+- Privacy publication: `a64a3e96-9d8e-4948-a857-712c79354065`, SHA-256
+  `144f0a1fbb42ad036522d18e11cc1f9d022df625be91a32772cc391b2627b6c0`.
+- Approval: `owner-public-source-2026-10-12:4f440075-8b65-429d-94d6-8ae8c7fa551a`.
+- Legacy approvals expire **10 January 2027, 22:28 SAST** (exact UTC
+  `2027-01-10T20:28:43.930Z`). Review before **3 January 2027, 22:28 SAST**. A supported genuine
+  re-acknowledgement/replacement process is required before expiry; no automatic renewal or
+  reminder is claimed.
+
+Candidate `8e21a1e3-7a5b-4e2d-95d6-6a23eae12e1c` clones that exact deployed source and changes
+only `PUBLIC_REGISTRATION_MODE=enabled` and the real-pilot tenant binding. Those two bindings
+are now `secret_text`; unrelated binding names/types and every readable non-secret binding value
+were independently compared unchanged. Existing identity/medical secrets were not supplied,
+reused, rotated or replaced. No application build/upload or Worker promotion was performed.
+At candidate preparation the active Worker remained the baseline, Auth disabled signup and the
+native public policy was empty. Payment/product/clinical/generator/mobile modes were not changed.
+
+### Owner promotion verified; acceptance blocked and signup closed
+
+The owner promoted `8e21a1e3-7a5b-4e2d-95d6-6a23eae12e1c` to 100%; independent deployment
+readback confirms it active. The guarded runner opened the approved real-tenant policy and changed
+only Auth `disable_signup` to false, preserving every other Auth configuration field. Production
+still returned HTTP 412 and showed signup unavailable, so the window was closed before sending mail.
+
+A separate no-send diagnostic window established direct provider readiness (`/auth/v1/settings`)
+and native `public_registration_available` RPC readiness as true, while the canonical Worker
+availability GET still returned 412. A closed-policy HEAD probe returned 405, demonstrating the
+Worker passed its mode/tenant and handler-initialisation checks; the exact downstream cause is
+not established. This is **not** evidence of OTP failure or a completed public journey. No gate,
+receipt, session or identity verification requirement was bypassed.
+
+Auth signup is disabled again and the real-tenant public policy is explicitly false (no longer
+an empty table). The candidate remains active; no source/tenant rollback or unrelated mode change
+was performed. No test identity, email, SMS, Checkout or charge was created. Original identities
+are checked against the ignored pre-window manifest. Next: resolve the Worker readiness mismatch,
+then repeat controlled owned-mailbox acceptance on this same tenant before leaving signup enabled.
+Preserve concurrent genuine registrations and clean up only the manifested disposable test account.
+Do not claim the one-OTP/profile/questionnaire journey until it actually passes.
+
+### Readiness failure classification — local correction, deployment pending
+
+Inspection of the actual deployed source confirmed that `publicRegistrationAvailable` catches
+every settings transport/HTTP/JSON error and returns false. Consequently HTTP 412 alone cannot
+distinguish a closed provider policy from an unavailable dependency. This is a confirmed diagnostic
+defect, **not a confirmed explanation of the original production mismatch**.
+
+The local correction retains every admission predicate but separates valid closed Auth settings
+from malformed/unavailable settings. Closed native/Auth policies retain 412; HTTP rejection,
+transport failure and malformed settings produce 503. The availability handler emits only fixed
+`PUBLIC_SIGNUP_*` reason codes through the strict existing telemetry schema. It logs no API key,
+provider body, email, medical answer, cookie or session token. The source/headers and policy are
+not bypassed or replaced. Read-only User-Agent probes showed browser-agent rejection (401) and
+absent/explicit-server-agent success (200) from the local origin; this does not establish the
+Worker's outbound agent, so no speculative header/key change was made.
+
+Next owner action is to commit/deploy this source correction, not re-promote the older candidate
+that lacks it. Verify the new active source and current bindings, then collect the fixed readiness
+reason during the bounded no-send diagnostic window. Correct only the evidenced cause and repeat
+owned-mailbox acceptance. Keep signup closed until then. No new schema migration is needed for
+this correction; the old runner's exact-version/ETag guards must be reconciled to the newly verified
+release before another enablement. Do not remove those guards just to rerun it.
+
+Local validation: seven focused identity/activation/session/telemetry suites pass **108 tests**;
+strict TypeScript, scoped ESLint, portability, Node **22.23.2** production build, client-bundle
+and retired-MCP checks pass. Generated route/Worker types are unchanged and `git diff --check`
+passes. These are local diagnostic-correction results, not hosted journey acceptance. Changes
+remain unstaged for the owner's commit; no deployment, message or production switch was made
+while preparing this correction.
+
 ## Hosted release checklist — not completed by a code push alone
 
 1. Review and approve the migration, apply it to the correct hosted project, and verify migration

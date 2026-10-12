@@ -1,12 +1,16 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   IdentityRejectedError,
   IdentityUnavailableError,
 } from "@/application/identity/managed-identity-provider";
 import type { ManagedSession } from "@/domain/access/identity";
-import { SupabaseManagedIdentityProvider } from "./supabase-managed-identity-provider";
+import {
+  createSupabaseManagedIdentityProvider,
+  PublicRegistrationSettingsError,
+  SupabaseManagedIdentityProvider,
+} from "./supabase-managed-identity-provider";
 
 const syntheticSession: ManagedSession = {
   accessToken: "synthetic-access-token",
@@ -123,6 +127,7 @@ function sessionClient(): SupabaseClient {
 }
 
 describe("SupabaseManagedIdentityProvider", () => {
+  afterEach(() => vi.unstubAllGlobals());
   it.each([
     {
       disable_signup: true,
@@ -144,7 +149,6 @@ describe("SupabaseManagedIdentityProvider", () => {
       mailer_autoconfirm: false,
       external: { email: true, anonymous_users: true },
     },
-    {},
   ])("does not offer public signup with unready Auth settings (%j)", async (settings) => {
     const provider = new SupabaseManagedIdentityProvider(
       rootClient(),
@@ -152,6 +156,96 @@ describe("SupabaseManagedIdentityProvider", () => {
       async () => settings,
     );
     expect(await provider.publicRegistrationAvailable()).toBe(false);
+  });
+  it.each([{}, null, { disable_signup: "false" }])(
+    "distinguishes malformed settings from a closed policy (%j)",
+    async (settings) => {
+      const provider = new SupabaseManagedIdentityProvider(
+        rootClient(),
+        async () => sessionClient(),
+        async () => settings,
+      );
+      await expect(provider.publicRegistrationAvailable()).rejects.toMatchObject({
+        reasonCode: "PUBLIC_SIGNUP_AUTH_SETTINGS_INVALID",
+      });
+    },
+  );
+  it("does not disguise a transport exception as a closed signup policy", async () => {
+    const provider = new SupabaseManagedIdentityProvider(
+      rootClient(),
+      async () => sessionClient(),
+      async () => {
+        throw new Error("synthetic transport detail must not escape");
+      },
+    );
+    await expect(provider.publicRegistrationAvailable()).rejects.toMatchObject({
+      reasonCode: "PUBLIC_SIGNUP_AUTH_TRANSPORT_UNAVAILABLE",
+    });
+    await expect(provider.publicRegistrationAvailable()).rejects.toBeInstanceOf(
+      IdentityUnavailableError,
+    );
+  });
+  it("classifies an HTTP rejection without returning the provider response body", async () => {
+    const fetcher = vi.fn(async () => new Response("synthetic private response", { status: 401 }));
+    vi.stubGlobal("fetch", fetcher);
+    const provider = createSupabaseManagedIdentityProvider({
+      url: "https://project.example.invalid",
+      secretKey: "synthetic-server-key",
+    });
+    await expect(provider.publicRegistrationAvailable!()).rejects.toMatchObject({
+      reasonCode: "PUBLIC_SIGNUP_AUTH_HTTP_REJECTED",
+    });
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    expect(fetcher.mock.calls[0]).toEqual([
+      "https://project.example.invalid/auth/v1/settings",
+      expect.objectContaining({
+        cache: "no-store",
+        redirect: "error",
+        headers: { apikey: "synthetic-server-key" },
+      }),
+    ]);
+  });
+  it("preserves only the allowlisted HTTP classification", async () => {
+    const provider = new SupabaseManagedIdentityProvider(
+      rootClient(),
+      async () => sessionClient(),
+      async () => {
+        throw new PublicRegistrationSettingsError("PUBLIC_SIGNUP_AUTH_HTTP_REJECTED");
+      },
+    );
+    await expect(provider.publicRegistrationAvailable()).rejects.toMatchObject({
+      reasonCode: "PUBLIC_SIGNUP_AUTH_HTTP_REJECTED",
+    });
+  });
+  it("classifies a non-JSON settings response as invalid rather than transport unavailable", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => new Response("not-json", { status: 200 })),
+    );
+    const provider = createSupabaseManagedIdentityProvider({
+      url: "https://project.example.invalid",
+      secretKey: "synthetic-server-key",
+    });
+    await expect(provider.publicRegistrationAvailable!()).rejects.toMatchObject({
+      reasonCode: "PUBLIC_SIGNUP_AUTH_SETTINGS_INVALID",
+    });
+  });
+  it("offers signup through the actual factory only for ready provider settings", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        Response.json({
+          disable_signup: false,
+          mailer_autoconfirm: false,
+          external: { email: true, anonymous_users: false },
+        }),
+      ),
+    );
+    const provider = createSupabaseManagedIdentityProvider({
+      url: "https://project.example.invalid",
+      secretKey: "synthetic-server-key",
+    });
+    expect(await provider.publicRegistrationAvailable!()).toBe(true);
   });
   it("offers public signup only with email verification and anonymous signup disabled", async () => {
     const provider = new SupabaseManagedIdentityProvider(

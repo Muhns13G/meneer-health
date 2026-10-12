@@ -5,6 +5,8 @@ import type { PatientSession } from "@/application/identity/patient-session-serv
 import { createPublicRegistrationHttpHandler } from "./public-registration-http";
 import { openPreactivationProof, preactivationCookieName } from "./preactivation-cookie";
 import { inspectPublicRequest } from "@/server/security/request-security";
+import { PublicRegistrationSettingsError } from "@/adapters/identity/supabase/supabase-managed-identity-provider";
+import { telemetryEventSchema } from "../../../contracts";
 const tenant = "10000000-0000-4000-8000-000000000001",
   subject = "f8000000-0000-4000-8000-000000000001",
   sid = "f8000000-0000-4000-8000-000000000002",
@@ -95,6 +97,62 @@ const request = (body: string, origin = "https://meneerhealth.co.za") =>
     body,
   });
 describe("public registration boundary", () => {
+  it.each([
+    "PUBLIC_SIGNUP_AUTH_HTTP_REJECTED",
+    "PUBLIC_SIGNUP_AUTH_SETTINGS_INVALID",
+    "PUBLIC_SIGNUP_AUTH_TRANSPORT_UNAVAILABLE",
+  ] as const)("reports only safe telemetry for %s and sends nothing", async (reason) => {
+    const s = setup();
+    s.provider.publicRegistrationAvailable.mockRejectedValue(
+      new PublicRegistrationSettingsError(reason),
+    );
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    try {
+      const result = await s.handler(
+        new Request("https://meneerhealth.co.za/account/sign-up/availability"),
+      );
+      expect(result.status).toBe(503);
+      expect(await result.text()).toBe("");
+      expect(result.headers.get("set-cookie")).toBeNull();
+      expect(result.headers.get("cache-control")).toContain("no-store");
+      expect(log).toHaveBeenCalledTimes(1);
+      const event = log.mock.calls[0][0];
+      expect(telemetryEventSchema.safeParse(event).success).toBe(true);
+      expect(event).toMatchObject({ reasonCode: reason, statusClass: "5xx", outcome: "failed" });
+      expect(JSON.stringify(event)).not.toMatch(
+        /signup@example|synthetic-access|synthetic-refresh/,
+      );
+      expect(s.provider.requestPublicRegistration).not.toHaveBeenCalled();
+      expect(s.provider.verifyEmailOtp).not.toHaveBeenCalled();
+    } finally {
+      log.mockRestore();
+    }
+  });
+  it.each(["native", "auth"] as const)(
+    "classifies the %s closed policy while retaining 412",
+    async (gate) => {
+      const s = setup();
+      if (gate === "native") s.repository.available.mockResolvedValue(false);
+      else s.provider.publicRegistrationAvailable.mockResolvedValue(false);
+      const log = vi.spyOn(console, "log").mockImplementation(() => {});
+      try {
+        expect(
+          (await s.handler(new Request("https://meneerhealth.co.za/account/sign-up/availability")))
+            .status,
+        ).toBe(412);
+        expect(log.mock.calls[0][0]).toMatchObject({
+          reasonCode:
+            gate === "native"
+              ? "PUBLIC_SIGNUP_NATIVE_POLICY_CLOSED"
+              : "PUBLIC_SIGNUP_AUTH_POLICY_CLOSED",
+          statusClass: "4xx",
+        });
+        expect(s.provider.requestPublicRegistration).not.toHaveBeenCalled();
+      } finally {
+        log.mockRestore();
+      }
+    },
+  );
   it("passes the shared POST gateway and limits readiness reads before provider calls", async () => {
     const s = setup();
     const post = request("action=request&email=signup%40example.invalid");
