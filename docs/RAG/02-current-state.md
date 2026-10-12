@@ -2424,11 +2424,32 @@ Evidence: [`sprint-05-20-hosted-identity-request-security-evidence.md`](../02-im
 
 Evidence: [`sprint-05-21-final-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-21-final-closure-evidence.md).
 
-## 12 October 2026 — local public-registration change
+## 12 October 2026 — public-registration migration accepted; activation pending
 
-Public referral signup is implemented locally at `/start`, with a distinct default-off server/native
+Public referral signup is implemented at `/start`, with a distinct default-off server/native
 policy, provider-readiness checks and one-code activation handoff. Account documents now open in
 compact native dialogs; exact-version receipts and separate medical consent are unchanged. This is
-not a hosted/public activation claim. Existing pending invitations remain on their original path.
+not a public activation claim. The owner deployed source; canonical `/start` wording is serving.
+The expressly approved `20261012130000` migration is hosted/history-aligned with exact source and
+restricted ACLs verified. Existing records/function security were preserved. Its policy/budget are
+empty; availability returns 412, and Supabase public signup remains disabled. Existing pending
+invitations remain on their original path. No new user, email or release switch was created/enabled.
+Subsequent readiness work corrected the link-only new-user confirmation template to reuse the
+existing OTP template and added the exact canonical `/start` redirect. Signup remains off.
+The public-information-source notice update is drafted, not published: the current verifier would
+reject existing `1.0` receipt holders after immediate supersession, so a bounded transition needs
+implementation/acceptance first. The owner provided an unused controlled test mailbox; nothing
+has yet been sent or seeded for this exercise.
+The owner approved the narrow notice wording and implementing the receipt transition. Its empty
+private registry and shared session/portal/staff evidence boundary are now implemented locally;
+they retain actual legacy versions only for exact custodian-approved existing invitation receipts.
+New public accounts still need current-document actions. The new migration must precede deployment
+of the matching adapter. Publication, manifested compatibility approvals and hosted acceptance
+remain pending; public signup is not enabled.
+The expressly approved `20261012210000` transition migration is now hosted with exact history/source,
+RLS/ACLs and both guards verified. Existing records and function security were preserved, and the
+real updated adapter confirms valid evidence for all four existing profiles. Its registry/policy
+are empty; Auth signup remains disabled. The owner may now commit/deploy the matching source;
+notice publication, manifested approvals and owned-mailbox acceptance are still pending.
 See [public onboarding release](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md)
 for hosted Auth, migration, abuse/retention, owned-mailbox and modal-accessibility acceptance.

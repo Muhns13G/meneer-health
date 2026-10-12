@@ -2,13 +2,40 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-10-11
+last_updated: 2026-10-12
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
 ---
 
 # Cloudflare v1 Environments and Release Runbook
+
+## Default-off public registration — 12 October
+
+The owner deployed the [public onboarding source](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md).
+Canonical `/start` now serves the new signup wording; availability returns HTTP 412/no-store.
+The explicitly approved `20261012130000` migration is applied and history/source/ACL verified;
+existing records and function security were preserved. The private policy and budget remain empty.
+Supabase signup is still disabled; mandatory email confirmation, six-digit/900-second codes and
+SMTP remain configured. No Worker/Auth switch was changed and no message was sent by this checkpoint.
+Follow the packet's remaining abuse/retention, controlled acceptance and exact-tenant release steps.
+Do not activate signup from a code push alone or substitute a rehearsal tenant on the canonical
+Worker while existing real invitations are outstanding.
+
+The subsequent owner-approved legacy receipt transition introduces the new
+`20261012210000_account_notice_receipt_transition.sql` migration. It seeds no policy, approval or
+publication. **Database first:** the matching access adapter requires the new service-only evidence
+RPC. Apply/verify that migration before owner deployment, and verify matching source is active
+before publishing new documents with an exact approved existing-receipt compatibility manifest.
+Do not rewrite receipts or infer new-version acceptance. The confirmation email template now
+reuses the existing OTP content and permits the exact `/start` redirect; signup remains disabled.
+
+The owner-approved transition migration is now hosted/history-source aligned and ACL/guard
+verified. Existing data and function security were preserved. All four existing profiles retain
+valid evidence through the real updated adapter; no registry/policy row was created. The database
+prerequisite is satisfied: commit/deploy the matching source next, verify it active, then perform
+separately approved publication/receipt-manifest and controlled signup acceptance. Auth remains off;
+this checkpoint promotes no Worker version and sends no messages.
 
 ## Email invitation fallback — 11 October
 
