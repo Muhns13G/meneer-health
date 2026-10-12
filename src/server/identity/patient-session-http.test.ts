@@ -8,6 +8,10 @@ import {
   sealPatientSession,
 } from "./patient-session-cookie";
 import { createPatientSessionHttpHandler } from "./patient-session-http";
+import {
+  IdentityRejectedError,
+  IdentityUnavailableError,
+} from "@/application/identity/managed-identity-provider";
 
 const origin = "https://meneerhealth.co.za";
 const key = new Uint8Array(32).fill(7);
@@ -129,6 +133,20 @@ describe("patient session HTTP boundary", () => {
     expect(denied.headers.get("Set-Cookie")).toContain("Max-Age=0");
   });
 
+  it("returns an unconfirmed renewal without clearing the cookie during an outage", async () => {
+    const { handler, service } = harness();
+    const token = await sealPatientSession(signedIn, key);
+    vi.mocked(service.renew).mockRejectedValueOnce(new IdentityUnavailableError());
+    const temporary = await handler(post("/account/session/renew", "action=renew", token));
+    expect(temporary.status).toBe(503);
+    expect(temporary.headers.has("Set-Cookie")).toBe(false);
+    expect((await handler(post("/account/session/renew", "action=renew", token))).status).toBe(204);
+    vi.mocked(service.renew).mockRejectedValueOnce(new IdentityRejectedError());
+    const rejected = await handler(post("/account/session/renew", "action=renew", token));
+    expect(rejected.status).toBe(401);
+    expect(rejected.headers.get("Set-Cookie")).toContain("Max-Age=0");
+  });
+
   it("signs out server-side and clears the browser cookie", async () => {
     const { handler, service } = harness();
     const token = await sealPatientSession(signedIn, key);
@@ -136,6 +154,14 @@ describe("patient session HTTP boundary", () => {
     expect(response.status).toBe(204);
     expect(response.headers.get("Set-Cookie")).toContain("Max-Age=0");
     expect(service.signOut).toHaveBeenCalledOnce();
+  });
+
+  it("still clears the browser cookie if a sign-out request fails", async () => {
+    const { handler, service } = harness();
+    const token = await sealPatientSession(signedIn, key);
+    vi.mocked(service.signOut).mockRejectedValueOnce(new IdentityUnavailableError());
+    const result = await handler(post("/account/sign-out", "action=sign-out", token));
+    expect(result.headers.get("Set-Cookie")).toContain("Max-Age=0");
   });
 
   it("rejects cross-origin requests and fails closed without the server key", async () => {

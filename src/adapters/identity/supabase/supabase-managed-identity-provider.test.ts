@@ -123,6 +123,46 @@ function sessionClient(): SupabaseClient {
 }
 
 describe("SupabaseManagedIdentityProvider", () => {
+  it.each([429, 500, 503])(
+    "classifies Auth HTTP %s as unavailable, not revoked",
+    async (status) => {
+      const client = rootClient();
+      const provider = new SupabaseManagedIdentityProvider(client, async () => sessionClient());
+      vi.mocked(client.auth.refreshSession).mockResolvedValue({
+        data: { session: null, user: null },
+        error: { status, name: "AuthApiError" },
+      } as never);
+      await expect(provider.refreshSession("synthetic-refresh-token")).rejects.toBeInstanceOf(
+        IdentityUnavailableError,
+      );
+      vi.mocked(client.auth.getUser).mockResolvedValue({
+        data: { user: null },
+        error: { status, name: "AuthApiError" },
+      } as never);
+      await expect(provider.verifyAccessToken("synthetic-access-token")).rejects.toBeInstanceOf(
+        IdentityUnavailableError,
+      );
+    },
+  );
+
+  it("keeps definitive refresh-token rejection separate from a network outage", async () => {
+    const client = rootClient();
+    const provider = new SupabaseManagedIdentityProvider(client, async () => sessionClient());
+    vi.mocked(client.auth.refreshSession).mockResolvedValueOnce({
+      data: { session: null, user: null },
+      error: { status: 400, name: "AuthApiError" },
+    } as never);
+    await expect(provider.refreshSession("synthetic-refresh-token")).rejects.toBeInstanceOf(
+      IdentityRejectedError,
+    );
+    vi.mocked(client.auth.refreshSession).mockResolvedValueOnce({
+      data: { session: null, user: null },
+      error: { status: 0, name: "AuthRetryableFetchError" },
+    } as never);
+    await expect(provider.refreshSession("synthetic-refresh-token")).rejects.toBeInstanceOf(
+      IdentityUnavailableError,
+    );
+  });
   it("resends an invitation only to the resolved existing unconfirmed staff identity", async () => {
     const client = rootClient();
     const provider = new SupabaseManagedIdentityProvider(client, async () => client);

@@ -39,6 +39,36 @@ build, client-bundle/MCP absence checks and `git diff --check` pass. One interme
 was interrupted during a concurrent generated-file build refresh; the stable serial rerun passed.
 These are local synthetic checks, not evidence that Mikhail's deployed account has been retested.
 
+### Temporary renewal failure correction — 12 October 2026
+
+The provider adapter distinguishes retryable network failures, HTTP 429 and provider 5xx responses
+from definitive identity rejection during token refresh/access verification. Patient renewal
+returns 503 without clearing the cookie or revoking the existing bounded session on unavailability;
+no renewal or save is assumed successful. A client may explicitly retry Save draft with its retained
+in-tab edits. Failed autosaves do not loop. Definitive rejection still revokes/clears access, and
+expired/revoked sessions remain denied. Failed cookie sealing still revokes undelivered renewal;
+sign-out still clears the browser cookie even if its server operation fails.
+
+Explicit Save draft also establishes its button as the focus target on touch activation before
+starting the request. This corrects a repeatable mobile focus-restoration regression; automatic
+saves do not focus the button or move the user away from their written response. The shared toast
+focus helper waits a bounded number of paints if React has not yet re-enabled the action, and stops
+when the user moves focus, hides the page or leaves the component.
+
+Written steroid-use and peptide responses are included in the controlled browser regression,
+with a temporary renewal failure, retained text and explicit retry. This is a correction to a
+confirmed error-handling weakness, not proof of the cause of Mikhail's 11 October production failure.
+Owner commit/deployment and production follow-up remain necessary. No migration, new binding or
+hosted record change is required.
+
+Validation: 355 identity/intake assertions and the 50-test focused renewal packet pass. The final
+intake/focus packet passes 15 assertions and the other shared-toast consumers pass 16 assertions.
+All ten desktop/mobile activation and questionnaire browser checks pass on the final source,
+including written answers, simulated renewal unavailability, retained text, explicit retry and
+manual-save focus. Earlier mobile focus assertions failed and drove the focus correction; those
+runs are not counted as passes. TypeScript, changed-file ESLint/Prettier, production build,
+client-bundle/MCP absence and diff checks pass. All source changes remain owner-release pending.
+
 5 October checkpoint: 36 hosted migration versions are applied. The owner authorised a bounded
 synthetic runtime rehearsal; real HTTP Auth/AAL2, intake commands, independent grants, restriction,
 retained export and revocation checks pass. Brevo records `delivered` at 15:41:05 SAST on 5 October.

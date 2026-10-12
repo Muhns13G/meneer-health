@@ -1064,9 +1064,12 @@ export function MedicalIntakePage() {
                           type="button"
                           disabled={busy}
                           className="rounded-full border border-border px-5 py-3 disabled:opacity-50"
-                          onClick={() =>
-                            void persist(view.record?.hasSubmitted ? "save_amendment" : "save")
-                          }
+                          onClick={(event) => {
+                            // Touch activation may blur a pre-focused button before this handler.
+                            // Give explicit saves a stable focus target; autosave never does this.
+                            event.currentTarget.focus();
+                            void persist(view.record?.hasSubmitted ? "save_amendment" : "save");
+                          }}
                         >
                           Save draft
                         </button>

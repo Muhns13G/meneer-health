@@ -80,6 +80,53 @@ it("does not redisplay retained edits when foreground session verification fails
   expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
 });
 
+it("retains written edits after a temporary renewal failure and permits an explicit save retry", async () => {
+  let record = saved();
+  let failed = false;
+  const fetch = vi.fn(async (url, init?: RequestInit) => {
+    if (url === "/account/session/renew") {
+      if (!failed) {
+        failed = true;
+        return new Response(null, { status: 503 });
+      }
+      return new Response(null, { status: 204 });
+    }
+    const command = JSON.parse(String(init?.body));
+    if (command.action === "save") {
+      record = { ...saved(command.answers), version: 2 };
+      return Response.json({
+        intakeId: id,
+        caseId: id,
+        version: 2,
+        snapshotId: id,
+        state: "draft",
+        safetyHold: false,
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      });
+    }
+    return Response.json(view(record));
+  });
+  vi.stubGlobal("fetch", fetch);
+  await renderWithRouter(<MedicalIntakePage />);
+  fireEvent.change(await screen.findByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic retained text" },
+  });
+  await screen.findByText(
+    "Draft save not confirmed. Keep this tab open and retry Save draft.",
+    {},
+    { timeout: 4000 },
+  );
+  expect(screen.getByRole("textbox", { name: "Full name" })).toHaveValue("Synthetic retained text");
+  expect(
+    screen.queryByRole("link", { name: "Sign in to resume your saved questionnaire" }),
+  ).not.toBeInTheDocument();
+  expect(record.answers).toEqual({});
+  fireEvent.click(screen.getByRole("button", { name: "Save draft" }));
+  await screen.findByText("Draft saved.");
+  expect(screen.getByRole("button", { name: "Save draft" })).toHaveFocus();
+  expect(record.answers).toMatchObject({ full_name: "Synthetic retained text" });
+});
+
 it("automatically saves a draft through authenticated commands without browser storage", async () => {
   let record = saved();
   const fetch = vi.fn(async (url, init?: RequestInit) => {

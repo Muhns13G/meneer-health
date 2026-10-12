@@ -6,6 +6,7 @@ import { SupabaseIdentityGovernanceRepository } from "@/adapters/identity/supaba
 import { SupabaseIdentitySessionRepository } from "@/adapters/identity/supabase/supabase-identity-session-repository";
 import { createSupabaseManagedIdentityProvider } from "@/adapters/identity/supabase/supabase-managed-identity-provider";
 import { SupabaseAccessRepository } from "@/adapters/persistence/supabase/supabase-access-repository";
+import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
 import {
   PatientSessionService,
   type PatientSession,
@@ -162,8 +163,11 @@ export function createPatientSessionHttpHandler(
           await revokeUndeliveredSession(service, renewed);
           return empty(503, clearPatientSessionCookie());
         }
-      } catch {
-        return empty(401, clearPatientSessionCookie());
+      } catch (error) {
+        if (pathname === "/account/sign-out") return empty(401, clearPatientSessionCookie());
+        return error instanceof IdentityRejectedError
+          ? empty(401, clearPatientSessionCookie())
+          : empty(503);
       }
     }
 
