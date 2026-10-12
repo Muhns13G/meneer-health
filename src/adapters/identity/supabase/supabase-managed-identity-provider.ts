@@ -11,6 +11,7 @@ import {
   type TotpEnrollment,
 } from "@/application/identity/managed-identity-provider";
 import type { ManagedSession, ProviderIdentity } from "@/domain/access/identity";
+import { publicAuthSettingsRequestOptions } from "./public-auth-settings-request";
 
 type SessionClientFactory = (session: ManagedSession) => Promise<SupabaseClient>;
 
@@ -373,12 +374,10 @@ export function createSupabaseManagedIdentityProvider(
       return sessionClient;
     },
     async () => {
-      const response = await fetch(`${configuration.url.replace(/\/$/, "")}/auth/v1/settings`, {
-        headers: { apikey: configuration.secretKey },
-        cache: "no-store",
-        redirect: "error",
-        signal: AbortSignal.timeout(5000),
-      });
+      const response = await fetch(
+        `${configuration.url.replace(/\/$/, "")}/auth/v1/settings`,
+        publicAuthSettingsRequestOptions(configuration.secretKey),
+      );
       if (!response.ok)
         throw new PublicRegistrationSettingsError("PUBLIC_SIGNUP_AUTH_HTTP_REJECTED");
       try {

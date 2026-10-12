@@ -200,11 +200,36 @@ describe("SupabaseManagedIdentityProvider", () => {
       "https://project.example.invalid/auth/v1/settings",
       expect.objectContaining({
         cache: "no-store",
-        redirect: "error",
+        redirect: "manual",
         headers: { apikey: "synthetic-server-key" },
       }),
     ]);
   });
+  it.each([301, 302, 303, 307, 308])(
+    "rejects a %i settings redirect without following or reading it",
+    async (status) => {
+      const response = new Response("synthetic redirect body", {
+        status,
+        headers: { Location: "https://untrusted.example.invalid/settings" },
+      });
+      const json = vi.spyOn(response, "json");
+      const fetcher = vi.fn(async () => response);
+      vi.stubGlobal("fetch", fetcher);
+      const provider = createSupabaseManagedIdentityProvider({
+        url: "https://project.example.invalid",
+        secretKey: "synthetic-server-key",
+      });
+      await expect(provider.publicRegistrationAvailable!()).rejects.toMatchObject({
+        reasonCode: "PUBLIC_SIGNUP_AUTH_HTTP_REJECTED",
+      });
+      expect(fetcher).toHaveBeenCalledTimes(1);
+      expect(fetcher.mock.calls[0]).toEqual([
+        "https://project.example.invalid/auth/v1/settings",
+        expect.objectContaining({ redirect: "manual" }),
+      ]);
+      expect(json).not.toHaveBeenCalled();
+    },
+  );
   it("preserves only the allowlisted HTTP classification", async () => {
     const provider = new SupabaseManagedIdentityProvider(
       rootClient(),

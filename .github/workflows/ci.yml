@@ -58,6 +58,9 @@ jobs:
       - name: Run unit and integration tests
         run: bun run test
 
+      - name: Verify public signup transport in workerd without provider calls
+        run: bun --no-env-file run test:identity:worker-runtime
+
       - name: Check retained capability and contract portability
         run: bun run check:portability
 

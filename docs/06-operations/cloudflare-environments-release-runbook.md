@@ -54,6 +54,18 @@ Auth settings (503), recording only strict fixed reason codes. Owner source depl
 do not re-promote the older `8e21...` candidate after deploying it. Verify new source/bindings and
 reconcile the guarded release receipt before the bounded no-send probe and actual signup acceptance.
 No new migration or key replacement is required by the diagnostic correction.
+That correction is now owner-deployed as `94f01955-e131-4b2f-9c98-fc749c7168e8` from `522614f`,
+with actual diagnostic source verified. The code deployment reset the two public bindings to their
+template defaults. Candidate `12574bb6-415c-43c6-9caa-45b783201ec0` preserves this exact new source
+and all unrelated bindings, restoring only the approved public bindings. Owner promotion is pending;
+Auth/native signup remains off. Do not re-promote the previous source or redeploy between candidate
+preparation/promotion; gather fixed-code readiness evidence before any actual signup acceptance.
+The owner has now promoted that diagnostic candidate. A header-filtered no-send window isolated
+`PUBLIC_SIGNUP_AUTH_TRANSPORT_UNAVAILABLE`/503; both provider/native signup gates were restored
+closed afterward. Workerd reproduces `redirect: "error"` failing during request construction.
+The corrected source uses manual redirects plus strict non-2xx rejection and has a new CI workerd
+regression. Owner commit/source deployment is required next; do not promote an old version over
+the fix or infer complete hosted signup acceptance from these diagnostic tests.
 
 ## Email invitation fallback — 11 October
 

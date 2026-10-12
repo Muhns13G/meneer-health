@@ -2464,5 +2464,14 @@ The masked settings-error defect is now corrected locally: valid closed policies
 dependency/shape failures return 503 with fixed privacy-safe telemetry classifications. This
 diagnostic change still needs owner deployment; it does not establish or fix the original
 hosted-only root cause, publish a new document or enable any production gate.
+The diagnostic source is subsequently verified deployed at `94f01955-e131-4b2f-9c98-fc749c7168e8`
+from `522614f`; its source deployment reset public bindings to default-off. Exact-source candidate
+`12574bb6-415c-43c6-9caa-45b783201ec0` restores only those two bindings and awaits owner promotion.
+Auth/native signup remains closed; downstream diagnosis and owned-mailbox acceptance are not done.
+The diagnostic candidate is now owner-promoted and its filtered no-send probe isolates an Auth
+settings transport exception. Workerd reproduces the exact unsupported `redirect: "error"`
+request option. The local manual-redirect/non-2xx-rejection fix passes actual runtime regression
+and 113 focused tests, with CI coverage added. Source deployment and actual hosted journey
+acceptance remain pending; both signup gates were restored closed without any test account/send.
 See [public onboarding release](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md)
 for hosted Auth, migration, abuse/retention, owned-mailbox and modal-accessibility acceptance.
