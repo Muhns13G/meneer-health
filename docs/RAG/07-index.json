@@ -24,6 +24,16 @@
   },
   "documents": [
     {
+      "id": "public-onboarding-notice-update-draft-2026-10-12",
+      "path": "docs/02-implementation-plans/phase-02/annexures/public-onboarding-notice-update-draft.md",
+      "status": "owner-approved-copy-hosted-transition-migration-publication-gated",
+      "authority_for": [
+        "Owner-approved public-registration information-source wording; not publication approval",
+        "Existing-client receipt transition and supervised abandoned-registration review requirements"
+      ],
+      "last_updated": "2026-10-12"
+    },
+    {
       "id": "public-onboarding-release-2026-10-12",
       "path": "docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md",
       "status": "completed-local-hosted-release-gated",

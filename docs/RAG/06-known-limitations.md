@@ -1327,9 +1327,27 @@ For example: “The interface currently simulates consent in browser state (obse
 
 ## 12 October 2026 — public onboarding release remains pending
 
-The new public registration code is default-off, not hosted-verified. Source deployment alone will
-not enable it: the new migration, private tenant policy, matching Worker bindings, Supabase signup/
-email settings and actual owned-mailbox proof are required. Public Auth abuse controls and abandoned
+The new public registration code is deployed but default-off, not end-to-end hosted-verified.
+The approved migration is hosted/history-aligned and restricted ACLs verified; existing records
+were preserved. Source deployment alone does not enable it: the private tenant policy, matching
+Worker bindings, Supabase signup settings and actual owned-mailbox proof remain required. Auth
+currently disables signup while retaining required email confirmation, six-digit/900-second OTPs
+and configured SMTP. Public Auth abuse controls and abandoned
 Auth-only retention must be reviewed; SMS orphan retirement is not evidence for this new source.
 New-modal VoiceOver acceptance is also pending. Existing clinical/product/professional gates remain.
+The new-user confirmation email was link-only and has been corrected to the existing OTP template;
+the exact `/start` redirect is now allowed. The published `1.0` notices need a public-registration
+source update. Do not supersede them blindly: current session validation requires current-publication
+receipts and would otherwise reject existing clients. A narrow draft and transition requirement are
+recorded in the release packet; no new publication or acceptance is claimed.
+The notice wording/transition implementation is now owner approved. Local transition code does
+not itself publish anything or seed receipt approvals. Its new RPC is a database-first deployment
+dependency; do not deploy the new adapter before the approved hosted migration is available.
+Publication must also verify the exact existing-client receipt manifest and its expiry, then prove
+real OTP/profile/questionnaire handoff without substituting a rehearsal tenant for the live pilot.
+The new migration dependency is now satisfied on hosted Supabase, after explicit approval and
+preservation/ACL/source readback. All four existing profiles pass actual adapter evidence checks.
+This does not prove authenticated sessions or the new public flow. Matching owner deployment,
+exact publication/receipt manifest and approval expiry, controlled mailbox acceptance and public
+runtime/policy enablement remain outstanding; registry/policy are empty and signup remains off.
 See [release checklist](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md).
