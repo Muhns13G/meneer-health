@@ -56,6 +56,8 @@ describe("environment catalogue", () => {
     const serverEntries = environmentCatalogue.filter((entry) => entry.exposure === "server");
 
     expect(serverEntries.map((entry) => entry.name)).toEqual([
+      "PUBLIC_REGISTRATION_MODE",
+      "PUBLIC_REGISTRATION_TENANT_ID",
       "STRIPE_LIVE_ACCOUNT_ID",
       "STRIPE_LIVE_RESTRICTED_KEY",
       "STRIPE_LIVE_WEBHOOK_SIGNING_SECRET",

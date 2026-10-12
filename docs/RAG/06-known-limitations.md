@@ -3,10 +3,11 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-11
+last_updated: 2026-10-12
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/pilot-onboarding-usability-2026-10-09.md
@@ -1323,3 +1324,12 @@ When answering a question that touches an unresolved area:
 5. Point to the authoritative source and date.
 
 For example: “The interface currently simulates consent in browser state (observed). Versioned durable consent is required for the intended platform (target). Its wording, owner, storage, and withdrawal workflow remain unresolved under TD-002, TD-009, TD-012, and TD-016.”
+
+## 12 October 2026 — public onboarding release remains pending
+
+The new public registration code is default-off, not hosted-verified. Source deployment alone will
+not enable it: the new migration, private tenant policy, matching Worker bindings, Supabase signup/
+email settings and actual owned-mailbox proof are required. Public Auth abuse controls and abandoned
+Auth-only retention must be reviewed; SMS orphan retirement is not evidence for this new source.
+New-modal VoiceOver acceptance is also pending. Existing clinical/product/professional gates remain.
+See [release checklist](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md).

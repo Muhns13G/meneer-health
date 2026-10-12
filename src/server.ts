@@ -17,6 +17,10 @@ import {
 } from "./server/payments/order-review-http";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
 import {
+  createPublicRegistrationHttpHandler,
+  type PublicRegistrationBindings,
+} from "./server/identity/public-registration-http";
+import {
   createClientProductHttpHandler,
   type ClientProductBindings,
 } from "./server/payments/client-product-http";
@@ -295,6 +299,11 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               return createPatientPortalHttpHandler(env as unknown as PatientSessionBindings)(
                 boundedRequest,
               );
+            }
+            if (pathname === "/account/sign-up" || pathname === "/account/sign-up/availability") {
+              return createPublicRegistrationHttpHandler(
+                env as unknown as PublicRegistrationBindings,
+              )(boundedRequest);
             }
             if (
               (boundedRequest.method === "POST" && pathname === "/account/activate") ||

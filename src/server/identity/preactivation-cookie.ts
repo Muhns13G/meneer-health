@@ -53,7 +53,15 @@ async function importKey(bytes: Uint8Array<ArrayBuffer>): Promise<CryptoKey> {
 }
 
 export async function sealPreactivationProof(
-  verified: VerifiedPatientInvitation,
+  verified:
+    | VerifiedPatientInvitation
+    | {
+        session: VerifiedPatientInvitation["session"];
+        invitation: Pick<
+          VerifiedPatientInvitation["invitation"],
+          "id" | "tenantId" | "providerSubject"
+        >;
+      },
   keyBytes: Uint8Array<ArrayBuffer>,
   now = Date.now(),
 ): Promise<string> {

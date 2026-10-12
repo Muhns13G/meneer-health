@@ -112,8 +112,6 @@ for (const path of [
         timeout:
           process.env.CLIENT_FORM_MANUAL_REVIEW === "voiceover-local-synthetic" ? 30000 : 5000,
       });
-    if (path === "/account/activate")
-      await page.getByRole("button", { name: "Continue to profile" }).click();
     if (path === "/portal/support")
       await page.getByRole("button", { name: "Refresh support availability and status" }).click();
     if (path === "/portal") {

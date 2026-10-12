@@ -6,6 +6,8 @@
   "main": "src/server.ts",
   "preview_urls": true,
   "vars": {
+    "PUBLIC_REGISTRATION_MODE": "disabled",
+    "PUBLIC_REGISTRATION_TENANT_ID": "",
     "OPERATIONS_ALERTS_MODE": "disabled",
     "TRANSACTIONAL_NOTIFICATIONS_MODE": "disabled",
     "PRODUCT_CATALOGUE_MODE": "disabled",

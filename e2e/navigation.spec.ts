@@ -79,6 +79,6 @@ test("primary navigation matches the active viewport", async ({ page }, testInfo
 
   await expect(page).toHaveURL(/\/start$/);
   await expect(
-    page.getByRole("heading", { level: 1, name: "Start your private consult" }),
+    page.getByRole("heading", { level: 1, name: "Start your private account" }),
   ).toBeVisible();
 });

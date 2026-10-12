@@ -12,7 +12,7 @@ export const activeRoutes = [
   {
     path: "/start",
     title: "Start your private consult — Meneer",
-    heading: "Start your private consult",
+    heading: "Start your private account",
   },
   { path: "/contact", title: "Contact — Meneer", heading: "Contact" },
   {

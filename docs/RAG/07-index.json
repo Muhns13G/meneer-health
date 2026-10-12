@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-11",
+    "last_updated": "2026-10-12",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -23,6 +23,16 @@
     ]
   },
   "documents": [
+    {
+      "id": "public-onboarding-release-2026-10-12",
+      "path": "docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md",
+      "status": "completed-local-hosted-release-gated",
+      "authority_for": [
+        "Owner-approved public referral signup and compact exact-version account documents",
+        "Default-off registration policy, one-code activation and hosted acceptance requirements"
+      ],
+      "last_updated": "2026-10-12"
+    },
     {
       "id": "pilot-email-invitation-fallback-2026-10-11",
       "path": "docs/02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md",

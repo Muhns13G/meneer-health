@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
+import { AccountDocumentLinks } from "@/components/AccountDocumentLinks";
 import {
   activationCommandSchema,
   activationViewSchema,
@@ -21,9 +22,7 @@ export const Route = createFileRoute("/account/activate")({
 
 function ActivateAccountPage() {
   const [view, setView] = useState<ActivationView | null>(null);
-  const [stage, setStage] = useState<
-    "loading" | "unavailable" | "documents" | "profile" | "complete"
-  >("loading");
+  const [stage, setStage] = useState<"loading" | "unavailable" | "profile" | "complete">("loading");
   const [pending, setPending] = useState(false);
   const [sessionReady, setSessionReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,7 +47,7 @@ function ActivateAccountPage() {
         const parsed = activationViewSchema.parse(await result.json());
         if (!controller.signal.aborted) {
           setView(parsed);
-          setStage("documents");
+          setStage("profile");
         }
       } catch {
         if (!controller.signal.aborted) setStage("unavailable");
@@ -133,7 +132,7 @@ function ActivateAccountPage() {
           result.status === 422
             ? "Account setup could not be confirmed. Your invitation or document version may have changed. Reload to review the current documents."
             : result.status === 401
-              ? "Your verification session has expired. Open the original invitation from your email or SMS in another tab and request a fresh code, then return here and retry. Your invitation remains usable until its original 48-hour deadline. Your details stay on this page but have not been saved; do not reload it."
+              ? "Your verification session has expired. For public signup, open Start privately in another tab and request a fresh code. If you used an invitation, reopen the original email or SMS link instead; its original 48-hour deadline still applies. Then return here and retry. Your details stay on this page but have not been saved; do not reload it."
               : "We could not confirm account setup. Try again with the same details; do not assume it was saved.",
         );
     } catch {
@@ -166,50 +165,16 @@ function ActivateAccountPage() {
             approved account terms and privacy documents.
           </p>
         )}
-        {(stage === "documents" || stage === "profile") && view && (
+        {stage === "profile" && view && (
           <>
             <p role="status" aria-live="polite" className="mt-4 text-sm">
-              Step {stage === "documents" ? "1" : "2"} of 2 —{" "}
-              {stage === "documents" ? "Review documents" : "Profile and account actions"}
+              Profile and account actions
             </p>
             <p className="mt-6 text-muted-foreground">
-              Read the account terms and privacy notice before providing your details. You can print
-              or save these exact versions. Declining leaves your invitation unused and creates no
-              active profile.
+              Review the terms and privacy notice using the links below. Your choices are recorded
+              only when you submit this form. Medical consent is separate.
             </p>
-            {view.documents.map((document) => (
-              <section
-                key={document.publicationId}
-                aria-labelledby={`document-${document.instrumentId}`}
-                className="mt-8 rounded-xl border border-border p-6"
-              >
-                <h2 id={`document-${document.instrumentId}`} className="font-serif text-2xl">
-                  {document.instrumentId === "pilot-account-terms"
-                    ? "Account and service terms"
-                    : "Transactional privacy notice"}
-                </h2>
-                <p className="mt-2 text-sm">
-                  Version {document.version} · {document.locale} · Effective{" "}
-                  {document.effectiveAt.slice(0, 10)}
-                </p>
-                <p className="mt-4 whitespace-pre-wrap leading-relaxed">{document.body}</p>
-                <a
-                  className="action-secondary mt-4"
-                  download={`${document.instrumentId}-${document.version}.txt`}
-                  href={`data:text/plain;charset=utf-8,${encodeURIComponent(document.body)}`}
-                >
-                  Save this exact version
-                </a>
-              </section>
-            ))}
-            {stage === "documents" && (
-              <button
-                className="mt-8 rounded-full bg-gold px-6 py-3 text-primary-foreground"
-                onClick={() => setStage("profile")}
-              >
-                Continue to profile
-              </button>
-            )}
+            <AccountDocumentLinks documents={view.documents} />
             {stage === "profile" && (
               <form onSubmit={submit} noValidate className="mt-8 space-y-5" aria-busy={pending}>
                 <h2 ref={profileHeading} tabIndex={-1} className="font-serif text-2xl">

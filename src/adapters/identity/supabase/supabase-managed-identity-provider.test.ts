@@ -123,6 +123,71 @@ function sessionClient(): SupabaseClient {
 }
 
 describe("SupabaseManagedIdentityProvider", () => {
+  it.each([
+    {
+      disable_signup: true,
+      mailer_autoconfirm: false,
+      external: { email: true, anonymous_users: false },
+    },
+    {
+      disable_signup: false,
+      mailer_autoconfirm: true,
+      external: { email: true, anonymous_users: false },
+    },
+    {
+      disable_signup: false,
+      mailer_autoconfirm: false,
+      external: { email: false, anonymous_users: false },
+    },
+    {
+      disable_signup: false,
+      mailer_autoconfirm: false,
+      external: { email: true, anonymous_users: true },
+    },
+    {},
+  ])("does not offer public signup with unready Auth settings (%j)", async (settings) => {
+    const provider = new SupabaseManagedIdentityProvider(
+      rootClient(),
+      async () => sessionClient(),
+      async () => settings,
+    );
+    expect(await provider.publicRegistrationAvailable()).toBe(false);
+  });
+  it("offers public signup only with email verification and anonymous signup disabled", async () => {
+    const provider = new SupabaseManagedIdentityProvider(
+      rootClient(),
+      async () => sessionClient(),
+      async () => ({
+        disable_signup: false,
+        mailer_autoconfirm: false,
+        external: { email: true, anonymous_users: false },
+      }),
+    );
+    expect(await provider.publicRegistrationAvailable()).toBe(true);
+  });
+  it("creates Auth identities only through the distinct public-registration operation", async () => {
+    const client = rootClient();
+    const provider = new SupabaseManagedIdentityProvider(client, async () => sessionClient());
+    await provider.requestPublicRegistration(
+      "public@example.invalid",
+      "https://meneerhealth.co.za/start",
+    );
+    expect(client.auth.signInWithOtp).toHaveBeenLastCalledWith({
+      email: "public@example.invalid",
+      options: { shouldCreateUser: true, emailRedirectTo: "https://meneerhealth.co.za/start" },
+    });
+    await provider.requestPatientSignIn(
+      "existing@example.invalid",
+      "https://meneerhealth.co.za/account/sign-in",
+    );
+    expect(client.auth.signInWithOtp).toHaveBeenLastCalledWith({
+      email: "existing@example.invalid",
+      options: {
+        shouldCreateUser: false,
+        emailRedirectTo: "https://meneerhealth.co.za/account/sign-in",
+      },
+    });
+  });
   it.each([429, 500, 503])(
     "classifies Auth HTTP %s as unavailable, not revoked",
     async (status) => {

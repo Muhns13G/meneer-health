@@ -14,6 +14,20 @@ export type EnvironmentCatalogueEntry = {
 };
 
 export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
+  ...["PUBLIC_REGISTRATION_MODE", "PUBLIC_REGISTRATION_TENANT_ID"].map(
+    (name): EnvironmentCatalogueEntry => ({
+      name,
+      purpose:
+        "Default-off public email registration; requires matching private database policy, reviewed Auth/signup and abuse controls.",
+      owner: "Identity and release owner",
+      sensitivity: "public",
+      environments: ["local", "production"],
+      required: false,
+      exposure: "server",
+      rotation:
+        "Keep disabled until local and hosted acceptance; no staff/clinical authority is granted by registration.",
+    }),
+  ),
   ...[
     "STRIPE_LIVE_ACCOUNT_ID",
     "STRIPE_LIVE_RESTRICTED_KEY",
