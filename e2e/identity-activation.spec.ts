@@ -51,8 +51,15 @@ for (const sessionReady of [false, true]) {
       });
     });
     await page.goto("/account/activate");
+    await expect(page.getByText(documents[1].body)).toHaveCount(0);
+    await page.getByRole("button", { name: "Read Transactional privacy notice" }).click();
+    await expect(page.getByRole("dialog")).toBeVisible();
     await expect(page.getByText(documents[1].body)).toBeVisible();
-    await expect(page.getByRole("textbox")).toHaveCount(0);
+    await page.keyboard.press("Escape");
+    await expect(
+      page.getByRole("button", { name: "Read Transactional privacy notice" }),
+    ).toBeFocused();
+    await page.getByRole("button", { name: "Read Account and service terms" }).click();
     const savedDocument = page.waitForEvent("download");
     await page.getByRole("link", { name: "Save this exact version" }).first().click();
     const download = await savedDocument;
@@ -60,10 +67,8 @@ for (const sessionReady of [false, true]) {
     const downloadPath = await download.path();
     expect(downloadPath).toBeTruthy();
     expect(readFileSync(downloadPath!, "utf8")).toBe(documents[0].body);
-    await page.getByRole("button", { name: "Continue to profile" }).focus();
-    await page.keyboard.press("Enter");
-    await expect(page.getByRole("heading", { name: "Your minimum profile" })).toBeFocused();
-    await expect(page.getByRole("status")).toContainText("Step 2 of 2");
+    await page.getByRole("button", { name: "Close", exact: true }).click();
+    await expect(page.getByRole("status")).toContainText("Profile and account actions");
     await page.getByRole("button", { name: "Set up account", exact: true }).click();
     await expect(page.getByRole("alert")).toBeFocused();
     await expect(page.getByLabel("Given name", { exact: true })).toHaveAttribute(
@@ -120,7 +125,6 @@ test("expired verification gives a recovery path and preserves the current form 
       : route.continue(),
   );
   await page.goto("/account/activate");
-  await page.getByRole("button", { name: "Continue to profile" }).click();
   await page.getByLabel("Given name", { exact: true }).fill("Synthetic");
   await page.getByLabel("Family name", { exact: true }).fill("Resume");
   await page.getByLabel("Mobile or WhatsApp number (international format)").fill("+99914700001");

@@ -3,12 +3,13 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-11
+last_updated: 2026-10-12
 audience: internal
 sensitivity: internal
 source_baseline: 08dc68c
 runtime_baseline: 5f958cd
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md
   - docs/02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md
@@ -2422,3 +2423,12 @@ Evidence: [`sprint-05-20-hosted-identity-request-security-evidence.md`](../02-im
   remains mandatory before that capability can be enabled.
 
 Evidence: [`sprint-05-21-final-closure-evidence.md`](../02-implementation-plans/phase-01/annexures/sprint-05-21-final-closure-evidence.md).
+
+## 12 October 2026 — local public-registration change
+
+Public referral signup is implemented locally at `/start`, with a distinct default-off server/native
+policy, provider-readiness checks and one-code activation handoff. Account documents now open in
+compact native dialogs; exact-version receipts and separate medical consent are unchanged. This is
+not a hosted/public activation claim. Existing pending invitations remain on their original path.
+See [public onboarding release](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md)
+for hosted Auth, migration, abuse/retention, owned-mailbox and modal-accessibility acceptance.

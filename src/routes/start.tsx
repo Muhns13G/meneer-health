@@ -10,7 +10,7 @@ import {
   type ProfileErrors,
   type ProfileField,
 } from "@/domain/journey/profile-form";
-import { SafetyEntryGate } from "@/components/SafetyEntryGate";
+import { AccountCodePage } from "@/components/AccountCodePage";
 import { useSteppedFlowFocus } from "@/hooks/use-stepped-flow-focus";
 
 export const Route = createFileRoute("/start")({
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/start")({
 });
 
 function StartRoute() {
-  return <SafetyEntryGate />;
+  return <AccountCodePage mode="sign-up" />;
 }
 
 type Condition = "hair" | "ed" | "weight" | "trt";

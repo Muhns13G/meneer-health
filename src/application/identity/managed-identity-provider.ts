@@ -13,6 +13,8 @@ export interface ManagedIdentityProvider {
   verifyAccessToken(accessToken: string): Promise<ProviderIdentity>;
   invitePatient(email: string, redirectTo: string, creationProof?: string): Promise<string>;
   requestPatientSignIn(email: string, redirectTo: string): Promise<void>;
+  requestPublicRegistration?(email: string, redirectTo: string): Promise<void>;
+  publicRegistrationAvailable?(): Promise<boolean>;
   requestWorkforceSignIn?(
     email: string,
     providerSubject: string,

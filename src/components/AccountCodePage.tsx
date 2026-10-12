@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { useActionToast } from "@/hooks/use-action-toast";
 
-export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
+export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-up" }) {
   const { notify, dismiss } = useActionToast();
   const [stage, setStage] = useState<"request" | "verify">("request");
   const [email, setEmail] = useState("");
@@ -14,6 +14,9 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
   const [completed, setCompleted] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const recovery = mode === "recover";
+  const registration = mode === "sign-up";
+  const [registrationReady, setRegistrationReady] = useState<boolean | null>(null);
+  const [continuation, setContinuation] = useState<"/portal" | "/account/activate">("/portal");
   const formRef = useRef<HTMLFormElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const previousStage = useRef(stage);
@@ -21,6 +24,23 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
   useEffect(() => {
     setHydrated(true);
   }, []);
+  useEffect(() => {
+    if (!registration) return;
+    const controller = new AbortController();
+    void fetch("/account/sign-up/availability", {
+      credentials: "same-origin",
+      cache: "no-store",
+      redirect: "error",
+      signal: controller.signal,
+    })
+      .then((response) => {
+        if (!controller.signal.aborted) setRegistrationReady(response.status === 204);
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setRegistrationReady(false);
+      });
+    return () => controller.abort();
+  }, [registration]);
 
   useEffect(() => {
     if (previousStage.current !== stage) {
@@ -56,11 +76,19 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
         setStage("verify");
         notify("codeRequested");
       } else if (stage === "verify" && response.status === 204) {
+        if (registration) {
+          const result = response.headers.get("X-Meneer-Session");
+          if (result !== "activation" && result !== "ready")
+            throw new Error("REGISTRATION_UNCONFIRMED");
+          setContinuation(result === "activation" ? "/account/activate" : "/portal");
+        }
         setCompleted(true);
         setMessage(
           recovery
             ? "Recovery is complete. All previous sessions have been revoked. You can sign in again."
-            : "You are signed in. Continue to your private account.",
+            : registration && response.headers.get("X-Meneer-Session") === "activation"
+              ? "Email verified. Continue to set up your account—no second email code is needed."
+              : "You are signed in. Continue to your private account.",
         );
       } else {
         setMessage(
@@ -82,14 +110,20 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
       <main className="container-x max-w-xl py-16 lg:py-24">
         <p className="label-caps text-gold">Private account</p>
         <h1 className="mt-6 font-serif text-4xl text-foreground sm:text-5xl">
-          {recovery ? "Recover your account" : "Sign in to Meneer"}
+          {recovery
+            ? "Recover your account"
+            : registration
+              ? "Start your private account"
+              : "Sign in to Meneer"}
         </h1>
         <p className="mt-5 text-muted-foreground leading-relaxed">
           {recovery
             ? "Request a code to revoke previous sessions. Recovery does not change your pilot access."
-            : "Use the email address associated with your invited account. Public registration is not available."}
+            : registration
+              ? "No invitation is needed. Verify your email, set up your profile, then complete your questionnaire. Registration is not clinical approval or confirmation of treatment."
+              : "Use the email address associated with your account."}
         </p>
-        {!completed && (
+        {!completed && (!registration || registrationReady === true) && (
           <form
             ref={formRef}
             method="post"
@@ -147,7 +181,9 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
                   ? "Send code"
                   : recovery
                     ? "Complete recovery"
-                    : "Verify and sign in"}
+                    : registration
+                      ? "Verify email"
+                      : "Verify and sign in"}
             </button>
           </form>
         )}
@@ -177,13 +213,32 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" }) {
           aria-live="polite"
           className="mt-6 text-sm text-muted-foreground"
         >
-          {pending ? "Checking…" : message}
+          {pending
+            ? "Checking…"
+            : registration && registrationReady !== true
+              ? registrationReady === null
+                ? "Checking account signup availability…"
+                : "New account signup is currently unavailable. Existing clients can still sign in below."
+              : message}
         </div>
         {completed && !recovery ? (
-          <Link to="/portal" className="action-primary mt-6">
-            Open your private account
+          <Link to={continuation} className="action-primary mt-6">
+            {registration && continuation === "/account/activate"
+              ? "Continue to account setup"
+              : "Open your private account"}
           </Link>
         ) : null}
+        {registration && (
+          <Link to="/account/sign-in" className="action-secondary mt-6">
+            Already have an account? Sign in
+          </Link>
+        )}
+        {registration && (
+          <p className="mt-6 text-sm text-muted-foreground">
+            Do not enter health information here. This is not an emergency service; seek emergency
+            care immediately if needed.
+          </p>
+        )}
         <Link
           to={recovery ? "/account/sign-in" : "/account/recover"}
           className="mt-8 inline-block text-sm text-gold underline underline-offset-4"

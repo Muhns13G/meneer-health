@@ -1,6 +1,7 @@
 import "@tanstack/react-start/server-only";
 
 import { createClient, type Session, type SupabaseClient } from "@supabase/supabase-js";
+import { z } from "zod";
 
 import {
   IdentityRejectedError,
@@ -43,7 +44,23 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
   constructor(
     private readonly client: SupabaseClient,
     private readonly createSessionClient: SessionClientFactory,
+    private readonly readPublicSettings?: () => Promise<unknown>,
   ) {}
+
+  async publicRegistrationAvailable(): Promise<boolean> {
+    if (!this.readPublicSettings) return false;
+    try {
+      return z
+        .object({
+          disable_signup: z.literal(false),
+          mailer_autoconfirm: z.literal(false),
+          external: z.object({ email: z.literal(true), anonymous_users: z.literal(false) }),
+        })
+        .safeParse(await this.readPublicSettings()).success;
+    } catch {
+      return false;
+    }
+  }
 
   async verifyAccessToken(accessToken: string): Promise<ProviderIdentity> {
     try {
@@ -121,6 +138,19 @@ export class SupabaseManagedIdentityProvider implements ManagedIdentityProvider 
 
   async requestPatientSignIn(email: string, redirectTo: string): Promise<void> {
     await this.requestOtp(email, redirectTo);
+  }
+
+  async requestPublicRegistration(email: string, redirectTo: string): Promise<void> {
+    try {
+      const { error } = await this.client.auth.signInWithOtp({
+        email,
+        options: { shouldCreateUser: true, emailRedirectTo: redirectTo },
+      });
+      if (error) rejectOrUnavailable(error);
+    } catch (error) {
+      if (error instanceof IdentityRejectedError) throw error;
+      throw new IdentityUnavailableError();
+    }
   }
 
   async requestWorkforceSignIn(
@@ -311,13 +341,26 @@ export function createSupabaseManagedIdentityProvider(
   };
   const client = createClient(configuration.url, configuration.secretKey, options);
 
-  return new SupabaseManagedIdentityProvider(client, async (session) => {
-    const sessionClient = createClient(configuration.url, configuration.secretKey, options);
-    const { error } = await sessionClient.auth.setSession({
-      access_token: session.accessToken,
-      refresh_token: session.refreshToken,
-    });
-    if (error) throw new IdentityRejectedError();
-    return sessionClient;
-  });
+  return new SupabaseManagedIdentityProvider(
+    client,
+    async (session) => {
+      const sessionClient = createClient(configuration.url, configuration.secretKey, options);
+      const { error } = await sessionClient.auth.setSession({
+        access_token: session.accessToken,
+        refresh_token: session.refreshToken,
+      });
+      if (error) throw new IdentityRejectedError();
+      return sessionClient;
+    },
+    async () => {
+      const response = await fetch(`${configuration.url.replace(/\/$/, "")}/auth/v1/settings`, {
+        headers: { apikey: configuration.secretKey },
+        cache: "no-store",
+        redirect: "error",
+        signal: AbortSignal.timeout(5000),
+      });
+      if (!response.ok) throw new IdentityUnavailableError();
+      return response.json();
+    },
+  );
 }

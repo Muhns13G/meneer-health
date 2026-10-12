@@ -43,3 +43,14 @@ for (const mode of ["sign-in", "recover"] as const) {
     expect(screen.getByLabelText("Email address")).toHaveFocus();
   });
 }
+
+it("public registration remains unavailable without readiness and offers normal sign-in", async () => {
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(null, { status: 412 })));
+  render(<AccountCodePage mode="sign-up" />);
+  await screen.findByText(/New account signup is currently unavailable/);
+  expect(screen.queryByLabelText("Email address")).not.toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Already have an account? Sign in" })).toHaveAttribute(
+    "href",
+    "/account/sign-in",
+  );
+});
