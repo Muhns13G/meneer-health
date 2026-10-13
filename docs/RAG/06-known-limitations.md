@@ -132,15 +132,14 @@ sources:
 ## Company identity transition — 13 October 2026
 
 The owner-approved Meneer Health (Pty) Ltd identity/address and VAT omission are corrected in
-local public source. Private hosted documents still name historical Octothorp ZA. Successor
-previews are prepared, not published. The private acknowledgement foundation is hosted and
+live public source. Four successor notices are published in hosted Supabase, while historical
+documents retain the original company as evidence. The private acknowledgement foundation is hosted and
 history-aligned; restricted review/UI/retry/expiry tests pass locally. The hosted 22-case rollback
 rehearsal confirms internal all-row restoration. Medical/financial preservation is implemented and
 hosted with its own successful rollback/restoration packet. Source/browser checks and guarded
-publication preparation are ready for owner deployment. The withdrawal guard is hosted/history-aligned;
-routed acceptance and actual notice publication follow deployment. Genuine existing-client actions
-and coordinated publication are required before
-superseding account documents; the old narrow compatibility
+publication preservation passed rollback and commit checks. The withdrawal guard is hosted/history-aligned;
+genuine routed existing-client acknowledgement remains to be observed. No acceptance was inferred
+from publication; the old narrow compatibility
 exception cannot be reused for a company change. Preserve original receipts, medical snapshots,
 financial evidence and current client access. See the
 [transition packet](../02-implementation-plans/phase-02/annexures/company-identity-transition.md).

@@ -1,6 +1,6 @@
 ---
 title: Meneer Health legal-entity replacement
-status: source-ready-owner-deployment-and-publication-pending
+status: published-historical-preservation-verified-client-acceptance-pending
 last_updated: 2026-10-13
 audience: internal
 sensitivity: internal
@@ -171,6 +171,31 @@ and [password-security guidance](https://supabase.com/docs/guides/auth/password-
 
 ## Owner commit/deployment handoff
 
+### Hosted publication — 13 October 2026
+
+The owner reported deployment and explicitly approved the rollback rehearsal and publication.
+Live terms/privacy contain the new company, registration and address; `/account/documents` returns
+200 and its anonymous data endpoint returns 401. The exact four-successor transaction passed a
+rollback rehearsal with internal full-row comparison, then committed with guards verifying that
+all non-publication rows and original publication contents remained unchanged. The rehearsal caught
+and rolled back an approval/publication timestamp mismatch; the preparation helper now uses
+transaction timestamps for account approval/effectivity, matching the publication default.
+
+Independent readback confirms published account terms/privacy **1.2**, review-deposit terms
+**1.1.0**, and a new medical publication retaining collection version **1.1.0** and the unchanged
+question catalogue. Account/deposit hashes validate and all four successors name the new company.
+Eleven Auth users, four profiles and eight original account receipts remain; there are zero new
+account or medical acknowledgement actions. Public-signup availability returns 204. No emails,
+SMS, charges, key changes, cohort switches or generator actions occurred.
+
+Actual existing-client routed acknowledgement remains an acceptance step: no client action has
+been inferred from publication. The timestamp helper/test correction and this evidence are new
+unstaged changes for the owner's next commit; they do not require an application release to make
+the already committed database publication effective. Git staging was not changed by the agent.
+
+The following original handoff sequence is retained for traceability; source readback and guarded
+publication (steps 3–5) are now complete at the observed boundary.
+
 1. Manually stage and commit the complete diff, including all new migrations, tests, generated
    route tree and operation scripts. Existing staged work was preserved. No secrets, ignored local
    previews, CIPC original/director identifiers or clinical data belong in the commit.
@@ -194,7 +219,6 @@ and [password-security guidance](https://supabase.com/docs/guides/auth/password-
    financial disclosure; use expressly approved disposable fixtures if provider emails are needed.
    No real charge, SMS, extra client invitation or generator activation is authorised by this packet.
 
-The source is prepared for owner deployment; **notice publication and routed post-deployment
-acceptance remain release steps**, not claims of already released company documents. Production
-continues on its prior notices until the guarded publication is approved and executed. Do not
+**Notice publication is complete; genuine routed existing-client acceptance remains to be observed.**
+Historical notices remain as original evidence, not as the current onboarding notices. Do not
 disable the live cohort or replace production with an isolated rehearsal configuration.

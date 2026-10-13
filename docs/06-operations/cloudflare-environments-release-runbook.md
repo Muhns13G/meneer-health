@@ -27,7 +27,10 @@ publication SQL preparation are complete. The owner may commit and deploy the co
 preserve real-pilot bindings and keys, not an older rehearsal Worker version. After source readback,
 approve/rehearse/publish the exact successor packet and verify genuine account/medical actions. The
 current-medical-notice withdrawal guard is hosted/history-aligned and the preservation rehearsal
-passes with it applied. Do not switch the live cohort out for testing.
+passes with it applied. On 13 October, the owner-approved exact publication passed rollback and
+preservation checks, then committed: account/privacy 1.2, deposit 1.1.0 and the same-catalogue
+successor medical notice. Existing-client routed acknowledgement still needs observation; no
+acceptance was fabricated. Public signup remains available. Do not switch the live cohort out for testing.
 
 ## Current public-signup release configuration — 13 October
 

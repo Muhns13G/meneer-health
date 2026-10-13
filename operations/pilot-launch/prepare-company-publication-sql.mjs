@@ -60,7 +60,7 @@ update public.pilot_instrument_publications set status='superseded',retired_at=c
 insert into public.pilot_instrument_publications(instrument_id,instrument_version,locale,document_body,content_sha256,rendered_locator,
 approval_reference,approved_by_subject_id,approved_at,effective_at,expires_at)
 select instrument_id,'1.2',locale,${quote(s.body)},${quote(sha(s.body))},'/account/documents',
-'owner-confirmed-company-transition-2026-10-13',${quote(owner)},clock_timestamp(),clock_timestamp(),expires_at
+'owner-confirmed-company-transition-2026-10-13',${quote(owner)},transaction_timestamp(),transaction_timestamp(),expires_at
 from public.pilot_instrument_publications where id=${quote(p.id)};`,
     )
     .join("\n");

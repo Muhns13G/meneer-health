@@ -62,6 +62,8 @@ it("prepares one guarded transaction without rewriting client or historical fina
   );
   expect(sql).toContain("'1.2'");
   expect(sql).toContain("'1.1.0'");
+  // published_at defaults to transaction time; approval must not be later than publication.
+  expect(sql).toContain("transaction_timestamp(),transaction_timestamp(),expires_at");
   expect(sql.trim()).toMatch(/commit;$/);
 });
 it("rejects altered successor text even when its hash is refreshed", () => {
