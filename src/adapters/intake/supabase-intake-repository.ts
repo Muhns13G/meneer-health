@@ -21,6 +21,12 @@ export class SupabaseIntakeRepository implements IntakeRepository {
   read(context: PortalContext, id: string | null) {
     return this.call("patient_intake_read", { p_context: context, p_intake_id: id });
   }
+  acknowledgeNotice(context: PortalContext, command: Record<string, unknown>) {
+    return this.call("patient_acknowledge_collection_notice", {
+      p_context: context,
+      p_command: command,
+    });
+  }
   exportView(context: PortalContext, id: string) {
     return this.call("patient_intake_export_view", { p_context: context, p_intake_id: id });
   }

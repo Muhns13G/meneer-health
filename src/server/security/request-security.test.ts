@@ -48,6 +48,28 @@ const verifiedProof: AntiAutomationPort = {
 };
 
 describe("current public request boundary", () => {
+  it.each(["GET", "HEAD"])(
+    "serves document review on body-free %s without opening its command",
+    async (method) => {
+      const display = await inspectPublicRequest(
+        request("/account/documents", { method }),
+        allowRate,
+      );
+      expect(display.allowed).toBe(true);
+      expect(display.decision.routeClass).toBe("public-read");
+      const submit = await inspectPublicRequest(
+        request("/account/documents", { method: "POST" }),
+        allowRate,
+      );
+      expect(submit.allowed).toBe(true);
+      expect(submit.decision.routeClass).toBe("protected-command");
+      const framed = await inspectPublicRequest(
+        request("/account/documents", { method, headers: { "Content-Length": "1" } }),
+        allowRate,
+      );
+      expect(framed.allowed).toBe(false);
+    },
+  );
   it.each(["GET", "HEAD"])("allows body-free %s requests", async (method) => {
     const result = await inspectPublicRequest(request("/start", { method }), allowRate);
 

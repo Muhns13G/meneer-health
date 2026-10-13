@@ -259,6 +259,146 @@ its approved public bindings without re-promoting either older version. Keep Aut
 closed until that coordinated release and the controlled one-OTP/profile/questionnaire test.
 No migration, new key, recipient message or OTP-expiry change is needed for this transport fix.
 
+### Fixed source deployed; final exact-source runtime candidate prepared
+
+The owner committed `d3f4553` and deployed the fix. Independent Cloudflare content/version readback
+confirms active `150c7ad9-eedc-4292-8b06-798f6a8831a8`, ETag
+`b253ac9c852a8f199419df276242adb77e1284671c7bc729e6702a975e5d9715`, with the actual settings
+helper using manual redirects, no-store and the five-second timeout. The code deployment restored
+the two public signup bindings to disabled/empty defaults.
+
+The approved guarded `--prepare-fixed-runtime` operation created
+`5bb4f0fb-9e39-42aa-9305-666f6e0c8314` from that exact fixed source, restoring only those two
+bindings. Source fingerprint and unrelated bindings remain unchanged; no existing key was supplied
+or replaced. The ignored release record preserves prior source checkpoints rather than removing
+the source guards. Auth and native signup remain closed. No user, email, SMS or payment was created.
+
+**Owner action:** promote this candidate directly, without another code deployment first and
+without re-promoting older broken-source versions. Then verify production readiness and run the
+already approved disposable owned-mailbox OTP/profile/questionnaire acceptance. The hosted
+journey is not yet claimed complete; leave signup enabled only after that acceptance passes.
+
+### Fixed runtime promoted; actual signup acceptance in progress
+
+Owner promotion of `5bb4f0fb-9e39-42aa-9305-666f6e0c8314` is independently verified. An
+interrupted initial enablement failed immediate Auth readback and restored both gates closed.
+The operational helper now polls readback only (bounded six reads, no repeated PATCH), allowing
+configuration propagation without sending while state is uncertain. The subsequent guarded
+window passed unchanged-other-settings verification, and canonical availability returns **204**
+with private/no-store headers. This confirms the redirect transport defect is resolved on hosted.
+
+The production `/start` UI shows the actual email form. One authorised request was submitted for
+the approved disposable owned mailbox, and the page advanced to the six-digit email-code stage.
+The exact new unconfirmed Auth identity is recorded privately in the ignored acceptance manifest;
+no code, credential or answers are stored there. No second email, SMS, questionnaire, Checkout
+or charge has been sent/submitted. Actual mailbox verification, profile/receipt commit, questionnaire
+continuation and exact fixture cleanup remain pending. This is a controlled open window, not final
+journey sign-off; preserve all genuine clients and any concurrent real registrations.
+
+The owned-mailbox code has now been entered by the owner and verified by the actual production
+UI. It reports email verified with no second code needed; following its continuation opens the
+profile form with the same verified email. Both native document dialogs display current `1.1`;
+Escape closes the terms dialog and returns focus to its opener, and the privacy dialog exposes
+the exact-version download. Synthetic profile fields are prepared and both acceptance checkboxes
+remain unchecked. Profile/terms submission awaits the owner's action-time confirmation; no
+profile, medical questionnaire or payment has been submitted by this browser checkpoint.
+
+After explicit action-time approval, the synthetic profile and both current-document actions
+were submitted successfully. The production UI confirms both saved and links to the questionnaire,
+which opens through the same verified session without another OTP. The non-binding intake notice
+acknowledgement and synthetic draft writes succeed. All eight sections are reachable, including
+worded lifestyle and peptide-specific answers; neither causes a reload or sign-out. The peptide
+narrative is restored after a deliberate reload and the authenticated session remains available.
+The date field's persistence is not yet confirmed by browser inspection and must be checked before
+calling the complete answer round-trip accepted. Final collection consent/signature, questionnaire
+submission and exact test cleanup remain outstanding. No payment, clinical approval or external
+generator action was performed. The ignored exact-account manifest is updated for scoped cleanup.
+
+Following the owner's explicit collection-declaration/submission approval, review validation
+correctly rejected a missing date. The earlier automation-only fill did not persist to React
+state. A native keyboard date change followed by completed save **did** persist, survived reload
+and appeared in answer review as the synthetic date `1991-01-01`. No input handler or required-field
+validation was bypassed. The original synthetic narratives and same authenticated session remained
+available after reload. The final UI submit succeeded and displayed **Questionnaire received**
+with the next-step deposit-review link; that link was not followed and no Checkout was created.
+
+Independent read-only native evidence for the exact manifested test subject confirms submitted
+state, non-null encrypted envelope, **one** submitted snapshot and **two** genuine version-1.1
+account/privacy receipts. All 11 original Auth identities and four original profiles remain
+present. One actual email OTP carried through signup, profile and questionnaire submission.
+No payment, clinical approval, external generator transfer or SMS was performed.
+
+Exact-account cleanup is still pending. Any guard-assisted deletion must be limited to manifested
+test roots, preserve the live tenant and all unrelated rows, restore necessary named append-only
+guards within the locked transaction, and independently verify absence afterward. Revoke the test
+sessions before Auth deletion. Do not reuse an isolated-tenant cleanup template without adapting
+and reviewing its live-tenant preservation guards. Retained encrypted recovery copies follow
+the existing 35-day disposition policy; do not claim instantaneous all-copy erasure.
+
+An additional copy inconsistency was observed: answer review uses the old catalogue's doctor-review
+consent label rather than the current publication's collection declaration shown on the checkbox.
+The actual consent action and publication were not replaced; reconcile this summary label before
+calling the client-visible wording fully consistent. No clinical or prescribing approval follows
+from this synthetic submission.
+
+### Public onboarding accepted and disposable account removed — 13 October
+
+The owner explicitly approved exact session revocation, manifested-record deletion and locked
+guard-assisted cleanup. `cleanup-public-registration.mjs --rehearse` ran the full transaction
+with rollback first. The committed cleanup revoked only the test application/provider sessions,
+removed only UUID-rooted test application records and FK descendants, then deleted the exact
+provider user through Auth Admin. The live tenant was never a root. No cascade/truncate or seed
+was used. The transaction fingerprinted unaffected rows across all governed application tables
+and rejected selection of other clients, publications, tenant or financial resources.
+
+Independent post-cleanup readback confirms zero test Auth users, provider sessions, subjects,
+profiles and intakes, with all **11 original Auth identities** and **four original profiles**
+preserved. Trigger definitions and enabled-state fingerprints match before/after. The deleted
+test browser now denies questionnaire access and shows no answers. The irreversible test rows
+are removed from the active services; any encrypted retained archive copy remains subject to
+the existing recovery/disposition policy, not an immediate-all-copies deletion claim.
+
+The guarded `--complete-acceptance` readback confirms active fixed Worker
+`5bb4f0fb-9e39-42aa-9305-666f6e0c8314`, production availability **204**, confirmed cleanup,
+one-OTP/profile/current-receipts/questionnaire evidence and original-account preservation.
+**Public signup is enabled** on the real tenant: Auth `disable_signup=false`, native policy true;
+email confirmation remains required, anonymous signup disabled and OTP six digits/900 seconds.
+The ignored production environment now records the two approved public variables. Existing
+payment/product/clinical/generator modes and secrets were not changed; one test email and zero
+SMS/charges occurred. No files were staged, committed or deployed by the agent.
+
+The review-summary label is corrected locally to use the same current publication declaration
+as its checkbox, rather than old catalogue wording. The 12 component tests (including the new
+regression) and strict TypeScript pass. Owner deployment of this display correction remains
+pending. **A future source deployment currently resets the public bindings to template defaults;
+coordinate their same-source restoration before asking new clients to register.** Do not promote
+an older Worker to restore variables. The current production signup journey itself has passed.
+
+### Prevent source deployments from resetting public signup — pending owner deployment
+
+Production readback still confirms readiness 204, accepted one-OTP onboarding, completed scoped
+cleanup and preserved original accounts. No new email, account, SMS or charge was created by
+this configuration task.
+
+`wrangler.jsonc` no longer writes disabled/empty public names as plain-text `vars`; both are
+declared under `secrets.required`, matching existing hosted secret-text bindings. Generated
+Worker types now treat them as strings, not disabled/empty literals. Locked Wrangler deploy/upload
+paths explicitly preserve unchanged secrets. No broad keep-vars setting, unrelated mode enablement,
+credential replacement or source promotion occurs. Application and example defaults remain
+fail-closed. CI's actual-runtime packet asserts both names are absent from `vars` and required
+as secrets, preventing the reset regression.
+
+This supersedes the earlier warning that every source deployment needs a restoration candidate.
+Commit/deploy this configuration and the tested consent-summary correction together, then verify
+active source, binding presence and availability 204. No agent staging, commit, push or deployment.
+
+Validation: four focused component/identity/environment suites pass **90 tests**, actual workerd
+regression passes, TypeScript/scoped ESLint/portability/format/diff checks pass and Node 22.23.2
+production build passes. The generated upload config independently omits public `vars` and retains
+both required secret names. Worker types were regenerated by Wrangler, not hand-edited. A sandbox
+denial affected only Wrangler's external debug-log file; type generation/build returned success.
+Production readiness remains 204 with original-account preservation and completed test cleanup.
+
 ## Hosted release checklist — not completed by a code push alone
 
 1. Review and approve the migration, apply it to the correct hosted project, and verify migration

@@ -6,6 +6,7 @@ import {
 } from "./managed-identity-provider";
 import type { PatientSessionService, PatientSession } from "./patient-session-service";
 import type { ManagedSession } from "@/domain/access/identity";
+import { AccountReviewRequiredError } from "./patient-session-service";
 
 export interface PublicRegistrationRepository {
   available(tenantId: string): Promise<boolean>;
@@ -107,6 +108,7 @@ export class PublicRegistrationService {
       };
       return { kind: "activation" as const, verified };
     } catch (error) {
+      if (error instanceof AccountReviewRequiredError) throw error;
       try {
         await this.provider.revokeSessions(session.accessToken, "local");
       } catch {

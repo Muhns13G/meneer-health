@@ -1,7 +1,9 @@
+import { companyProfile } from "./company-profile";
+
 // Framework-neutral public copy. Keep React, routing, provider, and workflow state out of this file.
 export const publicContent = Object.freeze({
   schemaVersion: 1,
-  sourceVersion: "2026.08.13.1",
+  sourceVersion: "2026.10.13.1",
   brand: Object.freeze({
     name: "Meneer",
     tagline: "Back to your best.",
@@ -76,7 +78,7 @@ export const publicContent = Object.freeze({
     general: Object.freeze({
       email: "support@meneerhealth.co.za",
       href: "mailto:support@meneerhealth.co.za",
-      owner: "OCTOTHORP ZA",
+      owner: companyProfile.legalName,
       monitoring: "Monitored daily",
     }),
     emergency: Object.freeze({
@@ -94,7 +96,7 @@ export const publicContent = Object.freeze({
       brand: "MENEER",
       scanAction: "Scan to start",
       trustLine: "HPCSA-registered doctors · Discreet delivery · POPIA-compliant",
-      operatorLine: "© 2026 Meneer · Operated by OCTOTHORP ZA · K2024185008",
+      operatorLine: `© 2026 Meneer · Operated by ${companyProfile.legalName} · ${companyProfile.registrationNumber}`,
       signoff: "Sorted, sir.",
     }),
     dads: Object.freeze({

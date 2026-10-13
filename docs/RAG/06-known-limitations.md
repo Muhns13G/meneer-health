@@ -3,10 +3,11 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-12
+last_updated: 2026-10-13
 audience: internal
 sensitivity: internal
 sources:
+  - docs/02-implementation-plans/phase-02/annexures/company-identity-transition.md
   - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md
@@ -127,6 +128,22 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Company identity transition — 13 October 2026
+
+The owner-approved Meneer Health (Pty) Ltd identity/address and VAT omission are corrected in
+local public source. Private hosted documents still name historical Octothorp ZA. Successor
+previews are prepared, not published. The private acknowledgement foundation is hosted and
+history-aligned; restricted review/UI/retry/expiry tests pass locally. The hosted 22-case rollback
+rehearsal confirms internal all-row restoration. Medical/financial preservation is implemented and
+hosted with its own successful rollback/restoration packet. Source/browser checks and guarded
+publication preparation are ready for owner deployment. The withdrawal guard is hosted/history-aligned;
+routed acceptance and actual notice publication follow deployment. Genuine existing-client actions
+and coordinated publication are required before
+superseding account documents; the old narrow compatibility
+exception cannot be reused for a company change. Preserve original receipts, medical snapshots,
+financial evidence and current client access. See the
+[transition packet](../02-implementation-plans/phase-02/annexures/company-identity-transition.md).
 
 ## Email fallback final signup acceptance remains gated — 11 October
 
@@ -1370,4 +1387,16 @@ is now reproduced in workerd: unsupported `redirect: "error"` fails before netwo
 manual-redirect fix preserves strict redirect rejection and has actual-runtime CI regression,
 but still needs owner source deployment and hosted one-OTP journey acceptance. Auth/native
 signup remains closed; no test identity or message was created by the diagnostic window.
+The actual fix is now verified deployed. Its source deployment reset public bindings to defaults;
+an exact-fixed-source candidate restoring only those bindings is prepared and needs owner
+promotion. Native/Auth gates remain closed and hosted OTP/profile/questionnaire acceptance is
+still outstanding. No new source repair is implied by this runtime-release prerequisite.
+The subsequent owner-promoted fixed-runtime acceptance and exact cleanup are now complete.
+Public signup remains enabled; one actual OTP covered profile/current receipts and encrypted
+questionnaire submission, with persisted narratives/date verified and all original accounts intact.
+The stale answer-review consent label is fixed locally and tested but not yet deployed. The local
+Wrangler fix now removes public flag defaults from `vars` and requires existing secret bindings,
+with CI protection and verified generated build configuration. Deploy it with the label correction
+to eliminate resets; verify readiness afterward, not an older-version rollback. Recovery-copy
+retention remains applicable.
 See [release checklist](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md).

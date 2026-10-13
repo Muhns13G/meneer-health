@@ -125,13 +125,13 @@ select is((select count(*)::integer from commerce_private.order_acceptances),1,'
 select ok(exists(select 1 from public.audit_events where action='commerce.order.accept'),'acceptance atomically audited');
 select throws_ok($$update commerce_private.order_acceptances set content_hash=repeat('f',64)$$,'55000','APPEND_ONLY_RECORD','acceptance immutable');
 select throws_ok($$update commerce_private.order_publications set body='changed'$$,'42501','COMMERCE_PUBLICATION_IMMUTABLE','published order terms immutable');
-select throws_ok($test$do $$begin
+select lives_ok($test$do $$begin
 insert into commerce_private.order_publications(tenant_id,scenario,instrument_version,supplier,body,
 content_hash,approval_reference,effective_at,expires_at,status) values(
 '10000000-0000-4000-8000-000000000001','review_deposit','1.2.0','Synthetic supplier',
 'Synthetic replacement terms',repeat('0',64),gen_random_uuid(),clock_timestamp(),now()+interval '1 day','published');
-perform public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}');end$$$test$,
-'PT409','COMMERCE_CONFLICT','old receipt cannot accept newly published terms');
+if public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}')->'review'->'terms'->>'version'<>'1.1.0' then raise exception 'ACCEPTED_TERMS_REWRITTEN';end if;
+end$$$test$,'accepted offer retains its genuine original seller/version after a successor publication');
 select throws_ok($test$do $$begin update commerce_private.order_publications set status='withdrawn';
 perform public.patient_order_review(pg_temp.intake_context(),'{"action":"read"}');end$$$test$,
 '42501','COMMERCE_TERMS_UNAVAILABLE','withdrawn order terms deny review');
@@ -257,5 +257,39 @@ select is((select count(*) from commerce_private.cancellation_requests),1::bigin
 select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4700000-0000-4000-8000-000000000099","requestKey":"a4700000-0000-4000-8000-000000000021"}')$$,'42501','REFUND_REJECTED','unknown or foreign offer indistinguishable');
 select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"request","offerId":"a4500000-0000-4000-8000-000000000001","requestKey":"a4700000-0000-4000-8000-000000000021","amountMinor":99900}')$$,'22023','REFUND_COMMAND_INVALID','client cannot select refund amount');
 select throws_ok($$select public.patient_refund_command(pg_temp.intake_context(),'{"action":"review","offerId":"a4500000-0000-4000-8000-000000000001"}')$$,'22023','REFUND_COMMAND_INVALID','patient cannot classify eligibility');
+-- Company successor notices: retain the original episode, consent and ciphertext.
+create temporary table original_medical_episode as select to_jsonb(i) as row from intake_private.intakes i where id='d2000000-0000-4000-8000-000000000001';
+create temporary table original_medical_snapshots as select id,to_jsonb(s) as row from intake_private.snapshots s;
+insert into intake_private.publications(id,tenant_id,collection_version,control_version,catalogue_hash,privacy_body,review_body,recipient_reference,
+clinical_approver,privacy_approver,primary_responder,fallback_responder,acknowledgement_seconds,guidance_version,urgent_guidance,after_hours_guidance,effective_at,expires_at,status,transfer_notice)
+select 'd2000000-0000-4000-8000-000000000099',tenant_id,collection_version,control_version,catalogue_hash,
+'Synthetic successor medical privacy','Synthetic successor clinical declaration',recipient_reference,clinical_approver,privacy_approver,
+primary_responder,fallback_responder,acknowledgement_seconds,guidance_version,urgent_guidance,after_hours_guidance,clock_timestamp(),expires_at,status,transfer_notice
+from intake_private.publications where id='d2000000-0000-4000-8000-000000000003';
+create function pg_temp.notice_command() returns jsonb language sql as $$select jsonb_build_object(
+'intakeId','d2000000-0000-4000-8000-000000000001','publicationId','d2000000-0000-4000-8000-000000000099',
+'privacyHash',encode(extensions.digest('Synthetic successor medical privacy','sha256'),'hex'),
+'reviewHash',encode(extensions.digest('Synthetic successor clinical declaration','sha256'),'hex'),
+'requestKey','d2000000-0000-4000-8000-000000000098','privacyAcknowledged',true,'reviewConsent',true)$$;
+select is(public.patient_intake_read(pg_temp.intake_context())->'record'->>'id','d2000000-0000-4000-8000-000000000001','successor publication does not hide existing questionnaire');
+select is(public.patient_intake_read(pg_temp.intake_context())->'publication'->>'id','d2000000-0000-4000-8000-000000000003','original publication and encryption scope remain intact');
+select is(public.patient_intake_read(pg_temp.intake_context())->'noticeTransition'->>'acknowledged','false','new notice is not silently accepted');
+select throws_ok($$select public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command(5,'amend'))$$,'42501','INTAKE_NOTICE_REQUIRED','further changes require actual successor actions');
+select throws_ok($$select public.patient_acknowledge_collection_notice(pg_temp.intake_context(),pg_temp.notice_command()||'{"reviewConsent":false}')$$,'22023','INTAKE_INVALID','unchecked successor clinical consent denied');
+select throws_ok($$select public.patient_acknowledge_collection_notice(pg_temp.intake_context(),pg_temp.notice_command()||jsonb_build_object('privacyHash',repeat('f',64)))$$,'PT409','INTAKE_CONFLICT','wrong successor hash denied');
+select throws_ok($$select public.patient_acknowledge_collection_notice(pg_temp.intake_context()||jsonb_build_object('tenantId','10000000-0000-4000-8000-000000000002'),pg_temp.notice_command())$$,'42501','PORTAL_REJECTED','wrong-tenant notice action denied');
+select ok(public.patient_acknowledge_collection_notice(pg_temp.intake_context(),pg_temp.notice_command()),'genuine medical notice actions succeed');
+select ok(public.patient_acknowledge_collection_notice(pg_temp.intake_context(),pg_temp.notice_command()),'exact medical notice retry succeeds');
+select is((select count(*) from intake_private.collection_notice_actions),1::bigint,'retry produces only one immutable notice action');
+select is(public.patient_intake_read(pg_temp.intake_context())->'noticeTransition'->>'acknowledged','true','saved successor action is projected');
+select ok((select to_jsonb(i) from intake_private.intakes i where id='d2000000-0000-4000-8000-000000000001')=(select row from original_medical_episode),'notice action never rewrites episode or answers');
+select ok(not exists(select 1 from original_medical_snapshots old join intake_private.snapshots s using(id) where old.row<>to_jsonb(s)),'old encrypted snapshots remain unchanged');
+select ok(not has_function_privilege('authenticated','public.patient_acknowledge_collection_notice(jsonb,jsonb)','execute'),'direct browser cannot manufacture notice actions');
+select ok(not has_table_privilege('service_role','intake_private.collection_notice_actions','insert'),'service cannot insert notice actions directly');
+select throws_ok($$update intake_private.collection_notice_actions set privacy_hash=repeat('f',64)$$,'55000','APPEND_ONLY_RECORD','successor actions are immutable');
+select is(public.patient_intake_write(pg_temp.intake_context(),pg_temp.intake_command(5,'amend'))->>'version','6','old episode may continue after explicit successor notice actions');
+select throws_ok($test$do $$begin update intake_private.publications set status='withdrawn' where id='d2000000-0000-4000-8000-000000000099';
+perform public.patient_intake_read(pg_temp.intake_context());end$$$test$,'42501','INTAKE_NOT_ACTIVE','withdrawn successor cannot fall back to historical company notice');
+select ok(not has_function_privilege('service_role','intake_private.current_collection_notice(uuid)','execute'),'private current-notice lookup is not directly service-callable');
 select * from finish();
 rollback;

@@ -80,7 +80,7 @@ describe("canonical public-content source", () => {
     expect(publicContent.campaigns.thanksDad.shortPath).toBe("/go/thanks-dad");
     expect(publicContent.support.general).toMatchObject({
       email: "support@meneerhealth.co.za",
-      owner: "OCTOTHORP ZA",
+      owner: "Meneer Health (Pty) Ltd",
       monitoring: "Monitored daily",
     });
     expect(publicContent.support.emergency.mobile.href).toBe("tel:112");

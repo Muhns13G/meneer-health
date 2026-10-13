@@ -10,6 +10,17 @@ import type { Subject, TenantMembership } from "@/domain/access/models";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Verified credentials restricted to document review. This is not a patient app session.
+export class AccountReviewRequiredError extends Error {
+  constructor(
+    readonly tenantId: string,
+    readonly identity: ProviderIdentity,
+    readonly providerSession: ManagedSession,
+  ) {
+    super("Current account documents require review.");
+  }
+}
+
 export type PatientSession = Readonly<{
   session: IdentitySession;
   providerSession: ManagedSession;
@@ -57,6 +68,11 @@ export class PatientSessionService {
   async requestSignIn(emailInput: string, redirectTo: string): Promise<void> {
     await this.provider.requestPatientSignIn(normalizedEmail(emailInput), redirectTo);
   }
+  async discardAccountReview(
+    review: Pick<AccountReviewRequiredError, "providerSession">,
+  ): Promise<void> {
+    await this.revokeProviderQuietly(review.providerSession.accessToken);
+  }
 
   async signIn(emailInput: string, code: string): Promise<PatientSession> {
     const email = normalizedEmail(emailInput);
@@ -64,7 +80,11 @@ export class PatientSessionService {
     const providerSession = await this.provider.verifyEmailOtp(email, code);
     try {
       const identity = await this.provider.verifyAccessToken(providerSession.accessToken);
-      const { subject, membership } = await this.resolveActivePatient(identity, email);
+      const { subject, membership } = await this.resolveActivePatient(
+        identity,
+        email,
+        providerSession,
+      );
       const session = await this.sessions.start({
         subjectId: subject.id,
         providerIdentity: identity,
@@ -78,6 +98,7 @@ export class PatientSessionService {
         tenantId: membership.tenantId,
       };
     } catch (error) {
+      if (error instanceof AccountReviewRequiredError) throw error;
       await this.revokeProviderQuietly(providerSession.accessToken);
       throw error;
     }
@@ -96,6 +117,12 @@ export class PatientSessionService {
     const { subject, membership } = await this.resolveActivePatient(
       identity,
       normalizedEmail(identity.verifiedContact.value),
+      {
+        accessToken: input.accessToken,
+        refreshToken: input.refreshToken,
+        expiresAt: identity.expiresAt,
+      },
+      input.tenantId,
     );
     if (membership.tenantId !== input.tenantId) throw new IdentityRejectedError();
     const session = await this.sessions.start({
@@ -210,10 +237,16 @@ export class PatientSessionService {
     }
   }
 
-  private async resolveActivePatient(identity: ProviderIdentity, email: string) {
+  private async resolveActivePatient(
+    identity: ProviderIdentity,
+    email: string,
+    reviewSession?: ManagedSession,
+    expectedTenantId?: string,
+  ) {
     if (
       identity.verifiedContact.kind !== "email" ||
-      normalizedEmail(identity.verifiedContact.value) !== email
+      normalizedEmail(identity.verifiedContact.value) !== email ||
+      identity.expiresAt <= this.now()
     ) {
       throw new IdentityRejectedError();
     }
@@ -226,7 +259,15 @@ export class PatientSessionService {
     if (verifiedContactSubject?.id !== subject.id) throw new IdentityRejectedError();
     const membership = await this.activePatientMembership(subject);
     if (!membership) throw new IdentityRejectedError();
+    if (expectedTenantId && membership.tenantId !== expectedTenantId)
+      throw new IdentityRejectedError();
     if (!(await this.access.hasPilotAccountEvidence(membership.tenantId, subject.id))) {
+      if (
+        reviewSession &&
+        (await this.access.accountDocumentReviewEligible?.(membership.tenantId, subject.id)) ===
+          true
+      )
+        throw new AccountReviewRequiredError(membership.tenantId, identity, reviewSession);
       throw new IdentityRejectedError();
     }
     return { subject, membership };

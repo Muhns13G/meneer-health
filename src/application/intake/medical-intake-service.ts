@@ -16,6 +16,18 @@ import {
 } from "../identity/managed-identity-provider";
 
 export const intakePatientCommandSchema = z.discriminatedUnion("action", [
+  z
+    .object({
+      action: z.literal("acknowledge_notice"),
+      intakeId: z.uuid(),
+      publicationId: z.uuid(),
+      privacyHash: z.string().regex(/^[a-f0-9]{64}$/),
+      reviewHash: z.string().regex(/^[a-f0-9]{64}$/),
+      requestKey: z.uuid(),
+      privacyAcknowledged: z.literal(true),
+      reviewConsent: z.literal(true),
+    })
+    .strict(),
   z.object({ action: z.literal("read"), intakeId: z.uuid().nullable() }).strict(),
   z.object({ action: z.literal("rights_read") }).strict(),
   z
@@ -61,8 +73,19 @@ export const intakePayloadSchema = z
       .strict(),
   })
   .strict();
+export const intakeNoticeTransitionSchema = z
+  .object({
+    publicationId: z.uuid(),
+    privacy: z.string().min(1).max(20000),
+    reviewDeclaration: z.string().min(1).max(20000),
+    privacyHash: z.string().regex(/^[a-f0-9]{64}$/),
+    reviewHash: z.string().regex(/^[a-f0-9]{64}$/),
+    acknowledged: z.boolean(),
+  })
+  .strict();
 export const intakeStoredViewSchema = z
   .object({
+    noticeTransition: intakeNoticeTransitionSchema.optional(),
     record: z
       .object({
         id: z.uuid(),
@@ -118,6 +141,7 @@ export const intakeWriteResultSchema = z
   .strict();
 export const intakePatientViewSchema = z
   .object({
+    noticeTransition: intakeNoticeTransitionSchema.optional(),
     record: intakeStoredViewSchema.shape.record
       .unwrap()
       .omit({ envelope: true })
@@ -164,6 +188,7 @@ export const intakeExportSchema = z
   })
   .strict();
 export interface IntakeRepository {
+  acknowledgeNotice?(context: PortalContext, command: Record<string, unknown>): Promise<unknown>;
   read(context: PortalContext, id: string | null): Promise<unknown>;
   exportView(context: PortalContext, id: string): Promise<unknown>;
   rightsRecord(context: PortalContext): Promise<unknown>;
@@ -219,6 +244,15 @@ export class MedicalIntakeService {
       session.absoluteExpiresAt.getTime(),
       identity.expiresAt.getTime(),
     );
+    if (command.action === "acknowledge_notice") {
+      if (!this.repository.acknowledgeNotice) throw new IdentityUnavailableError();
+      const { action: _action, ...nativeCommand } = command;
+      const recorded = z
+        .literal(true)
+        .parse(await this.repository.acknowledgeNotice(context, nativeCommand));
+      await this.portal.authorise(proof);
+      return { recorded };
+    }
     if (command.action === "rights_read") {
       const record = z
         .object({
@@ -339,6 +373,7 @@ export class MedicalIntakeService {
       const result = {
         record: v.record ? { ...v.record, envelope: undefined, answers: payload!.answers } : null,
         publication: v.publication,
+        ...(v.noticeTransition ? { noticeTransition: v.noticeTransition } : {}),
         contact: payload?.contact ?? {
           email: v.profile.verifiedEmail,
           mobile: v.profile.mobileE164,

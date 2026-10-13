@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-12",
+    "last_updated": "2026-10-13",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -24,9 +24,19 @@
   },
   "documents": [
     {
+      "id": "company-identity-transition-2026-10-13",
+      "path": "docs/02-implementation-plans/phase-02/annexures/company-identity-transition.md",
+      "status": "source-ready-owner-deployment-and-publication-pending",
+      "authority_for": [
+        "Owner-confirmed company identity, registered address, undisclosed VAT and collector arrangement",
+        "Historical-receipt preservation and genuine existing-client re-acknowledgement release dependency"
+      ],
+      "last_updated": "2026-10-13"
+    },
+    {
       "id": "public-onboarding-notice-update-draft-2026-10-12",
       "path": "docs/02-implementation-plans/phase-02/annexures/public-onboarding-notice-update-draft.md",
-      "status": "published-1.1-legacy-protected-runtime-promoted-acceptance-blocked-signup-closed",
+      "status": "published-1.1-public-signup-enabled-hosted-acceptance-cleanup-verified",
       "authority_for": [
         "Owner-approved public-registration information-source wording; not publication approval",
         "Existing-client receipt transition and supervised abandoned-registration review requirements"

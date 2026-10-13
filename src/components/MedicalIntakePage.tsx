@@ -104,6 +104,9 @@ export function MedicalIntakePage() {
   const { notify, begin } = useActionToast();
   const [status, setStatus] = useState<Status>("loading");
   const [view, setView] = useState<IntakePatientView | null>(null);
+  const currentReviewDeclaration = view?.noticeTransition?.acknowledged
+    ? view.noticeTransition.reviewDeclaration
+    : view?.publication.reviewDeclaration;
   const [rightsView, setRightsView] = useState<z.infer<typeof rightsViewSchema> | null>(null);
   const [answers, setAnswers] = useState<IntakeAnswers>({});
   const answersRef = useRef(answers);
@@ -116,6 +119,8 @@ export function MedicalIntakePage() {
   const writeLock = useRef(false);
   const pendingVisibility = useRef(false);
   const commandAttempt = useRef<{ payload: string; key: string } | null>(null);
+  const noticeAttempt = useRef<{ publicationId: string; key: string } | null>(null);
+  const [reviewNoticeChoice, setReviewNoticeChoice] = useState(false);
   const [step, setStep] = useState(1);
   const [review, setReview] = useState(false);
   const [ack, setAck] = useState(false);
@@ -162,6 +167,7 @@ export function MedicalIntakePage() {
     setStatus("loading");
     setMessage("");
     setNoticeChoice(false);
+    setReviewNoticeChoice(false);
     setTransferChoice(false);
     try {
       const value = intakePatientViewSchema.parse(
@@ -441,7 +447,7 @@ export function MedicalIntakePage() {
           setView(null);
           setAnswers({});
           setStatus("signed-out");
-        } else
+        } else if (!quiet)
           setMessage(
             error instanceof Error && error.message === "conflict"
               ? "This record changed. Reload before making another change."
@@ -683,9 +689,7 @@ export function MedicalIntakePage() {
             checked={answers[key] === true}
             onChange={(e) => update(key, e.target.checked)}
           />
-          <span>
-            {key === "doctor_review_consent" ? view?.publication.reviewDeclaration : label}
-          </span>
+          <span>{key === "doctor_review_consent" ? currentReviewDeclaration : label}</span>
         </label>
       );
     if (key === "signature")
@@ -769,6 +773,81 @@ export function MedicalIntakePage() {
             >
               Check again
             </button>
+          </section>
+        ) : view.noticeTransition && !view.noticeTransition.acknowledged ? (
+          <section className="mt-8">
+            <h2 ref={flowHeading} tabIndex={-1} className="font-serif text-2xl">
+              Updated questionnaire notices
+            </h2>
+            <p className="mt-4">
+              The company responsible for Meneer Health has changed. Your saved answers and original
+              records are retained. Review these notices before further questionnaire changes or
+              ordinary clinical review.
+            </p>
+            <details className="mt-5">
+              <summary>Read the current medical-intake privacy notice</summary>
+              <p className="mt-4 whitespace-pre-wrap">{view.noticeTransition.privacy}</p>
+            </details>
+            <fieldset disabled={busy} className="mt-6 space-y-5">
+              <legend className="sr-only">Current questionnaire notice actions</legend>
+              <label className="flex gap-3">
+                <input
+                  type="checkbox"
+                  checked={noticeChoice}
+                  onChange={(e) => setNoticeChoice(e.target.checked)}
+                />
+                I acknowledge receiving the current medical-intake privacy notice.
+              </label>
+              <label className="flex gap-3">
+                <input
+                  type="checkbox"
+                  checked={reviewNoticeChoice}
+                  onChange={(e) => setReviewNoticeChoice(e.target.checked)}
+                />
+                {view.noticeTransition.reviewDeclaration}
+              </label>
+              <button
+                className="action-primary"
+                disabled={!noticeChoice || !reviewNoticeChoice || busy}
+                onClick={async () => {
+                  if (!view.record || !view.noticeTransition || busy) return;
+                  setBusy(true);
+                  setMessage("Recording your notice actions…");
+                  if (noticeAttempt.current?.publicationId !== view.noticeTransition.publicationId)
+                    noticeAttempt.current = {
+                      publicationId: view.noticeTransition.publicationId,
+                      key: crypto.randomUUID(),
+                    };
+                  try {
+                    const response = await request({
+                      action: "acknowledge_notice",
+                      intakeId: view.record.id,
+                      publicationId: view.noticeTransition.publicationId,
+                      privacyHash: view.noticeTransition.privacyHash,
+                      reviewHash: view.noticeTransition.reviewHash,
+                      requestKey: noticeAttempt.current.key,
+                      privacyAcknowledged: true,
+                      reviewConsent: true,
+                    });
+                    z.object({ recorded: z.literal(true) })
+                      .strict()
+                      .parse(response);
+                    await load();
+                  } catch {
+                    setMessage(
+                      "We could not confirm your notice actions. Try again with the same choices. Your saved questionnaire is unchanged.",
+                    );
+                  } finally {
+                    setBusy(false);
+                  }
+                }}
+              >
+                Save notices and continue
+              </button>
+            </fieldset>
+            <p ref={resultRef} tabIndex={-1} role="status" aria-live="polite" className="mt-5">
+              {message}
+            </p>
           </section>
         ) : !ack ? (
           <section className="mt-8">
@@ -972,7 +1051,11 @@ export function MedicalIntakePage() {
                           )
                           .map((x) => (
                             <div key={x.id}>
-                              <dt>{x.prompt}</dt>
+                              <dt>
+                                {x.id === "doctor_review_consent"
+                                  ? currentReviewDeclaration
+                                  : x.prompt}
+                              </dt>
                               <dd className="mt-2 whitespace-pre-wrap break-words">
                                 {displayAnswer(answers[x.id as keyof IntakeAnswers])}
                               </dd>

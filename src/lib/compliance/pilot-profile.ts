@@ -1,3 +1,5 @@
+import { companyProfile } from "@content/company-profile";
+
 export type EvidenceState = "owner-confirmed" | "placeholder";
 
 type RegulatedParty = {
@@ -8,9 +10,9 @@ type RegulatedParty = {
 
 const pilotComplianceProfile = {
   operator: {
-    legalName: "OCTOTHORP ZA",
-    enterpriseNumber: "K2024185008",
-    vatNumber: "9279262266",
+    legalName: companyProfile.legalName,
+    enterpriseNumber: companyProfile.registrationNumber,
+    registeredAddress: companyProfile.registeredAddress,
     evidenceState: "owner-confirmed",
   },
   clinician: {

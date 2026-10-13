@@ -4,6 +4,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
 import { supportChannels } from "@/lib/support-channels";
+import { companyProfile } from "@content/company-profile";
 
 export const Route = createFileRoute("/terms")({
   head: () => ({
@@ -26,7 +27,9 @@ function TermsPage() {
         <h1 className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground">
           Website Terms
         </h1>
-        <p className="mt-5 text-sm text-muted-foreground">Effective 7 August 2026 · Version 1.0</p>
+        <p className="mt-5 text-sm text-muted-foreground">
+          Effective 13 October 2026 · Version 1.1
+        </p>
 
         <div className="mt-10 space-y-10 text-muted-foreground leading-relaxed">
           <section aria-labelledby="terms-operator">
@@ -34,8 +37,10 @@ function TermsPage() {
               Operator and scope
             </h2>
             <p className="mt-3">
-              This website is operated by OCTOTHORP ZA, enterprise number K2024185008, using Meneer
-              as the working website brand. These terms apply only to the current public website.
+              This website is operated by {companyProfile.legalName}, registration number{" "}
+              {companyProfile.registrationNumber}. Its registered office is{" "}
+              {companyProfile.registeredAddress}. These website-use terms are separate from the
+              account, medical-intake and payment documents presented in the corresponding journeys.
             </p>
           </section>
 
@@ -44,10 +49,11 @@ function TermsPage() {
               Current service boundary
             </h2>
             <p className="mt-3">
-              The website currently provides general information and does not create an account,
-              doctor-patient relationship, consultation, prescription, payment, order, delivery, or
-              guarantee of treatment. Transactional routes remain unavailable until their clinical,
-              privacy, operational, and technical controls are approved.
+              Public information is available without an account. Where enabled, you may verify an
+              account, provide profile information and complete a questionnaire. Payment and product
+              steps have their own terms and availability controls. Registration, questionnaire
+              submission or payment does not create clinical approval, a prescription, dispensing
+              authority or a guarantee of treatment.
             </p>
           </section>
 
@@ -125,8 +131,10 @@ function TermsPage() {
               >
                 {supportChannels.general.email}
               </a>
-              . Separate approved transactional terms must be published before any consultation,
-              payment, prescription, order, cancellation, refund, or delivery journey opens.
+              . Separate documents and consent requirements apply to enabled account, intake and
+              payment journeys. {companyProfile.paymentCollector} collects payments on behalf of{" "}
+              {companyProfile.legalName} under the owner-confirmed arrangement; this does not change
+              the seller to the payment collector.
             </p>
           </section>
         </div>

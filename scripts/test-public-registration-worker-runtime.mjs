@@ -14,6 +14,16 @@ const parsed = ts.parseConfigFileTextToJson(
 );
 assert.ok(!parsed.error, "Worker runtime configuration must parse as JSONC");
 const configuration = parsed.config;
+for (const binding of ["PUBLIC_REGISTRATION_MODE", "PUBLIC_REGISTRATION_TENANT_ID"]) {
+  assert.ok(
+    !Object.hasOwn(configuration.vars ?? {}, binding),
+    "Public release bindings must not be reset by source defaults",
+  );
+  assert.ok(
+    configuration.secrets.required.includes(binding),
+    "Public release bindings must be provisioned explicitly before deployment",
+  );
+}
 const script = `
 ${publicAuthSettingsRequestOptions.toString()}
 export default {
