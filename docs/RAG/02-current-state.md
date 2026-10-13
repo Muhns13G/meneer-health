@@ -2432,13 +2432,14 @@ office; VAT remains undisclosed and Octothorp LLC continues as collector. Public
 updated locally. The approved account re-acknowledgement migration is hosted/history-aligned,
 with private journal/RPC controls verified. The new restricted review flow passes local application
 and desktop/mobile browser checks; its 22-case rollback packet passes locally and hosted, with
-internal all-row restoration confirmed and no fixtures retained. Routed source acceptance remains
-pending. Medical/financial preservation is now implemented and hosted/history-aligned, with its
+internal all-row restoration confirmed and no fixtures retained. Live company-copy/routes and public
+signup availability are verified. Medical/financial preservation is now implemented and hosted/history-aligned, with its
 own successful rollback/internal-restoration packet. Original episodes/ciphertext and accepted
 seller/version evidence are retained; further ordinary medical actions require explicit successor
 notices. The withdrawal fallback guard is hosted/history-aligned. Source/browser checks and guarded
-publication preparation are ready for owner deployment; hosted notice publication and routed
-post-deployment acceptance remain separate. See
+publication passed exact rollback/preservation checks and committed. Account/privacy 1.2, deposit
+1.1.0 and a new same-catalogue medical notice are published. Genuine routed existing-client actions
+remain to be observed; the 11 Auth users, four profiles and eight original receipts are preserved. See
 [company transition](../02-implementation-plans/phase-02/annexures/company-identity-transition.md).
 
 Public referral signup is implemented at `/start`, with a distinct default-off server/native

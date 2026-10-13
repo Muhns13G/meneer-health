@@ -20,14 +20,14 @@ party. VAT registration remains undisclosed; the old Octothorp ZA VAT number mus
 Octothorp LLC remains collector on behalf of Meneer Health (Pty) Ltd; support/privacy contacts
 are unchanged. This supersedes current DR-013/operator facts, not prior accepted documents or
 Stripe ownership. See the [transition packet](../02-implementation-plans/phase-02/annexures/company-identity-transition.md).
-Local source and read-only previews are ready. The separately approved private acknowledgement
+Live public source and four successor database publications are verified. The separately approved private acknowledgement
 foundation is hosted/history-aligned, with local restricted-review/browser proof and successful
-22-case hosted rollback/internal-restoration evidence. Source release acceptance and coordinated publication remain pending;
+22-case hosted rollback/internal-restoration evidence. Exact publication rollback/preservation and commit passed; genuine routed existing-client acknowledgement remains pending;
 no blanket compatibility or new acceptance is inferred. Medical/financial preservation is now
 implemented/hosted with rollback/restoration proof: retain original episode/ciphertext and accepted
 seller/version evidence, require explicit successor medical notice actions, and keep safety/rights
-boundaries distinct. Source and guarded publication preparation are ready; actual publication follows
-owner deployment/readback. No live charge, new secret, cohort switch or generator release occurs.
+boundaries distinct. Account terms/privacy 1.2, deposit terms 1.1.0 and a new same-catalogue medical
+publication are published. No live charge, new secret, cohort switch or generator release occurs.
 
 ### Sprint 11 Engineering Closure — 6 October 2026
 
