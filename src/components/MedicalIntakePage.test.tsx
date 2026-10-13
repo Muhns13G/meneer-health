@@ -36,6 +36,65 @@ afterEach(() => {
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
+it("retains saved answers while requiring two genuine successor-notice actions", async () => {
+  const commands: Record<string, unknown>[] = [];
+  let acknowledged = false;
+  const transition = {
+    publicationId: "d3000000-0000-4000-8000-000000000099",
+    privacy: "Synthetic current-company privacy",
+    reviewDeclaration: "I consent to synthetic current-company clinical review",
+    privacyHash: "b".repeat(64),
+    reviewHash: "c".repeat(64),
+  };
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (_url, init) => {
+      const command = JSON.parse(String(init.body));
+      if (command.action === "acknowledge_notice") {
+        commands.push(command);
+        if (commands.length === 1) return new Response(null, { status: 503 });
+        acknowledged = true;
+        return Response.json({ recorded: true });
+      }
+      return Response.json({
+        ...view(
+          saved({ health_history: { disposition: "provided", text: "Synthetic retained answer" } }),
+        ),
+        noticeTransition: { ...transition, acknowledged },
+      });
+    }),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await screen.findByRole("heading", { name: "Updated questionnaire notices" });
+  const save = screen.getByRole("button", { name: "Save notices and continue" });
+  expect(save).toBeDisabled();
+  const boxes = screen.getAllByRole("checkbox");
+  for (const box of boxes) {
+    expect(box).not.toBeChecked();
+    fireEvent.click(box);
+  }
+  fireEvent.click(save);
+  await screen.findByText(/could not confirm your notice actions/);
+  expect(screen.queryByDisplayValue("Synthetic retained answer")).not.toBeInTheDocument();
+  fireEvent.click(save);
+  await waitFor(() =>
+    expect(
+      screen.queryByRole("heading", { name: "Updated questionnaire notices" }),
+    ).not.toBeInTheDocument(),
+  );
+  expect(commands).toHaveLength(2);
+  expect(commands[0].requestKey).toBe(commands[1].requestKey);
+  expect(commands[1]).toMatchObject({
+    publicationId: transition.publicationId,
+    privacyHash: transition.privacyHash,
+    reviewHash: transition.reviewHash,
+    action: "acknowledge_notice",
+    intakeId: id,
+    privacyAcknowledged: true,
+    reviewConsent: true,
+  });
+  expect(commands[1]).not.toHaveProperty("answers");
+});
 
 it("masks backgrounded fields and retains unsaved edits only after same-account revalidation", async () => {
   vi.stubGlobal(
@@ -258,6 +317,25 @@ it("fails closed without presenting fields when the server has not enabled intak
   await renderWithRouter(<MedicalIntakePage />);
   await screen.findByText(/not currently available/);
   expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+});
+it("uses the current publication declaration in answer review, not the retired catalogue consent", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () => Response.json(view(saved(completeSyntheticAnswers)))),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await screen.findByText(catalogue.sections[0]!.title);
+  for (let section = 1; section < 8; section++) {
+    fireEvent.click(screen.getByRole("button", { name: "Next section" }));
+    await screen.findByRole("heading", { name: catalogue.sections[section]!.title });
+  }
+  fireEvent.click(screen.getByRole("button", { name: "Review answers" }));
+  await screen.findByRole("heading", { name: "Review your answers" });
+  const declaration = screen.getByText(publication.reviewDeclaration, { exact: true });
+  expect(declaration).toBeVisible();
+  expect(declaration.tagName).toBe("DT");
+  const retired = catalogue.items.find((item) => item.id === "doctor_review_consent")!.prompt;
+  expect(screen.queryByText(retired, { exact: true })).not.toBeInTheDocument();
 });
 it("offers retained-data export after a separately authorised restriction check without collecting answers", async () => {
   const calls: string[] = [];

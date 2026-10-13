@@ -11,6 +11,8 @@ export type PublicRoutePolicy = Readonly<{
 }>;
 
 export const PUBLIC_ROUTE_POLICIES = [
+  { path: "/account/documents", routeClass: "restricted", indexing: "noindex-nofollow" },
+  { path: "/account/documents/current", routeClass: "internal", indexing: "noindex-nofollow" },
   { path: "/", routeClass: "public", indexing: "index-follow", canonicalPath: "/" },
   {
     path: "/contact",

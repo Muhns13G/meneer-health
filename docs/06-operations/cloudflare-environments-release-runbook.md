@@ -10,6 +10,43 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Company identity release dependency — 13 October
+
+The owner confirms Meneer Health (Pty) Ltd as operator/seller/responsible party, registration
+2026/652695/07, registered office 14 College Road, Rondebosch, Western Cape, 7700, South Africa.
+VAT remains undisclosed; Octothorp LLC continues as collector. Local public disclosures use the
+new facts, but private hosted documents are unchanged. Follow the
+[company transition packet](../02-implementation-plans/phase-02/annexures/company-identity-transition.md)
+before publishing successors or calling the entity swap complete. Do not supersede account notices
+without a genuine existing-client re-acknowledgement path, rewrite receipts/snapshots, transfer
+the old VAT number or rename Stripe's legal owner. No new company publication is made by a code push.
+
+Account and medical/financial preservation foundations are hosted/history-aligned and their
+rollback-only rehearsals confirm original record restoration. Source/browser proof and guarded
+publication SQL preparation are complete. The owner may commit and deploy the complete source diff;
+preserve real-pilot bindings and keys, not an older rehearsal Worker version. After source readback,
+approve/rehearse/publish the exact successor packet and verify genuine account/medical actions. The
+current-medical-notice withdrawal guard is hosted/history-aligned and the preservation rehearsal
+passes with it applied. Do not switch the live cohort out for testing.
+
+## Current public-signup release configuration — 13 October
+
+Public signup is currently hosted-accepted and enabled on the real tenant. The prior source-reset
+warning below is historical: the pending configuration fix removes only public mode/tenant from
+`vars` and declares their existing **secret_text** bindings under `secrets.required`. No enabled
+value, tenant ID or credential is committed in Wrangler configuration. The locked Wrangler
+deploy/upload paths preserve unchanged secrets; explicit plain-text defaults were overwriting
+these names. No broad `keep_vars` change is made and all unrelated vars remain intact.
+
+Commit/deploy the configuration, generated Worker types, tested review-label correction and
+associated evidence together. The build-generated configuration must omit both public names
+from `vars` and require both secrets. The CI runtime regression checks this invariant. Confirm
+active source and canonical availability 204 after deployment; never restore settings by promoting
+an older Worker. Intentionally closed environments must provision disabled/empty bindings as
+appropriate; the application still rejects missing/disabled values and closed native/Auth policies.
+`.env.example` remains disabled by default; ignored `.env.production.local` records accepted
+production values. No database migration or secret rotation is needed for this configuration fix.
+
 ## Default-off public registration — 12 October
 
 The owner deployed the [public onboarding source](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md).
@@ -66,6 +103,19 @@ closed afterward. Workerd reproduces `redirect: "error"` failing during request 
 The corrected source uses manual redirects plus strict non-2xx rejection and has a new CI workerd
 regression. Owner commit/source deployment is required next; do not promote an old version over
 the fix or infer complete hosted signup acceptance from these diagnostic tests.
+The fix is now verified owner-deployed as `150c7ad9-eedc-4292-8b06-798f6a8831a8` (`d3f4553`).
+Candidate `5bb4f0fb-9e39-42aa-9305-666f6e0c8314` retains that exact fixed source and all unrelated
+bindings, restoring only public mode/tenant. Owner promotion is pending; native/Auth signup stays
+closed. Promote it directly before readiness/owned-mailbox acceptance; no further code deployment
+or older-version promotion should be inserted between preparation and that promotion.
+The owner promoted that candidate and bounded hosted acceptance/cleanup now pass. Public signup
+is enabled on the real tenant, canonical availability 204; required email confirmation, disabled
+anonymous signup and six-digit/900-second OTPs remain. One actual code carried through profile,
+current receipts and submitted encrypted questionnaire. The exact test account/sessions/records
+were removed with restored guards and preservation checks. No payment/SMS or other mode change.
+Future source deployments still overwrite the public vars with template defaults; restore the
+approved bindings against the exact new source before advertising signup availability. A local
+answer-review label correction is commit-ready but not deployed; do not roll back to old source.
 
 ## Email invitation fallback — 11 October
 

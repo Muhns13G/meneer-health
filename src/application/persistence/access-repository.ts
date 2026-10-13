@@ -13,6 +13,7 @@ export interface AccessRepository {
   findSubjectByVerifiedEmail(email: string): Promise<Subject | null>;
   listMemberships(subjectId: SubjectId): Promise<readonly TenantMembership[]>;
   hasPilotAccountEvidence(tenantId: TenantId, subjectId: SubjectId): Promise<boolean>;
+  accountDocumentReviewEligible?(tenantId: TenantId, subjectId: SubjectId): Promise<boolean>;
 }
 
 export class PersistenceUnavailableError extends Error {

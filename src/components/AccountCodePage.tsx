@@ -16,7 +16,9 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
   const recovery = mode === "recover";
   const registration = mode === "sign-up";
   const [registrationReady, setRegistrationReady] = useState<boolean | null>(null);
-  const [continuation, setContinuation] = useState<"/portal" | "/account/activate">("/portal");
+  const [continuation, setContinuation] = useState<
+    "/portal" | "/account/activate" | "/account/documents"
+  >("/portal");
   const formRef = useRef<HTMLFormElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const previousStage = useRef(stage);
@@ -78,17 +80,27 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
       } else if (stage === "verify" && response.status === 204) {
         if (registration) {
           const result = response.headers.get("X-Meneer-Session");
-          if (result !== "activation" && result !== "ready")
+          if (result !== "activation" && result !== "ready" && result !== "documents")
             throw new Error("REGISTRATION_UNCONFIRMED");
-          setContinuation(result === "activation" ? "/account/activate" : "/portal");
+          setContinuation(
+            result === "documents"
+              ? "/account/documents"
+              : result === "activation"
+                ? "/account/activate"
+                : "/portal",
+          );
         }
+        if (!recovery && response.headers.get("X-Meneer-Session") === "documents")
+          setContinuation("/account/documents");
         setCompleted(true);
         setMessage(
-          recovery
-            ? "Recovery is complete. All previous sessions have been revoked. You can sign in again."
-            : registration && response.headers.get("X-Meneer-Session") === "activation"
-              ? "Email verified. Continue to set up your account—no second email code is needed."
-              : "You are signed in. Continue to your private account.",
+          !recovery && response.headers.get("X-Meneer-Session") === "documents"
+            ? "Email verified. Review the current account documents to continue—no second code is needed."
+            : recovery
+              ? "Recovery is complete. All previous sessions have been revoked. You can sign in again."
+              : registration && response.headers.get("X-Meneer-Session") === "activation"
+                ? "Email verified. Continue to set up your account—no second email code is needed."
+                : "You are signed in. Continue to your private account.",
         );
       } else {
         setMessage(
@@ -223,9 +235,11 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
         </div>
         {completed && !recovery ? (
           <Link to={continuation} className="action-primary mt-6">
-            {registration && continuation === "/account/activate"
-              ? "Continue to account setup"
-              : "Open your private account"}
+            {continuation === "/account/documents"
+              ? "Review current documents"
+              : registration && continuation === "/account/activate"
+                ? "Continue to account setup"
+                : "Open your private account"}
           </Link>
         ) : null}
         {registration && (

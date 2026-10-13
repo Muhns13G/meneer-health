@@ -2,6 +2,8 @@ import { describe, expect, it, vi } from "vitest";
 
 import type { PatientSessionService } from "@/application/identity/patient-session-service";
 import type { PatientSession } from "@/application/identity/patient-session-service";
+import { AccountReviewRequiredError } from "@/application/identity/patient-session-service";
+import { accountReviewCookieName, openAccountReview } from "./account-review-cookie";
 import {
   openPatientSession,
   patientSessionCookieName,
@@ -78,6 +80,35 @@ function harness(keyValue: unknown = encodedKey) {
   );
   return { handler, service };
 }
+
+it("returns only a documents-only cookie when genuine current document actions are missing", async () => {
+  const h = harness();
+  vi.mocked(h.service.signIn).mockRejectedValue(
+    new AccountReviewRequiredError(
+      signedIn.tenantId,
+      signedIn.providerIdentity,
+      signedIn.providerSession,
+    ),
+  );
+  const response = await h.handler(
+    post("/account/sign-in", "action=verify&email=patient%40example.invalid&code=123456"),
+  );
+  expect(response.status).toBe(204);
+  expect(response.headers.get("X-Meneer-Session")).toBe("documents");
+  expect(await response.text()).toBe("");
+  const cookie = response.headers.get("set-cookie")!;
+  const token = cookie.match(new RegExp(`${accountReviewCookieName}=([^;]+)`))![1];
+  expect(await openPatientSession(token, key)).toBeNull();
+  expect(
+    await openAccountReview(
+      new Request(origin + "/account/documents/current", {
+        headers: { Cookie: `${accountReviewCookieName}=${token}` },
+      }),
+      key,
+    ),
+  ).toMatchObject({ purpose: "account-document-review" });
+  expect(cookie).toContain(`${patientSessionCookieName}=; Path=/; Max-Age=0`);
+});
 
 describe("patient session HTTP boundary", () => {
   it("returns generic request response and no email or token payload", async () => {

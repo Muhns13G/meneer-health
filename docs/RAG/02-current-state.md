@@ -3,7 +3,7 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-12
+last_updated: 2026-10-13
 audience: internal
 sensitivity: internal
 source_baseline: 08dc68c
@@ -2426,6 +2426,21 @@ Evidence: [`sprint-05-21-final-closure-evidence.md`](../02-implementation-plans/
 
 ## 12 October 2026 — public-registration migration accepted; activation pending
 
+Latest company checkpoint (13 October): the owner confirms Meneer Health (Pty) Ltd as
+operator/seller/responsible party with CIPC registration 2026/652695/07 and the Rondebosch registered
+office; VAT remains undisclosed and Octothorp LLC continues as collector. Public source facts are
+updated locally. The approved account re-acknowledgement migration is hosted/history-aligned,
+with private journal/RPC controls verified. The new restricted review flow passes local application
+and desktop/mobile browser checks; its 22-case rollback packet passes locally and hosted, with
+internal all-row restoration confirmed and no fixtures retained. Routed source acceptance remains
+pending. Medical/financial preservation is now implemented and hosted/history-aligned, with its
+own successful rollback/internal-restoration packet. Original episodes/ciphertext and accepted
+seller/version evidence are retained; further ordinary medical actions require explicit successor
+notices. The withdrawal fallback guard is hosted/history-aligned. Source/browser checks and guarded
+publication preparation are ready for owner deployment; hosted notice publication and routed
+post-deployment acceptance remain separate. See
+[company transition](../02-implementation-plans/phase-02/annexures/company-identity-transition.md).
+
 Public referral signup is implemented at `/start`, with a distinct default-off server/native
 policy, provider-readiness checks and one-code activation handoff. Account documents now open in
 compact native dialogs; exact-version receipts and separate medical consent are unchanged. This is
@@ -2473,5 +2488,18 @@ settings transport exception. Workerd reproduces the exact unsupported `redirect
 request option. The local manual-redirect/non-2xx-rejection fix passes actual runtime regression
 and 113 focused tests, with CI coverage added. Source deployment and actual hosted journey
 acceptance remain pending; both signup gates were restored closed without any test account/send.
+The manual-redirect fix is subsequently confirmed deployed from `d3f4553`, active source
+`150c7ad9-eedc-4292-8b06-798f6a8831a8`. Exact-source runtime candidate
+`5bb4f0fb-9e39-42aa-9305-666f6e0c8314` restores only defaulted public bindings and awaits owner
+promotion. Native/Auth signup remains closed; no owned-mailbox journey or send has occurred.
+Subsequent owner promotion and actual acceptance now pass: canonical readiness 204, one email
+OTP through current 1.1 receipts/profile to submitted encrypted questionnaire, draft/free-text/date
+reload recovery, and exact disposable-account cleanup. All 11 original Auth identities/four profiles
+and trigger metadata remain preserved. Public signup is enabled on the real tenant with required
+email confirmation, anonymous signup disabled and six-digit/900-second codes. No SMS/payment or
+generator action occurred. A local review-summary label correction still requires owner deployment;
+the local configuration fix now removes public bindings from hardcoded `vars` and declares their
+existing secret bindings required. Generated types and built deployment config reflect this;
+CI regression protects the invariant. This supersedes the reset warning after owner deployment.
 See [public onboarding release](../02-implementation-plans/phase-02/annexures/public-onboarding-release.md)
 for hosted Auth, migration, abuse/retention, owned-mailbox and modal-accessibility acceptance.

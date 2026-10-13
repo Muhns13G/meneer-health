@@ -130,6 +130,15 @@ export class SupabaseAccessRepository implements AccessRepository {
     if (typeof data !== "boolean") throw new PersistenceUnavailableError();
     return data;
   }
+  async accountDocumentReviewEligible(tenantId: TenantId, subjectId: SubjectId): Promise<boolean> {
+    const { data, error } = await this.client.rpc("account_document_review_eligible", {
+      p_tenant_id: tenantId,
+      p_subject_id: subjectId,
+    });
+    ensureNoProviderError(error);
+    if (typeof data !== "boolean") throw new PersistenceUnavailableError();
+    return data;
+  }
 }
 
 export type SupabasePersistenceConfiguration = Readonly<{

@@ -17,6 +17,28 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+it("routes a verified existing client to document review after only one OTP", async () => {
+  const fetcher = vi
+    .fn()
+    .mockResolvedValueOnce(new Response(null, { status: 202 }))
+    .mockResolvedValueOnce(
+      new Response(null, { status: 204, headers: { "X-Meneer-Session": "documents" } }),
+    );
+  vi.stubGlobal("fetch", fetcher);
+  const user = userEvent.setup();
+  render(<AccountCodePage mode="sign-in" />);
+  await user.type(screen.getByLabelText("Email address"), "review@example.invalid");
+  await user.click(screen.getByRole("button", { name: "Send code" }));
+  await user.type(await screen.findByLabelText("Six-digit code"), "123456");
+  await user.click(screen.getByRole("button", { name: "Verify and sign in" }));
+  expect(await screen.findByRole("link", { name: "Review current documents" })).toHaveAttribute(
+    "href",
+    "/account/documents",
+  );
+  expect(fetcher).toHaveBeenCalledTimes(2);
+  expect(screen.getByRole("status")).toHaveTextContent("no second code");
+});
+
 for (const mode of ["sign-in", "recover"] as const) {
   it(`${mode} focuses the code step, failure result and returned email step`, async () => {
     vi.stubGlobal(

@@ -10,6 +10,8 @@ const expectedVersion = "e9bd9a8a-adac-4791-b010-833caf935c73";
 const expectedEtag = "0caa5c781c97efac0cf947bd637e71bc1212324023855fa2cbed41e00ddb8e12";
 const diagnosticVersion = "94f01955-e131-4b2f-9c98-fc749c7168e8";
 const diagnosticEtag = "baf8b0a623d9febf1447ece482d06dcdf622109c175339ff1b42a92049323846";
+const fixedVersion = "150c7ad9-eedc-4292-8b06-798f6a8831a8";
+const fixedEtag = "b253ac9c852a8f199419df276242adb77e1284671c7bc729e6702a975e5d9715";
 const receiptPath = new URL("../../.public-registration-release.local", import.meta.url);
 const mode = process.argv[2];
 function check(condition, code) {
@@ -81,9 +83,11 @@ if (
     "--publish",
     "--prepare-runtime",
     "--prepare-diagnostic-runtime",
+    "--prepare-fixed-runtime",
     "--verify",
     "--open-test-window",
     "--close-test-window",
+    "--complete-acceptance",
   ].includes(mode)
 ) {
   console.log(
@@ -273,7 +277,7 @@ ${mode === "--rehearse" ? "rollback" : "commit"};`;
 check(
   receipt?.task === "public-registration-release" &&
     receipt.tenant === tenant &&
-    [expectedEtag, diagnosticEtag].includes(receipt.sourceEtag),
+    [expectedEtag, diagnosticEtag, fixedEtag].includes(receipt.sourceEtag),
   "RELEASE_RECEIPT_REQUIRED",
 );
 const published = await sql(
@@ -353,9 +357,16 @@ if (mode === "--open-test-window" || mode === "--close-test-window") {
         : `update identity_private.public_registration_settings set enabled=false where tenant_id='${tenant}';`,
       false,
     );
-    const readback = await fetch(authUrl, { headers });
-    check(readback.ok, "AUTH_READBACK_FAILED");
-    const after = await readback.json();
+    let after;
+    // Config writes may be accepted before GET reflects them. Poll reads only;
+    // never repeat the PATCH or send a message while the state is uncertain.
+    for (let attempt = 0; attempt < 6; attempt++) {
+      if (attempt) await new Promise((resolve) => setTimeout(resolve, 2000));
+      const readback = await fetch(authUrl, { headers, cache: "no-store" });
+      check(readback.ok, "AUTH_READBACK_FAILED");
+      after = await readback.json();
+      if (after.disable_signup === !opening) break;
+    }
     check(after.disable_signup === !opening, "AUTH_SIGNUP_READBACK_FAILED");
     check(
       Object.keys(before)
@@ -383,21 +394,24 @@ if (mode === "--open-test-window" || mode === "--close-test-window") {
   } else receipt.testWindowClosedAt = new Date().toISOString();
   save();
 }
-if (mode === "--prepare-runtime" || mode === "--prepare-diagnostic-runtime") {
-  const diagnostic = mode === "--prepare-diagnostic-runtime";
-  const baselineVersion = diagnostic ? diagnosticVersion : expectedVersion;
-  const baselineEtag = diagnostic ? diagnosticEtag : expectedEtag;
+if (
+  ["--prepare-runtime", "--prepare-diagnostic-runtime", "--prepare-fixed-runtime"].includes(mode)
+) {
+  const fixed = mode === "--prepare-fixed-runtime";
+  const updating = fixed || mode === "--prepare-diagnostic-runtime";
+  const baselineVersion = fixed ? fixedVersion : updating ? diagnosticVersion : expectedVersion;
+  const baselineEtag = fixed ? fixedEtag : updating ? diagnosticEtag : expectedEtag;
   check(
-    diagnostic
+    updating
       ? receipt.stage === "owner-promoted-acceptance-blocked-signup-closed" &&
-          receipt.sourceEtag === expectedEtag
+          receipt.sourceEtag === (fixed ? diagnosticEtag : expectedEtag)
       : receipt.stage === "published-runtime-disabled" && !receipt.preparedVersion,
     "RUNTIME_ALREADY_PREPARED_RECONCILE_FIRST",
   );
   check(active() === baselineVersion, "CONCURRENT_DEPLOYMENT_CHANGED");
   const baseline = view(baselineVersion);
   check(baseline.resources?.script?.etag === baselineEtag, "BASELINE_SOURCE_CHANGED");
-  if (diagnostic) {
+  if (updating) {
     const response = await fetch(`https://api.supabase.com/v1/projects/${project}/config/auth`, {
       headers: { Authorization: `Bearer ${management}` },
     });
@@ -415,6 +429,8 @@ if (mode === "--prepare-runtime" || mode === "--prepare-diagnostic-runtime") {
         policies[0].enabled === false,
       "DIAGNOSTIC_GATES_NOT_CLOSED",
     );
+    if (receipt.previousRelease)
+      receipt.releaseHistory = [...(receipt.releaseHistory ?? []), receipt.previousRelease];
     receipt.previousRelease = {
       preparedVersion: receipt.preparedVersion,
       sourceEtag: receipt.sourceEtag,
@@ -433,8 +449,10 @@ if (mode === "--prepare-runtime" || mode === "--prepare-diagnostic-runtime") {
       "secret",
       "bulk",
       "--message",
-      diagnostic
-        ? "Public signup diagnostics - current source, Auth and native gates closed"
+      updating
+        ? fixed
+          ? "Fixed public signup transport - exact source, acceptance pending"
+          : "Public signup diagnostics - current source, Auth and native gates closed"
         : "Approved public onboarding - exact source and existing clients preserved",
     ],
     JSON.stringify(settings),
@@ -470,7 +488,78 @@ if (mode === "--prepare-runtime" || mode === "--prepare-diagnostic-runtime") {
   receipt.stage = "runtime-prepared-owner-promotion-required";
   save();
 }
-if (mode === "--verify" && receipt.testWindowClosedAt) {
+if (
+  mode === "--complete-acceptance" ||
+  (mode === "--verify" && receipt.stage === "public-registration-acceptance-completed")
+) {
+  check(
+    active() === receipt.preparedVersion &&
+      view(receipt.preparedVersion).resources?.script?.etag === receipt.sourceEtag,
+    "ACCEPTED_SOURCE_CHANGED",
+  );
+  const acceptance = JSON.parse(readFileSync(".public-registration-acceptance.local", "utf8"));
+  check(
+    acceptance.stage === "scoped-cleanup-verified" &&
+      acceptance.cleanupRequired === false &&
+      acceptance.workerVersion === receipt.preparedVersion &&
+      acceptance.emailRequestAttempts === 1 &&
+      acceptance.smsAttempts === 0 &&
+      acceptance.charges === 0 &&
+      acceptance.browserChecks.questionnaireReceived === true &&
+      acceptance.browserChecks.birthDateNativeKeyboardRestored === true,
+    "ACCEPTANCE_INCOMPLETE",
+  );
+  const authResponse = await fetch(`https://api.supabase.com/v1/projects/${project}/config/auth`, {
+    headers: { Authorization: `Bearer ${management}` },
+  });
+  check(authResponse.ok, "AUTH_READ_FAILED");
+  const auth = await authResponse.json();
+  const policy = await sql(
+    `select tenant_id,enabled from identity_private.public_registration_settings`,
+  );
+  check(
+    auth.disable_signup === false &&
+      auth.mailer_autoconfirm === false &&
+      auth.external_anonymous_users_enabled === false &&
+      auth.mailer_otp_length === 6 &&
+      auth.mailer_otp_exp === 900 &&
+      policy.length === 1 &&
+      policy[0].tenant_id === tenant &&
+      policy[0].enabled === true,
+    "ACCEPTED_GATES_CHANGED",
+  );
+  const readiness = await fetch("https://meneerhealth.co.za/account/sign-up/availability");
+  check(readiness.status === 204, "ACCEPTED_READINESS_FAILED");
+  const preserved = await sql(
+    `select (select count(*) from auth.users where id in(${receipt.acceptanceBaseline.authIds.map(quote).join(",")})) as original_auth,(select count(*) from public.client_profiles where id in(${receipt.acceptanceBaseline.profileIds.map(quote).join(",")})) as original_profiles,(select count(*) from auth.users where lower(email)='mansoergallie@gmail.com') as test_users`,
+  );
+  check(
+    Number(preserved[0].original_auth) === receipt.acceptanceBaseline.authIds.length &&
+      Number(preserved[0].original_profiles) === receipt.acceptanceBaseline.profileIds.length &&
+      Number(preserved[0].test_users) === 0,
+    "ACCEPTANCE_PRESERVATION_FAILED",
+  );
+  receipt.stage = "public-registration-acceptance-completed";
+  receipt.completedAt ??= new Date().toISOString();
+  receipt.sends = 1;
+  receipt.acceptanceOutcome = {
+    oneEmailOtp: true,
+    profileAndCurrentReceipts: true,
+    questionnaireSubmitted: true,
+    syntheticDraftRestored: true,
+    cleanupVerified: true,
+    readinessStatus: 204,
+    originalAuthPreserved: Number(preserved[0].original_auth),
+    originalProfilesPreserved: Number(preserved[0].original_profiles),
+  };
+  save();
+  console.log(JSON.stringify(receipt.acceptanceOutcome));
+}
+if (
+  mode === "--verify" &&
+  receipt.testWindowClosedAt &&
+  receipt.stage !== "public-registration-acceptance-completed"
+) {
   const configResponse = await fetch(
     `https://api.supabase.com/v1/projects/${project}/config/auth`,
     { headers: { Authorization: `Bearer ${management}` } },
@@ -517,7 +606,7 @@ console.log(
     activeVersion: active(),
     legacyApprovalExpiry: receipt.legacyApprovalExpiry,
     legacyReviewBefore: receipt.legacyReviewBefore,
-    sends: 0,
+    sends: receipt.sends ?? 0,
     charges: 0,
     promotes: false,
   }),

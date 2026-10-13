@@ -9,6 +9,7 @@ import { SupabaseAccessRepository } from "@/adapters/persistence/supabase/supaba
 import { IdentityRejectedError } from "@/application/identity/managed-identity-provider";
 import {
   PatientSessionService,
+  AccountReviewRequiredError,
   type PatientSession,
 } from "@/application/identity/patient-session-service";
 import { initialiseServerEnvironment } from "@/server/config/environment.server";
@@ -25,6 +26,12 @@ import {
   inspectProtectedFormRequest,
   type RateLimitPort,
 } from "@/server/security/request-security";
+import {
+  reviewCookie,
+  sealAccountReview,
+  openAccountReview,
+  clearReviewCookie,
+} from "./account-review-cookie";
 
 export type PatientSessionBindings = Readonly<{
   HANDOFF_INTAKE_URL?: unknown;
@@ -39,7 +46,8 @@ export type PatientSessionBindings = Readonly<{
 type SessionPort = Pick<
   PatientSessionService,
   "requestSignIn" | "signIn" | "renew" | "signOut" | "requestRecovery" | "completeRecovery"
->;
+> &
+  Partial<Pick<PatientSessionService, "discardAccountReview">>;
 
 function empty(status: number, cookie?: string): Response {
   return new Response(null, {
@@ -145,6 +153,22 @@ export function createPatientSessionHttpHandler(
       const expectedAction = pathname === "/account/sign-out" ? "sign-out" : "renew";
       if (!expectedFields(fields, ["action"]) || action !== expectedAction) return empty(422);
       const proof = await openPatientSession(readPatientSessionCookie(request), key);
+      if (pathname === "/account/sign-out") {
+        const review = await openAccountReview(request, key);
+        if (review)
+          await service.discardAccountReview?.({
+            providerSession: {
+              accessToken: review.accessToken,
+              refreshToken: review.refreshToken,
+              expiresAt: new Date(review.expiresAt),
+            },
+          });
+        if (!proof) {
+          const result = empty(204, clearPatientSessionCookie());
+          result.headers.append("Set-Cookie", clearReviewCookie());
+          return result;
+        }
+      }
       if (!proof)
         return pathname === "/account/sign-out"
           ? empty(204, clearPatientSessionCookie())
@@ -152,7 +176,9 @@ export function createPatientSessionHttpHandler(
       try {
         if (pathname === "/account/sign-out") {
           await service.signOut(asPatientSessionProof(proof));
-          return empty(204, clearPatientSessionCookie());
+          const result = empty(204, clearPatientSessionCookie());
+          result.headers.append("Set-Cookie", clearReviewCookie());
+          return result;
         }
         const renewed = await service.renew(asPatientSessionProof(proof));
         try {
@@ -207,7 +233,22 @@ export function createPatientSessionHttpHandler(
         await revokeUndeliveredSession(service, signedIn);
         return empty(503);
       }
-    } catch {
+    } catch (error) {
+      if (
+        action === "verify" &&
+        pathname === "/account/sign-in" &&
+        error instanceof AccountReviewRequiredError
+      ) {
+        try {
+          const response = empty(204, reviewCookie(await sealAccountReview(error, key)));
+          response.headers.append("Set-Cookie", clearPatientSessionCookie());
+          response.headers.set("X-Meneer-Session", "documents");
+          return response;
+        } catch {
+          await service.discardAccountReview?.(error);
+          return empty(503);
+        }
+      }
       return empty(action === "request" ? 202 : 422);
     }
   };

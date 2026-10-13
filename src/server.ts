@@ -16,6 +16,7 @@ import {
   type CommerceReviewBindings,
 } from "./server/payments/order-review-http";
 import { createPatientActivationHttpHandler } from "./server/identity/patient-activation-http";
+import { createAccountReviewHttpHandler } from "./server/identity/account-review-http";
 import {
   createPublicRegistrationHttpHandler,
   type PublicRegistrationBindings,
@@ -304,6 +305,14 @@ export function createServerEntry(entry: ServerEntry): ServerEntry {
               return createPublicRegistrationHttpHandler(
                 env as unknown as PublicRegistrationBindings,
               )(boundedRequest);
+            }
+            if (
+              (pathname === "/account/documents" && boundedRequest.method === "POST") ||
+              pathname === "/account/documents/current"
+            ) {
+              return createAccountReviewHttpHandler(env as unknown as PatientSessionBindings)(
+                boundedRequest,
+              );
             }
             if (
               (boundedRequest.method === "POST" && pathname === "/account/activate") ||

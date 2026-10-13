@@ -9,7 +9,7 @@ import {
 } from "@/application/identity/managed-identity-provider";
 import type { AccessRepository } from "@/application/persistence/access-repository";
 import type { IdentitySession, ManagedSession, ProviderIdentity } from "@/domain/access/identity";
-import { PatientSessionService } from "./patient-session-service";
+import { AccountReviewRequiredError, PatientSessionService } from "./patient-session-service";
 
 const now = new Date("2030-01-01T00:05:00.000Z");
 const subjectId = "20000000-0000-4000-8000-000000000001";
@@ -72,6 +72,7 @@ function harness() {
       status: "active",
     })),
     hasPilotAccountEvidence: vi.fn(async () => true),
+    accountDocumentReviewEligible: vi.fn(async () => false),
   } as unknown as AccessRepository;
   const sessions = {
     start: vi.fn(async () => session),
@@ -137,7 +138,40 @@ it("does not convert wrong-provider, wrong-tenant or incomplete-account proofs i
   expect(h.sessions.start).not.toHaveBeenCalled();
 });
 
+it("rejects a wrong tenant before considering the limited review lane", async () => {
+  const h = harness();
+  vi.mocked(h.access.hasPilotAccountEvidence).mockResolvedValue(false);
+  vi.mocked(h.access.accountDocumentReviewEligible!).mockResolvedValue(true);
+  await expect(
+    h.service.continueAfterActivation({
+      providerSubject: identity.providerSubject,
+      tenantId: subjectId,
+      accessToken: providerSession.accessToken,
+      refreshToken: providerSession.refreshToken,
+    }),
+  ).rejects.toBeInstanceOf(IdentityRejectedError);
+  expect(h.access.accountDocumentReviewEligible).not.toHaveBeenCalled();
+  expect(h.sessions.start).not.toHaveBeenCalled();
+});
+
 describe("patient session lifecycle", () => {
+  it("issues no normal app session when genuine historical evidence requires review", async () => {
+    const h = harness();
+    vi.mocked(h.access.hasPilotAccountEvidence).mockResolvedValue(false);
+    vi.mocked(h.access.accountDocumentReviewEligible!).mockResolvedValue(true);
+    await expect(h.service.signIn(email, "123456")).rejects.toBeInstanceOf(
+      AccountReviewRequiredError,
+    );
+    expect(h.sessions.start).not.toHaveBeenCalled();
+    expect(h.provider.revokeSessions).not.toHaveBeenCalled();
+  });
+  it("does not allow an incomplete account into document review", async () => {
+    const h = harness();
+    vi.mocked(h.access.hasPilotAccountEvidence).mockResolvedValue(false);
+    await expect(h.service.signIn(email, "123456")).rejects.toBeInstanceOf(IdentityRejectedError);
+    expect(h.sessions.start).not.toHaveBeenCalled();
+    expect(h.provider.revokeSessions).toHaveBeenCalledWith(providerSession.accessToken, "local");
+  });
   it("starts only a mapped active patient with committed profile and account receipts", async () => {
     const { service, sessions, access } = harness();
     await expect(service.signIn(email, "123456")).resolves.toMatchObject({ session, tenantId });

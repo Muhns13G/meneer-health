@@ -9,6 +9,9 @@ import {
   PublicRegistrationSettingsError,
 } from "@/adapters/identity/supabase/supabase-managed-identity-provider";
 import { classifyTelemetryEnvironment, emitTelemetry } from "@/server/observability/telemetry";
+import { AccountReviewRequiredError } from "@/application/identity/patient-session-service";
+import { reviewCookie, sealAccountReview } from "./account-review-cookie";
+import { clearPatientSessionCookie } from "./patient-session-cookie";
 import { initialiseServerEnvironment } from "@/server/config/environment.server";
 import { inspectProtectedFormRequest } from "@/server/security/request-security";
 import { createPatientSessionService, type PatientSessionBindings } from "./patient-session-http";
@@ -169,6 +172,24 @@ export function createPublicRegistrationHttpHandler(
         return empty(503);
       }
     } catch (error) {
+      if (error instanceof AccountReviewRequiredError) {
+        try {
+          const result = empty(204, {
+            "Set-Cookie": reviewCookie(
+              await sealAccountReview(
+                error,
+                readPatientSessionKey(bindings.IDENTITY_SESSION_KEY_BASE64),
+              ),
+            ),
+            "X-Meneer-Session": "documents",
+          });
+          result.headers.append("Set-Cookie", clearPatientSessionCookie());
+          return result;
+        } catch {
+          await createPatientSessionService(bindings)?.discardAccountReview(error);
+          return empty(503);
+        }
+      }
       if (error instanceof PublicRegistrationSettingsError) {
         reportReadinessFailure(error.reasonCode, true);
       }

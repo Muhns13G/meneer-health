@@ -18,6 +18,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as StartRouteImport } from './routes/start'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AccountActivateRouteImport } from './routes/account/activate'
+import { Route as AccountDocumentsRouteImport } from './routes/account/documents'
 import { Route as AccountRecoverRouteImport } from './routes/account/recover'
 import { Route as AccountSignInRouteImport } from './routes/account/sign-in'
 import { Route as AccountSignOutRouteImport } from './routes/account/sign-out'
@@ -86,6 +87,11 @@ const TermsRoute = TermsRouteImport.update({
 const AccountActivateRoute = AccountActivateRouteImport.update({
   id: '/account/activate',
   path: '/account/activate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountDocumentsRoute = AccountDocumentsRouteImport.update({
+  id: '/account/documents',
+  path: '/account/documents',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountRecoverRoute = AccountRecoverRouteImport.update({
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/account/activate': typeof AccountActivateRoute
+  '/account/documents': typeof AccountDocumentsRoute
   '/account/recover': typeof AccountRecoverRoute
   '/account/sign-in': typeof AccountSignInRoute
   '/account/sign-out': typeof AccountSignOutRoute
@@ -255,6 +262,7 @@ export interface FileRoutesByTo {
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/account/activate': typeof AccountActivateRoute
+  '/account/documents': typeof AccountDocumentsRoute
   '/account/recover': typeof AccountRecoverRoute
   '/account/sign-in': typeof AccountSignInRoute
   '/account/sign-out': typeof AccountSignOutRoute
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/start': typeof StartRoute
   '/terms': typeof TermsRoute
   '/account/activate': typeof AccountActivateRoute
+  '/account/documents': typeof AccountDocumentsRoute
   '/account/recover': typeof AccountRecoverRoute
   '/account/sign-in': typeof AccountSignInRoute
   '/account/sign-out': typeof AccountSignOutRoute
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/start'
     | '/terms'
     | '/account/activate'
+    | '/account/documents'
     | '/account/recover'
     | '/account/sign-in'
     | '/account/sign-out'
@@ -363,6 +373,7 @@ export interface FileRouteTypes {
     | '/start'
     | '/terms'
     | '/account/activate'
+    | '/account/documents'
     | '/account/recover'
     | '/account/sign-in'
     | '/account/sign-out'
@@ -398,6 +409,7 @@ export interface FileRouteTypes {
     | '/start'
     | '/terms'
     | '/account/activate'
+    | '/account/documents'
     | '/account/recover'
     | '/account/sign-in'
     | '/account/sign-out'
@@ -434,6 +446,7 @@ export interface RootRouteChildren {
   StartRoute: typeof StartRoute
   TermsRoute: typeof TermsRoute
   AccountActivateRoute: typeof AccountActivateRoute
+  AccountDocumentsRoute: typeof AccountDocumentsRoute
   AccountRecoverRoute: typeof AccountRecoverRoute
   AccountSignInRoute: typeof AccountSignInRoute
   AccountSignOutRoute: typeof AccountSignOutRoute
@@ -523,6 +536,13 @@ declare module '@tanstack/react-router' {
       path: '/account/activate'
       fullPath: '/account/activate'
       preLoaderRoute: typeof AccountActivateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account/documents': {
+      id: '/account/documents'
+      path: '/account/documents'
+      fullPath: '/account/documents'
+      preLoaderRoute: typeof AccountDocumentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/account/recover': {
@@ -706,6 +726,7 @@ const rootRouteChildren: RootRouteChildren = {
   StartRoute: StartRoute,
   TermsRoute: TermsRoute,
   AccountActivateRoute: AccountActivateRoute,
+  AccountDocumentsRoute: AccountDocumentsRoute,
   AccountRecoverRoute: AccountRecoverRoute,
   AccountSignInRoute: AccountSignInRoute,
   AccountSignOutRoute: AccountSignOutRoute,

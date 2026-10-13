@@ -73,6 +73,7 @@ function harness() {
   const restrict = vi.fn();
   const exportView = vi.fn<IntakeRepository["exportView"]>();
   const rightsRecord = vi.fn<IntakeRepository["rightsRecord"]>(async () => null);
+  const acknowledgeNotice = vi.fn(async () => true);
   const encrypt = vi.fn<MedicalEnvelope["encrypt"]>(async () => ({ ciphertext: "synthetic" }));
   const decrypt = vi.fn(async () => ({
     answers: completeSyntheticAnswers,
@@ -86,6 +87,7 @@ function harness() {
     decrypt,
     exportView,
     rightsRecord,
+    acknowledgeNotice,
     service: new MedicalIntakeService(
       { authorise },
       {
@@ -95,6 +97,7 @@ function harness() {
         history: vi.fn(async () => []),
         exportView,
         rightsRecord,
+        acknowledgeNotice,
         authoriseTransfer: vi.fn(async () => id),
       },
       { encrypt, decrypt, digests: async () => ["a".repeat(64)] },
@@ -102,6 +105,29 @@ function harness() {
     ),
   };
 }
+it("records successor notice actions without reading, encrypting or rewriting answers", async () => {
+  const h = harness();
+  const command = {
+    action: "acknowledge_notice",
+    intakeId: id,
+    publicationId: id,
+    privacyHash: "b".repeat(64),
+    reviewHash: "c".repeat(64),
+    requestKey: id,
+    privacyAcknowledged: true,
+    reviewConsent: true,
+  };
+  expect(await h.service.execute(proof, command)).toEqual({ recorded: true });
+  expect(h.acknowledgeNotice).toHaveBeenCalledWith(
+    context,
+    expect.objectContaining({ intakeId: id, reviewConsent: true }),
+  );
+  expect(h.authorise).toHaveBeenCalledTimes(2);
+  expect(h.read).not.toHaveBeenCalled();
+  expect(h.write).not.toHaveBeenCalled();
+  expect(h.encrypt).not.toHaveBeenCalled();
+  expect(h.decrypt).not.toHaveBeenCalled();
+});
 const command = {
   action: "save",
   intakeId: id,

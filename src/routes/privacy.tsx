@@ -4,6 +4,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { getCanonicalPublicUrl } from "@/lib/public-route-policy";
 import { supportChannels } from "@/lib/support-channels";
+import { companyProfile } from "@content/company-profile";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -29,7 +30,9 @@ function PrivacyPage() {
         <h1 className="mt-6 font-serif text-4xl sm:text-5xl lg:text-6xl leading-[1.05] text-foreground">
           Website Privacy Notice
         </h1>
-        <p className="mt-5 text-sm text-muted-foreground">Effective 13 August 2026 · Version 1.1</p>
+        <p className="mt-5 text-sm text-muted-foreground">
+          Effective 13 October 2026 · Version 1.2
+        </p>
 
         <div className="mt-10 space-y-10 text-muted-foreground leading-relaxed">
           <section aria-labelledby="privacy-operator">
@@ -37,9 +40,11 @@ function PrivacyPage() {
               Who operates this website
             </h2>
             <p className="mt-3">
-              Meneer is operated for this pre-transactional website by OCTOTHORP ZA, enterprise
-              number K2024185008. In this notice, “Meneer”, “we”, and “us” refer to that website
-              operation.
+              {companyProfile.legalName}, registration number {companyProfile.registrationNumber},
+              operates Meneer Health and is the responsible party for its platform collection and
+              administration of personal information. Its registered office is{" "}
+              {companyProfile.registeredAddress}. In this notice, “Meneer”, “we”, and “us” refer to
+              this company.
             </p>
           </section>
 
@@ -48,9 +53,11 @@ function PrivacyPage() {
               Current website boundary
             </h2>
             <p className="mt-3">
-              This website currently provides public information only. It does not provide an active
-              account, medical questionnaire, consultation, payment, prescription, or order service,
-              and it does not intentionally collect health information through a website form.
+              Public pages provide general information. Enabled private journeys separately verify
+              accounts, collect profile details and securely collect questionnaire answers, with
+              their applicable notices and consent. Enabled payments have separate terms. This
+              website notice is not medical consent, clinical approval or permission to transfer
+              your answers to an external protocol generator.
             </p>
           </section>
 
@@ -63,6 +70,12 @@ function PrivacyPage() {
                 Basic technical request information needed to deliver and protect the website, such
                 as an IP address, browser or device information, requested page, timestamp, and
                 security or diagnostic events.
+              </li>
+              <li>
+                Information you supply in an enabled private account or questionnaire journey,
+                document acknowledgements and relevant support/payment references. Medical answers
+                are not permission to create an advertising profile. Payment-card details are
+                entered into Stripe's hosted interface, not the questionnaire.
               </li>
               <li>
                 Information you choose to include when emailing{" "}
@@ -104,13 +117,12 @@ function PrivacyPage() {
             </h2>
             <p className="mt-3">
               Subject to applicable law, you may ask whether we hold your personal information and
-              request access, correction, deletion, or an objection to processing. A dedicated
-              privacy channel and accountable privacy contact are not yet published. Email{" "}
+              request access, correction, deletion, or an objection to processing. Email{" "}
               <a
                 className="text-gold underline underline-offset-4"
-                href={supportChannels.general.href}
+                href={`mailto:${companyProfile.privacyEmail}`}
               >
-                {supportChannels.general.email}
+                {companyProfile.privacyEmail}
               </a>{" "}
               only to request secure follow-up; do not include identifiers, documents, health
               information, or request details in ordinary email. You may also submit a complaint
@@ -129,13 +141,14 @@ function PrivacyPage() {
 
           <section aria-labelledby="privacy-future">
             <h2 id="privacy-future" className="font-serif text-2xl text-foreground">
-              Before transactional services open
+              Private services and providers
             </h2>
             <p className="mt-3">
-              A separate approved notice, consent boundary, responsible-party and operator record,
-              retention schedule, and vendor disclosure must be published before this website
-              collects health information or enables a consultation, payment, prescription, or
-              order. This notice is not medical or telehealth consent.
+              Private journeys provide their applicable versioned notices and consent actions.
+              Technology services include Cloudflare, Supabase, Brevo, Telnyx and Stripe; some
+              processing occurs outside South Africa. {companyProfile.paymentCollector}
+              collects payments for {companyProfile.legalName}. Medical review, external transfer
+              and dispensing remain separately governed. This notice does not authorise them.
             </p>
           </section>
 

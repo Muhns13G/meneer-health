@@ -100,7 +100,7 @@ describe("public-content cross-channel governance", () => {
     expect(publicContentGovernance).toMatchObject({
       contract: "public-content.runtime-map",
       version: 1,
-      sourceVersion: "2026.08.13.1",
+      sourceVersion: "2026.10.13.1",
       defaultLocale: "en-ZA",
     });
 
