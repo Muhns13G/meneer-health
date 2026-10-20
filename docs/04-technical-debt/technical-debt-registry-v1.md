@@ -45,8 +45,9 @@ closure is not evidence of pilot readiness.
 
 The [Sprint 15 report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)
 reconciles engineering acceptance, exact 15.9 refunds/cleanup/shutdown and retained sales gates.
-The closure packet is locally validated as recorded there; owner exact-commit CI/release remains
-separate. Three newly reported Vite advisories are one tooling-remediation item, TD-067 below.
+The closure packet is locally validated, committed as `f3e392d`, green in exact-commit CI and
+owner-deployed, with independent active-version readback. Product-sales GO remains separate.
+Three newly reported Vite advisories are one tooling-remediation item, TD-067 below.
 After its patch/audit verification the registry is **67 items: 60 Verified, seven non-Verified**.
 TD-006/007/009/010/037/038/043 retain their scoped statuses and acceptance requirements; synthetic
 product acceptance is not professional evidence, live sales approval or fresh manual review.
@@ -1075,7 +1076,8 @@ explicit approval; the new workflow has not deleted any hosted identity or enabl
 ## TD-067 — Vite 7.3.6 Tooling Advisories
 
 - **Priority:** P1; owner `@Muhns13G`; milestone Sprint 15.10.
-- **Status:** Verified at the local patch/audit boundary; owner commit and exact-commit CI pending.
+- **Status:** Verified; owner commit `f3e392d` and exact-commit CI run `39512739710` pass;
+  owner deployment and independent active-version readback are recorded in the report.
 - **Finding:** one high and two moderate findings in the newly refreshed audit,
   GHSA-587h-7wmj-h5pm, GHSA-698v-4r3x-3vcv and GHSA-r825-w8mm-5pxw.
   Reachability includes Windows/editor tooling; no deployed Worker compromise is established.
@@ -1083,8 +1085,8 @@ explicit approval; the new workflow has not deleted any hosted identity or enabl
   frozen install plus zero full/production audit findings. Supported Node 22 build, client canary,
   generated/MCP checks and final regression are recorded in the
   [completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md).
-- **Remaining release action:** owner commits/pushes and verifies the exact closure commit's CI;
-  a local patch does not claim already-deployed code. No new permission or product switch is needed.
+- **Release closeout:** owner commit/CI/deployment evidence is recorded. No new permission,
+  product switch, sandbox replay or application redeployment is required for this evidence-only update.
 
 ## Registry Maintenance Rules
 

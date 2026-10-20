@@ -17,8 +17,12 @@ and its file inventory. Final validation includes a Vite 7.3.7 patch, the existi
 catalogue expectation, isolated local runner/financial fixture repairs, shared exact native-price
 cleanup discovery and restored approved emergency links. No new hosted migration or environment
 switch is introduced. Final local validation passes, including all 366 desktop/mobile checks.
-Owner exact-commit CI and deployment remain pending.
-The failed baseline CI's environment assertion is corrected locally; it is not a green release run.
+Owner application commit/deployment is complete. Exact-commit CI for `f3e392d` is green
+([run 39512739710](https://github.com/Muhns13G/meneer-health/actions/runs/39512739710)); active main
+version `28a4b38b-59e1-41b6-b70a-8106da3a56b2` is independently read back at 100%. Main anonymous
+page checks return 200 and the separate rehearsal remains 503/no-store. The report distinguishes
+owner-confirmed source deployment from independent version readback. The earlier failed baseline
+CI is historical. The remaining closure amendment is documentation-only: no redeployment required.
 
 Only the owner stages, commits, pushes and releases. Preserve the existing approved main-pilot
 configuration and the closed separate rehearsal. Do not deploy a rehearsal configuration to the
@@ -39,8 +43,8 @@ is closed (`503`/no-store). Do not reactivate the old lease or rerun captures.
 Genuine deposit/credited-product settlement, independent evidence/issue, custody/replay, scoped
 record-level encrypted recovery and exact cleanup pass. All three authorised cumulative test
 captures are fully refunded, the disposable webhook is deleted, and original application/Auth
-baselines are restored. No messages, live charges or real supply actions occurred. The main active
-version `c4be0ea5-2e9f-45b5-9022-a331d5b30d69` is preserved and its homepage returns `200`.
+baselines are restored. No messages, live charges or real supply actions occurred. At the 15.9 checkpoint,
+main version `c4be0ea5-2e9f-45b5-9022-a331d5b30d69` was preserved and its homepage returned `200`.
 15.9 is complete at this isolated boundary; 15.10 reconciliation is in the completion report above.
 Main product-sales gates remain unchanged, and no hosted full-schema disaster restore is inferred.
 

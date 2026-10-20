@@ -8,9 +8,13 @@ owner: "@Muhns13G"
 # Sprint 15 Closure — Net File Accounting
 
 Baseline: `8211bf35ff9e38e16e589bea89b4cd8a61712442` (parent of 15.1's `1102d11`).
-Snapshot: current tracked staged/unstaged workspace plus non-ignored new closure documents,
-before owner commit. HEAD is `ab649ca8c08a36e265931745ca3bbc520a6f8165`.
-The index is preserved; this is not a staging instruction or proof of a clean Git tree.
+Snapshot: the historical 15.10 validation handoff's tracked staged/unstaged workspace plus
+non-ignored closure documents, before owner commit. HEAD at that snapshot was
+`ab649ca8c08a36e265931745ca3bbc520a6f8165`; the agent preserved the existing index.
+The owner subsequently committed the batch as `f3e392dbe0036b45565d5cde8b288ca8d3e140c0`, with
+green exact-commit CI and owner-confirmed deployment. The working tree was clean before the
+documentation-only release-evidence amendment. This inventory is not a staging instruction;
+the evidence amendment requires no application redeployment.
 
 **273 net paths: 163 added, 110 modified, 0 deleted.**
 No rename inference is used. This inventory includes itself and the completion report.

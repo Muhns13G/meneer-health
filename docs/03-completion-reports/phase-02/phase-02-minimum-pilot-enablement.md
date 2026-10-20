@@ -12,8 +12,9 @@ owner: "@Muhns13G"
 
 The [Sprint 15 report](sprint-15-product-orders-manual-fulfilment.md) adds private product
 quotes, capped-credit Checkout, manual fulfilment and isolated hosted acceptance with full refunds,
-exact cleanup and verified separate shutdown. Closure changes pass final local validation and await
-owner exact-commit CI/deployment; real product-sale release remains independently gated. Current registry:
+exact cleanup and verified separate shutdown. Closure changes pass local validation and exact-commit
+green CI (`f3e392d`); owner deployment and independent active-version readback are recorded in the report.
+Sprint 15 engineering is closed; real product-sale release remains independently gated. Current registry:
 67 items, 60 Verified and seven non-Verified. Uploads remain deferred and the generator stays inactive
 until needed. The real pilot was already active at the dated 15.9 observation and was not changed
 by 15.10. The NO-GO and inactive baseline statements below describe the **9 October checkpoint**,
