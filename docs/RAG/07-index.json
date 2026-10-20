@@ -26,7 +26,7 @@
     {
       "id": "phase-02-sprint-15-completion",
       "path": "docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md",
-      "status": "implemented-locally-verified-owner-ci-pending",
+      "status": "completed-with-product-sales-gates",
       "authority_for": [
         "Sprint 15 task acceptance, final regression and narrow remediation",
         "File accounting, TD-067 and owner CI handoff without product-sales activation"
@@ -200,7 +200,7 @@
     {
       "id": "phase-02-sprint-15",
       "path": "docs/02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md",
-      "status": "implemented-locally-verified-owner-ci-pending",
+      "status": "completed-with-product-sales-gates",
       "authority_for": [
         "Owner-approved bounded product-order and manual-fulfilment scope",
         "Tasks 15.1 through 15.10 and retained product-sales gates"

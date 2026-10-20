@@ -133,8 +133,9 @@ sources:
 ## Sprint 15.10 Current Boundary — 21 October
 
 The [completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)
-records engineering acceptance and final remediation. Final local validation passes; owner
-exact-commit CI/deployment are pending. Neither the new report nor Vite advisory remediation activates live
+records engineering acceptance and final remediation. Local validation and exact-commit CI pass
+for `f3e392d`; owner deployment and independent version/anonymous readback are recorded. Sprint 15
+engineering is closed. Neither the new report nor Vite advisory remediation activates live
 product sales or closes TD-006/007/009/010/037/038/043. Registry: 67 items, 60 Verified, seven non-Verified.
 Actual catalogue/source, delivery/address/custody, terms, independent professional/provider evidence,
 shipping-key recovery and owner GO remain applicable. Generator stays inactive until needed;

@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-15
 title: Private Product Orders and Manual Fulfilment
-status: implemented-locally-verified-owner-ci-pending
+status: completed-with-product-sales-gates
 authority: owner-approved-direction
 last_updated: 2026-10-21
 owner: "@Muhns13G"
@@ -100,7 +100,9 @@ deployment is unchanged. Task 15.10 is implemented by the
 [completion report](../../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md),
 including final regression, narrow remediation, file accounting and debt/release reconciliation.
 Final local validation passes, including 1,635 unit tests and all 366 desktop/mobile checks.
-Owner exact-commit CI and deployment remain pending; product-sales GO is separate.
+Owner application commit/deployment and green exact-commit CI are recorded in the report:
+`f3e392d`, CI `39512739710`, active Worker `28a4b38b-59e1-41b6-b70a-8106da3a56b2`.
+All ten tasks are closed at the engineering/rehearsal boundary; product-sales GO is separate.
 
 ## Engineering Constraints
 

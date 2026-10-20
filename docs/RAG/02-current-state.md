@@ -6,10 +6,10 @@ authority: observed-summary
 last_updated: 2026-10-21
 audience: internal
 sensitivity: internal
-source_baseline: ab649ca
+source_baseline: f3e392d
 source_has_uncommitted_closure_changes: true
-runtime_worker_version: c4be0ea5-2e9f-45b5-9022-a331d5b30d69
-runtime_observed_at: 2026-10-20T21:51:15.011Z
+runtime_worker_version: 28a4b38b-59e1-41b6-b70a-8106da3a56b2
+runtime_observed_at: 2026-10-20T23:34:19Z
 sources:
   - docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md
   - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
@@ -157,13 +157,17 @@ sources:
 The [Sprint 15 completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)
 supersedes earlier task-planning statements below. Tasks 15.1–15.10 have their recorded acceptance;
 15.10 reconciles regression/remediation, debt, release and file accounting. Final local validation
-passes (1,635 unit tests, all 366 desktop/mobile checks); owner exact-commit CI/deployment are pending.
+passes (1,635 unit tests, all 366 desktop/mobile checks). The owner committed/deployed `f3e392d`;
+independent CI run `39512739710` is green for that exact SHA, and active main version
+`28a4b38b-59e1-41b6-b70a-8106da3a56b2` is independently read back at 100%. Source deployment is
+owner-confirmed; version metadata supplies no Git SHA. Anonymous main page checks pass and the
+separate rehearsal remains closed. All ten engineering tasks are closed, not real product-sales GO.
 Vite 7.3.7 resolves three new advisories (TD-067);
 full and production audits are clear. Registry: 67 items, 60 Verified, seven non-Verified.
 
 The dated 15.9 evidence verifies genuine sandbox deposit/product settlement, full original-method
 refunds, exact cleanup and independently closed separate Worker. No live pilot configuration,
-real staff/client records or product-sales gates were changed by 15.10. Local full PostgreSQL
+real staff/client records or product-sales gates were changed by the agent during 15.10. Local full PostgreSQL
 restore and hosted record-level encrypted roundtrip remain distinct. Do not infer provider APIs,
 real professional approval, successful concurrent writers or a hosted disaster restore.
 

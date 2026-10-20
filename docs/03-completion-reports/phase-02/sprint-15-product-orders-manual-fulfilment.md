@@ -1,7 +1,7 @@
 ---
 report_id: phase-02-sprint-15-completion
 title: Sprint 15 — Private Product Orders and Manual Fulfilment
-status: implemented-locally-verified-owner-ci-pending
+status: completed-with-product-sales-gates
 last_updated: 2026-10-21
 owner: "@Muhns13G"
 ---
@@ -14,11 +14,32 @@ Tasks 15.1–15.10 are implemented and locally verified at their recorded bounda
 15.9's genuine isolated hosted/provider acceptance. The final clean dev-server matrix passes
 all 366 desktop/mobile checks with zero retries; the final unit run passes 1,635 tests.
 Task 15.10 reconciles validation, file inventory, debt and owner-controlled release.
-This report does not claim exact-commit CI or
-deployment of the uncommitted closure changes. Product-sales GO remains a separate decision.
+The owner committed and deployed the application closure batch, and exact-commit CI is green.
+Sprint 15 is closed at its engineering/rehearsal boundary. Product-sales GO remains a separate decision.
 
-The active pilot was not replaced, paused or reconfigured by 15.10. No messages, provider
-transactions, hosted fixtures, migrations or releases were performed by this closure task.
+## Owner Release and CI Closeout — 21 October 2026 (SAST)
+
+- Committed application: `f3e392dbe0036b45565d5cde8b288ca8d3e140c0`, branch `itws-I`.
+  The working tree was clean before this evidence-only documentation amendment.
+- Independently verified [CI run 39512739710](https://github.com/Muhns13G/meneer-health/actions/runs/39512739710):
+  completed successfully for that exact SHA; last updated 21 October at 01:29:56 SAST.
+- The owner confirms deploying that code. Independent Cloudflare readback shows main Worker
+  version `28a4b38b-59e1-41b6-b70a-8106da3a56b2` serving 100%, activated 21 October at
+  01:07:39 SAST. Version metadata contains no Git SHA, so source attribution is owner-confirmed,
+  not a claimed independent build-to-commit attestation.
+- Anonymous GET checks: homepage, `/start` and `/account/documents` return `200`; the two account
+  pages retain private/no-store headers. These are rendering checks, not new sign-in, medical,
+  payment or real-product acceptance.
+- The separate rehearsal `/__rehearsal` still returns `503` with private/no-store headers.
+  No configuration, fixtures, messages, charges or releases were changed by this readback.
+
+The commit/CI/deployment prerequisites for engineering closure are satisfied. This post-release
+amendment only records evidence; it needs no application redeployment, new secret, migration or
+repeated sandbox capture. The owner retains staging/commit control for the documentation.
+
+The agent did not replace, pause or reconfigure the active pilot. No messages, provider
+transactions, hosted fixtures, migrations or releases were performed by the agent during
+implementation or closeout readback; the owner's release is recorded above.
 The existing separate rehearsal is closed; do not reactivate it to repeat an already accepted test.
 
 ## Delivered Tasks
@@ -192,15 +213,14 @@ remain deferred; do not add an upload prerequisite or restore old sessions/MFA f
 The broader onboarding usability/stability review and Laravel/React rebuild planning remain
 subsequent owner decisions. This report does not start another sprint, rebuild or live send.
 
-## Owner Handoff
+## Completed Owner Handoff
 
-- Review the complete existing staged **and** unstaged batch; the agent has not staged or committed.
-- Commit/push under owner control and obtain green CI on that exact closure commit. Baseline
-  `ab649ca8c08a36e265931745ca3bbc520a6f8165` CI is not green and cannot substitute.
-- Deploy only under the existing release runbook, preserving approved main-pilot settings and
-  the closed separate rehearsal. No blanket switch activation or replayed sandbox captures.
-- Record the final commit/CI result before claiming formal release closure. Engineering handoff
-  and real product-sales activation are deliberately distinct.
+The owner committed the implementation/evidence batch and confirms deployment; exact-commit
+green CI and active-version/anonymous readback are recorded above. The earlier failed
+`ab649ca8c08a36e265931745ca3bbc520a6f8165` CI is historical and is not used as closure evidence.
+Keep approved main-pilot settings and the separate rehearsal shutdown intact. No blanket switch
+activation or replayed sandbox captures are required. Only this documentation-only evidence
+amendment remains for the owner's next manual commit; it does not reopen application acceptance.
 
 The [file inventory](../../02-implementation-plans/phase-02/annexures/sprint-15-10-closure-file-inventory.md)
 uses the pre-15.1 baseline. It explicitly includes owner-approved interleaved SMS/email, public

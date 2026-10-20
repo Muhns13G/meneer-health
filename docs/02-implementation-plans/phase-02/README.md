@@ -29,8 +29,9 @@ A hosted record-level encrypted roundtrip supplements the local full-schema reco
 Owner shutdown promotion and independent version/HTTP readback pass. The active pilot is unchanged.
 Task 15.10's final validation, narrow remediation and file/debt/release reconciliation are recorded
 in the [Sprint 15 completion report](../../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md).
-Local validation passes: 1,635 unit tests and all 366 desktop/mobile checks. Owner exact-commit CI
-and deployment remain pending. This is not product-sales GO
+Local validation passes: 1,635 unit tests and all 366 desktop/mobile checks. Owner commit/deployment
+and exact-commit green CI are recorded for `f3e392d` in that report; Sprint 15 engineering is closed.
+This is not product-sales GO
 or final Phase 02 closure; broader onboarding stabilisation/rebuild planning is separate.
 
 [15.8](annexures/sprint-15-8-order-next-actions.md) adds explicit client/staff next actions,
