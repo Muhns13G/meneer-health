@@ -36,9 +36,23 @@ export function buildLiveCommerceSuite(suite: LiveCommerceSuite, source?: string
   )
     throw new Error("LIVE_COMMERCE_FIXTURE_DRIFT");
   body = body.replace(release, "");
+  // Sprint 15's live deposit gate requires an attributed review-price binding.
+  // These are expressly fabricated LOCAL fixture facts, rolled back with the
+  // packet; never substitute synthetic prices for a hosted commercial approval.
+  const reviewPriceFixture =
+    suite === "pilot_reconciliation_completion"
+      ? `
+insert into commerce_private.prices(id,kind,version,description,unit_amount_minor,tax_treatment,source_fingerprint,approval_reference,environment,effective_at,expires_at)
+values('a7150000-0000-4000-8000-000000000001','review_deposit','synthetic-live-mode-fixture','SYNTHETIC local live-mode simulation only',99900,'vat-inclusive-planning',repeat('a',64),'a7150000-0000-4000-8000-000000000002','approved-pilot-review',now()-interval '1 minute',now()+interval '1 hour');
+insert into commerce_private.review_price_bindings(price_id,tenant_id,approval_reference)
+values('a7150000-0000-4000-8000-000000000001','10000000-0000-4000-8000-000000000001','a7150000-0000-4000-8000-000000000002');
+`
+      : "";
   body = body.replace(
     "insert into commerce_private.checkout_intents(",
-    release.replace("true);", "true,'live');") + "\ninsert into commerce_private.checkout_intents(",
+    release.replace("true);", "true,'live');") +
+      reviewPriceFixture +
+      "\ninsert into commerce_private.checkout_intents(",
   );
   body = body.replaceAll(
     callback,

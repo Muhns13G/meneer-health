@@ -2,7 +2,7 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-10-20
+last_updated: 2026-10-21
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
@@ -10,14 +10,39 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Sprint 15.10 — Closure Batch, Owner CI and Release
+
+Use the [completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)
+and its file inventory. Final validation includes a Vite 7.3.7 patch, the existing environment
+catalogue expectation, isolated local runner/financial fixture repairs, shared exact native-price
+cleanup discovery and restored approved emergency links. No new hosted migration or environment
+switch is introduced. Final local validation passes, including all 366 desktop/mobile checks.
+Owner exact-commit CI and deployment remain pending.
+The failed baseline CI's environment assertion is corrected locally; it is not a green release run.
+
+Only the owner stages, commits, pushes and releases. Preserve the existing approved main-pilot
+configuration and the closed separate rehearsal. Do not deploy a rehearsal configuration to the
+main origin, replay completed captures or enable every switch. Product sales still require actual
+RRP/delivery, terms, professional/provider evidence, shipping custody/recovery and separate owner GO.
+The 15.9 shutdown/cleanup proof does not need another sandbox deployment for these closure changes.
+
 ## Sprint 15.9 — separate target, not a production switch
 
 The [15.9 checkpoint](../02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md)
-records approved application/history alignment of the 15.7 and 15.8 migrations. No seed, activation,
-message or capture was performed. Follow the [separate rehearsal runbook](../../operations/product-rehearsal/README.md):
-the owner deploys only `dist-product-rehearsal/server/wrangler.json`, initially fail-closed.
-Never substitute its tenant/settings on the main Worker. Main product-sales gates remain unchanged.
-Hosted acceptance and scoped provider/fixture cleanup are still pending; this is not 15.9 closure.
+records approved application/history alignment of the 15.7 and 15.8 migrations and completed isolated
+hosted acceptance. Follow the [separate rehearsal runbook](../../operations/product-rehearsal/README.md);
+never substitute its tenant/settings on the main Worker. The owner promoted the initial sandbox
+configuration, then shutdown version `4c9b441d-272d-4de7-8b49-5c8a421837b3` on the separate Worker.
+Independent active-version readback and six anonymous/old-cookie HTTP probes confirm the rehearsal
+is closed (`503`/no-store). Do not reactivate the old lease or rerun captures.
+
+Genuine deposit/credited-product settlement, independent evidence/issue, custody/replay, scoped
+record-level encrypted recovery and exact cleanup pass. All three authorised cumulative test
+captures are fully refunded, the disposable webhook is deleted, and original application/Auth
+baselines are restored. No messages, live charges or real supply actions occurred. The main active
+version `c4be0ea5-2e9f-45b5-9022-a331d5b30d69` is preserved and its homepage returns `200`.
+15.9 is complete at this isolated boundary; 15.10 reconciliation is in the completion report above.
+Main product-sales gates remain unchanged, and no hosted full-schema disaster restore is inferred.
 
 ## Sprint 15.8 — local order usability boundary, 20 October
 

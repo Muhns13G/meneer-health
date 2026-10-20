@@ -2,7 +2,7 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-20
+last_updated: 2026-10-21
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
@@ -18,11 +18,20 @@ This is local implementation, not hosted acceptance or a send to Zubin.
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
-[15.9](annexures/sprint-15-9-hosted-product-rehearsal.md) is in progress. The two approved pending
+[15.9](annexures/sprint-15-9-hosted-product-rehearsal.md) is complete at its isolated acceptance boundary. The two approved pending
 migrations are hosted/history-aligned; the new populated local product/shipping recovery exercise
 passes 178 assertions plus cryptographic/quarantine checks with exact cleanup. The approved separate
-restricted rehearsal Worker is prepared; owner deployment, hosted sandbox journey and cleanup
-acceptance remain pending. The active pilot is not switched to a rehearsal tenant.
+restricted rehearsal Worker is owner-deployed/promoted with its short-lived sandbox configuration.
+The approved replacement journey passes genuine MFA, deposit/credited-product captures, signed
+settlement, independent evidence/issue, seven custody/replay/outbox events and client progress.
+All three cumulative captures are fully refunded, the webhook is deleted and exact cleanup passes.
+A hosted record-level encrypted roundtrip supplements the local full-schema recovery proof.
+Owner shutdown promotion and independent version/HTTP readback pass. The active pilot is unchanged.
+Task 15.10's final validation, narrow remediation and file/debt/release reconciliation are recorded
+in the [Sprint 15 completion report](../../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md).
+Local validation passes: 1,635 unit tests and all 366 desktop/mobile checks. Owner exact-commit CI
+and deployment remain pending. This is not product-sales GO
+or final Phase 02 closure; broader onboarding stabilisation/rebuild planning is separate.
 
 [15.8](annexures/sprint-15-8-order-next-actions.md) adds explicit client/staff next actions,
 safe payment retry guidance, secure support links and fixed generic feedback. A private trigger
@@ -69,7 +78,7 @@ was refunded and its fixtures cleaned on 10 October with four real staff preserv
 [cleanup evidence](annexures/pilot-sandbox-acceptance-2026-10-09.md#verified-cleanup--10-october).
 Production configuration restoration/preflight and cohort GO remain separate.
 
-## Current Checkpoint — Sprint 14 Closure, 9 October
+## Historical Checkpoint — Sprint 14 Closure, 9 October
 
 **Subsequent owner scope amendment:** [uploads are now deferred until needed](annexures/pilot-activation-owner-approval-packet.md),
 superseding the upload-before-launch condition recorded at Sprint 14 closure. Initial intake uses

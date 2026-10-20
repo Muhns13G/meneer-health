@@ -1,6 +1,6 @@
 # Meneer Technical Debt Registry v1
 
-**Last amended:** 2026-10-09
+**Last amended:** 2026-10-21
 
 ## Registry Purpose
 
@@ -41,13 +41,28 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 21 October — Sprint 15.10 Closure Validation
+
+The [Sprint 15 report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)
+reconciles engineering acceptance, exact 15.9 refunds/cleanup/shutdown and retained sales gates.
+The closure packet is locally validated as recorded there; owner exact-commit CI/release remains
+separate. Three newly reported Vite advisories are one tooling-remediation item, TD-067 below.
+After its patch/audit verification the registry is **67 items: 60 Verified, seven non-Verified**.
+TD-006/007/009/010/037/038/043 retain their scoped statuses and acceptance requirements; synthetic
+product acceptance is not professional evidence, live sales approval or fresh manual review.
+Earlier dated totals/checkpoints below remain historical, not current-count assertions.
+
 ### 10 October — Sprint 15.3–15.7 Private Product Preparation
 
 20 October 15.9 checkpoint: the two approved pending product migrations are hosted/history-aligned;
 populated local shipping/fulfilment recovery passes 178 assertions plus encryption/quarantine
 invariants. The [15.9 packet](../02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md)
-keeps deployed/provider/concurrent acceptance and exact hosted cleanup open. A separate restricted
-Worker is prepared for owner deployment so the active pilot is not displaced. No debt is closed
+records the approved replacement's genuine deposit/credited-product captures, signed settlement,
+independent evidence/issue and seven custody/replay/outbox events. All three cumulative test captures
+are fully refunded, exact hosted cleanup passes and the disposable webhook is deleted. Scoped
+hosted record-level encrypted recovery supplements local full-schema restore evidence. Owner
+shutdown promotion and independent version/HTTP checks pass: 15.9 is complete at its isolated
+acceptance boundary. Task 15.10 is reconciled by the report above. No real pilot is displaced. No domain debt is closed
 or launch/sales approval inferred from this partial checkpoint; registry counts are unchanged.
 
 20 October supplement: [15.8](../02-implementation-plans/phase-02/annexures/sprint-15-8-order-next-actions.md)
@@ -1056,6 +1071,20 @@ again passes with exact baseline restoration. See the
 [maintenance runbook](../06-operations/mobile-orphan-maintenance-runbook.md).
 Hosted application of both retirement migrations and isolated provider/R2 acceptance still require
 explicit approval; the new workflow has not deleted any hosted identity or enabled email.
+
+## TD-067 — Vite 7.3.6 Tooling Advisories
+
+- **Priority:** P1; owner `@Muhns13G`; milestone Sprint 15.10.
+- **Status:** Verified at the local patch/audit boundary; owner commit and exact-commit CI pending.
+- **Finding:** one high and two moderate findings in the newly refreshed audit,
+  GHSA-587h-7wmj-h5pm, GHSA-698v-4r3x-3vcv and GHSA-r825-w8mm-5pxw.
+  Reachability includes Windows/editor tooling; no deployed Worker compromise is established.
+- **Resolution:** pin/override Vite 7.3.7, synchronize the lock without broad upgrades and verify
+  frozen install plus zero full/production audit findings. Supported Node 22 build, client canary,
+  generated/MCP checks and final regression are recorded in the
+  [completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md).
+- **Remaining release action:** owner commits/pushes and verifies the exact closure commit's CI;
+  a local patch does not claim already-deployed code. No new permission or product switch is needed.
 
 ## Registry Maintenance Rules
 

@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-20",
+    "last_updated": "2026-10-21",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -24,12 +24,29 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-15-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md",
+      "status": "implemented-locally-verified-owner-ci-pending",
+      "authority_for": [
+        "Sprint 15 task acceptance, final regression and narrow remediation",
+        "File accounting, TD-067 and owner CI handoff without product-sales activation"
+      ],
+      "last_updated": "2026-10-21"
+    },
+    {
+      "id": "phase-02-sprint-15-10-file-inventory",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-10-closure-file-inventory.md",
+      "status": "closure-workspace-inventory",
+      "authority_for": ["Net file accounting including explicitly interleaved owner-approved work"],
+      "last_updated": "2026-10-21"
+    },
+    {
       "id": "phase-02-sprint-15-9-hosted-product-rehearsal",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md",
-      "status": "in-progress-awaiting-separate-owner-deployment",
+      "status": "completed-isolated-hosted-acceptance-and-cleanup",
       "authority_for": [
         "Approved hosted product migrations and populated local shipping recovery",
-        "Separate non-disruptive rehearsal preparation and remaining acceptance boundaries"
+        "Genuine isolated paid product journey, exact refunds, cleanup and verified owner shutdown"
       ],
       "last_updated": "2026-10-20"
     },
@@ -183,12 +200,12 @@
     {
       "id": "phase-02-sprint-15",
       "path": "docs/02-implementation-plans/phase-02/sprint-15-product-orders-manual-fulfilment.md",
-      "status": "in-progress",
+      "status": "implemented-locally-verified-owner-ci-pending",
       "authority_for": [
         "Owner-approved bounded product-order and manual-fulfilment scope",
         "Tasks 15.1 through 15.10 and retained product-sales gates"
       ],
-      "last_updated": "2026-10-10"
+      "last_updated": "2026-10-21"
     },
     {
       "id": "phase-02-sprint-15-1-product-order-contract",

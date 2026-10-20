@@ -1,9 +1,9 @@
 ---
 plan_id: phase-02-sprint-15
 title: Private Product Orders and Manual Fulfilment
-status: in-progress
+status: implemented-locally-verified-owner-ci-pending
 authority: owner-approved-direction
-last_updated: 2026-10-20
+last_updated: 2026-10-21
 owner: "@Muhns13G"
 depends_on: [phase-02-sprint-10, phase-02-sprint-11, phase-02-sprint-12, phase-02-sprint-14]
 ---
@@ -87,10 +87,20 @@ release is inferred. [15.8](annexures/sprint-15-8-order-next-actions.md) impleme
 guidance, fixed generic toasts, private support links and atomic reference-only fulfilment
 notification capture. Its local/controlled-browser and fresh owner manual acceptance are complete;
 no hosted migration or send is inferred from 15.8 alone. [15.9](annexures/sprint-15-9-hosted-product-rehearsal.md)
-is in progress: both approved pending migrations are hosted/history-aligned and populated local
+is complete at its isolated acceptance boundary: both approved pending migrations are hosted/history-aligned and populated local
 recovery passes 178 assertions plus encryption/quarantine invariants. A restricted separate Worker
-is prepared to avoid interrupting real pilot users; owner deployment and hosted sandbox acceptance
-remain outstanding. Task 15.10 remains planned. Do not claim the whole sprint complete from inherited tests.
+is owner-deployed/promoted without interrupting real pilot users. The expressly approved replacement
+journey passes genuine native/MFA, catalogue, R999 deposit, independent evidence/issued quote,
+R999 credit/R2,101 balance, signed settlement, seven custody/replay/outbox events and client progress.
+All three cumulative test captures are fully refunded; exact fixture cleanup and webhook deletion
+pass. Hosted record-level encrypted roundtrip supplements the existing local full-schema recovery;
+it is not a hosted PostgreSQL restore. The 94-test focused packet passes. Owner promotion of the
+separate shutdown and independent version/HTTP checks also pass: 15.9 is complete. The main pilot
+deployment is unchanged. Task 15.10 is implemented by the
+[completion report](../../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md),
+including final regression, narrow remediation, file accounting and debt/release reconciliation.
+Final local validation passes, including 1,635 unit tests and all 366 desktop/mobile checks.
+Owner exact-commit CI and deployment remain pending; product-sales GO is separate.
 
 ## Engineering Constraints
 

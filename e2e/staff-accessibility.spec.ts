@@ -190,7 +190,7 @@ for (const surface of [
       await expect(page.getByText("Awaiting acknowledgement")).toBeVisible();
     } else if (surface === "intake") {
       await page.getByRole("button", { name: "Load granted work" }).click();
-      await page.getByRole("button", { name: /^Intake / }).click();
+      await page.getByRole("button", { name: /^Open intake Intake / }).click();
       await expect(page.getByText("Synthetic protected client")).toBeVisible();
     } else if (surface === "sign-in") {
       // SSR deliberately disables submission until hydration. Measure the ready presentation,
@@ -335,7 +335,7 @@ for (const surface of ["support", "intake"] as const) {
       })
       .click();
     if (surface === "intake") {
-      await page.getByRole("button", { name: /^Intake / }).click();
+      await page.getByRole("button", { name: /^Open intake Intake / }).click();
       await expect(page.getByText("Synthetic protected client")).toBeVisible();
     } else {
       await expect(
@@ -353,7 +353,7 @@ for (const surface of ["support", "intake"] as const) {
       // The fixed fixture is now expired; a fresh list response must not briefly expose its items.
       await page.getByRole("button", { name: "Load granted work" }).click();
       await expect(page.getByRole("status")).toContainText("No information is displayed");
-      await expect(page.getByRole("button", { name: /^Intake / })).toHaveCount(0);
+      await expect(page.getByRole("button", { name: /^Open intake Intake / })).toHaveCount(0);
       await expect(page.getByRole("status")).toBeFocused();
     }
     expect(await page.evaluate(() => [localStorage.length, sessionStorage.length])).toEqual([0, 0]);

@@ -2,13 +2,25 @@
 report_id: phase-02-minimum-pilot-enablement-checkpoint
 title: Phase 02 — Minimum Pilot Enablement Checkpoint
 status: in-progress-release-gated
-last_updated: 2026-10-09
+last_updated: 2026-10-21
 owner: "@Muhns13G"
 ---
 
 # Phase 02 — Checkpoint Report, Not Final Closure
 
-## Disposition
+## 21 October Addendum — Sprint 15
+
+The [Sprint 15 report](sprint-15-product-orders-manual-fulfilment.md) adds private product
+quotes, capped-credit Checkout, manual fulfilment and isolated hosted acceptance with full refunds,
+exact cleanup and verified separate shutdown. Closure changes pass final local validation and await
+owner exact-commit CI/deployment; real product-sale release remains independently gated. Current registry:
+67 items, 60 Verified and seven non-Verified. Uploads remain deferred and the generator stays inactive
+until needed. The real pilot was already active at the dated 15.9 observation and was not changed
+by 15.10. The NO-GO and inactive baseline statements below describe the **9 October checkpoint**,
+not a new instruction to suspend existing users or a claim that later approved releases never occurred.
+Phase 02 is not declared finally closed by adding this engineering capability.
+
+## 9 October Disposition — Historical
 
 Sprints 8–14 are completed within their recorded engineering/rehearsal scopes with activation
 gates retained. The [Sprint 13 report](sprint-13-pilot-rehearsal-release.md) closes the original
