@@ -39,7 +39,11 @@ export async function checkClientFormPresentation(page: Page) {
         { message: `${mode} reflow overflow` },
       )
       .toMatchObject({ excess: 0 });
-    const controls = page.locator('main input:not([type="hidden"]), main select, main textarea');
+    // Closed native disclosures deliberately remove their descendants from presentation/focus.
+    // Their summary remains keyboard reachable; dedicated product tests open the actual panels.
+    const controls = page.locator(
+      'main input:not([type="hidden"]):visible, main select:visible, main textarea:visible',
+    );
     for (let index = 0; index < (await controls.count()); index++) {
       const control = controls.nth(index);
       await expect(control).toBeVisible();
@@ -83,7 +87,7 @@ export async function checkClientFormPresentation(page: Page) {
 export async function checkKeyboardReachability(page: Page) {
   await page.waitForLoadState("networkidle");
   const controls = page.locator(
-    'main input:not([type="hidden"]):enabled, main select:enabled, main textarea:enabled, main button:enabled, main a[href]',
+    'main input:not([type="hidden"]):enabled:visible, main select:enabled:visible, main textarea:enabled:visible, main button:enabled:visible, main a[href]:visible, main summary:visible',
   );
   await controls.evaluateAll((items) =>
     items.forEach((item, index) => item.setAttribute("data-a11y-control", String(index))),

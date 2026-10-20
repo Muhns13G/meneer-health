@@ -19,6 +19,14 @@ it.each(liveCommerceSuites)(
       sql.indexOf("insert into commerce_private.checkout_intents"),
     );
     expect(sql).toContain("public.apply_commerce_provider_event(");
+    if (suite === "pilot_reconciliation_completion") {
+      expect(sql).toContain("SYNTHETIC local live-mode simulation only");
+      expect(sql).toContain("insert into commerce_private.review_price_bindings");
+      expect(sql).toContain("'approved-pilot-review'");
+      expect(sql.indexOf("insert into commerce_private.review_price_bindings")).toBeLessThan(
+        sql.indexOf("insert into commerce_private.checkout_intents"),
+      );
+    }
     if (source.includes("public.apply_pilot_provider_event_before_reconciliation"))
       expect(sql).toContain("public.apply_pilot_provider_event_before_reconciliation");
     for (const invalid of [

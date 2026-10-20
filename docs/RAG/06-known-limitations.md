@@ -3,10 +3,11 @@ rag_id: meneer-known-limitations
 title: Meneer Known Limitations and Answer Guardrails
 status: current
 authority: derived-from-audit-and-debt
-last_updated: 2026-10-13
+last_updated: 2026-10-21
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md
   - docs/02-implementation-plans/phase-02/annexures/company-identity-transition.md
   - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md
@@ -129,6 +130,22 @@ sources:
 
 # Meneer Known Limitations and Answer Guardrails
 
+## Sprint 15.10 Current Boundary — 21 October
+
+The [completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)
+records engineering acceptance and final remediation. Final local validation passes; owner
+exact-commit CI/deployment are pending. Neither the new report nor Vite advisory remediation activates live
+product sales or closes TD-006/007/009/010/037/038/043. Registry: 67 items, 60 Verified, seven non-Verified.
+Actual catalogue/source, delivery/address/custody, terms, independent professional/provider evidence,
+shipping-key recovery and owner GO remain applicable. Generator stays inactive until needed;
+uploads remain deferred. No new messages, charges or hosted fixtures were created by 15.10.
+
+15.9's separate rehearsal is verifiably shut down and all authorised captures are refunded.
+Its hosted record-level roundtrip is not a PostgreSQL schema/ACL restore, and revoked-writer
+concurrency is not successful-writer concurrency. The earlier email-rehearsal interruption below
+is a dated 11 October checkpoint, not evidence of a current real-pilot outage. Retain historical
+evidence without presenting it as a fresh runtime check.
+
 ## Company identity transition — 13 October 2026
 
 The owner-approved Meneer Health (Pty) Ltd identity/address and VAT omission are corrected in
@@ -172,12 +189,18 @@ acceptance/Checkout/settlement; derived legacy booleans alone cannot authorise l
 15.7 now locally checks exact paid funding and current authority before manual supply advancement;
 reference attestations are not provider API verification or actual dispensing/courier execution.
 15.9 has applied the two approved pending migrations and verified populated local shipping recovery;
-the separate restricted Worker still needs owner deployment and actual hosted sandbox acceptance.
-No provider capture/refund or hosted fixture cleanup has occurred in that task yet; it remains open.
+the separate restricted Worker is owner-deployed/promoted. The approved replacement journey passes
+native/MFA, deposit/credited-product captures, signed settlement, independent issue/evidence and
+seven custody/replay/outbox events. All three cumulative captures are refunded, exact cleanup passes
+and the disposable webhook is deleted. Scoped hosted record-level encrypted recovery supplements
+local full-schema restore evidence; hosted PostgreSQL disaster restore and successful concurrent
+writers are not inferred. Owner promotion and independent version/HTTP shutdown checks now pass:
+15.9 is complete at its isolated acceptance boundary. The main pilot remains unchanged; 15.10's
+current validation and closure handoff are recorded above.
 Never replace the active real-pilot tenant with a rehearsal tenant to obtain this evidence.
 
 15.8 adds guidance/support and private event-bound generic notification capture, not delivery proof
-or fulfilment automation. Its migration is local-only until separately approved; no queue backfill,
+or fulfilment automation. Its migration was separately approved/applied in 15.9; no queue backfill,
 recipient bypass, live send or payment setting change occurs. Fresh 15.8 staff/client VoiceOver
 and zoom checks passed by owner confirmation on 20 October; 15.9 hosted proof remains separate.
 

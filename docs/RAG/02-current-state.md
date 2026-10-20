@@ -3,12 +3,15 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-20
+last_updated: 2026-10-21
 audience: internal
 sensitivity: internal
-source_baseline: 08dc68c
-runtime_baseline: 5f958cd
+source_baseline: ab649ca
+source_has_uncommitted_closure_changes: true
+runtime_worker_version: c4be0ea5-2e9f-45b5-9022-a331d5b30d69
+runtime_observed_at: 2026-10-20T21:51:15.011Z
 sources:
+  - docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md
   - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-2-private-product-catalogue.md
@@ -149,6 +152,27 @@ sources:
 
 # Meneer v1 Verified Current State
 
+## Sprint 15.10 — 21 October Current Handoff
+
+The [Sprint 15 completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)
+supersedes earlier task-planning statements below. Tasks 15.1–15.10 have their recorded acceptance;
+15.10 reconciles regression/remediation, debt, release and file accounting. Final local validation
+passes (1,635 unit tests, all 366 desktop/mobile checks); owner exact-commit CI/deployment are pending.
+Vite 7.3.7 resolves three new advisories (TD-067);
+full and production audits are clear. Registry: 67 items, 60 Verified, seven non-Verified.
+
+The dated 15.9 evidence verifies genuine sandbox deposit/product settlement, full original-method
+refunds, exact cleanup and independently closed separate Worker. No live pilot configuration,
+real staff/client records or product-sales gates were changed by 15.10. Local full PostgreSQL
+restore and hosted record-level encrypted roundtrip remain distinct. Do not infer provider APIs,
+real professional approval, successful concurrent writers or a hosted disaster restore.
+
+Earlier email-rehearsal interruption/pending-restoration notes below are **11 October history**,
+not current evidence that the active pilot is still using that rehearsal. The 15.9 packet records
+the later preserved main Worker and closed separate rehearsal. Do not reactivate expired leases.
+Read current authoritative release packets before any new runtime claim. Broader onboarding
+stabilisation and Laravel planning are separate; no new sprint is started here.
+
 ## Email fallback correction — 11 October
 
 The [email fallback packet](../02-implementation-plans/phase-02/annexures/pilot-email-invitation-fallback.md)
@@ -225,7 +249,7 @@ is complete at contract level with strict interest/quote input schemas and domai
 15.1 added no runtime UI; 15.3 now provides the private catalogue as described above. No real
 price import, clinical/supply authority or hosted activation is delivered by these tasks.
 15.2 is completed locally and 15.3–15.7 at their controlled-browser boundaries; 15.8 is complete at
-its local/controlled-browser/owner-manual boundary. 15.9 is in progress and 15.10 remains planned. Existing credit/payment foundations are reused, not proof that clients
+its local/controlled-browser/owner-manual boundary. 15.9 is complete at its isolated hosted acceptance/cleanup boundary; 15.10's current report is linked above. Existing credit/payment foundations are reused, not proof that clients
 can already order products. Generator reactivation and product-specific release gates remain.
 
 [15.6](../02-implementation-plans/phase-02/annexures/sprint-15-6-issued-product-quotes.md) adds
@@ -254,8 +278,16 @@ hosted/provider/recovery acceptance. No live product or send setting changes.
 20 October product supplement: [15.9](../02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md)
 records canonical hosted application of the 15.7/15.8 migrations and 178 passing populated local
 shipping/fulfilment recovery assertions plus cryptographic/quarantine invariants. The separate
-restricted Worker is prepared but not deployed; hosted product captures/concurrency/cleanup remain
-pending. Main pilot settings/users are not substituted. This does not supersede the deposit-only
+restricted Worker is owner-deployed/promoted. The approved replacement journey passes genuine MFA,
+mobile catalogue, R999 deposit/R2,101 credited product balance and signed settlement, independent
+evidence/issue, seven custody/replay/outbox events and delivered client progress. All three cumulative
+test captures are fully refunded; exact baseline restoration and webhook deletion pass. A scoped
+hosted record-level encrypted roundtrip supplements local full-schema recovery, not a hosted
+PostgreSQL restore. The focused packet passes 94 tests. Owner-promoted separate shutdown
+`4c9b441d-272d-4de7-8b49-5c8a421837b3` is independently verified at 100%; six HTTP probes with
+and without the old access cookie return `503`/no-store. Main version is unchanged and its homepage
+returns `200`. Task 15.9 is complete; 15.10's current handoff is recorded above. Main pilot settings/users are unchanged.
+This does not supersede the deposit-only
 historical acceptance below or prove hosted product-sales readiness.
 
 **Subsequent live configuration preparation, 10 October:** the replacement live restricted key

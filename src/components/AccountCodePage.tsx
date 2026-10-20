@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import { useActionToast } from "@/hooks/use-action-toast";
+import { supportChannels } from "@/lib/support-channels";
 
 export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-up" }) {
   const { notify, dismiss } = useActionToast();
@@ -248,10 +249,26 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
           </Link>
         )}
         {registration && (
-          <p className="mt-6 text-sm text-muted-foreground">
-            Do not enter health information here. This is not an emergency service; seek emergency
-            care immediately if needed.
-          </p>
+          <div className="mt-6 text-sm text-muted-foreground">
+            <p>
+              Do not enter health information here. This is not an emergency service; seek emergency
+              care immediately if needed.
+            </p>
+            <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2">
+              <a
+                className="inline-flex min-h-11 items-center text-gold underline underline-offset-4"
+                href={supportChannels.emergency.mobile.href}
+              >
+                {supportChannels.emergency.mobile.label}
+              </a>
+              <a
+                className="inline-flex min-h-11 items-center text-gold underline underline-offset-4"
+                href={supportChannels.emergency.ambulance.href}
+              >
+                {supportChannels.emergency.ambulance.label}
+              </a>
+            </div>
+          </div>
         )}
         <Link
           to={recovery ? "/account/sign-in" : "/account/recover"}

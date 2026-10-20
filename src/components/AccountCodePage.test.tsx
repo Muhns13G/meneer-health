@@ -71,6 +71,14 @@ it("public registration remains unavailable without readiness and offers normal 
   render(<AccountCodePage mode="sign-up" />);
   await screen.findByText(/New account signup is currently unavailable/);
   expect(screen.queryByLabelText("Email address")).not.toBeInTheDocument();
+  expect(screen.getByRole("link", { name: "Mobile emergency: 112" })).toHaveAttribute(
+    "href",
+    "tel:112",
+  );
+  expect(screen.getByRole("link", { name: "Ambulance: 10177" })).toHaveAttribute(
+    "href",
+    "tel:10177",
+  );
   expect(screen.getByRole("link", { name: "Already have an account? Sign in" })).toHaveAttribute(
     "href",
     "/account/sign-in",

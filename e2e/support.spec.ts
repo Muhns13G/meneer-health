@@ -14,7 +14,7 @@ test("support, privacy, and emergency routing preserve the approved public bound
     "mailto:support@meneerhealth.co.za",
   );
   await expect(
-    page.getByText(/OCTOTHORP ZA owns this channel, and it is monitored daily/),
+    page.getByText(/Meneer Health \(Pty\) Ltd owns this channel, and it is monitored daily/),
   ).toBeVisible();
   await expect(page.getByRole("link", { name: "112 from a mobile" })).toHaveAttribute(
     "href",

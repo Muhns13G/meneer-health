@@ -100,7 +100,9 @@ test("unregistered mutations and direct endpoints fail closed without CORS", asy
       "Access-Control-Request-Method": "POST",
     },
   });
-  expect(preflightResponse.status()).toBe(204);
+  // Vite answers an otherwise unknown OPTIONS with an empty 204; the compiled Worker
+  // returns the ordinary 404. Neither transport grants cross-origin mutation access.
+  expect([204, 404]).toContain(preflightResponse.status());
   expect(preflightResponse.headers()["access-control-allow-origin"]).toBeUndefined();
 
   const directResponse = await request.post(`${baseURL}/api/workflows/transition`, {

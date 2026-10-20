@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from "@testing-library/react";
 import { afterEach, expect, it, vi } from "vitest";
-import { AccountDocumentsPage } from "./account/documents";
+import { AccountDocumentsPage } from "@/components/AccountDocumentsPage";
 import { renderWithRouter } from "@/test/render-with-router";
 const docs = {
   verifiedEmail: "review@example.invalid",
