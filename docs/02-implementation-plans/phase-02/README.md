@@ -2,7 +2,7 @@
 plan_id: phase-02-minimum-pilot-enablement
 title: Phase 02 Minimum Pilot Enablement
 status: in-progress
-last_updated: 2026-10-11
+last_updated: 2026-10-20
 owner: "@Muhns13G"
 depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 ---
@@ -18,11 +18,16 @@ This is local implementation, not hosted acceptance or a send to Zubin.
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
+[15.8](annexures/sprint-15-8-order-next-actions.md) adds explicit client/staff next actions,
+safe payment retry guidance, secure support links and fixed generic feedback. A private trigger
+queues generic service updates for exact fulfilment events under the existing dispatch gates;
+no historical backfill or live send occurs. Validation/manual acceptance is recorded in its packet.
+
 [15.7](annexures/sprint-15-7-manual-product-fulfilment.md) adds assigned fresh-TOTP manual
 custody/delivery facts, exception/replay guards, post-release refund protection and minimal own-client
 progress. It performs no provider/courier action and retains the existing disabled product gate.
-Hosted/provider/concurrent and populated recovery acceptance remain 15.9; 15.8 owns next-action
-polish, notifications and new manual accessibility review.
+Hosted/provider/concurrent and populated recovery acceptance remain 15.9. The owner confirmed both
+fresh staff/client VoiceOver and zoom checks pass in 15.8 on 20 October.
 
 [15.6](annexures/sprint-15-6-issued-product-quotes.md) connects independently approved exact
 drafts to issued offers, product-term acceptance/decline and capped-credit Checkout. Local and

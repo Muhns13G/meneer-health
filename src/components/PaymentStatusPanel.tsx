@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { paymentStatusPageSchema, type PaymentStatusPage } from "@/domain/payments/payment-status";
 import { RefundPanel } from "./RefundPanel";
 import { useActionToast } from "@/hooks/use-action-toast";
+import { paymentNextAction } from "@/domain/payments/product-next-actions";
 
 const labels = {
   not_started: "Checkout not started",
@@ -163,16 +164,7 @@ function PaymentStatusContent({ caseId, autoLoad = false, onChange }: Props) {
                 {payment.requiresReview && (
                   <p>Reconciliation review required. Contact support before repeating payment.</p>
                 )}
-                {!caseId &&
-                payment.status === "confirmed" &&
-                !payment.requiresReview &&
-                !payment.dispute &&
-                payment.refundedMinor === 0 ? (
-                  <p className="mt-3">
-                    No further payment is needed for this transaction. The team will review your
-                    next steps; payment does not guarantee clinical approval or product supply.
-                  </p>
-                ) : null}
+                <p className="mt-3">Next step: {paymentNextAction(payment)}</p>
                 <RefundPanel offerId={payment.reference} staff={caseId !== undefined} />
               </li>
             ))}
@@ -187,6 +179,9 @@ function PaymentStatusContent({ caseId, autoLoad = false, onChange }: Props) {
           )}
         </>
       )}
+      <a className="action-secondary mt-4" href={caseId ? "/staff/support" : "/portal/support"}>
+        {caseId ? "Open assigned payment support" : "Get secure payment help"}
+      </a>
     </section>
   );
 }

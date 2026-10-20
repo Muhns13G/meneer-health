@@ -49,6 +49,11 @@ it("records only an attested exact version and opaque reference", async () => {
   });
   expect(screen.getByRole("checkbox")).not.toBeChecked();
   expect(screen.getByLabelText("Private evidence reference")).toHaveValue("");
+  expect(screen.getByText(/Wait for the pharmacy's actual release evidence/)).toBeVisible();
+  expect(screen.getByRole("link", { name: "Open assigned support work" })).toHaveAttribute(
+    "href",
+    "/staff/support",
+  );
 });
 it("shows only coarse client progress without staff controls", async () => {
   const f = vi.fn().mockResolvedValue(
@@ -66,6 +71,11 @@ it("shows only coarse client progress without staff controls", async () => {
   expect(f.mock.calls[0]![0]).toBe("/portal/order/fulfilment");
   expect(JSON.parse(f.mock.calls[0]![1].body)).toEqual({});
   expect(screen.queryByLabelText("Private evidence reference")).toBeNull();
+  expect(screen.getByText(/Your order is with the courier/)).toBeVisible();
+  expect(screen.getByRole("link", { name: "Get secure order help" })).toHaveAttribute(
+    "href",
+    "/portal/support",
+  );
 });
 it("clears expired private state", async () => {
   vi.useFakeTimers();
@@ -88,6 +98,7 @@ it("clears expired private state", async () => {
     await vi.advanceTimersByTimeAsync(60001);
   });
   expect(screen.queryByText(/Record version/)).toBeNull();
+  expect(screen.queryByText(/Next step:/)).toBeNull();
   expect(screen.getByRole("status")).toHaveTextContent("expired");
 });
 it("clears a changed case and ignores late results", async () => {
@@ -125,4 +136,20 @@ it("never retries an uncertain mutation or exposes the private response", async 
   expect(f).toHaveBeenCalledTimes(2);
   expect(screen.queryByText("private address")).toBeNull();
   expect(screen.queryByLabelText("Private evidence reference")).toBeNull();
+});
+it("keeps load errors distinct from access failure and clears stale guidance", async () => {
+  const f = vi
+    .fn()
+    .mockResolvedValueOnce(new Response(JSON.stringify(productFulfilmentFixture())))
+    .mockResolvedValueOnce(new Response(null, { status: 403 }));
+  vi.stubGlobal("fetch", f);
+  render(<ProductFulfilmentPanel caseId={id} />);
+  const refresh = screen.getByRole("button", { name: "Check fulfilment progress" });
+  expect(refresh).not.toHaveFocus();
+  fireEvent.click(refresh);
+  await screen.findByText(/Check the exact paid quote/);
+  fireEvent.click(refresh);
+  await screen.findByText(/Sign in again/);
+  expect(screen.queryByText(/Next step:/)).toBeNull();
+  expect(f).toHaveBeenCalledTimes(2);
 });

@@ -171,13 +171,18 @@ provider evidence. The 15.6 bridge now binds current exact evidence to quote iss
 acceptance/Checkout/settlement; derived legacy booleans alone cannot authorise linked quotes.
 15.7 now locally checks exact paid funding and current authority before manual supply advancement;
 reference attestations are not provider API verification or actual dispensing/courier execution.
+15.8 adds guidance/support and private event-bound generic notification capture, not delivery proof
+or fulfilment automation. Its migration is local-only until separately approved; no queue backfill,
+recipient bypass, live send or payment setting change occurs. Fresh 15.8 staff/client VoiceOver
+and zoom checks passed by owner confirmation on 20 October; 15.9 hosted proof remains separate.
 
 15.4 drafts are administrative preparation only. An existing encrypted address/delivery binding
 must be provisioned through approved preparation; staff cannot invent a tariff, confirm an address
 with a checkbox, apply credit or impersonate a clinician. The draft history is not a current supply
 or payment approval. 15.5/15.6 must revalidate exact products and all references before issue.
-Hosted acceptance, dedicated address-key custody/recovery and manual accessibility remain later
-release boundaries; no fresh manual VoiceOver observation is claimed here.
+Hosted acceptance and dedicated address-key custody/recovery remain later release boundaries.
+The original 15.4 packet did not claim manual speech review; the later 15.8 confirmation covers
+its reviewed client/staff next-action screens, not every earlier product-preparation flow.
 
 [15.3](../02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md) implements
 private browsing/interest, disabled by default. Real RRPs, applicable privacy/lifecycle scope and

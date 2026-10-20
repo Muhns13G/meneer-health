@@ -17,6 +17,10 @@ it("emits only fixed action text and replaces its previous notification", () => 
   act(() => result.current.notify("paymentRefreshed"));
   expect(toast.dismiss).toHaveBeenCalledWith("synthetic-toast");
   expect(toast.success).toHaveBeenLastCalledWith("Payment status refreshed.");
+  act(() => result.current.notify("fulfilmentRecorded"));
+  expect(toast.success).toHaveBeenLastCalledWith(
+    "Update recorded. Check the private page for next steps.",
+  );
 });
 
 it("dismisses on hidden/pagehide/unmount and ignores late notifications", () => {
