@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { isolateExternalFonts } from "./helpers";
+import { checkClientFormPresentation, checkKeyboardReachability } from "./client-form-checks";
 import { orderReviewFixture } from "../src/test/order-review-fixture";
 import {
   productFulfilmentFixture,
@@ -93,6 +94,16 @@ test("assigned staff records an attested custody event, not an automatic provide
   await expect(panel.getByRole("status")).toContainText("Evidence recorded");
   expect(records).toBe(1);
   await expect(panel.getByRole("checkbox")).not.toBeChecked();
+  await expect(panel.getByText(/Wait for the pharmacy's actual release evidence/)).toBeVisible();
+  await expect(panel.getByRole("link", { name: "Open assigned support work" })).toHaveAttribute(
+    "href",
+    "/staff/support",
+  );
+  if (process.env.CLIENT_FORM_MANUAL_REVIEW === "voiceover-local-synthetic") {
+    if (process.env.CI || new URL(page.url()).origin !== "http://127.0.0.1:8085")
+      throw new Error("Manual fulfilment review is local-only.");
+    await page.pause();
+  }
   expect(
     (await new AxeBuilder({ page }).include('section[aria-label="Product fulfilment"]').analyze())
       .violations,
@@ -125,6 +136,7 @@ test("assigned staff records an attested custody event, not an automatic provide
   expect(JSON.stringify(storageAfter)).not.toContain("Synthetic workspace");
 });
 test("client receives only coarse own-order progress", async ({ page }) => {
+  test.setTimeout(90_000);
   await isolateExternalFonts(page);
   await page.route("**/portal/order/command", (r) =>
     r.fulfill({
@@ -175,13 +187,21 @@ test("client receives only coarse own-order progress", async ({ page }) => {
   const panel = page.getByRole("region", { name: "Product fulfilment" });
   await panel.getByRole("button", { name: "Check fulfilment progress" }).click();
   await expect(panel.getByText("Progress: dispatched.")).toBeVisible();
+  await expect(panel.getByText(/Your order is with the courier/)).toBeVisible();
+  await expect(panel.getByRole("link", { name: "Get secure order help" })).toHaveAttribute(
+    "href",
+    "/portal/support",
+  );
   await expect(panel.getByLabel("Private evidence reference")).toHaveCount(0);
   expect(
     (await new AxeBuilder({ page }).include('section[aria-label="Product fulfilment"]').analyze())
       .violations,
   ).toEqual([]);
+  await checkClientFormPresentation(page);
+  await checkKeyboardReachability(page);
   await page.evaluate(() => window.dispatchEvent(new Event("pagehide")));
   await expect(panel.getByText("Progress: dispatched.")).toHaveCount(0);
+  await expect(panel.getByText(/Next step:/)).toHaveCount(0);
 });
 test("native fulfilment endpoints remain disabled without a release", async ({ request }) => {
   for (const path of ["/staff/products/fulfilment", "/portal/order/fulfilment"]) {

@@ -4,10 +4,17 @@ import {
   productFulfilmentViewSchema,
   type ProductFulfilmentView,
 } from "@/domain/payments/product-fulfilment";
+import {
+  clientDeliveryActions,
+  staffSupplyNextAction,
+} from "@/domain/payments/product-next-actions";
+import { useActionToast } from "@/hooks/use-action-toast";
 
 export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
   const [view, setView] = useState<ProductFulfilmentView | null>(null);
-  const [progress, setProgress] = useState<string | null>(null);
+  const [progress, setProgress] = useState<keyof typeof clientDeliveryActions | null>(null);
+  const { begin, notify, dismiss } = useActionToast();
+  const interacted = useRef(false);
   const [evidence, setEvidence] = useState("");
   const [acknowledged, setAcknowledged] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -29,7 +36,8 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
     setEvidence("");
     setAcknowledged(false);
     setBusy(false);
-  }, []);
+    dismiss();
+  }, [dismiss]);
   useEffect(() => {
     const hide = () => {
       if (document.hidden) clear();
@@ -43,10 +51,12 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
     };
   }, [caseId, clear]);
   useEffect(() => {
-    if (!busy) result.current?.focus();
+    if (interacted.current && !busy) result.current?.focus();
   }, [message, busy]);
   async function send(event?: string) {
     if (busy || (event && (!view?.offerId || !acknowledged || !validEvidence))) return;
+    interacted.current = true;
+    begin();
     const payload = JSON.stringify(
       event
         ? {
@@ -94,7 +104,7 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
       if (Date.parse(next.expiresAt) <= Date.now() || ("caseId" in next && next.caseId !== caseId))
         throw new Error("stale");
       if ("stage" in next) setView(next);
-      else setProgress(next.progress.replaceAll("_", " "));
+      else setProgress(next.progress);
       setEvidence("");
       setAcknowledged(false);
       setMessage(
@@ -102,6 +112,7 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
           ? "Evidence recorded. No provider order, dispensing or courier action was performed automatically."
           : "Current progress checked. Use support for an unresolved exception.",
       );
+      notify(event ? "fulfilmentRecorded" : "fulfilmentRefreshed");
       timer.current = setTimeout(
         () => {
           clear();
@@ -112,9 +123,11 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
     } catch (error) {
       if (seq === sequence.current)
         setMessage(
-          error instanceof Error && error.message === "412"
-            ? "Product fulfilment is not enabled."
-            : "Progress is unavailable or the result is uncertain. Reload to reconcile; do not repeat a physical action.",
+          error instanceof Error && ["401", "403"].includes(error.message)
+            ? "Your access could not be verified. Sign in again, then check progress. No action is confirmed."
+            : error instanceof Error && error.message === "412"
+              ? "Product fulfilment is not enabled. No new action is available here."
+              : "Progress is unavailable or the result is uncertain. Reload to reconcile; do not repeat a physical action.",
         );
     } finally {
       if (seq === sequence.current) setBusy(false);
@@ -123,7 +136,11 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
   const validEvidence =
     /^[a-f0-9]{8}-[a-f0-9]{4}-[1-8][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(evidence);
   return (
-    <section aria-label="Product fulfilment" className="mt-6 rounded-xl border border-border p-5">
+    <section
+      aria-label="Product fulfilment"
+      aria-busy={busy}
+      className="mt-6 rounded-xl border border-border p-5"
+    >
       {caseId ? (
         <h3 className="font-serif text-2xl">Manual product fulfilment</h3>
       ) : (
@@ -140,7 +157,12 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
       >
         Check fulfilment progress
       </button>
-      {progress ? <p className="mt-4">Progress: {progress}.</p> : null}
+      {progress ? (
+        <div className="mt-4">
+          <p>Progress: {progress.replaceAll("_", " ")}.</p>
+          <p className="mt-2">Next step: {clientDeliveryActions[progress]}</p>
+        </div>
+      ) : null}
       {view ? (
         <div className="mt-4">
           <p>
@@ -151,6 +173,7 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
             Stage: {view.stage.replaceAll("_", " ")}.{" "}
             {view.exception ? "Exception requires review." : "No recorded exception."}
           </p>
+          <p className="mt-3">Next step: {staffSupplyNextAction(view)}</p>
           {view.offerId ? (
             <>
               <label className="mt-4 block">
@@ -197,6 +220,15 @@ export function ProductFulfilmentPanel({ caseId }: { caseId?: string }) {
           ) : null}
         </div>
       ) : null}
+      <a className="action-secondary mt-4" href={caseId ? "/staff/support" : "/portal/support"}>
+        {caseId ? "Open assigned support work" : "Get secure order help"}
+      </a>
+      {caseId ? null : (
+        <p className="mt-3 text-sm text-muted-foreground">
+          Service emails only prompt you to sign in. Check this private page for current progress;
+          do not reply with medical information, payment details or your address.
+        </p>
+      )}
     </section>
   );
 }

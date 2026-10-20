@@ -43,6 +43,13 @@ closure is not evidence of pilot readiness.
 
 ### 10 October — Sprint 15.3–15.7 Private Product Preparation
 
+20 October supplement: [15.8](../02-implementation-plans/phase-02/annexures/sprint-15-8-order-next-actions.md)
+implements next-action/support guidance and generic fulfilment outbox capture. It introduces no
+new authority, provider, dependency or environment switch and closes no professional/product-sales
+release debt. Local validation and fresh manual acceptance are tracked in that packet; hosted
+product/recovery proof remains 15.9. Broader onboarding stabilisation and Laravel rebuild planning
+are separate owner-directed work, not silently added to this task.
+
 Task [15.7](../02-implementation-plans/phase-02/annexures/sprint-15-7-manual-product-fulfilment.md)
 advances TD-010's manual custody/fulfilment boundary with scoped immutable event versions,
 paid/current-evidence checks, exception/delivery facts, post-release refund protection and coarse

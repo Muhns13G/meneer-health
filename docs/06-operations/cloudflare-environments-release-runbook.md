@@ -10,6 +10,19 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Sprint 15.8 — local order usability boundary, 20 October
+
+The [15.8 packet](../02-implementation-plans/phase-02/annexures/sprint-15-8-order-next-actions.md)
+records next-action guidance, private support links and fixed generic notification feedback.
+`20261020113457_product_fulfilment_notifications.sql` adds event-bound generic outbox capture;
+it is locally verified, not applied to hosted Supabase by this task. Apply only under separately
+approved 15.9 scope. No history is backfilled. Existing notification send gates, shared budget,
+suppression and uncertain-result follow-up remain authoritative. A queued or accepted email is not
+delivery proof. No new dependency, secret or environment switch is required; do not enable product
+sales, change payment modes or switch the live cohort to test this UI. The owner retains all Git
+staging, commit and deployment control. The owner confirmed both fresh staff/client VoiceOver
+and zoom checks pass on 20 October; 15.8 is complete at its local/controlled/manual boundary.
+
 ## Company identity release dependency — 13 October
 
 The owner confirms Meneer Health (Pty) Ltd as operator/seller/responsible party, registration

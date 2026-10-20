@@ -3,7 +3,7 @@ plan_id: phase-02-sprint-15
 title: Private Product Orders and Manual Fulfilment
 status: in-progress
 authority: owner-approved-direction
-last_updated: 2026-10-10
+last_updated: 2026-10-20
 owner: "@Muhns13G"
 depends_on: [phase-02-sprint-10, phase-02-sprint-11, phase-02-sprint-12, phase-02-sprint-14]
 ---
@@ -83,7 +83,10 @@ checks; no hosted product release or terms publication is inferred.
 [15.7](annexures/sprint-15-7-manual-product-fulfilment.md) implements the reference-only manual
 provider/pharmacy/Meneer/courier/delivery journal, exception controls and own-client coarse progress.
 Its final local/controlled-browser verification is recorded in the packet; no hosted product
-release is inferred. Tasks 15.8–15.10 remain planned. Do not claim the whole sprint complete from
+release is inferred. [15.8](annexures/sprint-15-8-order-next-actions.md) implements derived next-action
+guidance, fixed generic toasts, private support links and atomic reference-only fulfilment
+notification capture. Its local/controlled-browser and fresh owner manual acceptance are complete;
+no hosted migration or send is inferred. Tasks 15.9–15.10 remain planned. Do not claim the whole sprint complete from
 inherited tests.
 
 ## Engineering Constraints

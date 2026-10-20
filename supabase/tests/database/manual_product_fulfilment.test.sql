@@ -325,6 +325,18 @@ select throws_ok($$select public.staff_refund_command(jsonb_build_object(
 jsonb_build_object('action','review','offerId',(select value->>'offerId' from issued_view),'reason','product_before_release',
 'evidenceId','15700000-0000-4000-8000-000000000030','requestKey',gen_random_uuid()))$$,'PT409','POST_RELEASE_REVIEW_REQUIRED','native pre-release refund cannot refund released goods automatically');
 
+-- 15.8: each exact event reserves only a generic, recipient-derived notification.
+select is((select count(*)::integer from audit_private.transactional_notifications where source_kind='product_fulfilment'),7,'one outbox record per exact custody event; replay adds none');
+select ok(not exists(select 1 from audit_private.transactional_notifications n
+ join commerce_private.product_fulfilment_events e on e.id=n.source_id
+ join commerce_private.offers o on o.id=e.offer_id where n.source_kind='product_fulfilment'
+ and (n.subject_id<>o.subject_id or n.tenant_id<>o.tenant_id or n.source_version<>e.version::text
+ or n.template<>'service-v1' or n.owner<>'operations')),'outbox binds original client and exact event without product/clinical payload');
+select ok(not has_function_privilege('service_role','audit_private.capture_product_fulfilment_notification()','execute'),'service cannot invoke fulfilment notification trigger');
+select ok(not has_function_privilege('authenticated','audit_private.capture_product_fulfilment_notification()','execute'),'browser cannot invoke fulfilment notification trigger');
+select ok(not has_table_privilege('service_role','audit_private.transactional_notifications','insert'),'no service outbox fabrication');
+select ok(not has_table_privilege('anon','commerce_private.product_fulfilment_events','insert'),'no anonymous fulfilment event fabrication');
+
 select * from finish();
 rollback;
 

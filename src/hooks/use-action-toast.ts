@@ -7,6 +7,8 @@ const messages = {
   codeRequested: "If an eligible account exists, a six-digit code has been sent.",
   paymentRefreshed: "Payment status refreshed.",
   supportRefreshed: "Support availability and request status updated.",
+  fulfilmentRecorded: "Update recorded. Check the private page for next steps.",
+  fulfilmentRefreshed: "Private progress refreshed.",
 } as const;
 
 export function useActionToast() {

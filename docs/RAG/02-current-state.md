@@ -224,8 +224,8 @@ splits delivery into ten tasks. [15.1](../02-implementation-plans/phase-02/annex
 is complete at contract level with strict interest/quote input schemas and domain tests.
 15.1 added no runtime UI; 15.3 now provides the private catalogue as described above. No real
 price import, clinical/supply authority or hosted activation is delivered by these tasks.
-15.2 is completed locally and 15.3–15.7 at their controlled-browser boundaries; 15.8–15.10 remain
-planned. Existing credit/payment foundations are reused, not proof that clients
+15.2 is completed locally and 15.3–15.7 at their controlled-browser boundaries; 15.8 is complete at
+its local/controlled-browser/owner-manual boundary, and 15.9–15.10 remain planned. Existing credit/payment foundations are reused, not proof that clients
 can already order products. Generator reactivation and product-specific release gates remain.
 
 [15.6](../02-implementation-plans/phase-02/annexures/sprint-15-6-issued-product-quotes.md) adds
@@ -243,7 +243,11 @@ and immutable minimal audit protect advancement; paid flags cannot dispatch good
 delivery facts remain recordable after product release expires, with current staff authority.
 Clients see only coarse own-order progress. Automatic pre-release refunds cannot bypass actual
 pharmacy release. No hosted migration, provider action, product activation or new environment switch
-is performed; 15.8/15.9 retain usability, manual review and hosted/recovery acceptance.
+is performed. [15.8](../02-implementation-plans/phase-02/annexures/sprint-15-8-order-next-actions.md)
+adds state-derived client/staff guidance, private support links, generic fixed toasts and an
+event-bound outbox trigger without backfill. The owner confirmed both fresh staff/client VoiceOver
+and zoom checks pass on 20 October; this is distinct from automated checks. 15.9 retains
+hosted/provider/recovery acceptance. No live product or send setting changes.
 
 ## Latest sandbox acceptance checkpoint — 9 October
 
