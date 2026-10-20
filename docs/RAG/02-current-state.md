@@ -3,7 +3,7 @@ rag_id: meneer-current-state
 title: Meneer v1 Verified Current State
 status: current
 authority: observed-summary
-last_updated: 2026-10-13
+last_updated: 2026-10-20
 audience: internal
 sensitivity: internal
 source_baseline: 08dc68c
@@ -225,7 +225,7 @@ is complete at contract level with strict interest/quote input schemas and domai
 15.1 added no runtime UI; 15.3 now provides the private catalogue as described above. No real
 price import, clinical/supply authority or hosted activation is delivered by these tasks.
 15.2 is completed locally and 15.3–15.7 at their controlled-browser boundaries; 15.8 is complete at
-its local/controlled-browser/owner-manual boundary, and 15.9–15.10 remain planned. Existing credit/payment foundations are reused, not proof that clients
+its local/controlled-browser/owner-manual boundary. 15.9 is in progress and 15.10 remains planned. Existing credit/payment foundations are reused, not proof that clients
 can already order products. Generator reactivation and product-specific release gates remain.
 
 [15.6](../02-implementation-plans/phase-02/annexures/sprint-15-6-issued-product-quotes.md) adds
@@ -250,6 +250,13 @@ and zoom checks pass on 20 October; this is distinct from automated checks. 15.9
 hosted/provider/recovery acceptance. No live product or send setting changes.
 
 ## Latest sandbox acceptance checkpoint — 9 October
+
+20 October product supplement: [15.9](../02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md)
+records canonical hosted application of the 15.7/15.8 migrations and 178 passing populated local
+shipping/fulfilment recovery assertions plus cryptographic/quarantine invariants. The separate
+restricted Worker is prepared but not deployed; hosted product captures/concurrency/cleanup remain
+pending. Main pilot settings/users are not substituted. This does not supersede the deposit-only
+historical acceptance below or prove hosted product-sales readiness.
 
 **Subsequent live configuration preparation, 10 October:** the replacement live restricted key
 passes GET-only account/resource checks with no outstanding provider verification requirements.

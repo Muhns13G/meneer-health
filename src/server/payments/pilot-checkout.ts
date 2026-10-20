@@ -50,8 +50,22 @@ export class PilotCheckoutProvider {
     private readonly accountId: string,
     client?: Stripe,
     private readonly environment: StripePaymentEnvironment = "sandbox",
+    private readonly returnOrigin = "https://meneerhealth.co.za",
   ) {
     assertStripeCredential(key, accountId, environment, "CHECKOUT_CONFIGURATION_INVALID");
+    const origin = new URL(returnOrigin);
+    if (
+      origin.origin !== returnOrigin ||
+      origin.username ||
+      origin.password ||
+      (returnOrigin !== "https://meneerhealth.co.za" &&
+        !(
+          environment === "sandbox" &&
+          origin.protocol === "https:" &&
+          origin.hostname.endsWith(".workers.dev")
+        ))
+    )
+      throw new Error("CHECKOUT_RETURN_ORIGIN_INVALID");
     this.client =
       client ??
       new Stripe(key, {
@@ -84,8 +98,8 @@ export class PilotCheckoutProvider {
         integration_identifier: "meneer_health_checkout_kqtdvzmp",
         adaptive_pricing: { enabled: false },
         client_reference_id: intent.intentId,
-        success_url: "https://meneerhealth.co.za/portal/order",
-        cancel_url: "https://meneerhealth.co.za/portal/order",
+        success_url: `${this.returnOrigin}/portal/order`,
+        cancel_url: `${this.returnOrigin}/portal/order`,
         expires_at: intent.expiresEpoch,
         line_items: lines,
         metadata: { orderId: intent.intentId, tenantId: intent.tenantId },

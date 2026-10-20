@@ -2,13 +2,22 @@
 runbook_id: meneer-cloudflare-v1-release
 title: Cloudflare v1 Environments and Release Runbook
 status: active-owner-controlled
-last_updated: 2026-10-12
+last_updated: 2026-10-20
 owner: "@Muhns13G"
 audience: internal
 sensitivity: internal
 ---
 
 # Cloudflare v1 Environments and Release Runbook
+
+## Sprint 15.9 — separate target, not a production switch
+
+The [15.9 checkpoint](../02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md)
+records approved application/history alignment of the 15.7 and 15.8 migrations. No seed, activation,
+message or capture was performed. Follow the [separate rehearsal runbook](../../operations/product-rehearsal/README.md):
+the owner deploys only `dist-product-rehearsal/server/wrangler.json`, initially fail-closed.
+Never substitute its tenant/settings on the main Worker. Main product-sales gates remain unchanged.
+Hosted acceptance and scoped provider/fixture cleanup are still pending; this is not 15.9 closure.
 
 ## Sprint 15.8 — local order usability boundary, 20 October
 

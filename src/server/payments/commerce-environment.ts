@@ -11,6 +11,7 @@ export type CommerceEnvironmentBindings = {
   STRIPE_CHECKOUT_ACCOUNT_ID?: unknown;
   STRIPE_RESTRICTED_KEY?: unknown;
   STRIPE_WEBHOOK_SIGNING_SECRET?: unknown;
+  STRIPE_SANDBOX_RETURN_ORIGIN?: unknown;
   STRIPE_LIVE_ACCOUNT_ID?: unknown;
   STRIPE_LIVE_RESTRICTED_KEY?: unknown;
   STRIPE_LIVE_WEBHOOK_SIGNING_SECRET?: unknown;

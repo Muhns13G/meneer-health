@@ -18,6 +18,12 @@ This is local implementation, not hosted acceptance or a send to Zubin.
 
 ## Adopted Sprint 15 — Product Orders, 10 October
 
+[15.9](annexures/sprint-15-9-hosted-product-rehearsal.md) is in progress. The two approved pending
+migrations are hosted/history-aligned; the new populated local product/shipping recovery exercise
+passes 178 assertions plus cryptographic/quarantine checks with exact cleanup. The approved separate
+restricted rehearsal Worker is prepared; owner deployment, hosted sandbox journey and cleanup
+acceptance remain pending. The active pilot is not switched to a rehearsal tenant.
+
 [15.8](annexures/sprint-15-8-order-next-actions.md) adds explicit client/staff next actions,
 safe payment retry guidance, secure support links and fixed generic feedback. A private trigger
 queues generic service updates for exact fulfilment events under the existing dispatch gates;

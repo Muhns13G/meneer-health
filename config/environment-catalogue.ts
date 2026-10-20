@@ -131,6 +131,7 @@ export const environmentCatalogue: readonly EnvironmentCatalogueEntry[] = [
     "COMMERCE_WEBHOOK_MODE",
     "COMMERCE_REFUND_MODE",
     "STRIPE_CHECKOUT_ACCOUNT_ID",
+    "STRIPE_SANDBOX_RETURN_ORIGIN",
   ].map(
     (name): EnvironmentCatalogueEntry => ({
       name,

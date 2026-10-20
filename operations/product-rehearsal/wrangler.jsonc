@@ -1,0 +1,28 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "meneer-product-rehearsal",
+  "main": "../../src/product-rehearsal-server.ts",
+  "compatibility_date": "2026-08-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "assets": { "binding": "REHEARSAL_ASSETS", "run_worker_first": true },
+  "triggers": { "crons": [] },
+  "vars": {
+    "PUBLIC_REGISTRATION_MODE": "disabled",
+    "MOBILE_INVITATIONS_MODE": "disabled",
+    "MOBILE_INVITATIONS_EMAIL_MODE": "disabled",
+    "MOBILE_INVITATIONS_REDEMPTION_MODE": "disabled",
+    "MOBILE_INVITATIONS_WEBHOOK_MODE": "disabled",
+    "TRANSACTIONAL_NOTIFICATIONS_MODE": "disabled",
+    "OPERATIONS_ALERTS_MODE": "disabled",
+  },
+  "ratelimits": [
+    {
+      "name": "REQUEST_RATE_LIMITER",
+      "namespace_id": "51159",
+      "simple": { "limit": 30, "period": 60 },
+    },
+  ],
+  "observability": { "enabled": false },
+}

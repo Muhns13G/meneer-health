@@ -171,6 +171,11 @@ provider evidence. The 15.6 bridge now binds current exact evidence to quote iss
 acceptance/Checkout/settlement; derived legacy booleans alone cannot authorise linked quotes.
 15.7 now locally checks exact paid funding and current authority before manual supply advancement;
 reference attestations are not provider API verification or actual dispensing/courier execution.
+15.9 has applied the two approved pending migrations and verified populated local shipping recovery;
+the separate restricted Worker still needs owner deployment and actual hosted sandbox acceptance.
+No provider capture/refund or hosted fixture cleanup has occurred in that task yet; it remains open.
+Never replace the active real-pilot tenant with a rehearsal tenant to obtain this evidence.
+
 15.8 adds guidance/support and private event-bound generic notification capture, not delivery proof
 or fulfilment automation. Its migration is local-only until separately approved; no queue backfill,
 recipient bypass, live send or payment setting change occurs. Fresh 15.8 staff/client VoiceOver
