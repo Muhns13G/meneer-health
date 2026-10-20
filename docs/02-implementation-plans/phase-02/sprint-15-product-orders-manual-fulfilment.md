@@ -86,8 +86,11 @@ Its final local/controlled-browser verification is recorded in the packet; no ho
 release is inferred. [15.8](annexures/sprint-15-8-order-next-actions.md) implements derived next-action
 guidance, fixed generic toasts, private support links and atomic reference-only fulfilment
 notification capture. Its local/controlled-browser and fresh owner manual acceptance are complete;
-no hosted migration or send is inferred. Tasks 15.9–15.10 remain planned. Do not claim the whole sprint complete from
-inherited tests.
+no hosted migration or send is inferred from 15.8 alone. [15.9](annexures/sprint-15-9-hosted-product-rehearsal.md)
+is in progress: both approved pending migrations are hosted/history-aligned and populated local
+recovery passes 178 assertions plus encryption/quarantine invariants. A restricted separate Worker
+is prepared to avoid interrupting real pilot users; owner deployment and hosted sandbox acceptance
+remain outstanding. Task 15.10 remains planned. Do not claim the whole sprint complete from inherited tests.
 
 ## Engineering Constraints
 

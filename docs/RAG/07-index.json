@@ -5,7 +5,7 @@
     "title": "Meneer Internal Engineering RAG",
     "stage": "pilot-enablement",
     "status": "active",
-    "last_updated": "2026-10-13",
+    "last_updated": "2026-10-20",
     "audience": "internal",
     "sensitivity": "internal",
     "patient_facing_approved": false,
@@ -23,6 +23,16 @@
     ]
   },
   "documents": [
+    {
+      "id": "phase-02-sprint-15-9-hosted-product-rehearsal",
+      "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md",
+      "status": "in-progress-awaiting-separate-owner-deployment",
+      "authority_for": [
+        "Approved hosted product migrations and populated local shipping recovery",
+        "Separate non-disruptive rehearsal preparation and remaining acceptance boundaries"
+      ],
+      "last_updated": "2026-10-20"
+    },
     {
       "id": "phase-02-sprint-15-8-order-next-actions",
       "path": "docs/02-implementation-plans/phase-02/annexures/sprint-15-8-order-next-actions.md",

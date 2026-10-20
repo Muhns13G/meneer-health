@@ -169,7 +169,16 @@ export function createOrderReviewHttpHandler(
           const commands = createPilotCheckoutCommands(
             client,
             account,
-            new PilotCheckoutProvider(credentials.key, account, undefined, environment),
+            new PilotCheckoutProvider(
+              credentials.key,
+              account,
+              undefined,
+              environment,
+              typeof bindings.STRIPE_SANDBOX_RETURN_ORIGIN === "string" &&
+                bindings.STRIPE_SANDBOX_RETURN_ORIGIN.trim()
+                ? bindings.STRIPE_SANDBOX_RETURN_ORIGIN
+                : undefined,
+            ),
             environment,
           );
           dependencies.prepare = commands.prepare;

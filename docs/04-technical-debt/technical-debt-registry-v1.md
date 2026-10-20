@@ -43,6 +43,13 @@ closure is not evidence of pilot readiness.
 
 ### 10 October — Sprint 15.3–15.7 Private Product Preparation
 
+20 October 15.9 checkpoint: the two approved pending product migrations are hosted/history-aligned;
+populated local shipping/fulfilment recovery passes 178 assertions plus encryption/quarantine
+invariants. The [15.9 packet](../02-implementation-plans/phase-02/annexures/sprint-15-9-hosted-product-rehearsal.md)
+keeps deployed/provider/concurrent acceptance and exact hosted cleanup open. A separate restricted
+Worker is prepared for owner deployment so the active pilot is not displaced. No debt is closed
+or launch/sales approval inferred from this partial checkpoint; registry counts are unchanged.
+
 20 October supplement: [15.8](../02-implementation-plans/phase-02/annexures/sprint-15-8-order-next-actions.md)
 implements next-action/support guidance and generic fulfilment outbox capture. It introduces no
 new authority, provider, dependency or environment switch and closes no professional/product-sales

@@ -93,18 +93,49 @@ it("rejects a persisted sandbox intent before a live provider call, including at
   }
   expect(create).not.toHaveBeenCalled();
 });
-function harness() {
+function harness(returnOrigin?: string) {
   const create = vi.fn(async () => ({ ...validSession }));
   const retrieve = vi.fn(async () => ({ id: intent.accountId }));
   return {
     create,
     retrieve,
-    provider: new PilotCheckoutProvider("rk_test_synthetic_only", intent.accountId, {
-      accounts: { retrieveCurrent: retrieve },
-      checkout: { sessions: { create } },
-    } as unknown as Stripe),
+    provider: new PilotCheckoutProvider(
+      "rk_test_synthetic_only",
+      intent.accountId,
+      {
+        accounts: { retrieveCurrent: retrieve },
+        checkout: { sessions: { create } },
+      } as unknown as Stripe,
+      "sandbox",
+      returnOrigin,
+    ),
   };
 }
+it("keeps sandbox return navigation on the separate rehearsal without permitting live overrides", async () => {
+  const origin = "https://meneer-product-rehearsal.example.workers.dev";
+  const h = harness(origin);
+  await h.provider.create(intent);
+  const [params] = h.create.mock.calls[0] as unknown as [Record<string, unknown>];
+  expect(params.success_url).toBe(origin + "/portal/order");
+  expect(params.cancel_url).toBe(origin + "/portal/order");
+  for (const invalid of [
+    "https://attacker.invalid",
+    "http://test.workers.dev",
+    "https://test.workers.dev/path",
+    "https://user:secret@test.workers.dev",
+  ])
+    expect(() => harness(invalid)).toThrow();
+  expect(
+    () =>
+      new PilotCheckoutProvider(
+        "rk_live_synthetic_only",
+        intent.accountId,
+        undefined,
+        "live",
+        origin,
+      ),
+  ).toThrow("CHECKOUT_RETURN_ORIGIN_INVALID");
+});
 it("uses immutable server amounts, normal account, stable provider key and opaque metadata", async () => {
   const h = harness();
   await h.provider.create(intent);
