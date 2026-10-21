@@ -158,12 +158,22 @@ function ActivateAccountPage() {
           </p>
         )}
         {stage === "unavailable" && (
-          <p role="status" className="mt-6">
-            Account setup is currently unavailable. If your verification session expired, reopen the
-            original invitation from your email or SMS and request a fresh code. The invitation
-            lasts 48 hours from issue; each email code lasts 15 minutes. Setup also requires
-            approved account terms and privacy documents.
-          </p>
+          <section className="mt-6">
+            <p role="status">
+              Account setup is currently unavailable. If you started without an invitation, restart
+              email verification below. If you used an email or SMS invitation, reopen that original
+              link instead. Invitations last 48 hours from issue; each email code lasts 15 minutes.
+              Setup also requires current account terms and privacy documents.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link to="/start" className="action-primary">
+                Restart email verification
+              </Link>
+              <Link to="/account/sign-in" className="action-secondary">
+                Already registered? Sign in
+              </Link>
+            </div>
+          </section>
         )}
         {stage === "profile" && view && (
           <>

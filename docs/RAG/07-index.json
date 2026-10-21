@@ -24,6 +24,26 @@
   },
   "documents": [
     {
+      "id": "phase-02-sprint-16-completion",
+      "path": "docs/03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md",
+      "status": "locally-and-manually-verified-owner-release-pending",
+      "authority_for": [
+        "Combined Sprint 16 implementation and local onboarding boundary evidence",
+        "Owner-confirmed fresh local manual acceptance and remaining owner release without production mutation"
+      ],
+      "last_updated": "2026-10-21"
+    },
+    {
+      "id": "phase-02-sprint-16-plan",
+      "path": "docs/02-implementation-plans/phase-02/sprint-16-onboarding-stabilisation.md",
+      "status": "locally-and-manually-verified-owner-release-pending",
+      "authority_for": [
+        "Bounded onboarding stabilisation acceptance contract and source-inspected baseline",
+        "Combined owner-approved scope with unchanged production, clinical and commercial boundaries"
+      ],
+      "last_updated": "2026-10-21"
+    },
+    {
       "id": "phase-02-sprint-15-completion",
       "path": "docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md",
       "status": "completed-with-product-sales-gates",

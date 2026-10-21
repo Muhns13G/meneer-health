@@ -9,6 +9,19 @@ depends_on: [phase-01-technical-debt-stabilisation, DR-010]
 
 # Phase 02 — Minimum Pilot Enablement
 
+## Sprint 16 — Onboarding Stabilisation, 21 October
+
+The owner requested a [bounded stabilisation plan](sprint-16-onboarding-stabilisation.md) after
+Sprint 15 engineering closure. Ten planned tasks address verification/return paths, treatment
+selection first, free-text reliability, existing draft/session recovery and clear phone next actions.
+The owner subsequently authorised the combined implementation. The bounded application changes
+are locally verified (1,653 unit tests / 368 final desktop/mobile checks);
+[manual/release acceptance](../../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md)
+records the owner's 21 October confirmation that all four fresh VoiceOver/zoom checkpoints pass.
+Owner release remains pending; this is not yet sprint closure or a production release.
+Existing product-sales and other release gates remain; payment policy, production settings and
+real records are unchanged. Laravel/React rebuild planning remains separate.
+
 ## Email fallback correction — 11 October
 
 [Pilot email invitations](annexures/pilot-email-invitation-fallback.md) add a separately gated

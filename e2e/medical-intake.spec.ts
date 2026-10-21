@@ -4,6 +4,8 @@ import catalogue from "../content/medical-intake-catalogue.json" with { type: "j
 import { completeSyntheticAnswers } from "../contracts/fixtures/medical-intake-synthetic";
 import { checkClientFormPresentation, checkKeyboardReachability } from "./client-form-checks";
 import { isolateExternalFonts } from "./helpers";
+import { createIntakeFlow } from "../src/lib/intake-flow";
+const { intakeSteps } = createIntakeFlow(catalogue);
 const id = "d3000000-0000-4000-8000-000000000001";
 const fixtureLifetime =
   process.env.CLIENT_FORM_MANUAL_REVIEW === "voiceover-local-synthetic" ? 3600000 : 600000;
@@ -103,6 +105,22 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   await expect(page.getByRole("textbox")).toHaveCount(0);
   await page.getByRole("checkbox", { name: /acknowledge this medical-intake/ }).check();
   await page.getByRole("button", { name: "Continue", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Treatment interests", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("checkbox", { name: "Peptides", exact: true }).check();
+  const peptidePrompt = catalogue.items.find((item) => item.id === "category_peptides")!.prompt;
+  await page.getByRole("combobox", { name: peptidePrompt, exact: true }).selectOption("provided");
+  const peptideDetails = page.getByRole("textbox", { name: peptidePrompt, exact: true });
+  await peptideDetails.fill("Synthetic peptide history");
+  await peptideDetails.press("Enter");
+  await peptideDetails.pressSequentially("Synthetic second line", { delay: 20 });
+  await expect(page.getByRole("heading", { name: "Review your answers", exact: true })).toHaveCount(
+    0,
+  );
+  await expect(page.getByText("Draft saved.", { exact: true })).toBeVisible();
+  await expect(peptideDetails).toHaveValue("Synthetic peptide history\nSynthetic second line");
+  await page.getByRole("button", { name: "Next section" }).click();
   await expect(page.getByRole("combobox", { name: "Sex", exact: true })).toHaveValue("");
   await checkKeyboardReachability(page);
   await checkClientFormPresentation(page);
@@ -141,16 +159,14 @@ test("questionnaire notice, all source sections, branching, review and hidden-st
   await page.getByRole("button", { name: "Save draft", exact: true }).click();
   await expect(page.locator("[data-sonner-toast]")).toHaveText(/Your draft is saved/);
   await expect(page.getByRole("button", { name: "Save draft", exact: true })).toBeFocused();
-  for (let section = 2; section <= 8; section++) {
+  for (let step = 3; step <= intakeSteps.length; step++) {
+    const { section, title } = intakeSteps[step - 1]!;
     await page.getByRole("button", { name: "Next section" }).click();
-    await expect(
-      page.getByRole("heading", { name: catalogue.sections[section - 1]!.title, exact: true }),
-    ).toBeFocused();
+    await expect(page.getByRole("heading", { name: title, exact: true })).toBeFocused();
     await expect(page.getByRole("progressbar", { name: "Questionnaire progress" })).toHaveAttribute(
       "aria-valuenow",
-      String(section),
+      String(step),
     );
-    if (section === 7) await page.getByRole("checkbox", { name: "Peptides", exact: true }).check();
     if (section === 2) {
       await page
         .getByLabel(catalogue.items.find((item) => item.id === "health_history")!.prompt, {

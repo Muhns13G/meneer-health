@@ -7,6 +7,7 @@ last_updated: 2026-10-21
 audience: internal
 sensitivity: internal
 sources:
+  - docs/03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md
   - docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md
   - docs/02-implementation-plans/phase-02/annexures/company-identity-transition.md
   - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
@@ -129,6 +130,16 @@ sources:
 ---
 
 # Meneer Known Limitations and Answer Guardrails
+
+## Sprint 16 Local Implementation Is Not Released Acceptance — 21 October
+
+The [Sprint 16 report](../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md)
+records treatment-first presentation and bounded onboarding/draft/session fixes. Local automated
+acceptance passes (1,653 unit tests / 368 final browser checks). The owner confirmed all four fresh
+local VoiceOver/zoom checkpoints passed on 21 October; owner-controlled release and the deployed
+walkthrough remain pending. Do not infer a repaired production journey or eliminated pilot friction
+from local acceptance. No migration or new
+runtime setting is required, and active pilot configuration and commercial gates are unchanged.
 
 ## Sprint 15.10 Current Boundary — 21 October
 

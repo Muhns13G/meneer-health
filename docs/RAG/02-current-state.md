@@ -6,11 +6,14 @@ authority: observed-summary
 last_updated: 2026-10-21
 audience: internal
 sensitivity: internal
-source_baseline: f3e392d
-source_has_uncommitted_closure_changes: true
+source_baseline: 68f932e
+source_has_uncommitted_closure_changes: false
+source_has_uncommitted_stabilisation_changes: true
 runtime_worker_version: 28a4b38b-59e1-41b6-b70a-8106da3a56b2
 runtime_observed_at: 2026-10-20T23:34:19Z
 sources:
+  - docs/03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md
+  - docs/02-implementation-plans/phase-02/sprint-16-onboarding-stabilisation.md
   - docs/03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md
   - docs/02-implementation-plans/phase-02/annexures/public-onboarding-release.md
   - docs/02-implementation-plans/phase-02/annexures/sprint-15-3-client-catalogue.md
@@ -151,6 +154,19 @@ sources:
 ---
 
 # Meneer v1 Verified Current State
+
+## Sprint 16 — Implementation and Validation, 21 October
+
+The owner authorised the combined [onboarding stabilisation implementation](../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md)
+after Sprint 15 engineering closure. Treatment selection is first in the local presentation;
+source instrument/answer keys and historical data remain unchanged. Existing autosave and one-code
+continuation are retained, with explicit resume/section controls, input/navigation stability,
+concurrent-draft quarantine and session/page-return recovery. Local verification passes: 1,653 unit
+tests, all 368 final desktop/mobile checks, the 58-suite SQL matrix and focused identity/conversion/
+recovery packets, plus production build/static checks. The owner confirmed all four fresh local
+VoiceOver/zoom checkpoints passed on 21 October. Exact-commit CI, owner deployment and released
+walkthrough remain pending. No production configuration, real record, payment policy or debt status
+was changed; no hosted acceptance or Laravel rebuild is claimed.
 
 ## Sprint 15.10 — 21 October Current Handoff
 

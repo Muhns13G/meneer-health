@@ -4,6 +4,13 @@ import { MedicalIntakePage } from "./MedicalIntakePage";
 import { renderWithRouter } from "@/test/render-with-router";
 import catalogue from "../../content/medical-intake-catalogue.json";
 import { completeSyntheticAnswers } from "../../contracts/fixtures/medical-intake-synthetic";
+import { createIntakeFlow } from "@/lib/intake-flow";
+const { intakeSteps } = createIntakeFlow(catalogue);
+async function openAboutYou() {
+  fireEvent.change(await screen.findByRole("combobox", { name: "Go to section" }), {
+    target: { value: "2" },
+  });
+}
 const id = "d3000000-0000-4000-8000-000000000001";
 const publication = {
   id,
@@ -106,6 +113,7 @@ it("masks backgrounded fields and retains unsaved edits only after same-account 
     ),
   );
   await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
   const name = await screen.findByRole("textbox", { name: "Full name" });
   fireEvent.change(name, { target: { value: "Synthetic unsaved" } });
   const hidden = vi.spyOn(document, "hidden", "get");
@@ -129,6 +137,7 @@ it("does not redisplay retained edits when foreground session verification fails
     ),
   );
   await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
   await screen.findByRole("textbox", { name: "Full name" });
   const hidden = vi.spyOn(document, "hidden", "get");
   hidden.mockReturnValue(true);
@@ -167,6 +176,7 @@ it("retains written edits after a temporary renewal failure and permits an expli
   });
   vi.stubGlobal("fetch", fetch);
   await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
   fireEvent.change(await screen.findByRole("textbox", { name: "Full name" }), {
     target: { value: "Synthetic retained text" },
   });
@@ -207,6 +217,7 @@ it("automatically saves a draft through authenticated commands without browser s
   });
   vi.stubGlobal("fetch", fetch);
   await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
   fireEvent.change(await screen.findByRole("textbox", { name: "Full name" }), {
     target: { value: "Synthetic autosave" },
   });
@@ -274,8 +285,13 @@ it("does not collect medical answers before a durable notice acknowledgement", a
   expect(screen.getByRole("button", { name: "Continue" })).toBeDisabled();
   fireEvent.click(screen.getByRole("checkbox", { name: /acknowledge this medical-intake/ }));
   fireEvent.click(screen.getByRole("button", { name: "Continue" }));
-  await screen.findByText(catalogue.sections[0]!.title);
+  await screen.findByRole("heading", { name: intakeSteps[0]!.title });
+  await waitFor(() =>
+    expect(screen.getByRole("heading", { name: intakeSteps[0]!.title })).toHaveFocus(),
+  );
   expect(calls.find((c) => c.action === "save")?.answers).toEqual({});
+  expect(screen.getByRole("checkbox", { name: "Peptides" })).not.toBeChecked();
+  await openAboutYou();
   expect(screen.getByLabelText("Sex")).toHaveValue("");
   expect(location.search + location.hash).not.toContain("intake");
 });
@@ -285,14 +301,11 @@ it("preserves source prompts, branch choices and erases visible information on p
     vi.fn(async () => new Response(JSON.stringify(view(saved(completeSyntheticAnswers))))),
   );
   await renderWithRouter(<MedicalIntakePage />);
-  await screen.findByText(catalogue.sections[0]!.title);
-  for (let section = 1; section <= 8; section++) {
+  await screen.findByRole("heading", { name: intakeSteps[0]!.title });
+  for (let step = 1; step <= intakeSteps.length; step++) {
+    const { section, title } = intakeSteps[step - 1]!;
     // Text can commit before React's passive focus effect settles after the async read.
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: catalogue.sections[section - 1]!.title }),
-      ).toHaveFocus(),
-    );
+    await waitFor(() => expect(screen.getByRole("heading", { name: title })).toHaveFocus());
     expect(screen.queryByRole("heading", { name: "Review your answers" })).not.toBeInTheDocument();
     for (const item of catalogue.items.filter((i) => i.section === section)) {
       if (item.id.startsWith("category_") && item.id !== "category_peptides") continue;
@@ -303,7 +316,8 @@ it("preserves source prompts, branch choices and erases visible information on p
           screen.getByText((text) => text === item.prompt || text === item.prompt + " (optional)"),
         ).toBeVisible();
     }
-    if (section < 8) fireEvent.click(screen.getByRole("button", { name: "Next section" }));
+    if (step < intakeSteps.length)
+      fireEvent.click(screen.getByRole("button", { name: "Next section" }));
   }
   fireEvent(window, new Event("pagehide"));
   await waitFor(() => expect(screen.queryByRole("textbox")).not.toBeInTheDocument());
@@ -324,10 +338,10 @@ it("uses the current publication declaration in answer review, not the retired c
     vi.fn(async () => Response.json(view(saved(completeSyntheticAnswers)))),
   );
   await renderWithRouter(<MedicalIntakePage />);
-  await screen.findByText(catalogue.sections[0]!.title);
+  await screen.findByRole("heading", { name: intakeSteps[0]!.title });
   for (let section = 1; section < 8; section++) {
     fireEvent.click(screen.getByRole("button", { name: "Next section" }));
-    await screen.findByRole("heading", { name: catalogue.sections[section]!.title });
+    await screen.findByRole("heading", { name: intakeSteps[section]!.title });
   }
   fireEvent.click(screen.getByRole("button", { name: "Review answers" }));
   await screen.findByRole("heading", { name: "Review your answers" });
@@ -371,7 +385,7 @@ it("focuses an invalid field even when its section is already displayed", async 
     vi.fn(async () => new Response(JSON.stringify(view(saved())))),
   );
   await renderWithRouter(<MedicalIntakePage />);
-  await screen.findByText(catalogue.sections[0]!.title);
+  await screen.findByRole("heading", { name: intakeSteps[0]!.title });
   for (let section = 1; section < 8; section++)
     fireEvent.click(screen.getByRole("button", { name: "Next section" }));
   fireEvent.click(screen.getByRole("button", { name: "Review answers" }));
@@ -379,4 +393,324 @@ it("focuses an invalid field even when its section is already displayed", async 
   await waitFor(() => expect(screen.getByRole("combobox", { name: "Sex" })).toHaveFocus());
   fireEvent.click(screen.getByRole("button", { name: /^Full name:/ }));
   await waitFor(() => expect(screen.getByRole("textbox", { name: "Full name" })).toHaveFocus());
+});
+
+function draftTransport(onWrite?: (command: Record<string, unknown>) => Promise<void>) {
+  let record = saved();
+  const writes: Record<string, unknown>[] = [];
+  const transport = vi.fn(async (url, init?: RequestInit) => {
+    if (url === "/account/session/renew") return new Response(null, { status: 204 });
+    const command = JSON.parse(String(init?.body));
+    if (command.action === "save") {
+      writes.push(command);
+      await onWrite?.(command);
+      record = { ...saved(command.answers), version: record.version + 1 };
+      return Response.json({
+        intakeId: id,
+        caseId: id,
+        version: record.version,
+        snapshotId: id,
+        state: "draft",
+        safetyHold: false,
+        expiresAt: new Date(Date.now() + 60000).toISOString(),
+      });
+    }
+    return Response.json(view(record));
+  });
+  vi.stubGlobal("fetch", transport);
+  return {
+    writes,
+    transport,
+    get record() {
+      return record;
+    },
+  };
+}
+
+it("starts with treatment interests and lets saved clients resume by unanswered fields", async () => {
+  draftTransport();
+  await renderWithRouter(<MedicalIntakePage />);
+  await screen.findByRole("heading", { name: "Treatment interests" });
+  expect(screen.queryByRole("textbox", { name: "Full name" })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("checkbox", { name: "Peptides" }));
+  const prompt = catalogue.items.find((item) => item.id === "category_peptides")!.prompt;
+  fireEvent.change(screen.getByRole("combobox", { name: prompt }), { target: { value: "none" } });
+  fireEvent.click(screen.getByRole("button", { name: "Resume at first unanswered section" }));
+  await screen.findByRole("heading", { name: "About you" });
+});
+
+it("does not treat implicit form submission or multiline entry as answer review", async () => {
+  const fixture = draftTransport();
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  const name = screen.getByRole("textbox", { name: "Full name" });
+  fireEvent.change(name, { target: { value: "Synthetic typed name" } });
+  fireEvent.submit(name.closest("form")!);
+  expect(name).toHaveValue("Synthetic typed name");
+  expect(screen.queryByRole("heading", { name: "Review your answers" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+  expect(fixture.writes).toHaveLength(0);
+});
+
+it("waits for IME composition to end before autosaving", async () => {
+  const fixture = draftTransport();
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  const name = screen.getByRole("textbox", { name: "Full name" });
+  fireEvent.compositionStart(name);
+  fireEvent.change(name, { target: { value: "Synthetic composed answer" } });
+  await new Promise((resolve) => setTimeout(resolve, 2700));
+  expect(fixture.writes).toHaveLength(0);
+  fireEvent.compositionEnd(name);
+  await screen.findByText("Draft saved.", {}, { timeout: 4000 });
+  expect(fixture.record.answers).toMatchObject({ full_name: "Synthetic composed answer" });
+}, 10000);
+
+it("keeps typing and navigation available during autosave and saves subsequent edits separately", async () => {
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const fixture = draftTransport(async () => {
+    if (fixture.writes.length === 1) await held;
+  });
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  const name = screen.getByRole("textbox", { name: "Full name" });
+  name.focus();
+  fireEvent.change(name, { target: { value: "Synthetic first edit" } });
+  await waitFor(() => expect(fixture.writes).toHaveLength(1), { timeout: 4000 });
+  expect(name).toHaveFocus();
+  expect(name).not.toBeDisabled();
+  fireEvent.change(name, { target: { value: "Synthetic later edit" } });
+  expect(screen.getByRole("button", { name: "Next section" })).not.toBeDisabled();
+  fireEvent.click(screen.getByRole("button", { name: "Next section" }));
+  await screen.findByRole("heading", { name: "Your health today" });
+  release();
+  await waitFor(() => expect(fixture.writes).toHaveLength(2), { timeout: 4000 });
+  await screen.findByText("Draft saved.");
+  expect(fixture.record.answers).toMatchObject({ full_name: "Synthetic later edit" });
+  fireEvent.click(screen.getByRole("button", { name: "Back" }));
+  expect(screen.getByRole("textbox", { name: "Full name" })).toHaveValue("Synthetic later edit");
+}, 12000);
+
+it("retries an unconfirmed write with the same payload and idempotency key", async () => {
+  let first = true;
+  const fixture = draftTransport(async () => {
+    if (first) {
+      first = false;
+      throw Error("Synthetic response loss");
+    }
+  });
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  fireEvent.change(screen.getByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic retry" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Save draft" }));
+  await screen.findByText(
+    "The save could not be confirmed. Your changes are not recorded until a save succeeds.",
+  );
+  fireEvent.click(screen.getByRole("button", { name: "Save draft" }));
+  await screen.findByText("Draft saved.");
+  expect(fixture.writes).toHaveLength(2);
+  expect(fixture.writes[0]).toEqual(fixture.writes[1]);
+});
+
+it("does not silently overwrite a concurrently changed saved draft on tab return", async () => {
+  let version = 1;
+  const fetcher = vi.fn(async (url) =>
+    url === "/account/session/renew"
+      ? new Response(null, { status: 204 })
+      : Response.json(view({ ...saved({ full_name: "Synthetic server name" }), version })),
+  );
+  vi.stubGlobal("fetch", fetcher);
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  fireEvent.change(screen.getByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic unsaved name" },
+  });
+  const hidden = vi.spyOn(document, "hidden", "get");
+  hidden.mockReturnValue(true);
+  fireEvent(document, new Event("visibilitychange"));
+  version = 2;
+  hidden.mockReturnValue(false);
+  fireEvent(document, new Event("visibilitychange"));
+  await screen.findByRole("button", { name: "Load latest saved draft" });
+  expect(screen.getByRole("textbox", { name: "Full name" })).toHaveValue("Synthetic unsaved name");
+  expect(screen.getByRole("button", { name: "Save draft" })).toBeDisabled();
+  vi.spyOn(window, "confirm").mockReturnValue(true);
+  fireEvent.click(screen.getByRole("button", { name: "Load latest saved draft" }));
+  await openAboutYou();
+  expect(screen.getByRole("textbox", { name: "Full name" })).toHaveValue("Synthetic server name");
+});
+
+it("clears private fields when the authoritative read deadline expires", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async () => Response.json({ ...view(saved()), expiresAt: Date.now() + 500 })),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  fireEvent.change(screen.getByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic private edit" },
+  });
+  await screen.findByRole("link", { name: "Sign in to resume your saved questionnaire" });
+  expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+  expect(screen.queryByDisplayValue("Synthetic private edit")).not.toBeInTheDocument();
+});
+
+it("reconciles a committed save after response loss with the original key and version", async () => {
+  let record = saved();
+  const commands: Record<string, unknown>[] = [];
+  let receipt: Record<string, unknown> | null = null;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, init?: RequestInit) => {
+      if (url === "/account/session/renew") return new Response(null, { status: 204 });
+      const command = JSON.parse(String(init?.body));
+      if (command.action === "save") {
+        commands.push(command);
+        if (!receipt) {
+          record = { ...saved(command.answers), version: 2 };
+          receipt = {
+            intakeId: id,
+            caseId: id,
+            version: 2,
+            snapshotId: id,
+            state: "draft",
+            safetyHold: false,
+            expiresAt: new Date(Date.now() + 60000).toISOString(),
+          };
+          return new Response(null, { status: 503 });
+        }
+        return Response.json(receipt);
+      }
+      return Response.json(view(record));
+    }),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  fireEvent.change(screen.getByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic committed answer" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Save draft" }));
+  await screen.findByText(
+    "The save could not be confirmed. Your changes are not recorded until a save succeeds.",
+  );
+  expect(screen.queryByText("Draft saved.")).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole("button", { name: "Save draft" }));
+  await screen.findByText("Draft saved.");
+  expect(commands[0]).toEqual(commands[1]);
+  expect(record.version).toBe(2);
+});
+
+it("quarantines a save conflict instead of retrying new edits against a stale version", async () => {
+  const commands: Record<string, unknown>[] = [];
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url, init?: RequestInit) => {
+      if (url === "/account/session/renew") return new Response(null, { status: 204 });
+      const command = JSON.parse(String(init?.body));
+      if (command.action === "save") {
+        commands.push(command);
+        return new Response(null, { status: 409 });
+      }
+      return Response.json(view(saved()));
+    }),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  const name = screen.getByRole("textbox", { name: "Full name" });
+  fireEvent.change(name, { target: { value: "Synthetic conflicting edit" } });
+  fireEvent.click(screen.getByRole("button", { name: "Save draft" }));
+  await screen.findByRole("button", { name: "Load latest saved draft" });
+  fireEvent.change(name, { target: { value: "Synthetic later edit" } });
+  await new Promise((resolve) => setTimeout(resolve, 2700));
+  expect(commands).toHaveLength(1);
+  expect(name).toHaveValue("Synthetic later edit");
+  expect(screen.getByRole("button", { name: "Save draft" })).toBeDisabled();
+});
+
+it("clears old answers rather than unmasking them when a different account record is returned", async () => {
+  let differentAccount = false;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url) =>
+      url === "/account/session/renew"
+        ? new Response(null, { status: 204 })
+        : Response.json(
+            view(
+              differentAccount
+                ? { ...saved(), id: "d3000000-0000-4000-8000-000000000002" }
+                : saved(),
+            ),
+          ),
+    ),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  fireEvent.change(screen.getByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic old account edit" },
+  });
+  const hidden = vi.spyOn(document, "hidden", "get");
+  hidden.mockReturnValue(true);
+  fireEvent(document, new Event("visibilitychange"));
+  differentAccount = true;
+  hidden.mockReturnValue(false);
+  fireEvent(document, new Event("visibilitychange"));
+  await openAboutYou();
+  expect(screen.getByRole("textbox", { name: "Full name" })).toHaveValue("");
+  expect(screen.queryByDisplayValue("Synthetic old account edit")).not.toBeInTheDocument();
+});
+
+it("restores only saved answers after browser pagehide/pageshow", async () => {
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (_url, init?: RequestInit) => {
+      expect(init?.signal?.aborted).not.toBe(true);
+      return Response.json(view(saved({ full_name: "Synthetic saved answer" })));
+    }),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  fireEvent.change(screen.getByRole("textbox", { name: "Full name" }), {
+    target: { value: "Synthetic unsaved answer" },
+  });
+  fireEvent(window, new Event("pagehide"));
+  expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
+  fireEvent(window, new Event("pageshow"));
+  await openAboutYou();
+  expect(screen.getByRole("textbox", { name: "Full name" })).toHaveValue("Synthetic saved answer");
+});
+
+it("does not unmask a late successful session check after the tab is hidden again", async () => {
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url) => {
+      if (url === "/account/session/renew") {
+        await held;
+        return new Response(null, { status: 204 });
+      }
+      return Response.json(view(saved()));
+    }),
+  );
+  await renderWithRouter(<MedicalIntakePage />);
+  await openAboutYou();
+  const hidden = vi.spyOn(document, "hidden", "get");
+  hidden.mockReturnValue(true);
+  fireEvent(document, new Event("visibilitychange"));
+  hidden.mockReturnValue(false);
+  fireEvent(document, new Event("visibilitychange"));
+  hidden.mockReturnValue(true);
+  fireEvent(document, new Event("visibilitychange"));
+  release();
+  await waitFor(() => expect(screen.queryByRole("textbox")).not.toBeInTheDocument());
+  hidden.mockReturnValue(false);
+  fireEvent(document, new Event("visibilitychange"));
+  await screen.findByRole("textbox", { name: "Full name" });
 });

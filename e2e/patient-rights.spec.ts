@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { portalAccountFixture } from "../src/test/patient-portal-fixture";
-import { isolateExternalFonts } from "./helpers";
+import { expectOnlyRouterScrollStorage, isolateExternalFonts } from "./helpers";
 
 test("rights shell and direct command deny an unauthenticated caller", async ({
   page,
@@ -72,9 +72,7 @@ test("correction waits for durable success; requests acknowledge receipt only", 
   await expect(page.getByRole("status")).toBeFocused();
   expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
-  expect(
-    await page.evaluate(() => Object.keys(localStorage).concat(Object.keys(sessionStorage))),
-  ).toEqual([]);
+  await expectOnlyRouterScrollStorage(page);
   expect(page.url()).not.toMatch(/Corrected|requestKey|export/);
   expect(errors).toEqual([]);
 });
