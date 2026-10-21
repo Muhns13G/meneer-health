@@ -1,4 +1,35 @@
 import { expect, type Page } from "@playwright/test";
+import { z } from "zod";
+
+// The router persists numeric scroll positions on navigation/pagehide. This is not
+// permission to store private form data or to ignore arbitrary framework cache contents.
+export async function expectOnlyRouterScrollStorage(page: Page) {
+  const storage = await page.evaluate(() => ({
+    local: Object.entries(localStorage),
+    session: Object.entries(sessionStorage),
+  }));
+  expect(storage.local).toEqual([]);
+  const positions = z.record(
+    z.string(),
+    z.record(
+      // Native document dialogs may scroll separately; newly visited routes may have
+      // empty maps. Neither case permits arbitrary form data or cache fields.
+      z
+        .string()
+        .regex(
+          /^(window|[a-z][a-z0-9-]*:nth-child\([1-9]\d*\)(?: > [a-z][a-z0-9-]*:nth-child\([1-9]\d*\))*)$/,
+        ),
+      z.object({ scrollX: z.number().finite(), scrollY: z.number().finite() }).strict(),
+    ),
+  );
+  for (const [key, value] of storage.session) {
+    expect(key).toBe("tsr-scroll-restoration-v1_3");
+    const parsed = positions.safeParse(JSON.parse(value));
+    expect(
+      parsed.error?.issues.map((issue) => ({ code: issue.code, path: issue.path })),
+    ).toBeUndefined();
+  }
+}
 
 export function monitorPage(page: Page) {
   const findings: string[] = [];

@@ -41,6 +41,16 @@ closure is not evidence of pilot readiness.
 
 ## Phase 02 Reconciliation
 
+### 21 October — Sprint 16 Onboarding Stabilisation
+
+The [Sprint 16 report](../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md)
+records treatment-first presentation, existing one-code continuation, free-text/navigation and
+draft/session recovery remediation. Local validation passes (1,653 unit tests / 368 final browser
+checks), and the owner confirmed all four fresh local VoiceOver/zoom checkpoints passed on
+21 October. Owner release and deployed walkthrough remain pending. No debt status changes:
+**67 items / 60 Verified / seven non-Verified**. This fresh local acceptance does not independently
+close wider released-flow TD-037/038. No new data model, provider integration or commercial policy is added.
+
 ### 21 October — Sprint 15.10 Closure Validation
 
 The [Sprint 15 report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)

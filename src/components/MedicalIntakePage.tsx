@@ -19,6 +19,8 @@ import { Nav } from "./Nav";
 import { Footer } from "./Footer";
 import { OnboardingSteps } from "./OnboardingSteps";
 import { useActionToast } from "@/hooks/use-action-toast";
+import { createIntakeFlow } from "@/lib/intake-flow";
+const { firstUnansweredIntakeStep, intakeStepForField, intakeSteps } = createIntakeFlow(catalogue);
 type Status = "loading" | "ready" | "unavailable" | "signed-out" | "expired";
 const control = "mt-3 w-full rounded-xl border border-border bg-surface px-4 py-3 text-foreground";
 const rightsViewSchema = z
@@ -115,13 +117,17 @@ export function MedicalIntakePage() {
   const [visibilityCheck, setVisibilityCheck] = useState(0);
   const [automaticSave, setAutomaticSave] = useState(false);
   const [draftStatus, setDraftStatus] = useState("");
+  const [draftConflict, setDraftConflict] = useState(false);
+  const [composing, setComposing] = useState(false);
   const failedDraft = useRef<string | null>(null);
   const writeLock = useRef(false);
   const pendingVisibility = useRef(false);
+  const revalidating = useRef(false);
   const commandAttempt = useRef<{ payload: string; key: string } | null>(null);
   const noticeAttempt = useRef<{ publicationId: string; key: string } | null>(null);
   const [reviewNoticeChoice, setReviewNoticeChoice] = useState(false);
   const [step, setStep] = useState(1);
+  const activeStep = intakeSteps[step - 1]!;
   const [review, setReview] = useState(false);
   const [ack, setAck] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -149,6 +155,7 @@ export function MedicalIntakePage() {
       credentials: "same-origin",
       cache: "no-store",
       redirect: "error",
+      signal: abort.current?.signal,
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({ action: "renew" }),
     });
@@ -166,6 +173,13 @@ export function MedicalIntakePage() {
     setBusy(false);
     setStatus("loading");
     setMessage("");
+    setDraftStatus("");
+    setDraftConflict(false);
+    setComposing(false);
+    setErrors({});
+    setReview(false);
+    failedDraft.current = null;
+    commandAttempt.current = null;
     setNoticeChoice(false);
     setReviewNoticeChoice(false);
     setTransferChoice(false);
@@ -180,7 +194,9 @@ export function MedicalIntakePage() {
       setAnswers(value.record?.answers ?? {});
       setAck(value.record !== null);
       setEditing(value.record?.state !== "submitted");
+      setStep(1);
       setStatus("ready");
+      setMasked(document.hidden);
     } catch (error) {
       if (seq === live.current && !controller.signal.aborted) {
         try {
@@ -214,11 +230,28 @@ export function MedicalIntakePage() {
       setAnswers({});
       setView(null);
       setRightsView(null);
+      setMasked(false);
+      setMessage("");
+      setDraftStatus("");
+      setComposing(false);
       setStatus("expired");
     };
     const visibility = () => {
-      if (document.hidden) setMasked(true);
-      else {
+      if (document.hidden) {
+        setMasked(true);
+        setComposing(false);
+      } else {
+        pendingVisibility.current = true;
+        setMasked(true);
+        setVisibilityCheck((value) => value + 1);
+      }
+    };
+    const show = () => {
+      if (!document.hidden) {
+        if (abort.current?.signal.aborted) {
+          void load();
+          return;
+        }
         pendingVisibility.current = true;
         setMasked(true);
         setVisibilityCheck((value) => value + 1);
@@ -226,14 +259,18 @@ export function MedicalIntakePage() {
     };
     document.addEventListener("visibilitychange", visibility);
     window.addEventListener("pagehide", clear);
+    window.addEventListener("pageshow", show);
     return () => {
       clear();
       document.removeEventListener("visibilitychange", visibility);
       window.removeEventListener("pagehide", clear);
+      window.removeEventListener("pageshow", show);
     };
   }, [load]);
   useEffect(() => {
-    if (!masked || document.hidden || busy || !pendingVisibility.current) return;
+    if (!masked || document.hidden || busy || !pendingVisibility.current || revalidating.current)
+      return;
+    revalidating.current = true;
     pendingVisibility.current = false;
     const seq = live.current;
     void (async () => {
@@ -243,17 +280,34 @@ export function MedicalIntakePage() {
           await request({ action: "read", intakeId: null }),
         );
         if (seq !== live.current) return;
+        if (document.hidden) {
+          pendingVisibility.current = true;
+          return;
+        }
         if (current.expiresAt <= Date.now()) throw new Error("signed-out");
         if (
-          current.record?.id !== view?.record?.id ||
-          current.record?.version !== view?.record?.version
+          !view ||
+          current.record?.id !== view.record?.id ||
+          current.publication.id !== view.publication.id ||
+          JSON.stringify(current.noticeTransition) !== JSON.stringify(view.noticeTransition)
         ) {
           await load();
+        } else if (current.record?.version !== view.record?.version) {
+          // A concurrent tab changed the record. Do not silently replace current edits.
+          setDraftConflict(true);
+          setMessage(
+            "Your saved questionnaire changed in another session. Load the latest saved draft before making further changes.",
+          );
+          // Refresh the authority deadline, but retain the version used by our edits.
+          setView((previous) =>
+            previous ? { ...previous, expiresAt: current.expiresAt } : current,
+          );
+          setStatus("ready");
         } else {
           setView(current);
           setStatus("ready");
         }
-        setMasked(false);
+        if (!document.hidden) setMasked(false);
       } catch (error) {
         if (seq !== live.current) return;
         setMasked(false);
@@ -269,6 +323,10 @@ export function MedicalIntakePage() {
             "We could not check your session. Reconnect and choose Check again. Unsaved edits remain in this tab only.",
           );
         }
+      } finally {
+        revalidating.current = false;
+        if (seq === live.current && pendingVisibility.current && !document.hidden)
+          setVisibilityCheck((value) => value + 1);
       }
     })();
   }, [masked, busy, view, load, visibilityCheck]);
@@ -285,7 +343,7 @@ export function MedicalIntakePage() {
       }
     }
     (flowHeading.current ?? heading.current)?.focus();
-  }, [step, review, status, focusRequest]);
+  }, [step, review, status, focusRequest, ack, editing]);
   useEffect(() => {
     if (Object.keys(errors).length) errorSummary.current?.focus();
   }, [errors]);
@@ -299,6 +357,10 @@ export function MedicalIntakePage() {
         setAnswers({});
         setView(null);
         setRightsView(null);
+        setMasked(false);
+        setMessage("");
+        setDraftStatus("");
+        setComposing(false);
         setStatus("expired");
       },
       Math.max(0, expiresAt - Date.now()),
@@ -381,7 +443,7 @@ export function MedicalIntakePage() {
     next = answers,
     quiet = false,
   ) {
-    if (!view || !id.current || writeLock.current) return;
+    if (!view || !id.current || writeLock.current || draftConflict) return;
     writeLock.current = true;
     quietWrite.current = quiet;
     const seq = live.current;
@@ -422,6 +484,7 @@ export function MedicalIntakePage() {
         await request({ action: "read", intakeId: id.current }, abort.current?.signal),
       );
       if (seq !== live.current) return;
+      if (updated.record?.version !== result.version) throw new Error("conflict");
       setView(updated);
       const unchanged = JSON.stringify(answersRef.current) === snapshot;
       if (unchanged) setAnswers(updated.record?.answers ?? next);
@@ -438,11 +501,17 @@ export function MedicalIntakePage() {
           "Your questionnaire is received. This is not clinical approval or confirmation of treatment.",
         );
       }
-      setErrors({});
+      if (!quiet) setErrors({});
     } catch (error) {
       if (seq === live.current) {
         failedDraft.current = snapshot;
         setDraftStatus("Draft save not confirmed. Keep this tab open and retry Save draft.");
+        if (error instanceof Error && error.message === "conflict") {
+          setDraftConflict(true);
+          setDraftStatus(
+            "Your saved questionnaire changed. Load the latest saved draft before saving again.",
+          );
+        }
         if (error instanceof Error && error.message === "signed-out") {
           setView(null);
           setAnswers({});
@@ -475,6 +544,8 @@ export function MedicalIntakePage() {
       !ack ||
       !editing ||
       busy ||
+      composing ||
+      draftConflict ||
       masked ||
       snapshot === JSON.stringify(view?.record?.answers ?? {}) ||
       failedDraft.current === snapshot
@@ -482,7 +553,7 @@ export function MedicalIntakePage() {
       return;
     const timer = setTimeout(() => saveAutomatically.current(), 2500);
     return () => clearTimeout(timer);
-  }, [answers, status, ack, editing, busy, masked, view]);
+  }, [answers, status, ack, editing, busy, masked, view, composing, draftConflict]);
   function update(key: keyof IntakeAnswers, value: unknown) {
     const next = { ...answers, [key]: value } as IntakeAnswers;
     setAnswers(next);
@@ -740,7 +811,7 @@ export function MedicalIntakePage() {
                 : status === "loading"
                   ? "Checking your private questionnaire…"
                   : status === "signed-out"
-                    ? "Sign in to an active invited account to continue."
+                    ? "Your session has ended. Sign in again to resume your saved answers. Unsaved changes cannot be recovered."
                     : status === "expired"
                       ? "Your session needs to be checked again. Questionnaire information has been hidden."
                       : message ||
@@ -896,6 +967,29 @@ export function MedicalIntakePage() {
             <p aria-live="polite" className="mt-2 text-sm text-muted-foreground">
               {draftStatus}
             </p>
+            {draftConflict ? (
+              <section role="alert" className="mt-5 rounded-xl border border-border p-5">
+                <p>
+                  Another session changed this questionnaire. Your current edits have not replaced
+                  the saved version.
+                </p>
+                <button
+                  type="button"
+                  className="action-secondary mt-4"
+                  disabled={busy}
+                  onClick={() => {
+                    if (
+                      window.confirm(
+                        "Load the latest saved draft? Unsaved edits in this tab will be discarded.",
+                      )
+                    )
+                      void load();
+                  }}
+                >
+                  Load latest saved draft
+                </button>
+              </section>
+            ) : null}
             {Object.keys(errors).length ? (
               <div
                 ref={errorSummary}
@@ -907,7 +1001,6 @@ export function MedicalIntakePage() {
                 <ul className="mt-4 space-y-3">
                   {Object.entries(errors).map(([key, error]) => {
                     const item = catalogue.items.find((x) => x.id === key);
-                    const section = item?.section ?? (key === "categories" ? 7 : 1);
                     return (
                       <li key={key}>
                         <button
@@ -917,7 +1010,7 @@ export function MedicalIntakePage() {
                             focusNext.current = narrative.has(key) ? key + "-disposition" : key;
                             setFocusRequest((request) => request + 1);
                             setReview(false);
-                            setStep(section);
+                            setStep(intakeStepForField(key));
                           }}
                         >
                           {item?.prompt ??
@@ -947,7 +1040,10 @@ export function MedicalIntakePage() {
                   <div className="mt-6 rounded-2xl border border-gold/40 bg-surface p-5">
                     <h3 className="font-serif text-xl">Next: review your deposit</h3>
                     <p className="mt-3 text-muted-foreground">
-                      Your answers have been saved. Review the deposit amount and terms, then
+                      Your questionnaire is complete and saved. No payment is needed to save or
+                      submit these answers. The R999 review deposit is a separate next step; it is
+                      credited towards your first approved product order under the deposit terms.
+                      Delivery is separate. Review the amount, credit and refund terms, then
                       continue to secure payment if it is available. If you have already paid, check
                       the payment confirmation there; do not pay again.
                     </p>
@@ -1005,13 +1101,9 @@ export function MedicalIntakePage() {
             ) : (
               <form
                 method="post"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const found = intakeSubmissionErrors(answers);
-                  setErrors(found);
-                  setReview(Object.keys(found).length === 0);
-                  setMessage("");
-                }}
+                onSubmit={(e) => e.preventDefault()}
+                onCompositionStart={() => setComposing(true)}
+                onCompositionEnd={() => setComposing(false)}
               >
                 <fieldset disabled={busy && !automaticSave}>
                   <legend className="sr-only">Questionnaire answers</legend>
@@ -1019,16 +1111,16 @@ export function MedicalIntakePage() {
                     role="progressbar"
                     aria-label="Questionnaire progress"
                     aria-valuemin={1}
-                    aria-valuemax={8}
+                    aria-valuemax={intakeSteps.length}
                     aria-valuenow={step}
                     aria-valuetext={
                       review
                         ? "Review your answers"
-                        : `Section ${step} of 8 — ${catalogue.sections[step - 1]!.title}`
+                        : `Section ${step} of ${intakeSteps.length} — ${activeStep.title}`
                     }
                     className="mt-6 text-sm"
                   >
-                    Section {step} of 8
+                    Section {step} of {intakeSteps.length}
                   </div>
                   {review ? (
                     <section className="mt-8">
@@ -1069,7 +1161,7 @@ export function MedicalIntakePage() {
                       <div className="mt-6 flex flex-wrap items-start gap-3">
                         <button
                           type="button"
-                          disabled={busy}
+                          disabled={busy || composing || draftConflict}
                           className="action-primary"
                           onClick={() =>
                             void persist(view.record?.hasSubmitted ? "amend" : "submit")
@@ -1089,9 +1181,34 @@ export function MedicalIntakePage() {
                   ) : (
                     <section className="mt-8">
                       <h2 ref={flowHeading} tabIndex={-1} className="font-serif text-2xl">
-                        {catalogue.sections[step - 1]!.title}
+                        {activeStep.title}
                       </h2>
-                      {step === 7 ? (
+                      <label className="mt-4 block text-sm" htmlFor="intake-section">
+                        Go to section
+                      </label>
+                      <select
+                        id="intake-section"
+                        className={control}
+                        value={step}
+                        disabled={(busy && !automaticSave) || composing}
+                        onChange={(event) => setStep(Number(event.target.value))}
+                      >
+                        {intakeSteps.map((item, index) => (
+                          <option key={item.section} value={index + 1}>
+                            {index + 1}. {item.title}
+                          </option>
+                        ))}
+                      </select>
+                      {view.record && step === 1 ? (
+                        <button
+                          type="button"
+                          className="action-secondary mt-4"
+                          onClick={() => setStep(firstUnansweredIntakeStep(answers))}
+                        >
+                          Resume at first unanswered section
+                        </button>
+                      ) : null}
+                      {activeStep.section === 7 ? (
                         <fieldset id="categories" className="mt-6">
                           <legend>Choose the categories you want to discuss</legend>
                           {intakeCategories.map((c) => (
@@ -1113,8 +1230,10 @@ export function MedicalIntakePage() {
                           ))}
                         </fieldset>
                       ) : null}
-                      {catalogue.items.filter((x) => x.section === step).map(renderItem)}
-                      {step === 1 ? (
+                      {catalogue.items
+                        .filter((x) => x.section === activeStep.section)
+                        .map(renderItem)}
+                      {activeStep.section === 1 ? (
                         <label className="mt-8 block">
                           Sex
                           <select
@@ -1137,7 +1256,7 @@ export function MedicalIntakePage() {
                       <div className="mt-8 flex flex-wrap gap-6">
                         <button
                           type="button"
-                          disabled={busy || step === 1}
+                          disabled={(busy && !automaticSave) || composing || step === 1}
                           className="rounded-full border border-border px-5 py-3 disabled:opacity-50"
                           onClick={() => setStep(step - 1)}
                         >
@@ -1145,7 +1264,7 @@ export function MedicalIntakePage() {
                         </button>
                         <button
                           type="button"
-                          disabled={busy}
+                          disabled={busy || composing || draftConflict}
                           className="rounded-full border border-border px-5 py-3 disabled:opacity-50"
                           onClick={(event) => {
                             // Touch activation may blur a pre-focused button before this handler.
@@ -1156,12 +1275,12 @@ export function MedicalIntakePage() {
                         >
                           Save draft
                         </button>
-                        {step < 8 ? (
+                        {step < intakeSteps.length ? (
                           <button
                             key="next-section"
                             className="rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
                             type="button"
-                            disabled={busy}
+                            disabled={(busy && !automaticSave) || composing}
                             onClick={(event) => {
                               // The next render replaces this with a submit control. Do not let
                               // the advancing click submit the new final-section form as well.
@@ -1174,8 +1293,14 @@ export function MedicalIntakePage() {
                         ) : (
                           <button
                             key="review-answers"
-                            type="submit"
-                            disabled={busy}
+                            type="button"
+                            disabled={busy || composing || draftConflict}
+                            onClick={() => {
+                              const found = intakeSubmissionErrors(answers);
+                              setErrors(found);
+                              setReview(Object.keys(found).length === 0);
+                              setMessage("");
+                            }}
                             className="rounded-full bg-gold px-6 py-3 font-medium text-primary-foreground disabled:opacity-50"
                           >
                             Review answers

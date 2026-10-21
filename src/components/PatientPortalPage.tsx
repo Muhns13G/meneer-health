@@ -267,9 +267,10 @@ export function PatientPortalPage({
                     Continue your onboarding
                   </h2>
                   <p className="mt-3 text-muted-foreground">
-                    Complete your medical questionnaire first. Once submitted, review the deposit
-                    terms and continue to secure payment. Already paid? Check your payment status
-                    below instead of paying again.
+                    Open your questionnaire to start, resume saved answers or check your submitted
+                    questionnaire. You do not need to pay to submit it. The R999 review deposit is a
+                    separate next step under its credit and refund terms. Already paid? Check your
+                    payment status below instead of paying again.
                   </p>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                     <Link

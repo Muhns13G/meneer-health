@@ -10,6 +10,27 @@ sensitivity: internal
 
 # Cloudflare v1 Environments and Release Runbook
 
+## Sprint 16 — Onboarding Application Release
+
+Follow the [Sprint 16 acceptance report](../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md).
+This batch changes presentation, draft/conflict/session recovery and regression evidence only.
+It requires an application deployment, **not** a database migration, new key, document publication
+or environment-switch change. Source treatment order changes without altering the catalogue hash,
+stored answer keys, prior receipts or questionnaire snapshots. Do not seed or reset real records.
+
+The owner retains staging, commit, push, deployment and promotion control. Before release, record
+the current main Worker version and approved bindings without exposing values. Deploy the tested
+commit through the established main-pilot process; retain those settings/keys and the separate
+rehearsal's closed state. Do not promote any old isolated-rehearsal version to the main origin.
+Compare the new version/settings with the baseline, record exact-commit CI, and verify public
+signup, returning sign-in, questionnaire resume and current-document continuity under actual
+authority. Use only separately approved disposable data if new hosted fixtures/messages are needed.
+
+The owner confirmed all four fresh local VoiceOver/zoom checkpoints passed on 21 October.
+The released pilot walkthrough remains a separate report checkpoint. If a release regression is observed, the owner may restore the recorded approved
+same-configuration baseline; no schema rollback, receipt rewrite, key rotation or payment-policy
+change is required by this source-only batch. Product-sales/clinical/generator gates remain intact.
+
 ## Sprint 15.10 — Closure Batch, Owner CI and Release
 
 Use the [completion report](../03-completion-reports/phase-02/sprint-15-product-orders-manual-fulfilment.md)

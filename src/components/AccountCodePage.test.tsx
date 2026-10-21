@@ -84,3 +84,56 @@ it("public registration remains unavailable without readiness and offers normal 
     "/account/sign-in",
   );
 });
+
+it.each(["activation", "ready", "documents"])(
+  "public signup verifies once and retains the server-selected continuation (%s)",
+  async (destination) => {
+    const fetcher = vi.fn(async (url, init?: RequestInit) => {
+      if (String(url).endsWith("/availability")) return new Response(null, { status: 204 });
+      const action = new URLSearchParams(String(init?.body)).get("action");
+      return new Response(null, {
+        status: action === "request" ? 202 : 204,
+        headers: { "X-Meneer-Session": destination },
+      });
+    });
+    vi.stubGlobal("fetch", fetcher);
+    const user = userEvent.setup();
+    render(<AccountCodePage mode="sign-up" />);
+    await user.type(await screen.findByLabelText("Email address"), "synthetic@example.invalid");
+    await user.click(screen.getByRole("button", { name: "Send code" }));
+    await user.type(await screen.findByLabelText("Six-digit code"), "123456");
+    await user.click(screen.getByRole("button", { name: "Verify email" }));
+    const target =
+      destination === "activation"
+        ? "/account/activate"
+        : destination === "documents"
+          ? "/account/documents"
+          : "/portal";
+    await waitFor(() =>
+      expect(screen.getByRole("status")).toHaveTextContent(/verified|signed in/i),
+    );
+    expect(screen.getAllByRole("link").some((link) => link.getAttribute("href") === target)).toBe(
+      true,
+    );
+    const actions = fetcher.mock.calls
+      .filter(([, init]) => init?.method === "POST")
+      .map(([, init]) => new URLSearchParams(String(init?.body)).get("action"));
+    expect(actions).toEqual(["request", "verify"]);
+  },
+);
+
+it("offers session resume without requesting a code and retains the email when returning to request", async () => {
+  const fetcher = vi.fn().mockResolvedValue(new Response(null, { status: 202 }));
+  vi.stubGlobal("fetch", fetcher);
+  const user = userEvent.setup();
+  render(<AccountCodePage mode="sign-in" />);
+  expect(
+    screen.getByRole("link", { name: "Already verified? Resume your account" }),
+  ).toHaveAttribute("href", "/portal");
+  expect(fetcher).not.toHaveBeenCalled();
+  await user.type(screen.getByLabelText("Email address"), "synthetic@example.invalid");
+  await user.click(screen.getByRole("button", { name: "Send code" }));
+  await user.click(await screen.findByRole("button", { name: "Use another email address" }));
+  expect(screen.getByLabelText("Email address")).toHaveValue("synthetic@example.invalid");
+  expect(fetcher).toHaveBeenCalledTimes(1);
+});

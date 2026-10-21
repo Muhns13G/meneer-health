@@ -158,6 +158,7 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
                   name="email"
                   type="email"
                   autoComplete="email"
+                  defaultValue={email}
                   required
                   maxLength={254}
                   className="mt-2 w-full rounded-xl border border-border bg-surface px-4 py-3 text-foreground"
@@ -202,7 +203,8 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
         )}
         {stage === "verify" && !completed && (
           <p className="mt-5 text-sm text-muted-foreground">
-            Enter the latest code from your email. It is valid for 15 minutes.
+            Enter the latest code from your email, not an authenticator app. It is valid for 15
+            minutes. Verifying it lets you continue without another code while your access is valid.
           </p>
         )}
         {stage === "verify" && !completed && (
@@ -248,6 +250,11 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
             Already have an account? Sign in
           </Link>
         )}
+        {!completed && !recovery ? (
+          <Link to="/portal" className="action-secondary mt-6">
+            Already verified? Resume your account
+          </Link>
+        ) : null}
         {registration && (
           <div className="mt-6 text-sm text-muted-foreground">
             <p>
