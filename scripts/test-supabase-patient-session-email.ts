@@ -62,7 +62,7 @@ async function run() {
     invariant(!signInUser.error && signInUser.data.user, "Synthetic sign-in user creation failed.");
     subjects.push(signInUser.data.user.id);
     await provider.requestPatientSignIn(signInEmail, "http://127.0.0.1:8080/account/sign-in");
-    const signInCode = await readCode(signInEmail, "Your Meneer sign-in code");
+    const signInCode = await readCode(signInEmail, "Your Meneer verification code");
     const signedIn = await provider.verifyEmailOtp(signInEmail, signInCode);
     invariant(
       (await provider.verifyAccessToken(signedIn.accessToken)).providerSubject ===

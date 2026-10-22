@@ -136,10 +136,21 @@ sources:
 The [Sprint 16 report](../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md)
 records treatment-first presentation and bounded onboarding/draft/session fixes. Local automated
 acceptance passes (1,653 unit tests / 368 final browser checks). The owner confirmed all four fresh
-local VoiceOver/zoom checkpoints passed on 21 October; owner-controlled release and the deployed
-walkthrough remain pending. Do not infer a repaired production journey or eliminated pilot friction
-from local acceptance. No migration or new
+local VoiceOver/zoom checkpoints passed on 21 October. Owner release, exact-commit preview CI,
+active Worker readback and anonymous signup/sign-in smoke checks are now recorded in the report.
+The 22 October authorised hosted synthetic walkthrough now verifies signup through persisted
+questionnaire submission and saved-draft/idle-session recovery. It does not establish eliminated
+pilot friction: signup toast/email copy is confusing and the deposit page has no available order
+for this account. No payment was attempted; synthetic records remain and cleanup is not claimed.
+No migration or new
 runtime setting is required, and active pilot configuration and commercial gates are unchanged.
+
+The signup toast/email wording is corrected in source following owner approval. Both hosted email
+subjects/bodies were separately saved and reloaded in Supabase on 22 October after owner login;
+Cloudflare deployment does not apply `supabase/config.toml`. Persisted hosted copy is verified,
+but fresh post-publication delivery is not. Source UI deployment remains owner-pending.
+Routine success toasts are now owner-approved ten-second/dismissible; important errors and inbox instructions are
+persistent page content. The unavailable deposit offer remains an unresolved separate follow-up.
 
 ## Sprint 15.10 Current Boundary — 21 October
 

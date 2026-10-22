@@ -18,7 +18,9 @@ The owner subsequently authorised the combined implementation. The bounded appli
 are locally verified (1,653 unit tests / 368 final desktop/mobile checks);
 [manual/release acceptance](../../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md)
 records the owner's 21 October confirmation that all four fresh VoiceOver/zoom checkpoints pass.
-Owner release remains pending; this is not yet sprint closure or a production release.
+Owner release, exact-commit preview CI and anonymous released smoke checks are now recorded;
+the 22 October authorised hosted synthetic walkthrough passes through persisted questionnaire
+submission. Signup-copy and unavailable deposit-offer follow-ups remain before unrestricted closure.
 Existing product-sales and other release gates remain; payment policy, production settings and
 real records are unchanged. Laravel/React rebuild planning remains separate.
 

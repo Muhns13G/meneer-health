@@ -4,7 +4,8 @@ import { toast } from "sonner";
 // Only fixed, non-sensitive action feedback belongs in transient notifications.
 const messages = {
   draftSaved: "Your draft is saved.",
-  codeRequested: "If an eligible account exists, a six-digit code has been sent.",
+  // A generic accepted request is not delivery proof or disclosure of account existence.
+  codeRequested: "Check your inbox for a six-digit verification code.",
   paymentRefreshed: "Payment status refreshed.",
   supportRefreshed: "Support availability and request status updated.",
   fulfilmentRecorded: "Update recorded. Check the private page for next steps.",

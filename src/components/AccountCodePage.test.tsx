@@ -137,3 +137,23 @@ it("offers session resume without requesting a code and retains the email when r
   expect(screen.getByLabelText("Email address")).toHaveValue("synthetic@example.invalid");
   expect(fetcher).toHaveBeenCalledTimes(1);
 });
+
+it("keeps inbox instructions and verification errors inline without claiming account existence", async () => {
+  const fetcher = vi.fn(async (url, init?: RequestInit) => {
+    if (String(url).endsWith("/availability")) return new Response(null, { status: 204 });
+    const action = new URLSearchParams(String(init?.body)).get("action");
+    return new Response(null, { status: action === "request" ? 202 : 400 });
+  });
+  vi.stubGlobal("fetch", fetcher);
+  const user = userEvent.setup();
+  render(<AccountCodePage mode="sign-up" />);
+  await user.type(await screen.findByLabelText("Email address"), "new@example.invalid");
+  await user.click(screen.getByRole("button", { name: "Send code" }));
+  const code = await screen.findByLabelText("Six-digit code");
+  expect(screen.getByText(/Check your inbox.*Enter the latest code here/)).toBeVisible();
+  expect(screen.queryByText(/If an eligible account exists/)).not.toBeInTheDocument();
+  await user.type(code, "123456");
+  await user.click(screen.getByRole("button", { name: "Verify email" }));
+  expect(await screen.findByText(/We could not verify those details/)).toBeVisible();
+  expect(screen.getByText(/Check your inbox.*Enter the latest code here/)).toBeVisible();
+});

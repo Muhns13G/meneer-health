@@ -1,7 +1,7 @@
 ---
 plan_id: phase-02-sprint-16
 title: Bounded Pilot Onboarding Stabilisation
-status: locally-and-manually-verified-owner-release-pending
+status: hosted-onboarding-verified-followups-open
 authority: owner-approved-implementation
 last_updated: 2026-10-21
 owner: "@Muhns13G"
@@ -16,8 +16,12 @@ The owner authorised implementing all ten tasks together. The bounded applicatio
 regressions are locally verified; the [report](../../03-completion-reports/phase-02/sprint-16-onboarding-stabilisation.md)
 records 1,653 unit tests, all 368 final desktop/mobile checks, backend packets and passed build/static
 checks. The owner confirmed all four fresh VoiceOver/zoom checkpoints passed on 21 October.
-Owner release remains pending. This supersedes the original planning-only readiness below.
-No production release or sprint closure is claimed yet.
+Owner release is confirmed; preview commit `295637b` has independently verified green CI and
+matching runtime hashes. Active Worker `0e3572c3-c3d0-4c84-9ddc-47fd73a6dda7` and anonymous
+signup/sign-in checks are independently verified. On 22 October the authorised hosted synthetic
+walkthrough passed signup, activation, draft/reload/idle recovery and persisted submission.
+The report retains confusing signup messages and unavailable deposit-offer follow-ups; unrestricted
+production-stabilisation closure is not claimed. This supersedes the original planning-only readiness below.
 
 ## Outcome and Scope
 

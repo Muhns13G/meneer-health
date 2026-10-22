@@ -27,9 +27,24 @@ signup, returning sign-in, questionnaire resume and current-document continuity 
 authority. Use only separately approved disposable data if new hosted fixtures/messages are needed.
 
 The owner confirmed all four fresh local VoiceOver/zoom checkpoints passed on 21 October.
-The released pilot walkthrough remains a separate report checkpoint. If a release regression is observed, the owner may restore the recorded approved
+The owner subsequently released the batch: preview CI for `295637b` is independently green,
+runtime hashes match the local tested source, and active main version
+`0e3572c3-c3d0-4c84-9ddc-47fd73a6dda7` is read back at 100%.
+Anonymous signup/sign-in smoke checks pass; no OTP or real-data operation was performed.
+The 22 October authorised hosted synthetic walkthrough verifies signup through persisted
+questionnaire submission and saved-draft/idle-session recovery. The report retains confusing
+signup-copy and unavailable deposit-offer follow-ups; no Checkout was created and no cleanup is
+claimed. If a release regression is observed, the owner may restore the recorded approved
 same-configuration baseline; no schema rollback, receipt rewrite, key rotation or payment-policy
 change is required by this source-only batch. Product-sales/clinical/generator gates remain intact.
+
+The 22 October approved copy correction changes the shared toast/inbox instructions and local
+code-only email template. Source deployment updates the toast, not hosted Auth email settings.
+After owner Supabase dashboard login on 22 October, only the confirmation and magic-link subjects
+(`Your Meneer verification code`) and HTML from `supabase/templates/magic-link.html` were saved.
+Both were reloaded and their persisted subjects/previews verified. SMTP, other templates, expiry,
+link allowlists and Auth policies were not edited. Fresh post-publication delivery was not tested;
+source UI release remains owner-controlled. Do not use a broad config push.
 
 ## Sprint 15.10 — Closure Batch, Owner CI and Release
 
