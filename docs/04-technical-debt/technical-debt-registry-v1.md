@@ -47,7 +47,9 @@ The [Sprint 16 report](../03-completion-reports/phase-02/sprint-16-onboarding-st
 records treatment-first presentation, existing one-code continuation, free-text/navigation and
 draft/session recovery remediation. Local validation passes (1,653 unit tests / 368 final browser
 checks), and the owner confirmed all four fresh local VoiceOver/zoom checkpoints passed on
-21 October. Owner release and deployed walkthrough remain pending. No debt status changes:
+21 October. Owner release, exact-commit CI and anonymous deployed smoke checks are verified;
+the 22 October hosted synthetic walkthrough now passes through persisted questionnaire submission.
+The report retains signup-copy and deposit-availability follow-ups. No debt status changes:
 **67 items / 60 Verified / seven non-Verified**. This fresh local acceptance does not independently
 close wider released-flow TD-037/038. No new data model, provider integration or commercial policy is added.
 

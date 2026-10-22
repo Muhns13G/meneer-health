@@ -164,9 +164,22 @@ continuation are retained, with explicit resume/section controls, input/navigati
 concurrent-draft quarantine and session/page-return recovery. Local verification passes: 1,653 unit
 tests, all 368 final desktop/mobile checks, the 58-suite SQL matrix and focused identity/conversion/
 recovery packets, plus production build/static checks. The owner confirmed all four fresh local
-VoiceOver/zoom checkpoints passed on 21 October. Exact-commit CI, owner deployment and released
-walkthrough remain pending. No production configuration, real record, payment policy or debt status
-was changed; no hosted acceptance or Laravel rebuild is claimed.
+VoiceOver/zoom checkpoints passed on 21 October. Owner deployment is confirmed; preview commit
+`295637b` has green CI and matching runtime hashes. Active Worker
+`0e3572c3-c3d0-4c84-9ddc-47fd73a6dda7` and anonymous signup/sign-in checks are verified.
+On 22 October an explicitly authorised hosted synthetic account passed signup/email verification,
+activation, written-answer/draft reload and idle-session recovery through persisted questionnaire
+submission. The deposit page reports no available order; signup toast/email wording is confusing.
+These follow-ups remain open. No production setting, real patient data, payment policy or debt
+status was changed. This bounded hosted acceptance is not payment readiness or a Laravel rebuild.
+
+The owner subsequently approved the feedback-copy correction: neutral code-request toast,
+persistent inbox guidance, owner-approved ten-second dismissible routine confirmations and unchanged persistent
+inline errors are implemented locally. Local confirmation/magic-link templates now share neutral
+verification wording. Following owner dashboard login on 22 October, the two hosted Auth email
+subjects/bodies were saved and independently read back after reload. No SMTP/policy/expiry change
+or new email send occurred. Source UI deployment remains pending; the unavailable deposit offer
+is not changed.
 
 ## Sprint 15.10 — 21 October Current Handoff
 

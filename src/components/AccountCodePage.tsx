@@ -203,8 +203,10 @@ export function AccountCodePage({ mode }: { mode: "sign-in" | "recover" | "sign-
         )}
         {stage === "verify" && !completed && (
           <p className="mt-5 text-sm text-muted-foreground">
-            Enter the latest code from your email, not an authenticator app. It is valid for 15
-            minutes. Verifying it lets you continue without another code while your access is valid.
+            Check your inbox for a six-digit verification code. Enter the latest code here, not an
+            authenticator code. If it does not arrive, check spam or try again later. The code is
+            valid for 15 minutes. Verifying it lets you continue without another code while your
+            access is valid.
           </p>
         )}
         {stage === "verify" && !completed && (

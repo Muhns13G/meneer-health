@@ -28,6 +28,7 @@ it("dismisses on hidden/pagehide/unmount and ignores late notifications", () => 
   const { result, unmount } = renderHook(useActionToast);
   const notify = result.current.notify;
   act(() => notify("codeRequested"));
+  expect(toast.success).toHaveBeenCalledWith("Check your inbox for a six-digit verification code.");
   hidden.mockReturnValue(true);
   act(() => document.dispatchEvent(new Event("visibilitychange")));
   expect(toast.dismiss).toHaveBeenCalledWith("synthetic-toast");

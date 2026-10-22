@@ -29,22 +29,27 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
-for (const mode of ["sign-in", "recover"] as const) {
+for (const mode of ["sign-in", "recover", "sign-up"] as const) {
   test(`${mode} announces pending, moves step focus and reports failure/retry completion`, async ({
     page,
   }) => {
     let gate = responseGate();
     let codeAttempts = 0;
+    if (mode === "sign-up")
+      await page.route("**/account/sign-up/availability", (route) =>
+        route.fulfill({ status: 204, body: "" }),
+      );
     await page.route(`**/account/${mode}`, async (route) => {
       if (route.request().method() !== "POST") return route.continue();
       const action = new URLSearchParams(route.request().postData()!).get("action");
       await gate.wait;
       return route.fulfill({
         status: action === "request" ? 202 : ++codeAttempts === 1 ? 400 : 204,
+        headers: { "X-Meneer-Session": "ready" },
         body: "",
       });
     });
-    await page.goto(`/account/${mode}`);
+    await page.goto(mode === "sign-up" ? "/start" : `/account/${mode}`);
     const status = page.getByRole("status");
     await expect(status).toBeAttached();
     await expect(page.getByRole("button", { name: "Send code" })).toBeEnabled({ timeout: 30000 });
@@ -56,7 +61,7 @@ for (const mode of ["sign-in", "recover"] as const) {
     const code = page.getByLabel("Six-digit code");
     await expect(code).toBeFocused();
     await expect(page.locator("[data-sonner-toast]")).toContainText(
-      "If an eligible account exists",
+      "Check your inbox for a six-digit verification code.",
     );
     if (mode === "sign-in") {
       await page
@@ -66,11 +71,19 @@ for (const mode of ["sign-in", "recover"] as const) {
     expect(
       (await new AxeBuilder({ page }).include("[data-sonner-toaster]").analyze()).violations,
     ).toEqual([]);
+    // Core instructions outlive a supplemental toast, including manual dismissal.
+    await page.getByRole("button", { name: "Dismiss notification", exact: true }).click();
+    await expect(page.getByText(/Check your inbox.*Enter the latest code here/)).toBeVisible();
     await expect(code).toHaveValue("");
     await code.fill("123456");
     gate = responseGate();
     const submit = page.getByRole("button", {
-      name: mode === "recover" ? "Complete recovery" : "Verify and sign in",
+      name:
+        mode === "recover"
+          ? "Complete recovery"
+          : mode === "sign-up"
+            ? "Verify email"
+            : "Verify and sign in",
     });
     await submit.click();
     await expect(status).toHaveText("Checking…");
@@ -79,6 +92,11 @@ for (const mode of ["sign-in", "recover"] as const) {
     gate.release();
     await expect(status).toContainText("We could not verify those details");
     await expect(status).toBeFocused();
+    // Important errors are not tied to the toast's ten-second lifetime.
+    await page.clock.install();
+    await page.clock.fastForward(11000);
+    await expect(status).toContainText("We could not verify those details");
+    await page.clock.resume();
     gate = responseGate();
     await submit.click();
     await expect(status).toHaveText("Checking…");

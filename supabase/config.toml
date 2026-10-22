@@ -248,8 +248,12 @@ otp_expiry = 900
 subject = "Your Meneer invitation code"
 content_path = "./supabase/templates/invite.html"
 
+[auth.email.template.confirmation]
+subject = "Your Meneer verification code"
+content_path = "./supabase/templates/magic-link.html"
+
 [auth.email.template.magic_link]
-subject = "Your Meneer sign-in code"
+subject = "Your Meneer verification code"
 content_path = "./supabase/templates/magic-link.html"
 
 [auth.email.template.recovery]

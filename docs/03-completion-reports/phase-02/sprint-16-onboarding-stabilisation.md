@@ -1,8 +1,8 @@
 ---
 report_id: phase-02-sprint-16-completion
 title: Sprint 16 — Bounded Onboarding Stabilisation
-status: locally-and-manually-verified-owner-release-pending
-last_updated: 2026-10-21
+status: hosted-onboarding-verified-followups-open
+last_updated: 2026-10-22
 owner: "@Muhns13G"
 ---
 
@@ -13,8 +13,117 @@ owner: "@Muhns13G"
 The owner authorised implementing 16.1–16.10 together. The bounded application changes and
 regressions are implemented and locally verified. On 21 October, the owner confirmed that all
 four fresh VoiceOver/zoom checkpoints passed. Release acceptance remains explicit below.
-This is not a claim of deployment or completed production
-stabilisation. No real pilot record, provider setting, message or payment was changed.
+The owner subsequently confirmed commit, deployment and green CI. Independent release evidence
+is recorded below. The 22 October bounded hosted walkthrough now verifies signup through durable
+questionnaire submission; wording and deposit-availability follow-ups remain explicit below.
+The implementation batch changed no real pilot record, provider setting or payment. The separately
+authorised synthetic account and email actions are bounded below.
+
+### 22 October — Authorised Hosted Onboarding Acceptance
+
+The owner authorised an owned test alias, Gmail retrieval of its OTP, synthetic profile/answers,
+and explicitly approved account terms/privacy actions and the final declaration/collection consent.
+Only this synthetic test account was used; no real medical history, payment, SMS, external generator
+transfer or clinical decision was performed. Test contact details, codes, identifiers and answer
+contents are intentionally excluded from committed evidence.
+
+- New public signup requested a code and the code actually arrived in the authorised Gmail inbox.
+  Verification offered account activation, not an existing-account-only continuation.
+- Account terms/privacy version 1.2 and the synthetic profile were saved. The account opened the
+  authenticated questionnaire without another immediate sign-in.
+- A deliberate approval pause exceeded preactivation/session deadlines. The preactivation expiry
+  correctly preserved the unsaved profile in the tab; a fresh approved code enabled exact retry.
+  A later pause until approximately 16:23 SAST exceeded the 30-minute patient idle limit; the server
+  returned 401 and fresh email sign-in restored the saved questionnaire. These were not an
+  uninterrupted one-code run and are not evidence that production deadlines were extended.
+- Treatment interests appeared first. Written peptide and lifestyle/steroid/peptide responses,
+  including Enter/newline input, accepted ordinary navigation without a reload/sign-out.
+- Server-confirmed draft saving followed by a page reload retained synthetic written answers.
+  First-unanswered resume, validation-error navigation, and native date keyboard entry were exercised.
+  Initial automation-only date fills had not committed a React change; native keyboard entry plus
+  confirmed saving produced the date in the final review. This does not establish a patient-facing
+  date-entry defect.
+- All sections validated. Explicitly approved synthetic declaration, collection consent and signature
+  were reviewed and submitted. The server returned **Questionnaire received**. A second full page
+  reload again returned that submitted receipt, proving persistence rather than an optimistic banner.
+- The received screen separated free questionnaire submission from the R999 review deposit and
+  linked to `/portal/order`. That page returned **No order is currently available for review** and
+  **No payment records available**. No Checkout was started. Cause/offer preparation is not established
+  by this test; do not claim a ready-to-pay journey or bypass its authority gates.
+- Two copy issues are verified: public signup reuses the existing-account-eligibility toast, and
+  the first signup email directs a new participant to `/account/sign-in`. Both are confusing even
+  though the issued signup code verified on `/start`. Neither copy issue was changed during testing.
+- An earlier nonexistent/unrouted alias did not deliver an email; the corrected owned alias did.
+  The test does not prove the earlier delivery failure's precise provider cause.
+
+Synthetic Auth/profile/document/questionnaire records remain; no cleanup was performed or claimed.
+Temporary screenshots are outside Git. No source, hosted configuration, payment gate or migration
+was changed. This closes the fresh authenticated onboarding evidence gap; final unrestricted
+production-stabilisation closure is not claimed while the above follow-ups remain unaddressed.
+
+### 22 October — Verification Feedback Copy Correction
+
+The owner approved correcting the two confusing messages and retaining selective notification
+lifetimes. The shared code-request toast now says **Check your inbox for a six-digit verification
+code**, without claiming delivery or exposing whether an account exists. The same essential inbox,
+spam/retry and 15-minute instructions remain alongside the code field after toast dismissal.
+Errors remain persistent inline until another action/navigation; no error toast or auto-expiring
+error timer was added. The owner subsequently approved extending routine confirmations to ten
+seconds; they retain their dismiss button,
+replacement behaviour and hidden/pagehide/unmount clearing. No sensitive data is placed in toasts.
+
+The repository's code-only email template now uses **Your Meneer verification code** and directs
+users back to the page where they requested it, not always to client sign-in. Local Supabase
+confirmation and magic-link configurations share this template; the local Mailpit exercise's
+expected subject is updated. Token placeholders, OTP length/expiry, provider verification and
+security gates are unchanged. Recovery/invitation-specific templates are unchanged.
+
+Hosted email templates are independently configured in Supabase, not published by a Cloudflare
+source deployment. After the owner signed in on 22 October, only the **Confirm sign up** and
+**Magic link or OTP** subjects and HTML were saved in the production project's dashboard.
+Both subjects are now **Your Meneer verification code** and both bodies use the repository's
+code-only neutral wording. Each was independently reloaded after saving: the persisted subject,
+rendered return-to-requesting-page instructions, `{{ .Token }}`, 15-minute text and disabled
+Save control were read back. A dashboard promotional overlay initially obscured Save; it was
+dismissed and actual persistence was verified, not inferred from the first click.
+SMTP, Auth policies/expiry, other templates and user records were not edited. No new email was
+sent after publication, so actual new-template delivery/rendering is not claimed.
+No broad configuration push occurred. This batch requires no SQL,
+new environment variables, keys or dependency changes. The unavailable deposit offer remains
+separate and unmodified. Source release remains owner-controlled.
+
+Copy-correction validation: **15 focused unit/component/template tests** and **six controlled
+desktop/Pixel 7 browser checks** pass. Browser checks cover signup, sign-in and recovery, manual
+toast dismissal with persistent instructions, axe/focus transitions and an error still visible
+after seven seconds of virtual time. Typecheck, lint, changed-file formatting and production build
+(including client-bundle and retired-MCP canaries) pass. The first test fixture incorrectly
+returned 400 for the availability GET; fixing that fixture yielded the final pass. The sandboxed
+browser attempt could not bind the local inspector; the permitted local-only rerun passed.
+These checks send no emails and do not constitute hosted template publication/delivery proof.
+
+The follow-up ten-second preference updates the Toaster regression and extends the browser
+error-persistence probe to eleven seconds. Earlier six-second/seven-second validation above is
+historical; the change does not affect OTP validity or session deadlines.
+
+### 21 October — Owner Release and Independent Readback
+
+- Preview commit `295637b693039aa930c1b4a7d2ae5495f26b1ca9` contains the 20-file Sprint 16 batch.
+  Its five runtime Git blob hashes exactly match the locally tested workspace files.
+- [Preview CI run 39672032050](https://github.com/Muhns13G/meneer-health/actions/runs/39672032050)
+  completed successfully for that exact commit. The `itws-I` CI run `39672056083` also succeeded.
+- Cloudflare independently reports main Worker version `0e3572c3-c3d0-4c84-9ddc-47fd73a6dda7`
+  active at 100%, created `2026-10-21T20:39:15.411Z`. Source deployment is owner-confirmed;
+  version metadata does not independently expose the Git SHA, so no stronger source attestation is claimed.
+- Browser smoke checks at the main origin confirm `/start` finishes availability checking and
+  exposes Email address, Send code, returning sign-in and verified-account resume controls.
+  Following returning sign-in renders `/account/sign-in` with Send code, resume and recovery links.
+  No OTP, account creation, medical data entry or payment was performed.
+- This agent checkout still has baseline HEAD `68f932e` and the same uncommitted implementation;
+  remote hashes establish the matching committed runtime without resetting or staging this checkout.
+  Subsequent release-evidence amendments are documentation-only.
+- Local automated and owner-confirmed manual acceptance are complete. A fresh authenticated
+  released questionnaire/resume/document-continuity walkthrough and Mikhail's phone feedback
+  are not established by anonymous smoke checks and remain the final acceptance checkpoint.
 
 The [plan](../../02-implementation-plans/phase-02/sprint-16-onboarding-stabilisation.md) remains the
 scope contract. Existing product-sales gates and the separate Laravel/React discussion remain.
@@ -83,7 +192,7 @@ no vulnerabilities. The final stable whole-site browser matrix passes **368 chec
 desktop Chromium and Pixel 7, **zero retries**, in 11.4 minutes. No source/build edits ran during
 this final matrix. The final exact-source production build passes, including client-bundle and
 retired-MCP checks. The owner subsequently confirmed fresh local VoiceOver/zoom acceptance;
-owner release remains pending.
+owner release is now confirmed with independent CI/version/smoke evidence above.
 
 The final focused questionnaire/rights pass covers both desktop and Pixel 7 after isolating the
 server from source/build edits. The new integrated journey subsequently passes **both profiles**
@@ -134,10 +243,14 @@ The production build writes ignored local output only; it is not a deployment.
    in Playwright Inspector after each check. Manual fixtures allow one hour for review; this is
    synthetic presentation timing, not a changed authenticated session policy.
 
-3. Owner stages/commits/pushes and deploys the application through the existing release process.
+3. **Owner release completed:** commit/push/deployment are owner-confirmed, with the independent
+   exact-commit CI and active-version readback above. The release requirement was:
+   owner stages/commits/pushes and deploys through the existing release process.
    Preserve the active pilot's settings/keys; **do not promote an old rehearsal Worker version**.
-4. Record exact-commit green CI and the deployed version. Verify the released path, then obtain
-   Mikhail's concrete phone walkthrough feedback. No new SMS, real charge or production fixture
+4. Exact-commit green CI and the deployed version are recorded above. The 22 October authenticated
+   path now passes through persisted questionnaire submission. Resolve the recorded copy and
+   deposit-availability follow-ups, then obtain Mikhail's concrete phone walkthrough feedback.
+   No new SMS, real charge or production fixture
    is required just to release this UI change; any such test needs its own bounded approval.
 
 No staff/patient account deletion, database migration or bulk re-acknowledgement is needed.
